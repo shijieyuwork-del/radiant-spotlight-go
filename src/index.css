@@ -38,6 +38,11 @@
     --destructive: 0 75% 60%;
     --destructive-foreground: 0 0% 100%;
 
+    --warning: 38 92% 50%;
+    --warning-foreground: 30 50% 18%;
+    --warning-soft: 45 95% 92%;
+    --warning-border: 42 85% 78%;
+
     --border: 50 25% 90%;
     --input: 50 25% 90%;
     --ring: 158 45% 55%;
@@ -86,6 +91,10 @@
     --border: 160 20% 18%;
     --input: 160 20% 18%;
     --ring: 158 60% 65%;
+    --warning: 38 92% 60%;
+    --warning-foreground: 45 95% 92%;
+    --warning-soft: 38 40% 18%;
+    --warning-border: 38 50% 30%;
   }
 }
 
