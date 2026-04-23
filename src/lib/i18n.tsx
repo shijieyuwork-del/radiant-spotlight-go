@@ -122,3 +122,12 @@ export const useI18n = () => {
   if (!ctx) throw new Error("useI18n must be used inside I18nProvider");
   return ctx;
 };
+
+/** Prefix an in-app path with the current language, e.g. lp("/onboarding") -> "/en/onboarding" */
+export const useLangPath = () => {
+  const { language } = useI18n();
+  return (path: string) => {
+    const clean = path.startsWith("/") ? path : "/" + path;
+    return `/${language}${clean === "/" ? "" : clean}`;
+  };
+};
