@@ -19,6 +19,7 @@ const Destination = () => {
   const { slug = "" } = useParams();
   const d = getDestination(slug);
   const { formatPrice, regionMeta } = useI18n();
+  const lp = useLangPath();
   if (!d) return <NotFound />;
 
   const home = d.costs.find((c) => c.isHome) ?? d.costs[d.costs.length - 1];
