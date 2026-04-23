@@ -22,7 +22,7 @@ export type TranslationKey =
   | "cta.pill" | "cta.titlePre" | "cta.titleEm" | "cta.desc" | "cta.apply";
 
 const en: Record<TranslationKey, string> = {
-  "nav.discover": "Discover", "nav.treatments": "Treatments", "nav.forClinics": "For Clinics", "nav.signIn": "Sign in",
+  "nav.discover": "Discover", "nav.treatments": "Treatments", "nav.reviews": "Reviews", "nav.forClinics": "For Clinics", "nav.signIn": "Sign in",
   "hero.badge": "4,200+ verified surgeons · 50+ countries",
   "hero.title1": "Find the world's", "hero.titleEm": "best", "hero.title2": "aesthetic doctors.",
   "hero.subtitle": "Verified doctors. Real results. 50+ countries. The trusted cross-border platform for cosmetic surgery — board-certified credentials, real recovery diaries, transparent pricing.",
