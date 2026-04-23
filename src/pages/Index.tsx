@@ -257,6 +257,15 @@ const Index = () => {
                 </Button>
               </div>
 
+              <a
+                href="#video-feed"
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-foreground/80 hover:text-foreground story-link group"
+              >
+                <PlayCircle className="size-4 text-primary" />
+                Browse recovery videos
+                <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
+              </a>
+
               <div className="flex flex-wrap items-center gap-2 pt-1">
                 <span className="text-xs uppercase tracking-wider text-muted-foreground font-semibold mr-1">
                   {t("hero.featuredIn")} {selectedCountry.city}
