@@ -16,6 +16,8 @@ import PatientReview, { type PatientReviewData } from "@/components/PatientRevie
 import PopularInRegion from "@/components/PopularInRegion";
 import { useI18n, useLangPath } from "@/lib/i18n";
 import { FloatingQuoteCTA, DoctorContactButton } from "@/components/QuoteRequest";
+import PriceBadge from "@/components/PriceBadge";
+import PriceTrustBadge from "@/components/PriceTrustBadge";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { EyeOff } from "lucide-react";
@@ -46,10 +48,10 @@ const videos = [
   { src: v1, user: "softgirl.era", caption: "Pre-op consultation, what to ask", likes: "276K", comments: "4.1K", treatment: "consultation", tilt: 1 },
 ];
 
-const clinics: { name: string; city: string; rating: number; reviews: number; img: string; tag: string; safety: SafetyLevel; safetyScore: number }[] = [
-  { name: "Maison Lumière Chirurgie", city: "Paris, France", rating: 4.9, reviews: 1284, img: c2, tag: "Board Certified", safety: "green", safetyScore: 98 },
-  { name: "Aoba Plastic Surgery", city: "Tokyo, Japan", rating: 4.95, reviews: 2103, img: c3, tag: "Trending", safety: "green", safetyScore: 96 },
-  { name: "Verde Surgical Center", city: "Seoul, Korea", rating: 4.88, reviews: 3402, img: c1, tag: "Top Rated", safety: "amber", safetyScore: 82 },
+const clinics: { name: string; city: string; rating: number; reviews: number; img: string; tag: string; safety: SafetyLevel; safetyScore: number; priceFrom: number; priceTo: number; topProcedure: string }[] = [
+  { name: "Maison Lumière Chirurgie", city: "Paris, France", rating: 4.9, reviews: 1284, img: c2, tag: "Board Certified", safety: "green", safetyScore: 98, priceFrom: 5800, priceTo: 8400, topProcedure: "Rhinoplasty" },
+  { name: "Aoba Plastic Surgery", city: "Tokyo, Japan", rating: 4.95, reviews: 2103, img: c3, tag: "Trending", safety: "green", safetyScore: 96, priceFrom: 2100, priceTo: 3400, topProcedure: "Double Eyelid" },
+  { name: "Verde Surgical Center", city: "Seoul, Korea", rating: 4.88, reviews: 3402, img: c1, tag: "Top Rated", safety: "amber", safetyScore: 82, priceFrom: 1500, priceTo: 2800, topProcedure: "Double Eyelid" },
 ];
 
 const featuredDoctor: DoctorProfileData = {
