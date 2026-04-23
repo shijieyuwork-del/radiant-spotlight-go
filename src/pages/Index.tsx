@@ -1,9 +1,17 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Sparkles, ArrowRight, Star, MapPin, ShieldCheck, TrendingUp, Globe2, Heart, Scissors } from "lucide-react";
+import { Sparkles, ArrowRight, Star, MapPin, ShieldCheck, TrendingUp, Globe2, Heart, Scissors, ChevronDown, PlayCircle } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import VideoCard from "@/components/VideoCard";
+import VerifiedDoctorBadge from "@/components/VerifiedDoctorBadge";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import heroBg from "@/assets/hero-bg.jpg";
 import v1 from "@/assets/video1.jpg";
 import v2 from "@/assets/video2.jpg";
