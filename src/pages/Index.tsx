@@ -339,6 +339,9 @@ const Index = () => {
 
       {/* MARQUEE */}
       <section className="py-8 border-y border-border/60 bg-card overflow-hidden">
+        <p className="container text-[11px] uppercase tracking-[0.2em] text-muted-foreground font-semibold mb-4">
+          Browse by destination
+        </p>
         <div className="flex marquee-track gap-12 whitespace-nowrap">
           {[...Array(2)].map((_, k) => (
             <div key={k} className="flex gap-12 items-center">
@@ -370,8 +373,8 @@ const Index = () => {
       <PrivacyModeBar />
 
       {/* TIKTOK FEED */}
-      <section className="container py-24">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+      <section id="video-feed" className="container py-24">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
           <div>
             <span className="pill bg-secondary text-secondary-foreground mb-3"><TrendingUp className="size-3.5" /> {t("feed.pill")}</span>
             <h2 className="font-display text-4xl md:text-6xl font-medium tracking-tight max-w-2xl">
@@ -383,7 +386,12 @@ const Index = () => {
           </Button>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div className="mb-6 flex items-center gap-2.5 rounded-2xl border border-amber-300/60 bg-amber-50 dark:bg-amber-950/30 px-4 py-3 text-sm text-amber-900 dark:text-amber-200">
+          <EyeOff className="size-4 shrink-0" />
+          <span>Some videos contain surgical content. Toggle privacy mode anytime.</span>
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 md:gap-8">
           {videos.map((v, i) => <VideoCard key={i} {...v} tilt={0} />)}
         </div>
       </section>
