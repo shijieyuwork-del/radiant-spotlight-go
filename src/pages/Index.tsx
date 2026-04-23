@@ -517,6 +517,9 @@ const Index = () => {
                 <div className="absolute top-4 right-4">
                   <VerifiedDoctorBadge {...doctorBadges[i % doctorBadges.length]} compact />
                 </div>
+                <div className="absolute bottom-4 left-4">
+                  <SafetyIndicator level={c.safety} compact />
+                </div>
               </div>
               <div className="p-6 space-y-4">
                 <div className="flex items-start justify-between gap-3">
@@ -531,6 +534,7 @@ const Index = () => {
                     <p className="text-xs text-muted-foreground">{c.reviews} reviews</p>
                   </div>
                 </div>
+                <SafetyIndicator level={c.safety} score={c.safetyScore} />
                 <VerifiedDoctorBadge {...doctorBadges[i % doctorBadges.length]} />
                 <Button variant="outline" className="w-full rounded-full">View clinic</Button>
               </div>
