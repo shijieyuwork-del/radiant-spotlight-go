@@ -171,7 +171,7 @@ const countries = [
 const doctorBadges = countries.slice(0, 3).map((c) => c.badge);
 
 const PrivacyModeBar = () => {
-  const { privacyMode, setPrivacyMode, regionMeta } = useI18n();
+  const { privacyMode, setPrivacyMode, regionMeta, t } = useI18n();
   return (
     <section className="container py-4">
       <div className="rounded-2xl border border-border bg-card px-5 py-3 flex items-center gap-4 flex-wrap">
@@ -179,9 +179,9 @@ const PrivacyModeBar = () => {
           <EyeOff className="size-4" />
         </div>
         <div className="flex-1 min-w-[200px]">
-          <p className="text-sm font-display font-semibold leading-tight">Privacy mode</p>
+          <p className="text-sm font-display font-semibold leading-tight">{t("privacy.title")}</p>
           <p className="text-xs text-muted-foreground">
-            Blur faces in patient videos. {regionMeta.flag} On by default in select regions for cultural sensitivity.
+            {regionMeta.flag} {t("privacy.desc")}
           </p>
         </div>
         <Switch checked={privacyMode} onCheckedChange={setPrivacyMode} />
