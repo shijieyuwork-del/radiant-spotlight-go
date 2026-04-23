@@ -617,9 +617,9 @@ const Index = () => {
           <div className="absolute top-10 right-10 size-40 bg-primary/30 blur-3xl rounded-full" />
           <div className="relative grid md:grid-cols-3 gap-10">
             {[
-              { n: "01", t: "Watch", d: "Scroll real recovery diaries from verified surgical patients worldwide." },
-              { n: "02", t: "Consult", d: "Book free virtual consults with board-certified surgeons. Compare quotes." },
-              { n: "03", t: "Fly & operate", d: "Travel packages, aftercare hotels, English-speaking coordinators included." },
+              { n: "01", t: t("how.watch"), d: t("how.watchDesc") },
+              { n: "02", t: t("how.consult"), d: t("how.consultDesc") },
+              { n: "03", t: t("how.fly"), d: t("how.flyDesc") },
             ].map((s) => (
               <div key={s.n}>
                 <p className="font-display text-7xl text-primary/50 font-medium">{s.n}</p>
