@@ -717,6 +717,40 @@ const Index = () => {
         </div>
       </section>
 
+      {/* TESTIMONIAL STRIP */}
+      <section id="success-stories" className="container py-20">
+        <div className="text-center max-w-2xl mx-auto mb-10">
+          <span className="pill bg-accent text-accent-foreground mb-3">
+            <Heart className="size-3.5" /> Success Stories
+          </span>
+          <h2 className="font-display text-3xl md:text-5xl font-medium tracking-tight">
+            Real glow-ups from <em className="text-primary not-italic">real patients</em>
+          </h2>
+        </div>
+        <div className="grid md:grid-cols-3 gap-6">
+          {[
+            { quote: "Best decision I've ever made. The team in Seoul made me feel safe from day one.", name: "Hana", flag: "🇯🇵", procedure: "Double Eyelid Surgery" },
+            { quote: "Saved over $6,000 vs my local quote — and the results are honestly stunning.", name: "Olivia", flag: "🇬🇧", procedure: "Rhinoplasty in Istanbul" },
+            { quote: "I watched diaries on Glowy for months. Finding my surgeon felt effortless.", name: "Leila", flag: "🇦🇪", procedure: "V-Line Surgery in Bangkok" },
+          ].map((t) => (
+            <article key={t.name} className="rounded-3xl bg-card p-6 shadow-soft border border-border/60 flex flex-col gap-4">
+              <div className="flex items-center gap-1 text-primary">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star key={i} className="size-4 fill-primary text-primary" />
+                ))}
+              </div>
+              <p className="text-foreground/85 leading-relaxed flex-1">"{t.quote}"</p>
+              <div className="pt-3 border-t border-border/60">
+                <p className="font-display text-base font-semibold flex items-center gap-1.5">
+                  {t.name} <span className="text-lg leading-none">{t.flag}</span>
+                </p>
+                <p className="text-xs text-muted-foreground mt-0.5">{t.procedure}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <Footer />
       <FloatingQuoteCTA />
     </div>
