@@ -503,13 +503,13 @@ const Index = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
             <span className="pill bg-accent text-accent-foreground mb-3">
-              <Sparkles className="size-3.5" /> Before / After
+              <Sparkles className="size-3.5" /> {t("ba.pill")}
             </span>
             <h2 className="font-display text-4xl md:text-6xl font-medium tracking-tight max-w-2xl">
-              Real results, <em className="text-primary not-italic">side by side.</em>
+              {t("ba.titlePre")} <em className="text-primary not-italic">{t("ba.titleEm")}</em>
             </h2>
             <p className="text-sm text-muted-foreground mt-3 max-w-md">
-              Drag to reveal. Privacy mode is on by default — toggle off if you want the full picture.
+              {t("ba.desc")}
             </p>
           </div>
         </div>
