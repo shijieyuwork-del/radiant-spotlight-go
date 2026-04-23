@@ -42,7 +42,7 @@ const Navbar = () => {
           <CurrencyPicker />
           <LanguagePicker />
           <Button variant="ghost" size="icon" className="rounded-full hidden sm:inline-flex"><Search className="size-4" /></Button>
-          <Button className="rounded-full bg-foreground text-background hover:bg-foreground/90 px-5">Sign in</Button>
+          <Button className="rounded-full bg-foreground text-background hover:bg-foreground/90 px-5">{t("nav.signIn")}</Button>
         </div>
       </nav>
     </header>
