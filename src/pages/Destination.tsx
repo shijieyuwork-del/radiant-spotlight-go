@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/accordion";
 import NotFound from "./NotFound";
 import { getDestination } from "@/lib/destinations";
-import { useI18n } from "@/lib/i18n";
+import { useI18n, useLangPath } from "@/lib/i18n";
 
 const stageIcons = [Stethoscope, Plane, Sparkles, Hotel, HeartPulse];
 
