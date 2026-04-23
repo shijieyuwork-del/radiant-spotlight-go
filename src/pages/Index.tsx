@@ -526,7 +526,10 @@ const Index = () => {
       </section>
 
       {/* PRICE COMPARE */}
-      <section className="container py-16">
+      <section className="container py-16 space-y-6">
+        <div className="flex justify-end">
+          <PriceTrustBadge />
+        </div>
         <PriceCompare />
       </section>
 
@@ -563,6 +566,10 @@ const Index = () => {
                     <p className="text-sm text-muted-foreground flex items-center gap-1 mt-1">
                       <MapPin className="size-3.5" /> {c.city}
                     </p>
+                    <div className="mt-2">
+                      <PriceBadge from={c.priceFrom} to={c.priceTo} />
+                      <span className="text-[11px] text-muted-foreground ml-1.5">{c.topProcedure}</span>
+                    </div>
                   </div>
                   <div className="text-right shrink-0">
                     <p className="font-semibold flex items-center gap-1"><Star className="size-4 fill-primary text-primary" /> {c.rating}</p>
