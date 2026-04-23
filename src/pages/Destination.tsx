@@ -13,6 +13,8 @@ import NotFound from "./NotFound";
 import { getDestination } from "@/lib/destinations";
 import { useI18n, useLangPath } from "@/lib/i18n";
 import { FloatingQuoteCTA } from "@/components/QuoteRequest";
+import GlobalPriceCompare from "@/components/GlobalPriceCompare";
+import PriceTrustBadge from "@/components/PriceTrustBadge";
 
 const stageIcons = [Stethoscope, Plane, Sparkles, Hotel, HeartPulse];
 
@@ -84,11 +86,14 @@ const Destination = () => {
 
       {/* COST COMPARISON */}
       <section className="container py-16">
-        <div className="mb-10">
-          <span className="pill bg-secondary text-secondary-foreground mb-3">Cost comparison</span>
-          <h2 className="font-display text-3xl md:text-5xl font-medium tracking-tight max-w-2xl">
-            {d.procedure} cost — <em className="text-primary not-italic">{d.country} vs the world.</em>
-          </h2>
+        <div className="mb-10 flex flex-col md:flex-row md:items-end md:justify-between gap-3">
+          <div>
+            <span className="pill bg-secondary text-secondary-foreground mb-3">Cost comparison</span>
+            <h2 className="font-display text-3xl md:text-5xl font-medium tracking-tight max-w-2xl">
+              {d.procedure} cost — <em className="text-primary not-italic">{d.country} vs the world.</em>
+            </h2>
+          </div>
+          <PriceTrustBadge />
         </div>
         <div className="rounded-3xl border border-border bg-card p-6 md:p-8 space-y-4">
           {d.costs.map((c) => {
@@ -121,7 +126,35 @@ const Destination = () => {
         </div>
       </section>
 
-      {/* TOP DOCTORS */}
+      {/* GLOBAL PRICE COMPARE WIDGET */}
+      <section className="container py-8">
+        <GlobalPriceCompare
+          procedure={d.procedure}
+          featured={d.country}
+          prices={(() => {
+            const wanted = ["USA", "UK", "Korea", "Thailand", "Turkey"];
+            const have = d.costs.filter((c) => wanted.includes(c.country));
+            const fallback: Record<string, { flag: string; low: number; high: number }> = {
+              USA: { flag: "🇺🇸", low: 8000, high: 15000 },
+              UK: { flag: "🇬🇧", low: 5800, high: 10000 },
+              Korea: { flag: "🇰🇷", low: 3800, high: 6800 },
+              Thailand: { flag: "🇹🇭", low: 2600, high: 4200 },
+              Turkey: { flag: "🇹🇷", low: 2400, high: 3800 },
+            };
+            const merged = wanted.map((country) => {
+              const found = have.find((h) => h.country === country);
+              if (found) return { country, flag: found.flag, low: found.low, high: found.high };
+              return { country, ...fallback[country] };
+            });
+            // Ensure featured is included
+            if (!merged.find((m) => m.country === d.country)) {
+              merged.push({ country: d.country, flag: d.flag, low: d.costs[0].low, high: d.costs[0].high });
+            }
+            return merged;
+          })()}
+        />
+      </section>
+
       <section className="container py-16">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
           <div>

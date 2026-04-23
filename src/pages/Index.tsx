@@ -16,6 +16,8 @@ import PatientReview, { type PatientReviewData } from "@/components/PatientRevie
 import PopularInRegion from "@/components/PopularInRegion";
 import { useI18n, useLangPath } from "@/lib/i18n";
 import { FloatingQuoteCTA, DoctorContactButton } from "@/components/QuoteRequest";
+import PriceBadge from "@/components/PriceBadge";
+import PriceTrustBadge from "@/components/PriceTrustBadge";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { EyeOff } from "lucide-react";
@@ -38,18 +40,18 @@ import c2 from "@/assets/clinic2.jpg";
 import c3 from "@/assets/clinic3.jpg";
 
 const videos = [
-  { src: v4, user: "minji_surgery", caption: "Day 30 after double eyelid 👀", likes: "1.2M", comments: "18K", treatment: "doubleeyelid", tilt: -2 },
-  { src: v2, user: "rosie.bloom", caption: "Rhinoplasty reveal — 6 months post-op", likes: "2.4M", comments: "32K", treatment: "rhinoplasty", tilt: 1.5 },
-  { src: v3, user: "jaw.journey", caption: "V-line surgery vlog ep.4", likes: "892K", comments: "11K", treatment: "vlinesurgery", tilt: -1 },
-  { src: v6, user: "newme.era", caption: "My breast augmentation diary 🩷", likes: "640K", comments: "9.2K", treatment: "breastaug", tilt: 2 },
+  { src: v4, user: "minji_surgery", caption: "Day 30 after double eyelid 👀", likes: "1.2M", comments: "18K", treatment: "doubleeyelid", tilt: -2, priceFrom: 1500, priceTo: 2800 },
+  { src: v2, user: "rosie.bloom", caption: "Rhinoplasty reveal — 6 months post-op", likes: "2.4M", comments: "32K", treatment: "rhinoplasty", tilt: 1.5, priceFrom: 2400, priceTo: 4200 },
+  { src: v3, user: "jaw.journey", caption: "V-line surgery vlog ep.4", likes: "892K", comments: "11K", treatment: "vlinesurgery", tilt: -1, priceFrom: 6800, priceTo: 9400 },
+  { src: v6, user: "newme.era", caption: "My breast augmentation diary 🩷", likes: "640K", comments: "9.2K", treatment: "breastaug", tilt: 2, priceFrom: 3200, priceTo: 5400 },
   { src: v5, user: "seoulclinictour", caption: "Inside Gangnam's top surgery clinic", likes: "421K", comments: "3.2K", treatment: "clinictour", tilt: -1.5 },
   { src: v1, user: "softgirl.era", caption: "Pre-op consultation, what to ask", likes: "276K", comments: "4.1K", treatment: "consultation", tilt: 1 },
 ];
 
-const clinics: { name: string; city: string; rating: number; reviews: number; img: string; tag: string; safety: SafetyLevel; safetyScore: number }[] = [
-  { name: "Maison Lumière Chirurgie", city: "Paris, France", rating: 4.9, reviews: 1284, img: c2, tag: "Board Certified", safety: "green", safetyScore: 98 },
-  { name: "Aoba Plastic Surgery", city: "Tokyo, Japan", rating: 4.95, reviews: 2103, img: c3, tag: "Trending", safety: "green", safetyScore: 96 },
-  { name: "Verde Surgical Center", city: "Seoul, Korea", rating: 4.88, reviews: 3402, img: c1, tag: "Top Rated", safety: "amber", safetyScore: 82 },
+const clinics: { name: string; city: string; rating: number; reviews: number; img: string; tag: string; safety: SafetyLevel; safetyScore: number; priceFrom: number; priceTo: number; topProcedure: string }[] = [
+  { name: "Maison Lumière Chirurgie", city: "Paris, France", rating: 4.9, reviews: 1284, img: c2, tag: "Board Certified", safety: "green", safetyScore: 98, priceFrom: 5800, priceTo: 8400, topProcedure: "Rhinoplasty" },
+  { name: "Aoba Plastic Surgery", city: "Tokyo, Japan", rating: 4.95, reviews: 2103, img: c3, tag: "Trending", safety: "green", safetyScore: 96, priceFrom: 2100, priceTo: 3400, topProcedure: "Double Eyelid" },
+  { name: "Verde Surgical Center", city: "Seoul, Korea", rating: 4.88, reviews: 3402, img: c1, tag: "Top Rated", safety: "amber", safetyScore: 82, priceFrom: 1500, priceTo: 2800, topProcedure: "Double Eyelid" },
 ];
 
 const featuredDoctor: DoctorProfileData = {
@@ -524,7 +526,10 @@ const Index = () => {
       </section>
 
       {/* PRICE COMPARE */}
-      <section className="container py-16">
+      <section className="container py-16 space-y-6">
+        <div className="flex justify-end">
+          <PriceTrustBadge />
+        </div>
         <PriceCompare />
       </section>
 
@@ -561,6 +566,10 @@ const Index = () => {
                     <p className="text-sm text-muted-foreground flex items-center gap-1 mt-1">
                       <MapPin className="size-3.5" /> {c.city}
                     </p>
+                    <div className="mt-2">
+                      <PriceBadge from={c.priceFrom} to={c.priceTo} />
+                      <span className="text-[11px] text-muted-foreground ml-1.5">{c.topProcedure}</span>
+                    </div>
                   </div>
                   <div className="text-right shrink-0">
                     <p className="font-semibold flex items-center gap-1"><Star className="size-4 fill-primary text-primary" /> {c.rating}</p>
