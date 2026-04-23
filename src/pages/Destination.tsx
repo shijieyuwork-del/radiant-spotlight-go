@@ -13,6 +13,8 @@ import NotFound from "./NotFound";
 import { getDestination } from "@/lib/destinations";
 import { useI18n, useLangPath } from "@/lib/i18n";
 import { FloatingQuoteCTA } from "@/components/QuoteRequest";
+import GlobalPriceCompare from "@/components/GlobalPriceCompare";
+import PriceTrustBadge from "@/components/PriceTrustBadge";
 
 const stageIcons = [Stethoscope, Plane, Sparkles, Hotel, HeartPulse];
 
@@ -84,11 +86,14 @@ const Destination = () => {
 
       {/* COST COMPARISON */}
       <section className="container py-16">
-        <div className="mb-10">
-          <span className="pill bg-secondary text-secondary-foreground mb-3">Cost comparison</span>
-          <h2 className="font-display text-3xl md:text-5xl font-medium tracking-tight max-w-2xl">
-            {d.procedure} cost — <em className="text-primary not-italic">{d.country} vs the world.</em>
-          </h2>
+        <div className="mb-10 flex flex-col md:flex-row md:items-end md:justify-between gap-3">
+          <div>
+            <span className="pill bg-secondary text-secondary-foreground mb-3">Cost comparison</span>
+            <h2 className="font-display text-3xl md:text-5xl font-medium tracking-tight max-w-2xl">
+              {d.procedure} cost — <em className="text-primary not-italic">{d.country} vs the world.</em>
+            </h2>
+          </div>
+          <PriceTrustBadge />
         </div>
         <div className="rounded-3xl border border-border bg-card p-6 md:p-8 space-y-4">
           {d.costs.map((c) => {
