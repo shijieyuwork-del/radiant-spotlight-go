@@ -170,6 +170,26 @@ const countries = [
 
 const doctorBadges = countries.slice(0, 3).map((c) => c.badge);
 
+const PrivacyModeBar = () => {
+  const { privacyMode, setPrivacyMode, regionMeta } = useI18n();
+  return (
+    <section className="container py-4">
+      <div className="rounded-2xl border border-border bg-card px-5 py-3 flex items-center gap-4 flex-wrap">
+        <div className="size-9 rounded-xl bg-accent grid place-items-center shrink-0">
+          <EyeOff className="size-4" />
+        </div>
+        <div className="flex-1 min-w-[200px]">
+          <p className="text-sm font-display font-semibold leading-tight">Privacy mode</p>
+          <p className="text-xs text-muted-foreground">
+            Blur faces in patient videos. {regionMeta.flag} On by default in select regions for cultural sensitivity.
+          </p>
+        </div>
+        <Switch checked={privacyMode} onCheckedChange={setPrivacyMode} />
+      </div>
+    </section>
+  );
+};
+
 const Index = () => {
   const [selectedCountry, setSelectedCountry] = useState(countries[0]);
 
