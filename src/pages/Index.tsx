@@ -387,7 +387,7 @@ const Index = () => {
           {treatments.map((t) => (
             <Link
               key={t.name}
-              to="/treatment/glow-facial"
+              to={lp("/treatment/glow-facial")}
               className={`group rounded-3xl p-6 aspect-square flex flex-col justify-between bg-gradient-to-br ${t.grad} hover:shadow-pop transition-all hover:-translate-y-1`}
             >
               <span className="text-4xl">{t.emoji}</span>
