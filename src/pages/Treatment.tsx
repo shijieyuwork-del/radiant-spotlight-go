@@ -33,7 +33,7 @@ const Treatment = () => {
 
       <section className="container pt-10 pb-6">
         <nav className="text-sm text-muted-foreground flex items-center gap-2">
-          <Link to={`/${document.documentElement.lang || "en"}/`} className="hover:text-foreground">Discover</Link>
+          <Link to={lp("/")} className="hover:text-foreground">Discover</Link>
           <span>/</span>
           <span>Procedures</span>
           <span>/</span>
