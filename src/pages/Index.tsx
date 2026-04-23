@@ -9,6 +9,10 @@ import SmartSearch from "@/components/SmartSearch";
 import TrendingByCountry from "@/components/TrendingByCountry";
 import BeforeAfterCard from "@/components/BeforeAfterCard";
 import PriceCompare from "@/components/PriceCompare";
+import SafetyIndicator, { type SafetyLevel } from "@/components/SafetyIndicator";
+import WhyTrustGlowy from "@/components/WhyTrustGlowy";
+import DoctorProfile, { type DoctorProfileData } from "@/components/DoctorProfile";
+import PatientReview, { type PatientReviewData } from "@/components/PatientReview";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -36,10 +40,56 @@ const videos = [
   { src: v1, user: "softgirl.era", caption: "Pre-op consultation, what to ask", likes: "276K", comments: "4.1K", treatment: "consultation", tilt: 1 },
 ];
 
-const clinics = [
-  { name: "Maison Lumière Chirurgie", city: "Paris, France", rating: 4.9, reviews: 1284, img: c2, tag: "Board Certified" },
-  { name: "Aoba Plastic Surgery", city: "Tokyo, Japan", rating: 4.95, reviews: 2103, img: c3, tag: "Trending" },
-  { name: "Verde Surgical Center", city: "Seoul, Korea", rating: 4.88, reviews: 3402, img: c1, tag: "Top Rated" },
+const clinics: { name: string; city: string; rating: number; reviews: number; img: string; tag: string; safety: SafetyLevel; safetyScore: number }[] = [
+  { name: "Maison Lumière Chirurgie", city: "Paris, France", rating: 4.9, reviews: 1284, img: c2, tag: "Board Certified", safety: "green", safetyScore: 98 },
+  { name: "Aoba Plastic Surgery", city: "Tokyo, Japan", rating: 4.95, reviews: 2103, img: c3, tag: "Trending", safety: "green", safetyScore: 96 },
+  { name: "Verde Surgical Center", city: "Seoul, Korea", rating: 4.88, reviews: 3402, img: c1, tag: "Top Rated", safety: "amber", safetyScore: 82 },
+];
+
+const featuredDoctor: DoctorProfileData = {
+  name: "Dr. Park Min-jun",
+  title: "Plastic & Reconstructive Surgeon · 14 yrs",
+  city: "Seoul, Korea",
+  flag: "🇰🇷",
+  license: { country: "South Korea", number: "KSPRS-4821", board: "Korean Medical Association" },
+  certifications: [
+    { label: "KSPRS Board Certified", org: "Korean Society of Plastic & Reconstructive Surgeons" },
+    { label: "ISAPS Member", org: "International Society of Aesthetic Plastic Surgery" },
+    { label: "IMCAS Faculty", org: "International Master Course on Aging Science" },
+    { label: "Fellowship — UCLA", org: "Craniofacial reconstruction, 2014" },
+  ],
+  proceduresPerformed: "3,240+",
+  responseRate: 98,
+  avgResponseTime: "2h",
+  languages: ["Korean", "English", "Mandarin", "Japanese"],
+  hospitals: ["Verde Surgical Center", "Gangnam Severance Hospital", "Seoul National University Hospital"],
+  safety: { level: "green", score: 98 },
+};
+
+const reviews: PatientReviewData[] = [
+  {
+    patient: "Yuna K.", initial: "Y", procedure: "Double Eyelid Surgery",
+    traveledFrom: { flag: "🇸🇬", place: "Singapore" }, treatedIn: { flag: "🇰🇷", place: "Seoul" },
+    date: "Oct 2024", verified: true,
+    ratings: { overall: 5, recovery: 4.5, communication: 5 },
+    text: "Dr. Park sat with me for 90 minutes mapping every fold. Day 14 swelling was real but the result is exactly the simulation. English-speaking coordinator made the trip stress-free.",
+    media: [{ type: "photo", src: v4 }, { type: "video", src: v3 }],
+  },
+  {
+    patient: "Camille R.", initial: "C", procedure: "Rhinoplasty",
+    traveledFrom: { flag: "🇫🇷", place: "Paris" }, treatedIn: { flag: "🇹🇷", place: "Istanbul" },
+    date: "Jun 2024", verified: true,
+    ratings: { overall: 5, recovery: 4, communication: 5 },
+    text: "Cross-border was scary but the escrow + revision policy convinced me. 6 months in, profile is exactly what I wanted. Surgeon replied to every WhatsApp within an hour.",
+    media: [{ type: "photo", src: v2 }],
+  },
+  {
+    patient: "Mei L.", initial: "M", procedure: "V-Line Surgery",
+    traveledFrom: { flag: "🇨🇳", place: "Shanghai" }, treatedIn: { flag: "🇹🇭", place: "Bangkok" },
+    date: "Apr 2024", verified: true,
+    ratings: { overall: 4.5, recovery: 4, communication: 5 },
+    text: "Recovery was hard — won't sugarcoat. But aftercare hotel + Mandarin-speaking nurse made it doable. Jawline is exactly what I asked for.",
+  },
 ];
 
 const treatments = [
@@ -467,6 +517,9 @@ const Index = () => {
                 <div className="absolute top-4 right-4">
                   <VerifiedDoctorBadge {...doctorBadges[i % doctorBadges.length]} compact />
                 </div>
+                <div className="absolute bottom-4 left-4">
+                  <SafetyIndicator level={c.safety} compact />
+                </div>
               </div>
               <div className="p-6 space-y-4">
                 <div className="flex items-start justify-between gap-3">
@@ -481,6 +534,7 @@ const Index = () => {
                     <p className="text-xs text-muted-foreground">{c.reviews} reviews</p>
                   </div>
                 </div>
+                <SafetyIndicator level={c.safety} score={c.safetyScore} />
                 <VerifiedDoctorBadge {...doctorBadges[i % doctorBadges.length]} />
                 <Button variant="outline" className="w-full rounded-full">View clinic</Button>
               </div>
@@ -488,6 +542,44 @@ const Index = () => {
           ))}
         </div>
       </section>
+
+      {/* DOCTOR PROFILE — Trust deep-dive */}
+      <section className="container py-24">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+          <div>
+            <span className="pill bg-secondary text-secondary-foreground mb-3">
+              <ShieldCheck className="size-3.5" /> Doctor profile
+            </span>
+            <h2 className="font-display text-4xl md:text-5xl font-medium tracking-tight max-w-2xl">
+              Every credential, <em className="text-primary not-italic">on the record.</em>
+            </h2>
+          </div>
+          <p className="text-sm text-muted-foreground max-w-sm">
+            License, board certs, case volume, languages, hospital affiliations — verified before any doctor goes live.
+          </p>
+        </div>
+        <DoctorProfile d={featuredDoctor} />
+      </section>
+
+      {/* PATIENT REVIEWS */}
+      <section className="container py-16">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+          <div>
+            <span className="pill bg-accent text-accent-foreground mb-3">
+              <Star className="size-3.5" /> Verified reviews
+            </span>
+            <h2 className="font-display text-4xl md:text-5xl font-medium tracking-tight max-w-2xl">
+              Reviews from patients who <em className="text-primary not-italic">actually flew.</em>
+            </h2>
+          </div>
+        </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {reviews.map((r) => <PatientReview key={r.patient} r={r} />)}
+        </div>
+      </section>
+
+      {/* WHY TRUST GLOWY */}
+      <WhyTrustGlowy />
 
       {/* HOW IT WORKS */}
       <section className="container py-24">
