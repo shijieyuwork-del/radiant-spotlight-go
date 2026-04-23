@@ -371,8 +371,6 @@ const Index = () => {
         <SmartSearch />
       </section>
 
-      {/* POPULAR IN REGION */}
-      <PopularInRegion />
 
       {/* PRIVACY MODE TOGGLE */}
       <PrivacyModeBar />
