@@ -717,63 +717,18 @@ const Index = () => {
         </div>
       </section>
 
-      {/* SUCCESS STORIES — short-video feed */}
+      {/* SUCCESS STORIES — short-video feed only */}
       <section id="success-stories" className="container py-20">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
-          <div className="max-w-2xl">
-            <span className="pill bg-accent text-accent-foreground mb-3">
-              <Heart className="size-3.5" /> Success Stories
-            </span>
-            <h2 className="font-display text-4xl md:text-6xl font-medium tracking-tight">
-              Real glow-ups, <em className="text-primary not-italic">caught on camera.</em>
-            </h2>
-            <p className="text-sm text-muted-foreground mt-3 max-w-md">
-              Day-by-day recovery diaries shared by real patients — unfiltered, unscripted, and verified.
-            </p>
-          </div>
-          <Button variant="ghost" className="rounded-full self-start md:self-end">
-            Watch all stories <ArrowRight className="ml-1 size-4" />
-          </Button>
-        </div>
-
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-5 md:gap-6">
           {[
-            { src: v4, user: "hana_seoul", caption: "Day 30 — double eyelid heals 🤍", likes: "892K", comments: "12K", treatment: "doubleeyelid", priceFrom: 1500, priceTo: 2800, name: "Hana", flag: "🇯🇵", procedure: "Double Eyelid · Seoul" },
-            { src: v2, user: "olivia.glow", caption: "6 months post rhino — Istanbul ✨", likes: "1.4M", comments: "21K", treatment: "rhinoplasty", priceFrom: 2400, priceTo: 4200, name: "Olivia", flag: "🇬🇧", procedure: "Rhinoplasty · Istanbul" },
-            { src: v3, user: "leila.era", caption: "V-line vlog · week 4 in Bangkok", likes: "640K", comments: "8.4K", treatment: "vlinesurgery", priceFrom: 6800, priceTo: 9400, name: "Leila", flag: "🇦🇪", procedure: "V-Line · Bangkok" },
-            { src: v6, user: "newme.camille", caption: "Breast aug recovery diary 🩷", likes: "2.1M", comments: "33K", treatment: "breastaug", priceFrom: 3200, priceTo: 5400, name: "Camille", flag: "🇫🇷", procedure: "Breast Aug · Seoul" },
-            { src: v1, user: "yuna.softgirl", caption: "Pre-op consult vlog · Gangnam", likes: "412K", comments: "5.1K", treatment: "consultation", priceFrom: 1500, priceTo: 2800, name: "Yuna", flag: "🇸🇬", procedure: "Double Eyelid · Seoul" },
-            { src: v5, user: "mei.bkk", caption: "Aftercare hotel tour 🌴", likes: "276K", comments: "3.8K", treatment: "aftercare", priceFrom: 5400, priceTo: 7200, name: "Mei", flag: "🇨🇳", procedure: "Liposuction · Bangkok" },
+            { src: v4, user: "hana_seoul", caption: "Day 30 — double eyelid heals 🤍", likes: "892K", comments: "12K", treatment: "doubleeyelid", priceFrom: 1500, priceTo: 2800 },
+            { src: v2, user: "olivia.glow", caption: "6 months post rhino — Istanbul ✨", likes: "1.4M", comments: "21K", treatment: "rhinoplasty", priceFrom: 2400, priceTo: 4200 },
+            { src: v3, user: "leila.era", caption: "V-line vlog · week 4 in Bangkok", likes: "640K", comments: "8.4K", treatment: "vlinesurgery", priceFrom: 6800, priceTo: 9400 },
+            { src: v6, user: "newme.camille", caption: "Breast aug recovery diary 🩷", likes: "2.1M", comments: "33K", treatment: "breastaug", priceFrom: 3200, priceTo: 5400 },
+            { src: v1, user: "yuna.softgirl", caption: "Pre-op consult vlog · Gangnam", likes: "412K", comments: "5.1K", treatment: "consultation", priceFrom: 1500, priceTo: 2800 },
+            { src: v5, user: "mei.bkk", caption: "Aftercare hotel tour 🌴", likes: "276K", comments: "3.8K", treatment: "aftercare", priceFrom: 5400, priceTo: 7200 },
           ].map((s, i) => (
-            <article key={i} className="group flex flex-col gap-3">
-              <div className="relative">
-                <VideoCard
-                  src={s.src}
-                  user={s.user}
-                  caption={s.caption}
-                  likes={s.likes}
-                  comments={s.comments}
-                  treatment={s.treatment}
-                  priceFrom={s.priceFrom}
-                  priceTo={s.priceTo}
-                  tilt={0}
-                />
-                <span className="absolute top-3 left-3 pill bg-background/95 backdrop-blur shadow-soft text-[11px] font-semibold">
-                  <ShieldCheck className="size-3 text-primary" /> Verified
-                </span>
-              </div>
-              <div className="px-1">
-                <div className="flex items-center gap-1 mb-1.5">
-                  {Array.from({ length: 5 }).map((_, j) => (
-                    <Star key={j} className="size-3 fill-primary text-primary" />
-                  ))}
-                </div>
-                <p className="font-display text-sm font-semibold leading-tight flex items-center gap-1.5">
-                  {s.name} <span className="text-base leading-none">{s.flag}</span>
-                </p>
-                <p className="text-xs text-muted-foreground mt-0.5 truncate">{s.procedure}</p>
-              </div>
-            </article>
+            <VideoCard key={i} {...s} tilt={0} />
           ))}
         </div>
       </section>
