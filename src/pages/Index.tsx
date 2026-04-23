@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Sparkles, ArrowRight, Star, MapPin, ShieldCheck, TrendingUp, Play, Globe2, Heart } from "lucide-react";
+import { Sparkles, ArrowRight, Star, MapPin, ShieldCheck, TrendingUp, Globe2, Heart, Scissors } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import VideoCard from "@/components/VideoCard";
@@ -16,27 +16,27 @@ import c2 from "@/assets/clinic2.jpg";
 import c3 from "@/assets/clinic3.jpg";
 
 const videos = [
-  { src: v4, user: "minji_glow", caption: "My 6 month skin booster journey ✨", likes: "284K", comments: "2.1K", treatment: "skinbooster", tilt: -2 },
-  { src: v2, user: "rosie.bloom", caption: "Glass skin facial that changed my life", likes: "512K", comments: "8.9K", treatment: "facial", tilt: 1.5 },
-  { src: v3, user: "lipglossxoxo", caption: "Subtle lip filler reveal — natural?", likes: "1.2M", comments: "14K", treatment: "lipfiller", tilt: -1 },
-  { src: v6, user: "creamydream", caption: "Post-treatment skincare routine", likes: "98K", comments: "1.4K", treatment: "aftercare", tilt: 2 },
-  { src: v5, user: "seoulclinictour", caption: "Inside Seoul's prettiest clinic 🌿", likes: "421K", comments: "3.2K", treatment: "clinictour", tilt: -1.5 },
-  { src: v1, user: "softgirl.era", caption: "Pastel mood, glowing skin energy", likes: "76K", comments: "890", treatment: "vibes", tilt: 1 },
+  { src: v4, user: "minji_surgery", caption: "Day 30 after double eyelid 👀", likes: "1.2M", comments: "18K", treatment: "doubleeyelid", tilt: -2 },
+  { src: v2, user: "rosie.bloom", caption: "Rhinoplasty reveal — 6 months post-op", likes: "2.4M", comments: "32K", treatment: "rhinoplasty", tilt: 1.5 },
+  { src: v3, user: "jaw.journey", caption: "V-line surgery vlog ep.4", likes: "892K", comments: "11K", treatment: "vlinesurgery", tilt: -1 },
+  { src: v6, user: "newme.era", caption: "My breast augmentation diary 🩷", likes: "640K", comments: "9.2K", treatment: "breastaug", tilt: 2 },
+  { src: v5, user: "seoulclinictour", caption: "Inside Gangnam's top surgery clinic", likes: "421K", comments: "3.2K", treatment: "clinictour", tilt: -1.5 },
+  { src: v1, user: "softgirl.era", caption: "Pre-op consultation, what to ask", likes: "276K", comments: "4.1K", treatment: "consultation", tilt: 1 },
 ];
 
 const clinics = [
-  { name: "Maison Lumière", city: "Paris, France", rating: 4.9, reviews: 1284, img: c2, tag: "Premium" },
-  { name: "Aoba Skin Atelier", city: "Tokyo, Japan", rating: 4.95, reviews: 2103, img: c3, tag: "Trending" },
-  { name: "Verde Med Spa", city: "Seoul, Korea", rating: 4.88, reviews: 3402, img: c1, tag: "Top Rated" },
+  { name: "Maison Lumière Chirurgie", city: "Paris, France", rating: 4.9, reviews: 1284, img: c2, tag: "Board Certified" },
+  { name: "Aoba Plastic Surgery", city: "Tokyo, Japan", rating: 4.95, reviews: 2103, img: c3, tag: "Trending" },
+  { name: "Verde Surgical Center", city: "Seoul, Korea", rating: 4.88, reviews: 3402, img: c1, tag: "Top Rated" },
 ];
 
 const treatments = [
-  { name: "Glow Facial", from: "$120", emoji: "✨", grad: "from-[hsl(155,60%,80%)] to-[hsl(50,80%,90%)]" },
-  { name: "Lip Enhance", from: "$380", emoji: "💋", grad: "from-[hsl(340,85%,88%)] to-[hsl(18,90%,88%)]" },
-  { name: "Skin Booster", from: "$220", emoji: "🌿", grad: "from-[hsl(158,60%,82%)] to-[hsl(155,70%,90%)]" },
-  { name: "Botox Sculpt", from: "$290", emoji: "🪞", grad: "from-[hsl(50,80%,90%)] to-[hsl(340,85%,90%)]" },
-  { name: "Laser Glow", from: "$450", emoji: "💫", grad: "from-[hsl(340,85%,90%)] to-[hsl(155,60%,85%)]" },
-  { name: "Hydra Peel", from: "$95", emoji: "💧", grad: "from-[hsl(190,70%,88%)] to-[hsl(155,70%,88%)]" },
+  { name: "Double Eyelid", from: "$1,800", emoji: "👀", grad: "from-[hsl(155,60%,80%)] to-[hsl(50,80%,90%)]" },
+  { name: "Rhinoplasty", from: "$4,200", emoji: "👃", grad: "from-[hsl(340,85%,88%)] to-[hsl(18,90%,88%)]" },
+  { name: "V-Line Surgery", from: "$6,800", emoji: "💎", grad: "from-[hsl(158,60%,82%)] to-[hsl(155,70%,90%)]" },
+  { name: "Breast Aug", from: "$5,400", emoji: "🩷", grad: "from-[hsl(50,80%,90%)] to-[hsl(340,85%,90%)]" },
+  { name: "Liposuction", from: "$3,500", emoji: "✨", grad: "from-[hsl(340,85%,90%)] to-[hsl(155,60%,85%)]" },
+  { name: "Facelift", from: "$8,900", emoji: "🪞", grad: "from-[hsl(190,70%,88%)] to-[hsl(155,70%,88%)]" },
 ];
 
 const Index = () => {
@@ -57,26 +57,26 @@ const Index = () => {
           <div className="grid lg:grid-cols-12 gap-10 items-center">
             <div className="lg:col-span-7 space-y-7">
               <span className="pill bg-card/80 backdrop-blur shadow-soft">
-                <Sparkles className="size-3.5 text-primary" />
-                Trusted by 12,400+ clinics worldwide
+                <Scissors className="size-3.5 text-primary" />
+                4,200+ board-certified surgeons worldwide
               </span>
               <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-medium leading-[0.95] tracking-tight">
-                Find your <em className="text-primary not-italic">glow</em>,<br />
-                anywhere on Earth.
+                Your new <em className="text-primary not-italic">era</em>,<br />
+                surgically yours.
               </h1>
               <p className="text-lg text-muted-foreground max-w-xl">
-                The video-first discovery platform connecting you with the world's most-loved aesthetic clinics. Watch real treatments, compare prices, book in seconds.
+                The video-first discovery platform for cosmetic surgery. Real recovery diaries, board-certified surgeons, transparent pricing — the only place to plan your transformation.
               </p>
 
               {/* Search */}
               <div className="bg-card rounded-3xl p-2 shadow-pop flex flex-col sm:flex-row gap-2 max-w-2xl">
                 <div className="flex-1 px-5 py-3">
-                  <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold">Treatment</p>
-                  <input className="w-full bg-transparent outline-none text-sm font-medium" placeholder="Glow facial, lip filler..." />
+                  <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold">Procedure</p>
+                  <input className="w-full bg-transparent outline-none text-sm font-medium" placeholder="Rhinoplasty, double eyelid..." />
                 </div>
                 <div className="flex-1 px-5 py-3 sm:border-l border-border">
                   <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold">City</p>
-                  <input className="w-full bg-transparent outline-none text-sm font-medium" placeholder="Seoul, Tokyo, Paris..." />
+                  <input className="w-full bg-transparent outline-none text-sm font-medium" placeholder="Seoul, Istanbul, Bangkok..." />
                 </div>
                 <Button size="lg" className="rounded-2xl bg-foreground text-background hover:bg-foreground/90 h-auto px-6">
                   Search <ArrowRight className="ml-1 size-4" />
@@ -84,9 +84,9 @@ const Index = () => {
               </div>
 
               <div className="flex items-center gap-6 pt-2 text-sm text-muted-foreground">
-                <span className="flex items-center gap-1.5"><ShieldCheck className="size-4 text-primary" /> Verified clinics</span>
+                <span className="flex items-center gap-1.5"><ShieldCheck className="size-4 text-primary" /> Board-certified only</span>
                 <span className="flex items-center gap-1.5"><Globe2 className="size-4 text-primary" /> 47 countries</span>
-                <span className="flex items-center gap-1.5"><Heart className="size-4 text-primary" /> 2M+ reviews</span>
+                <span className="flex items-center gap-1.5"><Heart className="size-4 text-primary" /> 2M+ recovery diaries</span>
               </div>
             </div>
 
@@ -127,7 +127,7 @@ const Index = () => {
           <div>
             <span className="pill bg-secondary text-secondary-foreground mb-3"><TrendingUp className="size-3.5" /> Watch now</span>
             <h2 className="font-display text-4xl md:text-6xl font-medium tracking-tight max-w-2xl">
-              Real treatments, <em className="text-primary not-italic">real reactions.</em>
+              Real surgeries, <em className="text-primary not-italic">real recoveries.</em>
             </h2>
           </div>
           <Button variant="ghost" className="rounded-full self-start md:self-end">
@@ -173,7 +173,7 @@ const Index = () => {
               <ShieldCheck className="size-3.5" /> Verified
             </span>
             <h2 className="font-display text-4xl md:text-6xl font-medium tracking-tight max-w-2xl">
-              Clinics girls actually <em className="text-primary not-italic">love.</em>
+              Surgeons girls actually <em className="text-primary not-italic">trust.</em>
             </h2>
           </div>
         </div>
@@ -211,9 +211,9 @@ const Index = () => {
           <div className="absolute top-10 right-10 size-40 bg-primary/30 blur-3xl rounded-full" />
           <div className="relative grid md:grid-cols-3 gap-10">
             {[
-              { n: "01", t: "Watch", d: "Scroll videos from real patients & verified clinics worldwide." },
-              { n: "02", t: "Compare", d: "See transparent pricing, certifications and honest reviews." },
-              { n: "03", t: "Book", d: "Reserve your slot in seconds — local or international." },
+              { n: "01", t: "Watch", d: "Scroll real recovery diaries from verified surgical patients worldwide." },
+              { n: "02", t: "Consult", d: "Book free virtual consults with board-certified surgeons. Compare quotes." },
+              { n: "03", t: "Fly & operate", d: "Travel packages, aftercare hotels, English-speaking coordinators included." },
             ].map((s) => (
               <div key={s.n}>
                 <p className="font-display text-7xl text-primary/50 font-medium">{s.n}</p>
@@ -231,14 +231,14 @@ const Index = () => {
           <div className="absolute -bottom-20 -right-20 size-80 bg-primary blur-3xl opacity-40 animate-blob" />
           <div className="relative grid md:grid-cols-2 gap-10 items-center">
             <div>
-              <span className="pill bg-background/10 text-background mb-4">For clinics</span>
+              <span className="pill bg-background/10 text-background mb-4">For surgeons</span>
               <h2 className="font-display text-4xl md:text-6xl font-medium tracking-tight leading-[1]">
-                Bring your clinic to <em className="text-primary not-italic">millions.</em>
+                Bring your practice to <em className="text-primary not-italic">millions.</em>
               </h2>
-              <p className="text-background/70 mt-5 max-w-md">Join 12,400+ verified aesthetic clinics. Showcase treatments through short videos, get discovered, fill your calendar.</p>
+              <p className="text-background/70 mt-5 max-w-md">Join 4,200+ board-certified plastic surgery clinics. Showcase your work through patient diaries, attract international patients, fill your OR.</p>
             </div>
             <div className="space-y-3">
-              {["Free profile + booking tools", "Video-first discovery feed", "Global Gen-Z patient base", "Pay only when you get bookings"].map((p) => (
+              {["Free surgeon profile + consult booking", "Video-first recovery diaries", "Global Gen-Z patient base", "Pay only when surgeries convert"].map((p) => (
                 <div key={p} className="flex items-center gap-3 bg-background/5 rounded-2xl px-5 py-4">
                   <div className="size-2 rounded-full bg-primary" />
                   <p className="text-sm">{p}</p>
