@@ -1,7 +1,7 @@
 import type { LanguageCode } from "./i18n";
 
 export type TranslationKey =
-  | "nav.discover" | "nav.treatments" | "nav.forClinics" | "nav.signIn"
+  | "nav.discover" | "nav.treatments" | "nav.reviews" | "nav.forClinics" | "nav.signIn"
   | "hero.badge" | "hero.title1" | "hero.titleEm" | "hero.title2"
   | "hero.subtitle" | "hero.procedure" | "hero.procedurePlaceholder"
   | "hero.country" | "hero.findDoctorsIn" | "hero.featuredIn"
@@ -22,7 +22,7 @@ export type TranslationKey =
   | "cta.pill" | "cta.titlePre" | "cta.titleEm" | "cta.desc" | "cta.apply";
 
 const en: Record<TranslationKey, string> = {
-  "nav.discover": "Discover", "nav.treatments": "Treatments", "nav.forClinics": "For Clinics", "nav.signIn": "Sign in",
+  "nav.discover": "Discover", "nav.treatments": "Treatments", "nav.reviews": "Reviews", "nav.forClinics": "For Clinics", "nav.signIn": "Sign in",
   "hero.badge": "4,200+ verified surgeons · 50+ countries",
   "hero.title1": "Find the world's", "hero.titleEm": "best", "hero.title2": "aesthetic doctors.",
   "hero.subtitle": "Verified doctors. Real results. 50+ countries. The trusted cross-border platform for cosmetic surgery — board-certified credentials, real recovery diaries, transparent pricing.",
@@ -55,7 +55,7 @@ const en: Record<TranslationKey, string> = {
 };
 
 const ko: Record<TranslationKey, string> = {
-  "nav.discover": "둘러보기", "nav.treatments": "시술", "nav.forClinics": "병원 입점", "nav.signIn": "로그인",
+  "nav.discover": "둘러보기", "nav.treatments": "시술", "nav.reviews": "후기", "nav.forClinics": "병원 입점", "nav.signIn": "로그인",
   "hero.badge": "검증된 외과의 4,200명 이상 · 50개국 이상",
   "hero.title1": "전 세계", "hero.titleEm": "최고의", "hero.title2": "성형외과 의사를 만나세요.",
   "hero.subtitle": "검증된 의사. 진짜 결과. 50개국 이상. 신뢰할 수 있는 글로벌 성형 플랫폼 — 보드 인증 자격, 실제 회복 일기, 투명한 가격.",
@@ -88,7 +88,7 @@ const ko: Record<TranslationKey, string> = {
 };
 
 const zh: Record<TranslationKey, string> = {
-  "nav.discover": "发现", "nav.treatments": "项目", "nav.forClinics": "诊所入驻", "nav.signIn": "登录",
+  "nav.discover": "发现", "nav.treatments": "项目", "nav.reviews": "评价", "nav.forClinics": "诊所入驻", "nav.signIn": "登录",
   "hero.badge": "4,200+ 认证医生 · 覆盖 50+ 国家",
   "hero.title1": "找到全球", "hero.titleEm": "最好的", "hero.title2": "医美医生。",
   "hero.subtitle": "认证医生。真实效果。50+ 国家。值得信赖的跨境医美平台 — 资质认证、真实恢复日记、透明价格。",
@@ -121,7 +121,7 @@ const zh: Record<TranslationKey, string> = {
 };
 
 const th: Record<TranslationKey, string> = {
-  "nav.discover": "ค้นพบ", "nav.treatments": "หัตถการ", "nav.forClinics": "สำหรับคลินิก", "nav.signIn": "เข้าสู่ระบบ",
+  "nav.discover": "ค้นพบ", "nav.treatments": "หัตถการ", "nav.reviews": "รีวิว", "nav.forClinics": "สำหรับคลินิก", "nav.signIn": "เข้าสู่ระบบ",
   "hero.badge": "ศัลยแพทย์ผ่านการรับรอง 4,200+ คน · 50+ ประเทศ",
   "hero.title1": "ค้นหา", "hero.titleEm": "ดีที่สุด", "hero.title2": "หมอเสริมความงามทั่วโลก",
   "hero.subtitle": "หมอที่ผ่านการรับรอง ผลลัพธ์จริง 50+ ประเทศ แพลตฟอร์มศัลยกรรมข้ามพรมแดนที่น่าเชื่อถือ",
@@ -154,7 +154,7 @@ const th: Record<TranslationKey, string> = {
 };
 
 const ar: Record<TranslationKey, string> = {
-  "nav.discover": "اكتشف", "nav.treatments": "الإجراءات", "nav.forClinics": "للعيادات", "nav.signIn": "تسجيل الدخول",
+  "nav.discover": "اكتشف", "nav.treatments": "الإجراءات", "nav.reviews": "التقييمات", "nav.forClinics": "للعيادات", "nav.signIn": "تسجيل الدخول",
   "hero.badge": "أكثر من 4,200 جراح موثق · أكثر من 50 دولة",
   "hero.title1": "اعثر على", "hero.titleEm": "أفضل", "hero.title2": "أطباء التجميل في العالم.",
   "hero.subtitle": "أطباء موثقون. نتائج حقيقية. أكثر من 50 دولة. المنصة الموثوقة للجراحة التجميلية عبر الحدود.",
