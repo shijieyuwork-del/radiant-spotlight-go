@@ -15,6 +15,7 @@ import DoctorProfile, { type DoctorProfileData } from "@/components/DoctorProfil
 import PatientReview, { type PatientReviewData } from "@/components/PatientReview";
 import PopularInRegion from "@/components/PopularInRegion";
 import { useI18n, useLangPath } from "@/lib/i18n";
+import { FloatingQuoteCTA, DoctorContactButton } from "@/components/QuoteRequest";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { EyeOff } from "lucide-react";
