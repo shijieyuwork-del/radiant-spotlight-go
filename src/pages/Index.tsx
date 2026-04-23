@@ -294,10 +294,10 @@ const Index = () => {
         <div className="container py-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
             {[
-              { v: "4,200+", l: "Verified doctors", icon: ShieldCheck },
-              { v: "50+", l: "Countries covered", icon: Globe2 },
-              { v: "2M+", l: "Patient videos", icon: PlayCircle },
-              { v: "180K", l: "Surgeries booked", icon: Scissors },
+              { v: "4,200+", l: t("social.verifiedDoctors"), icon: ShieldCheck },
+              { v: "50+", l: t("social.countriesCovered"), icon: Globe2 },
+              { v: "2M+", l: t("social.patientVideos"), icon: PlayCircle },
+              { v: "180K", l: t("social.surgeriesBooked"), icon: Scissors },
             ].map((s) => (
               <div key={s.l} className="flex items-center gap-3">
                 <div className="size-11 rounded-2xl bg-gradient-mint grid place-items-center shrink-0">
