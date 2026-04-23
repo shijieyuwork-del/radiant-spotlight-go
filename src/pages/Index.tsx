@@ -193,6 +193,7 @@ const PrivacyModeBar = () => {
 const Index = () => {
   const [selectedCountry, setSelectedCountry] = useState(countries[0]);
   const { t } = useI18n();
+  const lp = useLangPath();
 
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
