@@ -596,10 +596,10 @@ const Index = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
           <div>
             <span className="pill bg-accent text-accent-foreground mb-3">
-              <Star className="size-3.5" /> Verified reviews
+              <Star className="size-3.5" /> {t("reviews.pill")}
             </span>
             <h2 className="font-display text-4xl md:text-5xl font-medium tracking-tight max-w-2xl">
-              Reviews from patients who <em className="text-primary not-italic">actually flew.</em>
+              {t("reviews.titlePre")} <em className="text-primary not-italic">{t("reviews.titleEm")}</em>
             </h2>
           </div>
         </div>
