@@ -82,41 +82,56 @@ const Index = () => {
           <div className="grid lg:grid-cols-12 gap-10 items-center">
             <div className="lg:col-span-7 space-y-7">
               <span className="pill bg-card/80 backdrop-blur shadow-soft">
-                <Scissors className="size-3.5 text-primary" />
-                4,200+ board-certified surgeons worldwide
+                <ShieldCheck className="size-3.5 text-primary" />
+                4,200+ verified surgeons · 50+ countries
               </span>
               <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-medium leading-[0.95] tracking-tight">
-                Your new <em className="text-primary not-italic">era</em>,<br />
-                surgically yours.
+                Find the world's <em className="text-primary not-italic">best</em><br />
+                aesthetic doctors.
               </h1>
               <p className="text-lg text-muted-foreground max-w-xl">
-                The video-first discovery platform for cosmetic surgery. Real recovery diaries, board-certified surgeons, transparent pricing — the only place to plan your transformation.
+                Verified doctors. Real results. 50+ countries. The trusted cross-border platform for cosmetic surgery — board-certified credentials, real recovery diaries, transparent pricing.
               </p>
 
-              {/* Search */}
+              {/* Search + country selector */}
               <div className="bg-card rounded-3xl p-2 shadow-pop flex flex-col sm:flex-row gap-2 max-w-2xl">
                 <div className="flex-1 px-5 py-3">
                   <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold">Procedure</p>
                   <input className="w-full bg-transparent outline-none text-sm font-medium" placeholder="Rhinoplasty, double eyelid..." />
                 </div>
-                <div className="flex-1 px-5 py-3 sm:border-l border-border">
-                  <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold">City</p>
-                  <input className="w-full bg-transparent outline-none text-sm font-medium" placeholder="Seoul, Istanbul, Bangkok..." />
-                </div>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button type="button" className="flex-1 px-5 py-3 sm:border-l border-border text-left hover:bg-muted/40 rounded-2xl transition-colors">
+                      <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold">Country</p>
+                      <p className="text-sm font-medium flex items-center gap-1.5 mt-0.5">
+                        <span>{selectedCountry.flag}</span> {selectedCountry.name}
+                        <ChevronDown className="size-3.5 ml-auto text-muted-foreground" />
+                      </p>
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start" className="w-56 rounded-2xl">
+                    {countries.map((c) => (
+                      <DropdownMenuItem key={c.name} onClick={() => setSelectedCountry(c)} className="rounded-xl cursor-pointer">
+                        <span className="mr-2">{c.flag}</span> {c.name}
+                        <span className="ml-auto text-xs text-muted-foreground">{c.city}</span>
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
                 <Button size="lg" className="rounded-2xl bg-foreground text-background hover:bg-foreground/90 h-auto px-6">
-                  Search <ArrowRight className="ml-1 size-4" />
+                  Find doctors in {selectedCountry.name} <ArrowRight className="ml-1 size-4" />
                 </Button>
               </div>
 
-              <div className="flex items-center gap-6 pt-2 text-sm text-muted-foreground">
+              <div className="flex flex-wrap items-center gap-x-6 gap-y-2 pt-2 text-sm text-muted-foreground">
                 <span className="flex items-center gap-1.5"><ShieldCheck className="size-4 text-primary" /> Board-certified only</span>
-                <span className="flex items-center gap-1.5"><Globe2 className="size-4 text-primary" /> 47 countries</span>
+                <span className="flex items-center gap-1.5"><Globe2 className="size-4 text-primary" /> 50+ countries</span>
                 <span className="flex items-center gap-1.5"><Heart className="size-4 text-primary" /> 2M+ recovery diaries</span>
               </div>
             </div>
 
             {/* Hero video collage */}
-            <div className="lg:col-span-5 relative h-[520px] hidden lg:block">
+            <div className="lg:col-span-5 relative h-[560px] hidden lg:block">
               <div className="absolute top-0 left-4 w-48 animate-float">
                 <VideoCard {...videos[0]} />
               </div>
@@ -126,6 +141,43 @@ const Index = () => {
               <div className="absolute bottom-0 left-20 w-52 animate-float" style={{ animationDelay: "2s" }}>
                 <VideoCard {...videos[2]} />
               </div>
+              <div className="absolute -bottom-2 -right-2 w-64 animate-float" style={{ animationDelay: "1.5s" }}>
+                <VerifiedDoctorBadge {...doctorBadges[0]} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SOCIAL PROOF BAR */}
+      <section className="border-y border-border/60 bg-card">
+        <div className="container py-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+            {[
+              { v: "4,200+", l: "Verified doctors", icon: ShieldCheck },
+              { v: "50+", l: "Countries covered", icon: Globe2 },
+              { v: "2M+", l: "Patient videos", icon: PlayCircle },
+              { v: "180K", l: "Surgeries booked", icon: Scissors },
+            ].map((s) => (
+              <div key={s.l} className="flex items-center gap-3">
+                <div className="size-11 rounded-2xl bg-gradient-mint grid place-items-center shrink-0">
+                  <s.icon className="size-5" />
+                </div>
+                <div>
+                  <p className="font-display text-2xl md:text-3xl font-semibold leading-none">{s.v}</p>
+                  <p className="text-xs text-muted-foreground mt-1">{s.l}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="border-t border-border/60 pt-6 flex flex-col md:flex-row md:items-center gap-4 md:gap-8">
+            <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground font-semibold shrink-0">As featured in</p>
+            <div className="flex flex-wrap items-center gap-x-10 gap-y-4">
+              {["VOGUE", "FORBES", "ELLE", "HARPER'S BAZAAR", "WIRED"].map((m) => (
+                <span key={m} className="font-display text-xl md:text-2xl tracking-[0.15em] text-muted-foreground/70 hover:text-foreground transition-colors">
+                  {m}
+                </span>
+              ))}
             </div>
           </div>
         </div>
