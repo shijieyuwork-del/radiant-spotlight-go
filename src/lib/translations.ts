@@ -1,7 +1,7 @@
 import type { LanguageCode } from "./i18n";
 
 export type TranslationKey =
-  | "nav.discover" | "nav.treatments" | "nav.forClinics" | "nav.signIn"
+  | "nav.discover" | "nav.treatments" | "nav.reviews" | "nav.forClinics" | "nav.signIn"
   | "hero.badge" | "hero.title1" | "hero.titleEm" | "hero.title2"
   | "hero.subtitle" | "hero.procedure" | "hero.procedurePlaceholder"
   | "hero.country" | "hero.findDoctorsIn" | "hero.featuredIn"
