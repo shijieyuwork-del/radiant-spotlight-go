@@ -212,26 +212,26 @@ const Index = () => {
             <div className="lg:col-span-7 space-y-7">
               <span className="pill bg-card/80 backdrop-blur shadow-soft">
                 <ShieldCheck className="size-3.5 text-primary" />
-                4,200+ verified surgeons · 50+ countries
+                {t("hero.badge")}
               </span>
               <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-medium leading-[0.95] tracking-tight">
-                Find the world's <em className="text-primary not-italic">best</em><br />
-                aesthetic doctors.
+                {t("hero.title1")} <em className="text-primary not-italic">{t("hero.titleEm")}</em><br />
+                {t("hero.title2")}
               </h1>
               <p className="text-lg text-muted-foreground max-w-xl">
-                Verified doctors. Real results. 50+ countries. The trusted cross-border platform for cosmetic surgery — board-certified credentials, real recovery diaries, transparent pricing.
+                {t("hero.subtitle")}
               </p>
 
               {/* Search + country selector */}
               <div className="bg-card rounded-3xl p-2 shadow-pop flex flex-col sm:flex-row gap-2 max-w-2xl">
                 <div className="flex-1 px-5 py-3">
-                  <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold">Procedure</p>
-                  <input className="w-full bg-transparent outline-none text-sm font-medium" placeholder="Rhinoplasty, double eyelid..." />
+                  <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold">{t("hero.procedure")}</p>
+                  <input className="w-full bg-transparent outline-none text-sm font-medium" placeholder={t("hero.procedurePlaceholder")} />
                 </div>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <button type="button" className="flex-1 px-5 py-3 sm:border-l border-border text-left hover:bg-muted/40 rounded-2xl transition-colors">
-                      <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold">Country</p>
+                      <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold">{t("hero.country")}</p>
                       <p className="text-sm font-medium flex items-center gap-1.5 mt-0.5">
                         <span>{selectedCountry.flag}</span> {selectedCountry.name}
                         <ChevronDown className="size-3.5 ml-auto text-muted-foreground" />
@@ -248,13 +248,13 @@ const Index = () => {
                   </DropdownMenuContent>
                 </DropdownMenu>
                 <Button size="lg" className="rounded-2xl bg-foreground text-background hover:bg-foreground/90 h-auto px-6">
-                  Find doctors in {selectedCountry.name} <ArrowRight className="ml-1 size-4" />
+                  {t("hero.findDoctorsIn")} {selectedCountry.name} <ArrowRight className="ml-1 size-4" />
                 </Button>
               </div>
 
               <div className="flex flex-wrap items-center gap-2 pt-1">
                 <span className="text-xs uppercase tracking-wider text-muted-foreground font-semibold mr-1">
-                  Featured in {selectedCountry.city}
+                  {t("hero.featuredIn")} {selectedCountry.city}
                 </span>
                 {selectedCountry.featured.map((p) => (
                   <span key={p} className="pill bg-card/80 backdrop-blur shadow-soft text-foreground">
@@ -264,9 +264,9 @@ const Index = () => {
               </div>
 
               <div className="flex flex-wrap items-center gap-x-6 gap-y-2 pt-2 text-sm text-muted-foreground">
-                <span className="flex items-center gap-1.5"><ShieldCheck className="size-4 text-primary" /> Board-certified only</span>
-                <span className="flex items-center gap-1.5"><Globe2 className="size-4 text-primary" /> 50+ countries</span>
-                <span className="flex items-center gap-1.5"><Heart className="size-4 text-primary" /> 2M+ recovery diaries</span>
+                <span className="flex items-center gap-1.5"><ShieldCheck className="size-4 text-primary" /> {t("hero.boardCertified")}</span>
+                <span className="flex items-center gap-1.5"><Globe2 className="size-4 text-primary" /> {t("hero.countries")}</span>
+                <span className="flex items-center gap-1.5"><Heart className="size-4 text-primary" /> {t("hero.diaries")}</span>
               </div>
             </div>
 
