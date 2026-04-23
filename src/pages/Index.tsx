@@ -422,14 +422,14 @@ const Index = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
             <span className="pill bg-secondary text-secondary-foreground mb-3">
-              <Heart className="size-3.5" /> Patient stories
+              <Heart className="size-3.5" /> {t("stories.pill")}
             </span>
             <h2 className="font-display text-4xl md:text-6xl font-medium tracking-tight max-w-2xl">
-              Their <em className="text-primary not-italic">transformation</em>, told by them.
+              {t("stories.titlePre")} <em className="text-primary not-italic">{t("stories.titleEm")}</em>{t("stories.titleEnd")}
             </h2>
           </div>
           <Button variant="ghost" className="rounded-full self-start md:self-end">
-            Read all stories <ArrowRight className="ml-1 size-4" />
+            {t("stories.readAll")} <ArrowRight className="ml-1 size-4" />
           </Button>
         </div>
 
