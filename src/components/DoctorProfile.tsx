@@ -20,7 +20,15 @@ export interface DoctorProfileData {
   languages: string[];
   hospitals: string[];
   safety: { level: "green" | "amber" | "red"; score: number };
+  pricing?: PricingRow[];
 }
+
+const defaultPricing: PricingRow[] = [
+  { procedure: "Rhinoplasty", low: 2800, high: 4200, includes: "Consultation, surgery, 1 follow-up" },
+  { procedure: "Double Eyelid Surgery", low: 1500, high: 2800, includes: "Consultation, surgery, suture removal" },
+  { procedure: "V-Line Surgery", low: 6800, high: 9400, includes: "Consult, surgery, 2 nights aftercare, follow-ups" },
+  { procedure: "Facelift", low: 7800, high: 12000, includes: "Consult, surgery, 1 night recovery suite, 3 follow-ups" },
+];
 
 const DoctorProfile = ({ d }: { d: DoctorProfileData }) => {
   const { open } = useQuote();
