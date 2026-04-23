@@ -566,7 +566,7 @@ const Index = () => {
                 </div>
                 <SafetyIndicator level={c.safety} score={c.safetyScore} />
                 <VerifiedDoctorBadge {...doctorBadges[i % doctorBadges.length]} />
-                <Button variant="outline" className="w-full rounded-full">View clinic</Button>
+                <Button variant="outline" className="w-full rounded-full">{t("clinics.viewClinic")}</Button>
               </div>
             </div>
           ))}
