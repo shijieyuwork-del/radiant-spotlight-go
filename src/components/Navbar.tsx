@@ -11,6 +11,7 @@ const Navbar = () => {
   const links = [
     { to: lp("/"), label: t("nav.discover") },
     { to: lp("/treatment/glow-facial"), label: t("nav.treatments") },
+    { to: lp("/reviews"), label: t("nav.reviews") },
     { to: lp("/onboarding"), label: t("nav.forClinics") },
   ];
 
