@@ -14,7 +14,7 @@ import c3 from "@/assets/clinic3.jpg";
 
 const Treatment = () => {
   useParams();
-
+  const lp = useLangPath();
   const offers = [
     { clinic: "Verde Surgical Center", city: "Seoul", price: "$1,800", original: "$2,400", rating: 4.95, img: c1 },
     { clinic: "Aoba Plastic Surgery", city: "Tokyo", price: "$2,200", original: "$2,900", rating: 4.92, img: c3 },
