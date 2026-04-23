@@ -13,6 +13,21 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        display: ['Fraunces', 'serif'],
+        sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+      },
+      backgroundImage: {
+        'gradient-hero': 'var(--gradient-hero)',
+        'gradient-mint': 'var(--gradient-mint)',
+        'gradient-peach': 'var(--gradient-peach)',
+        'gradient-card': 'var(--gradient-card)',
+      },
+      boxShadow: {
+        soft: 'var(--shadow-soft)',
+        pop: 'var(--shadow-pop)',
+        glow: 'var(--shadow-glow)',
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
