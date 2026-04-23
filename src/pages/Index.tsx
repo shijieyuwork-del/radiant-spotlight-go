@@ -298,6 +298,11 @@ const Index = () => {
               <div className="absolute -bottom-2 -right-2 w-64 animate-float" style={{ animationDelay: "1.5s" }}>
                 <VerifiedDoctorBadge {...selectedCountry.badge} />
               </div>
+              <Link to={lp("/success-stories")} className="absolute top-4 right-4 z-10">
+                <Button size="sm" className="rounded-full bg-foreground text-background hover:bg-foreground/90 shadow-pop gap-1.5">
+                  <PlayCircle className="size-4" /> Watch all stories <ArrowRight className="size-3.5" />
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
