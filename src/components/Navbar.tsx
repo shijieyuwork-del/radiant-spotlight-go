@@ -13,6 +13,7 @@ const Navbar = () => {
     { to: lp("/treatment/glow-facial"), label: t("nav.treatments") },
     { to: lp("/reviews"), label: t("nav.reviews") },
     { to: lp("/#success-stories"), label: "Success Stories" },
+    { to: lp("/onboarding"), label: t("nav.forClinics") },
   ];
 
   return (
