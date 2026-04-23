@@ -5,6 +5,10 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import VideoCard from "@/components/VideoCard";
 import VerifiedDoctorBadge from "@/components/VerifiedDoctorBadge";
+import SmartSearch from "@/components/SmartSearch";
+import TrendingByCountry from "@/components/TrendingByCountry";
+import BeforeAfterCard from "@/components/BeforeAfterCard";
+import PriceCompare from "@/components/PriceCompare";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -260,6 +264,17 @@ const Index = () => {
         </div>
       </section>
 
+      {/* SMART SEARCH */}
+      <section className="container py-16 -mt-4">
+        <div className="text-center max-w-2xl mx-auto mb-8">
+          <span className="pill bg-accent text-accent-foreground mb-3">Smart search</span>
+          <h2 className="font-display text-3xl md:text-5xl font-medium tracking-tight">
+            Find your <em className="text-primary not-italic">exact</em> procedure, fast.
+          </h2>
+        </div>
+        <SmartSearch />
+      </section>
+
       {/* TIKTOK FEED */}
       <section className="container py-24">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
@@ -302,6 +317,24 @@ const Index = () => {
             </Link>
           ))}
         </div>
+      </section>
+
+      {/* TRENDING BY COUNTRY */}
+      <section className="container py-16">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+          <div>
+            <span className="pill bg-secondary text-secondary-foreground mb-3">
+              <Globe2 className="size-3.5" /> By destination
+            </span>
+            <h2 className="font-display text-4xl md:text-6xl font-medium tracking-tight max-w-2xl">
+              Trending procedures, <em className="text-primary not-italic">by country.</em>
+            </h2>
+          </div>
+          <p className="text-sm text-muted-foreground max-w-sm">
+            Where patients fly for the best results — and how much they actually pay.
+          </p>
+        </div>
+        <TrendingByCountry />
       </section>
 
       {/* PATIENT STORIES */}
@@ -383,6 +416,33 @@ const Index = () => {
             </article>
           ))}
         </div>
+      </section>
+
+      {/* BEFORE / AFTER GALLERY */}
+      <section className="container py-24">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+          <div>
+            <span className="pill bg-accent text-accent-foreground mb-3">
+              <Sparkles className="size-3.5" /> Before / After
+            </span>
+            <h2 className="font-display text-4xl md:text-6xl font-medium tracking-tight max-w-2xl">
+              Real results, <em className="text-primary not-italic">side by side.</em>
+            </h2>
+            <p className="text-sm text-muted-foreground mt-3 max-w-md">
+              Drag to reveal. Privacy mode is on by default — toggle off if you want the full picture.
+            </p>
+          </div>
+        </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <BeforeAfterCard before={v1} after={v4} doctor="Park Min-jun" city="Seoul, Korea" procedure="Double Eyelid" />
+          <BeforeAfterCard before={v3} after={v2} doctor="Elif Demir" city="Istanbul, Turkey" procedure="Rhinoplasty" />
+          <BeforeAfterCard before={v5} after={v6} doctor="Suchada Pong" city="Bangkok, Thailand" procedure="Breast Aug" defaultBlur={false} />
+        </div>
+      </section>
+
+      {/* PRICE COMPARE */}
+      <section className="container py-16">
+        <PriceCompare />
       </section>
 
       {/* FEATURED CLINICS */}
