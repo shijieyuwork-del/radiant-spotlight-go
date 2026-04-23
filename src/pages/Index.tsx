@@ -341,9 +341,9 @@ const Index = () => {
       {/* SMART SEARCH */}
       <section className="container py-16 -mt-4">
         <div className="text-center max-w-2xl mx-auto mb-8">
-          <span className="pill bg-accent text-accent-foreground mb-3">Smart search</span>
+          <span className="pill bg-accent text-accent-foreground mb-3">{t("search.pill")}</span>
           <h2 className="font-display text-3xl md:text-5xl font-medium tracking-tight">
-            Find your <em className="text-primary not-italic">exact</em> procedure, fast.
+            {t("search.titlePre")} <em className="text-primary not-italic">{t("search.titleEm")}</em> {t("search.titlePost")}
           </h2>
         </div>
         <SmartSearch />
