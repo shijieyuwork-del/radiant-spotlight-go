@@ -5,6 +5,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { I18nProvider, useI18n, languages, type LanguageCode } from "@/lib/i18n";
+import { QuoteProvider } from "@/components/QuoteRequest";
 import Index from "./pages/Index.tsx";
 import Treatment from "./pages/Treatment.tsx";
 import Onboarding from "./pages/Onboarding.tsx";
@@ -59,14 +60,16 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <BrowserRouter>
       <I18nProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <Routes>
-            <Route path="/:lang/*" element={<LangRoutes />} />
-            <Route path="*" element={<LangRedirect />} />
-          </Routes>
-        </TooltipProvider>
+        <QuoteProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <Routes>
+              <Route path="/:lang/*" element={<LangRoutes />} />
+              <Route path="*" element={<LangRedirect />} />
+            </Routes>
+          </TooltipProvider>
+        </QuoteProvider>
       </I18nProvider>
     </BrowserRouter>
   </QueryClientProvider>
