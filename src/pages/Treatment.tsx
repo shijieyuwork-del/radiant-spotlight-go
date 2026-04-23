@@ -122,6 +122,21 @@ const Treatment = () => {
         </div>
       </section>
 
+      {/* GLOBAL PRICE COMPARE */}
+      <section className="container py-16">
+        <GlobalPriceCompare
+          procedure="Double Eyelid Surgery"
+          featured="Korea"
+          prices={[
+            { country: "USA", flag: "🇺🇸", low: 4000, high: 7500 },
+            { country: "UK", flag: "🇬🇧", low: 3200, high: 5400 },
+            { country: "Korea", flag: "🇰🇷", low: 1500, high: 2800 },
+            { country: "Thailand", flag: "🇹🇭", low: 900, high: 1600 },
+            { country: "Turkey", flag: "🇹🇷", low: 1700, high: 2600 },
+          ]}
+        />
+      </section>
+
       {/* What's included */}
       <section className="container py-16 grid md:grid-cols-2 gap-12 items-start">
         <div>
@@ -180,10 +195,10 @@ const Treatment = () => {
           More <em className="text-primary not-italic">#doubleeyelid</em> diaries
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <VideoCard src={v2} user="rosie.bloom" caption="Day 14 reveal" likes="1.2M" comments="18K" treatment="doubleeyelid" />
+          <VideoCard src={v2} user="rosie.bloom" caption="Day 14 reveal" likes="1.2M" comments="18K" treatment="doubleeyelid" priceFrom={1800} />
           <VideoCard src={v6} user="newme.era" caption="My aftercare routine" likes="98K" comments="1.4K" treatment="aftercare" />
-          <VideoCard src={v4} user="minji_surgery" caption="6 month healing" likes="640K" comments="9.2K" treatment="recovery" />
-          <VideoCard src={v2} user="hanaglows" caption="Before surgery vlog" likes="201K" comments="3.0K" treatment="preop" />
+          <VideoCard src={v4} user="minji_surgery" caption="6 month healing" likes="640K" comments="9.2K" treatment="recovery" priceFrom={1500} priceTo={2800} />
+          <VideoCard src={v2} user="hanaglows" caption="Before surgery vlog" likes="201K" comments="3.0K" treatment="preop" priceFrom={1500} />
         </div>
       </section>
 
