@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import VideoCard from "@/components/VideoCard";
 import { Button } from "@/components/ui/button";
+import { FloatingQuoteCTA } from "@/components/QuoteRequest";
 import { useLangPath } from "@/lib/i18n";
 import v2 from "@/assets/video2.jpg";
 import v4 from "@/assets/video4.jpg";
@@ -182,6 +183,7 @@ const Treatment = () => {
       </section>
 
       <Footer />
+      <FloatingQuoteCTA ctx={{ procedure: "Double Eyelid Surgery" }} />
     </div>
   );
 };

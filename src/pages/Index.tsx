@@ -15,6 +15,7 @@ import DoctorProfile, { type DoctorProfileData } from "@/components/DoctorProfil
 import PatientReview, { type PatientReviewData } from "@/components/PatientReview";
 import PopularInRegion from "@/components/PopularInRegion";
 import { useI18n, useLangPath } from "@/lib/i18n";
+import { FloatingQuoteCTA, DoctorContactButton } from "@/components/QuoteRequest";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { EyeOff } from "lucide-react";
@@ -568,7 +569,10 @@ const Index = () => {
                 </div>
                 <SafetyIndicator level={c.safety} score={c.safetyScore} />
                 <VerifiedDoctorBadge {...doctorBadges[i % doctorBadges.length]} />
-                <Button variant="outline" className="w-full rounded-full">{t("clinics.viewClinic")}</Button>
+                <div className="flex items-center gap-2">
+                  <Button variant="outline" className="flex-1 rounded-full">{t("clinics.viewClinic")}</Button>
+                  <DoctorContactButton doctorName={c.name} city={c.city} />
+                </div>
               </div>
             </div>
           ))}
@@ -688,6 +692,7 @@ const Index = () => {
       </section>
 
       <Footer />
+      <FloatingQuoteCTA />
     </div>
   );
 };

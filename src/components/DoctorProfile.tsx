@@ -3,6 +3,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SafetyIndicator from "./SafetyIndicator";
+import { useQuote } from "./QuoteRequest";
 
 export interface DoctorProfileData {
   name: string;
@@ -21,6 +22,7 @@ export interface DoctorProfileData {
 }
 
 const DoctorProfile = ({ d }: { d: DoctorProfileData }) => {
+  const { open } = useQuote();
   return (
     <article className="rounded-[2rem] border border-border bg-card overflow-hidden shadow-soft">
       {/* Header */}
@@ -131,8 +133,13 @@ const DoctorProfile = ({ d }: { d: DoctorProfileData }) => {
       </div>
 
       <div className="px-7 pb-7 flex flex-col sm:flex-row gap-3">
-        <Button className="rounded-full flex-1">Book free consult</Button>
-        <Button variant="outline" className="rounded-full flex-1">Message doctor</Button>
+        <Button
+          onClick={() => open({ doctorName: d.name, city: d.city })}
+          className="rounded-full flex-1 bg-foreground text-background hover:bg-foreground/90"
+        >
+          <MessageCircle className="size-4 mr-1.5" /> Get a Free Quote
+        </Button>
+        <Button variant="outline" className="rounded-full flex-1">Book free consult</Button>
       </div>
     </article>
   );
