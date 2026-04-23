@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { translations, type TranslationKey } from "./translations";
 
 // ---------------- Currency ----------------
 export type CurrencyCode = "USD" | "GBP" | "EUR" | "AED" | "KRW" | "THB" | "CNY";
