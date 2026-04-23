@@ -40,10 +40,10 @@ import c2 from "@/assets/clinic2.jpg";
 import c3 from "@/assets/clinic3.jpg";
 
 const videos = [
-  { src: v4, user: "minji_surgery", caption: "Day 30 after double eyelid 👀", likes: "1.2M", comments: "18K", treatment: "doubleeyelid", tilt: -2 },
-  { src: v2, user: "rosie.bloom", caption: "Rhinoplasty reveal — 6 months post-op", likes: "2.4M", comments: "32K", treatment: "rhinoplasty", tilt: 1.5 },
-  { src: v3, user: "jaw.journey", caption: "V-line surgery vlog ep.4", likes: "892K", comments: "11K", treatment: "vlinesurgery", tilt: -1 },
-  { src: v6, user: "newme.era", caption: "My breast augmentation diary 🩷", likes: "640K", comments: "9.2K", treatment: "breastaug", tilt: 2 },
+  { src: v4, user: "minji_surgery", caption: "Day 30 after double eyelid 👀", likes: "1.2M", comments: "18K", treatment: "doubleeyelid", tilt: -2, priceFrom: 1500, priceTo: 2800 },
+  { src: v2, user: "rosie.bloom", caption: "Rhinoplasty reveal — 6 months post-op", likes: "2.4M", comments: "32K", treatment: "rhinoplasty", tilt: 1.5, priceFrom: 2400, priceTo: 4200 },
+  { src: v3, user: "jaw.journey", caption: "V-line surgery vlog ep.4", likes: "892K", comments: "11K", treatment: "vlinesurgery", tilt: -1, priceFrom: 6800, priceTo: 9400 },
+  { src: v6, user: "newme.era", caption: "My breast augmentation diary 🩷", likes: "640K", comments: "9.2K", treatment: "breastaug", tilt: 2, priceFrom: 3200, priceTo: 5400 },
   { src: v5, user: "seoulclinictour", caption: "Inside Gangnam's top surgery clinic", likes: "421K", comments: "3.2K", treatment: "clinictour", tilt: -1.5 },
   { src: v1, user: "softgirl.era", caption: "Pre-op consultation, what to ask", likes: "276K", comments: "4.1K", treatment: "consultation", tilt: 1 },
 ];
