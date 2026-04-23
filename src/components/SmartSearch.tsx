@@ -56,17 +56,19 @@ const SmartSearch = () => {
     beforeAfter && "Before/After only",
   ].filter(Boolean);
 
+  const animatedPlaceholder = useTypewriter(PLACEHOLDER_EXAMPLES);
+
   return (
     <div className="rounded-[2rem] bg-card shadow-pop overflow-hidden">
       {/* Bar */}
       <div className="flex items-center gap-2 p-2">
         <div className="flex-1 flex items-center gap-3 px-4">
-          <Search className="size-4 text-muted-foreground shrink-0" />
+          <Search className="size-4 text-foreground/70 shrink-0" />
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder='Try "rhinoplasty in Seoul under $5,000"'
-            className="w-full bg-transparent outline-none text-sm font-medium py-3"
+            placeholder={query ? "" : `Try "${animatedPlaceholder}|"`}
+            className="w-full bg-transparent outline-none text-sm font-medium py-3 placeholder:text-foreground/60"
           />
         </div>
         <Button
