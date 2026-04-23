@@ -9,6 +9,7 @@ import Index from "./pages/Index.tsx";
 import Treatment from "./pages/Treatment.tsx";
 import Onboarding from "./pages/Onboarding.tsx";
 import Destination from "./pages/Destination.tsx";
+import Reviews from "./pages/Reviews.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
