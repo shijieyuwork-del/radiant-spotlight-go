@@ -29,18 +29,18 @@ const Onboarding = () => {
         <div className="container relative py-20 md:py-28 grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-7">
             <span className="pill bg-card/80 backdrop-blur shadow-soft">
-              <Building2 className="size-3.5 text-primary" /> For clinic owners
+              <Building2 className="size-3.5 text-primary" /> For plastic surgery clinics
             </span>
             <h1 className="font-display text-5xl md:text-7xl font-medium leading-[0.95] tracking-tight">
-              Grow your clinic, <em className="text-primary not-italic">globally.</em>
+              Grow your practice, <em className="text-primary not-italic">globally.</em>
             </h1>
             <p className="text-lg text-muted-foreground max-w-xl">
-              Join the platform where Gen-Z discovers their next treatment. Showcase your work through short videos, attract international patients, and book out your calendar.
+              Join the platform where Gen-Z discovers their next surgery. Showcase your work through real patient diaries, attract international medical-tourism patients, and fill your OR.
             </p>
 
             <div className="grid grid-cols-3 gap-4 max-w-lg pt-4">
               {[
-                { v: "12.4K+", l: "Clinics" },
+                { v: "4.2K+", l: "Surgeons" },
                 { v: "47", l: "Countries" },
                 { v: "8M", l: "Monthly views" },
               ].map((s) => (
@@ -64,7 +64,7 @@ const Onboarding = () => {
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <Label htmlFor="clinic">Clinic name</Label>
-                    <Input id="clinic" required placeholder="Maison Lumière" className="rounded-xl mt-1.5" />
+                    <Input id="clinic" required placeholder="Maison Lumière Chirurgie" className="rounded-xl mt-1.5" />
                   </div>
                   <div>
                     <Label htmlFor="city">City</Label>
@@ -78,13 +78,18 @@ const Onboarding = () => {
                 </div>
 
                 <div>
-                  <Label htmlFor="treatments">Top treatments offered</Label>
-                  <Input id="treatments" placeholder="Glow facial, lip filler, botox..." className="rounded-xl mt-1.5" />
+                  <Label htmlFor="cert">Board certification #</Label>
+                  <Input id="cert" required placeholder="ISAPS / ABPS / KSPRS member ID" className="rounded-xl mt-1.5" />
                 </div>
 
                 <div>
-                  <Label htmlFor="about">About your clinic</Label>
-                  <Textarea id="about" rows={3} placeholder="Tell us what makes your clinic special..." className="rounded-xl mt-1.5" />
+                  <Label htmlFor="treatments">Top surgical procedures</Label>
+                  <Input id="treatments" placeholder="Rhinoplasty, double eyelid, V-line, breast aug..." className="rounded-xl mt-1.5" />
+                </div>
+
+                <div>
+                  <Label htmlFor="about">About your practice</Label>
+                  <Textarea id="about" rows={3} placeholder="Surgeon credentials, signature techniques, OR facility..." className="rounded-xl mt-1.5" />
                 </div>
 
                 <Button type="submit" size="lg" className="w-full rounded-2xl bg-foreground text-background hover:bg-foreground/90 h-14">
@@ -92,7 +97,7 @@ const Onboarding = () => {
                 </Button>
 
                 <p className="text-xs text-center text-muted-foreground">
-                  By applying, you agree to our verification process.
+                  All surgeons are verified against national medical boards before listing.
                 </p>
               </form>
             ) : (
@@ -101,7 +106,7 @@ const Onboarding = () => {
                   <Check className="size-8" />
                 </div>
                 <h3 className="font-display text-3xl font-semibold">You're in the queue ✨</h3>
-                <p className="text-muted-foreground">We'll reach out within 48h to verify your clinic and onboard you.</p>
+                <p className="text-muted-foreground">We'll verify your board certification and onboard your surgical practice within 48h.</p>
               </div>
             )}
           </div>
@@ -119,9 +124,9 @@ const Onboarding = () => {
 
         <div className="grid md:grid-cols-3 gap-5">
           {[
-            { icon: TrendingUp, t: "Video-first discovery", d: "Your treatments shown the way Gen-Z actually browses — short, real, scroll-friendly." },
-            { icon: Globe2, t: "Global patient flow", d: "Reach beauty travellers from 47 countries searching for treatments in your city." },
-            { icon: Users, t: "Verified, qualified leads", d: "Patients arrive informed, with realistic expectations and clear preferences." },
+            { icon: TrendingUp, t: "Recovery-diary discovery", d: "Real before/after & healing journeys — the way Gen-Z actually researches surgery." },
+            { icon: Globe2, t: "Medical-tourism flow", d: "Reach surgery travellers from 47 countries actively planning their procedure." },
+            { icon: Users, t: "Pre-qualified surgical leads", d: "Patients arrive educated, consented, and committed — not tire-kickers." },
           ].map((f) => (
             <div key={f.t} className="glow-card rounded-3xl p-8">
               <div className="size-12 rounded-2xl bg-gradient-mint grid place-items-center mb-5">
@@ -144,10 +149,10 @@ const Onboarding = () => {
               <h2 className="font-display text-4xl md:text-6xl font-medium tracking-tight leading-[1]">
                 Pay only when you <em className="text-primary not-italic">grow.</em>
               </h2>
-              <p className="text-background/70 mt-5 max-w-md">No upfront fees. No subscription. We take a small commission only when bookings convert.</p>
+              <p className="text-background/70 mt-5 max-w-md">No upfront fees. No subscription. We take a small commission only when surgeries are booked & completed.</p>
             </div>
             <div className="space-y-3">
-              {["Free clinic profile + video uploads", "Free verification & quality badge", "Only 8% per completed booking", "Cancel anytime, no contracts"].map((p) => (
+              {["Free surgeon profile + diary uploads", "Board-certification verification badge", "Only 8% per completed surgery", "Cancel anytime, no contracts"].map((p) => (
                 <div key={p} className="flex items-center gap-3 bg-background/5 rounded-2xl px-5 py-4">
                   <Check className="size-4 text-primary shrink-0" />
                   <p className="text-sm">{p}</p>
