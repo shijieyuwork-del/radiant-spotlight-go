@@ -22,6 +22,7 @@ export interface DoctorProfileData {
 }
 
 const DoctorProfile = ({ d }: { d: DoctorProfileData }) => {
+  const { open } = useQuote();
   return (
     <article className="rounded-[2rem] border border-border bg-card overflow-hidden shadow-soft">
       {/* Header */}
