@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
-import { MessageCircle, Lock, ArrowRight, CheckCircle2, X, Sparkles } from "lucide-react";
+import { MessageCircle, Lock, ArrowRight, ArrowLeft, CheckCircle2, X, Sparkles, DollarSign, CalendarDays, Video } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
