@@ -717,22 +717,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* SUCCESS STORIES — short-video feed only */}
-      <section id="success-stories" className="container py-20">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-5 md:gap-6">
-          {[
-            { src: v4, user: "hana_seoul", caption: "Day 30 — double eyelid heals 🤍", likes: "892K", comments: "12K", treatment: "doubleeyelid", priceFrom: 1500, priceTo: 2800 },
-            { src: v2, user: "olivia.glow", caption: "6 months post rhino — Istanbul ✨", likes: "1.4M", comments: "21K", treatment: "rhinoplasty", priceFrom: 2400, priceTo: 4200 },
-            { src: v3, user: "leila.era", caption: "V-line vlog · week 4 in Bangkok", likes: "640K", comments: "8.4K", treatment: "vlinesurgery", priceFrom: 6800, priceTo: 9400 },
-            { src: v6, user: "newme.camille", caption: "Breast aug recovery diary 🩷", likes: "2.1M", comments: "33K", treatment: "breastaug", priceFrom: 3200, priceTo: 5400 },
-            { src: v1, user: "yuna.softgirl", caption: "Pre-op consult vlog · Gangnam", likes: "412K", comments: "5.1K", treatment: "consultation", priceFrom: 1500, priceTo: 2800 },
-            { src: v5, user: "mei.bkk", caption: "Aftercare hotel tour 🌴", likes: "276K", comments: "3.8K", treatment: "aftercare", priceFrom: 5400, priceTo: 7200 },
-          ].map((s, i) => (
-            <VideoCard key={i} {...s} tilt={0} />
-          ))}
-        </div>
-      </section>
-
       <Footer />
       <FloatingQuoteCTA />
     </div>
