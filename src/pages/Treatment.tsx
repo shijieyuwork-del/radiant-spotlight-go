@@ -183,6 +183,7 @@ const Treatment = () => {
       </section>
 
       <Footer />
+      <FloatingQuoteCTA ctx={{ procedure: "Double Eyelid Surgery" }} />
     </div>
   );
 };
