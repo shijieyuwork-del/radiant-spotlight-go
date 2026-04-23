@@ -39,6 +39,7 @@ const LangRoutes = () => {
         <Route index element={<Index />} />
         <Route path="treatment/:slug" element={<Treatment />} />
         <Route path="destination/:slug" element={<Destination />} />
+        <Route path="reviews" element={<Reviews />} />
         <Route path="onboarding" element={<Onboarding />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
