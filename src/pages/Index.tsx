@@ -13,7 +13,7 @@ import SafetyIndicator, { type SafetyLevel } from "@/components/SafetyIndicator"
 import WhyTrustGlowy from "@/components/WhyTrustGlowy";
 import DoctorProfile, { type DoctorProfileData } from "@/components/DoctorProfile";
 import PatientReview, { type PatientReviewData } from "@/components/PatientReview";
-import PopularInRegion from "@/components/PopularInRegion";
+
 import { useI18n, useLangPath } from "@/lib/i18n";
 import { FloatingQuoteCTA, DoctorContactButton } from "@/components/QuoteRequest";
 import PriceBadge from "@/components/PriceBadge";
