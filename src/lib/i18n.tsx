@@ -63,6 +63,7 @@ interface I18nState {
   setPrivacyMode: (b: boolean) => void;
   formatPrice: (usd: number) => string;
   convert: (usd: number) => number;
+  t: (key: TranslationKey) => string;
 }
 
 const I18nContext = createContext<I18nState | null>(null);
