@@ -12,6 +12,7 @@ import {
 import NotFound from "./NotFound";
 import { getDestination } from "@/lib/destinations";
 import { useI18n, useLangPath } from "@/lib/i18n";
+import { FloatingQuoteCTA } from "@/components/QuoteRequest";
 
 const stageIcons = [Stethoscope, Plane, Sparkles, Hotel, HeartPulse];
 
@@ -242,6 +243,7 @@ const Destination = () => {
       </section>
 
       <Footer />
+      <FloatingQuoteCTA ctx={{ procedure: d.procedure, city: d.country }} />
     </div>
   );
 };
