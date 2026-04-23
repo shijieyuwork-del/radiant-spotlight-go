@@ -171,7 +171,7 @@ const countries = [
 const doctorBadges = countries.slice(0, 3).map((c) => c.badge);
 
 const PrivacyModeBar = () => {
-  const { privacyMode, setPrivacyMode, regionMeta } = useI18n();
+  const { privacyMode, setPrivacyMode, regionMeta, t } = useI18n();
   return (
     <section className="container py-4">
       <div className="rounded-2xl border border-border bg-card px-5 py-3 flex items-center gap-4 flex-wrap">
@@ -179,9 +179,9 @@ const PrivacyModeBar = () => {
           <EyeOff className="size-4" />
         </div>
         <div className="flex-1 min-w-[200px]">
-          <p className="text-sm font-display font-semibold leading-tight">Privacy mode</p>
+          <p className="text-sm font-display font-semibold leading-tight">{t("privacy.title")}</p>
           <p className="text-xs text-muted-foreground">
-            Blur faces in patient videos. {regionMeta.flag} On by default in select regions for cultural sensitivity.
+            {regionMeta.flag} {t("privacy.desc")}
           </p>
         </div>
         <Switch checked={privacyMode} onCheckedChange={setPrivacyMode} />
@@ -192,7 +192,7 @@ const PrivacyModeBar = () => {
 
 const Index = () => {
   const [selectedCountry, setSelectedCountry] = useState(countries[0]);
-
+  const { t } = useI18n();
 
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
@@ -212,26 +212,26 @@ const Index = () => {
             <div className="lg:col-span-7 space-y-7">
               <span className="pill bg-card/80 backdrop-blur shadow-soft">
                 <ShieldCheck className="size-3.5 text-primary" />
-                4,200+ verified surgeons · 50+ countries
+                {t("hero.badge")}
               </span>
               <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-medium leading-[0.95] tracking-tight">
-                Find the world's <em className="text-primary not-italic">best</em><br />
-                aesthetic doctors.
+                {t("hero.title1")} <em className="text-primary not-italic">{t("hero.titleEm")}</em><br />
+                {t("hero.title2")}
               </h1>
               <p className="text-lg text-muted-foreground max-w-xl">
-                Verified doctors. Real results. 50+ countries. The trusted cross-border platform for cosmetic surgery — board-certified credentials, real recovery diaries, transparent pricing.
+                {t("hero.subtitle")}
               </p>
 
               {/* Search + country selector */}
               <div className="bg-card rounded-3xl p-2 shadow-pop flex flex-col sm:flex-row gap-2 max-w-2xl">
                 <div className="flex-1 px-5 py-3">
-                  <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold">Procedure</p>
-                  <input className="w-full bg-transparent outline-none text-sm font-medium" placeholder="Rhinoplasty, double eyelid..." />
+                  <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold">{t("hero.procedure")}</p>
+                  <input className="w-full bg-transparent outline-none text-sm font-medium" placeholder={t("hero.procedurePlaceholder")} />
                 </div>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <button type="button" className="flex-1 px-5 py-3 sm:border-l border-border text-left hover:bg-muted/40 rounded-2xl transition-colors">
-                      <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold">Country</p>
+                      <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold">{t("hero.country")}</p>
                       <p className="text-sm font-medium flex items-center gap-1.5 mt-0.5">
                         <span>{selectedCountry.flag}</span> {selectedCountry.name}
                         <ChevronDown className="size-3.5 ml-auto text-muted-foreground" />
@@ -248,13 +248,13 @@ const Index = () => {
                   </DropdownMenuContent>
                 </DropdownMenu>
                 <Button size="lg" className="rounded-2xl bg-foreground text-background hover:bg-foreground/90 h-auto px-6">
-                  Find doctors in {selectedCountry.name} <ArrowRight className="ml-1 size-4" />
+                  {t("hero.findDoctorsIn")} {selectedCountry.name} <ArrowRight className="ml-1 size-4" />
                 </Button>
               </div>
 
               <div className="flex flex-wrap items-center gap-2 pt-1">
                 <span className="text-xs uppercase tracking-wider text-muted-foreground font-semibold mr-1">
-                  Featured in {selectedCountry.city}
+                  {t("hero.featuredIn")} {selectedCountry.city}
                 </span>
                 {selectedCountry.featured.map((p) => (
                   <span key={p} className="pill bg-card/80 backdrop-blur shadow-soft text-foreground">
@@ -264,9 +264,9 @@ const Index = () => {
               </div>
 
               <div className="flex flex-wrap items-center gap-x-6 gap-y-2 pt-2 text-sm text-muted-foreground">
-                <span className="flex items-center gap-1.5"><ShieldCheck className="size-4 text-primary" /> Board-certified only</span>
-                <span className="flex items-center gap-1.5"><Globe2 className="size-4 text-primary" /> 50+ countries</span>
-                <span className="flex items-center gap-1.5"><Heart className="size-4 text-primary" /> 2M+ recovery diaries</span>
+                <span className="flex items-center gap-1.5"><ShieldCheck className="size-4 text-primary" /> {t("hero.boardCertified")}</span>
+                <span className="flex items-center gap-1.5"><Globe2 className="size-4 text-primary" /> {t("hero.countries")}</span>
+                <span className="flex items-center gap-1.5"><Heart className="size-4 text-primary" /> {t("hero.diaries")}</span>
               </div>
             </div>
 
@@ -294,10 +294,10 @@ const Index = () => {
         <div className="container py-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
             {[
-              { v: "4,200+", l: "Verified doctors", icon: ShieldCheck },
-              { v: "50+", l: "Countries covered", icon: Globe2 },
-              { v: "2M+", l: "Patient videos", icon: PlayCircle },
-              { v: "180K", l: "Surgeries booked", icon: Scissors },
+              { v: "4,200+", l: t("social.verifiedDoctors"), icon: ShieldCheck },
+              { v: "50+", l: t("social.countriesCovered"), icon: Globe2 },
+              { v: "2M+", l: t("social.patientVideos"), icon: PlayCircle },
+              { v: "180K", l: t("social.surgeriesBooked"), icon: Scissors },
             ].map((s) => (
               <div key={s.l} className="flex items-center gap-3">
                 <div className="size-11 rounded-2xl bg-gradient-mint grid place-items-center shrink-0">
@@ -311,7 +311,7 @@ const Index = () => {
             ))}
           </div>
           <div className="border-t border-border/60 pt-6 flex flex-col md:flex-row md:items-center gap-4 md:gap-8">
-            <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground font-semibold shrink-0">As featured in</p>
+            <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground font-semibold shrink-0">{t("social.featuredIn")}</p>
             <div className="flex flex-wrap items-center gap-x-10 gap-y-4">
               {["VOGUE", "FORBES", "ELLE", "HARPER'S BAZAAR", "WIRED"].map((m) => (
                 <span key={m} className="font-display text-xl md:text-2xl tracking-[0.15em] text-muted-foreground/70 hover:text-foreground transition-colors">
@@ -341,9 +341,9 @@ const Index = () => {
       {/* SMART SEARCH */}
       <section className="container py-16 -mt-4">
         <div className="text-center max-w-2xl mx-auto mb-8">
-          <span className="pill bg-accent text-accent-foreground mb-3">Smart search</span>
+          <span className="pill bg-accent text-accent-foreground mb-3">{t("search.pill")}</span>
           <h2 className="font-display text-3xl md:text-5xl font-medium tracking-tight">
-            Find your <em className="text-primary not-italic">exact</em> procedure, fast.
+            {t("search.titlePre")} <em className="text-primary not-italic">{t("search.titleEm")}</em> {t("search.titlePost")}
           </h2>
         </div>
         <SmartSearch />
@@ -359,13 +359,13 @@ const Index = () => {
       <section className="container py-24">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
-            <span className="pill bg-secondary text-secondary-foreground mb-3"><TrendingUp className="size-3.5" /> Watch now</span>
+            <span className="pill bg-secondary text-secondary-foreground mb-3"><TrendingUp className="size-3.5" /> {t("feed.pill")}</span>
             <h2 className="font-display text-4xl md:text-6xl font-medium tracking-tight max-w-2xl">
-              Real surgeries, <em className="text-primary not-italic">real recoveries.</em>
+              {t("feed.titlePre")} <em className="text-primary not-italic">{t("feed.titleEm")}</em>
             </h2>
           </div>
           <Button variant="ghost" className="rounded-full self-start md:self-end">
-            See all videos <ArrowRight className="ml-1 size-4" />
+            {t("feed.seeAll")} <ArrowRight className="ml-1 size-4" />
           </Button>
         </div>
 
@@ -377,9 +377,9 @@ const Index = () => {
       {/* TRENDING TREATMENTS */}
       <section className="container py-16">
         <div className="text-center mb-14 max-w-2xl mx-auto">
-          <span className="pill bg-accent text-accent-foreground mb-3">Trending this week</span>
+          <span className="pill bg-accent text-accent-foreground mb-3">{t("trending.pill")}</span>
           <h2 className="font-display text-4xl md:text-5xl font-medium tracking-tight">
-            What everyone's <em className="text-primary not-italic">obsessed</em> with
+            {t("trending.titlePre")} <em className="text-primary not-italic">{t("trending.titleEm")}</em>
           </h2>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
@@ -404,14 +404,14 @@ const Index = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
             <span className="pill bg-secondary text-secondary-foreground mb-3">
-              <Globe2 className="size-3.5" /> By destination
+              <Globe2 className="size-3.5" /> {t("byCountry.pill")}
             </span>
             <h2 className="font-display text-4xl md:text-6xl font-medium tracking-tight max-w-2xl">
-              Trending procedures, <em className="text-primary not-italic">by country.</em>
+              {t("byCountry.titlePre")} <em className="text-primary not-italic">{t("byCountry.titleEm")}</em>
             </h2>
           </div>
           <p className="text-sm text-muted-foreground max-w-sm">
-            Where patients fly for the best results — and how much they actually pay.
+            {t("byCountry.desc")}
           </p>
         </div>
         <TrendingByCountry />
@@ -422,14 +422,14 @@ const Index = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
             <span className="pill bg-secondary text-secondary-foreground mb-3">
-              <Heart className="size-3.5" /> Patient stories
+              <Heart className="size-3.5" /> {t("stories.pill")}
             </span>
             <h2 className="font-display text-4xl md:text-6xl font-medium tracking-tight max-w-2xl">
-              Their <em className="text-primary not-italic">transformation</em>, told by them.
+              {t("stories.titlePre")} <em className="text-primary not-italic">{t("stories.titleEm")}</em>{t("stories.titleEnd")}
             </h2>
           </div>
           <Button variant="ghost" className="rounded-full self-start md:self-end">
-            Read all stories <ArrowRight className="ml-1 size-4" />
+            {t("stories.readAll")} <ArrowRight className="ml-1 size-4" />
           </Button>
         </div>
 
@@ -503,13 +503,13 @@ const Index = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
             <span className="pill bg-accent text-accent-foreground mb-3">
-              <Sparkles className="size-3.5" /> Before / After
+              <Sparkles className="size-3.5" /> {t("ba.pill")}
             </span>
             <h2 className="font-display text-4xl md:text-6xl font-medium tracking-tight max-w-2xl">
-              Real results, <em className="text-primary not-italic">side by side.</em>
+              {t("ba.titlePre")} <em className="text-primary not-italic">{t("ba.titleEm")}</em>
             </h2>
             <p className="text-sm text-muted-foreground mt-3 max-w-md">
-              Drag to reveal. Privacy mode is on by default — toggle off if you want the full picture.
+              {t("ba.desc")}
             </p>
           </div>
         </div>
@@ -530,10 +530,10 @@ const Index = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
             <span className="pill bg-primary-soft text-foreground mb-3" style={{ background: "hsl(var(--primary-soft))" }}>
-              <ShieldCheck className="size-3.5" /> Verified
+              <ShieldCheck className="size-3.5" /> {t("clinics.pill")}
             </span>
             <h2 className="font-display text-4xl md:text-6xl font-medium tracking-tight max-w-2xl">
-              Surgeons girls actually <em className="text-primary not-italic">trust.</em>
+              {t("clinics.titlePre")} <em className="text-primary not-italic">{t("clinics.titleEm")}</em>
             </h2>
           </div>
         </div>
@@ -566,7 +566,7 @@ const Index = () => {
                 </div>
                 <SafetyIndicator level={c.safety} score={c.safetyScore} />
                 <VerifiedDoctorBadge {...doctorBadges[i % doctorBadges.length]} />
-                <Button variant="outline" className="w-full rounded-full">View clinic</Button>
+                <Button variant="outline" className="w-full rounded-full">{t("clinics.viewClinic")}</Button>
               </div>
             </div>
           ))}
@@ -578,14 +578,14 @@ const Index = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
             <span className="pill bg-secondary text-secondary-foreground mb-3">
-              <ShieldCheck className="size-3.5" /> Doctor profile
+              <ShieldCheck className="size-3.5" /> {t("doctor.pill")}
             </span>
             <h2 className="font-display text-4xl md:text-5xl font-medium tracking-tight max-w-2xl">
-              Every credential, <em className="text-primary not-italic">on the record.</em>
+              {t("doctor.titlePre")} <em className="text-primary not-italic">{t("doctor.titleEm")}</em>
             </h2>
           </div>
           <p className="text-sm text-muted-foreground max-w-sm">
-            License, board certs, case volume, languages, hospital affiliations — verified before any doctor goes live.
+            {t("doctor.desc")}
           </p>
         </div>
         <DoctorProfile d={featuredDoctor} />
@@ -596,10 +596,10 @@ const Index = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
           <div>
             <span className="pill bg-accent text-accent-foreground mb-3">
-              <Star className="size-3.5" /> Verified reviews
+              <Star className="size-3.5" /> {t("reviews.pill")}
             </span>
             <h2 className="font-display text-4xl md:text-5xl font-medium tracking-tight max-w-2xl">
-              Reviews from patients who <em className="text-primary not-italic">actually flew.</em>
+              {t("reviews.titlePre")} <em className="text-primary not-italic">{t("reviews.titleEm")}</em>
             </h2>
           </div>
         </div>
@@ -617,9 +617,9 @@ const Index = () => {
           <div className="absolute top-10 right-10 size-40 bg-primary/30 blur-3xl rounded-full" />
           <div className="relative grid md:grid-cols-3 gap-10">
             {[
-              { n: "01", t: "Watch", d: "Scroll real recovery diaries from verified surgical patients worldwide." },
-              { n: "02", t: "Consult", d: "Book free virtual consults with board-certified surgeons. Compare quotes." },
-              { n: "03", t: "Fly & operate", d: "Travel packages, aftercare hotels, English-speaking coordinators included." },
+              { n: "01", t: t("how.watch"), d: t("how.watchDesc") },
+              { n: "02", t: t("how.consult"), d: t("how.consultDesc") },
+              { n: "03", t: t("how.fly"), d: t("how.flyDesc") },
             ].map((s) => (
               <div key={s.n}>
                 <p className="font-display text-7xl text-primary/50 font-medium">{s.n}</p>
@@ -637,11 +637,11 @@ const Index = () => {
           <div className="absolute -bottom-20 -right-20 size-80 bg-primary blur-3xl opacity-40 animate-blob" />
           <div className="relative grid md:grid-cols-2 gap-10 items-center">
             <div>
-              <span className="pill bg-background/10 text-background mb-4">For surgeons</span>
+              <span className="pill bg-background/10 text-background mb-4">{t("cta.pill")}</span>
               <h2 className="font-display text-4xl md:text-6xl font-medium tracking-tight leading-[1]">
-                Bring your practice to <em className="text-primary not-italic">millions.</em>
+                {t("cta.titlePre")} <em className="text-primary not-italic">{t("cta.titleEm")}</em>
               </h2>
-              <p className="text-background/70 mt-5 max-w-md">Join 4,200+ board-certified plastic surgery clinics. Showcase your work through patient diaries, attract international patients, fill your OR.</p>
+              <p className="text-background/70 mt-5 max-w-md">{t("cta.desc")}</p>
             </div>
             <div className="space-y-3">
               {["Free surgeon profile + consult booking", "Video-first recovery diaries", "Global Gen-Z patient base", "Pay only when surgeries convert"].map((p) => (
@@ -652,7 +652,7 @@ const Index = () => {
               ))}
               <Link to="/onboarding">
                 <Button size="lg" className="w-full rounded-2xl bg-primary text-foreground hover:bg-primary/90 h-14 text-base mt-2">
-                  Apply to join <ArrowRight className="ml-2 size-4" />
+                  {t("cta.apply")} <ArrowRight className="ml-2 size-4" />
                 </Button>
               </Link>
             </div>

@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { translations, type TranslationKey } from "./translations";
 
 // ---------------- Currency ----------------
 export type CurrencyCode = "USD" | "GBP" | "EUR" | "AED" | "KRW" | "THB" | "CNY";
@@ -62,6 +63,7 @@ interface I18nState {
   setPrivacyMode: (b: boolean) => void;
   formatPrice: (usd: number) => string;
   convert: (usd: number) => number;
+  t: (key: TranslationKey) => string;
 }
 
 const I18nContext = createContext<I18nState | null>(null);
@@ -107,6 +109,7 @@ export const I18nProvider = ({ children }: { children: ReactNode }) => {
         },
         setCurrency, setLanguage, setPrivacyMode,
         formatPrice, convert,
+        t: (key) => translations[language]?.[key] ?? translations.en[key] ?? key,
       }}
     >
       {children}
