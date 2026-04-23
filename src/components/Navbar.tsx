@@ -2,21 +2,22 @@ import { Link, useLocation } from "react-router-dom";
 import { Sparkles, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CurrencyPicker, LanguagePicker, RegionAutoDetectBanner } from "@/components/CurrencyLanguagePicker";
-import { useI18n } from "@/lib/i18n";
+import { useI18n, useLangPath } from "@/lib/i18n";
 
 const Navbar = () => {
   const { pathname } = useLocation();
   const { t } = useI18n();
+  const lp = useLangPath();
   const links = [
-    { to: "/", label: t("nav.discover") },
-    { to: "/treatment/glow-facial", label: t("nav.treatments") },
-    { to: "/onboarding", label: t("nav.forClinics") },
+    { to: lp("/"), label: t("nav.discover") },
+    { to: lp("/treatment/glow-facial"), label: t("nav.treatments") },
+    { to: lp("/onboarding"), label: t("nav.forClinics") },
   ];
 
   return (
     <header className="sticky top-0 z-50 backdrop-blur-xl bg-background/70 border-b border-border/60">
       <nav className="container flex h-16 items-center justify-between gap-3">
-        <Link to="/" className="flex items-center gap-2 group shrink-0">
+        <Link to={lp("/")} className="flex items-center gap-2 group shrink-0">
           <div className="grid place-items-center size-9 rounded-2xl bg-gradient-mint shadow-glow">
             <Sparkles className="size-4 text-foreground" />
           </div>

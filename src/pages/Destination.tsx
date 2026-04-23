@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/accordion";
 import NotFound from "./NotFound";
 import { getDestination } from "@/lib/destinations";
-import { useI18n } from "@/lib/i18n";
+import { useI18n, useLangPath } from "@/lib/i18n";
 
 const stageIcons = [Stethoscope, Plane, Sparkles, Hotel, HeartPulse];
 
@@ -19,6 +19,7 @@ const Destination = () => {
   const { slug = "" } = useParams();
   const d = getDestination(slug);
   const { formatPrice, regionMeta } = useI18n();
+  const lp = useLangPath();
   if (!d) return <NotFound />;
 
   const home = d.costs.find((c) => c.isHome) ?? d.costs[d.costs.length - 1];
@@ -33,7 +34,7 @@ const Destination = () => {
       {/* Breadcrumbs */}
       <div className="container pt-6">
         <nav className="text-xs text-muted-foreground flex items-center gap-1.5">
-          <Link to="/" className="hover:text-foreground">Discover</Link>
+          <Link to={lp("/")} className="hover:text-foreground">Discover</Link>
           <ChevronRight className="size-3" />
           <span>{d.procedure}</span>
           <ChevronRight className="size-3" />

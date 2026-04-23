@@ -1,4 +1,5 @@
 import { Globe, Languages as LanguagesIcon, Check } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger,
@@ -38,6 +39,15 @@ export const CurrencyPicker = () => {
 
 export const LanguagePicker = () => {
   const { language, setLanguage } = useI18n();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const switchLang = (code: LanguageCode) => {
+    setLanguage(code);
+    const parts = location.pathname.split("/").filter(Boolean);
+    if (parts[0] && (parts[0] in languages)) parts[0] = code;
+    else parts.unshift(code);
+    navigate("/" + parts.join("/") + location.search, { replace: false });
+  };
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -50,7 +60,7 @@ export const LanguagePicker = () => {
         <DropdownMenuLabel className="text-[10px] uppercase tracking-wider text-muted-foreground">Language</DropdownMenuLabel>
         <DropdownMenuSeparator />
         {(Object.keys(languages) as LanguageCode[]).map((code) => (
-          <DropdownMenuItem key={code} onClick={() => setLanguage(code)} className="gap-2 cursor-pointer">
+          <DropdownMenuItem key={code} onClick={() => switchLang(code)} className="gap-2 cursor-pointer">
             <span className="text-base">{languages[code].flag}</span>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-semibold leading-tight">{languages[code].native}</p>

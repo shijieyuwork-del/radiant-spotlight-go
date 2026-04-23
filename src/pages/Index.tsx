@@ -14,7 +14,7 @@ import WhyTrustGlowy from "@/components/WhyTrustGlowy";
 import DoctorProfile, { type DoctorProfileData } from "@/components/DoctorProfile";
 import PatientReview, { type PatientReviewData } from "@/components/PatientReview";
 import PopularInRegion from "@/components/PopularInRegion";
-import { useI18n } from "@/lib/i18n";
+import { useI18n, useLangPath } from "@/lib/i18n";
 import { Switch } from "@/components/ui/switch";
 import { EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -193,6 +193,7 @@ const PrivacyModeBar = () => {
 const Index = () => {
   const [selectedCountry, setSelectedCountry] = useState(countries[0]);
   const { t } = useI18n();
+  const lp = useLangPath();
 
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
@@ -386,7 +387,7 @@ const Index = () => {
           {treatments.map((t) => (
             <Link
               key={t.name}
-              to="/treatment/glow-facial"
+              to={lp("/treatment/glow-facial")}
               className={`group rounded-3xl p-6 aspect-square flex flex-col justify-between bg-gradient-to-br ${t.grad} hover:shadow-pop transition-all hover:-translate-y-1`}
             >
               <span className="text-4xl">{t.emoji}</span>
@@ -650,7 +651,7 @@ const Index = () => {
                   <p className="text-sm">{p}</p>
                 </div>
               ))}
-              <Link to="/onboarding">
+              <Link to={lp("/onboarding")}>
                 <Button size="lg" className="w-full rounded-2xl bg-primary text-foreground hover:bg-primary/90 h-14 text-base mt-2">
                   {t("cta.apply")} <ArrowRight className="ml-2 size-4" />
                 </Button>
