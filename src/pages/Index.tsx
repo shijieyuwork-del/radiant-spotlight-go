@@ -386,7 +386,7 @@ const Index = () => {
           </Button>
         </div>
 
-        <div className="mb-6 flex items-center gap-2.5 rounded-2xl border border-amber-300/60 bg-amber-50 dark:bg-amber-950/30 px-4 py-3 text-sm text-amber-900 dark:text-amber-200">
+        <div className="mb-6 flex items-center gap-2.5 rounded-2xl border border-warning-border bg-warning-soft px-4 py-3 text-sm text-warning-foreground">
           <EyeOff className="size-4 shrink-0" />
           <span>Some videos contain surgical content. Toggle privacy mode anytime.</span>
         </div>
