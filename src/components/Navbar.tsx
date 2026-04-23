@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
-import { Sparkles, Search, Globe } from "lucide-react";
+import { Sparkles, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { CurrencyPicker, LanguagePicker, RegionAutoDetectBanner } from "@/components/CurrencyLanguagePicker";
 
 const Navbar = () => {
   const { pathname } = useLocation();
@@ -12,8 +13,8 @@ const Navbar = () => {
 
   return (
     <header className="sticky top-0 z-50 backdrop-blur-xl bg-background/70 border-b border-border/60">
-      <nav className="container flex h-16 items-center justify-between">
-        <Link to="/" className="flex items-center gap-2 group">
+      <nav className="container flex h-16 items-center justify-between gap-3">
+        <Link to="/" className="flex items-center gap-2 group shrink-0">
           <div className="grid place-items-center size-9 rounded-2xl bg-gradient-mint shadow-glow">
             <Sparkles className="size-4 text-foreground" />
           </div>
@@ -34,9 +35,11 @@ const Navbar = () => {
           ))}
         </div>
 
-        <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" className="rounded-full"><Search className="size-4" /></Button>
-          <Button variant="ghost" size="icon" className="rounded-full hidden sm:inline-flex"><Globe className="size-4" /></Button>
+        <div className="flex items-center gap-1.5">
+          <RegionAutoDetectBanner />
+          <CurrencyPicker />
+          <LanguagePicker />
+          <Button variant="ghost" size="icon" className="rounded-full hidden sm:inline-flex"><Search className="size-4" /></Button>
           <Button className="rounded-full bg-foreground text-background hover:bg-foreground/90 px-5">Sign in</Button>
         </div>
       </nav>
