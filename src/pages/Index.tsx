@@ -412,6 +412,16 @@ const Index = () => {
             </Link>
           ))}
         </div>
+
+        <div className="mt-12 pt-12 border-t border-border">
+          <div className="text-center max-w-2xl mx-auto mb-8">
+            <span className="pill bg-accent text-accent-foreground mb-3">{t("search.pill")}</span>
+            <h3 className="font-display text-3xl md:text-4xl font-medium tracking-tight">
+              {t("search.titlePre")} <em className="text-primary not-italic">{t("search.titleEm")}</em> {t("search.titlePost")}
+            </h3>
+          </div>
+          <SmartSearch />
+        </div>
       </section>
 
       {/* TRENDING BY COUNTRY */}
