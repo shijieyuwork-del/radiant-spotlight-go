@@ -165,6 +165,87 @@ const Index = () => {
         </div>
       </section>
 
+      {/* PATIENT STORIES */}
+      <section className="container py-24">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+          <div>
+            <span className="pill bg-secondary text-secondary-foreground mb-3">
+              <Heart className="size-3.5" /> Patient stories
+            </span>
+            <h2 className="font-display text-4xl md:text-6xl font-medium tracking-tight max-w-2xl">
+              Their <em className="text-primary not-italic">transformation</em>, told by them.
+            </h2>
+          </div>
+          <Button variant="ghost" className="rounded-full self-start md:self-end">
+            Read all stories <ArrowRight className="ml-1 size-4" />
+          </Button>
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[
+            {
+              name: "Yuna, 23",
+              procedure: "Double Eyelid Surgery",
+              city: "Seoul, Korea",
+              clinic: "Verde Surgical Center",
+              gradient: "bg-gradient-mint",
+              quote: "I researched for two years before flying to Seoul. Watched 200+ recovery diaries on Glowy. Day 14 my eyes finally looked like the version of me I'd always pictured. I cried in the mirror — happy tears.",
+              timeline: ["Consult: Aug 2024", "Surgery: Oct 2024", "Healed: Jan 2025"],
+            },
+            {
+              name: "Camille, 25",
+              procedure: "Rhinoplasty",
+              city: "Istanbul, Turkey",
+              clinic: "Bosphorus Aesthetic",
+              gradient: "bg-gradient-peach",
+              quote: "I always hated profile pics. Now I take selfies from every angle. The surgeon spent 2 hours with me on the simulation — every millimeter intentional. Worth every cent.",
+              timeline: ["Consult: Mar 2024", "Surgery: Jun 2024", "Healed: Dec 2024"],
+            },
+            {
+              name: "Mei, 22",
+              procedure: "V-Line Surgery",
+              city: "Bangkok, Thailand",
+              clinic: "Siam Plastic Surgery",
+              gradient: "bg-gradient-mint",
+              quote: "Recovery was real — won't sugarcoat it. But the aftercare hotel + 24/7 nurse made it doable. 6 months later my jawline is exactly what I asked for. Confidence unlocked.",
+              timeline: ["Consult: Jan 2024", "Surgery: Apr 2024", "Healed: Oct 2024"],
+            },
+          ].map((s) => (
+            <article key={s.name} className="glow-card rounded-[2rem] p-7 flex flex-col">
+              <div className="flex items-center gap-4">
+                <div className={`size-14 rounded-2xl ${s.gradient} grid place-items-center font-display text-xl font-semibold shrink-0`}>
+                  {s.name[0]}
+                </div>
+                <div className="min-w-0">
+                  <p className="font-display text-lg font-semibold leading-tight">{s.name}</p>
+                  <p className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
+                    <MapPin className="size-3" /> {s.city}
+                  </p>
+                </div>
+              </div>
+
+              <span className="pill bg-muted self-start mt-5">
+                <Sparkles className="size-3 text-primary" /> {s.procedure}
+              </span>
+
+              <p className="text-foreground/85 leading-relaxed mt-4 flex-1">"{s.quote}"</p>
+
+              <div className="mt-6 pt-5 border-t border-border space-y-2">
+                {s.timeline.map((t, i) => (
+                  <div key={t} className="flex items-center gap-3 text-xs">
+                    <div className={`size-1.5 rounded-full ${i === s.timeline.length - 1 ? "bg-primary" : "bg-muted-foreground/40"}`} />
+                    <span className={i === s.timeline.length - 1 ? "font-semibold" : "text-muted-foreground"}>{t}</span>
+                  </div>
+                ))}
+                <p className="text-xs text-muted-foreground pt-2 flex items-center gap-1">
+                  <ShieldCheck className="size-3 text-primary" /> Verified at {s.clinic}
+                </p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
       {/* FEATURED CLINICS */}
       <section className="container py-24">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
