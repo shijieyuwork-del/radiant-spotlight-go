@@ -311,7 +311,7 @@ const Index = () => {
             ))}
           </div>
           <div className="border-t border-border/60 pt-6 flex flex-col md:flex-row md:items-center gap-4 md:gap-8">
-            <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground font-semibold shrink-0">As featured in</p>
+            <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground font-semibold shrink-0">{t("social.featuredIn")}</p>
             <div className="flex flex-wrap items-center gap-x-10 gap-y-4">
               {["VOGUE", "FORBES", "ELLE", "HARPER'S BAZAAR", "WIRED"].map((m) => (
                 <span key={m} className="font-display text-xl md:text-2xl tracking-[0.15em] text-muted-foreground/70 hover:text-foreground transition-colors">
