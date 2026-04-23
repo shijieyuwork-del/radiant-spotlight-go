@@ -377,9 +377,9 @@ const Index = () => {
       {/* TRENDING TREATMENTS */}
       <section className="container py-16">
         <div className="text-center mb-14 max-w-2xl mx-auto">
-          <span className="pill bg-accent text-accent-foreground mb-3">Trending this week</span>
+          <span className="pill bg-accent text-accent-foreground mb-3">{t("trending.pill")}</span>
           <h2 className="font-display text-4xl md:text-5xl font-medium tracking-tight">
-            What everyone's <em className="text-primary not-italic">obsessed</em> with
+            {t("trending.titlePre")} <em className="text-primary not-italic">{t("trending.titleEm")}</em>
           </h2>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
