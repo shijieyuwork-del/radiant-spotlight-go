@@ -1,7 +1,37 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Search, Filter, Star, ToggleLeft, ToggleRight, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
+
+const PLACEHOLDER_EXAMPLES = [
+  "rhinoplasty in Seoul under $5,000",
+  "hair transplant in Istanbul 4.5+ rating",
+  "breast augmentation with before/after videos",
+];
+
+const useTypewriter = (phrases: string[], typeSpeed = 55, pause = 1800) => {
+  const [text, setText] = useState("");
+  const [phraseIdx, setPhraseIdx] = useState(0);
+  const [deleting, setDeleting] = useState(false);
+
+  useEffect(() => {
+    const current = phrases[phraseIdx];
+    let timeout: number;
+    if (!deleting && text === current) {
+      timeout = window.setTimeout(() => setDeleting(true), pause);
+    } else if (deleting && text === "") {
+      setDeleting(false);
+      setPhraseIdx((i) => (i + 1) % phrases.length);
+    } else {
+      timeout = window.setTimeout(() => {
+        setText(deleting ? current.slice(0, text.length - 1) : current.slice(0, text.length + 1));
+      }, deleting ? typeSpeed / 2 : typeSpeed);
+    }
+    return () => window.clearTimeout(timeout);
+  }, [text, deleting, phraseIdx, phrases, typeSpeed, pause]);
+
+  return text;
+};
 
 const procedures = [
   "Rhinoplasty", "Double Eyelid", "Facelift", "Hair Transplant",
