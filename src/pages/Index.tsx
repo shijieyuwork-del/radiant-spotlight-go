@@ -605,9 +605,34 @@ const Index = () => {
             </h2>
           </div>
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {reviews.map((r) => <PatientReview key={r.patient} r={r} />)}
-        </div>
+
+        <Tabs defaultValue="written" className="w-full">
+          <TabsList className="h-auto p-1 rounded-full bg-muted mb-8">
+            <TabsTrigger value="written" className="rounded-full px-5 py-2 data-[state=active]:bg-background">
+              <Star className="size-3.5 mr-1.5" /> Written Reviews
+            </TabsTrigger>
+            <TabsTrigger value="beforeafter" className="rounded-full px-5 py-2 data-[state=active]:bg-background">
+              <Sparkles className="size-3.5 mr-1.5" /> Before / After
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="written" className="mt-0">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {reviews.map((r) => <PatientReview key={r.patient} r={r} />)}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="beforeafter" className="mt-0">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <BeforeAfterCard before={v1} after={v4} doctor="Park Min-jun" city="Yuna K. · Singapore → Seoul" procedure="Double Eyelid" />
+              <BeforeAfterCard before={v3} after={v2} doctor="Elif Demir" city="Camille R. · Paris → Istanbul" procedure="Rhinoplasty" />
+              <BeforeAfterCard before={v5} after={v6} doctor="Suchada Pong" city="Mei L. · Shanghai → Bangkok" procedure="V-Line Surgery" defaultBlur={false} />
+              <BeforeAfterCard before={v2} after={v4} doctor="Aoba Tanaka" city="Hana S. · Tokyo → Seoul" procedure="Rhinoplasty" />
+              <BeforeAfterCard before={v6} after={v3} doctor="Lumière Dubois" city="Sofia G. · Madrid → Paris" procedure="Facelift" />
+              <BeforeAfterCard before={v4} after={v1} doctor="Park Min-jun" city="Aisha M. · Dubai → Seoul" procedure="Eyelid Revision" defaultBlur={false} />
+            </div>
+          </TabsContent>
+        </Tabs>
       </section>
 
       {/* WHY TRUST GLOWY */}
