@@ -55,7 +55,7 @@ const en: Record<TranslationKey, string> = {
 };
 
 const ko: Record<TranslationKey, string> = {
-  "nav.discover": "둘러보기", "nav.treatments": "시술", "nav.forClinics": "병원 입점", "nav.signIn": "로그인",
+  "nav.discover": "둘러보기", "nav.treatments": "시술", "nav.reviews": "후기", "nav.forClinics": "병원 입점", "nav.signIn": "로그인",
   "hero.badge": "검증된 외과의 4,200명 이상 · 50개국 이상",
   "hero.title1": "전 세계", "hero.titleEm": "최고의", "hero.title2": "성형외과 의사를 만나세요.",
   "hero.subtitle": "검증된 의사. 진짜 결과. 50개국 이상. 신뢰할 수 있는 글로벌 성형 플랫폼 — 보드 인증 자격, 실제 회복 일기, 투명한 가격.",
