@@ -34,7 +34,7 @@ const Destination = () => {
       {/* Breadcrumbs */}
       <div className="container pt-6">
         <nav className="text-xs text-muted-foreground flex items-center gap-1.5">
-          <Link to="/" className="hover:text-foreground">Discover</Link>
+          <Link to={lp("/")} className="hover:text-foreground">Discover</Link>
           <ChevronRight className="size-3" />
           <span>{d.procedure}</span>
           <ChevronRight className="size-3" />
