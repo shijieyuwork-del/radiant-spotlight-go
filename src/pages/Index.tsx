@@ -404,14 +404,14 @@ const Index = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
             <span className="pill bg-secondary text-secondary-foreground mb-3">
-              <Globe2 className="size-3.5" /> By destination
+              <Globe2 className="size-3.5" /> {t("byCountry.pill")}
             </span>
             <h2 className="font-display text-4xl md:text-6xl font-medium tracking-tight max-w-2xl">
-              Trending procedures, <em className="text-primary not-italic">by country.</em>
+              {t("byCountry.titlePre")} <em className="text-primary not-italic">{t("byCountry.titleEm")}</em>
             </h2>
           </div>
           <p className="text-sm text-muted-foreground max-w-sm">
-            Where patients fly for the best results — and how much they actually pay.
+            {t("byCountry.desc")}
           </p>
         </div>
         <TrendingByCountry />
