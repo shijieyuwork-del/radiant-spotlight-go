@@ -136,26 +136,32 @@ const PopularInRegion = () => {
         ))}
       </div>
 
-      <div className="mt-10 grid md:grid-cols-2 gap-4">
-        {content.doctors.map((d) => (
-          <div key={d.name} className="flex items-center gap-4 rounded-2xl border border-border bg-card p-4">
-            <div className="size-12 rounded-2xl bg-gradient-mint grid place-items-center font-display font-semibold shrink-0">
-              {d.name.split(" ")[1]?.[0] ?? d.name[0]}
+      <div className="mt-14">
+        <div className="mb-5">
+          <h3 className="font-display text-2xl md:text-3xl font-semibold tracking-tight">Top-rated doctors for these procedures</h3>
+          <p className="text-sm text-muted-foreground mt-1">Hand-picked surgeons popular with patients near you.</p>
+        </div>
+        <div className="grid md:grid-cols-2 gap-4">
+          {content.doctors.map((d) => (
+            <div key={d.name} className="flex items-center gap-4 rounded-2xl border border-border bg-card p-4">
+              <div className="size-12 rounded-2xl bg-gradient-mint grid place-items-center font-display font-semibold shrink-0">
+                {d.name.split(" ")[1]?.[0] ?? d.name[0]}
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="font-display font-semibold leading-tight flex items-center gap-1.5">
+                  {d.name} <ShieldCheck className="size-3.5 text-primary" />
+                </p>
+                <p className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
+                  <MapPin className="size-3" /> {d.flag} {d.city} · {d.cases} cases
+                </p>
+              </div>
+              <div className="text-right shrink-0">
+                <p className="text-sm font-semibold flex items-center gap-1"><Star className="size-3.5 fill-primary text-primary" /> {d.rating}</p>
+                <Button variant="ghost" size="sm" className="rounded-full text-xs h-7 px-2">View</Button>
+              </div>
             </div>
-            <div className="flex-1 min-w-0">
-              <p className="font-display font-semibold leading-tight flex items-center gap-1.5">
-                {d.name} <ShieldCheck className="size-3.5 text-primary" />
-              </p>
-              <p className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
-                <MapPin className="size-3" /> {d.flag} {d.city} · {d.cases} cases
-              </p>
-            </div>
-            <div className="text-right shrink-0">
-              <p className="text-sm font-semibold flex items-center gap-1"><Star className="size-3.5 fill-primary text-primary" /> {d.rating}</p>
-              <Button variant="ghost" size="sm" className="rounded-full text-xs h-7 px-2">View</Button>
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </section>
   );

@@ -257,6 +257,15 @@ const Index = () => {
                 </Button>
               </div>
 
+              <a
+                href="#video-feed"
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-foreground/80 hover:text-foreground story-link group"
+              >
+                <PlayCircle className="size-4 text-primary" />
+                Browse recovery videos
+                <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
+              </a>
+
               <div className="flex flex-wrap items-center gap-2 pt-1">
                 <span className="text-xs uppercase tracking-wider text-muted-foreground font-semibold mr-1">
                   {t("hero.featuredIn")} {selectedCountry.city}
@@ -330,6 +339,9 @@ const Index = () => {
 
       {/* MARQUEE */}
       <section className="py-8 border-y border-border/60 bg-card overflow-hidden">
+        <p className="container text-[11px] uppercase tracking-[0.2em] text-muted-foreground font-semibold mb-4">
+          Browse by destination
+        </p>
         <div className="flex marquee-track gap-12 whitespace-nowrap">
           {[...Array(2)].map((_, k) => (
             <div key={k} className="flex gap-12 items-center">
@@ -361,8 +373,8 @@ const Index = () => {
       <PrivacyModeBar />
 
       {/* TIKTOK FEED */}
-      <section className="container py-24">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+      <section id="video-feed" className="container py-24">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
           <div>
             <span className="pill bg-secondary text-secondary-foreground mb-3"><TrendingUp className="size-3.5" /> {t("feed.pill")}</span>
             <h2 className="font-display text-4xl md:text-6xl font-medium tracking-tight max-w-2xl">
@@ -374,7 +386,12 @@ const Index = () => {
           </Button>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div className="mb-6 flex items-center gap-2.5 rounded-2xl border border-warning-border bg-warning-soft px-4 py-3 text-sm text-warning-foreground">
+          <EyeOff className="size-4 shrink-0" />
+          <span>Some videos contain surgical content. Toggle privacy mode anytime.</span>
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 md:gap-8">
           {videos.map((v, i) => <VideoCard key={i} {...v} tilt={0} />)}
         </div>
       </section>
@@ -697,6 +714,40 @@ const Index = () => {
               </Link>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* TESTIMONIAL STRIP */}
+      <section id="success-stories" className="container py-20">
+        <div className="text-center max-w-2xl mx-auto mb-10">
+          <span className="pill bg-accent text-accent-foreground mb-3">
+            <Heart className="size-3.5" /> Success Stories
+          </span>
+          <h2 className="font-display text-3xl md:text-5xl font-medium tracking-tight">
+            Real glow-ups from <em className="text-primary not-italic">real patients</em>
+          </h2>
+        </div>
+        <div className="grid md:grid-cols-3 gap-6">
+          {[
+            { quote: "Best decision I've ever made. The team in Seoul made me feel safe from day one.", name: "Hana", flag: "🇯🇵", procedure: "Double Eyelid Surgery" },
+            { quote: "Saved over $6,000 vs my local quote — and the results are honestly stunning.", name: "Olivia", flag: "🇬🇧", procedure: "Rhinoplasty in Istanbul" },
+            { quote: "I watched diaries on Glowy for months. Finding my surgeon felt effortless.", name: "Leila", flag: "🇦🇪", procedure: "V-Line Surgery in Bangkok" },
+          ].map((t) => (
+            <article key={t.name} className="rounded-3xl bg-card p-6 shadow-soft border border-border/60 flex flex-col gap-4">
+              <div className="flex items-center gap-1 text-primary">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star key={i} className="size-4 fill-primary text-primary" />
+                ))}
+              </div>
+              <p className="text-foreground/85 leading-relaxed flex-1">"{t.quote}"</p>
+              <div className="pt-3 border-t border-border/60">
+                <p className="font-display text-base font-semibold flex items-center gap-1.5">
+                  {t.name} <span className="text-lg leading-none">{t.flag}</span>
+                </p>
+                <p className="text-xs text-muted-foreground mt-0.5">{t.procedure}</p>
+              </div>
+            </article>
+          ))}
         </div>
       </section>
 
