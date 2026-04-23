@@ -1,4 +1,19 @@
 import { useEffect, useState } from "react";
+
+export type SmartSearchFilters = {
+  query: string;
+  procedure: string | null;
+  place: string | null;
+  price: [number, number];
+  minRating: number;
+  beforeAfter: boolean;
+};
+
+export type SmartSearchProps = {
+  initialProcedure?: string | null;
+  initialPlace?: string | null;
+  onFiltersChange?: (f: SmartSearchFilters) => void;
+};
 import { Search, Filter, Star, ToggleLeft, ToggleRight, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
@@ -39,14 +54,24 @@ const procedures = [
 ];
 const places = ["Seoul", "Bangkok", "Istanbul", "Tokyo", "Paris", "Mexico City", "Dubai", "Los Angeles"];
 
-const SmartSearch = () => {
+const SmartSearch = ({ initialProcedure = null, initialPlace = null, onFiltersChange }: SmartSearchProps = {}) => {
   const [query, setQuery] = useState("");
-  const [procedure, setProcedure] = useState<string | null>(null);
-  const [place, setPlace] = useState<string | null>(null);
+  const [procedure, setProcedure] = useState<string | null>(initialProcedure);
+  const [place, setPlace] = useState<string | null>(initialPlace);
   const [price, setPrice] = useState<number[]>([1500, 9000]);
   const [minRating, setMinRating] = useState(4.5);
   const [beforeAfter, setBeforeAfter] = useState(true);
   const [open, setOpen] = useState(true);
+
+  useEffect(() => { setProcedure(initialProcedure); }, [initialProcedure]);
+  useEffect(() => { setPlace(initialPlace); }, [initialPlace]);
+  useEffect(() => {
+    onFiltersChange?.({
+      query, procedure, place,
+      price: [price[0], price[1]],
+      minRating, beforeAfter,
+    });
+  }, [query, procedure, place, price, minRating, beforeAfter, onFiltersChange]);
 
   const activeFilters = [
     procedure && { label: procedure, clear: () => setProcedure(null) },
