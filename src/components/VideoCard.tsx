@@ -1,4 +1,4 @@
-import { Heart, MessageCircle, Play, EyeOff, Eye } from "lucide-react";
+import { Heart, MessageCircle, Play, EyeOff, Eye, Tag } from "lucide-react";
 import { useState } from "react";
 import { useI18n } from "@/lib/i18n";
 
@@ -10,9 +10,12 @@ interface VideoCardProps {
   comments: string;
   treatment: string;
   tilt?: number;
+  priceFrom?: number;
+  priceTo?: number;
 }
 
-const VideoCard = ({ src, user, caption, likes, comments, treatment, tilt = 0 }: VideoCardProps) => {
+const VideoCard = ({ src, user, caption, likes, comments, treatment, tilt = 0, priceFrom, priceTo }: VideoCardProps) => {
+  const { formatPrice } = useI18n();
   const { privacyMode, setPrivacyMode } = useI18n();
   const [localOverride, setLocalOverride] = useState<boolean | null>(null);
   const blurred = localOverride ?? privacyMode;
@@ -32,6 +35,12 @@ const VideoCard = ({ src, user, caption, likes, comments, treatment, tilt = 0 }:
 
       <div className="absolute top-3 left-3 flex flex-col gap-1.5 items-start">
         <span className="pill bg-background/90 backdrop-blur text-foreground">#{treatment}</span>
+        {priceFrom !== undefined && (
+          <span className="pill bg-primary-soft text-foreground text-[10px]" style={{ background: "hsl(var(--primary-soft))" }}>
+            <Tag className="size-3 text-primary" />
+            {priceTo ? `${formatPrice(priceFrom)}–${formatPrice(priceTo)}` : `From ${formatPrice(priceFrom)}`}
+          </span>
+        )}
         {blurred && (
           <span className="pill bg-background/90 backdrop-blur text-foreground text-[10px]">
             <EyeOff className="size-3" /> Privacy mode
