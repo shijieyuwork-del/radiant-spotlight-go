@@ -5,6 +5,9 @@ import Footer from "@/components/Footer";
 import VideoCard from "@/components/VideoCard";
 import { Button } from "@/components/ui/button";
 import { FloatingQuoteCTA } from "@/components/QuoteRequest";
+import GlobalPriceCompare from "@/components/GlobalPriceCompare";
+import PriceBadge from "@/components/PriceBadge";
+import PriceTrustBadge from "@/components/PriceTrustBadge";
 import { useLangPath } from "@/lib/i18n";
 import v2 from "@/assets/video2.jpg";
 import v4 from "@/assets/video4.jpg";
@@ -60,6 +63,8 @@ const Treatment = () => {
             <span className="pill bg-muted"><Shield className="size-3.5" /> Local anesthesia</span>
             <span className="pill bg-muted">7–10 day downtime</span>
             <span className="pill bg-muted"><Star className="size-3.5 fill-primary text-primary" /> 4.93 avg</span>
+            <PriceBadge from={1500} to={2800} size="md" />
+            <PriceTrustBadge variant="subtle" />
           </div>
 
           <div className="flex gap-3 pt-4">
@@ -77,10 +82,10 @@ const Treatment = () => {
 
         <div className="lg:col-span-5 relative h-[480px]">
           <div className="absolute top-0 right-0 w-56 animate-float">
-            <VideoCard src={v2} user="rosie.bloom" caption="Day 14 reveal — natural crease" likes="1.2M" comments="18K" treatment="doubleeyelid" />
+            <VideoCard src={v2} user="rosie.bloom" caption="Day 14 reveal — natural crease" likes="1.2M" comments="18K" treatment="doubleeyelid" priceFrom={1800} />
           </div>
           <div className="absolute bottom-0 left-0 w-48 animate-float" style={{ animationDelay: "1.5s" }}>
-            <VideoCard src={v4} user="minji_surgery" caption="6 month healing update" likes="640K" comments="9.2K" treatment="recovery" />
+            <VideoCard src={v4} user="minji_surgery" caption="6 month healing update" likes="640K" comments="9.2K" treatment="recovery" priceFrom={1500} priceTo={2800} />
           </div>
         </div>
       </section>
