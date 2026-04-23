@@ -174,6 +174,17 @@ const Index = () => {
                 </Button>
               </div>
 
+              <div className="flex flex-wrap items-center gap-2 pt-1">
+                <span className="text-xs uppercase tracking-wider text-muted-foreground font-semibold mr-1">
+                  Featured in {selectedCountry.city}
+                </span>
+                {selectedCountry.featured.map((p) => (
+                  <span key={p} className="pill bg-card/80 backdrop-blur shadow-soft text-foreground">
+                    <Sparkles className="size-3 text-primary" /> {p}
+                  </span>
+                ))}
+              </div>
+
               <div className="flex flex-wrap items-center gap-x-6 gap-y-2 pt-2 text-sm text-muted-foreground">
                 <span className="flex items-center gap-1.5"><ShieldCheck className="size-4 text-primary" /> Board-certified only</span>
                 <span className="flex items-center gap-1.5"><Globe2 className="size-4 text-primary" /> 50+ countries</span>
@@ -181,19 +192,19 @@ const Index = () => {
               </div>
             </div>
 
-            {/* Hero video collage */}
-            <div className="lg:col-span-5 relative h-[560px] hidden lg:block">
+            {/* Hero video collage — driven by selected country */}
+            <div key={selectedCountry.name} className="lg:col-span-5 relative h-[560px] hidden lg:block">
               <div className="absolute top-0 left-4 w-48 animate-float">
-                <VideoCard {...videos[0]} />
+                <VideoCard {...selectedCountry.videos[0]} />
               </div>
               <div className="absolute top-16 right-0 w-56 animate-float" style={{ animationDelay: "1s" }}>
-                <VideoCard {...videos[1]} />
+                <VideoCard {...selectedCountry.videos[1]} />
               </div>
               <div className="absolute bottom-0 left-20 w-52 animate-float" style={{ animationDelay: "2s" }}>
-                <VideoCard {...videos[2]} />
+                <VideoCard {...selectedCountry.videos[2]} />
               </div>
               <div className="absolute -bottom-2 -right-2 w-64 animate-float" style={{ animationDelay: "1.5s" }}>
-                <VerifiedDoctorBadge {...doctorBadges[0]} />
+                <VerifiedDoctorBadge {...selectedCountry.badge} />
               </div>
             </div>
           </div>
