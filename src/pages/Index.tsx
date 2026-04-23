@@ -543,6 +543,44 @@ const Index = () => {
         </div>
       </section>
 
+      {/* DOCTOR PROFILE — Trust deep-dive */}
+      <section className="container py-24">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+          <div>
+            <span className="pill bg-secondary text-secondary-foreground mb-3">
+              <ShieldCheck className="size-3.5" /> Doctor profile
+            </span>
+            <h2 className="font-display text-4xl md:text-5xl font-medium tracking-tight max-w-2xl">
+              Every credential, <em className="text-primary not-italic">on the record.</em>
+            </h2>
+          </div>
+          <p className="text-sm text-muted-foreground max-w-sm">
+            License, board certs, case volume, languages, hospital affiliations — verified before any doctor goes live.
+          </p>
+        </div>
+        <DoctorProfile d={featuredDoctor} />
+      </section>
+
+      {/* PATIENT REVIEWS */}
+      <section className="container py-16">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+          <div>
+            <span className="pill bg-accent text-accent-foreground mb-3">
+              <Star className="size-3.5" /> Verified reviews
+            </span>
+            <h2 className="font-display text-4xl md:text-5xl font-medium tracking-tight max-w-2xl">
+              Reviews from patients who <em className="text-primary not-italic">actually flew.</em>
+            </h2>
+          </div>
+        </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {reviews.map((r) => <PatientReview key={r.patient} r={r} />)}
+        </div>
+      </section>
+
+      {/* WHY TRUST GLOWY */}
+      <WhyTrustGlowy />
+
       {/* HOW IT WORKS */}
       <section className="container py-24">
         <div className="bg-gradient-hero rounded-[3rem] p-10 md:p-16 relative overflow-hidden">
