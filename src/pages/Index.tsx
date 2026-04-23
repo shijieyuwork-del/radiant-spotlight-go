@@ -651,7 +651,7 @@ const Index = () => {
                   <p className="text-sm">{p}</p>
                 </div>
               ))}
-              <Link to="/onboarding">
+              <Link to={lp("/onboarding")}>
                 <Button size="lg" className="w-full rounded-2xl bg-primary text-foreground hover:bg-primary/90 h-14 text-base mt-2">
                   {t("cta.apply")} <ArrowRight className="ml-2 size-4" />
                 </Button>
