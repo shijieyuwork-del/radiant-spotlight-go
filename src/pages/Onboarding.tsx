@@ -149,10 +149,10 @@ const Onboarding = () => {
               <h2 className="font-display text-4xl md:text-6xl font-medium tracking-tight leading-[1]">
                 Pay only when you <em className="text-primary not-italic">grow.</em>
               </h2>
-              <p className="text-background/70 mt-5 max-w-md">No upfront fees. No subscription. We take a small commission only when surgeries are booked & completed.</p>
+              <p className="text-background/70 mt-5 max-w-md">No upfront fees. No subscription. Performance-based partnership — you only invest when patients actually book.</p>
             </div>
             <div className="space-y-3">
-              {["Free surgeon profile + diary uploads", "Board-certification verification badge", "Only 8% per completed surgery", "Cancel anytime, no contracts"].map((p) => (
+              {["Free surgeon profile + diary uploads", "Board-certification verification badge", "Dedicated partnership manager", "Cancel anytime, no contracts"].map((p) => (
                 <div key={p} className="flex items-center gap-3 bg-background/5 rounded-2xl px-5 py-4">
                   <Check className="size-4 text-primary shrink-0" />
                   <p className="text-sm">{p}</p>
