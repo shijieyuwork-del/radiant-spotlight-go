@@ -12,6 +12,7 @@ import Onboarding from "./pages/Onboarding.tsx";
 import Destination from "./pages/Destination.tsx";
 import Reviews from "./pages/Reviews.tsx";
 import SuccessStories from "./pages/SuccessStories.tsx";
+import SearchPage from "./pages/Search.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -43,6 +44,7 @@ const LangRoutes = () => {
         <Route path="destination/:slug" element={<Destination />} />
         <Route path="reviews" element={<Reviews />} />
         <Route path="success-stories" element={<SuccessStories />} />
+        <Route path="search" element={<SearchPage />} />
         <Route path="onboarding" element={<Onboarding />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
