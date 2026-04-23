@@ -14,7 +14,7 @@ import WhyTrustGlowy from "@/components/WhyTrustGlowy";
 import DoctorProfile, { type DoctorProfileData } from "@/components/DoctorProfile";
 import PatientReview, { type PatientReviewData } from "@/components/PatientReview";
 import PopularInRegion from "@/components/PopularInRegion";
-import { useI18n } from "@/lib/i18n";
+import { useI18n, useLangPath } from "@/lib/i18n";
 import { Switch } from "@/components/ui/switch";
 import { EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
