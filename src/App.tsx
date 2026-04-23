@@ -26,17 +26,24 @@ const LangSync = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>;
 };
 
-const LangRoutes = () => (
-  <LangSync>
-    <Routes>
-      <Route index element={<Index />} />
-      <Route path="treatment/:slug" element={<Treatment />} />
-      <Route path="destination/:slug" element={<Destination />} />
-      <Route path="onboarding" element={<Onboarding />} />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
-  </LangSync>
-);
+const LangRoutes = () => {
+  const { lang } = useParams();
+  if (!isLang(lang)) {
+    const rest = window.location.pathname.split("/").slice(2).join("/");
+    return <Navigate to={`/en${rest ? "/" + rest : ""}${window.location.search}`} replace />;
+  }
+  return (
+    <LangSync>
+      <Routes>
+        <Route index element={<Index />} />
+        <Route path="treatment/:slug" element={<Treatment />} />
+        <Route path="destination/:slug" element={<Destination />} />
+        <Route path="onboarding" element={<Onboarding />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </LangSync>
+  );
+};
 
 // Redirect bare paths (e.g. "/", "/onboarding") to the user's preferred language prefix.
 const LangRedirect = () => {
