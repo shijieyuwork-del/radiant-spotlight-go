@@ -2,13 +2,15 @@ import { Link, useLocation } from "react-router-dom";
 import { Sparkles, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CurrencyPicker, LanguagePicker, RegionAutoDetectBanner } from "@/components/CurrencyLanguagePicker";
+import { useI18n } from "@/lib/i18n";
 
 const Navbar = () => {
   const { pathname } = useLocation();
+  const { t } = useI18n();
   const links = [
-    { to: "/", label: "Discover" },
-    { to: "/treatment/glow-facial", label: "Treatments" },
-    { to: "/onboarding", label: "For Clinics" },
+    { to: "/", label: t("nav.discover") },
+    { to: "/treatment/glow-facial", label: t("nav.treatments") },
+    { to: "/onboarding", label: t("nav.forClinics") },
   ];
 
   return (
