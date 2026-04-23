@@ -47,7 +47,24 @@ const treatments = [
   { name: "Facelift", from: "$8,900", emoji: "🪞", grad: "from-[hsl(190,70%,88%)] to-[hsl(155,70%,88%)]" },
 ];
 
+const countries = [
+  { flag: "🇰🇷", name: "Korea", city: "Seoul" },
+  { flag: "🇹🇭", name: "Thailand", city: "Bangkok" },
+  { flag: "🇹🇷", name: "Turkey", city: "Istanbul" },
+  { flag: "🇯🇵", name: "Japan", city: "Tokyo" },
+  { flag: "🇫🇷", name: "France", city: "Paris" },
+  { flag: "🇲🇽", name: "Mexico", city: "Mexico City" },
+];
+
+const doctorBadges = [
+  { flag: "🇰🇷", country: "Korea", license: "KSPRS-4821", years: 14, procedures: "3.2K" },
+  { flag: "🇹🇷", country: "Turkey", license: "ISAPS-9210", years: 18, procedures: "5.1K" },
+  { flag: "🇯🇵", country: "Japan", license: "JSAPS-1144", years: 11, procedures: "2.4K" },
+];
+
 const Index = () => {
+  const [selectedCountry, setSelectedCountry] = useState(countries[0]);
+
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
       <Navbar />
