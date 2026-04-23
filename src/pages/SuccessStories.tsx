@@ -3,7 +3,15 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import VideoCard from "@/components/VideoCard";
 import { Button } from "@/components/ui/button";
-import { Heart, Sparkles, TrendingUp } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Heart, Search, Sparkles, TrendingUp, X } from "lucide-react";
 import v1 from "@/assets/video1.jpg";
 import v2 from "@/assets/video2.jpg";
 import v3 from "@/assets/video3.jpg";
