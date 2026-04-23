@@ -48,22 +48,73 @@ const treatments = [
 ];
 
 const countries = [
-  { flag: "🇰🇷", name: "Korea", city: "Seoul" },
-  { flag: "🇹🇭", name: "Thailand", city: "Bangkok" },
-  { flag: "🇹🇷", name: "Turkey", city: "Istanbul" },
-  { flag: "🇯🇵", name: "Japan", city: "Tokyo" },
-  { flag: "🇫🇷", name: "France", city: "Paris" },
-  { flag: "🇲🇽", name: "Mexico", city: "Mexico City" },
+  {
+    flag: "🇰🇷", name: "Korea", city: "Seoul",
+    featured: ["Double Eyelid", "V-Line Surgery", "Rhinoplasty"],
+    videos: [
+      { src: v4, user: "minji_seoul", caption: "Day 30 — Gangnam double eyelid 👀", likes: "1.2M", comments: "18K", treatment: "doubleeyelid", tilt: -2 },
+      { src: v3, user: "jaw.journey", caption: "V-line surgery in Seoul · ep.4", likes: "892K", comments: "11K", treatment: "vlinesurgery", tilt: 1.5 },
+      { src: v5, user: "seoulclinictour", caption: "Inside a Gangnam surgery clinic", likes: "421K", comments: "3.2K", treatment: "clinictour", tilt: -1 },
+    ],
+    badge: { flag: "🇰🇷", country: "Korea", license: "KSPRS-4821", years: 14, procedures: "3.2K" },
+  },
+  {
+    flag: "🇹🇭", name: "Thailand", city: "Bangkok",
+    featured: ["Breast Aug", "Liposuction", "Rhinoplasty"],
+    videos: [
+      { src: v6, user: "bkk.newme", caption: "Bangkok breast aug diary 🩷", likes: "640K", comments: "9.2K", treatment: "breastaug", tilt: -2 },
+      { src: v2, user: "siam.rosie", caption: "Rhino reveal — Bangkok edition", likes: "2.4M", comments: "32K", treatment: "rhinoplasty", tilt: 1.5 },
+      { src: v1, user: "thaicare.era", caption: "Aftercare hotel tour, Sukhumvit", levels: "276K", likes: "276K", comments: "4.1K", treatment: "aftercare", tilt: -1 },
+    ],
+    badge: { flag: "🇹🇭", country: "Thailand", license: "TPRS-2207", years: 16, procedures: "4.4K" },
+  },
+  {
+    flag: "🇹🇷", name: "Turkey", city: "Istanbul",
+    featured: ["Rhinoplasty", "Liposuction", "Facelift"],
+    videos: [
+      { src: v2, user: "istanbul.rosie", caption: "Istanbul rhinoplasty — 6 mo post-op", likes: "2.4M", comments: "32K", treatment: "rhinoplasty", tilt: -2 },
+      { src: v1, user: "bosphorus.era", caption: "Pre-op consult in Istanbul", likes: "276K", comments: "4.1K", treatment: "consultation", tilt: 1.5 },
+      { src: v5, user: "tr.cliniclife", caption: "Inside a Şişli surgery suite", likes: "421K", comments: "3.2K", treatment: "clinictour", tilt: -1 },
+    ],
+    badge: { flag: "🇹🇷", country: "Turkey", license: "ISAPS-9210", years: 18, procedures: "5.1K" },
+  },
+  {
+    flag: "🇯🇵", name: "Japan", city: "Tokyo",
+    featured: ["Double Eyelid", "Rhinoplasty", "Facelift"],
+    videos: [
+      { src: v4, user: "tokyo.minji", caption: "Tokyo double eyelid · day 30", likes: "1.2M", comments: "18K", treatment: "doubleeyelid", tilt: -2 },
+      { src: v2, user: "aoba.rosie", caption: "Aoba rhinoplasty reveal", likes: "2.4M", comments: "32K", treatment: "rhinoplasty", tilt: 1.5 },
+      { src: v1, user: "ginza.softgirl", caption: "Ginza pre-op consult vlog", likes: "276K", comments: "4.1K", treatment: "consultation", tilt: -1 },
+    ],
+    badge: { flag: "🇯🇵", country: "Japan", license: "JSAPS-1144", years: 11, procedures: "2.4K" },
+  },
+  {
+    flag: "🇫🇷", name: "France", city: "Paris",
+    featured: ["Rhinoplasty", "Facelift", "Liposuction"],
+    videos: [
+      { src: v2, user: "paris.rosie", caption: "Paris rhinoplasty diary", likes: "2.4M", comments: "32K", treatment: "rhinoplasty", tilt: -2 },
+      { src: v1, user: "lumiere.era", caption: "Consult at Maison Lumière", likes: "276K", comments: "4.1K", treatment: "consultation", tilt: 1.5 },
+      { src: v5, user: "paris.cliniclife", caption: "Inside a 16e arrondissement clinic", likes: "421K", comments: "3.2K", treatment: "clinictour", tilt: -1 },
+    ],
+    badge: { flag: "🇫🇷", country: "France", license: "SOFCPRE-3380", years: 20, procedures: "2.9K" },
+  },
+  {
+    flag: "🇲🇽", name: "Mexico", city: "Mexico City",
+    featured: ["Liposuction", "Breast Aug", "Facelift"],
+    videos: [
+      { src: v6, user: "cdmx.newme", caption: "CDMX breast aug · 3 months 🩷", likes: "640K", comments: "9.2K", treatment: "breastaug", tilt: -2 },
+      { src: v3, user: "polanco.jaw", caption: "Lipo + contouring in Polanco", likes: "892K", comments: "11K", treatment: "liposuction", tilt: 1.5 },
+      { src: v5, user: "mx.cliniclife", caption: "Tour of a Polanco surgery suite", likes: "421K", comments: "3.2K", treatment: "clinictour", tilt: -1 },
+    ],
+    badge: { flag: "🇲🇽", country: "Mexico", license: "AMCPER-7714", years: 13, procedures: "3.6K" },
+  },
 ];
 
-const doctorBadges = [
-  { flag: "🇰🇷", country: "Korea", license: "KSPRS-4821", years: 14, procedures: "3.2K" },
-  { flag: "🇹🇷", country: "Turkey", license: "ISAPS-9210", years: 18, procedures: "5.1K" },
-  { flag: "🇯🇵", country: "Japan", license: "JSAPS-1144", years: 11, procedures: "2.4K" },
-];
+const doctorBadges = countries.slice(0, 3).map((c) => c.badge);
 
 const Index = () => {
   const [selectedCountry, setSelectedCountry] = useState(countries[0]);
+
 
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
