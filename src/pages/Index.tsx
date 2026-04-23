@@ -637,11 +637,11 @@ const Index = () => {
           <div className="absolute -bottom-20 -right-20 size-80 bg-primary blur-3xl opacity-40 animate-blob" />
           <div className="relative grid md:grid-cols-2 gap-10 items-center">
             <div>
-              <span className="pill bg-background/10 text-background mb-4">For surgeons</span>
+              <span className="pill bg-background/10 text-background mb-4">{t("cta.pill")}</span>
               <h2 className="font-display text-4xl md:text-6xl font-medium tracking-tight leading-[1]">
-                Bring your practice to <em className="text-primary not-italic">millions.</em>
+                {t("cta.titlePre")} <em className="text-primary not-italic">{t("cta.titleEm")}</em>
               </h2>
-              <p className="text-background/70 mt-5 max-w-md">Join 4,200+ board-certified plastic surgery clinics. Showcase your work through patient diaries, attract international patients, fill your OR.</p>
+              <p className="text-background/70 mt-5 max-w-md">{t("cta.desc")}</p>
             </div>
             <div className="space-y-3">
               {["Free surgeon profile + consult booking", "Video-first recovery diaries", "Global Gen-Z patient base", "Pay only when surgeries convert"].map((p) => (
@@ -652,7 +652,7 @@ const Index = () => {
               ))}
               <Link to="/onboarding">
                 <Button size="lg" className="w-full rounded-2xl bg-primary text-foreground hover:bg-primary/90 h-14 text-base mt-2">
-                  Apply to join <ArrowRight className="ml-2 size-4" />
+                  {t("cta.apply")} <ArrowRight className="ml-2 size-4" />
                 </Button>
               </Link>
             </div>
