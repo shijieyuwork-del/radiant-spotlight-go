@@ -109,6 +109,7 @@ export const I18nProvider = ({ children }: { children: ReactNode }) => {
         },
         setCurrency, setLanguage, setPrivacyMode,
         formatPrice, convert,
+        t: (key) => translations[language]?.[key] ?? translations.en[key] ?? key,
       }}
     >
       {children}
