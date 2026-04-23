@@ -337,13 +337,16 @@ const Index = () => {
         </div>
 
         <div className="grid md:grid-cols-3 gap-6">
-          {clinics.map((c) => (
+          {clinics.map((c, i) => (
             <div key={c.name} className="glow-card rounded-[2rem] overflow-hidden">
               <div className="relative aspect-[4/3] overflow-hidden">
                 <img src={c.img} alt={c.name} loading="lazy" className="size-full object-cover transition-transform duration-700 hover:scale-105" />
                 <span className="absolute top-4 left-4 pill bg-background/90 backdrop-blur shadow-soft">{c.tag}</span>
+                <div className="absolute top-4 right-4">
+                  <VerifiedDoctorBadge {...doctorBadges[i % doctorBadges.length]} compact />
+                </div>
               </div>
-              <div className="p-6 space-y-3">
+              <div className="p-6 space-y-4">
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <h3 className="font-display text-2xl font-semibold leading-tight">{c.name}</h3>
@@ -356,6 +359,7 @@ const Index = () => {
                     <p className="text-xs text-muted-foreground">{c.reviews} reviews</p>
                   </div>
                 </div>
+                <VerifiedDoctorBadge {...doctorBadges[i % doctorBadges.length]} />
                 <Button variant="outline" className="w-full rounded-full">View clinic</Button>
               </div>
             </div>
