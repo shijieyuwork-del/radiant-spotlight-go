@@ -64,7 +64,7 @@ const countries = [
     videos: [
       { src: v6, user: "bkk.newme", caption: "Bangkok breast aug diary 🩷", likes: "640K", comments: "9.2K", treatment: "breastaug", tilt: -2 },
       { src: v2, user: "siam.rosie", caption: "Rhino reveal — Bangkok edition", likes: "2.4M", comments: "32K", treatment: "rhinoplasty", tilt: 1.5 },
-      { src: v1, user: "thaicare.era", caption: "Aftercare hotel tour, Sukhumvit", levels: "276K", likes: "276K", comments: "4.1K", treatment: "aftercare", tilt: -1 },
+      { src: v1, user: "thaicare.era", caption: "Aftercare hotel tour, Sukhumvit", likes: "276K", comments: "4.1K", treatment: "aftercare", tilt: -1 },
     ],
     badge: { flag: "🇹🇭", country: "Thailand", license: "TPRS-2207", years: 16, procedures: "4.4K" },
   },
