@@ -116,6 +116,8 @@ export const FloatingQuoteCTA = ({ ctx }: { ctx?: QuoteContext }) => {
 
 /* ---------- Dialog ---------- */
 
+type Intent = "pricing" | "consultation";
+
 const QuoteDialog = ({
   isOpen, onOpenChange, ctx, submitted, onSubmitted,
 }: {
@@ -125,16 +127,29 @@ const QuoteDialog = ({
   submitted: boolean;
   onSubmitted: () => void;
 }) => {
+  const [step, setStep] = useState<1 | 2>(1);
+  const [intent, setIntent] = useState<Intent | null>(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [country, setCountry] = useState("");
   const [procedure, setProcedure] = useState(ctx.procedure ?? "");
   const [notes, setNotes] = useState("");
+  const [slot, setSlot] = useState<string>("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (isOpen) setProcedure(ctx.procedure ?? "");
+    if (isOpen) {
+      setStep(1);
+      setIntent(null);
+      setSlot("");
+      setProcedure(ctx.procedure ?? "");
+    }
   }, [isOpen, ctx.procedure]);
+
+  const pickIntent = (v: Intent) => {
+    setIntent(v);
+    setStep(2);
+  };
 
   const headline = ctx.doctorName
     ? `Connect with Dr. ${ctx.doctorName}`
@@ -152,93 +167,250 @@ const QuoteDialog = ({
       toast.error("Please complete the required fields.");
       return;
     }
+    if (intent === "consultation" && !slot) {
+      toast.error("Please pick a consultation time that works for you.");
+      return;
+    }
     setLoading(true);
-    // Simulated send — UI-only conversion system.
     await new Promise((r) => setTimeout(r, 700));
     setLoading(false);
     onSubmitted();
   };
 
+  const ctaLabel = intent === "consultation" ? "Book Consultation" : "Send My Request";
+
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg p-0 rounded-3xl border-border overflow-hidden gap-0">
+      <DialogContent className="max-w-lg p-0 rounded-3xl border-border overflow-hidden gap-0 max-h-[92vh] overflow-y-auto">
         {submitted ? (
-          <SuccessState onClose={() => onOpenChange(false)} doctorName={ctx.doctorName} />
+          <SuccessState
+            onClose={() => onOpenChange(false)}
+            doctorName={ctx.doctorName}
+            intent={intent}
+            slot={slot}
+          />
         ) : (
           <>
-            {/* Soft gradient header */}
             <div className="bg-gradient-mint p-6 pb-5 relative">
-              <span className="pill bg-background/80 backdrop-blur shadow-soft">
-                <Sparkles className="size-3 text-primary" /> Free · No obligation
-              </span>
+              <div className="flex items-center justify-between">
+                <span className="pill bg-background/80 backdrop-blur shadow-soft">
+                  <Sparkles className="size-3 text-primary" /> Free · No obligation
+                </span>
+                <span className="text-[11px] font-semibold text-foreground/60 uppercase tracking-wider">
+                  Step {step} of 2
+                </span>
+              </div>
               <DialogTitle className="font-display text-2xl md:text-[26px] font-semibold tracking-tight mt-3 leading-tight">
-                {headline}
+                {step === 1 ? headline : intent === "consultation" ? "Book your consultation" : "Get your free quote"}
               </DialogTitle>
               <DialogDescription className="text-sm text-foreground/70 mt-1.5">
-                {subline}
+                {step === 1
+                  ? subline
+                  : intent === "consultation"
+                  ? "Pick a time that works — confirmed within 24h."
+                  : "A few details and verified doctors will reply with tailored pricing."}
               </DialogDescription>
+              <div className="flex items-center gap-1.5 mt-4">
+                <span className="h-1.5 rounded-full w-8 bg-foreground" />
+                <span className={`h-1.5 rounded-full transition-all ${step === 2 ? "w-8 bg-foreground" : "w-6 bg-foreground/20"}`} />
+              </div>
             </div>
 
-            <form onSubmit={handleSubmit} className="p-6 space-y-4">
-              <div className="grid sm:grid-cols-2 gap-3">
-                <Field label="Your name" required>
-                  <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Jane" className="rounded-xl h-11" />
-                </Field>
-                <Field label="Email" required>
-                  <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="jane@email.com" className="rounded-xl h-11" />
-                </Field>
-              </div>
-
-              <Field label="Traveling from" required>
-                <select
-                  value={country}
-                  onChange={(e) => setCountry(e.target.value)}
-                  className="w-full h-11 rounded-xl border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+            {step === 1 ? (
+              <IntentStep onPick={pickIntent} doctorName={ctx.doctorName} />
+            ) : (
+              <form onSubmit={handleSubmit} className="p-6 space-y-4">
+                <button
+                  type="button"
+                  onClick={() => setStep(1)}
+                  className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground -mt-1 mb-1"
                 >
-                  <option value="">Select your country</option>
-                  {COUNTRIES.map((c) => <option key={c} value={c}>{c}</option>)}
-                </select>
-              </Field>
+                  <ArrowLeft className="size-3" /> Change option
+                </button>
 
-              <Field label="Procedure of interest" required>
-                <select
-                  value={procedure}
-                  onChange={(e) => setProcedure(e.target.value)}
-                  className="w-full h-11 rounded-xl border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
-                >
-                  <option value="">Select a procedure</option>
-                  {PROCEDURES.map((p) => <option key={p} value={p}>{p}</option>)}
-                </select>
-              </Field>
+                <div className="grid sm:grid-cols-2 gap-3">
+                  <Field label="Your name" required>
+                    <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Jane" className="rounded-xl h-11" />
+                  </Field>
+                  <Field label="Email" required>
+                    <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="jane@email.com" className="rounded-xl h-11" />
+                  </Field>
+                </div>
 
-              <Field label="Any questions or specific concerns?">
-                <Textarea
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
-                  placeholder="Tell the doctor about your goals, timeline, or anything you'd like them to know..."
-                  className="rounded-xl min-h-[88px] resize-none"
-                />
-              </Field>
+                <Field label="Traveling from" required>
+                  <select
+                    value={country}
+                    onChange={(e) => setCountry(e.target.value)}
+                    className="w-full h-11 rounded-xl border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                  >
+                    <option value="">Select your country</option>
+                    {COUNTRIES.map((c) => <option key={c} value={c}>{c}</option>)}
+                  </select>
+                </Field>
 
-              <Button
-                type="submit"
-                disabled={loading}
-                className="w-full h-12 rounded-2xl bg-foreground text-background hover:bg-foreground/90 text-base font-semibold"
-              >
-                {loading ? "Sending..." : (
-                  <>Send My Request <ArrowRight className="ml-1.5 size-4" /></>
+                <Field label="Procedure of interest" required>
+                  <select
+                    value={procedure}
+                    onChange={(e) => setProcedure(e.target.value)}
+                    className="w-full h-11 rounded-xl border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                  >
+                    <option value="">Select a procedure</option>
+                    {PROCEDURES.map((p) => <option key={p} value={p}>{p}</option>)}
+                  </select>
+                </Field>
+
+                {intent === "consultation" && (
+                  <Field label="Pick a consultation time" required>
+                    <SlotPicker value={slot} onChange={setSlot} />
+                  </Field>
                 )}
-              </Button>
 
-              <p className="text-xs text-muted-foreground text-center flex items-center justify-center gap-1.5 pt-1">
-                <Lock className="size-3 text-primary" />
-                Your info is only shared with this doctor. No spam.
-              </p>
-            </form>
+                <Field label={intent === "consultation" ? "Anything you'd like the doctor to know?" : "Any questions or specific concerns?"}>
+                  <Textarea
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                    placeholder="Tell the doctor about your goals, timeline, or anything you'd like them to know..."
+                    className="rounded-xl min-h-[88px] resize-none"
+                  />
+                </Field>
+
+                <Button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full h-12 rounded-2xl bg-foreground text-background hover:bg-foreground/90 text-base font-semibold"
+                >
+                  {loading ? "Sending..." : (<>{ctaLabel} <ArrowRight className="ml-1.5 size-4" /></>)}
+                </Button>
+
+                <p className="text-xs text-muted-foreground text-center flex items-center justify-center gap-1.5 pt-1">
+                  <Lock className="size-3 text-primary" />
+                  Your info is only shared with this doctor. No spam.
+                </p>
+              </form>
+            )}
           </>
         )}
       </DialogContent>
     </Dialog>
+  );
+};
+
+/* ---------- Step 1: Intent picker ---------- */
+
+const IntentStep = ({ onPick, doctorName }: { onPick: (i: Intent) => void; doctorName?: string }) => {
+  const options: { id: Intent; icon: typeof DollarSign; title: string; desc: string; meta: string }[] = [
+    {
+      id: "pricing",
+      icon: DollarSign,
+      title: "Get a price quote",
+      desc: doctorName
+        ? `Receive tailored pricing from Dr. ${doctorName} by email.`
+        : "Receive tailored pricing from verified doctors by email.",
+      meta: "Reply within 24h",
+    },
+    {
+      id: "consultation",
+      icon: CalendarDays,
+      title: "Book a consultation",
+      desc: "Pick a time for a free 1:1 video consult — confirmed within 24h.",
+      meta: "Free · 20 min · Video call",
+    },
+  ];
+
+  return (
+    <div className="p-6 pt-5 space-y-3">
+      <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        What would you like to do?
+      </p>
+      {options.map((o) => (
+        <button
+          key={o.id}
+          onClick={() => onPick(o.id)}
+          className="group w-full text-left rounded-2xl border border-border bg-card p-4 hover:border-foreground hover:shadow-pop transition-all flex items-start gap-4"
+        >
+          <div className="size-12 rounded-2xl bg-gradient-mint grid place-items-center shrink-0 group-hover:scale-105 transition-transform">
+            <o.icon className="size-5 text-foreground" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="font-display text-base font-semibold leading-tight">{o.title}</p>
+            <p className="text-sm text-muted-foreground mt-1 leading-snug">{o.desc}</p>
+            <span className="inline-flex items-center gap-1 mt-2 text-[11px] font-semibold text-primary">
+              {o.id === "consultation" ? <Video className="size-3" /> : <MessageCircle className="size-3" />}
+              {o.meta}
+            </span>
+          </div>
+          <ArrowRight className="size-4 text-muted-foreground self-center shrink-0 group-hover:text-foreground group-hover:translate-x-0.5 transition-all" />
+        </button>
+      ))}
+
+      <p className="text-xs text-muted-foreground text-center flex items-center justify-center gap-1.5 pt-2">
+        <Lock className="size-3 text-primary" />
+        Your info is only shared with this doctor. No spam.
+      </p>
+    </div>
+  );
+};
+
+/* ---------- Slot picker ---------- */
+
+const buildSlots = () => {
+  const days: { key: string; label: string; sub: string; times: string[] }[] = [];
+  const now = new Date();
+  const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  for (let i = 1; i <= 5; i++) {
+    const d = new Date(now);
+    d.setDate(now.getDate() + i);
+    days.push({
+      key: d.toISOString().slice(0, 10),
+      label: dayNames[d.getDay()],
+      sub: `${d.getDate()}/${d.getMonth() + 1}`,
+      times: ["09:00", "11:30", "14:00", "16:30"],
+    });
+  }
+  return days;
+};
+
+const SlotPicker = ({ value, onChange }: { value: string; onChange: (v: string) => void }) => {
+  const days = buildSlots();
+  const [activeDay, setActiveDay] = useState(days[0].key);
+  const day = days.find((d) => d.key === activeDay) ?? days[0];
+
+  return (
+    <div className="rounded-2xl border border-border bg-card p-3 space-y-3">
+      <div className="grid grid-cols-5 gap-1.5">
+        {days.map((d) => (
+          <button
+            key={d.key}
+            type="button"
+            onClick={() => setActiveDay(d.key)}
+            className={`rounded-xl py-2 text-center transition-colors ${
+              activeDay === d.key ? "bg-foreground text-background" : "bg-muted/60 hover:bg-muted text-foreground"
+            }`}
+          >
+            <p className="text-[11px] font-semibold uppercase tracking-wider opacity-70">{d.label}</p>
+            <p className="text-sm font-display font-semibold mt-0.5">{d.sub}</p>
+          </button>
+        ))}
+      </div>
+      <div className="grid grid-cols-4 gap-1.5">
+        {day.times.map((t) => {
+          const slotKey = `${day.key} ${t}`;
+          const active = value === slotKey;
+          return (
+            <button
+              key={t}
+              type="button"
+              onClick={() => onChange(slotKey)}
+              className={`rounded-xl py-2 text-sm font-semibold transition-colors ${
+                active ? "bg-primary text-foreground ring-2 ring-foreground" : "bg-muted/60 hover:bg-muted text-foreground"
+              }`}
+            >
+              {t}
+            </button>
+          );
+        })}
+      </div>
+    </div>
   );
 };
 
@@ -251,22 +423,37 @@ const Field = ({ label, required, children }: { label: string; required?: boolea
   </div>
 );
 
-const SuccessState = ({ onClose, doctorName }: { onClose: () => void; doctorName?: string }) => (
-  <div className="p-8 text-center">
-    <div className="size-16 rounded-3xl bg-gradient-mint grid place-items-center mx-auto shadow-soft">
-      <CheckCircle2 className="size-8 text-foreground" />
+const SuccessState = ({
+  onClose, doctorName, intent, slot,
+}: {
+  onClose: () => void;
+  doctorName?: string;
+  intent: Intent | null;
+  slot?: string;
+}) => {
+  const isConsult = intent === "consultation";
+  const prettySlot = slot ? slot.replace(" ", " · ") : "";
+  return (
+    <div className="p-8 text-center">
+      <div className="size-16 rounded-3xl bg-gradient-mint grid place-items-center mx-auto shadow-soft">
+        <CheckCircle2 className="size-8 text-foreground" />
+      </div>
+      <h3 className="font-display text-2xl font-semibold mt-5">
+        {isConsult ? "Consultation requested! 🎉" : "Request sent! 🎉"}
+      </h3>
+      <p className="text-sm text-muted-foreground mt-2 max-w-xs mx-auto">
+        {isConsult
+          ? `${doctorName ? `Dr. ${doctorName}` : "The doctor"} will confirm your consultation${prettySlot ? ` for ${prettySlot}` : ""} within 24 hours by email.`
+          : doctorName
+          ? `Dr. ${doctorName} usually replies within 24 hours. We'll email you as soon as they do.`
+          : "Most doctors reply within 24 hours. We'll email you as soon as quotes start arriving."}
+      </p>
+      <Button onClick={onClose} className="mt-6 rounded-full px-8 bg-foreground text-background hover:bg-foreground/90">
+        Got it
+      </Button>
     </div>
-    <h3 className="font-display text-2xl font-semibold mt-5">Request sent! 🎉</h3>
-    <p className="text-sm text-muted-foreground mt-2 max-w-xs mx-auto">
-      {doctorName
-        ? `Dr. ${doctorName} usually replies within 24 hours. We'll email you as soon as they do.`
-        : "Most doctors reply within 24 hours. We'll email you as soon as quotes start arriving."}
-    </p>
-    <Button onClick={onClose} className="mt-6 rounded-full px-8 bg-foreground text-background hover:bg-foreground/90">
-      Got it
-    </Button>
-  </div>
-);
+  );
+};
 
 /* ---------- Compact Contact button for doctor cards ---------- */
 
