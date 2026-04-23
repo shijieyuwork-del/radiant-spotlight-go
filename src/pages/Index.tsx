@@ -578,14 +578,14 @@ const Index = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
             <span className="pill bg-secondary text-secondary-foreground mb-3">
-              <ShieldCheck className="size-3.5" /> Doctor profile
+              <ShieldCheck className="size-3.5" /> {t("doctor.pill")}
             </span>
             <h2 className="font-display text-4xl md:text-5xl font-medium tracking-tight max-w-2xl">
-              Every credential, <em className="text-primary not-italic">on the record.</em>
+              {t("doctor.titlePre")} <em className="text-primary not-italic">{t("doctor.titleEm")}</em>
             </h2>
           </div>
           <p className="text-sm text-muted-foreground max-w-sm">
-            License, board certs, case volume, languages, hospital affiliations — verified before any doctor goes live.
+            {t("doctor.desc")}
           </p>
         </div>
         <DoctorProfile d={featuredDoctor} />
