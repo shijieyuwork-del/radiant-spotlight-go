@@ -4,6 +4,7 @@ import {
 import { Button } from "@/components/ui/button";
 import SafetyIndicator from "./SafetyIndicator";
 import { useQuote } from "./QuoteRequest";
+import TypicalPricing, { type PricingRow } from "./TypicalPricing";
 
 export interface DoctorProfileData {
   name: string;
