@@ -126,7 +126,35 @@ const Destination = () => {
         </div>
       </section>
 
-      {/* TOP DOCTORS */}
+      {/* GLOBAL PRICE COMPARE WIDGET */}
+      <section className="container py-8">
+        <GlobalPriceCompare
+          procedure={d.procedure}
+          featured={d.country}
+          prices={(() => {
+            const wanted = ["USA", "UK", "Korea", "Thailand", "Turkey"];
+            const have = d.costs.filter((c) => wanted.includes(c.country));
+            const fallback: Record<string, { flag: string; low: number; high: number }> = {
+              USA: { flag: "🇺🇸", low: 8000, high: 15000 },
+              UK: { flag: "🇬🇧", low: 5800, high: 10000 },
+              Korea: { flag: "🇰🇷", low: 3800, high: 6800 },
+              Thailand: { flag: "🇹🇭", low: 2600, high: 4200 },
+              Turkey: { flag: "🇹🇷", low: 2400, high: 3800 },
+            };
+            const merged = wanted.map((country) => {
+              const found = have.find((h) => h.country === country);
+              if (found) return { country, flag: found.flag, low: found.low, high: found.high };
+              return { country, ...fallback[country] };
+            });
+            // Ensure featured is included
+            if (!merged.find((m) => m.country === d.country)) {
+              merged.push({ country: d.country, flag: d.flag, low: d.costs[0].low, high: d.costs[0].high });
+            }
+            return merged;
+          })()}
+        />
+      </section>
+
       <section className="container py-16">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
           <div>
