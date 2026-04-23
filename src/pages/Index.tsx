@@ -5,6 +5,10 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import VideoCard from "@/components/VideoCard";
 import VerifiedDoctorBadge from "@/components/VerifiedDoctorBadge";
+import SmartSearch from "@/components/SmartSearch";
+import TrendingByCountry from "@/components/TrendingByCountry";
+import BeforeAfterCard from "@/components/BeforeAfterCard";
+import PriceCompare from "@/components/PriceCompare";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -258,6 +262,17 @@ const Index = () => {
             </div>
           ))}
         </div>
+      </section>
+
+      {/* SMART SEARCH */}
+      <section className="container py-16 -mt-4">
+        <div className="text-center max-w-2xl mx-auto mb-8">
+          <span className="pill bg-accent text-accent-foreground mb-3">Smart search</span>
+          <h2 className="font-display text-3xl md:text-5xl font-medium tracking-tight">
+            Find your <em className="text-primary not-italic">exact</em> procedure, fast.
+          </h2>
+        </div>
+        <SmartSearch />
       </section>
 
       {/* TIKTOK FEED */}
