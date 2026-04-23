@@ -88,7 +88,7 @@ const ko: Record<TranslationKey, string> = {
 };
 
 const zh: Record<TranslationKey, string> = {
-  "nav.discover": "发现", "nav.treatments": "项目", "nav.forClinics": "诊所入驻", "nav.signIn": "登录",
+  "nav.discover": "发现", "nav.treatments": "项目", "nav.reviews": "评价", "nav.forClinics": "诊所入驻", "nav.signIn": "登录",
   "hero.badge": "4,200+ 认证医生 · 覆盖 50+ 国家",
   "hero.title1": "找到全球", "hero.titleEm": "最好的", "hero.title2": "医美医生。",
   "hero.subtitle": "认证医生。真实效果。50+ 国家。值得信赖的跨境医美平台 — 资质认证、真实恢复日记、透明价格。",
@@ -121,7 +121,7 @@ const zh: Record<TranslationKey, string> = {
 };
 
 const th: Record<TranslationKey, string> = {
-  "nav.discover": "ค้นพบ", "nav.treatments": "หัตถการ", "nav.forClinics": "สำหรับคลินิก", "nav.signIn": "เข้าสู่ระบบ",
+  "nav.discover": "ค้นพบ", "nav.treatments": "หัตถการ", "nav.reviews": "รีวิว", "nav.forClinics": "สำหรับคลินิก", "nav.signIn": "เข้าสู่ระบบ",
   "hero.badge": "ศัลยแพทย์ผ่านการรับรอง 4,200+ คน · 50+ ประเทศ",
   "hero.title1": "ค้นหา", "hero.titleEm": "ดีที่สุด", "hero.title2": "หมอเสริมความงามทั่วโลก",
   "hero.subtitle": "หมอที่ผ่านการรับรอง ผลลัพธ์จริง 50+ ประเทศ แพลตฟอร์มศัลยกรรมข้ามพรมแดนที่น่าเชื่อถือ",
@@ -154,7 +154,7 @@ const th: Record<TranslationKey, string> = {
 };
 
 const ar: Record<TranslationKey, string> = {
-  "nav.discover": "اكتشف", "nav.treatments": "الإجراءات", "nav.forClinics": "للعيادات", "nav.signIn": "تسجيل الدخول",
+  "nav.discover": "اكتشف", "nav.treatments": "الإجراءات", "nav.reviews": "التقييمات", "nav.forClinics": "للعيادات", "nav.signIn": "تسجيل الدخول",
   "hero.badge": "أكثر من 4,200 جراح موثق · أكثر من 50 دولة",
   "hero.title1": "اعثر على", "hero.titleEm": "أفضل", "hero.title2": "أطباء التجميل في العالم.",
   "hero.subtitle": "أطباء موثقون. نتائج حقيقية. أكثر من 50 دولة. المنصة الموثوقة للجراحة التجميلية عبر الحدود.",
