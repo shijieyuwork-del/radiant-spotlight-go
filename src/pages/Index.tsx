@@ -569,7 +569,10 @@ const Index = () => {
                 </div>
                 <SafetyIndicator level={c.safety} score={c.safetyScore} />
                 <VerifiedDoctorBadge {...doctorBadges[i % doctorBadges.length]} />
-                <Button variant="outline" className="w-full rounded-full">{t("clinics.viewClinic")}</Button>
+                <div className="flex items-center gap-2">
+                  <Button variant="outline" className="flex-1 rounded-full">{t("clinics.viewClinic")}</Button>
+                  <DoctorContactButton doctorName={c.name} city={c.city} />
+                </div>
               </div>
             </div>
           ))}
@@ -689,6 +692,7 @@ const Index = () => {
       </section>
 
       <Footer />
+      <FloatingQuoteCTA />
     </div>
   );
 };
