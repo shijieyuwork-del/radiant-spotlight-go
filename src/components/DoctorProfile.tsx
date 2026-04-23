@@ -133,6 +133,10 @@ const DoctorProfile = ({ d }: { d: DoctorProfileData }) => {
         </div>
       </div>
 
+      <div className="px-7 pb-7">
+        <TypicalPricing rows={d.pricing ?? defaultPricing} doctorName={d.name} city={d.city} />
+      </div>
+
       <div className="px-7 pb-7 flex flex-col sm:flex-row gap-3">
         <Button
           onClick={() => open({ doctorName: d.name, city: d.city })}
