@@ -16,6 +16,7 @@ import PatientReview, { type PatientReviewData } from "@/components/PatientRevie
 import PopularInRegion from "@/components/PopularInRegion";
 import { useI18n, useLangPath } from "@/lib/i18n";
 import { Switch } from "@/components/ui/switch";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
