@@ -1,0 +1,58 @@
+import type { TikTokItem } from "@/components/TikTokWall";
+
+export const TIKTOK_CASES: TikTokItem[] = [
+  {
+    id: "double-eyelid-shanghai",
+    src: "/videos/v4.mp4",
+    user: { en: "@MinShanghai", zh: "@小敏_上海" },
+    caption: { en: "Day 30 — Incisional double eyelid · honest swelling timeline", zh: "全切双眼皮第30天｜真实消肿过程" },
+    treatment: { en: "Double Eyelid", zh: "双眼皮全切" },
+    clinic: { en: "Shanghai Huamei Hospital · Dr. Li Wenzhi", zh: "上海华美医院 · 李文志主任" },
+    likes: "24k", comments: "812", priceCny: 6800,
+  },
+  {
+    id: "rhinoplasty-beijing",
+    src: "/videos/v2.mp4",
+    user: { en: "@Rosie", zh: "@Rosie" },
+    caption: { en: "Rhinoplasty 6-month reveal — bridge & tip refinement", zh: "鼻综合术后6个月对比，鼻背鼻头精修" },
+    treatment: { en: "Rhinoplasty", zh: "鼻综合" },
+    clinic: { en: "Beijing Yestar Hospital", zh: "北京艺星医院" },
+    likes: "56k", comments: "1.2k", priceCny: 22800,
+  },
+  {
+    id: "thermage-chengdu",
+    src: "/videos/v3.mp4",
+    user: { en: "@JiaChengdu", zh: "@嘉嘉_Cd" },
+    caption: { en: "Thermage FLX honest review · jawline tightening", zh: "热玛吉第五代真实体验，下颌线紧致" },
+    treatment: { en: "Thermage FLX", zh: "热玛吉第五代" },
+    clinic: { en: "Chengdu Meilai Hospital", zh: "成都美莱医院" },
+    likes: "18k", comments: "624", priceCny: 12800,
+  },
+  {
+    id: "fat-transfer-90d",
+    src: "/videos/v6.mp4",
+    user: { en: "@Donutgirl", zh: "@甜甜圈" },
+    caption: { en: "Full-face fat transfer · 90-day vlog with nurse follow-up", zh: "全面部脂肪填充 90天 vlog，含护士回访" },
+    treatment: { en: "Fat Transfer", zh: "脂肪填充" },
+    clinic: { en: "Hangzhou Shiguang Hospital", zh: "杭州时光医院" },
+    likes: "9.8k", comments: "412", priceCny: 9800,
+  },
+  {
+    id: "chin-filler",
+    src: "/videos/v1.mp4",
+    user: { en: "@momo", zh: "@momo" },
+    caption: { en: "Chin filler — instant before/after on the consult chair", zh: "玻尿酸下巴，面诊椅上即刻对比" },
+    treatment: { en: "HA Filler", zh: "玻尿酸" },
+    clinic: { en: "Shenzhen Pengcheng Hospital", zh: "深圳鹏程医院" },
+    likes: "32k", comments: "904", priceCny: 1980,
+  },
+  {
+    id: "skin-booster",
+    src: "/videos/v5.mp4",
+    user: { en: "@Lulu", zh: "@Lulu" },
+    caption: { en: "Skin booster — late-night-face savior, 7-day glow update", zh: "水光针嗨体，熬夜脸救星 · 7天光感对比" },
+    treatment: { en: "Skin Booster", zh: "水光针 嗨体" },
+    clinic: { en: "Guangzhou Shuguang Clinic", zh: "广州曙光门诊部" },
+    likes: "11k", comments: "388", priceCny: 980,
+  },
+];
