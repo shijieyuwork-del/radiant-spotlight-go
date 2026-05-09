@@ -70,6 +70,7 @@ const App = () => (
             <Toaster />
             <Sonner />
             <Routes>
+              <Route path="/cn" element={<ChinaIndex />} />
               <Route path="/:lang/*" element={<LangRoutes />} />
               <Route path="*" element={<LangRedirect />} />
             </Routes>
