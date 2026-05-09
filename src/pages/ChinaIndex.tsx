@@ -140,30 +140,51 @@ const Hero = () => {
             </div>
           </div>
 
-          <div className="lg:col-span-5 relative h-[520px] hidden lg:block">
-            <div className="absolute top-0 left-4 w-48 animate-float rounded-3xl overflow-hidden shadow-pop">
-              <img src={v4} className="w-full h-64 object-cover" alt="case" />
-            </div>
-            <div className="absolute top-16 right-0 w-56 animate-float rounded-3xl overflow-hidden shadow-pop" style={{ animationDelay: "1s" }}>
-              <img src={v2} className="w-full h-72 object-cover" alt="case" />
-            </div>
-            <div className="absolute bottom-0 left-20 w-52 animate-float rounded-3xl overflow-hidden shadow-pop" style={{ animationDelay: "2s" }}>
-              <img src={v3} className="w-full h-64 object-cover" alt="case" />
-            </div>
-            <div className="absolute -bottom-2 -right-2 w-64 animate-float bg-card rounded-3xl shadow-pop p-4" style={{ animationDelay: "1.5s" }}>
-              <div className="flex items-center gap-2 mb-2">
-                <BadgeCheck className="size-4 text-primary" />
-                <p className="text-xs font-semibold">{t("doc.cert")}</p>
+          <div className="lg:col-span-5 relative h-[560px] hidden lg:block">
+            {[
+              { src: "/videos/v4.mp4", poster: v4, cls: "top-0 left-2 w-44 h-72", delay: "0s",   tagEn: "Double eyelid",  tagZh: "双眼皮", who: "@MinShanghai" },
+              { src: "/videos/v2.mp4", poster: v2, cls: "top-10 right-0 w-52 h-80", delay: "1s", tagEn: "Rhinoplasty",     tagZh: "鼻综合",  who: "@Rosie" },
+              { src: "/videos/v3.mp4", poster: v3, cls: "bottom-16 left-24 w-48 h-72", delay: "2s", tagEn: "SMAS Facelift", tagZh: "拉皮提升", who: "@JiaChengdu" },
+            ].map((v) => (
+              <Link
+                key={v.src}
+                to="/cases"
+                className={`absolute ${v.cls} animate-float rounded-3xl overflow-hidden shadow-pop group block`}
+                style={{ animationDelay: v.delay }}
+              >
+                <video
+                  src={v.src}
+                  poster={v.poster}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="metadata"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-x-0 bottom-0 p-2.5 bg-gradient-to-t from-black/70 to-transparent">
+                  <p className="text-[11px] font-semibold text-white">{v.who}</p>
+                  <p className="text-[10px] text-white/80">{lang === "en" ? v.tagEn : v.tagZh}</p>
+                </div>
+              </Link>
+            ))}
+
+            <Link
+              to="/cases"
+              className="absolute -bottom-2 right-0 bg-card rounded-2xl shadow-pop p-3 pr-4 flex items-center gap-2 hover:shadow-glow transition group"
+            >
+              <div className="size-9 rounded-xl bg-primary grid place-items-center shrink-0">
+                <ArrowRight className="size-4 text-primary-foreground group-hover:translate-x-0.5 transition" />
               </div>
-              <p className="font-display text-base">{lang === "en" ? "Dr. Li Wenzhi" : "李文志 主任医师"}</p>
-              <p className="text-xs text-muted-foreground mt-1">{t("doc.lic")} 1413010320180123456</p>
-              <p className="text-[11px] text-muted-foreground mt-0.5">
-                {lang === "en" ? "22 yrs · 8,200+ procedures" : "22年经验 · 8,200+台手术"}
-              </p>
-              <p className="text-[11px] text-muted-foreground mt-1">
-                {lang === "en" ? "Approx. " : "约 "}{fmt(18800)}{lang === "en" ? " for full rhinoplasty" : " · 鼻综合"}
-              </p>
-            </div>
+              <div>
+                <p className="text-xs font-display font-semibold leading-tight">
+                  {lang === "en" ? "More real-case videos" : "查看更多真实案例视频"}
+                </p>
+                <p className="text-[10px] text-muted-foreground mt-0.5">
+                  {lang === "en" ? "Tap to open the case wall" : "点击进入案例视频墙"}
+                </p>
+              </div>
+            </Link>
           </div>
         </div>
       </div>
