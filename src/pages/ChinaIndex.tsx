@@ -239,18 +239,18 @@ const CitiesSection = () => {
       </div>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         {cities.map((c) => (
-          <a key={c.en} href="#clinics" className="rounded-3xl bg-card shadow-soft hover:shadow-pop transition-all hover:-translate-y-1 p-5 group">
+          <Link key={c.en} to="/doctors" className="rounded-3xl bg-card shadow-soft hover:shadow-pop transition-all hover:-translate-y-1 p-5 group">
             <p className="font-display text-2xl font-semibold">{lang === "en" ? c.en : c.zh}</p>
             <p className="text-xs text-muted-foreground">{lang === "en" ? c.zh : c.en}</p>
             <p className="text-xs text-muted-foreground mt-3">
-              {lang === "en" ? `${c.clinics} ${t("cities.clinics")}` : `${c.clinics} ${t("cities.clinics")}`}
+              {lang === "en" ? "Trending procedures" : "热门手术"}
             </p>
-            <div className="flex flex-wrap gap-1 mt-3">
+            <div className="flex flex-wrap gap-1 mt-2">
               {(lang === "en" ? c.hot.en : c.hot.zh).map((h) => (
                 <span key={h} className="text-[10px] px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground">{h}</span>
               ))}
             </div>
-          </a>
+          </Link>
         ))}
       </div>
     </section>
@@ -297,67 +297,7 @@ const TreatmentsSection = () => {
   );
 };
 
-const ClinicsSection = () => {
-  const { t, lang } = useCn();
-  return (
-    <section id="clinics" className="container py-16 md:py-20">
-      <div className="mb-8">
-        <span className="pill bg-accent text-accent-foreground mb-3"><Building2 className="size-3.5" /> {t("cl.kicker")}</span>
-        <h2 className="font-display text-4xl md:text-5xl font-medium tracking-tight">
-          {t("cl.title1")} <em className="text-primary not-italic">{t("cl.titleEm")}</em>
-        </h2>
-        <p className="text-muted-foreground mt-2 text-sm">{t("cl.note")}</p>
-      </div>
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {clinics.map((c) => (
-          <div key={c.en} className="rounded-3xl bg-card shadow-pop overflow-hidden hover:-translate-y-1 transition-transform">
-            <div className="aspect-[4/3] overflow-hidden relative">
-              <img src={c.img} alt={lang === "en" ? c.en : c.zh} className="w-full h-full object-cover" />
-              <span className="absolute top-3 left-3 pill bg-card/90 backdrop-blur shadow-soft text-xs">
-                <BadgeCheck className="size-3 text-primary" /> {lang === "en" ? c.levelEn : c.levelZh}
-              </span>
-            </div>
-            <div className="p-5">
-              <div className="flex items-start justify-between gap-2">
-                <div>
-                  <p className="font-display text-lg font-semibold leading-tight">{lang === "en" ? c.en : c.zh}</p>
-                  <p className="text-sm text-muted-foreground flex items-center gap-1 mt-1">
-                    <MapPin className="size-3.5" /> {lang === "en" ? c.cityEn : c.cityZh} ·{" "}
-                    {lang === "en" ? `${c.years} ${t("cl.years")} ${t("cl.exp")}` : `${t("cl.exp")} ${c.years} ${t("cl.years")}`}
-                  </p>
-                </div>
-                <span className="pill bg-secondary text-secondary-foreground text-xs">
-                  <Star className="size-3 fill-primary text-primary" /> {c.rating}
-                </span>
-              </div>
-
-              <div className="mt-4 rounded-2xl bg-muted/40 p-3 space-y-1.5 text-[11px] text-muted-foreground">
-                <div className="flex items-center gap-1.5">
-                  <FileCheck2 className="size-3 text-primary shrink-0" />
-                  <span>{t("cl.lic")}</span>
-                  <span className="font-mono text-foreground/80 truncate">{c.license}</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <ShieldCheck className="size-3 text-primary shrink-0" />
-                  <span>{t("cl.beian")}</span>
-                  <span className="font-mono text-foreground/80 truncate">{c.beian}</span>
-                </div>
-              </div>
-
-              <div className="mt-4 flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">{t("cl.spec")} · {lang === "en" ? c.topEn : c.topZh}</span>
-                <span className="text-xs text-muted-foreground">{c.reviews.toLocaleString()} {t("cl.reviews")}</span>
-              </div>
-              <Button className="mt-4 w-full rounded-2xl">
-                <MessageCircle className="size-4" /> {t("cl.cta")}
-              </Button>
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-};
+// ClinicsSection removed — patients only browse doctors.
 
 const DoctorsSection = () => {
   const { t, lang } = useCn();
@@ -493,7 +433,6 @@ const ChinaIndex = () => (
     <TravelBar />
     <CitiesSection />
     <TreatmentsSection />
-    <ClinicsSection />
     <DoctorsSection />
     <CasesSection />
     <PromoBar />
