@@ -16,17 +16,17 @@ const Cities = () => {
       <section className="container py-12 md:py-16">
         <span className="pill bg-accent text-accent-foreground mb-3">
           <MapPin className="size-3.5" />
-          {lang === "en" ? "Top destinations" : "国内城市"}
+          {lang === "zh" ? "国内城市" : "Top destinations"}
         </span>
         <h1 className="font-display text-4xl md:text-5xl font-medium tracking-tight max-w-3xl">
-          {lang === "en" ? (
+          {lang === "zh" ? (
             <>
-              Choose a city,{" "}
-              <em className="text-primary not-italic">find your surgeon</em>
+              选择城市，<em className="text-primary not-italic">找到主刀医生</em>
             </>
           ) : (
             <>
-              选择城市，<em className="text-primary not-italic">找到主刀医生</em>
+              Choose a city,{" "}
+              <em className="text-primary not-italic">find your surgeon</em>
             </>
           )}
         </h1>
@@ -60,10 +60,10 @@ const Cities = () => {
                   <div className="absolute bottom-3 left-4 right-4 flex items-end justify-between text-background">
                     <div>
                       <p className="font-display text-3xl font-semibold leading-none">
-                        {lang === "en" ? c.en : c.zh}
+                        {lang === "zh" ? c.zh : c.en}
                       </p>
                       <p className="text-xs opacity-80 mt-1">
-                        {lang === "en" ? c.zh : c.en}
+                        {lang === "zh" ? c.en : c.zh}
                       </p>
                     </div>
                     <span className="pill bg-background/95 text-foreground text-[10px]">
@@ -75,29 +75,29 @@ const Cities = () => {
 
                 <div className="p-5 flex-1 flex flex-col gap-3">
                   <p className="text-sm text-foreground/80 leading-snug">
-                    {lang === "en" ? c.taglineEn : c.taglineZh}
+                    {lang === "zh" ? c.taglineZh : c.taglineEn}
                   </p>
 
                   <div className="grid grid-cols-3 gap-2 text-center">
                     <Stat
                       icon={<Building2 className="size-3.5" />}
-                      label={lang === "en" ? "Hospitals" : "正规机构"}
+                      label={lang === "zh" ? "正规机构" : "Hospitals"}
                       value={`${c.clinics}`}
                     />
                     <Stat
                       icon={<Stethoscope className="size-3.5" />}
-                      label={lang === "en" ? "Surgeons" : "主刀医生"}
+                      label={lang === "zh" ? "主刀医生" : "Surgeons"}
                       value={`${c.doctorsCount}`}
                     />
                     <Stat
                       icon={<Users className="size-3.5" />}
-                      label={lang === "en" ? "On glowy" : "平台医师"}
+                      label={lang === "zh" ? "平台医师" : "On glowy"}
                       value={`${cityDoctors.length}`}
                     />
                   </div>
 
                   <div className="flex flex-wrap gap-1 pt-1">
-                    {(lang === "en" ? c.hotEn : c.hotZh).slice(0, 4).map((h) => (
+                    {(lang === "zh" ? c.hotZh : c.hotEn).slice(0, 4).map((h) => (
                       <span
                         key={h}
                         className="text-[10px] px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground"
@@ -108,7 +108,7 @@ const Cities = () => {
                   </div>
 
                   <div className="mt-auto pt-3 flex items-center justify-between text-sm font-semibold text-primary">
-                    {lang === "en" ? "Explore the city" : "查看城市详情"}
+                    {lang === "zh" ? "查看城市详情" : "Explore the city"}
                     <ArrowRight className="size-4 group-hover:translate-x-1 transition" />
                   </div>
                 </div>
@@ -139,7 +139,7 @@ const Cities = () => {
               className="inline-flex items-center gap-2 rounded-full bg-foreground text-background px-6 py-3 text-sm font-semibold hover:bg-foreground/90 transition"
             >
               <Plane className="size-4" />
-              {lang === "en" ? "Get matched" : "立即匹配主刀"}
+              {lang === "zh" ? "立即匹配主刀" : "Get matched"}
             </Link>
           </div>
         </div>
