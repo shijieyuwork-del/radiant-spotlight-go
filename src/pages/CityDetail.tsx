@@ -20,7 +20,7 @@ const CityDetail = () => {
   const cityDoctors = DOCTORS.filter((d) => d.cityEn === city.en);
   const cityCaseIds = new Set(cityDoctors.flatMap((d) => d.caseIds));
   const cityCases = TIKTOK_CASES.filter((c) => cityCaseIds.has(c.id));
-  const travel = lang === "zh" ? city.travelZh; : city.travelEn
+  const travel = lang === "zh" ? city.travelZh : city.travelEn;
 
   return (
     <div className="min-h-screen bg-background">
