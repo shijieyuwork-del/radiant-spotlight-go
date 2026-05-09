@@ -221,7 +221,7 @@ const CitiesSection = () => {
       </div>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         {cities.map((c) => (
-          <Link key={c.en} to="/doctors" className="rounded-3xl bg-card shadow-soft hover:shadow-pop transition-all hover:-translate-y-1 p-5 group">
+          <Link key={c.en} to={`/cities/${c.en.toLowerCase()}`} className="rounded-3xl bg-card shadow-soft hover:shadow-pop transition-all hover:-translate-y-1 p-5 group">
             <p className="font-display text-2xl font-semibold">{lang === "en" ? c.en : c.zh}</p>
             <p className="text-xs text-muted-foreground">{lang === "en" ? c.zh : c.en}</p>
             <p className="text-xs text-muted-foreground mt-3">
@@ -232,8 +232,16 @@ const CitiesSection = () => {
                 <span key={h} className="text-[10px] px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground">{h}</span>
               ))}
             </div>
+            <p className="text-[11px] text-primary font-semibold mt-3 inline-flex items-center gap-1 group-hover:translate-x-0.5 transition">
+              {lang === "en" ? "Explore city" : "查看城市"} <ArrowRight className="size-3" />
+            </p>
           </Link>
         ))}
+      </div>
+      <div className="mt-6 flex justify-center">
+        <Link to="/cities" className="inline-flex items-center gap-1.5 rounded-full bg-foreground text-background px-5 py-2.5 text-sm font-semibold hover:bg-foreground/90 transition">
+          {lang === "en" ? "All cities" : "查看全部城市"} <ArrowRight className="size-4" />
+        </Link>
       </div>
     </section>
   );
