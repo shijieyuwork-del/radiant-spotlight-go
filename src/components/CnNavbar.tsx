@@ -12,7 +12,7 @@ const CnNavbar = ({ homeLinks = true }: Props) => {
   const { t, lang, setLang, currency, setCurrency } = useCn();
   const links = homeLinks
     ? [
-        { to: "/#cities", label: t("nav.cities") },
+        { to: "/cities", label: t("nav.cities") },
         { to: "/#projects", label: t("nav.projects") },
         { to: "/cases", label: t("nav.cases") },
         { to: "/doctors", label: t("nav.compliance") },

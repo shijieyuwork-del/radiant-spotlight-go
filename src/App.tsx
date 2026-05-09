@@ -11,6 +11,8 @@ import Cases from "./pages/Cases.tsx";
 import CaseDetail from "./pages/CaseDetail.tsx";
 import Doctors from "./pages/Doctors.tsx";
 import DoctorDetail from "./pages/DoctorDetail.tsx";
+import Cities from "./pages/Cities.tsx";
+import CityDetail from "./pages/CityDetail.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -30,6 +32,8 @@ const App = () => (
                 <Route path="/cases/:id" element={<CaseDetail />} />
                 <Route path="/doctors" element={<Doctors />} />
                 <Route path="/doctors/:id" element={<DoctorDetail />} />
+                <Route path="/cities" element={<Cities />} />
+                <Route path="/cities/:slug" element={<CityDetail />} />
                 <Route path="/cn" element={<Navigate to="/" replace />} />
                 <Route path="/:lang/*" element={<Navigate to="/" replace />} />
                 <Route path="*" element={<NotFound />} />
