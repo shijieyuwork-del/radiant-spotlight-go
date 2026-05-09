@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
-import { Sparkles, DollarSign, Languages } from "lucide-react";
+import { Sparkles, DollarSign, Languages, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useCn, cnLangLabel as langLabel, type CnLang as Lang } from "@/lib/cn-i18n";
+import { useQuote } from "@/components/QuoteRequest";
 
 type Props = { homeLinks?: boolean };
 
