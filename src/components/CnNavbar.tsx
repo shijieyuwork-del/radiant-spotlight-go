@@ -16,6 +16,7 @@ const CnNavbar = ({ homeLinks = true }: Props) => {
         { to: "/#projects", label: t("nav.projects") },
         { to: "/cases", label: t("nav.cases") },
         { to: "/doctors", label: t("nav.compliance") },
+        { to: "/packages", label: t("brand.suffix") === "China" ? "Packages" : "服务套餐" },
       ]
     : [
         { to: "/", label: t("brand.suffix") === "China" ? "Home" : "首页" },
