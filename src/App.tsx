@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { I18nProvider } from "@/lib/i18n";
 import { CnI18nProvider } from "@/lib/cn-i18n";
 import { QuoteProvider } from "@/components/QuoteRequest";
+import FloatingLiveChat from "@/components/FloatingLiveChat";
 import ChinaIndex from "./pages/ChinaIndex.tsx";
 import Cases from "./pages/Cases.tsx";
 import CaseDetail from "./pages/CaseDetail.tsx";
@@ -27,6 +28,7 @@ const App = () => (
             <TooltipProvider>
               <Toaster />
               <Sonner />
+              <FloatingLiveChat />
               <Routes>
                 <Route path="/" element={<ChinaIndex />} />
                 <Route path="/cases" element={<Cases />} />
