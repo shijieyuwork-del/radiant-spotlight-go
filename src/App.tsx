@@ -26,26 +26,29 @@ const App = () => (
     <BrowserRouter>
       <I18nProvider>
         <CnI18nProvider>
-          <QuoteProvider>
-            <TooltipProvider>
-              <Toaster />
-              <Sonner />
-              <FloatingLiveChat />
-              <Routes>
-                <Route path="/" element={<ChinaIndex />} />
-                <Route path="/cases" element={<Cases />} />
-                <Route path="/cases/:id" element={<CaseDetail />} />
-                <Route path="/doctors" element={<Doctors />} />
-                <Route path="/doctors/:id" element={<DoctorDetail />} />
-                <Route path="/cities" element={<Cities />} />
-                <Route path="/cities/:slug" element={<CityDetail />} />
-                <Route path="/packages" element={<Packages />} />
-                <Route path="/cn" element={<Navigate to="/" replace />} />
-                <Route path="/:lang/*" element={<Navigate to="/" replace />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </TooltipProvider>
-          </QuoteProvider>
+          <AuthProvider>
+            <QuoteProvider>
+              <TooltipProvider>
+                <Toaster />
+                <Sonner />
+                <FloatingLiveChat />
+                <Routes>
+                  <Route path="/" element={<ChinaIndex />} />
+                  <Route path="/cases" element={<Cases />} />
+                  <Route path="/cases/:id" element={<CaseDetail />} />
+                  <Route path="/doctors" element={<Doctors />} />
+                  <Route path="/doctors/:id" element={<DoctorDetail />} />
+                  <Route path="/cities" element={<Cities />} />
+                  <Route path="/cities/:slug" element={<CityDetail />} />
+                  <Route path="/packages" element={<Packages />} />
+                  <Route path="/auth" element={<Auth />} />
+                  <Route path="/cn" element={<Navigate to="/" replace />} />
+                  <Route path="/:lang/*" element={<Navigate to="/" replace />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </TooltipProvider>
+            </QuoteProvider>
+          </AuthProvider>
         </CnI18nProvider>
       </I18nProvider>
     </BrowserRouter>
