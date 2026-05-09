@@ -7,6 +7,7 @@ import { I18nProvider } from "@/lib/i18n";
 import { CnI18nProvider } from "@/lib/cn-i18n";
 import { QuoteProvider } from "@/components/QuoteRequest";
 import FloatingLiveChat from "@/components/FloatingLiveChat";
+import { AuthProvider } from "@/lib/auth";
 import ChinaIndex from "./pages/ChinaIndex.tsx";
 import Cases from "./pages/Cases.tsx";
 import CaseDetail from "./pages/CaseDetail.tsx";
@@ -15,6 +16,7 @@ import DoctorDetail from "./pages/DoctorDetail.tsx";
 import Cities from "./pages/Cities.tsx";
 import CityDetail from "./pages/CityDetail.tsx";
 import Packages from "./pages/Packages.tsx";
+import Auth from "./pages/Auth.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
