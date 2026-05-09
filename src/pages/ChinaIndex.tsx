@@ -66,8 +66,6 @@ const clinics: Clinic[] = [
 
 // Doctors data lives in src/data/doctors.ts (used by both home + /doctors detail).
 // TikTok cases live in src/data/tiktokCases.ts.
-  { src: v5, zhUser: "@Lulu", enUser: "@Lulu", zhCap: "腰腹吸脂塑形 6周恢复日记", enCap: "Waist & abdomen liposuction · 6-week recovery", likes: "11k", comments: "388", priceCny: 32000 },
-];
 
 // ============== Sections ==============
 const Hero = () => {
