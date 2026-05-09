@@ -44,7 +44,6 @@ const CnNavbar = () => (
         ))}
       </div>
       <div className="flex items-center gap-2">
-        <Link to="/en" className="text-xs text-muted-foreground hover:text-foreground hidden sm:inline">Global ↗</Link>
         <Button className="rounded-full bg-foreground text-background hover:bg-foreground/90 px-5">登录</Button>
       </div>
     </nav>
