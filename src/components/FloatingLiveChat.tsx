@@ -15,7 +15,7 @@ const QUICK_REPLIES_EN = [
 ];
 const QUICK_REPLIES_ZH = ["套餐怎么收费？", "我想预约咨询", "帮我推荐医生"];
 
-const autoReply = (lang: "en" | "zh"): string => {
+const autoReply = (lang: "en" | "zh" | "ru"): string => {
   const replies =
     lang === "zh" ? [
           "收到啦～客服会在 10:00–18:00（北京时间）几分钟内回复您。需要同步加微信 / WhatsApp 吗？",
