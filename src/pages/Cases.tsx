@@ -1,16 +1,27 @@
 import { useMemo, useState } from "react";
-import { Heart, Search, Filter } from "lucide-react";
+import { Heart, Search, Filter, MapPin, Stethoscope, X } from "lucide-react";
 import CnNavbar from "@/components/CnNavbar";
 import Footer from "@/components/Footer";
 import TikTokWall from "@/components/TikTokWall";
 import { Button } from "@/components/ui/button";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
+import { DOCTORS } from "@/data/doctors";
 import { useCn } from "@/lib/cn-i18n";
 
 const Cases = () => {
   const { t, lang, fmt } = useCn();
   const [q, setQ] = useState("");
-  const [active, setActive] = useState<string>("all");
+  const [activeTreatments, setActiveTreatments] = useState<string[]>([]);
+  const [activeCities, setActiveCities] = useState<string[]>([]);
+
+  // caseId -> { cityEn, cityZh }
+  const caseCity = useMemo(() => {
+    const map = new Map<string, { en: string; zh: string }>();
+    DOCTORS.forEach((d) =>
+      d.caseIds.forEach((id) => map.set(id, { en: d.cityEn, zh: d.cityZh }))
+    );
+    return map;
+  }, []);
 
   const treatments = useMemo(() => {
     const set = new Map<string, string>();
@@ -18,14 +29,32 @@ const Cases = () => {
     return Array.from(set, ([key, label]) => ({ key, label }));
   }, [lang]);
 
+  const cities = useMemo(() => {
+    const set = new Map<string, string>();
+    TIKTOK_CASES.forEach((c) => {
+      const city = caseCity.get(c.id);
+      if (city) set.set(city.en, lang === "en" ? city.en : city.zh);
+    });
+    return Array.from(set, ([key, label]) => ({ key, label }));
+  }, [caseCity, lang]);
+
+  const toggle = (arr: string[], setArr: (v: string[]) => void, v: string) =>
+    setArr(arr.includes(v) ? arr.filter((x) => x !== v) : [...arr, v]);
+
   const items = useMemo(() => {
     return TIKTOK_CASES.filter((c) => {
-      if (active !== "all" && c.treatment.en !== active) return false;
+      if (activeTreatments.length && !activeTreatments.includes(c.treatment.en)) return false;
+      if (activeCities.length) {
+        const city = caseCity.get(c.id);
+        if (!city || !activeCities.includes(city.en)) return false;
+      }
       if (!q.trim()) return true;
       const hay = `${c.user.en} ${c.user.zh} ${c.caption.en} ${c.caption.zh} ${c.clinic.en} ${c.clinic.zh} ${c.treatment.en} ${c.treatment.zh}`.toLowerCase();
       return hay.includes(q.toLowerCase());
     });
-  }, [q, active]);
+  }, [q, activeTreatments, activeCities, caseCity]);
+
+  const hasFilters = activeTreatments.length > 0 || activeCities.length > 0;
 
   return (
     <div className="min-h-screen bg-background">
@@ -52,27 +81,75 @@ const Cases = () => {
           </div>
         </div>
 
-        <div className="flex items-center gap-2 flex-wrap justify-center mb-8">
-          <span className="text-xs text-muted-foreground inline-flex items-center gap-1 mr-1"><Filter className="size-3" /></span>
-          <Button
-            variant={active === "all" ? "default" : "outline"}
-            size="sm"
-            className="rounded-full"
-            onClick={() => setActive("all")}
-          >
-            {t("cases.tabAll")}
-          </Button>
-          {treatments.map((tr) => (
-            <Button
-              key={tr.key}
-              variant={active === tr.key ? "default" : "outline"}
-              size="sm"
-              className="rounded-full"
-              onClick={() => setActive(tr.key)}
+        {/* Treatment filter */}
+        <div className="max-w-4xl mx-auto mb-4">
+          <div className="flex items-center gap-2 flex-wrap justify-center">
+            <span className="text-xs text-muted-foreground inline-flex items-center gap-1 mr-1">
+              <Stethoscope className="size-3" />
+              {lang === "en" ? "Procedure" : "手术类型"}
+            </span>
+            {treatments.map((tr) => {
+              const on = activeTreatments.includes(tr.key);
+              return (
+                <Button
+                  key={tr.key}
+                  variant={on ? "default" : "outline"}
+                  size="sm"
+                  className="rounded-full"
+                  onClick={() => toggle(activeTreatments, setActiveTreatments, tr.key)}
+                >
+                  {tr.label}
+                </Button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* City filter */}
+        <div className="max-w-4xl mx-auto mb-4">
+          <div className="flex items-center gap-2 flex-wrap justify-center">
+            <span className="text-xs text-muted-foreground inline-flex items-center gap-1 mr-1">
+              <MapPin className="size-3" />
+              {lang === "en" ? "City" : "城市"}
+            </span>
+            {cities.map((ci) => {
+              const on = activeCities.includes(ci.key);
+              return (
+                <Button
+                  key={ci.key}
+                  variant={on ? "default" : "outline"}
+                  size="sm"
+                  className="rounded-full"
+                  onClick={() => toggle(activeCities, setActiveCities, ci.key)}
+                >
+                  {ci.label}
+                </Button>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="flex items-center justify-center mb-8 gap-3 text-xs text-muted-foreground">
+          <Filter className="size-3" />
+          <span>
+            {lang === "en"
+              ? `${items.length} case${items.length === 1 ? "" : "s"}`
+              : `共 ${items.length} 个案例`}
+            {hasFilters &&
+              ` · ${activeTreatments.length + activeCities.length} ${lang === "en" ? "filter(s)" : "项筛选"}`}
+          </span>
+          {hasFilters && (
+            <button
+              onClick={() => {
+                setActiveTreatments([]);
+                setActiveCities([]);
+              }}
+              className="inline-flex items-center gap-1 text-foreground hover:text-primary transition"
             >
-              {tr.label}
-            </Button>
-          ))}
+              <X className="size-3" />
+              {lang === "en" ? "Clear" : "清空筛选"}
+            </button>
+          )}
         </div>
 
         {items.length === 0 ? (
