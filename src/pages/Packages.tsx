@@ -98,10 +98,10 @@ const Packages = () => {
           {lang === "zh" ? PLACEHOLDER_SWAP : "Concierge packages" SWAP_END"服务套餐"}
         </span>
         <h1 className="font-display text-4xl md:text-6xl font-medium tracking-tight max-w-3xl mx-auto">
-          {lang === "en" ? (
-            <>Choose your <em className="text-primary not-italic">care package</em></>
-          ) : (
+          {lang === "zh" ? (
             <>选择适合你的<em className="text-primary not-italic">专属套餐</em></>
+          ) : (
+            <>Choose your <em className="text-primary not-italic">care package</em></>
           )}
         </h1>
         <p className="text-muted-foreground mt-3 max-w-2xl mx-auto">

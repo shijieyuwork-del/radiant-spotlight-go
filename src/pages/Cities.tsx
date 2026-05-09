@@ -19,14 +19,14 @@ const Cities = () => {
           {lang === "zh" ? PLACEHOLDER_SWAP : "Top destinations" SWAP_END"国内城市"}
         </span>
         <h1 className="font-display text-4xl md:text-5xl font-medium tracking-tight max-w-3xl">
-          {lang === "en" ? (
+          {lang === "zh" ? (
             <>
-              Choose a city,{" "}
-              <em className="text-primary not-italic">find your surgeon</em>
+              选择城市，<em className="text-primary not-italic">找到主刀医生</em>
             </>
           ) : (
             <>
-              选择城市，<em className="text-primary not-italic">找到主刀医生</em>
+              Choose a city,{" "}
+              <em className="text-primary not-italic">find your surgeon</em>
             </>
           )}
         </h1>
