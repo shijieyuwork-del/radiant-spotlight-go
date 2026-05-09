@@ -13,6 +13,7 @@ const Doctors = () => {
   const { t, lang } = useCn();
   const [q, setQ] = useState("");
   const [city, setCity] = useState<string>("all");
+  const [spec, setSpec] = useState<string>("all");
 
   const cities = useMemo(() => {
     const set = new Map<string, string>();
@@ -20,14 +21,23 @@ const Doctors = () => {
     return Array.from(set, ([key, label]) => ({ key, label }));
   }, [lang]);
 
+  const specialties = useMemo(() => {
+    const set = new Map<string, string>();
+    DOCTORS.forEach((d) =>
+      d.specEn.forEach((s, i) => set.set(s, lang === "en" ? s : d.specZh[i] ?? s)),
+    );
+    return Array.from(set, ([key, label]) => ({ key, label }));
+  }, [lang]);
+
   const items = useMemo(() => {
     return DOCTORS.filter((d) => {
       if (city !== "all" && d.cityEn !== city) return false;
+      if (spec !== "all" && !d.specEn.includes(spec)) return false;
       if (!q.trim()) return true;
       const hay = `${d.en} ${d.zh} ${d.clinicEn} ${d.clinicZh} ${d.specEn.join(" ")} ${d.specZh.join(" ")}`.toLowerCase();
       return hay.includes(q.toLowerCase());
     });
-  }, [q, city]);
+  }, [q, city, spec]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -43,8 +53,8 @@ const Doctors = () => {
           </h1>
           <p className="text-muted-foreground mt-3">
             {lang === "en"
-              ? "Every surgeon below is licensed by the China NHC. Click any profile to read their bio and verified case diaries."
-              : "每位医师均持有国家卫健委颁发的《医师执业证》。点击任意档案查看完整介绍与真实手术案例。"}
+              ? "Every surgeon below is licensed by the China NHC. Filter by procedure or city, then click any profile to read their bio and verified case diaries."
+              : "每位医师均持有国家卫健委颁发的《医师执业证》。可按手术类型与城市筛选，点击档案查看完整介绍与真实手术案例。"}
           </p>
         </div>
 
@@ -60,16 +70,39 @@ const Doctors = () => {
           </div>
         </div>
 
-        <div className="flex items-center gap-2 flex-wrap justify-center mb-10">
-          <span className="text-xs text-muted-foreground inline-flex items-center gap-1 mr-1"><Filter className="size-3" /></span>
-          <Button variant={city === "all" ? "default" : "outline"} size="sm" className="rounded-full" onClick={() => setCity("all")}>
-            {t("cases.tabAll")}
-          </Button>
-          {cities.map((c) => (
-            <Button key={c.key} variant={city === c.key ? "default" : "outline"} size="sm" className="rounded-full" onClick={() => setCity(c.key)}>
-              {c.label}
+        {/* Procedure filter */}
+        <div className="mb-3">
+          <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold text-center mb-2">
+            {lang === "en" ? "Procedure" : "手术类型"}
+          </p>
+          <div className="flex items-center gap-2 flex-wrap justify-center">
+            <Button variant={spec === "all" ? "default" : "outline"} size="sm" className="rounded-full" onClick={() => setSpec("all")}>
+              {t("cases.tabAll")}
             </Button>
-          ))}
+            {specialties.map((s) => (
+              <Button key={s.key} variant={spec === s.key ? "default" : "outline"} size="sm" className="rounded-full" onClick={() => setSpec(s.key)}>
+                {s.label}
+              </Button>
+            ))}
+          </div>
+        </div>
+
+        {/* City filter */}
+        <div className="mb-10">
+          <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold text-center mb-2">
+            {lang === "en" ? "City" : "城市"}
+          </p>
+          <div className="flex items-center gap-2 flex-wrap justify-center">
+            <span className="text-xs text-muted-foreground inline-flex items-center gap-1 mr-1"><Filter className="size-3" /></span>
+            <Button variant={city === "all" ? "default" : "outline"} size="sm" className="rounded-full" onClick={() => setCity("all")}>
+              {t("cases.tabAll")}
+            </Button>
+            {cities.map((c) => (
+              <Button key={c.key} variant={city === c.key ? "default" : "outline"} size="sm" className="rounded-full" onClick={() => setCity(c.key)}>
+                {c.label}
+              </Button>
+            ))}
+          </div>
         </div>
 
         {items.length === 0 ? (
