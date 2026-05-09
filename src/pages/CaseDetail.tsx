@@ -1,7 +1,7 @@
 import { useMemo, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
-  ArrowLeft, Heart, MessageCircle, Share2, Volume2, VolumeX, Play,
+  ArrowLeft, ArrowRight, Heart, MessageCircle, Share2, Volume2, VolumeX, Play,
   BadgeCheck, Building2, Calendar, ShieldCheck,
 } from "lucide-react";
 import CnNavbar from "@/components/CnNavbar";
