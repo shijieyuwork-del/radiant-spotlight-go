@@ -9,6 +9,8 @@ import { QuoteProvider } from "@/components/QuoteRequest";
 import ChinaIndex from "./pages/ChinaIndex.tsx";
 import Cases from "./pages/Cases.tsx";
 import CaseDetail from "./pages/CaseDetail.tsx";
+import Doctors from "./pages/Doctors.tsx";
+import DoctorDetail from "./pages/DoctorDetail.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -26,6 +28,8 @@ const App = () => (
                 <Route path="/" element={<ChinaIndex />} />
                 <Route path="/cases" element={<Cases />} />
                 <Route path="/cases/:id" element={<CaseDetail />} />
+                <Route path="/doctors" element={<Doctors />} />
+                <Route path="/doctors/:id" element={<DoctorDetail />} />
                 <Route path="/cn" element={<Navigate to="/" replace />} />
                 <Route path="/:lang/*" element={<Navigate to="/" replace />} />
                 <Route path="*" element={<NotFound />} />
