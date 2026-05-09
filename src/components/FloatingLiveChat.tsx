@@ -20,11 +20,12 @@ const autoReply = (lang: "en" | "zh"): string => {
     lang === "zh" ? [
           "收到啦～客服会在 10:00–18:00（北京时间）几分钟内回复您。需要同步加微信 / WhatsApp 吗？",
           "感谢联系 💬 已通知真人客服，您可以先告诉我们想了解的项目或城市哦。",
-        ];
-  return replies[Math.floor(Math.random() * replies.length)]; : [
+        ] : [
           "Got it — a real concierge will reply within a few minutes during 10:00–18:00 (GMT+8). Want me to text you on WhatsApp/WeChat too?",
           "Thanks for reaching out 💬 I've pinged a human agent. Meanwhile, feel free to share your goal procedure or city.",
-        ]};
+        ];
+  return replies[Math.floor(Math.random() * replies.length)];
+};
 
 const FloatingLiveChat = () => {
   const { lang } = useCn();
