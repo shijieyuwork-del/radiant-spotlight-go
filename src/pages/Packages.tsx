@@ -8,6 +8,7 @@ type Pkg = {
   id: string;
   nameEn: string; nameZh: string;
   price: number;
+  originalPrice?: number;
   taglineEn: string; taglineZh: string;
   icon: React.ComponentType<{ className?: string }>;
   grad: string;
@@ -20,6 +21,7 @@ const PACKAGES: Pkg[] = [
     id: "basic",
     nameEn: "Basic Package", nameZh: "基础套餐",
     price: 398,
+    originalPrice: 698,
     taglineEn: "Essentials for a smooth medical trip",
     taglineZh: "出行必备 · 全程基础保障",
     icon: Sparkles,
@@ -38,6 +40,7 @@ const PACKAGES: Pkg[] = [
     id: "gold",
     nameEn: "Gold Package", nameZh: "金牌套餐",
     price: 698,
+    originalPrice: 1698,
     taglineEn: "Most popular · stay + accompaniment included",
     taglineZh: "人气之选 · 含住宿与陪同",
     icon: Crown,
@@ -60,6 +63,7 @@ const PACKAGES: Pkg[] = [
     id: "diamond",
     nameEn: "Diamond VIP Package", nameZh: "钻石尊享套餐",
     price: 2498,
+    originalPrice: 3998,
     taglineEn: "End-to-end VIP · 5-star stay & doctor on call",
     taglineZh: "尊享一站式 · 五星酒店 + 在线医生随叫随到",
     icon: Gem,
@@ -139,13 +143,27 @@ const Packages = () => {
                     </div>
                   </div>
 
-                  <div className="mt-6 flex items-baseline gap-2">
-                    <span className="font-display text-5xl font-semibold">
-                      ${p.price.toLocaleString()}
-                    </span>
-                    <span className="text-xs text-muted-foreground">
-                      {lang === "en" ? "/ trip · USD" : "/ 次行程 · 美元"}
-                    </span>
+                  <div className="mt-6">
+                    {p.originalPrice && (
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-sm text-muted-foreground line-through">
+                          ${p.originalPrice.toLocaleString()}
+                        </span>
+                        <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-primary text-primary-foreground">
+                          {lang === "en"
+                            ? `Save $${(p.originalPrice - p.price).toLocaleString()}`
+                            : `立省 $${(p.originalPrice - p.price).toLocaleString()}`}
+                        </span>
+                      </div>
+                    )}
+                    <div className="flex items-baseline gap-2">
+                      <span className="font-display text-5xl font-semibold">
+                        ${p.price.toLocaleString()}
+                      </span>
+                      <span className="text-xs text-muted-foreground">
+                        {lang === "en" ? "/ trip · USD" : "/ 次行程 · 美元"}
+                      </span>
+                    </div>
                   </div>
 
                   <ul className="mt-6 space-y-3 flex-1">
