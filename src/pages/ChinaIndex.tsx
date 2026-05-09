@@ -1,4 +1,3 @@
-import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import {
   Sparkles, ArrowRight, Star, MapPin, ShieldCheck, BadgeCheck,
@@ -6,11 +5,13 @@ import {
   Flame, Gift, Wallet, Users, Plane, Languages, DollarSign
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Footer from "@/components/Footer";
+import TikTokWall from "@/components/TikTokWall";
+import { TIKTOK_CASES } from "@/data/tiktokCases";
+import { useCn, cnLangLabel as langLabel, type CnLang as Lang } from "@/lib/cn-i18n";
 import heroBg from "@/assets/hero-bg.jpg";
 import v1 from "@/assets/video1.jpg";
 import v2 from "@/assets/video2.jpg";
