@@ -1,17 +1,20 @@
-import { Link } from "react-router-dom";
-import { Sparkles, DollarSign, Languages, MessageCircle } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Sparkles, DollarSign, Languages, MessageCircle, LogOut, User as UserIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
-  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu";
 import { useCn, cnLangLabel as langLabel, type CnLang as Lang } from "@/lib/cn-i18n";
 import { useQuote } from "@/components/QuoteRequest";
+import { useAuth } from "@/lib/auth";
 
 type Props = { homeLinks?: boolean };
 
 const CnNavbar = ({ homeLinks = true }: Props) => {
   const { t, lang, setLang, currency, setCurrency } = useCn();
   const { open } = useQuote();
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
   const links = homeLinks
     ? [
         { to: "/cities", label: t("nav.cities") },
@@ -72,7 +75,34 @@ const CnNavbar = ({ homeLinks = true }: Props) => {
             <MessageCircle className="size-4" />
             {lang === "en" ? "Consult" : "人工咨询"}
           </Button>
-          <Button className="rounded-full bg-foreground text-background hover:bg-foreground/90 px-5">{t("nav.signin")}</Button>
+          {user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="rounded-full size-9 p-0 bg-accent">
+                  <span className="text-sm font-semibold">
+                    {(user.email?.[0] ?? "U").toUpperCase()}
+                  </span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="rounded-2xl w-56">
+                <DropdownMenuLabel className="truncate">{user.email}</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className="rounded-xl gap-2" disabled>
+                  <UserIcon className="size-4" /> {lang === "en" ? "Profile" : "个人中心"}
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  className="rounded-xl gap-2 text-destructive focus:text-destructive"
+                  onClick={async () => { await signOut(); navigate("/"); }}
+                >
+                  <LogOut className="size-4" /> {lang === "en" ? "Sign out" : "退出登录"}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Button asChild className="rounded-full bg-foreground text-background hover:bg-foreground/90 px-5">
+              <Link to="/auth">{t("nav.signin")}</Link>
+            </Button>
+          )}
         </div>
       </nav>
     </header>

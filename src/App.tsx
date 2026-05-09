@@ -7,6 +7,7 @@ import { I18nProvider } from "@/lib/i18n";
 import { CnI18nProvider } from "@/lib/cn-i18n";
 import { QuoteProvider } from "@/components/QuoteRequest";
 import FloatingLiveChat from "@/components/FloatingLiveChat";
+import { AuthProvider } from "@/lib/auth";
 import ChinaIndex from "./pages/ChinaIndex.tsx";
 import Cases from "./pages/Cases.tsx";
 import CaseDetail from "./pages/CaseDetail.tsx";
@@ -15,6 +16,7 @@ import DoctorDetail from "./pages/DoctorDetail.tsx";
 import Cities from "./pages/Cities.tsx";
 import CityDetail from "./pages/CityDetail.tsx";
 import Packages from "./pages/Packages.tsx";
+import Auth from "./pages/Auth.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -24,26 +26,29 @@ const App = () => (
     <BrowserRouter>
       <I18nProvider>
         <CnI18nProvider>
-          <QuoteProvider>
-            <TooltipProvider>
-              <Toaster />
-              <Sonner />
-              <FloatingLiveChat />
-              <Routes>
-                <Route path="/" element={<ChinaIndex />} />
-                <Route path="/cases" element={<Cases />} />
-                <Route path="/cases/:id" element={<CaseDetail />} />
-                <Route path="/doctors" element={<Doctors />} />
-                <Route path="/doctors/:id" element={<DoctorDetail />} />
-                <Route path="/cities" element={<Cities />} />
-                <Route path="/cities/:slug" element={<CityDetail />} />
-                <Route path="/packages" element={<Packages />} />
-                <Route path="/cn" element={<Navigate to="/" replace />} />
-                <Route path="/:lang/*" element={<Navigate to="/" replace />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </TooltipProvider>
-          </QuoteProvider>
+          <AuthProvider>
+            <QuoteProvider>
+              <TooltipProvider>
+                <Toaster />
+                <Sonner />
+                <FloatingLiveChat />
+                <Routes>
+                  <Route path="/" element={<ChinaIndex />} />
+                  <Route path="/cases" element={<Cases />} />
+                  <Route path="/cases/:id" element={<CaseDetail />} />
+                  <Route path="/doctors" element={<Doctors />} />
+                  <Route path="/doctors/:id" element={<DoctorDetail />} />
+                  <Route path="/cities" element={<Cities />} />
+                  <Route path="/cities/:slug" element={<CityDetail />} />
+                  <Route path="/packages" element={<Packages />} />
+                  <Route path="/auth" element={<Auth />} />
+                  <Route path="/cn" element={<Navigate to="/" replace />} />
+                  <Route path="/:lang/*" element={<Navigate to="/" replace />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </TooltipProvider>
+            </QuoteProvider>
+          </AuthProvider>
         </CnI18nProvider>
       </I18nProvider>
     </BrowserRouter>
