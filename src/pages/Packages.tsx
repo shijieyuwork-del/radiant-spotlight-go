@@ -8,6 +8,7 @@ type Pkg = {
   id: string;
   nameEn: string; nameZh: string;
   price: number;
+  originalPrice?: number;
   taglineEn: string; taglineZh: string;
   icon: React.ComponentType<{ className?: string }>;
   grad: string;
