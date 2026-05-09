@@ -183,11 +183,15 @@ const Auth = () => {
           </p>
         </div>
 
-        <p className="text-center text-xs text-muted-foreground mt-4">
-          <Link to="/" className="hover:text-foreground">
-            ← {t("Back to home", "返回首页")}
+        <div className="text-center mt-6">
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 px-5 h-11 rounded-2xl bg-background shadow-soft hover:shadow-pop text-sm font-semibold text-foreground transition-all hover:-translate-y-0.5"
+          >
+            <ArrowRight className="size-4 rotate-180" />
+            {t("Back to home", "返回首页")}
           </Link>
-        </p>
+        </div>
       </div>
     </div>
   );
