@@ -15,16 +15,14 @@ const QUICK_REPLIES_EN = [
 ];
 const QUICK_REPLIES_ZH = ["套餐怎么收费？", "我想预约咨询", "帮我推荐医生"];
 
-const autoReply = (lang: "en" | "zh"): string => {
+const autoReply = (lang: "en" | "zh" | "ru"): string => {
   const replies =
-    lang === "en"
-      ? [
-          "Got it — a real concierge will reply within a few minutes during 10:00–18:00 (GMT+8). Want me to text you on WhatsApp/WeChat too?",
-          "Thanks for reaching out 💬 I've pinged a human agent. Meanwhile, feel free to share your goal procedure or city.",
-        ]
-      : [
+    lang === "zh" ? [
           "收到啦～客服会在 10:00–18:00（北京时间）几分钟内回复您。需要同步加微信 / WhatsApp 吗？",
           "感谢联系 💬 已通知真人客服，您可以先告诉我们想了解的项目或城市哦。",
+        ] : [
+          "Got it — a real concierge will reply within a few minutes during 10:00–18:00 (GMT+8). Want me to text you on WhatsApp/WeChat too?",
+          "Thanks for reaching out 💬 I've pinged a human agent. Meanwhile, feel free to share your goal procedure or city.",
         ];
   return replies[Math.floor(Math.random() * replies.length)];
 };
@@ -74,9 +72,7 @@ const FloatingLiveChat = () => {
         id: `m_${Date.now()}`,
         from: "agent",
         text:
-          lang === "en"
-            ? "Hi 👋 I'm Lina from glowy. Ask me anything about doctors, pricing, or your trip — a human agent jumps in within minutes."
-            : "您好 👋 我是 glowy 客服 Lina，关于医生 / 价格 / 行程都可以问我，真人客服几分钟内介入～",
+          lang === "zh" ? "您好 👋 我是 glowy 客服 Lina，关于医生 / 价格 / 行程都可以问我，真人客服几分钟内介入～" : "Hi 👋 I'm Lina from glowy. Ask me anything about doctors, pricing, or your trip — a human agent jumps in within minutes.",
         ts: Date.now(),
       };
       setMessages([greet]);
@@ -114,7 +110,7 @@ const FloatingLiveChat = () => {
       {!open && (
         <button
           onClick={handleOpen}
-          aria-label={lang === "en" ? "Chat with a human agent" : "联系真人客服"}
+          aria-label={lang === "zh" ? "联系真人客服" : "Chat with a human agent"}
           className="fixed z-50 bottom-6 right-6 group flex items-center gap-2 rounded-full bg-foreground text-background pl-2 pr-5 py-2 shadow-pop hover:shadow-glow transition-all hover:-translate-y-0.5"
         >
           <span className="relative size-10 rounded-full bg-primary grid place-items-center text-foreground">
@@ -127,7 +123,7 @@ const FloatingLiveChat = () => {
             )}
           </span>
           <span className="text-sm font-semibold whitespace-nowrap">
-            {lang === "en" ? "Live agent" : "真人客服"}
+            {lang === "zh" ? "真人客服" : "Live agent"}
           </span>
         </button>
       )}
@@ -145,11 +141,11 @@ const FloatingLiveChat = () => {
             </div>
             <div className="flex-1 min-w-0">
               <p className="font-display font-semibold leading-tight">
-                {lang === "en" ? AGENT_NAME_EN : AGENT_NAME_ZH}
+                {lang === "zh" ? AGENT_NAME_ZH : AGENT_NAME_EN}
               </p>
               <p className="text-[11px] text-foreground/70 flex items-center gap-1 mt-0.5">
                 <CheckCircle2 className="size-3 text-emerald-600" />
-                {lang === "en" ? "Online · replies in minutes" : "在线 · 几分钟内回复"}
+                {lang === "zh" ? "在线 · 几分钟内回复" : "Online · replies in minutes"}
               </p>
             </div>
             <button
@@ -192,7 +188,7 @@ const FloatingLiveChat = () => {
             {/* Quick replies */}
             {messages.length <= 1 && !typing && (
               <div className="flex flex-wrap gap-1.5 pt-1">
-                {(lang === "en" ? QUICK_REPLIES_EN : QUICK_REPLIES_ZH).map((q) => (
+                {(lang === "zh" ? QUICK_REPLIES_ZH : QUICK_REPLIES_EN).map((q) => (
                   <button
                     key={q}
                     onClick={() => send(q)}
@@ -207,12 +203,12 @@ const FloatingLiveChat = () => {
 
           {/* Channels */}
           <div className="px-4 py-2 border-t border-border bg-muted/40 flex items-center gap-2 text-[11px] text-muted-foreground">
-            <span className="font-semibold">{lang === "en" ? "Also reach us:" : "也可联系："}</span>
+            <span className="font-semibold">{lang === "zh" ? "也可联系：" : "Also reach us:"}</span>
             <a href="https://wa.me/8618800000000" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 hover:text-foreground">
               <MessageCircle className="size-3" /> WhatsApp
             </a>
             <a href="tel:+8618800000000" className="inline-flex items-center gap-1 hover:text-foreground">
-              <Phone className="size-3" /> {lang === "en" ? "Call" : "电话"}
+              <Phone className="size-3" /> {lang === "zh" ? "电话" : "Call"}
             </a>
             <a href="mailto:hello@glowy.care" className="inline-flex items-center gap-1 hover:text-foreground">
               <Mail className="size-3" /> Email
@@ -237,7 +233,7 @@ const FloatingLiveChat = () => {
                 }
               }}
               rows={1}
-              placeholder={lang === "en" ? "Type a message…" : "输入消息…"}
+              placeholder={lang === "zh" ? "输入消息…" : "Type a message…"}
               className="flex-1 resize-none rounded-2xl border border-input bg-background px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring max-h-28"
             />
             <button

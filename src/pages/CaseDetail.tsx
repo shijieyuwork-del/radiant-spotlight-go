@@ -32,10 +32,10 @@ const CaseDetail = () => {
         <CnNavbar homeLinks={false} />
         <div className="container py-24 text-center">
           <p className="text-muted-foreground">
-            {lang === "en" ? "Case not found." : "案例不存在。"}
+            {lang === "zh" ? "案例不存在。" : "Case not found."}
           </p>
           <Link to="/cases" className="text-primary underline mt-4 inline-block">
-            {lang === "en" ? "Back to all cases" : "返回案例列表"}
+            {lang === "zh" ? "返回案例列表" : "Back to all cases"}
           </Link>
         </div>
         <Footer />
@@ -122,8 +122,8 @@ const CaseDetail = () => {
 
             <div className="rounded-3xl bg-card shadow-soft p-5 space-y-3">
               <p className="text-sm flex items-center gap-2"><Building2 className="size-4 text-primary" /> {item.clinic[lang]}</p>
-              <p className="text-sm flex items-center gap-2"><Calendar className="size-4 text-primary" /> {lang === "en" ? "Procedure date · within 6 months" : "手术时间 · 近 6 个月"}</p>
-              <p className="text-sm flex items-center gap-2"><ShieldCheck className="size-4 text-primary" /> {lang === "en" ? "Identity & receipt verified" : "身份证 + 消费凭证已核验"}</p>
+              <p className="text-sm flex items-center gap-2"><Calendar className="size-4 text-primary" /> {lang === "zh" ? "手术时间 · 近 6 个月" : "Procedure date · within 6 months"}</p>
+              <p className="text-sm flex items-center gap-2"><ShieldCheck className="size-4 text-primary" /> {lang === "zh" ? "身份证 + 消费凭证已核验" : "Identity & receipt verified"}</p>
             </div>
 
             {doctor && (
@@ -134,13 +134,13 @@ const CaseDetail = () => {
                 <img src={doctor.img} alt="" className="size-16 rounded-2xl object-cover shrink-0" />
                 <div className="min-w-0 flex-1">
                   <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold">
-                    {lang === "en" ? "Performed by" : "主刀医师"}
+                    {lang === "zh" ? "主刀医师" : "Performed by"}
                   </p>
                   <p className="font-display text-lg font-semibold leading-tight truncate mt-0.5">
-                    {lang === "en" ? doctor.en : doctor.zh}
+                    {lang === "zh" ? doctor.zh : doctor.en}
                   </p>
                   <p className="text-xs text-muted-foreground mt-0.5 truncate">
-                    {lang === "en" ? doctor.titleEn : doctor.titleZh} · {doctor.years}{lang === "en" ? " yrs" : "年"} · {doctor.surgeries}
+                    {lang === "zh" ? doctor.titleZh : doctor.titleEn} · {doctor.years}{lang === "zh" ? "年" : " yrs"} · {doctor.surgeries}
                   </p>
                 </div>
                 <ArrowRight className="size-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition shrink-0" />
@@ -149,7 +149,7 @@ const CaseDetail = () => {
 
             <div className="rounded-3xl bg-gradient-to-br from-[hsl(155,60%,90%)] to-[hsl(50,80%,92%)] p-5 flex items-center justify-between gap-4 shadow-soft">
               <div>
-                <p className="text-xs text-foreground/60">{lang === "en" ? "Reference price" : "参考价格"}</p>
+                <p className="text-xs text-foreground/60">{lang === "zh" ? "参考价格" : "Reference price"}</p>
                 <p className="font-display text-3xl font-semibold mt-1">{fmt(item.priceCny)}</p>
               </div>
               <Button size="lg" className="rounded-2xl bg-foreground text-background hover:bg-foreground/90">
@@ -159,9 +159,7 @@ const CaseDetail = () => {
 
             <div className="prose prose-sm max-w-none text-muted-foreground">
               <p>
-                {lang === "en"
-                  ? "This patient diary documents real before/after, daily recovery photos, and a follow-up call with the attending surgeon. Glowy verifies every diary against the patient's clinic receipt and ID."
-                  : "本日记包含术前术后真实对比、每日恢复记录，以及主诊医师术后回访。Glowy 已根据消费凭证与身份证核实日记真实性。"}
+                {lang === "zh" ? "本日记包含术前术后真实对比、每日恢复记录，以及主诊医师术后回访。Glowy 已根据消费凭证与身份证核实日记真实性。" : "This patient diary documents real before/after, daily recovery photos, and a follow-up call with the attending surgeon. Glowy verifies every diary against the patient's clinic receipt and ID."}
               </p>
             </div>
           </div>

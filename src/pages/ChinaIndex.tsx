@@ -84,10 +84,7 @@ const Hero = () => {
 
             <div className="flex flex-wrap items-center gap-2 pt-1">
               <span className="text-xs uppercase tracking-wider text-muted-foreground font-semibold mr-1">{t("hero.hot")}</span>
-              {(lang === "en"
-                ? ["Rhinoplasty", "Facelift", "Blepharoplasty", "Liposuction", "Tummy Tuck", "BBL", "Breast Aug", "Fat Grafting"]
-                : ["鼻综合", "面部拉皮", "双眼皮/眼袋", "吸脂", "腹壁整形", "巴西提臀", "隆胸", "脂肪填充"]
-              ).map((p) => (
+              {(lang === "zh" ? ["鼻综合", "面部拉皮", "双眼皮/眼袋", "吸脂", "腹壁整形", "巴西提臀", "隆胸", "脂肪填充"] : ["Rhinoplasty", "Facelift", "Blepharoplasty", "Liposuction", "Tummy Tuck", "BBL", "Breast Aug", "Fat Grafting"]).map((p) => (
                 <span key={p} className="pill bg-card/80 backdrop-blur shadow-soft text-foreground">
                   <Flame className="size-3 text-primary" /> {p}
                 </span>
@@ -125,7 +122,7 @@ const Hero = () => {
                 />
                 <div className="absolute inset-x-0 bottom-0 p-2.5 bg-gradient-to-t from-black/70 to-transparent">
                   <p className="text-[11px] font-semibold text-white">{v.who}</p>
-                  <p className="text-[10px] text-white/80">{lang === "en" ? v.tagEn : v.tagZh}</p>
+                  <p className="text-[10px] text-white/80">{lang === "zh" ? v.tagZh : v.tagEn}</p>
                 </div>
               </Link>
             ))}
@@ -139,10 +136,10 @@ const Hero = () => {
               </div>
               <div>
                 <p className="text-xs font-display font-semibold leading-tight">
-                  {lang === "en" ? "More real-case videos" : "查看更多真实案例视频"}
+                  {lang === "zh" ? "查看更多真实案例视频" : "More real-case videos"}
                 </p>
                 <p className="text-[10px] text-muted-foreground mt-0.5">
-                  {lang === "en" ? "Tap to open the case wall" : "点击进入案例视频墙"}
+                  {lang === "zh" ? "点击进入案例视频墙" : "Tap to open the case wall"}
                 </p>
               </div>
             </Link>
@@ -182,7 +179,7 @@ const ComplianceBar = () => {
 
 const TravelBar = () => {
   const { lang } = useCn();
-  if (lang !== "en") return null;
+  if (lang === "zh") return null;
   return (
     <section className="container py-6">
       <div className="rounded-3xl bg-gradient-to-r from-[hsl(190,70%,92%)] via-[hsl(155,60%,90%)] to-[hsl(50,80%,92%)] p-6 md:p-7 grid md:grid-cols-4 gap-4 items-center shadow-soft">
@@ -222,25 +219,25 @@ const CitiesSection = () => {
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         {cities.map((c) => (
           <Link key={c.en} to={`/cities/${c.en.toLowerCase()}`} className="rounded-3xl bg-card shadow-soft hover:shadow-pop transition-all hover:-translate-y-1 p-5 group">
-            <p className="font-display text-2xl font-semibold">{lang === "en" ? c.en : c.zh}</p>
-            <p className="text-xs text-muted-foreground">{lang === "en" ? c.zh : c.en}</p>
+            <p className="font-display text-2xl font-semibold">{lang === "zh" ? c.zh : c.en}</p>
+            <p className="text-xs text-muted-foreground">{lang === "zh" ? c.en : c.zh}</p>
             <p className="text-xs text-muted-foreground mt-3">
-              {lang === "en" ? "Trending procedures" : "热门手术"}
+              {lang === "zh" ? "热门手术" : "Trending procedures"}
             </p>
             <div className="flex flex-wrap gap-1 mt-2">
-              {(lang === "en" ? c.hot.en : c.hot.zh).map((h) => (
+              {(lang === "zh" ? c.hot.zh : c.hot.en).map((h) => (
                 <span key={h} className="text-[10px] px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground">{h}</span>
               ))}
             </div>
             <p className="text-[11px] text-primary font-semibold mt-3 inline-flex items-center gap-1 group-hover:translate-x-0.5 transition">
-              {lang === "en" ? "Explore city" : "查看城市"} <ArrowRight className="size-3" />
+              {lang === "zh" ? "查看城市" : "Explore city"} <ArrowRight className="size-3" />
             </p>
           </Link>
         ))}
       </div>
       <div className="mt-6 flex justify-center">
         <Link to="/cities" className="inline-flex items-center gap-1.5 rounded-full bg-foreground text-background px-5 py-2.5 text-sm font-semibold hover:bg-foreground/90 transition">
-          {lang === "en" ? "All cities" : "查看全部城市"} <ArrowRight className="size-4" />
+          {lang === "zh" ? "查看全部城市" : "All cities"} <ArrowRight className="size-4" />
         </Link>
       </div>
     </section>
@@ -263,11 +260,11 @@ const TreatmentsSection = () => {
           <div key={tx.en} className={`rounded-3xl p-5 bg-gradient-to-br ${tx.grad} hover:-translate-y-1 transition-transform shadow-soft relative overflow-hidden`}>
             {tx.tag && (
               <span className="absolute top-3 right-3 text-[10px] px-2 py-0.5 rounded-full bg-foreground text-background font-semibold">
-                {lang === "en" ? tx.tag.en : tx.tag.zh}
+                {lang === "zh" ? tx.tag.zh : tx.tag.en}
               </span>
             )}
             <div className="text-3xl">{tx.emoji}</div>
-            <p className="font-display text-lg font-semibold mt-3 leading-tight">{lang === "en" ? tx.en : tx.zh}</p>
+            <p className="font-display text-lg font-semibold mt-3 leading-tight">{lang === "zh" ? tx.zh : tx.en}</p>
             <div className="mt-3 flex items-baseline gap-2 flex-wrap">
               <span className="font-display text-2xl font-semibold">{fmt(tx.from)}</span>
               {tx.orig && <span className="text-xs line-through text-muted-foreground">{fmt(tx.orig)}</span>}
@@ -305,7 +302,7 @@ const DoctorsSection = () => {
           to="/doctors"
           className="text-sm font-semibold pill bg-foreground text-background hover:bg-foreground/90 px-5 py-2"
         >
-          {lang === "en" ? "Browse all surgeons" : "查看全部医师"} <ArrowRight className="size-4" />
+          {lang === "zh" ? "查看全部医师" : "Browse all surgeons"} <ArrowRight className="size-4" />
         </Link>
       </div>
       <div className="grid md:grid-cols-3 gap-6">
@@ -316,15 +313,15 @@ const DoctorsSection = () => {
             className="rounded-3xl bg-card shadow-pop p-6 hover:shadow-glow transition group block"
           >
             <div className="flex items-center gap-4">
-              <img src={d.img} alt={lang === "en" ? d.en : d.zh} className="size-16 rounded-2xl object-cover" />
+              <img src={d.img} alt={lang === "zh" ? d.zh : d.en} className="size-16 rounded-2xl object-cover" />
               <div className="min-w-0">
-                <p className="font-display text-lg font-semibold leading-tight truncate">{lang === "en" ? d.en : d.zh}</p>
-                <p className="text-xs text-muted-foreground mt-1 truncate">{lang === "en" ? d.titleEn : d.titleZh} · {lang === "en" ? d.cityEn : d.cityZh}</p>
+                <p className="font-display text-lg font-semibold leading-tight truncate">{lang === "zh" ? d.zh : d.en}</p>
+                <p className="text-xs text-muted-foreground mt-1 truncate">{lang === "zh" ? d.titleZh : d.titleEn} · {lang === "zh" ? d.cityZh : d.cityEn}</p>
               </div>
             </div>
             <p className="text-sm text-muted-foreground mt-4 flex items-center gap-1">
               <Building2 className="size-3.5 shrink-0" />
-              <span className="truncate">{lang === "en" ? d.clinicEn : d.clinicZh}</span>
+              <span className="truncate">{lang === "zh" ? d.clinicZh : d.clinicEn}</span>
             </p>
 
             <div className="mt-4 rounded-2xl bg-muted/40 p-3 space-y-1.5 text-[11px]">
@@ -335,13 +332,13 @@ const DoctorsSection = () => {
               </div>
               <p className="text-muted-foreground flex items-start gap-1.5">
                 <BadgeCheck className="size-3 text-primary mt-0.5 shrink-0" />
-                <span className="line-clamp-2">{lang === "en" ? d.qualEn : d.qualZh}</span>
+                <span className="line-clamp-2">{lang === "zh" ? d.qualZh : d.qualEn}</span>
               </p>
             </div>
 
             <div className="mt-4 grid grid-cols-3 gap-2 text-center">
               <div className="rounded-xl bg-secondary py-2">
-                <p className="font-display text-base font-semibold">{d.years}{lang === "en" ? "" : "年"}</p>
+                <p className="font-display text-base font-semibold">{d.years}{lang === "zh" ? "年" : ""}</p>
                 <p className="text-[10px] text-muted-foreground">{t("doctors.exp")}</p>
               </div>
               <div className="rounded-xl bg-secondary py-2">
@@ -357,7 +354,7 @@ const DoctorsSection = () => {
             </div>
 
             <div className="mt-4 flex flex-wrap gap-1">
-              {(lang === "en" ? d.specEn : d.specZh).map((s) => (
+              {(lang === "zh" ? d.specZh : d.specEn).map((s) => (
                 <span key={s} className="text-[10px] px-2 py-0.5 rounded-full bg-accent text-accent-foreground">{s}</span>
               ))}
             </div>

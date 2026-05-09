@@ -20,7 +20,7 @@ const CityDetail = () => {
   const cityDoctors = DOCTORS.filter((d) => d.cityEn === city.en);
   const cityCaseIds = new Set(cityDoctors.flatMap((d) => d.caseIds));
   const cityCases = TIKTOK_CASES.filter((c) => cityCaseIds.has(c.id));
-  const travel = lang === "en" ? city.travelEn : city.travelZh;
+  const travel = lang === "zh" ? city.travelZh : city.travelEn;
 
   return (
     <div className="min-h-screen bg-background">
@@ -33,7 +33,7 @@ const CityDetail = () => {
           className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition"
         >
           <ArrowLeft className="size-4" />
-          {lang === "en" ? "All cities" : "返回城市列表"}
+          {lang === "zh" ? "返回城市列表" : "All cities"}
         </Link>
       </div>
 
@@ -43,23 +43,23 @@ const CityDetail = () => {
           <div className="lg:col-span-7 space-y-5">
             <span className="pill bg-accent text-accent-foreground">
               <MapPin className="size-3.5" />
-              {lang === "en" ? "City guide" : "城市指南"}
+              {lang === "zh" ? "城市指南" : "City guide"}
             </span>
             <h1 className="font-display text-5xl md:text-6xl font-medium tracking-tight leading-[0.95]">
-              {lang === "en" ? city.en : city.zh}
+              {lang === "zh" ? city.zh : city.en}
               <span className="block text-primary text-2xl md:text-3xl mt-2 font-normal italic">
-                {lang === "en" ? city.taglineEn : city.taglineZh}
+                {lang === "zh" ? city.taglineZh : city.taglineEn}
               </span>
             </h1>
             <p className="text-foreground/80 leading-relaxed max-w-2xl">
-              {lang === "en" ? city.introEn : city.introZh}
+              {lang === "zh" ? city.introZh : city.introEn}
             </p>
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl pt-2">
-              <HeroStat icon={<Building2 className="size-4" />} value={`${city.clinics}`} label={lang === "en" ? "Hospitals" : "正规机构"} />
-              <HeroStat icon={<Stethoscope className="size-4" />} value={`${city.doctorsCount}`} label={lang === "en" ? "Surgeons" : "主刀医生"} />
-              <HeroStat icon={<Sparkles className="size-4" />} value={`${cityDoctors.length}`} label={lang === "en" ? "On glowy" : "平台医师"} />
-              <HeroStat icon={<Wallet className="size-4" />} value={city.savings} label={lang === "en" ? "vs US clinics" : "对比美国"} />
+              <HeroStat icon={<Building2 className="size-4" />} value={`${city.clinics}`} label={lang === "zh" ? "正规机构" : "Hospitals"} />
+              <HeroStat icon={<Stethoscope className="size-4" />} value={`${city.doctorsCount}`} label={lang === "zh" ? "主刀医生" : "Surgeons"} />
+              <HeroStat icon={<Sparkles className="size-4" />} value={`${cityDoctors.length}`} label={lang === "zh" ? "平台医师" : "On glowy"} />
+              <HeroStat icon={<Wallet className="size-4" />} value={city.savings} label={lang === "zh" ? "对比美国" : "vs US clinics"} />
             </div>
           </div>
 
@@ -68,10 +68,10 @@ const CityDetail = () => {
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
             <div className="absolute bottom-5 left-5 right-5 text-background">
               <p className="text-xs uppercase tracking-wider opacity-80 mb-2">
-                {lang === "en" ? "Trending procedures" : "热门项目"}
+                {lang === "zh" ? "热门项目" : "Trending procedures"}
               </p>
               <div className="flex flex-wrap gap-1.5">
-                {(lang === "en" ? city.hotEn : city.hotZh).map((h) => (
+                {(lang === "zh" ? city.hotZh : city.hotEn).map((h) => (
                   <span key={h} className="text-[11px] px-2.5 py-1 rounded-full bg-background/95 text-foreground font-medium">
                     {h}
                   </span>
@@ -86,10 +86,10 @@ const CityDetail = () => {
       <section className="container py-10">
         <div className="rounded-3xl bg-card shadow-soft p-6 md:p-8">
           <h2 className="font-display text-2xl md:text-3xl font-semibold mb-5">
-            {lang === "en" ? `Why ${city.en}?` : `为什么选 ${city.zh}？`}
+            {lang === "zh" ? `为什么选 ${city.zh}？` : `Why ${city.en}?`}
           </h2>
           <div className="grid md:grid-cols-3 gap-4">
-            {(lang === "en" ? city.whyEn : city.whyZh).map((w) => (
+            {(lang === "zh" ? city.whyZh : city.whyEn).map((w) => (
               <div key={w} className="flex gap-3 items-start">
                 <CheckCircle2 className="size-5 text-primary shrink-0 mt-0.5" />
                 <p className="text-sm text-foreground/80 leading-relaxed">{w}</p>
@@ -105,27 +105,23 @@ const CityDetail = () => {
           <div>
             <span className="pill bg-accent text-accent-foreground mb-2">
               <Stethoscope className="size-3.5" />
-              {lang === "en" ? "Verified surgeons" : "认证主刀"}
+              {lang === "zh" ? "认证主刀" : "Verified surgeons"}
             </span>
             <h2 className="font-display text-3xl md:text-4xl font-semibold">
-              {lang === "en"
-                ? `Top surgeons in ${city.en}`
-                : `${city.zh}主刀医生推荐`}
+              {lang === "zh" ? `${city.zh}主刀医生推荐` : `Top surgeons in ${city.en}`}
             </h2>
           </div>
           <Link
             to="/doctors"
             className="hidden md:inline-flex items-center gap-1 text-sm font-semibold text-primary hover:translate-x-0.5 transition"
           >
-            {lang === "en" ? "All surgeons" : "全部医生"} <ArrowRight className="size-4" />
+            {lang === "zh" ? "全部医生" : "All surgeons"} <ArrowRight className="size-4" />
           </Link>
         </div>
 
         {cityDoctors.length === 0 ? (
           <p className="text-sm text-muted-foreground">
-            {lang === "en"
-              ? "No glowy-listed surgeons yet for this city — request a match below."
-              : "本城市暂无平台主推医师，可在下方提交匹配申请。"}
+            {lang === "zh" ? "本城市暂无平台主推医师，可在下方提交匹配申请。" : "No glowy-listed surgeons yet for this city — request a match below."}
           </p>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -140,24 +136,24 @@ const CityDetail = () => {
                 </div>
                 <div className="p-5 space-y-2">
                   <p className="font-display text-lg font-semibold leading-tight">
-                    {lang === "en" ? d.en : d.zh}
+                    {lang === "zh" ? d.zh : d.en}
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    {lang === "en" ? d.titleEn : d.titleZh}
+                    {lang === "zh" ? d.titleZh : d.titleEn}
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    {lang === "en" ? d.clinicEn : d.clinicZh}
+                    {lang === "zh" ? d.clinicZh : d.clinicEn}
                   </p>
                   <div className="flex items-center gap-3 text-xs text-foreground/70 pt-1">
                     <span className="flex items-center gap-1">
                       <Star className="size-3 text-primary fill-primary" />
                       {d.rating} · {d.reviews}
                     </span>
-                    <span>{d.years}{lang === "en" ? "y" : "年"}</span>
+                    <span>{d.years}{lang === "zh" ? "年" : "y"}</span>
                     <span>{d.surgeries}</span>
                   </div>
                   <div className="flex flex-wrap gap-1 pt-2">
-                    {(lang === "en" ? d.specEn : d.specZh).slice(0, 3).map((s) => (
+                    {(lang === "zh" ? d.specZh : d.specEn).slice(0, 3).map((s) => (
                       <span key={s} className="text-[10px] px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground">
                         {s}
                       </span>
@@ -176,10 +172,10 @@ const CityDetail = () => {
         <section className="container py-10">
           <div className="flex items-end justify-between mb-5 gap-4">
             <h2 className="font-display text-3xl md:text-4xl font-semibold">
-              {lang === "en" ? `Real cases from ${city.en}` : `${city.zh}真实案例`}
+              {lang === "zh" ? `${city.zh}真实案例` : `Real cases from ${city.en}`}
             </h2>
             <Link to="/cases" className="text-sm font-semibold text-primary hover:translate-x-0.5 transition inline-flex items-center gap-1">
-              {lang === "en" ? "All cases" : "全部案例"} <ArrowRight className="size-4" />
+              {lang === "zh" ? "全部案例" : "All cases"} <ArrowRight className="size-4" />
             </Link>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -193,7 +189,7 @@ const CityDetail = () => {
                   <video src={c.src} muted loop playsInline className="absolute inset-0 size-full object-cover" />
                   <div className="absolute inset-x-0 bottom-0 p-2.5 bg-gradient-to-t from-black/80 to-transparent">
                     <p className="text-[11px] text-background font-semibold leading-tight">
-                      {lang === "en" ? c.treatment.en : c.treatment.zh}
+                      {lang === "zh" ? c.treatment.zh : c.treatment.en}
                     </p>
                     <p className="text-[10px] text-background/80 mt-0.5">
                       {fmt(c.priceCny)}
@@ -210,13 +206,13 @@ const CityDetail = () => {
       <section className="container py-10">
         <div className="rounded-3xl bg-gradient-to-r from-[hsl(190,70%,92%)] via-[hsl(155,60%,90%)] to-[hsl(50,80%,92%)] p-6 md:p-8 shadow-soft">
           <h2 className="font-display text-2xl md:text-3xl font-semibold mb-5">
-            {lang === "en" ? "Travel essentials" : "出行配套"}
+            {lang === "zh" ? "出行配套" : "Travel essentials"}
           </h2>
           <div className="grid md:grid-cols-4 gap-4">
-            <TravelCard icon={<Plane className="size-5 text-primary" />} title={lang === "en" ? "Airports" : "机场"} body={travel.airport} />
-            <TravelCard icon={<FileCheck2 className="size-5 text-primary" />} title={lang === "en" ? "Visa" : "签证"} body={travel.visa} />
-            <TravelCard icon={<Hotel className="size-5 text-primary" />} title={lang === "en" ? "Recovery hotels" : "恢复酒店"} body={travel.hotel} />
-            <TravelCard icon={<Languages className="size-5 text-primary" />} title={lang === "en" ? "Languages" : "语言"} body={travel.lang} />
+            <TravelCard icon={<Plane className="size-5 text-primary" />} title={lang === "zh" ? "机场" : "Airports"} body={travel.airport} />
+            <TravelCard icon={<FileCheck2 className="size-5 text-primary" />} title={lang === "zh" ? "签证" : "Visa"} body={travel.visa} />
+            <TravelCard icon={<Hotel className="size-5 text-primary" />} title={lang === "zh" ? "恢复酒店" : "Recovery hotels"} body={travel.hotel} />
+            <TravelCard icon={<Languages className="size-5 text-primary" />} title={lang === "zh" ? "语言" : "Languages"} body={travel.lang} />
           </div>
         </div>
       </section>
@@ -226,21 +222,17 @@ const CityDetail = () => {
         <div className="rounded-3xl bg-foreground text-background p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <div>
             <h2 className="font-display text-2xl md:text-3xl font-semibold">
-              {lang === "en"
-                ? `Plan your ${city.en} trip with glowy`
-                : `让 glowy 为你规划 ${city.zh} 行程`}
+              {lang === "zh" ? `让 glowy 为你规划 ${city.zh} 行程` : `Plan your ${city.en} trip with glowy`}
             </h2>
             <p className="text-sm text-background/80 mt-2 max-w-xl">
-              {lang === "en"
-                ? "Surgeon shortlist, price quote, hospital booking and recovery hotel — handled by an English-speaking coordinator."
-                : "主刀候选 / 报价 / 机构预约 / 恢复酒店，全程中英文专属顾问对接。"}
+              {lang === "zh" ? "主刀候选 / 报价 / 机构预约 / 恢复酒店，全程中英文专属顾问对接。" : "Surgeon shortlist, price quote, hospital booking and recovery hotel — handled by an English-speaking coordinator."}
             </p>
           </div>
           <Link
             to="/doctors"
             className="inline-flex items-center gap-2 rounded-full bg-background text-foreground px-6 py-3 text-sm font-semibold hover:opacity-90 transition shrink-0"
           >
-            {lang === "en" ? "Get matched" : "立即匹配主刀"} <ArrowRight className="size-4" />
+            {lang === "zh" ? "立即匹配主刀" : "Get matched"} <ArrowRight className="size-4" />
           </Link>
         </div>
       </section>

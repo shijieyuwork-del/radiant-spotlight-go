@@ -17,14 +17,14 @@ const Doctors = () => {
 
   const cities = useMemo(() => {
     const set = new Map<string, string>();
-    DOCTORS.forEach((d) => set.set(d.cityEn, d[lang === "en" ? "cityEn" : "cityZh"]));
+    DOCTORS.forEach((d) => set.set(d.cityEn, d[lang === "zh" ? "cityZh" : "cityEn"]));
     return Array.from(set, ([key, label]) => ({ key, label }));
   }, [lang]);
 
   const specialties = useMemo(() => {
     const set = new Map<string, string>();
     DOCTORS.forEach((d) =>
-      d.specEn.forEach((s, i) => set.set(s, lang === "en" ? s : d.specZh[i] ?? s)),
+      d.specEn.forEach((s, i) => set.set(s, lang === "zh" ? d.specZh[i] ?? s : s)),
     );
     return Array.from(set, ([key, label]) => ({ key, label }));
   }, [lang]);
@@ -52,9 +52,7 @@ const Doctors = () => {
             {t("doctors.title1")} <em className="text-primary not-italic">{t("doctors.titleEm")}</em>
           </h1>
           <p className="text-muted-foreground mt-3">
-            {lang === "en"
-              ? "Every surgeon below is licensed by the China NHC. Filter by procedure or city, then click any profile to read their bio and verified case diaries."
-              : "每位医师均持有国家卫健委颁发的《医师执业证》。可按手术类型与城市筛选，点击档案查看完整介绍与真实手术案例。"}
+            {lang === "zh" ? "每位医师均持有国家卫健委颁发的《医师执业证》。可按手术类型与城市筛选，点击档案查看完整介绍与真实手术案例。" : "Every surgeon below is licensed by the China NHC. Filter by procedure or city, then click any profile to read their bio and verified case diaries."}
           </p>
         </div>
 
@@ -65,7 +63,7 @@ const Doctors = () => {
               value={q}
               onChange={(e) => setQ(e.target.value)}
               className="w-full bg-transparent outline-none text-sm font-medium"
-              placeholder={lang === "en" ? "Search by name, clinic or specialty…" : "搜索医生、机构或擅长项目…"}
+              placeholder={lang === "zh" ? "搜索医生、机构或擅长项目…" : "Search by name, clinic or specialty…"}
             />
           </div>
         </div>
@@ -73,7 +71,7 @@ const Doctors = () => {
         {/* Procedure filter */}
         <div className="mb-3">
           <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold text-center mb-2">
-            {lang === "en" ? "Procedure" : "手术类型"}
+            {lang === "zh" ? "手术类型" : "Procedure"}
           </p>
           <div className="flex items-center gap-2 flex-wrap justify-center">
             <Button variant={spec === "all" ? "default" : "outline"} size="sm" className="rounded-full" onClick={() => setSpec("all")}>
@@ -90,7 +88,7 @@ const Doctors = () => {
         {/* City filter */}
         <div className="mb-10">
           <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold text-center mb-2">
-            {lang === "en" ? "City" : "城市"}
+            {lang === "zh" ? "城市" : "City"}
           </p>
           <div className="flex items-center gap-2 flex-wrap justify-center">
             <span className="text-xs text-muted-foreground inline-flex items-center gap-1 mr-1"><Filter className="size-3" /></span>
@@ -107,7 +105,7 @@ const Doctors = () => {
 
         {items.length === 0 ? (
           <p className="text-center text-muted-foreground py-12 text-sm">
-            {lang === "en" ? "No surgeons match this filter." : "没有匹配的医师，换个筛选试试。"}
+            {lang === "zh" ? "没有匹配的医师，换个筛选试试。" : "No surgeons match this filter."}
           </p>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -118,21 +116,21 @@ const Doctors = () => {
                 className="rounded-3xl bg-card shadow-pop p-6 hover:shadow-glow transition group block"
               >
                 <div className="flex items-center gap-4">
-                  <img src={d.img} alt={lang === "en" ? d.en : d.zh} className="size-16 rounded-2xl object-cover" />
+                  <img src={d.img} alt={lang === "zh" ? d.zh : d.en} className="size-16 rounded-2xl object-cover" />
                   <div className="min-w-0">
-                    <p className="font-display text-lg font-semibold leading-tight truncate">{lang === "en" ? d.en : d.zh}</p>
+                    <p className="font-display text-lg font-semibold leading-tight truncate">{lang === "zh" ? d.zh : d.en}</p>
                     <p className="text-xs text-muted-foreground mt-1 truncate">
-                      {lang === "en" ? d.titleEn : d.titleZh}
+                      {lang === "zh" ? d.titleZh : d.titleEn}
                     </p>
                     <p className="text-[11px] text-muted-foreground mt-0.5 inline-flex items-center gap-1">
-                      <MapPin className="size-3" /> {lang === "en" ? d.cityEn : d.cityZh}
+                      <MapPin className="size-3" /> {lang === "zh" ? d.cityZh : d.cityEn}
                     </p>
                   </div>
                 </div>
 
                 <p className="text-sm text-muted-foreground mt-4 flex items-center gap-1">
                   <Building2 className="size-3.5 shrink-0" />
-                  <span className="truncate">{lang === "en" ? d.clinicEn : d.clinicZh}</span>
+                  <span className="truncate">{lang === "zh" ? d.clinicZh : d.clinicEn}</span>
                 </p>
 
                 <div className="mt-4 rounded-2xl bg-muted/40 p-3 space-y-1.5 text-[11px]">
@@ -143,13 +141,13 @@ const Doctors = () => {
                   </div>
                   <p className="text-muted-foreground flex items-start gap-1.5">
                     <BadgeCheck className="size-3 text-primary mt-0.5 shrink-0" />
-                    <span className="line-clamp-2">{lang === "en" ? d.qualEn : d.qualZh}</span>
+                    <span className="line-clamp-2">{lang === "zh" ? d.qualZh : d.qualEn}</span>
                   </p>
                 </div>
 
                 <div className="mt-4 grid grid-cols-3 gap-2 text-center">
                   <div className="rounded-xl bg-secondary py-2">
-                    <p className="font-display text-base font-semibold">{d.years}{lang === "en" ? "" : "年"}</p>
+                    <p className="font-display text-base font-semibold">{d.years}{lang === "zh" ? "年" : ""}</p>
                     <p className="text-[10px] text-muted-foreground">{t("doctors.exp")}</p>
                   </div>
                   <div className="rounded-xl bg-secondary py-2">
@@ -166,11 +164,11 @@ const Doctors = () => {
 
                 <div className="mt-4">
                   <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold mb-1.5">
-                    {lang === "en" ? "Procedures" : "手术类型"}
+                    {lang === "zh" ? "手术类型" : "Procedures"}
                   </p>
                   <div className="flex flex-wrap gap-1.5">
                     {d.specEn.map((sEn, i) => {
-                      const label = lang === "en" ? sEn : (d.specZh[i] ?? sEn);
+                      const label = lang === "zh" ? (d.specZh[i] ?? sEn) : sEn;
                       const matched = spec !== "all" && sEn === spec;
                       return (
                         <span

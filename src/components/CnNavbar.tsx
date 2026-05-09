@@ -73,7 +73,7 @@ const CnNavbar = ({ homeLinks = true }: Props) => {
           </DropdownMenu>
           <Button onClick={() => open()} className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 px-5 gap-1.5">
             <MessageCircle className="size-4" />
-            {lang === "en" ? "Consult" : "人工咨询"}
+            {lang === "zh" ? "人工咨询" : "Consult"}
           </Button>
           {user ? (
             <DropdownMenu>
@@ -88,13 +88,13 @@ const CnNavbar = ({ homeLinks = true }: Props) => {
                 <DropdownMenuLabel className="truncate">{user.email}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className="rounded-xl gap-2" disabled>
-                  <UserIcon className="size-4" /> {lang === "en" ? "Profile" : "个人中心"}
+                  <UserIcon className="size-4" /> {lang === "zh" ? "个人中心" : "Profile"}
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   className="rounded-xl gap-2 text-destructive focus:text-destructive"
                   onClick={async () => { await signOut(); navigate("/"); }}
                 >
-                  <LogOut className="size-4" /> {lang === "en" ? "Sign out" : "退出登录"}
+                  <LogOut className="size-4" /> {lang === "zh" ? "退出登录" : "Sign out"}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

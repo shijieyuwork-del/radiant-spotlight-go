@@ -19,7 +19,7 @@ export type TikTokItem = {
 
 export type TikTokWallProps = {
   items: TikTokItem[];
-  lang: "en" | "zh";
+  lang: "en" | "zh" | "ru";
   fmtPrice: (cny: number) => string;
   /** 'preview' = small grid, 'wall' = larger immersive wall */
   variant?: "preview" | "wall";
@@ -33,7 +33,7 @@ const labels = {
 
 const TikTokCard = ({
   item, lang, fmtPrice, caseHrefBase = "/cases/",
-}: { item: TikTokItem; lang: "en" | "zh"; fmtPrice: (n: number) => string; caseHrefBase?: string }) => {
+}: { item: TikTokItem; lang: "en" | "zh" | "ru"; fmtPrice: (n: number) => string; caseHrefBase?: string }) => {
   const ref = useRef<HTMLVideoElement>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
   const [muted, setMuted] = useState(true);
