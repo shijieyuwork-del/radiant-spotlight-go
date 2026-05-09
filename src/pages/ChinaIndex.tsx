@@ -488,45 +488,22 @@ const CasesSection = () => {
   const { t, lang, fmt } = useCn();
   return (
     <section id="cases" className="container py-16 md:py-20">
-      <div className="mb-8">
-        <span className="pill bg-accent text-accent-foreground mb-3"><Heart className="size-3.5" /> {t("cases.kicker")}</span>
-        <h2 className="font-display text-4xl md:text-5xl font-medium tracking-tight">
-          {t("cases.title1")} <em className="text-primary not-italic">{t("cases.titleEm")}</em>
-        </h2>
+      <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
+        <div>
+          <span className="pill bg-accent text-accent-foreground mb-3"><Heart className="size-3.5" /> {t("cases.kicker")}</span>
+          <h2 className="font-display text-4xl md:text-5xl font-medium tracking-tight">
+            {t("cases.title1")} <em className="text-primary not-italic">{t("cases.titleEm")}</em>
+          </h2>
+          <p className="text-sm text-muted-foreground mt-2">{t("cases.wallSub")}</p>
+        </div>
+        <Link
+          to="/cases"
+          className="text-sm font-semibold pill bg-foreground text-background hover:bg-foreground/90 px-5 py-2"
+        >
+          {t("cases.viewAll")} <ArrowRight className="size-4" />
+        </Link>
       </div>
-      <Tabs defaultValue="all" className="w-full">
-        <TabsList className="rounded-full bg-muted/60 p-1 h-auto">
-          <TabsTrigger value="all" className="rounded-full px-4 py-1.5 text-sm">{t("cases.tabAll")}</TabsTrigger>
-          {(lang === "en"
-            ? ["Double Eyelid", "Rhinoplasty", "Thermage", "HA Filler"]
-            : ["双眼皮", "鼻综合", "热玛吉", "玻尿酸"]
-          ).map((tab) => (
-            <TabsTrigger key={tab} value={tab} className="rounded-full px-4 py-1.5 text-sm">{tab}</TabsTrigger>
-          ))}
-        </TabsList>
-        <TabsContent value="all" className="mt-6">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {cases.map((c, i) => (
-              <div key={i} className="rounded-2xl overflow-hidden bg-card shadow-soft hover:-translate-y-1 transition-transform">
-                <div className="aspect-[3/4] overflow-hidden">
-                  <img src={c.src} alt={lang === "en" ? c.enCap : c.zhCap} className="w-full h-full object-cover" />
-                </div>
-                <div className="p-3">
-                  <p className="text-[11px] text-muted-foreground">{lang === "en" ? c.enUser : c.zhUser}</p>
-                  <p className="text-xs font-medium leading-snug mt-1 line-clamp-2">{lang === "en" ? c.enCap : c.zhCap}</p>
-                  <div className="mt-2 flex items-center justify-between text-[11px] text-muted-foreground">
-                    <span className="flex items-center gap-2">
-                      <span className="flex items-center gap-0.5"><Heart className="size-3" />{c.likes}</span>
-                      <span className="flex items-center gap-0.5"><MessageCircle className="size-3" />{c.comments}</span>
-                    </span>
-                    <span className="text-primary font-semibold">{fmt(c.priceCny)}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </TabsContent>
-      </Tabs>
+      <TikTokWall items={TIKTOK_CASES} lang={lang} fmtPrice={fmt} variant="preview" />
     </section>
   );
 };
