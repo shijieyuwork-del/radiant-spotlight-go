@@ -95,7 +95,7 @@ const Packages = () => {
       <section className="container py-12 md:py-16 text-center">
         <span className="pill bg-accent text-accent-foreground mb-3">
           <ShieldCheck className="size-3.5" />
-          {lang === "en" ? "Concierge packages" : "服务套餐"}
+          {lang === "zh" ? PLACEHOLDER_SWAP : "Concierge packages" SWAP_END"服务套餐"}
         </span>
         <h1 className="font-display text-4xl md:text-6xl font-medium tracking-tight max-w-3xl mx-auto">
           {lang === "en" ? (
@@ -125,7 +125,7 @@ const Packages = () => {
               >
                 {p.highlight && (
                   <span className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 text-[11px] px-3 py-1 rounded-full bg-foreground text-background font-semibold uppercase tracking-wider whitespace-nowrap">
-                    {lang === "en" ? "Most popular" : "最受欢迎"}
+                    {lang === "zh" ? PLACEHOLDER_SWAP : "Most popular" SWAP_END"最受欢迎"}
                   </span>
                 )}
                 <div className="rounded-[22px] bg-card h-full p-6 md:p-7 flex flex-col">
@@ -135,10 +135,10 @@ const Packages = () => {
                     </div>
                     <div>
                       <p className="font-display text-xl font-semibold leading-tight">
-                        {lang === "en" ? p.nameEn : p.nameZh}
+                        {lang === "zh" ? PLACEHOLDER_SWAP : p.nameEn SWAP_ENDp.nameZh}
                       </p>
                       <p className="text-[11px] text-muted-foreground mt-0.5">
-                        {lang === "en" ? p.taglineEn : p.taglineZh}
+                        {lang === "zh" ? PLACEHOLDER_SWAP : p.taglineEn SWAP_ENDp.taglineZh}
                       </p>
                     </div>
                   </div>
@@ -161,7 +161,7 @@ const Packages = () => {
                         ${p.price.toLocaleString()}
                       </span>
                       <span className="text-xs text-muted-foreground">
-                        {lang === "en" ? "/ trip · USD" : "/ 次行程 · 美元"}
+                        {lang === "zh" ? PLACEHOLDER_SWAP : "/ trip · USD" SWAP_END"/ 次行程 · 美元"}
                       </span>
                     </div>
                   </div>
@@ -177,7 +177,7 @@ const Packages = () => {
                           <Check className="size-2.5" strokeWidth={3} />
                         </span>
                         <span className={f.bold ? "font-semibold text-foreground" : "text-foreground/80"}>
-                          {lang === "en" ? f.en : f.zh}
+                          {lang === "zh" ? PLACEHOLDER_SWAP : f.en SWAP_ENDf.zh}
                         </span>
                       </li>
                     ))}
@@ -191,7 +191,7 @@ const Packages = () => {
                         : "bg-accent text-foreground hover:bg-accent/80"
                     }`}
                   >
-                    {lang === "en" ? "Book this package" : "预订该套餐"}
+                    {lang === "zh" ? PLACEHOLDER_SWAP : "Book this package" SWAP_END"预订该套餐"}
                     <ArrowRight className="size-4" />
                   </Link>
                 </div>
@@ -218,7 +218,7 @@ const Packages = () => {
           ].map((n) => (
             <div key={n.en} className="flex gap-2 items-start">
               <ShieldCheck className="size-4 text-primary mt-0.5 shrink-0" />
-              <p className="text-foreground/80">{lang === "en" ? n.en : n.zh}</p>
+              <p className="text-foreground/80">{lang === "zh" ? PLACEHOLDER_SWAP : n.en SWAP_ENDn.zh}</p>
             </div>
           ))}
         </div>

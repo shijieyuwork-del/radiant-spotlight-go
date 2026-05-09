@@ -32,10 +32,10 @@ const DoctorDetail = () => {
         <CnNavbar homeLinks={false} />
         <div className="container py-24 text-center">
           <p className="text-muted-foreground">
-            {lang === "en" ? "Doctor profile not found." : "医师档案不存在。"}
+            {lang === "zh" ? PLACEHOLDER_SWAP : "Doctor profile not found." SWAP_END"医师档案不存在。"}
           </p>
           <Link to="/doctors" className="text-primary underline mt-4 inline-block">
-            {lang === "en" ? "Back to all doctors" : "返回医师列表"}
+            {lang === "zh" ? PLACEHOLDER_SWAP : "Back to all doctors" SWAP_END"返回医师列表"}
           </Link>
         </div>
         <Footer />
@@ -49,7 +49,7 @@ const DoctorDetail = () => {
 
       <section className="container py-8 md:py-12">
         <Link to="/doctors" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-6">
-          <ArrowLeft className="size-4" /> {lang === "en" ? "All doctors" : "全部医师"}
+          <ArrowLeft className="size-4" /> {lang === "zh" ? PLACEHOLDER_SWAP : "All doctors" SWAP_END"全部医师"}
         </Link>
 
         {/* Header card */}
@@ -57,7 +57,7 @@ const DoctorDetail = () => {
           <div className="md:col-span-3">
             <img
               src={doctor.img}
-              alt={lang === "en" ? doctor.en : doctor.zh}
+              alt={lang === "zh" ? PLACEHOLDER_SWAP : doctor.en SWAP_ENDdoctor.zh}
               className="w-full aspect-square rounded-3xl object-cover shadow-soft"
             />
           </div>
@@ -66,22 +66,22 @@ const DoctorDetail = () => {
               <BadgeCheck className="size-3.5 text-primary" /> {t("doc.cert")}
             </span>
             <h1 className="font-display text-3xl md:text-4xl font-medium tracking-tight leading-tight">
-              {lang === "en" ? doctor.en : doctor.zh}
+              {lang === "zh" ? PLACEHOLDER_SWAP : doctor.en SWAP_ENDdoctor.zh}
             </h1>
             <p className="text-sm text-muted-foreground">
-              {lang === "en" ? doctor.titleEn : doctor.titleZh}
+              {lang === "zh" ? PLACEHOLDER_SWAP : doctor.titleEn SWAP_ENDdoctor.titleZh}
             </p>
             <p className="text-sm flex items-center gap-1.5">
               <Building2 className="size-4 text-primary" />
-              {lang === "en" ? doctor.clinicEn : doctor.clinicZh}
+              {lang === "zh" ? PLACEHOLDER_SWAP : doctor.clinicEn SWAP_ENDdoctor.clinicZh}
             </p>
             <p className="text-sm flex items-center gap-1.5 text-muted-foreground">
               <MapPin className="size-4 text-primary" />
-              {lang === "en" ? doctor.cityEn : doctor.cityZh}
+              {lang === "zh" ? PLACEHOLDER_SWAP : doctor.cityEn SWAP_ENDdoctor.cityZh}
             </p>
 
             <div className="flex flex-wrap gap-1 pt-1">
-              {(lang === "en" ? doctor.specEn : doctor.specZh).map((s) => (
+              {(lang === "zh" ? PLACEHOLDER_SWAP : doctor.specEn SWAP_ENDdoctor.specZh).map((s) => (
                 <span key={s} className="text-xs px-2.5 py-1 rounded-full bg-accent text-accent-foreground">{s}</span>
               ))}
             </div>
@@ -89,7 +89,7 @@ const DoctorDetail = () => {
 
           <div className="md:col-span-3 grid grid-cols-3 md:grid-cols-1 gap-2">
             <div className="rounded-2xl bg-secondary p-3 text-center">
-              <p className="font-display text-xl font-semibold">{doctor.years}{lang === "en" ? "" : "年"}</p>
+              <p className="font-display text-xl font-semibold">{doctor.years}{lang === "zh" ? PLACEHOLDER_SWAP : "" SWAP_END"年"}</p>
               <p className="text-[10px] text-muted-foreground">{t("doctors.exp")}</p>
             </div>
             <div className="rounded-2xl bg-secondary p-3 text-center">
@@ -116,7 +116,7 @@ const DoctorDetail = () => {
           </div>
           <div className="rounded-2xl bg-muted/40 p-4 flex items-start gap-3">
             <ShieldCheck className="size-4 text-primary mt-0.5 shrink-0" />
-            <p className="text-sm">{lang === "en" ? doctor.qualEn : doctor.qualZh}</p>
+            <p className="text-sm">{lang === "zh" ? PLACEHOLDER_SWAP : doctor.qualEn SWAP_ENDdoctor.qualZh}</p>
           </div>
         </div>
 
@@ -127,10 +127,10 @@ const DoctorDetail = () => {
             <div>
               <h2 className="font-display text-2xl font-medium tracking-tight flex items-center gap-2 mb-3">
                 <Stethoscope className="size-5 text-primary" />
-                {lang === "en" ? "About the surgeon" : "医师简介"}
+                {lang === "zh" ? PLACEHOLDER_SWAP : "About the surgeon" SWAP_END"医师简介"}
               </h2>
               <p className="text-muted-foreground leading-relaxed">
-                {lang === "en" ? doctor.bioEn : doctor.bioZh}
+                {lang === "zh" ? PLACEHOLDER_SWAP : doctor.bioEn SWAP_ENDdoctor.bioZh}
               </p>
             </div>
 
@@ -139,10 +139,10 @@ const DoctorDetail = () => {
               <div className="rounded-3xl bg-card shadow-soft p-5">
                 <h3 className="font-display text-base font-semibold flex items-center gap-2 mb-3">
                   <GraduationCap className="size-4 text-primary" />
-                  {lang === "en" ? "Education & training" : "教育与研修"}
+                  {lang === "zh" ? PLACEHOLDER_SWAP : "Education & training" SWAP_END"教育与研修"}
                 </h3>
                 <ul className="space-y-2 text-sm text-muted-foreground">
-                  {(lang === "en" ? doctor.eduEn : doctor.eduZh).map((line) => (
+                  {(lang === "zh" ? PLACEHOLDER_SWAP : doctor.eduEn SWAP_ENDdoctor.eduZh).map((line) => (
                     <li key={line} className="flex gap-2">
                       <span className="text-primary mt-1">•</span>
                       <span>{line}</span>
@@ -153,10 +153,10 @@ const DoctorDetail = () => {
               <div className="rounded-3xl bg-card shadow-soft p-5">
                 <h3 className="font-display text-base font-semibold flex items-center gap-2 mb-3">
                   <Trophy className="size-4 text-primary" />
-                  {lang === "en" ? "Awards & memberships" : "荣誉与学会"}
+                  {lang === "zh" ? PLACEHOLDER_SWAP : "Awards & memberships" SWAP_END"荣誉与学会"}
                 </h3>
                 <ul className="space-y-2 text-sm text-muted-foreground">
-                  {(lang === "en" ? doctor.awardsEn : doctor.awardsZh).map((line) => (
+                  {(lang === "zh" ? PLACEHOLDER_SWAP : doctor.awardsEn SWAP_ENDdoctor.awardsZh).map((line) => (
                     <li key={line} className="flex gap-2">
                       <span className="text-primary mt-1">•</span>
                       <span>{line}</span>
@@ -169,11 +169,11 @@ const DoctorDetail = () => {
             {/* Cases */}
             <div>
               <h2 className="font-display text-2xl font-medium tracking-tight mb-4">
-                {lang === "en" ? `Verified cases by this surgeon (${cases.length})` : `本医师真实案例（${cases.length}）`}
+                {lang === "zh" ? PLACEHOLDER_SWAP : `Verified cases by this surgeon (${cases.length})` SWAP_END`本医师真实案例（${cases.length}）`}
               </h2>
               {cases.length === 0 ? (
                 <p className="text-sm text-muted-foreground">
-                  {lang === "en" ? "No public cases yet — book a consult to view private galleries." : "暂无公开案例 · 预约面诊可查看私密相册。"}
+                  {lang === "zh" ? PLACEHOLDER_SWAP : "No public cases yet — book a consult to view private galleries." SWAP_END"暂无公开案例 · 预约面诊可查看私密相册。"}
                 </p>
               ) : (
                 <TikTokWall items={cases} lang={lang} fmtPrice={fmt} variant="wall" />
@@ -184,9 +184,9 @@ const DoctorDetail = () => {
           {/* Sidebar */}
           <aside className="lg:col-span-4 space-y-6">
             <div className="rounded-3xl bg-gradient-to-br from-[hsl(155,60%,90%)] to-[hsl(50,80%,92%)] p-5 shadow-soft">
-              <p className="text-xs text-foreground/60">{lang === "en" ? "Book with this surgeon" : "预约本医师"}</p>
+              <p className="text-xs text-foreground/60">{lang === "zh" ? PLACEHOLDER_SWAP : "Book with this surgeon" SWAP_END"预约本医师"}</p>
               <p className="font-display text-xl font-semibold mt-1 leading-tight">
-                {lang === "en" ? "Free 1-on-1 consult" : "免费 1 对 1 面诊"}
+                {lang === "zh" ? PLACEHOLDER_SWAP : "Free 1-on-1 consult" SWAP_END"免费 1 对 1 面诊"}
               </p>
               <p className="text-xs text-foreground/70 mt-2">
                 {lang === "en"
@@ -200,13 +200,13 @@ const DoctorDetail = () => {
 
             <div className="rounded-3xl bg-card shadow-soft p-5">
               <h3 className="font-display text-base font-semibold mb-3">
-                {lang === "en" ? "Reference price list" : "参考价目表"}
+                {lang === "zh" ? PLACEHOLDER_SWAP : "Reference price list" SWAP_END"参考价目表"}
               </h3>
               <ul className="divide-y divide-border">
                 {doctor.priceList.map((p) => (
                   <li key={p.en} className="py-2.5 flex items-center justify-between gap-3 text-sm">
-                    <span className="truncate">{lang === "en" ? p.en : p.zh}</span>
-                    <span className="font-semibold shrink-0">{lang === "en" ? "from " : ""}{fmt(p.from)}{lang === "en" ? "" : " 起"}</span>
+                    <span className="truncate">{lang === "zh" ? PLACEHOLDER_SWAP : p.en SWAP_ENDp.zh}</span>
+                    <span className="font-semibold shrink-0">{lang === "zh" ? PLACEHOLDER_SWAP : "from " : ""}{fmt(p.from)}{lang === "en" ? "" SWAP_END" 起"}</span>
                   </li>
                 ))}
               </ul>
@@ -215,7 +215,7 @@ const DoctorDetail = () => {
             <div className="rounded-3xl bg-card shadow-soft p-5">
               <h3 className="font-display text-base font-semibold flex items-center gap-2 mb-3">
                 <Languages className="size-4 text-primary" />
-                {lang === "en" ? "Languages spoken" : "可用语言"}
+                {lang === "zh" ? PLACEHOLDER_SWAP : "Languages spoken" SWAP_END"可用语言"}
               </h3>
               <div className="flex flex-wrap gap-1.5">
                 {doctor.languages.map((l) => (
@@ -229,15 +229,15 @@ const DoctorDetail = () => {
         {/* Other doctors */}
         <div className="mt-16">
           <h2 className="font-display text-2xl md:text-3xl font-medium tracking-tight mb-6">
-            {lang === "en" ? "Other verified surgeons" : "其他持证医师"}
+            {lang === "zh" ? PLACEHOLDER_SWAP : "Other verified surgeons" SWAP_END"其他持证医师"}
           </h2>
           <div className="grid md:grid-cols-3 gap-6">
             {otherDoctors.map((d) => (
               <Link key={d.id} to={`/doctors/${d.id}`} className="rounded-3xl bg-card shadow-pop p-5 hover:shadow-glow transition flex items-center gap-4 group">
                 <img src={d.img} alt="" className="size-14 rounded-2xl object-cover shrink-0" />
                 <div className="min-w-0 flex-1">
-                  <p className="font-display font-semibold leading-tight truncate">{lang === "en" ? d.en : d.zh}</p>
-                  <p className="text-xs text-muted-foreground mt-0.5 truncate">{lang === "en" ? d.cityEn : d.cityZh} · {(lang === "en" ? d.specEn : d.specZh)[0]}</p>
+                  <p className="font-display font-semibold leading-tight truncate">{lang === "zh" ? PLACEHOLDER_SWAP : d.en SWAP_ENDd.zh}</p>
+                  <p className="text-xs text-muted-foreground mt-0.5 truncate">{lang === "zh" ? PLACEHOLDER_SWAP : d.cityEn : d.cityZh} · {(lang === "en" ? d.specEn SWAP_ENDd.specZh)[0]}</p>
                 </div>
                 <ArrowRight className="size-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition shrink-0" />
               </Link>
