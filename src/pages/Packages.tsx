@@ -52,7 +52,7 @@ const PACKAGES: Pkg[] = [
       { en: "In-Hospital Medical Interpretation", zh: "院内医疗翻译陪同" },
       { en: "Hotel Booking Assistance", zh: "酒店预订协助" },
       { en: "7-Night Stay in a Comfortable Hotel Near the Hospital — Included", zh: "医院附近舒适酒店 7 晚住宿 — 已含", bold: true },
-      { en: "1-on-1 In-Hospital Accompaniment (2 Days)", zh: "1 对 1 院内陪同（2 天）", bold: true },
+      { en: "1-on-1 In-Hospital Accompaniment (3 Days)", zh: "1 对 1 院内陪同（3 天）", bold: true },
     ],
   },
   {
