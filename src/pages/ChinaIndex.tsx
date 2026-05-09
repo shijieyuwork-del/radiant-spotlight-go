@@ -12,12 +12,9 @@ import { TIKTOK_CASES } from "@/data/tiktokCases";
 import { DOCTORS } from "@/data/doctors";
 import { useCn } from "@/lib/cn-i18n";
 import heroBg from "@/assets/hero-bg.jpg";
-import v1 from "@/assets/video1.jpg";
 import v2 from "@/assets/video2.jpg";
 import v3 from "@/assets/video3.jpg";
 import v4 from "@/assets/video4.jpg";
-import v5 from "@/assets/video5.jpg";
-import v6 from "@/assets/video6.jpg";
 import c1 from "@/assets/clinic1.jpg";
 import c2 from "@/assets/clinic2.jpg";
 import c3 from "@/assets/clinic3.jpg";
@@ -68,13 +65,7 @@ const clinics: Clinic[] = [
 ];
 
 // Doctors data lives in src/data/doctors.ts (used by both home + /doctors detail).
-
-const cases = [
-  { src: v4, zhUser: "@小敏_上海", enUser: "@MinShanghai", zhCap: "全切双眼皮第30天｜华美 李文志主任", enCap: "Day 30 — Double eyelid · Huamei Shanghai", likes: "24k", comments: "812", priceCny: 6800 },
-  { src: v2, zhUser: "@Rosie", enUser: "@Rosie", zhCap: "鼻综合术后6个月对比｜北京艺星", enCap: "Rhinoplasty · 6-month reveal · Beijing Yestar", likes: "56k", comments: "1.2k", priceCny: 22800 },
-  { src: v3, zhUser: "@嘉嘉_Cd", enUser: "@JiaChengdu", zhCap: "SMAS拉皮提升术后90天｜成都美莱", enCap: "SMAS facelift · 90-day reveal · Chengdu Meilai", likes: "18k", comments: "624", priceCny: 88000 },
-  { src: v6, zhUser: "@甜甜圈", enUser: "@Donutgirl", zhCap: "脂肪填充全面部 90天 vlog", enCap: "Full-face fat transfer · 90-day vlog", likes: "9.8k", comments: "412", priceCny: 9800 },
-  { src: v1, zhUser: "@momo", enUser: "@momo", zhCap: "下巴假体植入 60天侧脸对比", enCap: "Chin implant · 60-day side profile reveal", likes: "32k", comments: "904", priceCny: 28000 },
+// TikTok cases live in src/data/tiktokCases.ts.
   { src: v5, zhUser: "@Lulu", enUser: "@Lulu", zhCap: "腰腹吸脂塑形 6周恢复日记", enCap: "Waist & abdomen liposuction · 6-week recovery", likes: "11k", comments: "388", priceCny: 32000 },
 ];
 
