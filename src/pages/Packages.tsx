@@ -19,7 +19,7 @@ const PACKAGES: Pkg[] = [
   {
     id: "basic",
     nameEn: "Basic Package", nameZh: "基础套餐",
-    price: 399,
+    price: 398,
     taglineEn: "Essentials for a smooth medical trip",
     taglineZh: "出行必备 · 全程基础保障",
     icon: Sparkles,
@@ -37,7 +37,7 @@ const PACKAGES: Pkg[] = [
   {
     id: "gold",
     nameEn: "Gold Package", nameZh: "金牌套餐",
-    price: 699,
+    price: 698,
     taglineEn: "Most popular · stay + accompaniment included",
     taglineZh: "人气之选 · 含住宿与陪同",
     icon: Crown,
@@ -59,7 +59,7 @@ const PACKAGES: Pkg[] = [
   {
     id: "diamond",
     nameEn: "Diamond VIP Package", nameZh: "钻石尊享套餐",
-    price: 2499,
+    price: 2498,
     taglineEn: "End-to-end VIP · 5-star stay & doctor on call",
     taglineZh: "尊享一站式 · 五星酒店 + 在线医生随叫随到",
     icon: Gem,
