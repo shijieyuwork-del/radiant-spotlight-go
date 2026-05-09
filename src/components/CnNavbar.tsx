@@ -1,15 +1,17 @@
 import { Link } from "react-router-dom";
-import { Sparkles, DollarSign, Languages } from "lucide-react";
+import { Sparkles, DollarSign, Languages, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useCn, cnLangLabel as langLabel, type CnLang as Lang } from "@/lib/cn-i18n";
+import { useQuote } from "@/components/QuoteRequest";
 
 type Props = { homeLinks?: boolean };
 
 const CnNavbar = ({ homeLinks = true }: Props) => {
   const { t, lang, setLang, currency, setCurrency } = useCn();
+  const { open } = useQuote();
   const links = homeLinks
     ? [
         { to: "/cities", label: t("nav.cities") },
@@ -66,6 +68,10 @@ const CnNavbar = ({ homeLinks = true }: Props) => {
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
+          <Button onClick={() => open()} className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 px-5 gap-1.5">
+            <MessageCircle className="size-4" />
+            {lang === "en" ? "Consult" : "人工咨询"}
+          </Button>
           <Button className="rounded-full bg-foreground text-background hover:bg-foreground/90 px-5">{t("nav.signin")}</Button>
         </div>
       </nav>
