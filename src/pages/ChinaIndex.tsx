@@ -15,9 +15,6 @@ import heroBg from "@/assets/hero-bg.jpg";
 import v2 from "@/assets/video2.jpg";
 import v3 from "@/assets/video3.jpg";
 import v4 from "@/assets/video4.jpg";
-import c1 from "@/assets/clinic1.jpg";
-import c2 from "@/assets/clinic2.jpg";
-import c3 from "@/assets/clinic3.jpg";
 
 // ============== Data (bilingual) ==============
 const cities = [
@@ -47,22 +44,7 @@ const treatments: Treatment[] = [
   { zh: "全身体形雕塑", en: "Full Body Contouring", emoji: "🧬", from: 128000, orig: 168000, tag: { en: "Premier", zh: "高端" }, grad: "from-[hsl(190,70%,88%)] to-[hsl(340,85%,90%)]" },
 ];
 
-type Clinic = {
-  zh: string; en: string;
-  cityZh: string; cityEn: string;
-  img: string; rating: number; reviews: number;
-  levelZh: string; levelEn: string;
-  license: string; beian: string; years: number;
-  topZh: string; topEn: string;
-};
-const clinics: Clinic[] = [
-  { zh: "上海华美医疗美容医院", en: "Shanghai Huamei Plastic Surgery Hospital", cityZh: "上海·徐汇", cityEn: "Shanghai · Xuhui", img: c1, rating: 4.9, reviews: 12480, levelZh: "三级整形外科医院", levelEn: "Tier-3 Plastic Surgery Hospital", license: "PDY12-31010520210034", beian: "沪卫医字(2021)第0034号", years: 18, topZh: "鼻综合 / 双眼皮", topEn: "Rhinoplasty / Double Eyelid" },
-  { zh: "北京艺星医疗美容医院", en: "Beijing Yestar Aesthetic Hospital", cityZh: "北京·朝阳", cityEn: "Beijing · Chaoyang", img: c2, rating: 4.88, reviews: 9821, levelZh: "二级专科医院", levelEn: "Tier-2 Specialty Hospital", license: "PDY12-11010520180108", beian: "京卫医字(2018)第0108号", years: 12, topZh: "拉皮提升 / 鼻综合", topEn: "Facelift / Rhinoplasty" },
-  { zh: "成都美莱医学美容医院", en: "Chengdu Meilai Medical Aesthetic Hospital", cityZh: "成都·锦江", cityEn: "Chengdu · Jinjiang", img: c3, rating: 4.85, reviews: 8210, levelZh: "二级整形外科医院", levelEn: "Tier-2 Plastic Surgery Hospital", license: "PDY12-51010320190212", beian: "蓉卫医字(2019)第0212号", years: 15, topZh: "双眼皮 / 下颌轮廓", topEn: "Double Eyelid / Genioplasty" },
-  { zh: "杭州时光医疗美容医院", en: "Hangzhou Shiguang Aesthetic Hospital", cityZh: "杭州·西湖", cityEn: "Hangzhou · West Lake", img: c1, rating: 4.86, reviews: 5642, levelZh: "二级整形外科医院", levelEn: "Tier-2 Plastic Surgery Hospital", license: "PDY12-33010620200417", beian: "浙卫医字(2020)第0417号", years: 10, topZh: "眼袋祛除 / 脂肪填充", topEn: "Eye Bag Removal / Fat Transfer" },
-  { zh: "广州曙光医疗美容门诊部", en: "Guangzhou Shuguang Aesthetic Clinic", cityZh: "广州·天河", cityEn: "Guangzhou · Tianhe", img: c2, rating: 4.78, reviews: 4920, levelZh: "医疗美容门诊部", levelEn: "Aesthetic Outpatient Clinic", license: "PDY12-44010620190308", beian: "粤卫医字(2019)第0308号", years: 8, topZh: "吸脂塑形 / 隆胸", topEn: "Liposuction / Breast Aug" },
-  { zh: "深圳鹏程医疗美容医院", en: "Shenzhen Pengcheng Aesthetic Hospital", cityZh: "深圳·福田", cityEn: "Shenzhen · Futian", img: c3, rating: 4.82, reviews: 6310, levelZh: "二级专科医院", levelEn: "Tier-2 Specialty Hospital", license: "PDY12-44030420180521", beian: "深卫医字(2018)第0521号", years: 11, topZh: "拉皮提升 / 双眼皮", topEn: "Facelift / Double Eyelid" },
-];
+// Clinics data removed — patients select by doctor, not by clinic.
 
 // Doctors data lives in src/data/doctors.ts (used by both home + /doctors detail).
 // TikTok cases live in src/data/tiktokCases.ts.
@@ -239,18 +221,18 @@ const CitiesSection = () => {
       </div>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         {cities.map((c) => (
-          <a key={c.en} href="#clinics" className="rounded-3xl bg-card shadow-soft hover:shadow-pop transition-all hover:-translate-y-1 p-5 group">
+          <Link key={c.en} to="/doctors" className="rounded-3xl bg-card shadow-soft hover:shadow-pop transition-all hover:-translate-y-1 p-5 group">
             <p className="font-display text-2xl font-semibold">{lang === "en" ? c.en : c.zh}</p>
             <p className="text-xs text-muted-foreground">{lang === "en" ? c.zh : c.en}</p>
             <p className="text-xs text-muted-foreground mt-3">
-              {lang === "en" ? `${c.clinics} ${t("cities.clinics")}` : `${c.clinics} ${t("cities.clinics")}`}
+              {lang === "en" ? "Trending procedures" : "热门手术"}
             </p>
-            <div className="flex flex-wrap gap-1 mt-3">
+            <div className="flex flex-wrap gap-1 mt-2">
               {(lang === "en" ? c.hot.en : c.hot.zh).map((h) => (
                 <span key={h} className="text-[10px] px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground">{h}</span>
               ))}
             </div>
-          </a>
+          </Link>
         ))}
       </div>
     </section>
@@ -297,67 +279,7 @@ const TreatmentsSection = () => {
   );
 };
 
-const ClinicsSection = () => {
-  const { t, lang } = useCn();
-  return (
-    <section id="clinics" className="container py-16 md:py-20">
-      <div className="mb-8">
-        <span className="pill bg-accent text-accent-foreground mb-3"><Building2 className="size-3.5" /> {t("cl.kicker")}</span>
-        <h2 className="font-display text-4xl md:text-5xl font-medium tracking-tight">
-          {t("cl.title1")} <em className="text-primary not-italic">{t("cl.titleEm")}</em>
-        </h2>
-        <p className="text-muted-foreground mt-2 text-sm">{t("cl.note")}</p>
-      </div>
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {clinics.map((c) => (
-          <div key={c.en} className="rounded-3xl bg-card shadow-pop overflow-hidden hover:-translate-y-1 transition-transform">
-            <div className="aspect-[4/3] overflow-hidden relative">
-              <img src={c.img} alt={lang === "en" ? c.en : c.zh} className="w-full h-full object-cover" />
-              <span className="absolute top-3 left-3 pill bg-card/90 backdrop-blur shadow-soft text-xs">
-                <BadgeCheck className="size-3 text-primary" /> {lang === "en" ? c.levelEn : c.levelZh}
-              </span>
-            </div>
-            <div className="p-5">
-              <div className="flex items-start justify-between gap-2">
-                <div>
-                  <p className="font-display text-lg font-semibold leading-tight">{lang === "en" ? c.en : c.zh}</p>
-                  <p className="text-sm text-muted-foreground flex items-center gap-1 mt-1">
-                    <MapPin className="size-3.5" /> {lang === "en" ? c.cityEn : c.cityZh} ·{" "}
-                    {lang === "en" ? `${c.years} ${t("cl.years")} ${t("cl.exp")}` : `${t("cl.exp")} ${c.years} ${t("cl.years")}`}
-                  </p>
-                </div>
-                <span className="pill bg-secondary text-secondary-foreground text-xs">
-                  <Star className="size-3 fill-primary text-primary" /> {c.rating}
-                </span>
-              </div>
-
-              <div className="mt-4 rounded-2xl bg-muted/40 p-3 space-y-1.5 text-[11px] text-muted-foreground">
-                <div className="flex items-center gap-1.5">
-                  <FileCheck2 className="size-3 text-primary shrink-0" />
-                  <span>{t("cl.lic")}</span>
-                  <span className="font-mono text-foreground/80 truncate">{c.license}</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <ShieldCheck className="size-3 text-primary shrink-0" />
-                  <span>{t("cl.beian")}</span>
-                  <span className="font-mono text-foreground/80 truncate">{c.beian}</span>
-                </div>
-              </div>
-
-              <div className="mt-4 flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">{t("cl.spec")} · {lang === "en" ? c.topEn : c.topZh}</span>
-                <span className="text-xs text-muted-foreground">{c.reviews.toLocaleString()} {t("cl.reviews")}</span>
-              </div>
-              <Button className="mt-4 w-full rounded-2xl">
-                <MessageCircle className="size-4" /> {t("cl.cta")}
-              </Button>
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-};
+// ClinicsSection removed — patients only browse doctors.
 
 const DoctorsSection = () => {
   const { t, lang } = useCn();
@@ -493,7 +415,6 @@ const ChinaIndex = () => (
     <TravelBar />
     <CitiesSection />
     <TreatmentsSection />
-    <ClinicsSection />
     <DoctorsSection />
     <CasesSection />
     <PromoBar />
