@@ -16,17 +16,17 @@ const Cities = () => {
       <section className="container py-12 md:py-16">
         <span className="pill bg-accent text-accent-foreground mb-3">
           <MapPin className="size-3.5" />
-          {lang === "zh" ? PLACEHOLDER_SWAP : "Top destinations" SWAP_END"国内城市"}
+          {lang === "en" ? "Top destinations" : "国内城市"}
         </span>
         <h1 className="font-display text-4xl md:text-5xl font-medium tracking-tight max-w-3xl">
-          {lang === "zh" ? (
-            <>
-              选择城市，<em className="text-primary not-italic">找到主刀医生</em>
-            </>
-          ) : (
+          {lang === "en" ? (
             <>
               Choose a city,{" "}
               <em className="text-primary not-italic">find your surgeon</em>
+            </>
+          ) : (
+            <>
+              选择城市，<em className="text-primary not-italic">找到主刀医生</em>
             </>
           )}
         </h1>
@@ -60,44 +60,44 @@ const Cities = () => {
                   <div className="absolute bottom-3 left-4 right-4 flex items-end justify-between text-background">
                     <div>
                       <p className="font-display text-3xl font-semibold leading-none">
-                        {lang === "zh" ? PLACEHOLDER_SWAP : c.en SWAP_ENDc.zh}
+                        {lang === "en" ? c.en : c.zh}
                       </p>
                       <p className="text-xs opacity-80 mt-1">
-                        {lang === "zh" ? PLACEHOLDER_SWAP : c.zh SWAP_ENDc.en}
+                        {lang === "en" ? c.zh : c.en}
                       </p>
                     </div>
                     <span className="pill bg-background/95 text-foreground text-[10px]">
                       <Wallet className="size-3 text-primary" />
-                      {lang === "zh" ? PLACEHOLDER_SWAP : `Save ${c.savings}` SWAP_END`省 ${c.savings}`}
+                      {lang === "en" ? `Save ${c.savings}` : `省 ${c.savings}`}
                     </span>
                   </div>
                 </div>
 
                 <div className="p-5 flex-1 flex flex-col gap-3">
                   <p className="text-sm text-foreground/80 leading-snug">
-                    {lang === "zh" ? PLACEHOLDER_SWAP : c.taglineEn SWAP_ENDc.taglineZh}
+                    {lang === "en" ? c.taglineEn : c.taglineZh}
                   </p>
 
                   <div className="grid grid-cols-3 gap-2 text-center">
                     <Stat
                       icon={<Building2 className="size-3.5" />}
-                      label={lang === "zh" ? PLACEHOLDER_SWAP : "Hospitals" SWAP_END"正规机构"}
+                      label={lang === "en" ? "Hospitals" : "正规机构"}
                       value={`${c.clinics}`}
                     />
                     <Stat
                       icon={<Stethoscope className="size-3.5" />}
-                      label={lang === "zh" ? PLACEHOLDER_SWAP : "Surgeons" SWAP_END"主刀医生"}
+                      label={lang === "en" ? "Surgeons" : "主刀医生"}
                       value={`${c.doctorsCount}`}
                     />
                     <Stat
                       icon={<Users className="size-3.5" />}
-                      label={lang === "zh" ? PLACEHOLDER_SWAP : "On glowy" SWAP_END"平台医师"}
+                      label={lang === "en" ? "On glowy" : "平台医师"}
                       value={`${cityDoctors.length}`}
                     />
                   </div>
 
                   <div className="flex flex-wrap gap-1 pt-1">
-                    {(lang === "zh" ? PLACEHOLDER_SWAP : c.hotEn SWAP_ENDc.hotZh).slice(0, 4).map((h) => (
+                    {(lang === "en" ? c.hotEn : c.hotZh).slice(0, 4).map((h) => (
                       <span
                         key={h}
                         className="text-[10px] px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground"
@@ -108,7 +108,7 @@ const Cities = () => {
                   </div>
 
                   <div className="mt-auto pt-3 flex items-center justify-between text-sm font-semibold text-primary">
-                    {lang === "zh" ? PLACEHOLDER_SWAP : "Explore the city" SWAP_END"查看城市详情"}
+                    {lang === "en" ? "Explore the city" : "查看城市详情"}
                     <ArrowRight className="size-4 group-hover:translate-x-1 transition" />
                   </div>
                 </div>
@@ -139,7 +139,7 @@ const Cities = () => {
               className="inline-flex items-center gap-2 rounded-full bg-foreground text-background px-6 py-3 text-sm font-semibold hover:bg-foreground/90 transition"
             >
               <Plane className="size-4" />
-              {lang === "zh" ? PLACEHOLDER_SWAP : "Get matched" SWAP_END"立即匹配主刀"}
+              {lang === "en" ? "Get matched" : "立即匹配主刀"}
             </Link>
           </div>
         </div>

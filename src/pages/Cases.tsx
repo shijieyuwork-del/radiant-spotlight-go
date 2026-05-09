@@ -33,7 +33,7 @@ const Cases = () => {
     const set = new Map<string, string>();
     TIKTOK_CASES.forEach((c) => {
       const city = caseCity.get(c.id);
-      if (city) set.set(city.en, lang === "zh" ? PLACEHOLDER_SWAP : city.en SWAP_ENDcity.zh);
+      if (city) set.set(city.en, lang === "en" ? city.en : city.zh);
     });
     return Array.from(set, ([key, label]) => ({ key, label }));
   }, [caseCity, lang]);
@@ -76,7 +76,7 @@ const Cases = () => {
               value={q}
               onChange={(e) => setQ(e.target.value)}
               className="w-full bg-transparent outline-none text-sm font-medium"
-              placeholder={lang === "zh" ? PLACEHOLDER_SWAP : "Search by treatment, clinic or user…" SWAP_END"搜索项目、机构或博主…"}
+              placeholder={lang === "en" ? "Search by treatment, clinic or user…" : "搜索项目、机构或博主…"}
             />
           </div>
         </div>
@@ -86,7 +86,7 @@ const Cases = () => {
           <div className="flex items-center gap-2 flex-wrap justify-center">
             <span className="text-xs text-muted-foreground inline-flex items-center gap-1 mr-1">
               <Stethoscope className="size-3" />
-              {lang === "zh" ? PLACEHOLDER_SWAP : "Procedure" SWAP_END"手术类型"}
+              {lang === "en" ? "Procedure" : "手术类型"}
             </span>
             {treatments.map((tr) => {
               const on = activeTreatments.includes(tr.key);
@@ -110,7 +110,7 @@ const Cases = () => {
           <div className="flex items-center gap-2 flex-wrap justify-center">
             <span className="text-xs text-muted-foreground inline-flex items-center gap-1 mr-1">
               <MapPin className="size-3" />
-              {lang === "zh" ? PLACEHOLDER_SWAP : "City" SWAP_END"城市"}
+              {lang === "en" ? "City" : "城市"}
             </span>
             {cities.map((ci) => {
               const on = activeCities.includes(ci.key);
@@ -136,7 +136,7 @@ const Cases = () => {
               ? `${items.length} case${items.length === 1 ? "" : "s"}`
               : `共 ${items.length} 个案例`}
             {hasFilters &&
-              ` · ${activeTreatments.length + activeCities.length} ${lang === "zh" ? PLACEHOLDER_SWAP : "filter(s)" SWAP_END"项筛选"}`}
+              ` · ${activeTreatments.length + activeCities.length} ${lang === "en" ? "filter(s)" : "项筛选"}`}
           </span>
           {hasFilters && (
             <button
@@ -147,14 +147,14 @@ const Cases = () => {
               className="inline-flex items-center gap-1 text-foreground hover:text-primary transition"
             >
               <X className="size-3" />
-              {lang === "zh" ? PLACEHOLDER_SWAP : "Clear" SWAP_END"清空筛选"}
+              {lang === "en" ? "Clear" : "清空筛选"}
             </button>
           )}
         </div>
 
         {items.length === 0 ? (
           <p className="text-center text-muted-foreground py-12 text-sm">
-            {lang === "zh" ? PLACEHOLDER_SWAP : "No matching cases — try a different filter." SWAP_END"没有匹配的案例，换个筛选试试。"}
+            {lang === "en" ? "No matching cases — try a different filter." : "没有匹配的案例，换个筛选试试。"}
           </p>
         ) : (
           <TikTokWall items={items} lang={lang} fmtPrice={fmt} variant="wall" />

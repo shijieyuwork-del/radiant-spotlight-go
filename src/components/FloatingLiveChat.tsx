@@ -114,7 +114,7 @@ const FloatingLiveChat = () => {
       {!open && (
         <button
           onClick={handleOpen}
-          aria-label={lang === "zh" ? PLACEHOLDER_SWAP : "Chat with a human agent" SWAP_END"联系真人客服"}
+          aria-label={lang === "en" ? "Chat with a human agent" : "联系真人客服"}
           className="fixed z-50 bottom-6 right-6 group flex items-center gap-2 rounded-full bg-foreground text-background pl-2 pr-5 py-2 shadow-pop hover:shadow-glow transition-all hover:-translate-y-0.5"
         >
           <span className="relative size-10 rounded-full bg-primary grid place-items-center text-foreground">
@@ -127,7 +127,7 @@ const FloatingLiveChat = () => {
             )}
           </span>
           <span className="text-sm font-semibold whitespace-nowrap">
-            {lang === "zh" ? PLACEHOLDER_SWAP : "Live agent" SWAP_END"真人客服"}
+            {lang === "en" ? "Live agent" : "真人客服"}
           </span>
         </button>
       )}
@@ -145,11 +145,11 @@ const FloatingLiveChat = () => {
             </div>
             <div className="flex-1 min-w-0">
               <p className="font-display font-semibold leading-tight">
-                {lang === "zh" ? PLACEHOLDER_SWAP : AGENT_NAME_EN SWAP_ENDAGENT_NAME_ZH}
+                {lang === "en" ? AGENT_NAME_EN : AGENT_NAME_ZH}
               </p>
               <p className="text-[11px] text-foreground/70 flex items-center gap-1 mt-0.5">
                 <CheckCircle2 className="size-3 text-emerald-600" />
-                {lang === "zh" ? PLACEHOLDER_SWAP : "Online · replies in minutes" SWAP_END"在线 · 几分钟内回复"}
+                {lang === "en" ? "Online · replies in minutes" : "在线 · 几分钟内回复"}
               </p>
             </div>
             <button
@@ -192,7 +192,7 @@ const FloatingLiveChat = () => {
             {/* Quick replies */}
             {messages.length <= 1 && !typing && (
               <div className="flex flex-wrap gap-1.5 pt-1">
-                {(lang === "zh" ? PLACEHOLDER_SWAP : QUICK_REPLIES_EN SWAP_ENDQUICK_REPLIES_ZH).map((q) => (
+                {(lang === "en" ? QUICK_REPLIES_EN : QUICK_REPLIES_ZH).map((q) => (
                   <button
                     key={q}
                     onClick={() => send(q)}
@@ -207,12 +207,12 @@ const FloatingLiveChat = () => {
 
           {/* Channels */}
           <div className="px-4 py-2 border-t border-border bg-muted/40 flex items-center gap-2 text-[11px] text-muted-foreground">
-            <span className="font-semibold">{lang === "zh" ? PLACEHOLDER_SWAP : "Also reach us:" SWAP_END"也可联系："}</span>
+            <span className="font-semibold">{lang === "en" ? "Also reach us:" : "也可联系："}</span>
             <a href="https://wa.me/8618800000000" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 hover:text-foreground">
               <MessageCircle className="size-3" /> WhatsApp
             </a>
             <a href="tel:+8618800000000" className="inline-flex items-center gap-1 hover:text-foreground">
-              <Phone className="size-3" /> {lang === "zh" ? PLACEHOLDER_SWAP : "Call" SWAP_END"电话"}
+              <Phone className="size-3" /> {lang === "en" ? "Call" : "电话"}
             </a>
             <a href="mailto:hello@glowy.care" className="inline-flex items-center gap-1 hover:text-foreground">
               <Mail className="size-3" /> Email
@@ -237,7 +237,7 @@ const FloatingLiveChat = () => {
                 }
               }}
               rows={1}
-              placeholder={lang === "zh" ? PLACEHOLDER_SWAP : "Type a message…" SWAP_END"输入消息…"}
+              placeholder={lang === "en" ? "Type a message…" : "输入消息…"}
               className="flex-1 resize-none rounded-2xl border border-input bg-background px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring max-h-28"
             />
             <button

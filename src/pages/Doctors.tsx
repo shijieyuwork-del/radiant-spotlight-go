@@ -17,14 +17,14 @@ const Doctors = () => {
 
   const cities = useMemo(() => {
     const set = new Map<string, string>();
-    DOCTORS.forEach((d) => set.set(d.cityEn, d[lang === "zh" ? PLACEHOLDER_SWAP : "cityEn" SWAP_END"cityZh"]));
+    DOCTORS.forEach((d) => set.set(d.cityEn, d[lang === "en" ? "cityEn" : "cityZh"]));
     return Array.from(set, ([key, label]) => ({ key, label }));
   }, [lang]);
 
   const specialties = useMemo(() => {
     const set = new Map<string, string>();
     DOCTORS.forEach((d) =>
-      d.specEn.forEach((s, i) => set.set(s, lang === "zh" ? PLACEHOLDER_SWAP : s SWAP_ENDd.specZh[i] ?? s)),
+      d.specEn.forEach((s, i) => set.set(s, lang === "en" ? s : d.specZh[i] ?? s)),
     );
     return Array.from(set, ([key, label]) => ({ key, label }));
   }, [lang]);
@@ -65,7 +65,7 @@ const Doctors = () => {
               value={q}
               onChange={(e) => setQ(e.target.value)}
               className="w-full bg-transparent outline-none text-sm font-medium"
-              placeholder={lang === "zh" ? PLACEHOLDER_SWAP : "Search by name, clinic or specialty…" SWAP_END"搜索医生、机构或擅长项目…"}
+              placeholder={lang === "en" ? "Search by name, clinic or specialty…" : "搜索医生、机构或擅长项目…"}
             />
           </div>
         </div>
@@ -73,7 +73,7 @@ const Doctors = () => {
         {/* Procedure filter */}
         <div className="mb-3">
           <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold text-center mb-2">
-            {lang === "zh" ? PLACEHOLDER_SWAP : "Procedure" SWAP_END"手术类型"}
+            {lang === "en" ? "Procedure" : "手术类型"}
           </p>
           <div className="flex items-center gap-2 flex-wrap justify-center">
             <Button variant={spec === "all" ? "default" : "outline"} size="sm" className="rounded-full" onClick={() => setSpec("all")}>
@@ -90,7 +90,7 @@ const Doctors = () => {
         {/* City filter */}
         <div className="mb-10">
           <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold text-center mb-2">
-            {lang === "zh" ? PLACEHOLDER_SWAP : "City" SWAP_END"城市"}
+            {lang === "en" ? "City" : "城市"}
           </p>
           <div className="flex items-center gap-2 flex-wrap justify-center">
             <span className="text-xs text-muted-foreground inline-flex items-center gap-1 mr-1"><Filter className="size-3" /></span>
@@ -107,7 +107,7 @@ const Doctors = () => {
 
         {items.length === 0 ? (
           <p className="text-center text-muted-foreground py-12 text-sm">
-            {lang === "zh" ? PLACEHOLDER_SWAP : "No surgeons match this filter." SWAP_END"没有匹配的医师，换个筛选试试。"}
+            {lang === "en" ? "No surgeons match this filter." : "没有匹配的医师，换个筛选试试。"}
           </p>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -118,21 +118,21 @@ const Doctors = () => {
                 className="rounded-3xl bg-card shadow-pop p-6 hover:shadow-glow transition group block"
               >
                 <div className="flex items-center gap-4">
-                  <img src={d.img} alt={lang === "zh" ? PLACEHOLDER_SWAP : d.en SWAP_ENDd.zh} className="size-16 rounded-2xl object-cover" />
+                  <img src={d.img} alt={lang === "en" ? d.en : d.zh} className="size-16 rounded-2xl object-cover" />
                   <div className="min-w-0">
-                    <p className="font-display text-lg font-semibold leading-tight truncate">{lang === "zh" ? PLACEHOLDER_SWAP : d.en SWAP_ENDd.zh}</p>
+                    <p className="font-display text-lg font-semibold leading-tight truncate">{lang === "en" ? d.en : d.zh}</p>
                     <p className="text-xs text-muted-foreground mt-1 truncate">
-                      {lang === "zh" ? PLACEHOLDER_SWAP : d.titleEn SWAP_ENDd.titleZh}
+                      {lang === "en" ? d.titleEn : d.titleZh}
                     </p>
                     <p className="text-[11px] text-muted-foreground mt-0.5 inline-flex items-center gap-1">
-                      <MapPin className="size-3" /> {lang === "zh" ? PLACEHOLDER_SWAP : d.cityEn SWAP_ENDd.cityZh}
+                      <MapPin className="size-3" /> {lang === "en" ? d.cityEn : d.cityZh}
                     </p>
                   </div>
                 </div>
 
                 <p className="text-sm text-muted-foreground mt-4 flex items-center gap-1">
                   <Building2 className="size-3.5 shrink-0" />
-                  <span className="truncate">{lang === "zh" ? PLACEHOLDER_SWAP : d.clinicEn SWAP_ENDd.clinicZh}</span>
+                  <span className="truncate">{lang === "en" ? d.clinicEn : d.clinicZh}</span>
                 </p>
 
                 <div className="mt-4 rounded-2xl bg-muted/40 p-3 space-y-1.5 text-[11px]">
@@ -143,13 +143,13 @@ const Doctors = () => {
                   </div>
                   <p className="text-muted-foreground flex items-start gap-1.5">
                     <BadgeCheck className="size-3 text-primary mt-0.5 shrink-0" />
-                    <span className="line-clamp-2">{lang === "zh" ? PLACEHOLDER_SWAP : d.qualEn SWAP_ENDd.qualZh}</span>
+                    <span className="line-clamp-2">{lang === "en" ? d.qualEn : d.qualZh}</span>
                   </p>
                 </div>
 
                 <div className="mt-4 grid grid-cols-3 gap-2 text-center">
                   <div className="rounded-xl bg-secondary py-2">
-                    <p className="font-display text-base font-semibold">{d.years}{lang === "zh" ? PLACEHOLDER_SWAP : "" SWAP_END"年"}</p>
+                    <p className="font-display text-base font-semibold">{d.years}{lang === "en" ? "" : "年"}</p>
                     <p className="text-[10px] text-muted-foreground">{t("doctors.exp")}</p>
                   </div>
                   <div className="rounded-xl bg-secondary py-2">
@@ -166,11 +166,11 @@ const Doctors = () => {
 
                 <div className="mt-4">
                   <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold mb-1.5">
-                    {lang === "zh" ? PLACEHOLDER_SWAP : "Procedures" SWAP_END"手术类型"}
+                    {lang === "en" ? "Procedures" : "手术类型"}
                   </p>
                   <div className="flex flex-wrap gap-1.5">
                     {d.specEn.map((sEn, i) => {
-                      const label = lang === "zh" ? PLACEHOLDER_SWAP : sEn SWAP_END(d.specZh[i] ?? sEn);
+                      const label = lang === "en" ? sEn : (d.specZh[i] ?? sEn);
                       const matched = spec !== "all" && sEn === spec;
                       return (
                         <span

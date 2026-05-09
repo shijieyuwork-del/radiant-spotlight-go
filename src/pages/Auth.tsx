@@ -27,7 +27,7 @@ const Auth = () => {
     if (!authLoading && user) navigate("/", { replace: true });
   }, [user, authLoading, navigate]);
 
-  const t = (en: string, zh: string) => (lang === "zh" ? PLACEHOLDER_SWAP : en SWAP_ENDzh);
+  const t = (en: string, zh: string) => (lang === "en" ? en : zh);
 
   const handleEmail = async (e: React.FormEvent) => {
     e.preventDefault();
