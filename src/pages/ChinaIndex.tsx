@@ -23,12 +23,12 @@ import c3 from "@/assets/clinic3.jpg";
 
 // ============== Data (bilingual) ==============
 const cities = [
-  { zh: "上海", en: "Shanghai", clinics: 128, hot: { en: ["Rhinoplasty", "Facelift", "Double Eyelid"], zh: ["鼻综合", "拉皮提升", "双眼皮"] } },
-  { zh: "北京", en: "Beijing", clinics: 142, hot: { en: ["Rhinoplasty", "Facelift", "Fat Transfer"], zh: ["鼻综合", "拉皮提升", "脂肪填充"] } },
-  { zh: "成都", en: "Chengdu", clinics: 96, hot: { en: ["Double Eyelid", "Genioplasty", "Brow Lift"], zh: ["双眼皮", "下颌轮廓", "提眉"] } },
-  { zh: "杭州", en: "Hangzhou", clinics: 71, hot: { en: ["Eye Bag Removal", "Fat Transfer", "Rhino Revision"], zh: ["眼袋祛除", "脂肪填充", "鼻修复"] } },
-  { zh: "广州", en: "Guangzhou", clinics: 88, hot: { en: ["Rhinoplasty", "Liposuction", "Breast Aug"], zh: ["鼻综合", "吸脂塑形", "隆胸"] } },
-  { zh: "深圳", en: "Shenzhen", clinics: 79, hot: { en: ["Facelift", "Chin Implant", "Double Eyelid"], zh: ["拉皮提升", "下巴假体", "双眼皮"] } },
+  { zh: "上海", en: "Shanghai", clinics: 128, hot: { en: ["Facelift", "BBL", "Blepharoplasty"], zh: ["面部拉皮", "巴西提臀", "双眼皮/眼袋"] } },
+  { zh: "北京", en: "Beijing", clinics: 142, hot: { en: ["Rhinoplasty", "Breast Lift", "Facelift"], zh: ["鼻综合", "提胸", "面部拉皮"] } },
+  { zh: "成都", en: "Chengdu", clinics: 96, hot: { en: ["Body Contouring", "Facelift", "Blepharoplasty"], zh: ["全身体形雕塑", "面部拉皮", "双眼皮/眼袋"] } },
+  { zh: "杭州", en: "Hangzhou", clinics: 71, hot: { en: ["Facial Fat Grafting", "Neck Lift", "Rhinoplasty"], zh: ["面部脂肪填充", "颈部提升", "鼻综合"] } },
+  { zh: "广州", en: "Guangzhou", clinics: 88, hot: { en: ["Liposuction", "Breast Augmentation", "Tummy Tuck"], zh: ["吸脂塑形", "隆胸", "腹壁整形"] } },
+  { zh: "深圳", en: "Shenzhen", clinics: 79, hot: { en: ["Tummy Tuck", "Facelift", "Rhinoplasty"], zh: ["腹壁整形", "面部拉皮", "鼻综合"] } },
 ];
 
 type Treatment = {
@@ -36,14 +36,17 @@ type Treatment = {
   groupPrice?: number; tag?: { en: string; zh: string }; grad: string;
 };
 const treatments: Treatment[] = [
-  { zh: "双眼皮全切", en: "Double Eyelid (incisional)", emoji: "👀", from: 4800, orig: 7800, groupPrice: 3980, tag: { en: "New patient", zh: "新人专享" }, grad: "from-[hsl(155,60%,80%)] to-[hsl(50,80%,90%)]" },
-  { zh: "鼻综合", en: "Rhinoplasty (full)", emoji: "👃", from: 18800, orig: 28000, groupPrice: 15800, tag: { en: "TOP 1", zh: "热度TOP1" }, grad: "from-[hsl(340,85%,88%)] to-[hsl(18,90%,88%)]" },
-  { zh: "SMAS 拉皮提升", en: "SMAS Facelift", emoji: "✨", from: 88000, orig: 128000, groupPrice: 78000, tag: { en: "Signature", zh: "招牌项目" }, grad: "from-[hsl(190,70%,88%)] to-[hsl(155,70%,88%)]" },
-  { zh: "深层除皱 提眉", en: "Deep Plane Facelift + Brow Lift", emoji: "🌹", from: 128000, orig: 168000, groupPrice: 118000, tag: { en: "Premier", zh: "高端" }, grad: "from-[hsl(18,90%,88%)] to-[hsl(50,80%,90%)]" },
-  { zh: "下巴假体植入", en: "Chin Implant (Genioplasty)", emoji: "💎", from: 28000, orig: 38000, tag: { en: "Recommended", zh: "推荐" }, grad: "from-[hsl(158,60%,82%)] to-[hsl(155,70%,90%)]" },
-  { zh: "眼袋祛除 内切", en: "Lower Blepharoplasty (transconjunctival)", emoji: "👁️", from: 12800, orig: 19800, grad: "from-[hsl(50,80%,90%)] to-[hsl(340,85%,90%)]" },
-  { zh: "脂肪填充 全面部", en: "Full-face Fat Transfer", emoji: "🪞", from: 9800, orig: 15800, groupPrice: 8800, tag: { en: "Recommended", zh: "推荐" }, grad: "from-[hsl(340,85%,90%)] to-[hsl(155,60%,85%)]" },
-  { zh: "腰腹吸脂塑形", en: "Liposuction (waist & abdomen)", emoji: "⚡", from: 32000, orig: 48000, groupPrice: 28000, tag: { en: "Sculpt", zh: "塑形" }, grad: "from-[hsl(155,60%,85%)] to-[hsl(190,70%,88%)]" },
+  { zh: "鼻综合", en: "Rhinoplasty", emoji: "👃", from: 18800, orig: 28000, groupPrice: 15800, tag: { en: "TOP 1", zh: "热度TOP1" }, grad: "from-[hsl(340,85%,88%)] to-[hsl(18,90%,88%)]" },
+  { zh: "面部拉皮 (SMAS)", en: "Facelift (SMAS)", emoji: "✨", from: 88000, orig: 128000, groupPrice: 78000, tag: { en: "Signature", zh: "招牌项目" }, grad: "from-[hsl(190,70%,88%)] to-[hsl(155,70%,88%)]" },
+  { zh: "颈部提升", en: "Neck Lift", emoji: "🦢", from: 68000, orig: 88000, tag: { en: "Pairs with facelift", zh: "搭配拉皮" }, grad: "from-[hsl(155,60%,80%)] to-[hsl(190,70%,88%)]" },
+  { zh: "双眼皮 / 眼袋", en: "Blepharoplasty (upper + lower)", emoji: "👁️", from: 12800, orig: 19800, groupPrice: 11800, tag: { en: "New patient", zh: "新人专享" }, grad: "from-[hsl(50,80%,90%)] to-[hsl(340,85%,90%)]" },
+  { zh: "面部脂肪填充", en: "Facial Fat Grafting", emoji: "🪞", from: 26800, orig: 38000, groupPrice: 24800, tag: { en: "Recommended", zh: "推荐" }, grad: "from-[hsl(340,85%,90%)] to-[hsl(155,60%,85%)]" },
+  { zh: "吸脂塑形", en: "Liposuction", emoji: "⚡", from: 32000, orig: 48000, groupPrice: 28000, tag: { en: "Sculpt", zh: "塑形" }, grad: "from-[hsl(155,60%,85%)] to-[hsl(190,70%,88%)]" },
+  { zh: "腹壁整形 (Tummy Tuck)", en: "Tummy Tuck / Mommy Makeover", emoji: "🤰", from: 78000, orig: 108000, tag: { en: "Mommy makeover", zh: "产后修复" }, grad: "from-[hsl(18,90%,88%)] to-[hsl(50,80%,90%)]" },
+  { zh: "巴西提臀 (BBL)", en: "Brazilian Butt Lift (BBL)", emoji: "🍑", from: 96000, orig: 138000, tag: { en: "Hot", zh: "热门" }, grad: "from-[hsl(340,85%,88%)] to-[hsl(18,90%,88%)]" },
+  { zh: "隆胸 (Motiva)", en: "Breast Augmentation (Motiva)", emoji: "💗", from: 88000, orig: 128000, groupPrice: 82000, tag: { en: "Authentic implants", zh: "正品假体" }, grad: "from-[hsl(340,85%,90%)] to-[hsl(190,70%,88%)]" },
+  { zh: "提胸 (Mastopexy)", en: "Breast Lift (Mastopexy)", emoji: "🌷", from: 72000, orig: 98000, grad: "from-[hsl(155,70%,88%)] to-[hsl(50,80%,90%)]" },
+  { zh: "全身体形雕塑", en: "Full Body Contouring", emoji: "🧬", from: 128000, orig: 168000, tag: { en: "Premier", zh: "高端" }, grad: "from-[hsl(190,70%,88%)] to-[hsl(340,85%,90%)]" },
 ];
 
 type Clinic = {
@@ -124,8 +127,8 @@ const Hero = () => {
             <div className="flex flex-wrap items-center gap-2 pt-1">
               <span className="text-xs uppercase tracking-wider text-muted-foreground font-semibold mr-1">{t("hero.hot")}</span>
               {(lang === "en"
-                ? ["Rhinoplasty", "Facelift", "Double Eyelid", "Liposuction", "Fat Transfer", "Chin Implant"]
-                : ["鼻综合", "拉皮提升", "双眼皮", "吸脂塑形", "脂肪填充", "下巴假体"]
+                ? ["Rhinoplasty", "Facelift", "Blepharoplasty", "Liposuction", "Tummy Tuck", "BBL", "Breast Aug", "Fat Grafting"]
+                : ["鼻综合", "面部拉皮", "双眼皮/眼袋", "吸脂", "腹壁整形", "巴西提臀", "隆胸", "脂肪填充"]
               ).map((p) => (
                 <span key={p} className="pill bg-card/80 backdrop-blur shadow-soft text-foreground">
                   <Flame className="size-3 text-primary" /> {p}
