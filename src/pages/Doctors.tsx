@@ -168,7 +168,7 @@ const Doctors = () => {
                   </p>
                   <div className="flex flex-wrap gap-1.5">
                     {d.specEn.map((sEn, i) => {
-                      const label = lang === "zh" ? (d.specZh[i] ?? sEn); : sEn
+                      const label = lang === "zh" ? (d.specZh[i] ?? sEn) : sEn;
                       const matched = spec !== "all" && sEn === spec;
                       return (
                         <span
