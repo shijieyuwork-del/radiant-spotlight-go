@@ -73,7 +73,7 @@ const PACKAGES: Pkg[] = [
       { en: "Hotel Booking Assistance", zh: "酒店预订协助" },
       { en: "7-Night Stay in a 5-Star Hotel Near the Hospital — Included", zh: "医院附近五星酒店 7 晚住宿 — 已含", bold: true },
       { en: "1-on-1 In-Hospital Accompaniment (Unlimited Days)", zh: "1 对 1 院内陪同（不限天数）", bold: true },
-      { en: "1-on-1 Personal Assistance Outside the Hospital (Up to 3 Days)", zh: "1 对 1 院外私人助理（最多 3 天）" },
+      { en: "1-on-1 Personal Assistance Outside the Hospital (Up to 3 Days)", zh: "1 对 1 院外私人助理（最多 3 天）", bold: true },
       { en: "1-on-1 Online Doctor Consultation (Daily 10:00 AM – 6:00 PM, Up to 7 Days · Response Within 30 Min)", zh: "1 对 1 在线医生咨询（每日 10:00–18:00 · 最多 7 天 · 30 分钟内回复）", bold: true },
     ],
   },
