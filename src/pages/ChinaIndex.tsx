@@ -2,16 +2,14 @@ import { Link } from "react-router-dom";
 import {
   Sparkles, ArrowRight, Star, MapPin, ShieldCheck, BadgeCheck,
   Search, Heart, MessageCircle, Stethoscope, FileCheck2, Building2,
-  Flame, Gift, Wallet, Users, Plane, Languages, DollarSign
+  Flame, Gift, Wallet, Users, Plane,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import Footer from "@/components/Footer";
+import CnNavbar from "@/components/CnNavbar";
 import TikTokWall from "@/components/TikTokWall";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
-import { useCn, cnLangLabel as langLabel, type CnLang as Lang } from "@/lib/cn-i18n";
+import { useCn } from "@/lib/cn-i18n";
 import heroBg from "@/assets/hero-bg.jpg";
 import v1 from "@/assets/video1.jpg";
 import v2 from "@/assets/video2.jpg";
@@ -22,9 +20,6 @@ import v6 from "@/assets/video6.jpg";
 import c1 from "@/assets/clinic1.jpg";
 import c2 from "@/assets/clinic2.jpg";
 import c3 from "@/assets/clinic3.jpg";
-
-// ============== Navbar (extracted to components/CnNavbar) ==============
-import CnNavbar from "@/components/CnNavbar";
 
 // ============== Data (bilingual) ==============
 const cities = [
