@@ -37,7 +37,7 @@ const PACKAGES: Pkg[] = [
   {
     id: "gold",
     nameEn: "Gold Package", nameZh: "金牌套餐",
-    price: 599,
+    price: 699,
     taglineEn: "Most popular · stay + accompaniment included",
     taglineZh: "人气之选 · 含住宿与陪同",
     icon: Crown,
