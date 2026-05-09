@@ -528,21 +528,19 @@ const PromoBar = () => {
 
 // ============== Page ==============
 const ChinaIndex = () => (
-  <CnI18nProvider>
-    <div className="min-h-screen bg-background overflow-x-hidden">
-      <CnNavbar />
-      <Hero />
-      <ComplianceBar />
-      <TravelBar />
-      <CitiesSection />
-      <TreatmentsSection />
-      <ClinicsSection />
-      <DoctorsSection />
-      <CasesSection />
-      <PromoBar />
-      <Footer />
-    </div>
-  </CnI18nProvider>
+  <div className="min-h-screen bg-background overflow-x-hidden">
+    <CnNavbar />
+    <Hero />
+    <ComplianceBar />
+    <TravelBar />
+    <CitiesSection />
+    <TreatmentsSection />
+    <ClinicsSection />
+    <DoctorsSection />
+    <CasesSection />
+    <PromoBar />
+    <Footer />
+  </div>
 );
 
 export default ChinaIndex;
