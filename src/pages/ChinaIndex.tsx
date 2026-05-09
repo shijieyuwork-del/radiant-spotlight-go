@@ -179,7 +179,7 @@ const ComplianceBar = () => {
 
 const TravelBar = () => {
   const { lang } = useCn();
-  if (lang !== "en") return null;
+  if (lang === "zh") return null;
   return (
     <section className="container py-6">
       <div className="rounded-3xl bg-gradient-to-r from-[hsl(190,70%,92%)] via-[hsl(155,60%,90%)] to-[hsl(50,80%,92%)] p-6 md:p-7 grid md:grid-cols-4 gap-4 items-center shadow-soft">
