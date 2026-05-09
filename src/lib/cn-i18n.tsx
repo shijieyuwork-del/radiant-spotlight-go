@@ -261,7 +261,7 @@ export const CnI18nProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     localStorage.setItem(STORE, JSON.stringify({ lang, currency }));
-    document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
+    document.documentElement.lang = lang === "zh" ? "zh-CN" : lang === "ru" ? "ru" : "en";
   }, [lang, currency]);
 
   const t: CnI18nState["t"] = (k) => dict[lang][k] ?? dict.en[k] ?? (k as string);
