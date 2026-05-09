@@ -1,16 +1,15 @@
-import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import {
   Sparkles, ArrowRight, Star, MapPin, ShieldCheck, BadgeCheck,
   Search, Heart, MessageCircle, Stethoscope, FileCheck2, Building2,
-  Flame, Gift, Wallet, Users, Plane, Languages, DollarSign
+  Flame, Gift, Wallet, Users, Plane,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import {
-  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import Footer from "@/components/Footer";
+import CnNavbar from "@/components/CnNavbar";
+import TikTokWall from "@/components/TikTokWall";
+import { TIKTOK_CASES } from "@/data/tiktokCases";
+import { useCn } from "@/lib/cn-i18n";
 import heroBg from "@/assets/hero-bg.jpg";
 import v1 from "@/assets/video1.jpg";
 import v2 from "@/assets/video2.jpg";
@@ -21,257 +20,6 @@ import v6 from "@/assets/video6.jpg";
 import c1 from "@/assets/clinic1.jpg";
 import c2 from "@/assets/clinic2.jpg";
 import c3 from "@/assets/clinic3.jpg";
-
-// ============== i18n ==============
-type Lang = "en" | "zh";
-type Currency = "USD" | "CNY";
-const RATE = 7.2; // 1 USD ≈ 7.2 CNY (rough)
-
-type Dict = Record<string, string>;
-const dict: Record<Lang, Dict> = {
-  en: {
-    "brand.suffix": "China",
-    "nav.cities": "Cities",
-    "nav.projects": "Treatments",
-    "nav.clinics": "Verified clinics",
-    "nav.cases": "Real cases",
-    "nav.compliance": "Doctors",
-    "nav.signin": "Sign in",
-    "hero.badge": "Licensed by China NHC · Built for international patients",
-    "hero.title1": "Beauty in China,",
-    "hero.titleEm": "made simple",
-    "hero.subtitle": "100k+ verified before-after diaries · 6,000+ board-certified doctors · English-speaking coordinators, airport pickup & medical visa support included.",
-    "hero.searchPh": "Search treatment, doctor or clinic (e.g. rhinoplasty, Thermage)",
-    "hero.cta": "Get a free quote",
-    "hero.hot": "Trending",
-    "hero.feat1": "Doctor license verified",
-    "hero.feat2": "Clinic permit on file",
-    "hero.feat3": "Pay after consultation",
-    "doc.cert": "Verified surgeon",
-    "doc.years": "yrs experience",
-    "doc.cases": "procedures",
-    "doc.lic": "License No.",
-    "compliance.t1": "NHC clinic permit",
-    "compliance.d1": "Verify each clinic's national license",
-    "compliance.t2": "Doctor license",
-    "compliance.d2": "Every attending surgeon is searchable",
-    "compliance.t3": "Authentic supply",
-    "compliance.d3": "Per-syringe traceability for fillers/toxin",
-    "compliance.t4": "Escrow payment",
-    "compliance.d4": "Pay after in-person consult · refundable",
-    "cities.kicker": "Top destinations",
-    "cities.title1": "Find a clinic in",
-    "cities.titleEm": "China's top beauty cities",
-    "cities.clinics": "verified clinics",
-    "tx.kicker": "Hot treatments",
-    "tx.title1": "This month's",
-    "tx.titleEm": "best sellers",
-    "tx.note": "Includes anesthesia & aftercare · 0% installment available",
-    "tx.from": "from",
-    "tx.group": "Group price",
-    "tx.book": "Book now",
-    "cl.kicker": "Verified clinics",
-    "cl.title1": "Licensed & legitimate ·",
-    "cl.titleEm": "every clinic on record",
-    "cl.note": "All clinics hold a national Medical Institution Practice License",
-    "cl.exp": "in business",
-    "cl.years": "yrs",
-    "cl.lic": "License:",
-    "cl.beian": "NHC filing:",
-    "cl.spec": "Specialty",
-    "cl.reviews": "reviews",
-    "cl.cta": "Free consultation",
-    "doctors.kicker": "Attending surgeons",
-    "doctors.title1": "Every surgeon ·",
-    "doctors.titleEm": "license on file",
-    "doctors.lic": "Medical license:",
-    "doctors.exp": "yrs experience",
-    "doctors.cases": "procedures",
-    "doctors.cta": "View profile",
-    "cases.kicker": "Real diaries",
-    "cases.title1": "Real before-after stories ·",
-    "cases.titleEm": "no filters",
-    "cases.tabAll": "All",
-    "promo.kicker": "Welcome offer",
-    "promo.title": "Sign up & get $70 toward your first treatment",
-    "promo.note": "HA filler from $135 · Skin booster from $80 · Double eyelid from $550 · 100% authentic · Money-back guarantee",
-    "promo.cta": "Claim offer",
-  },
-  zh: {
-    "brand.suffix": "医美",
-    "nav.cities": "城市",
-    "nav.projects": "热门项目",
-    "nav.clinics": "正规机构",
-    "nav.cases": "真实案例",
-    "nav.compliance": "资质查询",
-    "nav.signin": "登录",
-    "hero.badge": "国家卫健委备案 · 正规医美一站式平台",
-    "hero.title1": "放心变美",
-    "hero.titleEm": "从查证开始",
-    "hero.subtitle": "10万+ 真实案例 · 6000+ 持证医师 · 全部机构均可一键查询《医疗机构执业许可证》与医师执业证。",
-    "hero.searchPh": "搜索项目、医生、机构（如：双眼皮、热玛吉）",
-    "hero.cta": "立即查询",
-    "hero.hot": "热门搜索",
-    "hero.feat1": "医师执业证可查",
-    "hero.feat2": "机构资质实时核验",
-    "hero.feat3": "支持分期 · 先美后付",
-    "doc.cert": "主诊医师认证",
-    "doc.years": "年经验",
-    "doc.cases": "台手术",
-    "doc.lic": "证书编号",
-    "compliance.t1": "卫健委备案查询",
-    "compliance.d1": "扫码核验《医疗机构执业许可证》",
-    "compliance.t2": "医师执业证",
-    "compliance.d2": "全部主诊医师证书可查",
-    "compliance.t3": "正品溯源",
-    "compliance.d3": "玻尿酸/肉毒素一物一码",
-    "compliance.t4": "资金托管",
-    "compliance.d4": "面诊后付款 · 不满意可退",
-    "cities.kicker": "国内城市",
-    "cities.title1": "在你的城市",
-    "cities.titleEm": "找正规机构",
-    "cities.clinics": "家正规机构",
-    "tx.kicker": "热门项目",
-    "tx.title1": "本月",
-    "tx.titleEm": "热度榜单",
-    "tx.note": "价格已含麻醉、术后护理 · 支持 12 期免息分期",
-    "tx.from": "起",
-    "tx.group": "团购价",
-    "tx.book": "立即抢购",
-    "cl.kicker": "正规机构",
-    "cl.title1": "持证经营 ·",
-    "cl.titleEm": "每家都可查",
-    "cl.note": "所有机构均持有国家卫健委颁发的《医疗机构执业许可证》",
-    "cl.exp": "经营",
-    "cl.years": "年",
-    "cl.lic": "执业许可证：",
-    "cl.beian": "卫健委备案：",
-    "cl.spec": "擅长",
-    "cl.reviews": "评价",
-    "cl.cta": "在线咨询 · 免费面诊",
-    "doctors.kicker": "主诊医师",
-    "doctors.title1": "每位医师 ·",
-    "doctors.titleEm": "执业证可查",
-    "doctors.lic": "执业证书：",
-    "doctors.exp": "年从业经验",
-    "doctors.cases": "手术案例",
-    "doctors.cta": "查看医师档案",
-    "cases.kicker": "真实案例",
-    "cases.title1": "真实变美日记 ·",
-    "cases.titleEm": "无滤镜",
-    "cases.tabAll": "全部",
-    "promo.kicker": "新人专享",
-    "promo.title": "注册立得 ¥500 美丽基金",
-    "promo.note": "玻尿酸 ¥980 · 水光针 ¥580 · 双眼皮 ¥3980 起 · 全部正品溯源 · 不满意全额退",
-    "promo.cta": "领取优惠",
-  },
-};
-
-interface CnI18nState {
-  lang: Lang; setLang: (l: Lang) => void;
-  currency: Currency; setCurrency: (c: Currency) => void;
-  t: (k: keyof typeof dict.en) => string;
-  fmt: (cny: number) => string;
-}
-const CnI18nCtx = createContext<CnI18nState | null>(null);
-const useCn = () => {
-  const c = useContext(CnI18nCtx);
-  if (!c) throw new Error("useCn must be inside provider");
-  return c;
-};
-
-const STORE = "glowy.cn.v1";
-const CnI18nProvider = ({ children }: { children: ReactNode }) => {
-  const initial = useMemo(() => {
-    try { return JSON.parse(localStorage.getItem(STORE) || "null"); } catch { return null; }
-  }, []);
-  const [lang, setLang] = useState<Lang>(initial?.lang ?? "en");
-  const [currency, setCurrency] = useState<Currency>(initial?.currency ?? "USD");
-
-  useEffect(() => {
-    localStorage.setItem(STORE, JSON.stringify({ lang, currency }));
-    document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
-  }, [lang, currency]);
-
-  const t: CnI18nState["t"] = (k) => dict[lang][k] ?? dict.en[k] ?? (k as string);
-  const fmt = (cny: number) => {
-    if (currency === "CNY") return `¥${cny.toLocaleString("en-US")}`;
-    const usd = Math.round(cny / RATE);
-    return `$${usd.toLocaleString("en-US")}`;
-  };
-
-  return (
-    <CnI18nCtx.Provider value={{ lang, setLang, currency, setCurrency, t, fmt }}>
-      {children}
-    </CnI18nCtx.Provider>
-  );
-};
-
-// ============== Navbar ==============
-const langLabel: Record<Lang, { label: string; flag: string }> = {
-  en: { label: "English", flag: "🇺🇸" },
-  zh: { label: "中文", flag: "🇨🇳" },
-};
-
-const CnNavbar = () => {
-  const { t, lang, setLang, currency, setCurrency } = useCn();
-  const links = [
-    { to: "#cities", label: t("nav.cities") },
-    { to: "#projects", label: t("nav.projects") },
-    { to: "#clinics", label: t("nav.clinics") },
-    { to: "#cases", label: t("nav.cases") },
-    { to: "#compliance", label: t("nav.compliance") },
-  ];
-  return (
-    <header className="sticky top-0 z-50 backdrop-blur-xl bg-background/80 border-b border-border/60">
-      <nav className="container flex h-16 items-center justify-between gap-3">
-        <Link to="/" className="flex items-center gap-2 shrink-0">
-          <div className="grid place-items-center size-9 rounded-2xl bg-gradient-mint shadow-glow">
-            <Sparkles className="size-4 text-foreground" />
-          </div>
-          <span className="font-display text-xl font-semibold tracking-tight">
-            glowy<span className="text-primary">·{t("brand.suffix")}</span>
-          </span>
-        </Link>
-        <div className="hidden md:flex items-center gap-1 rounded-full bg-muted/60 p-1">
-          {links.map((l) => (
-            <a key={l.to} href={l.to} className="px-4 py-1.5 rounded-full text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-              {l.label}
-            </a>
-          ))}
-        </div>
-        <div className="flex items-center gap-1.5">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm" className="rounded-full gap-1.5">
-                <DollarSign className="size-3.5" /> {currency}
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="rounded-2xl">
-              <DropdownMenuItem onClick={() => setCurrency("USD")} className="rounded-xl">🇺🇸 USD ($)</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setCurrency("CNY")} className="rounded-xl">🇨🇳 CNY (¥)</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm" className="rounded-full gap-1.5">
-                <Languages className="size-3.5" /> {langLabel[lang].flag} {langLabel[lang].label}
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="rounded-2xl">
-              {(Object.keys(langLabel) as Lang[]).map((l) => (
-                <DropdownMenuItem key={l} onClick={() => setLang(l)} className="rounded-xl">
-                  {langLabel[l].flag} {langLabel[l].label}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <Button className="rounded-full bg-foreground text-background hover:bg-foreground/90 px-5">{t("nav.signin")}</Button>
-        </div>
-      </nav>
-    </header>
-  );
-};
 
 // ============== Data (bilingual) ==============
 const cities = [
@@ -676,45 +424,22 @@ const CasesSection = () => {
   const { t, lang, fmt } = useCn();
   return (
     <section id="cases" className="container py-16 md:py-20">
-      <div className="mb-8">
-        <span className="pill bg-accent text-accent-foreground mb-3"><Heart className="size-3.5" /> {t("cases.kicker")}</span>
-        <h2 className="font-display text-4xl md:text-5xl font-medium tracking-tight">
-          {t("cases.title1")} <em className="text-primary not-italic">{t("cases.titleEm")}</em>
-        </h2>
+      <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
+        <div>
+          <span className="pill bg-accent text-accent-foreground mb-3"><Heart className="size-3.5" /> {t("cases.kicker")}</span>
+          <h2 className="font-display text-4xl md:text-5xl font-medium tracking-tight">
+            {t("cases.title1")} <em className="text-primary not-italic">{t("cases.titleEm")}</em>
+          </h2>
+          <p className="text-sm text-muted-foreground mt-2">{t("cases.wallSub")}</p>
+        </div>
+        <Link
+          to="/cases"
+          className="text-sm font-semibold pill bg-foreground text-background hover:bg-foreground/90 px-5 py-2"
+        >
+          {t("cases.viewAll")} <ArrowRight className="size-4" />
+        </Link>
       </div>
-      <Tabs defaultValue="all" className="w-full">
-        <TabsList className="rounded-full bg-muted/60 p-1 h-auto">
-          <TabsTrigger value="all" className="rounded-full px-4 py-1.5 text-sm">{t("cases.tabAll")}</TabsTrigger>
-          {(lang === "en"
-            ? ["Double Eyelid", "Rhinoplasty", "Thermage", "HA Filler"]
-            : ["双眼皮", "鼻综合", "热玛吉", "玻尿酸"]
-          ).map((tab) => (
-            <TabsTrigger key={tab} value={tab} className="rounded-full px-4 py-1.5 text-sm">{tab}</TabsTrigger>
-          ))}
-        </TabsList>
-        <TabsContent value="all" className="mt-6">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {cases.map((c, i) => (
-              <div key={i} className="rounded-2xl overflow-hidden bg-card shadow-soft hover:-translate-y-1 transition-transform">
-                <div className="aspect-[3/4] overflow-hidden">
-                  <img src={c.src} alt={lang === "en" ? c.enCap : c.zhCap} className="w-full h-full object-cover" />
-                </div>
-                <div className="p-3">
-                  <p className="text-[11px] text-muted-foreground">{lang === "en" ? c.enUser : c.zhUser}</p>
-                  <p className="text-xs font-medium leading-snug mt-1 line-clamp-2">{lang === "en" ? c.enCap : c.zhCap}</p>
-                  <div className="mt-2 flex items-center justify-between text-[11px] text-muted-foreground">
-                    <span className="flex items-center gap-2">
-                      <span className="flex items-center gap-0.5"><Heart className="size-3" />{c.likes}</span>
-                      <span className="flex items-center gap-0.5"><MessageCircle className="size-3" />{c.comments}</span>
-                    </span>
-                    <span className="text-primary font-semibold">{fmt(c.priceCny)}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </TabsContent>
-      </Tabs>
+      <TikTokWall items={TIKTOK_CASES} lang={lang} fmtPrice={fmt} variant="preview" />
     </section>
   );
 };
@@ -739,21 +464,19 @@ const PromoBar = () => {
 
 // ============== Page ==============
 const ChinaIndex = () => (
-  <CnI18nProvider>
-    <div className="min-h-screen bg-background overflow-x-hidden">
-      <CnNavbar />
-      <Hero />
-      <ComplianceBar />
-      <TravelBar />
-      <CitiesSection />
-      <TreatmentsSection />
-      <ClinicsSection />
-      <DoctorsSection />
-      <CasesSection />
-      <PromoBar />
-      <Footer />
-    </div>
-  </CnI18nProvider>
+  <div className="min-h-screen bg-background overflow-x-hidden">
+    <CnNavbar />
+    <Hero />
+    <ComplianceBar />
+    <TravelBar />
+    <CitiesSection />
+    <TreatmentsSection />
+    <ClinicsSection />
+    <DoctorsSection />
+    <CasesSection />
+    <PromoBar />
+    <Footer />
+  </div>
 );
 
 export default ChinaIndex;
