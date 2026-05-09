@@ -13,6 +13,7 @@ import Destination from "./pages/Destination.tsx";
 import Reviews from "./pages/Reviews.tsx";
 import SuccessStories from "./pages/SuccessStories.tsx";
 import SearchPage from "./pages/Search.tsx";
+import ChinaIndex from "./pages/ChinaIndex.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -69,6 +70,7 @@ const App = () => (
             <Toaster />
             <Sonner />
             <Routes>
+              <Route path="/cn" element={<ChinaIndex />} />
               <Route path="/:lang/*" element={<LangRoutes />} />
               <Route path="*" element={<LangRedirect />} />
             </Routes>
