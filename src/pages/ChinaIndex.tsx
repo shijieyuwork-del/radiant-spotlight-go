@@ -22,12 +22,12 @@ import c3 from "@/assets/clinic3.jpg";
 const CnNavbar = () => (
   <header className="sticky top-0 z-50 backdrop-blur-xl bg-background/80 border-b border-border/60">
     <nav className="container flex h-16 items-center justify-between gap-3">
-      <Link to="/cn" className="flex items-center gap-2 shrink-0">
+      <Link to="/" className="flex items-center gap-2 shrink-0">
         <div className="grid place-items-center size-9 rounded-2xl bg-gradient-mint shadow-glow">
           <Sparkles className="size-4 text-foreground" />
         </div>
         <span className="font-display text-xl font-semibold tracking-tight">
-          glowy<span className="text-primary">·中国</span>
+          glowy<span className="text-primary">·医美</span>
         </span>
       </Link>
       <div className="hidden md:flex items-center gap-1 rounded-full bg-muted/60 p-1">
