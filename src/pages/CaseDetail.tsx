@@ -9,12 +9,14 @@ import Footer from "@/components/Footer";
 import TikTokWall from "@/components/TikTokWall";
 import { Button } from "@/components/ui/button";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
+import { DOCTORS } from "@/data/doctors";
 import { useCn } from "@/lib/cn-i18n";
 
 const CaseDetail = () => {
   const { id } = useParams();
   const { t, lang, fmt } = useCn();
   const item = useMemo(() => TIKTOK_CASES.find((c) => c.id === id), [id]);
+  const doctor = useMemo(() => DOCTORS.find((d) => id && d.caseIds.includes(id)), [id]);
   const related = useMemo(
     () => TIKTOK_CASES.filter((c) => c.id !== id).slice(0, 5),
     [id],
