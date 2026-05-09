@@ -170,32 +170,6 @@ const CityDetail = () => {
         )}
       </section>
 
-      {/* Top hospitals */}
-      <section className="container py-10">
-        <h2 className="font-display text-3xl md:text-4xl font-semibold mb-5">
-          {lang === "en" ? "Notable hospitals" : "当地主要机构"}
-        </h2>
-        <div className="grid md:grid-cols-3 gap-4">
-          {city.hospitals.map((h) => (
-            <div key={h.en} className="rounded-3xl bg-card shadow-soft p-5">
-              <div className="flex items-start gap-3">
-                <div className="size-10 rounded-2xl bg-accent grid place-items-center shrink-0">
-                  <Building2 className="size-5 text-primary" />
-                </div>
-                <div>
-                  <p className="font-display font-semibold text-sm leading-tight">
-                    {lang === "en" ? h.en : h.zh}
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-1 flex items-center gap-1">
-                    <MapPin className="size-3" />
-                    {lang === "en" ? h.areaEn : h.areaZh} · {city.en}
-                  </p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
 
       {/* Real cases from this city */}
       {cityCases.length > 0 && (
