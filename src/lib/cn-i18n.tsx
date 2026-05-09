@@ -1,12 +1,13 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 
-export type CnLang = "en" | "zh";
+export type CnLang = "en" | "zh" | "ru";
 export type CnCurrency = "USD" | "CNY";
 const RATE = 7.2;
 
 export const cnLangLabel: Record<CnLang, { label: string; flag: string }> = {
   en: { label: "English", flag: "🇺🇸" },
   zh: { label: "中文", flag: "🇨🇳" },
+  ru: { label: "Русский", flag: "🇷🇺" },
 };
 
 type Dict = Record<string, string>;
