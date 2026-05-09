@@ -164,10 +164,29 @@ const Doctors = () => {
                   </div>
                 </div>
 
-                <div className="mt-4 flex flex-wrap gap-1">
-                  {(lang === "en" ? d.specEn : d.specZh).map((s) => (
-                    <span key={s} className="text-[10px] px-2 py-0.5 rounded-full bg-accent text-accent-foreground">{s}</span>
-                  ))}
+                <div className="mt-4">
+                  <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold mb-1.5">
+                    {lang === "en" ? "Procedures" : "手术类型"}
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {d.specEn.map((sEn, i) => {
+                      const label = lang === "en" ? sEn : (d.specZh[i] ?? sEn);
+                      const matched = spec !== "all" && sEn === spec;
+                      return (
+                        <span
+                          key={sEn}
+                          className={
+                            matched
+                              ? "inline-flex items-center gap-1 text-[11px] px-2.5 py-1 rounded-full bg-primary text-primary-foreground font-semibold shadow-glow ring-2 ring-primary/30"
+                              : "inline-flex items-center gap-1 text-[11px] px-2.5 py-1 rounded-full bg-accent text-accent-foreground"
+                          }
+                        >
+                          {matched && <Stethoscope className="size-3" />}
+                          {label}
+                        </span>
+                      );
+                    })}
+                  </div>
                 </div>
 
                 <div className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary group-hover:gap-2 transition-all">
