@@ -23,12 +23,12 @@ import c3 from "@/assets/clinic3.jpg";
 
 // ============== Data (bilingual) ==============
 const cities = [
-  { zh: "上海", en: "Shanghai", clinics: 128, hot: { en: ["HA Filler", "Thermage", "Double Eyelid"], zh: ["玻尿酸", "热玛吉", "双眼皮"] } },
-  { zh: "北京", en: "Beijing", clinics: 142, hot: { en: ["Rhinoplasty", "Thermage", "Fat Transfer"], zh: ["鼻综合", "热玛吉", "脂肪填充"] } },
-  { zh: "成都", en: "Chengdu", clinics: 96, hot: { en: ["Double Eyelid", "Botox", "Skin Booster"], zh: ["双眼皮", "瘦脸针", "水光针"] } },
-  { zh: "杭州", en: "Hangzhou", clinics: 71, hot: { en: ["HA Filler", "IPL", "Thread Lift"], zh: ["玻尿酸", "光子嫩肤", "线雕"] } },
-  { zh: "广州", en: "Guangzhou", clinics: 88, hot: { en: ["Rhinoplasty", "Liposuction", "Botox"], zh: ["鼻综合", "吸脂", "瘦脸针"] } },
-  { zh: "深圳", en: "Shenzhen", clinics: 79, hot: { en: ["Thermage", "HA Filler", "Double Eyelid"], zh: ["热玛吉", "玻尿酸", "双眼皮"] } },
+  { zh: "上海", en: "Shanghai", clinics: 128, hot: { en: ["Rhinoplasty", "Facelift", "Double Eyelid"], zh: ["鼻综合", "拉皮提升", "双眼皮"] } },
+  { zh: "北京", en: "Beijing", clinics: 142, hot: { en: ["Rhinoplasty", "Facelift", "Fat Transfer"], zh: ["鼻综合", "拉皮提升", "脂肪填充"] } },
+  { zh: "成都", en: "Chengdu", clinics: 96, hot: { en: ["Double Eyelid", "Genioplasty", "Brow Lift"], zh: ["双眼皮", "下颌轮廓", "提眉"] } },
+  { zh: "杭州", en: "Hangzhou", clinics: 71, hot: { en: ["Eye Bag Removal", "Fat Transfer", "Rhino Revision"], zh: ["眼袋祛除", "脂肪填充", "鼻修复"] } },
+  { zh: "广州", en: "Guangzhou", clinics: 88, hot: { en: ["Rhinoplasty", "Liposuction", "Breast Aug"], zh: ["鼻综合", "吸脂塑形", "隆胸"] } },
+  { zh: "深圳", en: "Shenzhen", clinics: 79, hot: { en: ["Facelift", "Chin Implant", "Double Eyelid"], zh: ["拉皮提升", "下巴假体", "双眼皮"] } },
 ];
 
 type Treatment = {
@@ -37,13 +37,13 @@ type Treatment = {
 };
 const treatments: Treatment[] = [
   { zh: "双眼皮全切", en: "Double Eyelid (incisional)", emoji: "👀", from: 4800, orig: 7800, groupPrice: 3980, tag: { en: "New patient", zh: "新人专享" }, grad: "from-[hsl(155,60%,80%)] to-[hsl(50,80%,90%)]" },
-  { zh: "鼻综合", en: "Rhinoplasty (full)", emoji: "👃", from: 18800, orig: 28000, groupPrice: 15800, tag: { en: "Group of 3", zh: "团购3人成团" }, grad: "from-[hsl(340,85%,88%)] to-[hsl(18,90%,88%)]" },
-  { zh: "玻尿酸 1ml", en: "HA Filler 1ml", emoji: "💧", from: 980, orig: 1980, tag: { en: "TOP 1", zh: "热度TOP1" }, grad: "from-[hsl(190,70%,88%)] to-[hsl(155,70%,88%)]" },
-  { zh: "热玛吉 第五代", en: "Thermage FLX (Gen 5)", emoji: "🔥", from: 12800, orig: 19800, groupPrice: 11800, tag: { en: "Sale", zh: "618特价" }, grad: "from-[hsl(18,90%,88%)] to-[hsl(50,80%,90%)]" },
-  { zh: "瘦脸针 100u", en: "Botox 100u", emoji: "💎", from: 680, orig: 1280, tag: { en: "Authentic", zh: "正品溯源" }, grad: "from-[hsl(158,60%,82%)] to-[hsl(155,70%,90%)]" },
-  { zh: "水光针 嗨体", en: "Skin Booster (Hi-Body)", emoji: "✨", from: 880, orig: 1680, grad: "from-[hsl(50,80%,90%)] to-[hsl(340,85%,90%)]" },
+  { zh: "鼻综合", en: "Rhinoplasty (full)", emoji: "👃", from: 18800, orig: 28000, groupPrice: 15800, tag: { en: "TOP 1", zh: "热度TOP1" }, grad: "from-[hsl(340,85%,88%)] to-[hsl(18,90%,88%)]" },
+  { zh: "SMAS 拉皮提升", en: "SMAS Facelift", emoji: "✨", from: 88000, orig: 128000, groupPrice: 78000, tag: { en: "Signature", zh: "招牌项目" }, grad: "from-[hsl(190,70%,88%)] to-[hsl(155,70%,88%)]" },
+  { zh: "深层除皱 提眉", en: "Deep Plane Facelift + Brow Lift", emoji: "🌹", from: 128000, orig: 168000, groupPrice: 118000, tag: { en: "Premier", zh: "高端" }, grad: "from-[hsl(18,90%,88%)] to-[hsl(50,80%,90%)]" },
+  { zh: "下巴假体植入", en: "Chin Implant (Genioplasty)", emoji: "💎", from: 28000, orig: 38000, tag: { en: "Recommended", zh: "推荐" }, grad: "from-[hsl(158,60%,82%)] to-[hsl(155,70%,90%)]" },
+  { zh: "眼袋祛除 内切", en: "Lower Blepharoplasty (transconjunctival)", emoji: "👁️", from: 12800, orig: 19800, grad: "from-[hsl(50,80%,90%)] to-[hsl(340,85%,90%)]" },
   { zh: "脂肪填充 全面部", en: "Full-face Fat Transfer", emoji: "🪞", from: 9800, orig: 15800, groupPrice: 8800, tag: { en: "Recommended", zh: "推荐" }, grad: "from-[hsl(340,85%,90%)] to-[hsl(155,60%,85%)]" },
-  { zh: "光子嫩肤 DPL", en: "DPL Photofacial", emoji: "🌟", from: 580, orig: 980, grad: "from-[hsl(155,60%,85%)] to-[hsl(190,70%,88%)]" },
+  { zh: "腰腹吸脂塑形", en: "Liposuction (waist & abdomen)", emoji: "⚡", from: 32000, orig: 48000, groupPrice: 28000, tag: { en: "Sculpt", zh: "塑形" }, grad: "from-[hsl(155,60%,85%)] to-[hsl(190,70%,88%)]" },
 ];
 
 type Clinic = {
@@ -56,11 +56,11 @@ type Clinic = {
 };
 const clinics: Clinic[] = [
   { zh: "上海华美医疗美容医院", en: "Shanghai Huamei Plastic Surgery Hospital", cityZh: "上海·徐汇", cityEn: "Shanghai · Xuhui", img: c1, rating: 4.9, reviews: 12480, levelZh: "三级整形外科医院", levelEn: "Tier-3 Plastic Surgery Hospital", license: "PDY12-31010520210034", beian: "沪卫医字(2021)第0034号", years: 18, topZh: "鼻综合 / 双眼皮", topEn: "Rhinoplasty / Double Eyelid" },
-  { zh: "北京艺星医疗美容医院", en: "Beijing Yestar Aesthetic Hospital", cityZh: "北京·朝阳", cityEn: "Beijing · Chaoyang", img: c2, rating: 4.88, reviews: 9821, levelZh: "二级专科医院", levelEn: "Tier-2 Specialty Hospital", license: "PDY12-11010520180108", beian: "京卫医字(2018)第0108号", years: 12, topZh: "热玛吉 / 玻尿酸", topEn: "Thermage / HA Filler" },
-  { zh: "成都美莱医学美容医院", en: "Chengdu Meilai Medical Aesthetic Hospital", cityZh: "成都·锦江", cityEn: "Chengdu · Jinjiang", img: c3, rating: 4.85, reviews: 8210, levelZh: "二级整形外科医院", levelEn: "Tier-2 Plastic Surgery Hospital", license: "PDY12-51010320190212", beian: "蓉卫医字(2019)第0212号", years: 15, topZh: "双眼皮 / 瘦脸针", topEn: "Double Eyelid / Botox" },
-  { zh: "杭州时光医疗美容医院", en: "Hangzhou Shiguang Aesthetic Hospital", cityZh: "杭州·西湖", cityEn: "Hangzhou · West Lake", img: c1, rating: 4.86, reviews: 5642, levelZh: "二级整形外科医院", levelEn: "Tier-2 Plastic Surgery Hospital", license: "PDY12-33010620200417", beian: "浙卫医字(2020)第0417号", years: 10, topZh: "光子嫩肤 / 玻尿酸", topEn: "Photofacial / HA Filler" },
-  { zh: "广州曙光医疗美容门诊部", en: "Guangzhou Shuguang Aesthetic Clinic", cityZh: "广州·天河", cityEn: "Guangzhou · Tianhe", img: c2, rating: 4.78, reviews: 4920, levelZh: "医疗美容门诊部", levelEn: "Aesthetic Outpatient Clinic", license: "PDY12-44010620190308", beian: "粤卫医字(2019)第0308号", years: 8, topZh: "吸脂 / 瘦脸针", topEn: "Liposuction / Botox" },
-  { zh: "深圳鹏程医疗美容医院", en: "Shenzhen Pengcheng Aesthetic Hospital", cityZh: "深圳·福田", cityEn: "Shenzhen · Futian", img: c3, rating: 4.82, reviews: 6310, levelZh: "二级专科医院", levelEn: "Tier-2 Specialty Hospital", license: "PDY12-44030420180521", beian: "深卫医字(2018)第0521号", years: 11, topZh: "热玛吉 / 双眼皮", topEn: "Thermage / Double Eyelid" },
+  { zh: "北京艺星医疗美容医院", en: "Beijing Yestar Aesthetic Hospital", cityZh: "北京·朝阳", cityEn: "Beijing · Chaoyang", img: c2, rating: 4.88, reviews: 9821, levelZh: "二级专科医院", levelEn: "Tier-2 Specialty Hospital", license: "PDY12-11010520180108", beian: "京卫医字(2018)第0108号", years: 12, topZh: "拉皮提升 / 鼻综合", topEn: "Facelift / Rhinoplasty" },
+  { zh: "成都美莱医学美容医院", en: "Chengdu Meilai Medical Aesthetic Hospital", cityZh: "成都·锦江", cityEn: "Chengdu · Jinjiang", img: c3, rating: 4.85, reviews: 8210, levelZh: "二级整形外科医院", levelEn: "Tier-2 Plastic Surgery Hospital", license: "PDY12-51010320190212", beian: "蓉卫医字(2019)第0212号", years: 15, topZh: "双眼皮 / 下颌轮廓", topEn: "Double Eyelid / Genioplasty" },
+  { zh: "杭州时光医疗美容医院", en: "Hangzhou Shiguang Aesthetic Hospital", cityZh: "杭州·西湖", cityEn: "Hangzhou · West Lake", img: c1, rating: 4.86, reviews: 5642, levelZh: "二级整形外科医院", levelEn: "Tier-2 Plastic Surgery Hospital", license: "PDY12-33010620200417", beian: "浙卫医字(2020)第0417号", years: 10, topZh: "眼袋祛除 / 脂肪填充", topEn: "Eye Bag Removal / Fat Transfer" },
+  { zh: "广州曙光医疗美容门诊部", en: "Guangzhou Shuguang Aesthetic Clinic", cityZh: "广州·天河", cityEn: "Guangzhou · Tianhe", img: c2, rating: 4.78, reviews: 4920, levelZh: "医疗美容门诊部", levelEn: "Aesthetic Outpatient Clinic", license: "PDY12-44010620190308", beian: "粤卫医字(2019)第0308号", years: 8, topZh: "吸脂塑形 / 隆胸", topEn: "Liposuction / Breast Aug" },
+  { zh: "深圳鹏程医疗美容医院", en: "Shenzhen Pengcheng Aesthetic Hospital", cityZh: "深圳·福田", cityEn: "Shenzhen · Futian", img: c3, rating: 4.82, reviews: 6310, levelZh: "二级专科医院", levelEn: "Tier-2 Specialty Hospital", license: "PDY12-44030420180521", beian: "深卫医字(2018)第0521号", years: 11, topZh: "拉皮提升 / 双眼皮", topEn: "Facelift / Double Eyelid" },
 ];
 
 type Doctor = {
@@ -75,17 +75,17 @@ type Doctor = {
 };
 const doctors: Doctor[] = [
   { zh: "李文志 主任医师", en: "Dr. Li Wenzhi · Chief Surgeon", titleZh: "整形外科 副主任", titleEn: "Deputy Director, Plastic Surgery", clinicZh: "上海华美医疗美容医院", clinicEn: "Shanghai Huamei Plastic Surgery Hospital", cityZh: "上海", cityEn: "Shanghai", img: v4, license: "1413010320180123456", qualZh: "卫健委主诊医师 · 中华医学会整形外科学分会会员", qualEn: "NHC Attending Surgeon · Member, Chinese Society of Plastic Surgery", years: 22, surgeries: "8,200+", specZh: ["鼻综合", "全切双眼皮", "面部轮廓"], specEn: ["Rhinoplasty", "Double Eyelid", "Facial Contouring"] },
-  { zh: "王晓琳 主治医师", en: "Dr. Wang Xiaolin · Attending", titleZh: "皮肤美容科", titleEn: "Aesthetic Dermatology", clinicZh: "北京艺星医疗美容医院", clinicEn: "Beijing Yestar Aesthetic Hospital", cityZh: "北京", cityEn: "Beijing", img: v2, license: "1411010520190234567", qualZh: "卫健委主诊医师 · 美国 Solta 热玛吉认证医师", qualEn: "NHC Attending · Solta Thermage Certified (USA)", years: 14, surgeries: "12,000+", specZh: ["热玛吉", "玻尿酸", "肉毒素"], specEn: ["Thermage", "HA Filler", "Botox"] },
+  { zh: "王晓琳 主任医师", en: "Dr. Wang Xiaolin · Chief Surgeon", titleZh: "整形外科 主任", titleEn: "Director, Plastic Surgery", clinicZh: "北京艺星医疗美容医院", clinicEn: "Beijing Yestar Aesthetic Hospital", cityZh: "北京", cityEn: "Beijing", img: v2, license: "1411010520190234567", qualZh: "卫健委主诊医师 · 美国整形外科学会(ASPS)国际会员", qualEn: "NHC Attending · ASPS International Member (USA)", years: 16, surgeries: "6,400+", specZh: ["SMAS拉皮", "深层除皱", "提眉"], specEn: ["SMAS Facelift", "Deep Plane Lift", "Brow Lift"] },
   { zh: "陈嘉豪 副主任医师", en: "Dr. Chen Jiahao · Associate Chief", titleZh: "整形外科 主任", titleEn: "Director, Plastic Surgery", clinicZh: "成都美莱医学美容医院", clinicEn: "Chengdu Meilai Medical Aesthetic Hospital", cityZh: "成都", cityEn: "Chengdu", img: v3, license: "1415103200170345678", qualZh: "卫健委主诊医师 · 韩国 BK 医院研修", qualEn: "NHC Attending · Trained at BK Hospital, Korea", years: 18, surgeries: "5,400+", specZh: ["双眼皮", "脂肪填充", "鼻修复"], specEn: ["Double Eyelid", "Fat Transfer", "Rhino Revision"] },
 ];
 
 const cases = [
   { src: v4, zhUser: "@小敏_上海", enUser: "@MinShanghai", zhCap: "全切双眼皮第30天｜华美 李文志主任", enCap: "Day 30 — Double eyelid · Huamei Shanghai", likes: "24k", comments: "812", priceCny: 6800 },
   { src: v2, zhUser: "@Rosie", enUser: "@Rosie", zhCap: "鼻综合术后6个月对比｜北京艺星", enCap: "Rhinoplasty · 6-month reveal · Beijing Yestar", likes: "56k", comments: "1.2k", priceCny: 22800 },
-  { src: v3, zhUser: "@嘉嘉_Cd", enUser: "@JiaChengdu", zhCap: "热玛吉第五代真实体验｜成都美莱", enCap: "Thermage FLX honest review · Chengdu Meilai", likes: "18k", comments: "624", priceCny: 12800 },
+  { src: v3, zhUser: "@嘉嘉_Cd", enUser: "@JiaChengdu", zhCap: "SMAS拉皮提升术后90天｜成都美莱", enCap: "SMAS facelift · 90-day reveal · Chengdu Meilai", likes: "18k", comments: "624", priceCny: 88000 },
   { src: v6, zhUser: "@甜甜圈", enUser: "@Donutgirl", zhCap: "脂肪填充全面部 90天 vlog", enCap: "Full-face fat transfer · 90-day vlog", likes: "9.8k", comments: "412", priceCny: 9800 },
-  { src: v1, zhUser: "@momo", enUser: "@momo", zhCap: "玻尿酸下巴 即刻效果对比", enCap: "Chin filler · before & after on the spot", likes: "32k", comments: "904", priceCny: 1980 },
-  { src: v5, zhUser: "@Lulu", enUser: "@Lulu", zhCap: "水光针嗨体熬夜脸救星", enCap: "Skin booster — late-night face savior", likes: "11k", comments: "388", priceCny: 980 },
+  { src: v1, zhUser: "@momo", enUser: "@momo", zhCap: "下巴假体植入 60天侧脸对比", enCap: "Chin implant · 60-day side profile reveal", likes: "32k", comments: "904", priceCny: 28000 },
+  { src: v5, zhUser: "@Lulu", enUser: "@Lulu", zhCap: "腰腹吸脂塑形 6周恢复日记", enCap: "Waist & abdomen liposuction · 6-week recovery", likes: "11k", comments: "388", priceCny: 32000 },
 ];
 
 // ============== Sections ==============
@@ -124,8 +124,8 @@ const Hero = () => {
             <div className="flex flex-wrap items-center gap-2 pt-1">
               <span className="text-xs uppercase tracking-wider text-muted-foreground font-semibold mr-1">{t("hero.hot")}</span>
               {(lang === "en"
-                ? ["HA Filler", "Thermage", "Double Eyelid", "Rhinoplasty", "Botox", "Skin Booster"]
-                : ["玻尿酸", "热玛吉", "双眼皮", "鼻综合", "瘦脸针", "水光针"]
+                ? ["Rhinoplasty", "Facelift", "Double Eyelid", "Liposuction", "Fat Transfer", "Chin Implant"]
+                : ["鼻综合", "拉皮提升", "双眼皮", "吸脂塑形", "脂肪填充", "下巴假体"]
               ).map((p) => (
                 <span key={p} className="pill bg-card/80 backdrop-blur shadow-soft text-foreground">
                   <Flame className="size-3 text-primary" /> {p}
