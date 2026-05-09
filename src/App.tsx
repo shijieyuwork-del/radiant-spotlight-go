@@ -11,6 +11,8 @@ import Cases from "./pages/Cases.tsx";
 import CaseDetail from "./pages/CaseDetail.tsx";
 import Doctors from "./pages/Doctors.tsx";
 import DoctorDetail from "./pages/DoctorDetail.tsx";
+import Cities from "./pages/Cities.tsx";
+import CityDetail from "./pages/CityDetail.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
