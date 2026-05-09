@@ -68,6 +68,10 @@ const CnNavbar = ({ homeLinks = true }: Props) => {
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
+          <Button onClick={() => open()} className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 px-5 gap-1.5">
+            <MessageCircle className="size-4" />
+            {lang === "en" ? "Consult" : "人工咨询"}
+          </Button>
           <Button className="rounded-full bg-foreground text-background hover:bg-foreground/90 px-5">{t("nav.signin")}</Button>
         </div>
       </nav>
