@@ -9,6 +9,7 @@ import Footer from "@/components/Footer";
 import CnNavbar from "@/components/CnNavbar";
 import TikTokWall from "@/components/TikTokWall";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
+import { DOCTORS } from "@/data/doctors";
 import { useCn } from "@/lib/cn-i18n";
 import heroBg from "@/assets/hero-bg.jpg";
 import v1 from "@/assets/video1.jpg";
@@ -66,21 +67,7 @@ const clinics: Clinic[] = [
   { zh: "深圳鹏程医疗美容医院", en: "Shenzhen Pengcheng Aesthetic Hospital", cityZh: "深圳·福田", cityEn: "Shenzhen · Futian", img: c3, rating: 4.82, reviews: 6310, levelZh: "二级专科医院", levelEn: "Tier-2 Specialty Hospital", license: "PDY12-44030420180521", beian: "深卫医字(2018)第0521号", years: 11, topZh: "拉皮提升 / 双眼皮", topEn: "Facelift / Double Eyelid" },
 ];
 
-type Doctor = {
-  zh: string; en: string;
-  titleZh: string; titleEn: string;
-  clinicZh: string; clinicEn: string;
-  cityZh: string; cityEn: string;
-  img: string; license: string;
-  qualZh: string; qualEn: string;
-  years: number; surgeries: string;
-  specZh: string[]; specEn: string[];
-};
-const doctors: Doctor[] = [
-  { zh: "李文志 主任医师", en: "Dr. Li Wenzhi · Chief Surgeon", titleZh: "整形外科 副主任", titleEn: "Deputy Director, Plastic Surgery", clinicZh: "上海华美医疗美容医院", clinicEn: "Shanghai Huamei Plastic Surgery Hospital", cityZh: "上海", cityEn: "Shanghai", img: v4, license: "1413010320180123456", qualZh: "卫健委主诊医师 · 中华医学会整形外科学分会会员", qualEn: "NHC Attending Surgeon · Member, Chinese Society of Plastic Surgery", years: 22, surgeries: "8,200+", specZh: ["鼻综合", "全切双眼皮", "面部轮廓"], specEn: ["Rhinoplasty", "Double Eyelid", "Facial Contouring"] },
-  { zh: "王晓琳 主任医师", en: "Dr. Wang Xiaolin · Chief Surgeon", titleZh: "整形外科 主任", titleEn: "Director, Plastic Surgery", clinicZh: "北京艺星医疗美容医院", clinicEn: "Beijing Yestar Aesthetic Hospital", cityZh: "北京", cityEn: "Beijing", img: v2, license: "1411010520190234567", qualZh: "卫健委主诊医师 · 美国整形外科学会(ASPS)国际会员", qualEn: "NHC Attending · ASPS International Member (USA)", years: 16, surgeries: "6,400+", specZh: ["SMAS拉皮", "深层除皱", "提眉"], specEn: ["SMAS Facelift", "Deep Plane Lift", "Brow Lift"] },
-  { zh: "陈嘉豪 副主任医师", en: "Dr. Chen Jiahao · Associate Chief", titleZh: "整形外科 主任", titleEn: "Director, Plastic Surgery", clinicZh: "成都美莱医学美容医院", clinicEn: "Chengdu Meilai Medical Aesthetic Hospital", cityZh: "成都", cityEn: "Chengdu", img: v3, license: "1415103200170345678", qualZh: "卫健委主诊医师 · 韩国 BK 医院研修", qualEn: "NHC Attending · Trained at BK Hospital, Korea", years: 18, surgeries: "5,400+", specZh: ["双眼皮", "脂肪填充", "鼻修复"], specEn: ["Double Eyelid", "Fat Transfer", "Rhino Revision"] },
-];
+// Doctors data lives in src/data/doctors.ts (used by both home + /doctors detail).
 
 const cases = [
   { src: v4, zhUser: "@小敏_上海", enUser: "@MinShanghai", zhCap: "全切双眼皮第30天｜华美 李文志主任", enCap: "Day 30 — Double eyelid · Huamei Shanghai", likes: "24k", comments: "812", priceCny: 6800 },
