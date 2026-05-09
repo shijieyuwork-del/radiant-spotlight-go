@@ -11,6 +11,7 @@ type Props = { homeLinks?: boolean };
 
 const CnNavbar = ({ homeLinks = true }: Props) => {
   const { t, lang, setLang, currency, setCurrency } = useCn();
+  const { open } = useQuote();
   const links = homeLinks
     ? [
         { to: "/cities", label: t("nav.cities") },
