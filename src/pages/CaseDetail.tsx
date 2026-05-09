@@ -1,7 +1,7 @@
 import { useMemo, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
-  ArrowLeft, Heart, MessageCircle, Share2, Volume2, VolumeX, Play,
+  ArrowLeft, ArrowRight, Heart, MessageCircle, Share2, Volume2, VolumeX, Play,
   BadgeCheck, Building2, Calendar, ShieldCheck,
 } from "lucide-react";
 import CnNavbar from "@/components/CnNavbar";
@@ -9,12 +9,14 @@ import Footer from "@/components/Footer";
 import TikTokWall from "@/components/TikTokWall";
 import { Button } from "@/components/ui/button";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
+import { DOCTORS } from "@/data/doctors";
 import { useCn } from "@/lib/cn-i18n";
 
 const CaseDetail = () => {
   const { id } = useParams();
   const { t, lang, fmt } = useCn();
   const item = useMemo(() => TIKTOK_CASES.find((c) => c.id === id), [id]);
+  const doctor = useMemo(() => DOCTORS.find((d) => id && d.caseIds.includes(id)), [id]);
   const related = useMemo(
     () => TIKTOK_CASES.filter((c) => c.id !== id).slice(0, 5),
     [id],
@@ -123,6 +125,27 @@ const CaseDetail = () => {
               <p className="text-sm flex items-center gap-2"><Calendar className="size-4 text-primary" /> {lang === "en" ? "Procedure date · within 6 months" : "手术时间 · 近 6 个月"}</p>
               <p className="text-sm flex items-center gap-2"><ShieldCheck className="size-4 text-primary" /> {lang === "en" ? "Identity & receipt verified" : "身份证 + 消费凭证已核验"}</p>
             </div>
+
+            {doctor && (
+              <Link
+                to={`/doctors/${doctor.id}`}
+                className="rounded-3xl bg-card shadow-soft p-5 flex items-center gap-4 hover:shadow-glow transition group block"
+              >
+                <img src={doctor.img} alt="" className="size-16 rounded-2xl object-cover shrink-0" />
+                <div className="min-w-0 flex-1">
+                  <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold">
+                    {lang === "en" ? "Performed by" : "主刀医师"}
+                  </p>
+                  <p className="font-display text-lg font-semibold leading-tight truncate mt-0.5">
+                    {lang === "en" ? doctor.en : doctor.zh}
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-0.5 truncate">
+                    {lang === "en" ? doctor.titleEn : doctor.titleZh} · {doctor.years}{lang === "en" ? " yrs" : "年"} · {doctor.surgeries}
+                  </p>
+                </div>
+                <ArrowRight className="size-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition shrink-0" />
+              </Link>
+            )}
 
             <div className="rounded-3xl bg-gradient-to-br from-[hsl(155,60%,90%)] to-[hsl(50,80%,92%)] p-5 flex items-center justify-between gap-4 shadow-soft">
               <div>
