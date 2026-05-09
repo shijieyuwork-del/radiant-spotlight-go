@@ -9,14 +9,12 @@ import Footer from "@/components/Footer";
 import CnNavbar from "@/components/CnNavbar";
 import TikTokWall from "@/components/TikTokWall";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
+import { DOCTORS } from "@/data/doctors";
 import { useCn } from "@/lib/cn-i18n";
 import heroBg from "@/assets/hero-bg.jpg";
-import v1 from "@/assets/video1.jpg";
 import v2 from "@/assets/video2.jpg";
 import v3 from "@/assets/video3.jpg";
 import v4 from "@/assets/video4.jpg";
-import v5 from "@/assets/video5.jpg";
-import v6 from "@/assets/video6.jpg";
 import c1 from "@/assets/clinic1.jpg";
 import c2 from "@/assets/clinic2.jpg";
 import c3 from "@/assets/clinic3.jpg";
@@ -66,30 +64,8 @@ const clinics: Clinic[] = [
   { zh: "深圳鹏程医疗美容医院", en: "Shenzhen Pengcheng Aesthetic Hospital", cityZh: "深圳·福田", cityEn: "Shenzhen · Futian", img: c3, rating: 4.82, reviews: 6310, levelZh: "二级专科医院", levelEn: "Tier-2 Specialty Hospital", license: "PDY12-44030420180521", beian: "深卫医字(2018)第0521号", years: 11, topZh: "拉皮提升 / 双眼皮", topEn: "Facelift / Double Eyelid" },
 ];
 
-type Doctor = {
-  zh: string; en: string;
-  titleZh: string; titleEn: string;
-  clinicZh: string; clinicEn: string;
-  cityZh: string; cityEn: string;
-  img: string; license: string;
-  qualZh: string; qualEn: string;
-  years: number; surgeries: string;
-  specZh: string[]; specEn: string[];
-};
-const doctors: Doctor[] = [
-  { zh: "李文志 主任医师", en: "Dr. Li Wenzhi · Chief Surgeon", titleZh: "整形外科 副主任", titleEn: "Deputy Director, Plastic Surgery", clinicZh: "上海华美医疗美容医院", clinicEn: "Shanghai Huamei Plastic Surgery Hospital", cityZh: "上海", cityEn: "Shanghai", img: v4, license: "1413010320180123456", qualZh: "卫健委主诊医师 · 中华医学会整形外科学分会会员", qualEn: "NHC Attending Surgeon · Member, Chinese Society of Plastic Surgery", years: 22, surgeries: "8,200+", specZh: ["鼻综合", "全切双眼皮", "面部轮廓"], specEn: ["Rhinoplasty", "Double Eyelid", "Facial Contouring"] },
-  { zh: "王晓琳 主任医师", en: "Dr. Wang Xiaolin · Chief Surgeon", titleZh: "整形外科 主任", titleEn: "Director, Plastic Surgery", clinicZh: "北京艺星医疗美容医院", clinicEn: "Beijing Yestar Aesthetic Hospital", cityZh: "北京", cityEn: "Beijing", img: v2, license: "1411010520190234567", qualZh: "卫健委主诊医师 · 美国整形外科学会(ASPS)国际会员", qualEn: "NHC Attending · ASPS International Member (USA)", years: 16, surgeries: "6,400+", specZh: ["SMAS拉皮", "深层除皱", "提眉"], specEn: ["SMAS Facelift", "Deep Plane Lift", "Brow Lift"] },
-  { zh: "陈嘉豪 副主任医师", en: "Dr. Chen Jiahao · Associate Chief", titleZh: "整形外科 主任", titleEn: "Director, Plastic Surgery", clinicZh: "成都美莱医学美容医院", clinicEn: "Chengdu Meilai Medical Aesthetic Hospital", cityZh: "成都", cityEn: "Chengdu", img: v3, license: "1415103200170345678", qualZh: "卫健委主诊医师 · 韩国 BK 医院研修", qualEn: "NHC Attending · Trained at BK Hospital, Korea", years: 18, surgeries: "5,400+", specZh: ["双眼皮", "脂肪填充", "鼻修复"], specEn: ["Double Eyelid", "Fat Transfer", "Rhino Revision"] },
-];
-
-const cases = [
-  { src: v4, zhUser: "@小敏_上海", enUser: "@MinShanghai", zhCap: "全切双眼皮第30天｜华美 李文志主任", enCap: "Day 30 — Double eyelid · Huamei Shanghai", likes: "24k", comments: "812", priceCny: 6800 },
-  { src: v2, zhUser: "@Rosie", enUser: "@Rosie", zhCap: "鼻综合术后6个月对比｜北京艺星", enCap: "Rhinoplasty · 6-month reveal · Beijing Yestar", likes: "56k", comments: "1.2k", priceCny: 22800 },
-  { src: v3, zhUser: "@嘉嘉_Cd", enUser: "@JiaChengdu", zhCap: "SMAS拉皮提升术后90天｜成都美莱", enCap: "SMAS facelift · 90-day reveal · Chengdu Meilai", likes: "18k", comments: "624", priceCny: 88000 },
-  { src: v6, zhUser: "@甜甜圈", enUser: "@Donutgirl", zhCap: "脂肪填充全面部 90天 vlog", enCap: "Full-face fat transfer · 90-day vlog", likes: "9.8k", comments: "412", priceCny: 9800 },
-  { src: v1, zhUser: "@momo", enUser: "@momo", zhCap: "下巴假体植入 60天侧脸对比", enCap: "Chin implant · 60-day side profile reveal", likes: "32k", comments: "904", priceCny: 28000 },
-  { src: v5, zhUser: "@Lulu", enUser: "@Lulu", zhCap: "腰腹吸脂塑形 6周恢复日记", enCap: "Waist & abdomen liposuction · 6-week recovery", likes: "11k", comments: "388", priceCny: 32000 },
-];
+// Doctors data lives in src/data/doctors.ts (used by both home + /doctors detail).
+// TikTok cases live in src/data/tiktokCases.ts.
 
 // ============== Sections ==============
 const Hero = () => {
@@ -385,41 +361,55 @@ const ClinicsSection = () => {
 
 const DoctorsSection = () => {
   const { t, lang } = useCn();
+  const featured = DOCTORS.slice(0, 3);
   return (
     <section id="compliance" className="container py-16 md:py-20">
-      <div className="mb-8">
-        <span className="pill bg-accent text-accent-foreground mb-3"><Stethoscope className="size-3.5" /> {t("doctors.kicker")}</span>
-        <h2 className="font-display text-4xl md:text-5xl font-medium tracking-tight">
-          {t("doctors.title1")} <em className="text-primary not-italic">{t("doctors.titleEm")}</em>
-        </h2>
+      <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
+        <div>
+          <span className="pill bg-accent text-accent-foreground mb-3"><Stethoscope className="size-3.5" /> {t("doctors.kicker")}</span>
+          <h2 className="font-display text-4xl md:text-5xl font-medium tracking-tight">
+            {t("doctors.title1")} <em className="text-primary not-italic">{t("doctors.titleEm")}</em>
+          </h2>
+        </div>
+        <Link
+          to="/doctors"
+          className="text-sm font-semibold pill bg-foreground text-background hover:bg-foreground/90 px-5 py-2"
+        >
+          {lang === "en" ? "Browse all surgeons" : "查看全部医师"} <ArrowRight className="size-4" />
+        </Link>
       </div>
       <div className="grid md:grid-cols-3 gap-6">
-        {doctors.map((d) => (
-          <div key={d.en} className="rounded-3xl bg-card shadow-pop p-6">
+        {featured.map((d) => (
+          <Link
+            key={d.id}
+            to={`/doctors/${d.id}`}
+            className="rounded-3xl bg-card shadow-pop p-6 hover:shadow-glow transition group block"
+          >
             <div className="flex items-center gap-4">
               <img src={d.img} alt={lang === "en" ? d.en : d.zh} className="size-16 rounded-2xl object-cover" />
-              <div>
-                <p className="font-display text-lg font-semibold leading-tight">{lang === "en" ? d.en : d.zh}</p>
-                <p className="text-xs text-muted-foreground mt-1">{lang === "en" ? d.titleEn : d.titleZh} · {lang === "en" ? d.cityEn : d.cityZh}</p>
+              <div className="min-w-0">
+                <p className="font-display text-lg font-semibold leading-tight truncate">{lang === "en" ? d.en : d.zh}</p>
+                <p className="text-xs text-muted-foreground mt-1 truncate">{lang === "en" ? d.titleEn : d.titleZh} · {lang === "en" ? d.cityEn : d.cityZh}</p>
               </div>
             </div>
             <p className="text-sm text-muted-foreground mt-4 flex items-center gap-1">
-              <Building2 className="size-3.5" /> {lang === "en" ? d.clinicEn : d.clinicZh}
+              <Building2 className="size-3.5 shrink-0" />
+              <span className="truncate">{lang === "en" ? d.clinicEn : d.clinicZh}</span>
             </p>
 
             <div className="mt-4 rounded-2xl bg-muted/40 p-3 space-y-1.5 text-[11px]">
               <div className="flex items-center gap-1.5 text-muted-foreground">
                 <FileCheck2 className="size-3 text-primary" />
                 <span>{t("doctors.lic")}</span>
-                <span className="font-mono text-foreground">{d.license}</span>
+                <span className="font-mono text-foreground truncate">{d.license}</span>
               </div>
               <p className="text-muted-foreground flex items-start gap-1.5">
                 <BadgeCheck className="size-3 text-primary mt-0.5 shrink-0" />
-                <span>{lang === "en" ? d.qualEn : d.qualZh}</span>
+                <span className="line-clamp-2">{lang === "en" ? d.qualEn : d.qualZh}</span>
               </p>
             </div>
 
-            <div className="mt-4 grid grid-cols-2 gap-2 text-center">
+            <div className="mt-4 grid grid-cols-3 gap-2 text-center">
               <div className="rounded-xl bg-secondary py-2">
                 <p className="font-display text-base font-semibold">{d.years}{lang === "en" ? "" : "年"}</p>
                 <p className="text-[10px] text-muted-foreground">{t("doctors.exp")}</p>
@@ -427,6 +417,12 @@ const DoctorsSection = () => {
               <div className="rounded-xl bg-secondary py-2">
                 <p className="font-display text-base font-semibold">{d.surgeries}</p>
                 <p className="text-[10px] text-muted-foreground">{t("doctors.cases")}</p>
+              </div>
+              <div className="rounded-xl bg-secondary py-2">
+                <p className="font-display text-base font-semibold inline-flex items-center gap-0.5">
+                  <Star className="size-3.5 fill-primary text-primary" /> {d.rating}
+                </p>
+                <p className="text-[10px] text-muted-foreground">{d.reviews.toLocaleString()}</p>
               </div>
             </div>
 
@@ -436,8 +432,10 @@ const DoctorsSection = () => {
               ))}
             </div>
 
-            <Button variant="outline" className="mt-4 w-full rounded-2xl">{t("doctors.cta")}</Button>
-          </div>
+            <div className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary group-hover:gap-2 transition-all">
+              {t("doctors.cta")} <ArrowRight className="size-4" />
+            </div>
+          </Link>
         ))}
       </div>
     </section>

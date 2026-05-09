@@ -1,0 +1,154 @@
+import { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
+import {
+  Search, Filter, Stethoscope, BadgeCheck, Building2, FileCheck2, Star, ArrowRight, MapPin,
+} from "lucide-react";
+import CnNavbar from "@/components/CnNavbar";
+import Footer from "@/components/Footer";
+import { Button } from "@/components/ui/button";
+import { DOCTORS } from "@/data/doctors";
+import { useCn } from "@/lib/cn-i18n";
+
+const Doctors = () => {
+  const { t, lang } = useCn();
+  const [q, setQ] = useState("");
+  const [city, setCity] = useState<string>("all");
+
+  const cities = useMemo(() => {
+    const set = new Map<string, string>();
+    DOCTORS.forEach((d) => set.set(d.cityEn, d[lang === "en" ? "cityEn" : "cityZh"]));
+    return Array.from(set, ([key, label]) => ({ key, label }));
+  }, [lang]);
+
+  const items = useMemo(() => {
+    return DOCTORS.filter((d) => {
+      if (city !== "all" && d.cityEn !== city) return false;
+      if (!q.trim()) return true;
+      const hay = `${d.en} ${d.zh} ${d.clinicEn} ${d.clinicZh} ${d.specEn.join(" ")} ${d.specZh.join(" ")}`.toLowerCase();
+      return hay.includes(q.toLowerCase());
+    });
+  }, [q, city]);
+
+  return (
+    <div className="min-h-screen bg-background">
+      <CnNavbar />
+
+      <section className="container py-12 md:py-16">
+        <div className="text-center max-w-2xl mx-auto mb-8">
+          <span className="pill bg-accent text-accent-foreground mb-3">
+            <Stethoscope className="size-3.5" /> {t("doctors.kicker")}
+          </span>
+          <h1 className="font-display text-4xl md:text-5xl font-medium tracking-tight">
+            {t("doctors.title1")} <em className="text-primary not-italic">{t("doctors.titleEm")}</em>
+          </h1>
+          <p className="text-muted-foreground mt-3">
+            {lang === "en"
+              ? "Every surgeon below is licensed by the China NHC. Click any profile to read their bio and verified case diaries."
+              : "每位医师均持有国家卫健委颁发的《医师执业证》。点击任意档案查看完整介绍与真实手术案例。"}
+          </p>
+        </div>
+
+        <div className="bg-card rounded-3xl p-2 shadow-pop flex flex-col sm:flex-row gap-2 max-w-2xl mx-auto mb-6">
+          <div className="flex-1 px-5 py-3 flex items-center gap-3">
+            <Search className="size-4 text-muted-foreground shrink-0" />
+            <input
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              className="w-full bg-transparent outline-none text-sm font-medium"
+              placeholder={lang === "en" ? "Search by name, clinic or specialty…" : "搜索医生、机构或擅长项目…"}
+            />
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2 flex-wrap justify-center mb-10">
+          <span className="text-xs text-muted-foreground inline-flex items-center gap-1 mr-1"><Filter className="size-3" /></span>
+          <Button variant={city === "all" ? "default" : "outline"} size="sm" className="rounded-full" onClick={() => setCity("all")}>
+            {t("cases.tabAll")}
+          </Button>
+          {cities.map((c) => (
+            <Button key={c.key} variant={city === c.key ? "default" : "outline"} size="sm" className="rounded-full" onClick={() => setCity(c.key)}>
+              {c.label}
+            </Button>
+          ))}
+        </div>
+
+        {items.length === 0 ? (
+          <p className="text-center text-muted-foreground py-12 text-sm">
+            {lang === "en" ? "No surgeons match this filter." : "没有匹配的医师，换个筛选试试。"}
+          </p>
+        ) : (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {items.map((d) => (
+              <Link
+                key={d.id}
+                to={`/doctors/${d.id}`}
+                className="rounded-3xl bg-card shadow-pop p-6 hover:shadow-glow transition group block"
+              >
+                <div className="flex items-center gap-4">
+                  <img src={d.img} alt={lang === "en" ? d.en : d.zh} className="size-16 rounded-2xl object-cover" />
+                  <div className="min-w-0">
+                    <p className="font-display text-lg font-semibold leading-tight truncate">{lang === "en" ? d.en : d.zh}</p>
+                    <p className="text-xs text-muted-foreground mt-1 truncate">
+                      {lang === "en" ? d.titleEn : d.titleZh}
+                    </p>
+                    <p className="text-[11px] text-muted-foreground mt-0.5 inline-flex items-center gap-1">
+                      <MapPin className="size-3" /> {lang === "en" ? d.cityEn : d.cityZh}
+                    </p>
+                  </div>
+                </div>
+
+                <p className="text-sm text-muted-foreground mt-4 flex items-center gap-1">
+                  <Building2 className="size-3.5 shrink-0" />
+                  <span className="truncate">{lang === "en" ? d.clinicEn : d.clinicZh}</span>
+                </p>
+
+                <div className="mt-4 rounded-2xl bg-muted/40 p-3 space-y-1.5 text-[11px]">
+                  <div className="flex items-center gap-1.5 text-muted-foreground">
+                    <FileCheck2 className="size-3 text-primary" />
+                    <span>{t("doctors.lic")}</span>
+                    <span className="font-mono text-foreground truncate">{d.license}</span>
+                  </div>
+                  <p className="text-muted-foreground flex items-start gap-1.5">
+                    <BadgeCheck className="size-3 text-primary mt-0.5 shrink-0" />
+                    <span className="line-clamp-2">{lang === "en" ? d.qualEn : d.qualZh}</span>
+                  </p>
+                </div>
+
+                <div className="mt-4 grid grid-cols-3 gap-2 text-center">
+                  <div className="rounded-xl bg-secondary py-2">
+                    <p className="font-display text-base font-semibold">{d.years}{lang === "en" ? "" : "年"}</p>
+                    <p className="text-[10px] text-muted-foreground">{t("doctors.exp")}</p>
+                  </div>
+                  <div className="rounded-xl bg-secondary py-2">
+                    <p className="font-display text-base font-semibold">{d.surgeries}</p>
+                    <p className="text-[10px] text-muted-foreground">{t("doctors.cases")}</p>
+                  </div>
+                  <div className="rounded-xl bg-secondary py-2">
+                    <p className="font-display text-base font-semibold inline-flex items-center gap-0.5">
+                      <Star className="size-3.5 fill-primary text-primary" /> {d.rating}
+                    </p>
+                    <p className="text-[10px] text-muted-foreground">{d.reviews.toLocaleString()}</p>
+                  </div>
+                </div>
+
+                <div className="mt-4 flex flex-wrap gap-1">
+                  {(lang === "en" ? d.specEn : d.specZh).map((s) => (
+                    <span key={s} className="text-[10px] px-2 py-0.5 rounded-full bg-accent text-accent-foreground">{s}</span>
+                  ))}
+                </div>
+
+                <div className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary group-hover:gap-2 transition-all">
+                  {t("doctors.cta")} <ArrowRight className="size-4" />
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
+      </section>
+
+      <Footer />
+    </div>
+  );
+};
+
+export default Doctors;
