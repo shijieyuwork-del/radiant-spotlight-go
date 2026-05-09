@@ -15,9 +15,6 @@ import heroBg from "@/assets/hero-bg.jpg";
 import v2 from "@/assets/video2.jpg";
 import v3 from "@/assets/video3.jpg";
 import v4 from "@/assets/video4.jpg";
-import c1 from "@/assets/clinic1.jpg";
-import c2 from "@/assets/clinic2.jpg";
-import c3 from "@/assets/clinic3.jpg";
 
 // ============== Data (bilingual) ==============
 const cities = [
@@ -47,22 +44,7 @@ const treatments: Treatment[] = [
   { zh: "全身体形雕塑", en: "Full Body Contouring", emoji: "🧬", from: 128000, orig: 168000, tag: { en: "Premier", zh: "高端" }, grad: "from-[hsl(190,70%,88%)] to-[hsl(340,85%,90%)]" },
 ];
 
-type Clinic = {
-  zh: string; en: string;
-  cityZh: string; cityEn: string;
-  img: string; rating: number; reviews: number;
-  levelZh: string; levelEn: string;
-  license: string; beian: string; years: number;
-  topZh: string; topEn: string;
-};
-const clinics: Clinic[] = [
-  { zh: "上海华美医疗美容医院", en: "Shanghai Huamei Plastic Surgery Hospital", cityZh: "上海·徐汇", cityEn: "Shanghai · Xuhui", img: c1, rating: 4.9, reviews: 12480, levelZh: "三级整形外科医院", levelEn: "Tier-3 Plastic Surgery Hospital", license: "PDY12-31010520210034", beian: "沪卫医字(2021)第0034号", years: 18, topZh: "鼻综合 / 双眼皮", topEn: "Rhinoplasty / Double Eyelid" },
-  { zh: "北京艺星医疗美容医院", en: "Beijing Yestar Aesthetic Hospital", cityZh: "北京·朝阳", cityEn: "Beijing · Chaoyang", img: c2, rating: 4.88, reviews: 9821, levelZh: "二级专科医院", levelEn: "Tier-2 Specialty Hospital", license: "PDY12-11010520180108", beian: "京卫医字(2018)第0108号", years: 12, topZh: "拉皮提升 / 鼻综合", topEn: "Facelift / Rhinoplasty" },
-  { zh: "成都美莱医学美容医院", en: "Chengdu Meilai Medical Aesthetic Hospital", cityZh: "成都·锦江", cityEn: "Chengdu · Jinjiang", img: c3, rating: 4.85, reviews: 8210, levelZh: "二级整形外科医院", levelEn: "Tier-2 Plastic Surgery Hospital", license: "PDY12-51010320190212", beian: "蓉卫医字(2019)第0212号", years: 15, topZh: "双眼皮 / 下颌轮廓", topEn: "Double Eyelid / Genioplasty" },
-  { zh: "杭州时光医疗美容医院", en: "Hangzhou Shiguang Aesthetic Hospital", cityZh: "杭州·西湖", cityEn: "Hangzhou · West Lake", img: c1, rating: 4.86, reviews: 5642, levelZh: "二级整形外科医院", levelEn: "Tier-2 Plastic Surgery Hospital", license: "PDY12-33010620200417", beian: "浙卫医字(2020)第0417号", years: 10, topZh: "眼袋祛除 / 脂肪填充", topEn: "Eye Bag Removal / Fat Transfer" },
-  { zh: "广州曙光医疗美容门诊部", en: "Guangzhou Shuguang Aesthetic Clinic", cityZh: "广州·天河", cityEn: "Guangzhou · Tianhe", img: c2, rating: 4.78, reviews: 4920, levelZh: "医疗美容门诊部", levelEn: "Aesthetic Outpatient Clinic", license: "PDY12-44010620190308", beian: "粤卫医字(2019)第0308号", years: 8, topZh: "吸脂塑形 / 隆胸", topEn: "Liposuction / Breast Aug" },
-  { zh: "深圳鹏程医疗美容医院", en: "Shenzhen Pengcheng Aesthetic Hospital", cityZh: "深圳·福田", cityEn: "Shenzhen · Futian", img: c3, rating: 4.82, reviews: 6310, levelZh: "二级专科医院", levelEn: "Tier-2 Specialty Hospital", license: "PDY12-44030420180521", beian: "深卫医字(2018)第0521号", years: 11, topZh: "拉皮提升 / 双眼皮", topEn: "Facelift / Double Eyelid" },
-];
+// Clinics data removed — patients select by doctor, not by clinic.
 
 // Doctors data lives in src/data/doctors.ts (used by both home + /doctors detail).
 // TikTok cases live in src/data/tiktokCases.ts.

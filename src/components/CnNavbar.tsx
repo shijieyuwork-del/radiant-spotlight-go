@@ -14,7 +14,6 @@ const CnNavbar = ({ homeLinks = true }: Props) => {
     ? [
         { to: "/#cities", label: t("nav.cities") },
         { to: "/#projects", label: t("nav.projects") },
-        { to: "/doctors", label: t("nav.compliance") },
         { to: "/cases", label: t("nav.cases") },
         { to: "/doctors", label: t("nav.compliance") },
       ]
