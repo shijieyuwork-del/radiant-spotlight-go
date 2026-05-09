@@ -13,6 +13,7 @@ import Doctors from "./pages/Doctors.tsx";
 import DoctorDetail from "./pages/DoctorDetail.tsx";
 import Cities from "./pages/Cities.tsx";
 import CityDetail from "./pages/CityDetail.tsx";
+import Packages from "./pages/Packages.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
