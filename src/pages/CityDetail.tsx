@@ -86,7 +86,7 @@ const CityDetail = () => {
       <section className="container py-10">
         <div className="rounded-3xl bg-card shadow-soft p-6 md:p-8">
           <h2 className="font-display text-2xl md:text-3xl font-semibold mb-5">
-            {lang === "en" ? `Why ${city.en}?` : `为什么选 ${city.zh}？`}
+            {lang === "zh" ? `为什么选 ${city.zh}？` : `Why ${city.en}?`}
           </h2>
           <div className="grid md:grid-cols-3 gap-4">
             {(lang === "zh" ? city.whyZh : city.whyEn).map((w) => (
@@ -108,9 +108,7 @@ const CityDetail = () => {
               {lang === "zh" ? "认证主刀" : "Verified surgeons"}
             </span>
             <h2 className="font-display text-3xl md:text-4xl font-semibold">
-              {lang === "en"
-                ? `Top surgeons in ${city.en}`
-                : `${city.zh}主刀医生推荐`}
+              {lang === "zh" ? `${city.zh}主刀医生推荐` : `Top surgeons in ${city.en}`}
             </h2>
           </div>
           <Link
@@ -123,9 +121,7 @@ const CityDetail = () => {
 
         {cityDoctors.length === 0 ? (
           <p className="text-sm text-muted-foreground">
-            {lang === "en"
-              ? "No glowy-listed surgeons yet for this city — request a match below."
-              : "本城市暂无平台主推医师，可在下方提交匹配申请。"}
+            {lang === "zh" ? "本城市暂无平台主推医师，可在下方提交匹配申请。" : "No glowy-listed surgeons yet for this city — request a match below."}
           </p>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -176,7 +172,7 @@ const CityDetail = () => {
         <section className="container py-10">
           <div className="flex items-end justify-between mb-5 gap-4">
             <h2 className="font-display text-3xl md:text-4xl font-semibold">
-              {lang === "en" ? `Real cases from ${city.en}` : `${city.zh}真实案例`}
+              {lang === "zh" ? `${city.zh}真实案例` : `Real cases from ${city.en}`}
             </h2>
             <Link to="/cases" className="text-sm font-semibold text-primary hover:translate-x-0.5 transition inline-flex items-center gap-1">
               {lang === "zh" ? "全部案例" : "All cases"} <ArrowRight className="size-4" />
@@ -226,14 +222,10 @@ const CityDetail = () => {
         <div className="rounded-3xl bg-foreground text-background p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <div>
             <h2 className="font-display text-2xl md:text-3xl font-semibold">
-              {lang === "en"
-                ? `Plan your ${city.en} trip with glowy`
-                : `让 glowy 为你规划 ${city.zh} 行程`}
+              {lang === "zh" ? `让 glowy 为你规划 ${city.zh} 行程` : `Plan your ${city.en} trip with glowy`}
             </h2>
             <p className="text-sm text-background/80 mt-2 max-w-xl">
-              {lang === "en"
-                ? "Surgeon shortlist, price quote, hospital booking and recovery hotel — handled by an English-speaking coordinator."
-                : "主刀候选 / 报价 / 机构预约 / 恢复酒店，全程中英文专属顾问对接。"}
+              {lang === "zh" ? "主刀候选 / 报价 / 机构预约 / 恢复酒店，全程中英文专属顾问对接。" : "Surgeon shortlist, price quote, hospital booking and recovery hotel — handled by an English-speaking coordinator."}
             </p>
           </div>
           <Link

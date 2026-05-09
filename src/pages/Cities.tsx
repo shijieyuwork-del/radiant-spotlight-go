@@ -31,9 +31,7 @@ const Cities = () => {
           )}
         </h1>
         <p className="text-muted-foreground mt-3 max-w-2xl">
-          {lang === "en"
-            ? "Six top medical-aesthetic cities in China — each with its own specialty, price level, and travel logistics for overseas Chinese patients."
-            : "国内六大医美核心城市，各有强势项目、价格区间与适合海外华人的出行配套。"}
+          {lang === "zh" ? "国内六大医美核心城市，各有强势项目、价格区间与适合海外华人的出行配套。" : "Six top medical-aesthetic cities in China — each with its own specialty, price level, and travel logistics for overseas Chinese patients."}
         </p>
       </section>
 
@@ -68,7 +66,7 @@ const Cities = () => {
                     </div>
                     <span className="pill bg-background/95 text-foreground text-[10px]">
                       <Wallet className="size-3 text-primary" />
-                      {lang === "en" ? `Save ${c.savings}` : `省 ${c.savings}`}
+                      {lang === "zh" ? `省 ${c.savings}` : `Save ${c.savings}`}
                     </span>
                   </div>
                 </div>
@@ -123,14 +121,10 @@ const Cities = () => {
         <div className="rounded-3xl bg-gradient-to-r from-[hsl(190,70%,92%)] via-[hsl(155,60%,90%)] to-[hsl(50,80%,92%)] p-6 md:p-8 grid md:grid-cols-3 gap-5 items-center shadow-soft">
           <div className="md:col-span-2">
             <h2 className="font-display text-2xl md:text-3xl font-semibold">
-              {lang === "en"
-                ? "Not sure which city fits you?"
-                : "不确定选哪个城市？"}
+              {lang === "zh" ? "不确定选哪个城市？" : "Not sure which city fits you?"}
             </h2>
             <p className="text-sm text-foreground/70 mt-2 max-w-xl">
-              {lang === "en"
-                ? "Tell us your procedure and travel window — we'll match a surgeon, hospital, and recovery hotel in the right city within 24 hours."
-                : "告诉我们手术项目与回国时间，24 小时内为你匹配城市 / 主刀 / 恢复酒店一站式方案。"}
+              {lang === "zh" ? "告诉我们手术项目与回国时间，24 小时内为你匹配城市 / 主刀 / 恢复酒店一站式方案。" : "Tell us your procedure and travel window — we'll match a surgeon, hospital, and recovery hotel in the right city within 24 hours."}
             </p>
           </div>
           <div className="flex md:justify-end">

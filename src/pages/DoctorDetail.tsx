@@ -169,7 +169,7 @@ const DoctorDetail = () => {
             {/* Cases */}
             <div>
               <h2 className="font-display text-2xl font-medium tracking-tight mb-4">
-                {lang === "en" ? `Verified cases by this surgeon (${cases.length})` : `本医师真实案例（${cases.length}）`}
+                {lang === "zh" ? `本医师真实案例（${cases.length}）` : `Verified cases by this surgeon (${cases.length})`}
               </h2>
               {cases.length === 0 ? (
                 <p className="text-sm text-muted-foreground">
@@ -189,9 +189,7 @@ const DoctorDetail = () => {
                 {lang === "zh" ? "免费 1 对 1 面诊" : "Free 1-on-1 consult"}
               </p>
               <p className="text-xs text-foreground/70 mt-2">
-                {lang === "en"
-                  ? "English-speaking coordinator · medical visa & airport pickup included."
-                  : "全程中英双语助理 · 含医疗签证与机场接送。"}
+                {lang === "zh" ? "全程中英双语助理 · 含医疗签证与机场接送。" : "English-speaking coordinator · medical visa & airport pickup included."}
               </p>
               <Button className="mt-4 w-full rounded-2xl bg-foreground text-background hover:bg-foreground/90">
                 <MessageCircle className="size-4" /> {t("cl.cta")}

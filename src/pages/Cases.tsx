@@ -132,9 +132,7 @@ const Cases = () => {
         <div className="flex items-center justify-center mb-8 gap-3 text-xs text-muted-foreground">
           <Filter className="size-3" />
           <span>
-            {lang === "en"
-              ? `${items.length} case${items.length === 1 ? "" : "s"}`
-              : `共 ${items.length} 个案例`}
+            {lang === "zh" ? `共 ${items.length} 个案例` : `${items.length} case${items.length === 1 ? "" : "s"}`}
             {hasFilters &&
               ` · ${activeTreatments.length + activeCities.length} ${lang === "zh" ? "项筛选" : "filter(s)"}`}
           </span>

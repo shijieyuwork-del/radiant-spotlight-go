@@ -17,17 +17,14 @@ const QUICK_REPLIES_ZH = ["套餐怎么收费？", "我想预约咨询", "帮我
 
 const autoReply = (lang: "en" | "zh"): string => {
   const replies =
-    lang === "en"
-      ? [
-          "Got it — a real concierge will reply within a few minutes during 10:00–18:00 (GMT+8). Want me to text you on WhatsApp/WeChat too?",
-          "Thanks for reaching out 💬 I've pinged a human agent. Meanwhile, feel free to share your goal procedure or city.",
-        ]
-      : [
+    lang === "zh" ? [
           "收到啦～客服会在 10:00–18:00（北京时间）几分钟内回复您。需要同步加微信 / WhatsApp 吗？",
           "感谢联系 💬 已通知真人客服，您可以先告诉我们想了解的项目或城市哦。",
         ];
-  return replies[Math.floor(Math.random() * replies.length)];
-};
+  return replies[Math.floor(Math.random() * replies.length)]; : [
+          "Got it — a real concierge will reply within a few minutes during 10:00–18:00 (GMT+8). Want me to text you on WhatsApp/WeChat too?",
+          "Thanks for reaching out 💬 I've pinged a human agent. Meanwhile, feel free to share your goal procedure or city.",
+        ]};
 
 const FloatingLiveChat = () => {
   const { lang } = useCn();
@@ -74,9 +71,7 @@ const FloatingLiveChat = () => {
         id: `m_${Date.now()}`,
         from: "agent",
         text:
-          lang === "en"
-            ? "Hi 👋 I'm Lina from glowy. Ask me anything about doctors, pricing, or your trip — a human agent jumps in within minutes."
-            : "您好 👋 我是 glowy 客服 Lina，关于医生 / 价格 / 行程都可以问我，真人客服几分钟内介入～",
+          lang === "zh" ? "您好 👋 我是 glowy 客服 Lina，关于医生 / 价格 / 行程都可以问我，真人客服几分钟内介入～" : "Hi 👋 I'm Lina from glowy. Ask me anything about doctors, pricing, or your trip — a human agent jumps in within minutes.",
         ts: Date.now(),
       };
       setMessages([greet]);

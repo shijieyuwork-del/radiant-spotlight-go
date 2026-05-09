@@ -105,9 +105,7 @@ const Packages = () => {
           )}
         </h1>
         <p className="text-muted-foreground mt-3 max-w-2xl mx-auto">
-          {lang === "en"
-            ? "Visa letter, airport pickup, hospital coordination, translation and recovery — packaged into three tiers so you can focus on healing."
-            : "签证函 / 机场接送 / 医院对接 / 中英文翻译 / 术后陪同，打包成三档套餐，让你专注恢复。"}
+          {lang === "zh" ? "签证函 / 机场接送 / 医院对接 / 中英文翻译 / 术后陪同，打包成三档套餐，让你专注恢复。" : "Visa letter, airport pickup, hospital coordination, translation and recovery — packaged into three tiers so you can focus on healing."}
         </p>
       </section>
 
@@ -150,9 +148,7 @@ const Packages = () => {
                           ${p.originalPrice.toLocaleString()}
                         </span>
                         <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-primary text-primary-foreground">
-                          {lang === "en"
-                            ? `Save $${(p.originalPrice - p.price).toLocaleString()}`
-                            : `立省 $${(p.originalPrice - p.price).toLocaleString()}`}
+                          {lang === "zh" ? `立省 $${(p.originalPrice - p.price).toLocaleString()}` : `Save $${(p.originalPrice - p.price).toLocaleString()}`}
                         </span>
                       </div>
                     )}

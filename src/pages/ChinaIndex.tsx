@@ -84,10 +84,7 @@ const Hero = () => {
 
             <div className="flex flex-wrap items-center gap-2 pt-1">
               <span className="text-xs uppercase tracking-wider text-muted-foreground font-semibold mr-1">{t("hero.hot")}</span>
-              {(lang === "en"
-                ? ["Rhinoplasty", "Facelift", "Blepharoplasty", "Liposuction", "Tummy Tuck", "BBL", "Breast Aug", "Fat Grafting"]
-                : ["鼻综合", "面部拉皮", "双眼皮/眼袋", "吸脂", "腹壁整形", "巴西提臀", "隆胸", "脂肪填充"]
-              ).map((p) => (
+              {(lang === "zh" ? ["鼻综合", "面部拉皮", "双眼皮/眼袋", "吸脂", "腹壁整形", "巴西提臀", "隆胸", "脂肪填充"] : ["Rhinoplasty", "Facelift", "Blepharoplasty", "Liposuction", "Tummy Tuck", "BBL", "Breast Aug", "Fat Grafting"]).map((p) => (
                 <span key={p} className="pill bg-card/80 backdrop-blur shadow-soft text-foreground">
                   <Flame className="size-3 text-primary" /> {p}
                 </span>
