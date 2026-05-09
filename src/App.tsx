@@ -32,6 +32,8 @@ const App = () => (
                 <Route path="/cases/:id" element={<CaseDetail />} />
                 <Route path="/doctors" element={<Doctors />} />
                 <Route path="/doctors/:id" element={<DoctorDetail />} />
+                <Route path="/cities" element={<Cities />} />
+                <Route path="/cities/:slug" element={<CityDetail />} />
                 <Route path="/cn" element={<Navigate to="/" replace />} />
                 <Route path="/:lang/*" element={<Navigate to="/" replace />} />
                 <Route path="*" element={<NotFound />} />
