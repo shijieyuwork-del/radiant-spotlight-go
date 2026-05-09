@@ -63,7 +63,7 @@ const PACKAGES: Pkg[] = [
     id: "diamond",
     nameEn: "Diamond VIP Package", nameZh: "钻石尊享套餐",
     price: 2499,
-    originalPrice: 3799,
+    originalPrice: 3399,
     taglineEn: "End-to-end VIP · 5-star stay & doctor on call",
     taglineZh: "尊享一站式 · 五星酒店 + 在线医生随叫随到",
     icon: Gem,
