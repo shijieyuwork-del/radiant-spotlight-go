@@ -247,7 +247,7 @@ interface AsiaI18nState {
 const AsiaI18nCtx = createContext<AsiaI18nState | null>(null);
 export const useAsia = () => {
   const c = useContext(AsiaI18nCtx);
-  if (!c) throw new Error(" useAsia must be inside AsiaI18nProvider");
+  if (!c) throw new Error("useAsia must be inside AsiaI18nProvider");
   return c;
 };
 
