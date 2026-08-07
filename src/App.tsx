@@ -8,7 +8,7 @@ import { AsiaI18nProvider } from "@/lib/asia-i18n";
 import { QuoteProvider } from "@/components/QuoteRequest";
 import FloatingLiveChat from "@/components/FloatingLiveChat";
 import { AuthProvider } from "@/lib/auth";
-import ChinaIndex from "./pages/AsiaIndex.tsx";
+import AsiaIndex from "./pages/AsiaIndex.tsx";
 import Cases from "./pages/Cases.tsx";
 import CaseDetail from "./pages/CaseDetail.tsx";
 import Doctors from "./pages/Doctors.tsx";
