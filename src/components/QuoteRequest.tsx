@@ -21,17 +21,17 @@ interface QuoteCtxValue {
 const QuoteCtx = createContext<QuoteCtxValue | null>(null);
 
 const COUNTRIES = [
-  "🇺🇸 United States", "🇬🇧 United Kingdom", "🇨🇦 Canada", "🇦🇺 Australia",
+  "🇺🇸 United States", "🇨🇦 Canada", "🇬🇧 United Kingdom", "🇦🇺 Australia",
+  "🇷🇺 Russia", "🇰🇿 Kazakhstan", "🇺🇦 Ukraine", "🇩🇪 Germany", "🇫🇷 France",
   "🇸🇬 Singapore", "🇦🇪 United Arab Emirates", "🇸🇦 Saudi Arabia", "🇰🇷 South Korea",
-  "🇯🇵 Japan", "🇨🇳 China", "🇹🇭 Thailand", "🇮🇳 India", "🇲🇾 Malaysia",
-  "🇫🇷 France", "🇩🇪 Germany", "🇮🇹 Italy", "🇪🇸 Spain", "🇳🇱 Netherlands",
-  "🇧🇷 Brazil", "🇲🇽 Mexico", "🇹🇷 Turkey", "Other",
+  "🇯🇵 Japan", "🇨🇳 China", "🇹🇭 Thailand", "🇲🇾 Malaysia", "Other",
 ];
 
 const PROCEDURES = [
-  "Rhinoplasty", "Double Eyelid", "V-Line Surgery", "Facelift",
-  "Breast Augmentation", "Liposuction", "Hair Transplant", "Eyelid Revision",
-  "Other / Not sure yet",
+  "Rhinoplasty", "Facelift", "Neck Lift", "Blepharoplasty",
+  "Facial Fat Grafting", "Liposuction", "Tummy Tuck / Mommy Makeover",
+  "Brazilian Butt Lift (BBL)", "Breast Augmentation", "Breast Lift",
+  "Full Body Contouring", "Other / Not sure yet",
 ];
 
 export const QuoteProvider = ({ children }: { children: ReactNode }) => {
