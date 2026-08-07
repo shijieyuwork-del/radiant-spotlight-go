@@ -12,9 +12,6 @@ import { TIKTOK_CASES } from "@/data/tiktokCases";
 import { DOCTORS } from "@/data/doctors";
 import { useCn } from "@/lib/cn-i18n";
 import heroBg from "@/assets/hero-bg.jpg";
-import v2 from "@/assets/video2.jpg";
-import v3 from "@/assets/video3.jpg";
-import v4 from "@/assets/video4.jpg";
 
 // ============== Data (bilingual) ==============
 const cities = [
