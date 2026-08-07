@@ -260,7 +260,7 @@ export const CITIES: City[] = [
       "三里屯 / 国贸 五星酒店与术后护理一体化",
     ],
     whyEn: [
-      "Home of China's plastic-surgery teaching hospitals — deep revision-rhino experience",
+      "Flagship academic plastic-surgery centers — deep revision-rhino experience",
       "PEK & PKX airports with direct flights to 30+ countries",
       "Sanlitun / CBD luxury hotels integrated with post-op nursing",
     ],
