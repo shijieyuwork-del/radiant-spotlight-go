@@ -203,12 +203,12 @@ export const CITIES: City[] = [
   {
     slug: "shanghai",
     zh: "上海", en: "Shanghai",
-    taglineZh: "中国医美门户 · 眼鼻面综合",
-    taglineEn: "China aesthetic gateway · eyes, nose & face",
+    taglineZh: "亚洲医美门户 · 眼鼻面综合",
+    taglineEn: "Asia aesthetic gateway · eyes, nose & face",
     introZh:
-      "上海是亚洲规模最大的医美市场之一，拥有大量卫健委许可的三级整形机构与英文协调团队，是海外华人回国手术最便利的入口。",
+      "上海是亚洲规模最大的医美市场之一，拥有大量卫健委许可的三级整形机构与英文协调团队，是海外求美者进入亚洲手术市场最便利的入口。",
     introEn:
-      "Shanghai is one of Asia's largest aesthetic surgery markets, with many licensed Class-III hospitals and English-speaking coordinators. It is the most convenient entry point for overseas patients returning to Asia for surgery.",
+      "Shanghai is one of Asia's largest aesthetic surgery markets, with many licensed Class-III hospitals and English-speaking coordinators. It is the most convenient entry point for international patients coming to Asia for surgery.",
     img: heroBg,
     clinics: 128, doctorsCount: 86, savings: "60–70%",
     hotZh: ["双眼皮 / 眼袋", "鼻综合", "面部拉皮", "巴西提臀", "颈部提升"],
