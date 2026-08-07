@@ -12,9 +12,6 @@ import { TIKTOK_CASES } from "@/data/tiktokCases";
 import { DOCTORS } from "@/data/doctors";
 import { useCn } from "@/lib/cn-i18n";
 import heroBg from "@/assets/hero-bg.jpg";
-import v2 from "@/assets/video2.jpg";
-import v3 from "@/assets/video3.jpg";
-import v4 from "@/assets/video4.jpg";
 
 // ============== Data (bilingual) ==============
 const cities = [
@@ -98,51 +95,45 @@ const Hero = () => {
             </div>
           </div>
 
-          <div className="lg:col-span-5 relative h-[560px] hidden lg:block">
-            {[
-              { src: "/videos/v4.mp4", poster: v4, cls: "top-0 left-2 w-44 h-72", delay: "0s",   tagEn: "Double eyelid",  tagZh: "双眼皮", who: "@MinShanghai" },
-              { src: "/videos/v2.mp4", poster: v2, cls: "top-10 right-0 w-52 h-80", delay: "1s", tagEn: "Rhinoplasty",     tagZh: "鼻综合",  who: "@Rosie" },
-              { src: "/videos/v3.mp4", poster: v3, cls: "bottom-16 left-24 w-48 h-72", delay: "2s", tagEn: "SMAS Facelift", tagZh: "拉皮提升", who: "@JiaChengdu" },
-            ].map((v) => (
-              <Link
-                key={v.src}
-                to="/cases"
-                className={`absolute ${v.cls} animate-float rounded-3xl overflow-hidden shadow-pop group block`}
-                style={{ animationDelay: v.delay }}
-              >
-                <video
-                  src={v.src}
-                  poster={v.poster}
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  preload="metadata"
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-x-0 bottom-0 p-2.5 bg-gradient-to-t from-black/70 to-transparent">
-                  <p className="text-[11px] font-semibold text-white">{v.who}</p>
-                  <p className="text-[10px] text-white/80">{lang === "zh" ? v.tagZh : v.tagEn}</p>
-                </div>
+          <div className="lg:col-span-5 hidden lg:flex flex-col justify-center">
+            <div className="flex items-center justify-between mb-3 px-1">
+              <p className="text-sm font-semibold text-muted-foreground">
+                {lang === "zh" ? "真实案例短视频" : "Real patient video diaries"}
+              </p>
+              <Link to="/cases" className="text-xs font-semibold text-primary inline-flex items-center gap-1 hover:gap-2 transition-all">
+                {lang === "zh" ? "查看更多" : "View all"} <ArrowRight className="size-3" />
               </Link>
-            ))}
-
-            <Link
-              to="/cases"
-              className="absolute -bottom-2 right-0 bg-card rounded-2xl shadow-pop p-3 pr-4 flex items-center gap-2 hover:shadow-glow transition group"
-            >
-              <div className="size-9 rounded-xl bg-primary grid place-items-center shrink-0">
-                <ArrowRight className="size-4 text-primary-foreground group-hover:translate-x-0.5 transition" />
-              </div>
-              <div>
-                <p className="text-xs font-display font-semibold leading-tight">
-                  {lang === "zh" ? "查看更多真实案例视频" : "More real-case videos"}
-                </p>
-                <p className="text-[10px] text-muted-foreground mt-0.5">
-                  {lang === "zh" ? "点击进入案例视频墙" : "Tap to open the case wall"}
-                </p>
-              </div>
-            </Link>
+            </div>
+            <div className="flex gap-3 overflow-x-auto pb-3 scrollbar-hide snap-x snap-mandatory">
+              {TIKTOK_CASES.slice(0, 6).map((it) => (
+                <Link
+                  key={it.id}
+                  to={`/cases/${it.id}`}
+                  className="snap-start shrink-0 relative w-36 aspect-[9/16] rounded-2xl overflow-hidden shadow-pop group block"
+                >
+                  <video
+                    src={it.src}
+                    poster={it.poster}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="metadata"
+                    className="absolute inset-0 size-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20 pointer-events-none" />
+                  <div className="absolute top-2 left-2 right-2">
+                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/90 text-foreground font-semibold truncate block">
+                      {it.treatment[lang]}
+                    </span>
+                  </div>
+                  <div className="absolute inset-x-0 bottom-0 p-2.5">
+                    <p className="text-[11px] font-semibold text-white truncate">{it.user[lang]}</p>
+                    <p className="text-[10px] text-white/80 line-clamp-1">{it.caption[lang]}</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       </div>
