@@ -52,7 +52,7 @@ const Doctors = () => {
             {t("doctors.title1")} <em className="text-primary not-italic">{t("doctors.titleEm")}</em>
           </h1>
           <p className="text-muted-foreground mt-3">
-            {lang === "zh" ? "每位医师均持有国家卫健委颁发的《医师执业证》。可按手术类型与城市筛选，点击档案查看完整介绍与真实手术案例。" : "Every surgeon below is licensed by the China NHC. Filter by procedure or city, then click any profile to read their bio and verified case diaries."}
+            {lang === "zh" ? "每位医师均持有当地医疗委员会颁发的执业许可。可按手术类型与城市筛选，点击档案查看完整介绍与真实手术案例。" : "Every surgeon below is licensed by their national medical board. Filter by procedure or city, then click any profile to read their bio and verified case diaries."}
           </p>
         </div>
 
