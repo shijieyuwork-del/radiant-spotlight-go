@@ -3,17 +3,17 @@ import {
   ArrowLeft, ArrowRight, MapPin, Plane, Hotel, Languages, FileCheck2,
   Stethoscope, Building2, Wallet, Star, CheckCircle2, Sparkles,
 } from "lucide-react";
-import CnNavbar from "@/components/CnNavbar";
+import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 import { findCity } from "@/data/cities";
 import { DOCTORS } from "@/data/doctors";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
-import { useCn } from "@/lib/cn-i18n";
+import { useAsia } from "@/lib/asia-i18n";
 
 const CityDetail = () => {
   const { slug = "" } = useParams();
   const city = findCity(slug);
-  const { lang, fmt } = useCn();
+  const { lang, fmt } = useAsia();
 
   if (!city) return <Navigate to="/cities" replace />;
 
@@ -24,7 +24,7 @@ const CityDetail = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <CnNavbar />
+      <AsiaNavbar />
 
       {/* Back */}
       <div className="container pt-6">

@@ -1,15 +1,15 @@
 import { useMemo, useState } from "react";
 import { Heart, Search, Filter, MapPin, Stethoscope, X } from "lucide-react";
-import CnNavbar from "@/components/CnNavbar";
+import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 import TikTokWall from "@/components/TikTokWall";
 import { Button } from "@/components/ui/button";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
 import { DOCTORS } from "@/data/doctors";
-import { useCn } from "@/lib/cn-i18n";
+import { useAsia } from "@/lib/asia-i18n";
 
 const Cases = () => {
-  const { t, lang, fmt } = useCn();
+  const { t, lang, fmt } = useAsia();
   const [q, setQ] = useState("");
   const [activeTreatments, setActiveTreatments] = useState<string[]>([]);
   const [activeCities, setActiveCities] = useState<string[]>([]);
@@ -58,7 +58,7 @@ const Cases = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <CnNavbar />
+      <AsiaNavbar />
 
       <section className="container py-12 md:py-16">
         <div className="text-center max-w-2xl mx-auto mb-8">

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Headphones, X, Send, MessageCircle, Phone, Mail, CheckCircle2 } from "lucide-react";
-import { useCn } from "@/lib/cn-i18n";
+import { useAsia } from "@/lib/asia-i18n";
 
 type Msg = { id: string; from: "user" | "agent"; text: string; ts: number };
 
@@ -18,17 +18,17 @@ const QUICK_REPLIES_ZH = ["套餐怎么收费？", "我想预约咨询", "帮我
 const autoReply = (lang: "en" | "zh" | "ru"): string => {
   const replies =
     lang === "zh" ? [
-          "收到啦～客服会在 10:00–18:00（北京时间）几分钟内回复您。需要同步加微信 / WhatsApp 吗？",
+          "收到啦～客服会在 10:00–18:00（亚洲时间 GMT+8）几分钟内回复您。需要同步加微信 / WhatsApp 吗？",
           "感谢联系 💬 已通知真人客服，您可以先告诉我们想了解的项目或城市哦。",
         ] : [
-          "Got it — a real concierge will reply within a few minutes during 10:00–18:00 (GMT+8). Want me to text you on WhatsApp/WeChat too?",
+          "Got it — a real concierge will reply within a few minutes during 10:00–18:00 (Asia time, GMT+8). Want me to text you on WhatsApp/WeChat too?",
           "Thanks for reaching out 💬 I've pinged a human agent. Meanwhile, feel free to share your goal procedure or city.",
         ];
   return replies[Math.floor(Math.random() * replies.length)];
 };
 
 const FloatingLiveChat = () => {
-  const { lang } = useCn();
+  const { lang } = useAsia();
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");

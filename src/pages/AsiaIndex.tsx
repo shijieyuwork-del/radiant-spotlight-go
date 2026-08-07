@@ -6,22 +6,16 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Footer from "@/components/Footer";
-import CnNavbar from "@/components/CnNavbar";
+import AsiaNavbar from "@/components/AsiaNavbar";
 import TikTokWall from "@/components/TikTokWall";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
 import { DOCTORS } from "@/data/doctors";
-import { useCn } from "@/lib/cn-i18n";
+import { CITIES } from "@/data/cities";
+import { useAsia } from "@/lib/asia-i18n";
 import heroBg from "@/assets/hero-bg.jpg";
 
 // ============== Data (bilingual) ==============
-const cities = [
-  { zh: "上海", en: "Shanghai", clinics: 128, hot: { en: ["Facelift", "BBL", "Blepharoplasty"], zh: ["面部拉皮", "巴西提臀", "双眼皮/眼袋"] } },
-  { zh: "北京", en: "Beijing", clinics: 142, hot: { en: ["Rhinoplasty", "Breast Lift", "Facelift"], zh: ["鼻综合", "提胸", "面部拉皮"] } },
-  { zh: "成都", en: "Chengdu", clinics: 96, hot: { en: ["Body Contouring", "Facelift", "Blepharoplasty"], zh: ["全身体形雕塑", "面部拉皮", "双眼皮/眼袋"] } },
-  { zh: "杭州", en: "Hangzhou", clinics: 71, hot: { en: ["Facial Fat Grafting", "Neck Lift", "Rhinoplasty"], zh: ["面部脂肪填充", "颈部提升", "鼻综合"] } },
-  { zh: "广州", en: "Guangzhou", clinics: 88, hot: { en: ["Liposuction", "Breast Augmentation", "Tummy Tuck"], zh: ["吸脂塑形", "隆胸", "腹壁整形"] } },
-  { zh: "深圳", en: "Shenzhen", clinics: 79, hot: { en: ["Tummy Tuck", "Facelift", "Rhinoplasty"], zh: ["腹壁整形", "面部拉皮", "鼻综合"] } },
-];
+const cities = CITIES;
 
 type Treatment = {
   zh: string; en: string; emoji: string; from: number; orig?: number;
@@ -48,7 +42,7 @@ const treatments: Treatment[] = [
 
 // ============== Sections ==============
 const Hero = () => {
-  const { t, lang, fmt } = useCn();
+  const { t, lang } = useAsia();
   return (
     <section className="relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-hero opacity-90" />
@@ -113,7 +107,6 @@ const Hero = () => {
                 >
                   <video
                     src={it.src}
-                    poster={it.poster}
                     autoPlay
                     loop
                     muted
@@ -124,12 +117,12 @@ const Hero = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20 pointer-events-none" />
                   <div className="absolute top-2 left-2 right-2">
                     <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/90 text-foreground font-semibold truncate block">
-                      {it.treatment[lang]}
+                      {it.treatment[lang === "ru" ? "en" : lang]}
                     </span>
                   </div>
                   <div className="absolute inset-x-0 bottom-0 p-2.5">
-                    <p className="text-[11px] font-semibold text-white truncate">{it.user[lang]}</p>
-                    <p className="text-[10px] text-white/80 line-clamp-1">{it.caption[lang]}</p>
+                    <p className="text-[11px] font-semibold text-white truncate">{it.user[lang === "ru" ? "en" : lang]}</p>
+                    <p className="text-[10px] text-white/80 line-clamp-1">{it.caption[lang === "ru" ? "en" : lang]}</p>
                   </div>
                 </Link>
               ))}
@@ -142,7 +135,7 @@ const Hero = () => {
 };
 
 const ComplianceBar = () => {
-  const { t } = useCn();
+  const { t } = useAsia();
   const items = [
     { icon: FileCheck2, t: t("compliance.t1"), d: t("compliance.d1") },
     { icon: Stethoscope, t: t("compliance.t2"), d: t("compliance.d2") },
@@ -169,7 +162,7 @@ const ComplianceBar = () => {
 };
 
 const TravelBar = () => {
-  const { lang } = useCn();
+  const { lang } = useAsia();
   if (lang === "zh") return null;
   return (
     <section className="container py-6">
@@ -196,7 +189,7 @@ const TravelBar = () => {
 };
 
 const CitiesSection = () => {
-  const { t, lang } = useCn();
+  const { t, lang } = useAsia();
   return (
     <section id="cities" className="container py-16 md:py-20">
       <div className="flex items-end justify-between mb-8 gap-4">
@@ -209,14 +202,14 @@ const CitiesSection = () => {
       </div>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         {cities.map((c) => (
-          <Link key={c.en} to={`/cities/${c.en.toLowerCase()}`} className="rounded-3xl bg-card shadow-soft hover:shadow-pop transition-all hover:-translate-y-1 p-5 group">
+          <Link key={c.slug} to={`/cities/${c.slug}`} className="rounded-3xl bg-card shadow-soft hover:shadow-pop transition-all hover:-translate-y-1 p-5 group">
             <p className="font-display text-2xl font-semibold">{lang === "zh" ? c.zh : c.en}</p>
             <p className="text-xs text-muted-foreground">{lang === "zh" ? c.en : c.zh}</p>
             <p className="text-xs text-muted-foreground mt-3">
               {lang === "zh" ? "热门手术" : "Trending procedures"}
             </p>
             <div className="flex flex-wrap gap-1 mt-2">
-              {(lang === "zh" ? c.hot.zh : c.hot.en).map((h) => (
+              {(lang === "zh" ? c.hotZh : c.hotEn).map((h) => (
                 <span key={h} className="text-[10px] px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground">{h}</span>
               ))}
             </div>
@@ -236,7 +229,7 @@ const CitiesSection = () => {
 };
 
 const TreatmentsSection = () => {
-  const { t, lang, fmt } = useCn();
+  const { t, lang, fmt } = useAsia();
   return (
     <section id="projects" className="container py-16 md:py-20">
       <div className="mb-8">
@@ -278,7 +271,7 @@ const TreatmentsSection = () => {
 // ClinicsSection removed — patients only browse doctors.
 
 const DoctorsSection = () => {
-  const { t, lang } = useCn();
+  const { t, lang } = useAsia();
   const featured = DOCTORS.slice(0, 3);
   return (
     <section id="compliance" className="container py-16 md:py-20">
@@ -361,7 +354,7 @@ const DoctorsSection = () => {
 };
 
 const CasesSection = () => {
-  const { t, lang, fmt } = useCn();
+  const { t, lang, fmt } = useAsia();
   return (
     <section id="cases" className="container py-16 md:py-20">
       <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
@@ -385,7 +378,7 @@ const CasesSection = () => {
 };
 
 const PromoBar = () => {
-  const { t } = useCn();
+  const { t } = useAsia();
   return (
     <section className="container py-10">
       <div className="rounded-3xl bg-gradient-to-r from-[hsl(340,85%,90%)] via-[hsl(50,80%,90%)] to-[hsl(155,60%,85%)] p-8 md:p-10 grid md:grid-cols-3 gap-6 items-center shadow-pop">
@@ -403,9 +396,9 @@ const PromoBar = () => {
 };
 
 // ============== Page ==============
-const ChinaIndex = () => (
+const AsiaIndex = () => (
   <div className="min-h-screen bg-background overflow-x-hidden">
-    <CnNavbar />
+    <AsiaNavbar />
     <Hero />
     <ComplianceBar />
     <TravelBar />
@@ -418,4 +411,4 @@ const ChinaIndex = () => (
   </div>
 );
 
-export default ChinaIndex;
+export default AsiaIndex;

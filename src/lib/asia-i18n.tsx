@@ -1,42 +1,42 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 
-export type CnLang = "en" | "zh" | "ru";
-export type CnCurrency = "USD" | "CNY";
+export type AsiaLang = "en" | "zh" | "ru";
+export type AsiaCurrency = "USD" | "CNY";
 const RATE = 7.2;
 
-export const cnLangLabel: Record<CnLang, { label: string; flag: string }> = {
+export const asiaLangLabel: Record<AsiaLang, { label: string; flag: string }> = {
   en: { label: "English", flag: "🇺🇸" },
   zh: { label: "中文", flag: "🇨🇳" },
   ru: { label: "Русский", flag: "🇷🇺" },
 };
 
 type Dict = Record<string, string>;
-const dict: Record<CnLang, Dict> = {
+const dict: Record<AsiaLang, Dict> = {
   en: {
-    "brand.suffix": "China",
+    "brand.suffix": "Asia",
     "nav.cities": "Cities",
     "nav.projects": "Treatments",
     "nav.clinics": "Verified clinics",
     "nav.cases": "Real cases",
     "nav.compliance": "Doctors",
     "nav.signin": "Sign in",
-    "hero.badge": "Licensed by China NHC · Built for international patients",
-    "hero.title1": "Beauty in China,",
+    "hero.badge": "Licensed across Asia · Verified by local medical boards · Built for international patients",
+    "hero.title1": "Beauty in Asia,",
     "hero.titleEm": "made simple",
-    "hero.subtitle": "100k+ verified before-after diaries · 6,000+ board-certified doctors · English-speaking coordinators, airport pickup & medical visa support included.",
-    "hero.searchPh": "Search treatment, doctor or clinic (e.g. rhinoplasty, facelift, liposuction)",
+    "hero.subtitle": "100k+ verified before-after diaries · 6,000+ board-certified surgeons across Asia · English-speaking coordinators, airport pickup & medical visa support included.",
+    "hero.searchPh": "Search treatment, doctor or city (e.g. rhinoplasty, facelift, Seoul, Bangkok)",
     "hero.cta": "Get a free quote",
     "hero.hot": "Trending",
-    "hero.feat1": "Doctor license verified",
+    "hero.feat1": "Surgeon license verified",
     "hero.feat2": "Clinic permit on file",
     "hero.feat3": "Pay after consultation",
     "doc.cert": "Verified surgeon",
     "doc.years": "yrs experience",
     "doc.cases": "procedures",
     "doc.lic": "License No.",
-    "compliance.t1": "NHC clinic permit",
+    "compliance.t1": "Medical board permit",
     "compliance.d1": "Verify each clinic's national license",
-    "compliance.t2": "Doctor license",
+    "compliance.t2": "Surgeon license",
     "compliance.d2": "Every attending surgeon is searchable",
     "compliance.t3": "Authentic supply",
     "compliance.d3": "Implant lot tracking · in-house anesthesiologist on every case",
@@ -44,7 +44,7 @@ const dict: Record<CnLang, Dict> = {
     "compliance.d4": "Pay after in-person consult · refundable",
     "cities.kicker": "Top destinations",
     "cities.title1": "Find a clinic in",
-    "cities.titleEm": "China's top beauty cities",
+    "cities.titleEm": "Asia's top beauty cities",
     "cities.clinics": "verified clinics",
     "tx.kicker": "Hot treatments",
     "tx.title1": "This month's",
@@ -60,7 +60,7 @@ const dict: Record<CnLang, Dict> = {
     "cl.exp": "in business",
     "cl.years": "yrs",
     "cl.lic": "License:",
-    "cl.beian": "NHC filing:",
+    "cl.beian": "Medical board filing:",
     "cl.spec": "Specialty",
     "cl.reviews": "reviews",
     "cl.cta": "Free consultation",
@@ -87,18 +87,18 @@ const dict: Record<CnLang, Dict> = {
     "case.book": "Book this treatment",
   },
   zh: {
-    "brand.suffix": "医美",
+    "brand.suffix": "亚洲医美",
     "nav.cities": "城市",
     "nav.projects": "热门项目",
     "nav.clinics": "正规机构",
     "nav.cases": "真实案例",
     "nav.compliance": "资质查询",
     "nav.signin": "登录",
-    "hero.badge": "国家卫健委备案 · 正规医美一站式平台",
-    "hero.title1": "放心变美",
+    "hero.badge": "亚洲多国医疗资质核验 · 服务国际求美者的一站式平台",
+    "hero.title1": "亚洲变美",
     "hero.titleEm": "从查证开始",
-    "hero.subtitle": "10万+ 真实案例 · 6000+ 持证医师 · 全部机构均可一键查询《医疗机构执业许可证》与医师执业证。",
-    "hero.searchPh": "搜索项目、医生、机构（如：鼻综合、拉皮提升、吸脂）",
+    "hero.subtitle": "10万+ 真实案例 · 亚洲 6000+ 持证医师 · 首尔、曼谷、东京、新加坡等热门城市机构资质与医师执业证一键可查。",
+    "hero.searchPh": "搜索项目、医生、城市（如：鼻综合、拉皮提升、首尔、曼谷）",
     "hero.cta": "立即查询",
     "hero.hot": "热门搜索",
     "hero.feat1": "医师执业证可查",
@@ -108,16 +108,16 @@ const dict: Record<CnLang, Dict> = {
     "doc.years": "年经验",
     "doc.cases": "台手术",
     "doc.lic": "证书编号",
-    "compliance.t1": "卫健委备案查询",
-    "compliance.d1": "扫码核验《医疗机构执业许可证》",
+    "compliance.t1": "医疗资质核验",
+    "compliance.d1": "核验各国医疗机构执业许可",
     "compliance.t2": "医师执业证",
     "compliance.d2": "全部主诊医师证书可查",
     "compliance.t3": "正品溯源",
     "compliance.d3": "假体批号可追溯 · 全程麻醉医师在场",
     "compliance.t4": "资金托管",
     "compliance.d4": "面诊后付款 · 不满意可退",
-    "cities.kicker": "国内城市",
-    "cities.title1": "在你的城市",
+    "cities.kicker": "亚洲热门城市",
+    "cities.title1": "在亚洲城市",
     "cities.titleEm": "找正规机构",
     "cities.clinics": "家正规机构",
     "tx.kicker": "热门项目",
@@ -130,11 +130,11 @@ const dict: Record<CnLang, Dict> = {
     "cl.kicker": "正规机构",
     "cl.title1": "持证经营 ·",
     "cl.titleEm": "每家都可查",
-    "cl.note": "所有机构均持有国家卫健委颁发的《医疗机构执业许可证》",
+    "cl.note": "所有机构均持有当地卫生部门颁发的医疗机构执业许可",
     "cl.exp": "经营",
     "cl.years": "年",
     "cl.lic": "执业许可证：",
-    "cl.beian": "卫健委备案：",
+    "cl.beian": "医疗资质备案：",
     "cl.spec": "擅长",
     "cl.reviews": "评价",
     "cl.cta": "在线咨询 · 免费面诊",
@@ -161,18 +161,18 @@ const dict: Record<CnLang, Dict> = {
     "case.book": "预约此项目",
   },
   ru: {
-    "brand.suffix": "Китай",
+    "brand.suffix": "Азия",
     "nav.cities": "Города",
     "nav.projects": "Процедуры",
     "nav.clinics": "Проверенные клиники",
     "nav.cases": "Реальные кейсы",
     "nav.compliance": "Врачи",
     "nav.signin": "Войти",
-    "hero.badge": "Лицензировано NHC Китая · Для иностранных пациентов",
-    "hero.title1": "Красота в Китае,",
+    "hero.badge": "Лицензировано медицинскими советами Азии · Для иностранных пациентов",
+    "hero.title1": "Красота в Азии,",
     "hero.titleEm": "это просто",
-    "hero.subtitle": "100 000+ проверенных историй до/после · 6000+ сертифицированных врачей · Координаторы со знанием английского, встреча в аэропорту и медицинская виза включены.",
-    "hero.searchPh": "Поиск процедуры, врача или клиники (например: ринопластика, лифтинг, липосакция)",
+    "hero.subtitle": "100 000+ проверенных историй до/после · 6000+ сертифицированных хирургов по Азии · Координаторы со знанием английского, встреча в аэропорту и медицинская виза включены.",
+    "hero.searchPh": "Поиск процедуры, врача или города (например: ринопластика, лифтинг, Сеул, Бангкок)",
     "hero.cta": "Получить бесплатный расчёт",
     "hero.hot": "Популярное",
     "hero.feat1": "Лицензия врача проверена",
@@ -182,7 +182,7 @@ const dict: Record<CnLang, Dict> = {
     "doc.years": "лет опыта",
     "doc.cases": "процедур",
     "doc.lic": "№ лицензии",
-    "compliance.t1": "Разрешение клиники NHC",
+    "compliance.t1": "Разрешение медицинского совета",
     "compliance.d1": "Проверка национальной лицензии каждой клиники",
     "compliance.t2": "Лицензия врача",
     "compliance.d2": "Каждый оперирующий хирург проверяется",
@@ -190,9 +190,9 @@ const dict: Record<CnLang, Dict> = {
     "compliance.d3": "Отслеживание партий имплантов · штатный анестезиолог на каждой операции",
     "compliance.t4": "Эскроу-оплата",
     "compliance.d4": "Оплата после очной консультации · возможен возврат",
-    "cities.kicker": "Топ направления",
+    "cities.kicker": "Топ направления Азии",
     "cities.title1": "Найдите клинику в",
-    "cities.titleEm": "лучших городах Китая",
+    "cities.titleEm": "лучших городах Азии",
     "cities.clinics": "проверенных клиник",
     "tx.kicker": "Популярные процедуры",
     "tx.title1": "Хиты этого",
@@ -208,7 +208,7 @@ const dict: Record<CnLang, Dict> = {
     "cl.exp": "в работе",
     "cl.years": "лет",
     "cl.lic": "Лицензия:",
-    "cl.beian": "Регистрация NHC:",
+    "cl.beian": "Регистрация медицинского совета:",
     "cl.spec": "Специализация",
     "cl.reviews": "отзывов",
     "cl.cta": "Бесплатная консультация",
@@ -236,35 +236,35 @@ const dict: Record<CnLang, Dict> = {
   },
 };
 
-export type CnDictKey = keyof typeof dict.en;
+export type AsiaDictKey = keyof typeof dict.en;
 
-interface CnI18nState {
-  lang: CnLang; setLang: (l: CnLang) => void;
-  currency: CnCurrency; setCurrency: (c: CnCurrency) => void;
-  t: (k: CnDictKey) => string;
+interface AsiaI18nState {
+  lang: AsiaLang; setLang: (l: AsiaLang) => void;
+  currency: AsiaCurrency; setCurrency: (c: AsiaCurrency) => void;
+  t: (k: AsiaDictKey) => string;
   fmt: (cny: number) => string;
 }
-const CnI18nCtx = createContext<CnI18nState | null>(null);
-export const useCn = () => {
-  const c = useContext(CnI18nCtx);
-  if (!c) throw new Error("useCn must be inside CnI18nProvider");
+const AsiaI18nCtx = createContext<AsiaI18nState | null>(null);
+export const useAsia = () => {
+  const c = useContext(AsiaI18nCtx);
+  if (!c) throw new Error("useAsia must be inside AsiaI18nProvider");
   return c;
 };
 
-const STORE = "glowy.cn.v1";
-export const CnI18nProvider = ({ children }: { children: ReactNode }) => {
+const STORE = "glowy.asia.v1";
+export const AsiaI18nProvider = ({ children }: { children: ReactNode }) => {
   const initial = useMemo(() => {
     try { return JSON.parse(localStorage.getItem(STORE) || "null"); } catch { return null; }
   }, []);
-  const [lang, setLang] = useState<CnLang>(initial?.lang ?? "en");
-  const [currency, setCurrency] = useState<CnCurrency>(initial?.currency ?? "USD");
+  const [lang, setLang] = useState<AsiaLang>(initial?.lang ?? "en");
+  const [currency, setCurrency] = useState<AsiaCurrency>(initial?.currency ?? "USD");
 
   useEffect(() => {
     localStorage.setItem(STORE, JSON.stringify({ lang, currency }));
     document.documentElement.lang = lang === "zh" ? "zh-CN" : lang === "ru" ? "ru" : "en";
   }, [lang, currency]);
 
-  const t: CnI18nState["t"] = (k) => dict[lang][k] ?? dict.en[k] ?? (k as string);
+  const t: AsiaI18nState["t"] = (k) => dict[lang][k] ?? dict.en[k] ?? (k as string);
   const fmt = (cny: number) => {
     if (currency === "CNY") return `¥${cny.toLocaleString("en-US")}`;
     const usd = Math.round(cny / RATE);
@@ -272,8 +272,8 @@ export const CnI18nProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <CnI18nCtx.Provider value={{ lang, setLang, currency, setCurrency, t, fmt }}>
+    <AsiaI18nCtx.Provider value={{ lang, setLang, currency, setCurrency, t, fmt }}>
       {children}
-    </CnI18nCtx.Provider>
+    </AsiaI18nCtx.Provider>
   );
 };

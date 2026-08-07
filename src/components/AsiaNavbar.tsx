@@ -4,14 +4,14 @@ import { Button } from "@/components/ui/button";
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu";
-import { useCn, cnLangLabel as langLabel, type CnLang as Lang } from "@/lib/cn-i18n";
+import { useAsia, asiaLangLabel as langLabel, type AsiaLang as Lang } from "@/lib/asia-i18n";
 import { useQuote } from "@/components/QuoteRequest";
 import { useAuth } from "@/lib/auth";
 
 type Props = { homeLinks?: boolean };
 
-const CnNavbar = ({ homeLinks = true }: Props) => {
-  const { t, lang, setLang, currency, setCurrency } = useCn();
+const AsiaNavbar = ({ homeLinks = true }: Props) => {
+  const { t, lang, setLang, currency, setCurrency } = useAsia();
   const { open } = useQuote();
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
@@ -21,10 +21,10 @@ const CnNavbar = ({ homeLinks = true }: Props) => {
         { to: "/#projects", label: t("nav.projects") },
         { to: "/cases", label: t("nav.cases") },
         { to: "/doctors", label: t("nav.compliance") },
-        { to: "/packages", label: t("brand.suffix") === "China" ? "Packages" : "服务套餐" },
+        { to: "/packages", label: lang === "zh" ? "服务套餐" : "Packages" },
       ]
     : [
-        { to: "/", label: t("brand.suffix") === "China" ? "Home" : "首页" },
+        { to: "/", label: lang === "zh" ? "首页" : "Home" },
         { to: "/cases", label: t("nav.cases") },
       ];
   return (
@@ -109,4 +109,4 @@ const CnNavbar = ({ homeLinks = true }: Props) => {
   );
 };
 
-export default CnNavbar;
+export default AsiaNavbar;

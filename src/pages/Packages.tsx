@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { Check, Sparkles, Crown, Gem, ArrowRight, ShieldCheck } from "lucide-react";
-import CnNavbar from "@/components/CnNavbar";
+import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
-import { useCn } from "@/lib/cn-i18n";
+import { useAsia } from "@/lib/asia-i18n";
 
 type Pkg = {
   id: string;
@@ -86,10 +86,10 @@ const PACKAGES: Pkg[] = [
 ];
 
 const Packages = () => {
-  const { lang } = useCn();
+  const { lang } = useAsia();
   return (
     <div className="min-h-screen bg-background">
-      <CnNavbar />
+      <AsiaNavbar />
 
       {/* Hero */}
       <section className="container py-12 md:py-16 text-center">
