@@ -5,14 +5,14 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import { useAuth } from "@/lib/auth";
-import { useCn } from "@/lib/cn-i18n";
+import { useAsia } from "@/lib/asia-i18n";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
 const Auth = () => {
-  const { lang } = useCn();
+  const { lang } = useAsia();
   const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
 

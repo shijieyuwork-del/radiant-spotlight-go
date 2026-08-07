@@ -4,17 +4,17 @@ import {
   ArrowLeft, ArrowRight, Heart, MessageCircle, Share2, Volume2, VolumeX, Play,
   BadgeCheck, Building2, Calendar, ShieldCheck,
 } from "lucide-react";
-import CnNavbar from "@/components/CnNavbar";
+import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 import TikTokWall from "@/components/TikTokWall";
 import { Button } from "@/components/ui/button";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
 import { DOCTORS } from "@/data/doctors";
-import { useCn } from "@/lib/cn-i18n";
+import { useAsia } from "@/lib/asia-i18n";
 
 const CaseDetail = () => {
   const { id } = useParams();
-  const { t, lang, fmt } = useCn();
+  const { t, lang, fmt } = useAsia();
   const item = useMemo(() => TIKTOK_CASES.find((c) => c.id === id), [id]);
   const doctor = useMemo(() => DOCTORS.find((d) => id && d.caseIds.includes(id)), [id]);
   const related = useMemo(
@@ -29,7 +29,7 @@ const CaseDetail = () => {
   if (!item) {
     return (
       <div className="min-h-screen bg-background">
-        <CnNavbar homeLinks={false} />
+        <AsiaNavbar homeLinks={false} />
         <div className="container py-24 text-center">
           <p className="text-muted-foreground">
             {lang === "zh" ? "案例不存在。" : "Case not found."}
@@ -52,7 +52,7 @@ const CaseDetail = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <CnNavbar homeLinks={false} />
+      <AsiaNavbar homeLinks={false} />
 
       <section className="container py-8 md:py-12">
         <Link to="/cases" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-4">

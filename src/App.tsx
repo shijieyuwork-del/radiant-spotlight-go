@@ -4,11 +4,11 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { I18nProvider } from "@/lib/i18n";
-import { CnI18nProvider } from "@/lib/cn-i18n";
+import { AsiaI18nProvider } from "@/lib/asia-i18n";
 import { QuoteProvider } from "@/components/QuoteRequest";
 import FloatingLiveChat from "@/components/FloatingLiveChat";
 import { AuthProvider } from "@/lib/auth";
-import ChinaIndex from "./pages/ChinaIndex.tsx";
+import ChinaIndex from "./pages/AsiaIndex.tsx";
 import Cases from "./pages/Cases.tsx";
 import CaseDetail from "./pages/CaseDetail.tsx";
 import Doctors from "./pages/Doctors.tsx";
@@ -25,7 +25,7 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <BrowserRouter>
       <I18nProvider>
-        <CnI18nProvider>
+        <AsiaI18nProvider>
           <AuthProvider>
             <QuoteProvider>
               <TooltipProvider>
@@ -49,7 +49,7 @@ const App = () => (
               </TooltipProvider>
             </QuoteProvider>
           </AuthProvider>
-        </CnI18nProvider>
+        </AsiaI18nProvider>
       </I18nProvider>
     </BrowserRouter>
   </QueryClientProvider>

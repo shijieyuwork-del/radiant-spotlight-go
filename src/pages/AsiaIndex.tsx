@@ -6,11 +6,11 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Footer from "@/components/Footer";
-import CnNavbar from "@/components/CnNavbar";
+import AsiaNavbar from "@/components/AsiaNavbar";
 import TikTokWall from "@/components/TikTokWall";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
 import { DOCTORS } from "@/data/doctors";
-import { useCn } from "@/lib/cn-i18n";
+import { useAsia } from "@/lib/asia-i18n";
 import heroBg from "@/assets/hero-bg.jpg";
 
 // ============== Data (bilingual) ==============
@@ -48,7 +48,7 @@ const treatments: Treatment[] = [
 
 // ============== Sections ==============
 const Hero = () => {
-  const { t, lang, fmt } = useCn();
+  const { t, lang, fmt } = useAsia();
   return (
     <section className="relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-hero opacity-90" />
@@ -142,7 +142,7 @@ const Hero = () => {
 };
 
 const ComplianceBar = () => {
-  const { t } = useCn();
+  const { t } = useAsia();
   const items = [
     { icon: FileCheck2, t: t("compliance.t1"), d: t("compliance.d1") },
     { icon: Stethoscope, t: t("compliance.t2"), d: t("compliance.d2") },
@@ -169,7 +169,7 @@ const ComplianceBar = () => {
 };
 
 const TravelBar = () => {
-  const { lang } = useCn();
+  const { lang } = useAsia();
   if (lang === "zh") return null;
   return (
     <section className="container py-6">
@@ -196,7 +196,7 @@ const TravelBar = () => {
 };
 
 const CitiesSection = () => {
-  const { t, lang } = useCn();
+  const { t, lang } = useAsia();
   return (
     <section id="cities" className="container py-16 md:py-20">
       <div className="flex items-end justify-between mb-8 gap-4">
@@ -236,7 +236,7 @@ const CitiesSection = () => {
 };
 
 const TreatmentsSection = () => {
-  const { t, lang, fmt } = useCn();
+  const { t, lang, fmt } = useAsia();
   return (
     <section id="projects" className="container py-16 md:py-20">
       <div className="mb-8">
@@ -278,7 +278,7 @@ const TreatmentsSection = () => {
 // ClinicsSection removed — patients only browse doctors.
 
 const DoctorsSection = () => {
-  const { t, lang } = useCn();
+  const { t, lang } = useAsia();
   const featured = DOCTORS.slice(0, 3);
   return (
     <section id="compliance" className="container py-16 md:py-20">
@@ -361,7 +361,7 @@ const DoctorsSection = () => {
 };
 
 const CasesSection = () => {
-  const { t, lang, fmt } = useCn();
+  const { t, lang, fmt } = useAsia();
   return (
     <section id="cases" className="container py-16 md:py-20">
       <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
@@ -385,7 +385,7 @@ const CasesSection = () => {
 };
 
 const PromoBar = () => {
-  const { t } = useCn();
+  const { t } = useAsia();
   return (
     <section className="container py-10">
       <div className="rounded-3xl bg-gradient-to-r from-[hsl(340,85%,90%)] via-[hsl(50,80%,90%)] to-[hsl(155,60%,85%)] p-8 md:p-10 grid md:grid-cols-3 gap-6 items-center shadow-pop">
@@ -405,7 +405,7 @@ const PromoBar = () => {
 // ============== Page ==============
 const ChinaIndex = () => (
   <div className="min-h-screen bg-background overflow-x-hidden">
-    <CnNavbar />
+    <AsiaNavbar />
     <Hero />
     <ComplianceBar />
     <TravelBar />

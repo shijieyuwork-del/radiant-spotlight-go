@@ -1,16 +1,16 @@
 import { Link } from "react-router-dom";
 import { MapPin, ArrowRight, Users, Stethoscope, Wallet, Plane, Building2 } from "lucide-react";
-import CnNavbar from "@/components/CnNavbar";
+import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 import { CITIES } from "@/data/cities";
 import { DOCTORS } from "@/data/doctors";
-import { useCn } from "@/lib/cn-i18n";
+import { useAsia } from "@/lib/asia-i18n";
 
 const Cities = () => {
-  const { lang } = useCn();
+  const { lang } = useAsia();
   return (
     <div className="min-h-screen bg-background">
-      <CnNavbar />
+      <AsiaNavbar />
 
       {/* Hero */}
       <section className="container py-12 md:py-16">

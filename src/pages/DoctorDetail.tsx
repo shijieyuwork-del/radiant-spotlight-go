@@ -4,17 +4,17 @@ import {
   ArrowLeft, ArrowRight, BadgeCheck, Building2, FileCheck2, GraduationCap,
   Languages, MapPin, ShieldCheck, Star, Stethoscope, Trophy, MessageCircle,
 } from "lucide-react";
-import CnNavbar from "@/components/CnNavbar";
+import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 import TikTokWall from "@/components/TikTokWall";
 import { Button } from "@/components/ui/button";
 import { DOCTORS, findDoctor } from "@/data/doctors";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
-import { useCn } from "@/lib/cn-i18n";
+import { useAsia } from "@/lib/asia-i18n";
 
 const DoctorDetail = () => {
   const { id } = useParams();
-  const { t, lang, fmt } = useCn();
+  const { t, lang, fmt } = useAsia();
   const doctor = useMemo(() => (id ? findDoctor(id) : undefined), [id]);
 
   const cases = useMemo(
@@ -29,7 +29,7 @@ const DoctorDetail = () => {
   if (!doctor) {
     return (
       <div className="min-h-screen bg-background">
-        <CnNavbar homeLinks={false} />
+        <AsiaNavbar homeLinks={false} />
         <div className="container py-24 text-center">
           <p className="text-muted-foreground">
             {lang === "zh" ? "医师档案不存在。" : "Doctor profile not found."}
@@ -45,7 +45,7 @@ const DoctorDetail = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <CnNavbar homeLinks={false} />
+      <AsiaNavbar homeLinks={false} />
 
       <section className="container py-8 md:py-12">
         <Link to="/doctors" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-6">

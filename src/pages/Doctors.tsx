@@ -3,14 +3,14 @@ import { Link } from "react-router-dom";
 import {
   Search, Filter, Stethoscope, BadgeCheck, Building2, FileCheck2, Star, ArrowRight, MapPin,
 } from "lucide-react";
-import CnNavbar from "@/components/CnNavbar";
+import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { DOCTORS } from "@/data/doctors";
-import { useCn } from "@/lib/cn-i18n";
+import { useAsia } from "@/lib/asia-i18n";
 
 const Doctors = () => {
-  const { t, lang } = useCn();
+  const { t, lang } = useAsia();
   const [q, setQ] = useState("");
   const [city, setCity] = useState<string>("all");
   const [spec, setSpec] = useState<string>("all");
@@ -41,7 +41,7 @@ const Doctors = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <CnNavbar />
+      <AsiaNavbar />
 
       <section className="container py-12 md:py-16">
         <div className="text-center max-w-2xl mx-auto mb-8">

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Headphones, X, Send, MessageCircle, Phone, Mail, CheckCircle2 } from "lucide-react";
-import { useCn } from "@/lib/cn-i18n";
+import { useAsia } from "@/lib/asia-i18n";
 
 type Msg = { id: string; from: "user" | "agent"; text: string; ts: number };
 
@@ -28,7 +28,7 @@ const autoReply = (lang: "en" | "zh" | "ru"): string => {
 };
 
 const FloatingLiveChat = () => {
-  const { lang } = useCn();
+  const { lang } = useAsia();
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
