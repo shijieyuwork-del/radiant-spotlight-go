@@ -1,17 +1,17 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 
-export type CnLang = "en" | "zh" | "ru";
-export type CnCurrency = "USD" | "CNY";
+export type AsiaLang = "en" | "zh" | "ru";
+export type AsiaCurrency = "USD" | "CNY";
 const RATE = 7.2;
 
-export const cnLangLabel: Record<CnLang, { label: string; flag: string }> = {
+export const asiaLangLabel: Record<AsiaLang, { label: string; flag: string }> = {
   en: { label: "English", flag: "🇺🇸" },
   zh: { label: "中文", flag: "🇨🇳" },
   ru: { label: "Русский", flag: "🇷🇺" },
 };
 
 type Dict = Record<string, string>;
-const dict: Record<CnLang, Dict> = {
+const dict: Record<AsiaLang, Dict> = {
   en: {
     "brand.suffix": "China",
     "nav.cities": "Cities",
@@ -236,35 +236,35 @@ const dict: Record<CnLang, Dict> = {
   },
 };
 
-export type CnDictKey = keyof typeof dict.en;
+export type AsiaDictKey = keyof typeof dict.en;
 
-interface CnI18nState {
-  lang: CnLang; setLang: (l: CnLang) => void;
-  currency: CnCurrency; setCurrency: (c: CnCurrency) => void;
-  t: (k: CnDictKey) => string;
+interface AsiaI18nState {
+  lang: AsiaLang; setLang: (l: AsiaLang) => void;
+  currency: AsiaCurrency; setCurrency: (c: AsiaCurrency) => void;
+  t: (k: AsiaDictKey) => string;
   fmt: (cny: number) => string;
 }
-const CnI18nCtx = createContext<CnI18nState | null>(null);
-export const useCn = () => {
-  const c = useContext(CnI18nCtx);
-  if (!c) throw new Error("useCn must be inside CnI18nProvider");
+const AsiaI18nCtx = createContext<AsiaI18nState | null>(null);
+export const useAsia = () => {
+  const c = useContext(AsiaI18nCtx);
+  if (!c) throw new Error(" useAsia must be inside AsiaI18nProvider");
   return c;
 };
 
-const STORE = "glowy.cn.v1";
-export const CnI18nProvider = ({ children }: { children: ReactNode }) => {
+const STORE = "glowy.asia.v1";
+export const AsiaI18nProvider = ({ children }: { children: ReactNode }) => {
   const initial = useMemo(() => {
     try { return JSON.parse(localStorage.getItem(STORE) || "null"); } catch { return null; }
   }, []);
-  const [lang, setLang] = useState<CnLang>(initial?.lang ?? "en");
-  const [currency, setCurrency] = useState<CnCurrency>(initial?.currency ?? "USD");
+  const [lang, setLang] = useState<AsiaLang>(initial?.lang ?? "en");
+  const [currency, setCurrency] = useState<AsiaCurrency>(initial?.currency ?? "USD");
 
   useEffect(() => {
     localStorage.setItem(STORE, JSON.stringify({ lang, currency }));
     document.documentElement.lang = lang === "zh" ? "zh-CN" : lang === "ru" ? "ru" : "en";
   }, [lang, currency]);
 
-  const t: CnI18nState["t"] = (k) => dict[lang][k] ?? dict.en[k] ?? (k as string);
+  const t: AsiaI18nState["t"] = (k) => dict[lang][k] ?? dict.en[k] ?? (k as string);
   const fmt = (cny: number) => {
     if (currency === "CNY") return `¥${cny.toLocaleString("en-US")}`;
     const usd = Math.round(cny / RATE);
@@ -272,8 +272,8 @@ export const CnI18nProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <CnI18nCtx.Provider value={{ lang, setLang, currency, setCurrency, t, fmt }}>
+    <AsiaI18nCtx.Provider value={{ lang, setLang, currency, setCurrency, t, fmt }}>
       {children}
-    </CnI18nCtx.Provider>
+    </AsiaI18nCtx.Provider>
   );
 };
