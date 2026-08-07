@@ -182,7 +182,7 @@ export const DOCTORS: Doctor[] = [
     cityZh: "上海", cityEn: "Shanghai",
     img: v4, license: "CN-PS-20180123456",
     qualZh: "中国卫健委主诊医师 · 中华医学会整形外科学分会会员",
-    qualEn: "China NHC Attending Surgeon · Member, Chinese Society of Plastic Surgery",
+    qualEn: "Shanghai NHC Attending Surgeon · Member, Chinese Society of Plastic Surgery",
     years: 22, surgeries: "8,200+", rating: 4.96, reviews: 1842,
     specZh: ["双眼皮 / 眼袋", "鼻综合", "颈部提升"],
     specEn: ["Blepharoplasty", "Rhinoplasty", "Neck Lift"],
