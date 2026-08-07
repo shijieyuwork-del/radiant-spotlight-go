@@ -33,7 +33,7 @@ const App = () => (
                 <Sonner />
                 <FloatingLiveChat />
                 <Routes>
-                  <Route path="/" element={<ChinaIndex />} />
+                  <Route path="/" element={<AsiaIndex />} />
                   <Route path="/cases" element={<Cases />} />
                   <Route path="/cases/:id" element={<CaseDetail />} />
                   <Route path="/doctors" element={<Doctors />} />
