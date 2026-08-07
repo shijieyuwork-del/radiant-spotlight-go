@@ -16,7 +16,7 @@ const Cities = () => {
       <section className="container py-12 md:py-16">
         <span className="pill bg-accent text-accent-foreground mb-3">
           <MapPin className="size-3.5" />
-          {lang === "zh" ? "国内城市" : "Top destinations"}
+          {lang === "zh" ? "亚洲城市" : "Top destinations"}
         </span>
         <h1 className="font-display text-4xl md:text-5xl font-medium tracking-tight max-w-3xl">
           {lang === "zh" ? (
@@ -31,7 +31,7 @@ const Cities = () => {
           )}
         </h1>
         <p className="text-muted-foreground mt-3 max-w-2xl">
-          {lang === "zh" ? "国内六大医美核心城市，各有强势项目、价格区间与适合海外华人的出行配套。" : "Six top medical-aesthetic cities in China — each with its own specialty, price level, and travel logistics for overseas Chinese patients."}
+          {lang === "zh" ? "首尔、曼谷、东京、新加坡、上海、北京六大亚洲医美核心城市，各有强势项目、价格区间与适合国际求美者的出行配套。" : "Six top medical-aesthetic hubs across Asia — Seoul, Bangkok, Tokyo, Singapore, Shanghai and Beijing — each with its own specialty, price level, and travel logistics for international patients."}
         </p>
       </section>
 
