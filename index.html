@@ -3,10 +3,47 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- SEO meta tags are dynamically set by React Helmet per page, see src/components/PageMeta.tsx -->
-    <title>Glowy</title>
-    <meta name="author" content="Glowy" />
-</head>
+
+    <!--
+      These are DEFAULT/fallback tags. React Helmet overrides them per page
+      (see src/components/PageMeta.tsx) for crawlers that execute JavaScript.
+      Crawlers that do NOT run JS — Bing, Twitter, Facebook, LinkedIn, WhatsApp —
+      only ever see what is below, so it must stand on its own.
+    -->
+    <title>Cosmetics Asia — Compare Medical Aesthetics Clinics & Surgeons in Asia</title>
+    <meta
+      name="description"
+      content="Compare verified medical aesthetics clinics and board-certified surgeons across Asia. Browse real patient cases, procedures and pricing in Seoul, Bangkok, Tokyo, Singapore and more."
+    />
+    <link rel="canonical" href="https://cosmetics-asia.com/" />
+    <meta name="author" content="Cosmetics Asia" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+
+    <!-- Open Graph (Facebook, LinkedIn, WhatsApp) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Cosmetics Asia" />
+    <meta property="og:url" content="https://cosmetics-asia.com/" />
+    <meta
+      property="og:title"
+      content="Cosmetics Asia — Compare Medical Aesthetics Clinics & Surgeons in Asia"
+    />
+    <meta
+      property="og:description"
+      content="Compare verified medical aesthetics clinics and board-certified surgeons across Asia. Browse real patient cases, procedures and pricing."
+    />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Cosmetics Asia — Compare Medical Aesthetics Clinics & Surgeons in Asia"
+    />
+    <meta
+      name="twitter:description"
+      content="Compare verified medical aesthetics clinics and board-certified surgeons across Asia. Browse real patient cases, procedures and pricing."
+    />
+  </head>
 
   <body>
     <div id="root"></div>

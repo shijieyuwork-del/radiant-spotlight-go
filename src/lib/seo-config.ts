@@ -3,9 +3,9 @@
  * 域名改过后，只需改这一处
  */
 
-// 网站上线后换成真实域名（如 https://glowy.asia）
+// 网站上线后换成真实域名（如 https://cosmetics-asia.com）
 // 开发时用 localhost，构建/部署时会通过环境变量或 vite 配置补充
-export const SITE_URL = import.meta.env.VITE_SITE_URL || "https://glowy.asia";
+export const SITE_URL = import.meta.env.VITE_SITE_URL || "https://cosmetics-asia.com";
 
 export const SITE_NAME = "Glowy";
 export const SITE_DESCRIPTION = "Glowy is the global video-first platform to discover medical aesthetic clinics worldwide. Watch real treatments, compare prices, book in seconds.";

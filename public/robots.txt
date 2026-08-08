@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Sitemap for search engines
-Sitemap: https://glowy.asia/sitemap.xml
+Sitemap: https://cosmetics-asia.com/sitemap.xml
 
 # Crawl delay (optional, prevents overwhelming the server)
 Crawl-delay: 1
