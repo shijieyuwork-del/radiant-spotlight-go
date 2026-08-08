@@ -35,7 +35,7 @@ export type City = {
   travelEn: { airport: string; visa: string; hotel: string; lang: string };
 };
 
-export const CITIES: City[] = [
+const CITY_CATALOG: City[] = [
   {
     slug: "seoul",
     zh: "首尔", en: "Seoul",
@@ -282,7 +282,76 @@ export const CITIES: City[] = [
       lang: "Mandarin · English · Korean",
     },
   },
+  {
+    slug: "guangzhou",
+    zh: "广州", en: "Guangzhou",
+    taglineZh: "华南医美中心 · 眼鼻 / 形体塑造",
+    taglineEn: "South China aesthetics hub · eyes, nose & body contouring",
+    introZh: "广州汇集众多卫健委许可的整形机构，在眼鼻整形、吸脂塑形与术后管理方面经验丰富，交通便利，粤语、普通话与英语服务成熟。",
+    introEn: "Guangzhou is a major South China aesthetics hub with licensed hospitals experienced in eye and nose surgery, body contouring and coordinated recovery care.",
+    img: c1,
+    clinics: 116, doctorsCount: 72, savings: "55–70%",
+    hotZh: ["双眼皮 / 眼袋", "鼻综合", "吸脂塑形", "隆胸", "面部年轻化"],
+    hotEn: ["Blepharoplasty", "Rhinoplasty", "Liposuction", "Breast Augmentation", "Facial Rejuvenation"],
+    whyZh: ["白云机场 CAN 连接国内外主要城市", "正规医美机构密集，粤港澳服务经验丰富", "珠江新城 / 天河住宿与术后护理便利"],
+    whyEn: ["Baiyun Airport (CAN) connects major domestic and international cities", "Dense network of licensed hospitals serving the Greater Bay Area", "Convenient recovery stays and nursing in Zhujiang New Town / Tianhe"],
+    hospitals: [
+      { zh: "南方医科大学南方医院 整形美容外科", en: "Nanfang Hospital · Plastic Surgery", areaZh: "白云区", areaEn: "Baiyun District" },
+      { zh: "广东省第二人民医院 整形美容科", en: "Guangdong Second Provincial General Hospital · Aesthetic Surgery", areaZh: "海珠区", areaEn: "Haizhu District" },
+      { zh: "广州华美医疗美容医院", en: "Guangzhou Huamei Aesthetic Hospital", areaZh: "天河区", areaEn: "Tianhe District" },
+    ],
+    travelZh: { airport: "CAN · 国内外主要航线", visa: "中国签证 / 过境免签政策", hotel: "天河 · 珠江新城 恢复酒店", lang: "普通话 / 粤语 / 英文" },
+    travelEn: { airport: "CAN · major domestic and international routes", visa: "China visa or eligible transit policy", hotel: "Recovery hotels in Tianhe / Zhujiang New Town", lang: "Mandarin · Cantonese · English" },
+  },
+  {
+    slug: "hainan",
+    zh: "海南", en: "Hainan",
+    taglineZh: "海岛康养目的地 · 医美 / 术后恢复",
+    taglineEn: "Island wellness destination · aesthetics & recovery",
+    introZh: "海南结合医疗美容与海岛康养资源，适合安排轻医美、皮肤管理以及术后休养。海口与三亚拥有完善的酒店、康复和国际医疗配套。",
+    introEn: "Hainan combines aesthetic care with island wellness resources, making it well suited to minimally invasive treatments, skin care and a comfortable recovery stay in Haikou or Sanya.",
+    img: c3,
+    clinics: 48, doctorsCount: 31, savings: "45–60%",
+    hotZh: ["皮肤管理", "抗衰年轻化", "脂肪塑形", "术后康复", "微创医美"],
+    hotEn: ["Skin Treatments", "Anti-aging", "Body Contouring", "Post-op Recovery", "Minimally Invasive Aesthetics"],
+    whyZh: ["海口 HAK / 三亚 SYX 航线便利", "海岛气候与度假酒店适合恢复休养", "博鳌乐城国际医疗资源集中"],
+    whyEn: ["Convenient access via Haikou (HAK) and Sanya (SYX)", "Island climate and resort hotels support comfortable recovery", "International medical resources concentrated around Bo'ao Lecheng"],
+    hospitals: [
+      { zh: "海南省人民医院 整形美容外科", en: "Hainan General Hospital · Plastic Surgery", areaZh: "海口", areaEn: "Haikou" },
+      { zh: "海南医学院第一附属医院 整形美容外科", en: "First Affiliated Hospital of Hainan Medical University · Plastic Surgery", areaZh: "海口", areaEn: "Haikou" },
+      { zh: "博鳌乐城国际医疗旅游先行区", en: "Bo'ao Lecheng International Medical Tourism Pilot Zone", areaZh: "博鳌", areaEn: "Bo'ao" },
+    ],
+    travelZh: { airport: "HAK / SYX · 国内及亚洲航线", visa: "中国签证 / 海南入境政策", hotel: "海口 · 三亚 · 博鳌 康养酒店", lang: "普通话 / 英文" },
+    travelEn: { airport: "HAK / SYX · domestic and Asian routes", visa: "China visa or eligible Hainan entry policy", hotel: "Wellness hotels in Haikou / Sanya / Bo'ao", lang: "Mandarin · English" },
+  },
+  {
+    slug: "hangzhou",
+    zh: "杭州", en: "Hangzhou",
+    taglineZh: "江南品质医美 · 眼鼻 / 面部年轻化",
+    taglineEn: "Premium East China care · eyes, nose & facial rejuvenation",
+    introZh: "杭州拥有成熟的公立整形专科与品质医美机构，在眼鼻精细化手术、面部年轻化和皮肤管理方面选择丰富，并可便捷衔接上海交通网络。",
+    introEn: "Hangzhou offers strong public-hospital specialists and premium aesthetic clinics, with particular depth in refined eye and nose surgery, facial rejuvenation and skin treatments.",
+    img: c2,
+    clinics: 82, doctorsCount: 53, savings: "50–65%",
+    hotZh: ["双眼皮 / 眼袋", "鼻综合", "面部年轻化", "皮肤管理", "脂肪填充"],
+    hotEn: ["Blepharoplasty", "Rhinoplasty", "Facial Rejuvenation", "Skin Treatments", "Fat Grafting"],
+    whyZh: ["萧山机场 HGH 与高铁网络便利", "浙大附属医院等公立专科资源丰富", "滨江 / 钱江新城高品质住宿配套成熟"],
+    whyEn: ["Convenient air and high-speed rail access via HGH", "Strong public specialists including Zhejiang University affiliated hospitals", "Quality recovery accommodation in Binjiang / Qianjiang New City"],
+    hospitals: [
+      { zh: "浙江大学医学院附属第二医院 整形科", en: "Second Affiliated Hospital of Zhejiang University · Plastic Surgery", areaZh: "上城区", areaEn: "Shangcheng District" },
+      { zh: "浙江省人民医院 整形外科", en: "Zhejiang Provincial People's Hospital · Plastic Surgery", areaZh: "拱墅区", areaEn: "Gongshu District" },
+      { zh: "杭州整形医院", en: "Hangzhou Plastic Surgery Hospital", areaZh: "上城区", areaEn: "Shangcheng District" },
+    ],
+    travelZh: { airport: "HGH · 国内及亚洲航线 / 高铁", visa: "中国签证 / 过境政策", hotel: "滨江 · 钱江新城 恢复酒店", lang: "普通话 / 英文" },
+    travelEn: { airport: "HGH · domestic and Asian routes / high-speed rail", visa: "China visa or eligible transit policy", hotel: "Recovery hotels in Binjiang / Qianjiang New City", lang: "Mandarin · English" },
+  },
 ];
+
+const DOMESTIC_CITY_ORDER = ["shanghai", "guangzhou", "beijing", "hainan", "hangzhou"];
+
+export const CITIES: City[] = DOMESTIC_CITY_ORDER.map((slug) =>
+  CITY_CATALOG.find((city) => city.slug === slug),
+).filter((city): city is City => Boolean(city));
 
 export const findCity = (slug: string) =>
   CITIES.find((c) => c.slug === slug.toLowerCase());
@@ -298,7 +367,10 @@ export const COUNTRY_BY_CITY: Record<string, string> = {
   tokyo: "JP",
   singapore: "SG",
   shanghai: "CN",
+  guangzhou: "CN",
   beijing: "CN",
+  hainan: "CN",
+  hangzhou: "CN",
 };
 
 /** 查不到时退回 CN，保持与旧行为一致而不是抛错 */

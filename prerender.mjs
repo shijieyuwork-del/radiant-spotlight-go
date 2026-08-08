@@ -104,9 +104,9 @@ function buildRoutes(d) {
     },
     {
       path: "/cities",
-      title: "Medical Aesthetics in Asia | Seoul, Bangkok, Tokyo, Singapore, Shanghai",
+      title: "Medical Aesthetics in China | Shanghai, Guangzhou, Beijing, Hainan, Hangzhou",
       description:
-        "Explore top medical-aesthetic destinations in Asia. Find board-certified surgeons and clinics in Seoul, Bangkok, Tokyo, Singapore, Shanghai, and Beijing with pricing, specialties, and patient reviews.",
+        "Explore medical-aesthetic destinations in Shanghai, Guangzhou, Beijing, Hainan, and Hangzhou with clinics, specialties, pricing, and travel information.",
     },
     {
       path: "/doctors",

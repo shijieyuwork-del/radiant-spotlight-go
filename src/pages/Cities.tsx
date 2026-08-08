@@ -12,8 +12,8 @@ const Cities = () => {
   return (
     <>
       <PageMeta
-        title="Medical Aesthetics in Asia | Seoul, Bangkok, Tokyo, Singapore, Shanghai"
-        description="Explore top medical-aesthetic destinations in Asia. Find board-certified surgeons and clinics in Seoul, Bangkok, Tokyo, Singapore, Shanghai, and Beijing with pricing, specialties, and patient reviews."
+        title="Medical Aesthetics in China | Shanghai, Guangzhou, Beijing, Hainan, Hangzhou"
+        description="Explore medical-aesthetic destinations in Shanghai, Guangzhou, Beijing, Hainan, and Hangzhou with clinics, specialties, pricing, and travel information."
         path="/cities"
       />
       <div className="min-h-screen bg-background">
@@ -23,7 +23,7 @@ const Cities = () => {
       <section className="container py-12 md:py-16">
         <span className="pill bg-accent text-accent-foreground mb-3">
           <MapPin className="size-3.5" />
-          {lang === "zh" ? "亚洲城市" : "Top destinations"}
+          {lang === "zh" ? "中国城市" : "China destinations"}
         </span>
         <h1 className="font-display text-4xl md:text-5xl font-medium tracking-tight max-w-3xl">
           {lang === "zh" ? (
@@ -38,7 +38,7 @@ const Cities = () => {
           )}
         </h1>
         <p className="text-muted-foreground mt-3 max-w-2xl">
-          {lang === "zh" ? "首尔、曼谷、东京、新加坡、上海、北京六大亚洲医美核心城市，各有强势项目、价格区间与适合国际求美者的出行配套。" : "Six top medical-aesthetic hubs across Asia — Seoul, Bangkok, Tokyo, Singapore, Shanghai and Beijing — each with its own specialty, price level, and travel logistics for international patients."}
+          {lang === "zh" ? "上海、广州、北京、海南、杭州五大中国医美目的地，各有强势项目、价格区间与出行配套。" : "Five medical-aesthetic destinations in China — Shanghai, Guangzhou, Beijing, Hainan and Hangzhou — each with its own specialties, price level and travel logistics."}
         </p>
       </section>
 
