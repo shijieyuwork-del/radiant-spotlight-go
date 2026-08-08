@@ -20,7 +20,7 @@ const PACKAGES: Pkg[] = [
   {
     id: "basic",
     nameEn: "Basic Package", nameZh: "基础套餐",
-    price: 399,
+    price: 599,
     originalPrice: 699,
     taglineEn: "Essentials for a smooth medical trip",
     taglineZh: "出行必备 · 全程基础保障",
@@ -39,7 +39,7 @@ const PACKAGES: Pkg[] = [
   {
     id: "gold",
     nameEn: "Gold Package", nameZh: "金牌套餐",
-    price: 699,
+    price: 799,
     originalPrice: 1199,
     taglineEn: "Most popular · stay + accompaniment included",
     taglineZh: "人气之选 · 含住宿与陪同",
