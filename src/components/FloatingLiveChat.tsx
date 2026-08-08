@@ -210,7 +210,8 @@ const FloatingLiveChat = () => {
             <a href="tel:+8618800000000" className="inline-flex items-center gap-1 hover:text-foreground">
               <Phone className="size-3" /> {lang === "zh" ? "电话" : "Call"}
             </a>
-            {/* ⚠️ 这个邮箱还没开通，需要在 Cloudflare 给 cosmetics-asia.com 配 Email Routing，否则邮件会退信 */}
+            {/* 收信已通：Cloudflare Email Routing 转发到 Gmail。
+                注意只能收不能发 —— 回复时发件人仍是私人 Gmail，要用本地址发信需另配 SMTP */}
             <a href="mailto:hello@cosmetics-asia.com" className="inline-flex items-center gap-1 hover:text-foreground">
               <Mail className="size-3" /> Email
             </a>
