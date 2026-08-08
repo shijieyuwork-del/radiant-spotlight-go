@@ -18,7 +18,7 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
   const links = homeLinks
     ? [
         { to: "/cities", label: t("nav.cities") },
-        { to: "/#projects", label: t("nav.projects") },
+        { to: "/treatments", label: t("nav.projects") },
         { to: "/cases", label: t("nav.cases") },
         { to: "/doctors", label: t("nav.compliance") },
         { to: "/packages", label: lang === "zh" ? "服务套餐" : "Packages" },

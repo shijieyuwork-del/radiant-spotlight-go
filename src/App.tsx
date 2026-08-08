@@ -16,6 +16,8 @@ import DoctorDetail from "./pages/DoctorDetail.tsx";
 import Cities from "./pages/Cities.tsx";
 import CityDetail from "./pages/CityDetail.tsx";
 import Packages from "./pages/Packages.tsx";
+import Treatments from "./pages/Treatments.tsx";
+import TreatmentDetail from "./pages/TreatmentDetail.tsx";
 import Auth from "./pages/Auth.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
@@ -40,6 +42,8 @@ const App = () => (
                     <Route path="/doctors/:id" element={<DoctorDetail />} />
                     <Route path="/cities" element={<Cities />} />
                     <Route path="/cities/:slug" element={<CityDetail />} />
+                    <Route path="/treatments" element={<Treatments />} />
+                    <Route path="/treatments/:slug" element={<TreatmentDetail />} />
                     <Route path="/packages" element={<Packages />} />
                     <Route path="/auth" element={<Auth />} />
                     <Route path="/cn" element={<Navigate to="/" replace />} />

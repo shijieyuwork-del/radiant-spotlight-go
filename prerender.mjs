@@ -29,6 +29,7 @@ async function loadAppData() {
         export { CITIES, countryOf } from "@/data/cities";
         export { DOCTORS } from "@/data/doctors";
         export { TIKTOK_CASES } from "@/data/tiktokCases";
+        export { TREATMENTS } from "@/data/treatments";
         export { SITE_URL, SITE_NAME, OG_IMAGE, TWITTER_HANDLE, ORGANIZATION_SCHEMA } from "@/lib/seo-config";
       `,
       resolveDir: __dirname,
@@ -120,6 +121,34 @@ function buildRoutes(d) {
         "Browse 100+ verified real patient cases across Asia. Watch authentic before-and-after videos, recovery timelines, and pricing from board-certified surgeons in Seoul, Bangkok, Tokyo, and more.",
     },
   ];
+
+  routes.push({
+    path: "/treatments",
+    title: "Cosmetic Surgery Procedures Explained | Recovery, Risks & Costs",
+    description:
+      "Plain-language guides to rhinoplasty, blepharoplasty, facelift, liposuction, breast augmentation and tummy tuck: how each procedure works, who it suits, real recovery timelines, honest risks, and what to ask your surgeon.",
+  });
+
+  for (const t of d.TREATMENTS) {
+    routes.push({
+      path: `/treatments/${t.slug}`,
+      title: `${t.en} — What It Involves, Recovery, Risks & Cost`,
+      description: t.summaryEn,
+      schema: {
+        "@context": "https://schema.org",
+        "@type": "MedicalWebPage",
+        name: `${t.en} — Procedure Guide`,
+        description: t.summaryEn,
+        about: {
+          "@type": "MedicalProcedure",
+          name: t.en,
+          procedureType: "https://schema.org/SurgicalProcedure",
+        },
+        audience: { "@type": "Patient" },
+        lastReviewed: "2026-08-07",
+      },
+    });
+  }
 
   for (const c of d.CITIES) {
     routes.push({
