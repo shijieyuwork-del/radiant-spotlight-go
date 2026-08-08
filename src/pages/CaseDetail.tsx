@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
+import PageMeta from "@/components/PageMeta";
 import TikTokWall from "@/components/TikTokWall";
 import { Button } from "@/components/ui/button";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
@@ -28,18 +29,25 @@ const CaseDetail = () => {
 
   if (!item) {
     return (
-      <div className="min-h-screen bg-background">
-        <AsiaNavbar homeLinks={false} />
-        <div className="container py-24 text-center">
-          <p className="text-muted-foreground">
-            {lang === "zh" ? "案例不存在。" : "Case not found."}
-          </p>
-          <Link to="/cases" className="text-primary underline mt-4 inline-block">
-            {lang === "zh" ? "返回案例列表" : "Back to all cases"}
-          </Link>
+      <>
+        <PageMeta
+          title="Case Not Found"
+          description="The case you're looking for doesn't exist."
+          path={`/cases/${id}`}
+        />
+        <div className="min-h-screen bg-background">
+          <AsiaNavbar homeLinks={false} />
+          <div className="container py-24 text-center">
+            <p className="text-muted-foreground">
+              {lang === "zh" ? "案例不存在。" : "Case not found."}
+            </p>
+            <Link to="/cases" className="text-primary underline mt-4 inline-block">
+              {lang === "zh" ? "返回案例列表" : "Back to all cases"}
+            </Link>
+          </div>
+          <Footer />
         </div>
-        <Footer />
-      </div>
+      </>
     );
   }
 
@@ -50,8 +58,29 @@ const CaseDetail = () => {
     else { v.pause(); setPlaying(false); }
   };
 
+  const treatment = item.treatment[lang];
+  const caseSchema = {
+    "@context": "https://schema.org",
+    "@type": "MedicalCase",
+    name: treatment,
+    description: item.caption[lang],
+    image: `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==`,
+    creator: doctor ? {
+      "@type": "Person",
+      name: lang === "zh" ? doctor.zh : doctor.en,
+    } : undefined,
+  };
+
   return (
-    <div className="min-h-screen bg-background">
+    <>
+      <PageMeta
+        title={`${treatment} - Real Patient Case | Before & After`}
+        description={`Watch a real before-and-after ${treatment} procedure performed in Asia. Patient recovery timeline, price, surgeon info, and verified results.`}
+        path={`/cases/${id}`}
+        type="article"
+        structuredData={caseSchema}
+      />
+      <div className="min-h-screen bg-background">
       <AsiaNavbar homeLinks={false} />
 
       <section className="container py-8 md:py-12">
@@ -174,7 +203,8 @@ const CaseDetail = () => {
       </section>
 
       <Footer />
-    </div>
+      </div>
+    </>
   );
 };
 

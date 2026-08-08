@@ -5,6 +5,7 @@ import {
 } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
+import PageMeta from "@/components/PageMeta";
 import { Button } from "@/components/ui/button";
 import { DOCTORS } from "@/data/doctors";
 import { useAsia } from "@/lib/asia-i18n";
@@ -40,8 +41,14 @@ const Doctors = () => {
   }, [q, city, spec]);
 
   return (
-    <div className="min-h-screen bg-background">
-      <AsiaNavbar />
+    <>
+      <PageMeta
+        title="Board-Certified Surgeons in Asia | Find Your Cosmetic Doctor"
+        description="Find 6,000+ verified board-certified cosmetic surgeons across Seoul, Bangkok, Tokyo, Singapore, Shanghai, and Beijing. Compare credentials, patient reviews, pricing, and real case studies."
+        path="/doctors"
+      />
+      <div className="min-h-screen bg-background">
+        <AsiaNavbar />
 
       <section className="container py-12 md:py-16">
         <div className="text-center max-w-2xl mx-auto mb-8">
@@ -197,7 +204,8 @@ const Doctors = () => {
       </section>
 
       <Footer />
-    </div>
+      </div>
+    </>
   );
 };
 

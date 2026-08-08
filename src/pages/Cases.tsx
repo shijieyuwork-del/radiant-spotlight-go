@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { Heart, Search, Filter, MapPin, Stethoscope, X } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
+import PageMeta from "@/components/PageMeta";
 import TikTokWall from "@/components/TikTokWall";
 import { Button } from "@/components/ui/button";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
@@ -57,8 +58,14 @@ const Cases = () => {
   const hasFilters = activeTreatments.length > 0 || activeCities.length > 0;
 
   return (
-    <div className="min-h-screen bg-background">
-      <AsiaNavbar />
+    <>
+      <PageMeta
+        title="Real Patient Cases & Before-After Videos | Medical Aesthetics"
+        description="Browse 100+ verified real patient cases across Asia. Watch authentic before-and-after videos, recovery timelines, and pricing from board-certified surgeons in Seoul, Bangkok, Tokyo, and more."
+        path="/cases"
+      />
+      <div className="min-h-screen bg-background">
+        <AsiaNavbar />
 
       <section className="container py-12 md:py-16">
         <div className="text-center max-w-2xl mx-auto mb-8">
@@ -160,7 +167,8 @@ const Cases = () => {
       </section>
 
       <Footer />
-    </div>
+      </div>
+    </>
   );
 };
 

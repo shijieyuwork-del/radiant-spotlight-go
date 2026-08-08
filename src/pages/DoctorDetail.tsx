@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
+import PageMeta from "@/components/PageMeta";
 import TikTokWall from "@/components/TikTokWall";
 import { Button } from "@/components/ui/button";
 import { DOCTORS, findDoctor } from "@/data/doctors";
@@ -28,23 +29,65 @@ const DoctorDetail = () => {
 
   if (!doctor) {
     return (
-      <div className="min-h-screen bg-background">
-        <AsiaNavbar homeLinks={false} />
-        <div className="container py-24 text-center">
-          <p className="text-muted-foreground">
-            {lang === "zh" ? "医师档案不存在。" : "Doctor profile not found."}
-          </p>
-          <Link to="/doctors" className="text-primary underline mt-4 inline-block">
-            {lang === "zh" ? "返回医师列表" : "Back to all doctors"}
-          </Link>
+      <>
+        <PageMeta
+          title="Doctor Not Found"
+          description="The doctor profile you're looking for doesn't exist."
+          path={`/doctors/${id}`}
+        />
+        <div className="min-h-screen bg-background">
+          <AsiaNavbar homeLinks={false} />
+          <div className="container py-24 text-center">
+            <p className="text-muted-foreground">
+              {lang === "zh" ? "医师档案不存在。" : "Doctor profile not found."}
+            </p>
+            <Link to="/doctors" className="text-primary underline mt-4 inline-block">
+              {lang === "zh" ? "返回医师列表" : "Back to all doctors"}
+            </Link>
+          </div>
+          <Footer />
         </div>
-        <Footer />
-      </div>
+      </>
     );
   }
 
+  const doctorName = lang === "zh" ? doctor.zh : doctor.en;
+  const doctorTitle = lang === "zh" ? doctor.titleZh : doctor.titleEn;
+  const doctorCity = lang === "zh" ? doctor.cityZh : doctor.cityEn;
+
+  const doctorSchema = {
+    "@context": "https://schema.org",
+    "@type": "Physician",
+    name: doctorName,
+    jobTitle: doctorTitle,
+    image: doctor.img,
+    workLocation: {
+      "@type": "Place",
+      name: lang === "zh" ? doctor.clinicZh : doctor.clinicEn,
+      address: {
+        "@type": "PostalAddress",
+        addressCountry: "CN",
+        addressLocality: doctorCity,
+      },
+    },
+    knowsLanguage: doctor.languages,
+    agentInteractionStatistic: {
+      "@type": "InteractionCounter",
+      interactionType: "http://schema.org/ReviewAction",
+      userInteractionCount: doctor.reviews,
+    },
+  };
+
   return (
-    <div className="min-h-screen bg-background">
+    <>
+      <PageMeta
+        title={`${doctorName} - ${doctorTitle} in ${doctorCity}`}
+        description={`Consult ${doctorName}, a board-certified surgeon in ${doctorCity} with ${doctor.years}+ years experience and ${doctor.reviews}+ verified patient reviews. Specializes in ${(lang === "zh" ? doctor.specZh : doctor.specEn).slice(0, 2).join(", ")}.`}
+        path={`/doctors/${id}`}
+        image={doctor.img}
+        structuredData={doctorSchema}
+      />
+      <div className="min-h-screen bg-background">
       <AsiaNavbar homeLinks={false} />
 
       <section className="container py-8 md:py-12">
@@ -245,7 +288,8 @@ const DoctorDetail = () => {
       </section>
 
       <Footer />
-    </div>
+      </div>
+    </>
   );
 };
 

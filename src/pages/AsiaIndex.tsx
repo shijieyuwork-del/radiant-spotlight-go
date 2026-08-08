@@ -8,10 +8,12 @@ import { Button } from "@/components/ui/button";
 import Footer from "@/components/Footer";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import TikTokWall from "@/components/TikTokWall";
+import PageMeta from "@/components/PageMeta";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
 import { DOCTORS } from "@/data/doctors";
 import { CITIES } from "@/data/cities";
 import { useAsia } from "@/lib/asia-i18n";
+import { ORGANIZATION_SCHEMA } from "@/lib/seo-config";
 import heroBg from "@/assets/hero-bg.jpg";
 
 // ============== Data (bilingual) ==============
@@ -397,18 +399,26 @@ const PromoBar = () => {
 
 // ============== Page ==============
 const AsiaIndex = () => (
-  <div className="min-h-screen bg-background overflow-x-hidden">
-    <AsiaNavbar />
-    <Hero />
-    <ComplianceBar />
-    <TravelBar />
-    <CitiesSection />
-    <TreatmentsSection />
-    <DoctorsSection />
-    <CasesSection />
-    <PromoBar />
-    <Footer />
-  </div>
+  <>
+    <PageMeta
+      title="Beauty in Asia, Made Simple | Medical Aesthetics"
+      description="Glowy connects you with 6,000+ board-certified surgeons across Asia. Watch real before-after videos, compare prices, book procedures in seconds. 100k+ verified cases."
+      path="/"
+      structuredData={ORGANIZATION_SCHEMA}
+    />
+    <div className="min-h-screen bg-background overflow-x-hidden">
+      <AsiaNavbar />
+      <Hero />
+      <ComplianceBar />
+      <TravelBar />
+      <CitiesSection />
+      <TreatmentsSection />
+      <DoctorsSection />
+      <CasesSection />
+      <PromoBar />
+      <Footer />
+    </div>
+  </>
 );
 
 export default AsiaIndex;

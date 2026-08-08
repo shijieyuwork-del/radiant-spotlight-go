@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <!-- Homepage -->
+  <url>
+    <loc>https://glowy.asia/</loc>
+    <lastmod>2025-08-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Main collections -->
+  <url>
+    <loc>https://glowy.asia/cases</loc>
+    <lastmod>2025-08-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://glowy.asia/doctors</loc>
+    <lastmod>2025-08-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://glowy.asia/cities</loc>
+    <lastmod>2025-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Cities -->
+  <url>
+    <loc>https://glowy.asia/cities/seoul</loc>
+    <lastmod>2025-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://glowy.asia/cities/bangkok</loc>
+    <lastmod>2025-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://glowy.asia/cities/tokyo</loc>
+    <lastmod>2025-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://glowy.asia/cities/singapore</loc>
+    <lastmod>2025-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://glowy.asia/cities/shanghai</loc>
+    <lastmod>2025-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://glowy.asia/cities/beijing</loc>
+    <lastmod>2025-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Doctors (sample) -->
+  <url>
+    <loc>https://glowy.asia/doctors/kim-minsoo</loc>
+    <lastmod>2025-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://glowy.asia/doctors/park-sooyoung</loc>
+    <lastmod>2025-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://glowy.asia/doctors/somchai-viriya</loc>
+    <lastmod>2025-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://glowy.asia/doctors/tanaka-yuki</loc>
+    <lastmod>2025-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://glowy.asia/doctors/lim-weijie</loc>
+    <lastmod>2025-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://glowy.asia/doctors/li-wenzhi</loc>
+    <lastmod>2025-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Cases (sample) -->
+  <url>
+    <loc>https://glowy.asia/cases/rhinoplasty-beijing</loc>
+    <lastmod>2025-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://glowy.asia/cases/facelift-chengdu</loc>
+    <lastmod>2025-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://glowy.asia/cases/necklift-shanghai</loc>
+    <lastmod>2025-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://glowy.asia/cases/blepharoplasty-shanghai</loc>
+    <lastmod>2025-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://glowy.asia/cases/fat-grafting-90d</loc>
+    <lastmod>2025-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://glowy.asia/cases/liposuction-guangzhou</loc>
+    <lastmod>2025-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://glowy.asia/cases/tummy-tuck-shenzhen</loc>
+    <lastmod>2025-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://glowy.asia/cases/bbl-shanghai</loc>
+    <lastmod>2025-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://glowy.asia/cases/breast-aug-guangzhou</loc>
+    <lastmod>2025-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://glowy.asia/cases/breast-lift-singapore</loc>
+    <lastmod>2025-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://glowy.asia/cases/body-contouring-bangkok</loc>
+    <lastmod>2025-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+</urlset>

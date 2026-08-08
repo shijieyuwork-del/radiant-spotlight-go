@@ -5,6 +5,7 @@ import {
 } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
+import PageMeta from "@/components/PageMeta";
 import { findCity } from "@/data/cities";
 import { DOCTORS } from "@/data/doctors";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
@@ -22,8 +23,29 @@ const CityDetail = () => {
   const cityCases = TIKTOK_CASES.filter((c) => cityCaseIds.has(c.id));
   const travel = lang === "zh" ? city.travelZh : city.travelEn;
 
+  const cityTitle = lang === "zh" ? city.zh : city.en;
+  const cityDescription = lang === "zh" ? city.taglineZh : city.taglineEn;
+
+  const citySchema = {
+    "@context": "https://schema.org",
+    "@type": "City",
+    name: cityTitle,
+    description: cityDescription,
+    address: {
+      "@type": "PostalAddress",
+      addressCountry: "CN",
+    },
+  };
+
   return (
-    <div className="min-h-screen bg-background">
+    <>
+      <PageMeta
+        title={`${cityTitle} | Medical Aesthetics, Cosmetic Surgeons & Prices`}
+        description={`Discover the best cosmetic surgeons and clinics in ${cityTitle}. ${city.doctorsCount}+ verified doctors, real patient cases, compare prices. ${city.savings} less than US clinics.`}
+        path={`/cities/${slug}`}
+        structuredData={citySchema}
+      />
+      <div className="min-h-screen bg-background">
       <AsiaNavbar />
 
       {/* Back */}
@@ -238,7 +260,8 @@ const CityDetail = () => {
       </section>
 
       <Footer />
-    </div>
+      </div>
+    </>
   );
 };
 

@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { MapPin, ArrowRight, Users, Stethoscope, Wallet, Plane, Building2 } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
+import PageMeta from "@/components/PageMeta";
 import { CITIES } from "@/data/cities";
 import { DOCTORS } from "@/data/doctors";
 import { useAsia } from "@/lib/asia-i18n";
@@ -9,8 +10,14 @@ import { useAsia } from "@/lib/asia-i18n";
 const Cities = () => {
   const { lang } = useAsia();
   return (
-    <div className="min-h-screen bg-background">
-      <AsiaNavbar />
+    <>
+      <PageMeta
+        title="Medical Aesthetics in Asia | Seoul, Bangkok, Tokyo, Singapore, Shanghai"
+        description="Explore top medical-aesthetic destinations in Asia. Find board-certified surgeons and clinics in Seoul, Bangkok, Tokyo, Singapore, Shanghai, and Beijing with pricing, specialties, and patient reviews."
+        path="/cities"
+      />
+      <div className="min-h-screen bg-background">
+        <AsiaNavbar />
 
       {/* Hero */}
       <section className="container py-12 md:py-16">
@@ -140,7 +147,8 @@ const Cities = () => {
       </section>
 
       <Footer />
-    </div>
+      </div>
+    </>
   );
 };
 

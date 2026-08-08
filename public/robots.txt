@@ -1,5 +1,17 @@
+# All bots welcome
+User-agent: *
+Allow: /
+
+# Sitemap for search engines
+Sitemap: https://glowy.asia/sitemap.xml
+
+# Crawl delay (optional, prevents overwhelming the server)
+Crawl-delay: 1
+
+# Specific bot rules
 User-agent: Googlebot
 Allow: /
+Crawl-delay: 0.5
 
 User-agent: Bingbot
 Allow: /
@@ -10,5 +22,8 @@ Allow: /
 User-agent: facebookexternalhit
 Allow: /
 
-User-agent: *
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: WhatsApp
 Allow: /
