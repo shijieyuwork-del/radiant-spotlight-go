@@ -1,0 +1,14 @@
+name = "cosmetics-asia"
+type = "javascript"
+main = "dist/index.html"
+
+[build]
+command = "npm run build"
+cwd = "./"
+watch_paths = ["src/**/*.{ts,tsx,js,jsx}"]
+
+[build.upload]
+format = "modules"
+
+[env.production]
+vars = { ENVIRONMENT = "production" }
