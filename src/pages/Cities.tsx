@@ -96,7 +96,7 @@ const Cities = () => {
                     />
                     <Stat
                       icon={<Users className="size-3.5" />}
-                      label={lang === "zh" ? "平台医师" : "On glowy"}
+                      label={lang === "zh" ? "平台医师" : "On Cosmetics Asia"}
                       value={`${cityDoctors.length}`}
                     />
                   </div>

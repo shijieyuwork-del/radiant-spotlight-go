@@ -23,7 +23,9 @@ const Navbar = () => {
           <div className="grid place-items-center size-9 rounded-2xl bg-gradient-mint shadow-glow">
             <Sparkles className="size-4 text-foreground" />
           </div>
-          <span className="font-display text-xl font-semibold tracking-tight">glowy.</span>
+          <span className="font-display text-xl font-semibold tracking-tight">
+            cosmetics<span className="text-primary">·Asia</span>
+          </span>
         </Link>
 
         <div className="hidden md:flex items-center gap-1 rounded-full bg-muted/60 p-1">

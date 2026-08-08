@@ -188,7 +188,7 @@ const CaseDetail = () => {
 
             <div className="prose prose-sm max-w-none text-muted-foreground">
               <p>
-                {lang === "zh" ? "本日记包含术前术后真实对比、每日恢复记录，以及主诊医师术后回访。Glowy 已根据消费凭证与身份证核实日记真实性。" : "This patient diary documents real before/after, daily recovery photos, and a follow-up call with the attending surgeon. Glowy verifies every diary against the patient's clinic receipt and ID."}
+                {lang === "zh" ? "本日记包含术前术后真实对比、每日恢复记录，以及主诊医师术后回访。Cosmetics Asia 已根据消费凭证与身份证核实日记真实性。" : "This patient diary documents real before/after, daily recovery photos, and a follow-up call with the attending surgeon. Cosmetics Asia verifies every diary against the patient's clinic receipt and ID."}
               </p>
             </div>
           </div>

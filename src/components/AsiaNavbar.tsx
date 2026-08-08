@@ -35,7 +35,7 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
             <Sparkles className="size-4 text-foreground" />
           </div>
           <span className="font-display text-xl font-semibold tracking-tight">
-            glowy<span className="text-primary">·{t("brand.suffix")}</span>
+            cosmetics<span className="text-primary">·{t("brand.suffix")}</span>
           </span>
         </Link>
         <div className="hidden md:flex items-center gap-1 rounded-full bg-muted/60 p-1">

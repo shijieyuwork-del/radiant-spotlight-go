@@ -12,7 +12,9 @@ const Footer = () => {
             <div className="grid place-items-center size-9 rounded-2xl bg-gradient-mint">
               <Sparkles className="size-4" />
             </div>
-            <span className="font-display text-xl font-semibold">glowy.</span>
+            <span className="font-display text-xl font-semibold">
+              cosmetics<span className="text-primary">·Asia</span>
+            </span>
           </div>
           <p className="text-sm text-muted-foreground max-w-xs">The global discovery platform for medical aesthetics. Real videos. Real clinics. Real glow.</p>
         </div>
@@ -34,7 +36,7 @@ const Footer = () => {
         ))}
       </div>
       <div className="container pb-10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
-        <p>© {new Date().getFullYear()} Glowy. Curated worldwide.</p>
+        <p>© {new Date().getFullYear()} Cosmetics Asia. Curated worldwide.</p>
         <div className="flex gap-3">
           <Instagram className="size-4 hover:text-foreground cursor-pointer" />
           <Youtube className="size-4 hover:text-foreground cursor-pointer" />

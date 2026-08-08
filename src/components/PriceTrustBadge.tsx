@@ -13,7 +13,7 @@ const PriceTrustBadge = ({ className = "", variant = "default" }: PriceTrustBadg
   return (
     <span
       className={`pill ${base} text-[11px] ${className}`}
-      title="Pricing verified by Glowy and refreshed monthly from clinic submissions."
+      title="Pricing verified by Cosmetics Asia and refreshed monthly from clinic submissions."
     >
       <ShieldCheck className="size-3 text-primary" />
       Verified pricing · Updated monthly

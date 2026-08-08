@@ -72,7 +72,7 @@ const FloatingLiveChat = () => {
         id: `m_${Date.now()}`,
         from: "agent",
         text:
-          lang === "zh" ? "您好 👋 我是 glowy 客服 Lina，关于医生 / 价格 / 行程都可以问我，真人客服几分钟内介入～" : "Hi 👋 I'm Lina from glowy. Ask me anything about doctors, pricing, or your trip — a human agent jumps in within minutes.",
+          lang === "zh" ? "您好 👋 我是 Cosmetics Asia 客服 Lina，关于医生 / 价格 / 行程都可以问我，真人客服几分钟内介入～" : "Hi 👋 I'm Lina from Cosmetics Asia. Ask me anything about doctors, pricing, or your trip — a human agent jumps in within minutes.",
         ts: Date.now(),
       };
       setMessages([greet]);
@@ -210,7 +210,8 @@ const FloatingLiveChat = () => {
             <a href="tel:+8618800000000" className="inline-flex items-center gap-1 hover:text-foreground">
               <Phone className="size-3" /> {lang === "zh" ? "电话" : "Call"}
             </a>
-            <a href="mailto:hello@glowy.care" className="inline-flex items-center gap-1 hover:text-foreground">
+            {/* ⚠️ 这个邮箱还没开通，需要在 Cloudflare 给 cosmetics-asia.com 配 Email Routing，否则邮件会退信 */}
+            <a href="mailto:hello@cosmetics-asia.com" className="inline-flex items-center gap-1 hover:text-foreground">
               <Mail className="size-3" /> Email
             </a>
           </div>

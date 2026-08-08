@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { SITE_URL, OG_IMAGE, TWITTER_HANDLE } from "@/lib/seo-config";
+import { SITE_URL, SITE_NAME, OG_IMAGE, TWITTER_HANDLE } from "@/lib/seo-config";
 
 interface PageMetaProps {
   title: string;
@@ -52,7 +52,7 @@ export const PageMeta = ({
   structuredData,
 }: PageMetaProps) => {
   const url = `${SITE_URL}${path}`;
-  const fullTitle = title.includes("Glowy") ? title : `${title} | Glowy`;
+  const fullTitle = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
   const ld = structuredData ? JSON.stringify(structuredData) : null;
 
   useEffect(() => {
@@ -67,7 +67,7 @@ export const PageMeta = ({
     setMeta("property", "og:type", type);
     setMeta("property", "og:url", url);
     setMeta("property", "og:image", image);
-    setMeta("property", "og:site_name", "Glowy");
+    setMeta("property", "og:site_name", SITE_NAME);
 
     setMeta("name", "twitter:card", "summary_large_image");
     setMeta("name", "twitter:site", TWITTER_HANDLE);

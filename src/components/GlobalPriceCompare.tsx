@@ -97,7 +97,7 @@ const GlobalPriceCompare = ({ procedure, prices, featured }: GlobalPriceCompareP
           by traveling to <span className="font-semibold">{featuredPrice.flag} {featuredPrice.country}</span>
           {" "}vs {mostExpensive.flag} {mostExpensive.country}.
         </p>
-        <p className="text-[11px] text-muted-foreground italic">Based on Glowy platform data</p>
+        <p className="text-[11px] text-muted-foreground italic">Based on Cosmetics Asia platform data</p>
       </div>
     </div>
   );

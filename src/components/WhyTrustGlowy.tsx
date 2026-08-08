@@ -32,13 +32,13 @@ const WhyTrustGlowy = () => {
     <section className="container py-24">
       <div className="text-center max-w-2xl mx-auto mb-14">
         <span className="pill bg-primary-soft text-foreground mb-3" style={{ background: "hsl(var(--primary-soft))" }}>
-          <ShieldCheck className="size-3.5 text-primary" /> Why trust Glowy
+          <ShieldCheck className="size-3.5 text-primary" /> Why trust Cosmetics Asia
         </span>
         <h2 className="font-display text-4xl md:text-5xl font-medium tracking-tight">
           Verified, end-to-end. <em className="text-primary not-italic">No exceptions.</em>
         </h2>
         <p className="text-muted-foreground mt-4">
-          Every doctor on Glowy passes a 3-step verification. Every patient is protected by policy — not promises.
+          Every doctor on Cosmetics Asia passes a 3-step verification. Every patient is protected by policy — not promises.
         </p>
       </div>
 

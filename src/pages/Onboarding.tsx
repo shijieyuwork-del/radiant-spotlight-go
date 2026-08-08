@@ -116,7 +116,7 @@ const Onboarding = () => {
       {/* Why */}
       <section className="container py-24">
         <div className="text-center max-w-2xl mx-auto mb-14">
-          <span className="pill bg-secondary text-secondary-foreground mb-3">Why Glowy</span>
+          <span className="pill bg-secondary text-secondary-foreground mb-3">Why Cosmetics Asia</span>
           <h2 className="font-display text-4xl md:text-6xl font-medium tracking-tight">
             Built for the <em className="text-primary not-italic">video era.</em>
           </h2>

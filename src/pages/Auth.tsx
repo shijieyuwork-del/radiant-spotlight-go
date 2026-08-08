@@ -80,7 +80,7 @@ const Auth = () => {
             <Sparkles className="size-5 text-primary" />
           </div>
           <span className="font-display text-2xl font-semibold tracking-tight">
-            glowy<span className="text-primary">·care</span>
+            cosmetics<span className="text-primary">·Asia</span>
           </span>
         </Link>
 
@@ -91,7 +91,7 @@ const Auth = () => {
           <p className="text-sm text-muted-foreground text-center mt-1.5">
             {tab === "signin"
               ? t("Sign in to manage quotes, bookings & saved doctors.", "登录后可管理咨询、预约与收藏。")
-              : t("Join glowy in 30 seconds — totally free.", "30 秒注册 glowy，完全免费。")}
+              : t("Join Cosmetics Asia in 30 seconds — totally free.", "30 秒注册 Cosmetics Asia，完全免费。")}
           </p>
 
           <Button

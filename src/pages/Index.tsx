@@ -466,7 +466,7 @@ const Index = () => {
               city: "Seoul, Korea",
               clinic: "Verde Surgical Center",
               gradient: "bg-gradient-mint",
-              quote: "I researched for two years before flying to Seoul. Watched 200+ recovery diaries on Glowy. Day 14 my eyes finally looked like the version of me I'd always pictured. I cried in the mirror — happy tears.",
+              quote: "I researched for two years before flying to Seoul. Watched 200+ recovery diaries on Cosmetics Asia. Day 14 my eyes finally looked like the version of me I'd always pictured. I cried in the mirror — happy tears.",
               timeline: ["Consult: Aug 2024", "Surgery: Oct 2024", "Healed: Jan 2025"],
             },
             {
@@ -668,7 +668,7 @@ const Index = () => {
         </Tabs>
       </section>
 
-      {/* WHY TRUST GLOWY */}
+      {/* WHY TRUST COSMETICS ASIA */}
       <WhyTrustGlowy />
 
       {/* HOW IT WORKS */}

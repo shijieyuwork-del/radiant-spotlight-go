@@ -118,7 +118,7 @@ const Reviews = () => {
               Reviews from patients who <em className="text-primary not-italic">actually flew.</em>
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl">
-              Every review is tied to a real, verified procedure booked through Glowy — with cross-border travel details, recovery scores, and before/after photos uploaded by patients themselves.
+              Every review is tied to a real, verified procedure booked through Cosmetics Asia — with cross-border travel details, recovery scores, and before/after photos uploaded by patients themselves.
             </p>
 
             <div className="flex flex-wrap items-center gap-6 pt-3">

@@ -126,7 +126,7 @@ const PriceCompare = () => {
       </div>
 
       <p className="text-xs text-muted-foreground mt-6">
-        Avg surgeon fees from verified Glowy clinics (2024–25). Excludes flights, accommodation, aftercare.
+        Avg surgeon fees from verified Cosmetics Asia clinics (2024–25). Excludes flights, accommodation, aftercare.
       </p>
     </div>
   );

@@ -402,7 +402,7 @@ const AsiaIndex = () => (
   <>
     <PageMeta
       title="Beauty in Asia, Made Simple | Medical Aesthetics"
-      description="Glowy connects you with 6,000+ board-certified surgeons across Asia. Watch real before-after videos, compare prices, book procedures in seconds. 100k+ verified cases."
+      description="Cosmetics Asia connects you with 6,000+ board-certified surgeons across Asia. Watch real before-after videos, compare prices, book procedures in seconds. 100k+ verified cases."
       path="/"
       structuredData={ORGANIZATION_SCHEMA}
     />

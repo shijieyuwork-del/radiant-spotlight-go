@@ -80,7 +80,7 @@ const CityDetail = () => {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl pt-2">
               <HeroStat icon={<Building2 className="size-4" />} value={`${city.clinics}`} label={lang === "zh" ? "正规机构" : "Hospitals"} />
               <HeroStat icon={<Stethoscope className="size-4" />} value={`${city.doctorsCount}`} label={lang === "zh" ? "主刀医生" : "Surgeons"} />
-              <HeroStat icon={<Sparkles className="size-4" />} value={`${cityDoctors.length}`} label={lang === "zh" ? "平台医师" : "On glowy"} />
+              <HeroStat icon={<Sparkles className="size-4" />} value={`${cityDoctors.length}`} label={lang === "zh" ? "平台医师" : "On Cosmetics Asia"} />
               <HeroStat icon={<Wallet className="size-4" />} value={city.savings} label={lang === "zh" ? "对比美国" : "vs US clinics"} />
             </div>
           </div>
@@ -143,7 +143,7 @@ const CityDetail = () => {
 
         {cityDoctors.length === 0 ? (
           <p className="text-sm text-muted-foreground">
-            {lang === "zh" ? "本城市暂无平台主推医师，可在下方提交匹配申请。" : "No glowy-listed surgeons yet for this city — request a match below."}
+            {lang === "zh" ? "本城市暂无平台主推医师，可在下方提交匹配申请。" : "No Cosmetics Asia-listed surgeons yet for this city — request a match below."}
           </p>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -244,7 +244,7 @@ const CityDetail = () => {
         <div className="rounded-3xl bg-foreground text-background p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <div>
             <h2 className="font-display text-2xl md:text-3xl font-semibold">
-              {lang === "zh" ? `让 glowy 为你规划 ${city.zh} 行程` : `Plan your ${city.en} trip with glowy`}
+              {lang === "zh" ? `让 Cosmetics Asia 为你规划 ${city.zh} 行程` : `Plan your ${city.en} trip with Cosmetics Asia`}
             </h2>
             <p className="text-sm text-background/80 mt-2 max-w-xl">
               {lang === "zh" ? "主刀候选 / 报价 / 机构预约 / 恢复酒店，全程中英文专属顾问对接。" : "Surgeon shortlist, price quote, hospital booking and recovery hotel — handled by an English-speaking coordinator."}

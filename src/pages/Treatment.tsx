@@ -27,7 +27,7 @@ const Treatment = () => {
 
   const reviews = [
     { name: "Hana K.", age: 22, text: "Day 60 post-op and I literally cry happy tears every morning. The surgeon was insanely precise — natural crease, exactly what I asked for 🥺", rating: 5 },
-    { name: "Mei L.", age: 24, text: "Watched her recovery diary on Glowy before flying to Seoul. Everything matched — same results, same surgeon, same kindness. No surprises.", rating: 5 },
+    { name: "Mei L.", age: 24, text: "Watched her recovery diary on Cosmetics Asia before flying to Seoul. Everything matched — same results, same surgeon, same kindness. No surprises.", rating: 5 },
     { name: "Sofia R.", age: 21, text: "Got my double eyelid in Gangnam, recovered in their aftercare hotel. Felt safe the whole time. Best decision I've made.", rating: 5 },
   ];
 
