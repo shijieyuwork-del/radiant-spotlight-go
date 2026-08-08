@@ -12,12 +12,22 @@ process.env.VITE_SUPABASE_PUBLISHABLE_KEY = process.env.VITE_SUPABASE_PUBLISHABL
 process.env.VITE_SUPABASE_URL = process.env.VITE_SUPABASE_URL || 'https://ioyqybepluaoqmrfyzxw.supabase.co';
 process.env.VITE_SITE_URL = process.env.VITE_SITE_URL || 'https://cosmetics-asia.com';
 
-const vite = spawn('npx', ['vite', 'build'], {
-  cwd: __dirname,
-  stdio: 'inherit',
-  shell: process.platform === 'win32',
-});
+const run = (cmd, args) =>
+  new Promise((resolve, reject) => {
+    const p = spawn(cmd, args, {
+      cwd: __dirname,
+      stdio: 'inherit',
+      shell: process.platform === 'win32',
+    });
+    p.on('exit', (code) => (code === 0 ? resolve() : reject(new Error(`${cmd} ${args.join(' ')} exited ${code}`))));
+    p.on('error', reject);
+  });
 
-vite.on('exit', (code) => {
-  process.exit(code);
-});
+// vite build 之后跑预渲染，为每条路由写一份带专属 head 的 index.html
+try {
+  await run('npx', ['vite', 'build']);
+  await run('node', ['prerender.mjs']);
+} catch (e) {
+  console.error(e.message);
+  process.exit(1);
+}

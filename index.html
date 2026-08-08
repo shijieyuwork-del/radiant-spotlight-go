@@ -5,11 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!--
-      These are DEFAULT/fallback tags. React Helmet overrides them per page
-      (see src/components/PageMeta.tsx) for crawlers that execute JavaScript.
-      Crawlers that do NOT run JS — Bing, Twitter, Facebook, LinkedIn, WhatsApp —
-      only ever see what is below, so it must stand on its own.
+      Everything between the SEO markers below is REPLACED PER ROUTE at build
+      time by prerender.mjs, which writes one index.html per URL into dist/.
+      That is what non-JS crawlers (Bing, Twitter, Facebook, LinkedIn, WhatsApp)
+      see, since they never run the React app.
+
+      The values here are the homepage / fallback set. Do not remove the
+      markers, and keep PageMeta.tsx in sync — it sets the same tags at runtime
+      for client-side navigation.
     -->
+    <!--SEO-->
     <title>Cosmetics Asia — Compare Medical Aesthetics Clinics & Surgeons in Asia</title>
     <meta
       name="description"
@@ -43,6 +48,7 @@
       name="twitter:description"
       content="Compare verified medical aesthetics clinics and board-certified surgeons across Asia. Browse real patient cases, procedures and pricing."
     />
+    <!--/SEO-->
   </head>
 
   <body>

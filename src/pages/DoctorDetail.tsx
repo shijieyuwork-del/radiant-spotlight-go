@@ -9,6 +9,7 @@ import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
 import TikTokWall from "@/components/TikTokWall";
 import { Button } from "@/components/ui/button";
+import { countryOf } from "@/data/cities";
 import { DOCTORS, findDoctor } from "@/data/doctors";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
 import { useAsia } from "@/lib/asia-i18n";
@@ -66,7 +67,7 @@ const DoctorDetail = () => {
       name: lang === "zh" ? doctor.clinicZh : doctor.clinicEn,
       address: {
         "@type": "PostalAddress",
-        addressCountry: "CN",
+        addressCountry: countryOf(doctor.cityEn),
         addressLocality: doctorCity,
       },
     },

@@ -6,7 +6,7 @@ import {
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
-import { findCity } from "@/data/cities";
+import { countryOf, findCity } from "@/data/cities";
 import { DOCTORS } from "@/data/doctors";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
 import { useAsia } from "@/lib/asia-i18n";
@@ -33,7 +33,7 @@ const CityDetail = () => {
     description: cityDescription,
     address: {
       "@type": "PostalAddress",
-      addressCountry: "CN",
+      addressCountry: countryOf(city.slug),
     },
   };
 

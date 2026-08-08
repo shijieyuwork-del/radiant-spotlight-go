@@ -286,3 +286,21 @@ export const CITIES: City[] = [
 
 export const findCity = (slug: string) =>
   CITIES.find((c) => c.slug === slug.toLowerCase());
+
+/**
+ * 城市 → ISO 3166-1 alpha-2 国家代码，用于 schema.org 的 addressCountry。
+ * 之前所有城市都硬编码成 "CN"，等于告诉搜索引擎首尔在中国。
+ * key 用小写英文城市名（与 slug 一致），医生页按 cityEn 查同一张表。
+ */
+export const COUNTRY_BY_CITY: Record<string, string> = {
+  seoul: "KR",
+  bangkok: "TH",
+  tokyo: "JP",
+  singapore: "SG",
+  shanghai: "CN",
+  beijing: "CN",
+};
+
+/** 查不到时退回 CN，保持与旧行为一致而不是抛错 */
+export const countryOf = (city: string): string =>
+  COUNTRY_BY_CITY[String(city ?? "").trim().toLowerCase()] ?? "CN";
