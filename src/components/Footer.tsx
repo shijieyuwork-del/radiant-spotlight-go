@@ -5,9 +5,9 @@ import { useLangPath } from "@/lib/i18n";
 const Footer = () => {
   const lp = useLangPath();
   return (
-    <footer className="mt-32 border-t border-border/60 bg-muted/30">
-      <div className="container py-16 grid gap-10 md:grid-cols-4">
-        <div className="space-y-4">
+    <footer className="mt-16 md:mt-32 border-t border-border/60 bg-muted/30">
+      <div className="container py-10 md:py-16 grid grid-cols-2 gap-8 md:grid-cols-4">
+        <div className="space-y-4 col-span-2 md:col-span-1">
           <div className="flex items-center gap-2">
             <div className="grid place-items-center size-9 rounded-2xl bg-gradient-mint">
               <Sparkles className="size-4" />

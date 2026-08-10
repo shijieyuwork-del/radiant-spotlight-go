@@ -52,39 +52,39 @@ const Hero = () => {
       <div className="absolute -top-20 -left-10 size-72 bg-gradient-mint blur-3xl opacity-60 animate-blob" />
       <div className="absolute top-40 right-0 size-80 bg-gradient-peach blur-3xl opacity-50 animate-blob" style={{ animationDelay: "2s" }} />
 
-      <div className="container relative py-16 md:py-24">
-        <div className="grid lg:grid-cols-12 gap-10 items-center">
-          <div className="lg:col-span-7 space-y-6">
-            <span className="pill bg-card/80 backdrop-blur shadow-soft">
+      <div className="container relative py-10 sm:py-14 md:py-24">
+        <div className="grid lg:grid-cols-12 gap-8 md:gap-10 items-center">
+          <div className="lg:col-span-7 space-y-4 md:space-y-6">
+            <span className="pill bg-card/80 backdrop-blur shadow-soft max-w-full leading-relaxed">
               <ShieldCheck className="size-3.5 text-primary" />
               {t("hero.badge")}
             </span>
-            <h1 className="font-display text-5xl md:text-7xl font-medium leading-[0.95] tracking-tight">
+            <h1 className="font-display text-[2.65rem] sm:text-5xl md:text-7xl font-medium leading-[0.98] tracking-tight">
               {t("hero.title1")}<br />
               <em className="text-primary not-italic">{t("hero.titleEm")}</em>
             </h1>
-            <p className="text-lg text-muted-foreground max-w-xl">{t("hero.subtitle")}</p>
+            <p className="text-[15px] md:text-lg leading-relaxed text-muted-foreground max-w-xl">{t("hero.subtitle")}</p>
 
-            <div className="bg-card rounded-3xl p-2 shadow-pop flex flex-col sm:flex-row gap-2 max-w-2xl">
-              <div className="flex-1 px-5 py-3 flex items-center gap-3">
+            <div className="bg-card rounded-2xl md:rounded-3xl p-2 shadow-pop flex flex-col sm:flex-row gap-2 max-w-2xl">
+              <div className="flex-1 px-3 md:px-5 py-2.5 md:py-3 flex items-center gap-3 min-w-0">
                 <Search className="size-4 text-muted-foreground shrink-0" />
                 <input className="w-full bg-transparent outline-none text-sm font-medium" placeholder={t("hero.searchPh")} />
               </div>
-              <Button size="lg" className="rounded-2xl bg-foreground text-background hover:bg-foreground/90 h-auto px-6">
+              <Button size="lg" className="rounded-xl md:rounded-2xl bg-foreground text-background hover:bg-foreground/90 h-12 sm:h-auto px-6 w-full sm:w-auto">
                 {t("hero.cta")} <ArrowRight className="ml-1 size-4" />
               </Button>
             </div>
 
-            <div className="flex flex-wrap items-center gap-2 pt-1">
+            <div className="flex gap-2 pt-1 overflow-x-auto scrollbar-hide -mx-1 px-1 pb-1 sm:flex-wrap">
               <span className="text-xs uppercase tracking-wider text-muted-foreground font-semibold mr-1">{t("hero.hot")}</span>
               {(lang === "zh" ? ["鼻综合", "面部拉皮", "双眼皮/眼袋", "吸脂", "腹壁整形", "巴西提臀", "隆胸", "脂肪填充"] : ["Rhinoplasty", "Facelift", "Blepharoplasty", "Liposuction", "Tummy Tuck", "BBL", "Breast Aug", "Fat Grafting"]).map((p) => (
-                <span key={p} className="pill bg-card/80 backdrop-blur shadow-soft text-foreground">
+                <span key={p} className="pill bg-card/80 backdrop-blur shadow-soft text-foreground shrink-0">
                   <Flame className="size-3 text-primary" /> {p}
                 </span>
               ))}
             </div>
 
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 pt-2 text-sm text-muted-foreground">
+            <div className="grid grid-cols-1 sm:flex sm:flex-wrap items-center gap-2 sm:gap-x-6 pt-2 text-xs sm:text-sm text-muted-foreground">
               <span className="flex items-center gap-1.5"><FileCheck2 className="size-4 text-primary" /> {t("hero.feat1")}</span>
               <span className="flex items-center gap-1.5"><Building2 className="size-4 text-primary" /> {t("hero.feat2")}</span>
               <span className="flex items-center gap-1.5"><Wallet className="size-4 text-primary" /> {t("hero.feat3")}</span>
@@ -145,11 +145,11 @@ const ComplianceBar = () => {
     { icon: Wallet, t: t("compliance.t4"), d: t("compliance.d4") },
   ];
   return (
-    <section className="container -mt-2 md:-mt-4 relative z-10">
-      <div className="rounded-3xl bg-card shadow-pop border border-border p-5 md:p-6 grid md:grid-cols-4 gap-4">
+    <section className="container mt-3 md:-mt-4 relative z-10">
+      <div className="rounded-2xl md:rounded-3xl bg-card shadow-pop border border-border p-4 md:p-6 grid grid-cols-2 md:grid-cols-4 gap-4">
         {items.map((x) => (
-          <div key={x.t} className="flex gap-3 items-start">
-            <div className="size-10 rounded-2xl bg-accent grid place-items-center shrink-0">
+          <div key={x.t} className="flex gap-2 md:gap-3 items-start min-w-0">
+            <div className="size-9 md:size-10 rounded-xl md:rounded-2xl bg-accent grid place-items-center shrink-0">
               <x.icon className="size-5 text-primary" />
             </div>
             <div>
@@ -193,7 +193,7 @@ const TravelBar = () => {
 const CitiesSection = () => {
   const { t, lang } = useAsia();
   return (
-    <section id="cities" className="container py-16 md:py-20">
+    <section id="cities" className="container py-12 md:py-20">
       <div className="flex items-end justify-between mb-8 gap-4">
         <div>
           <span className="pill bg-accent text-accent-foreground mb-3"><MapPin className="size-3.5" /> {t("cities.kicker")}</span>
@@ -202,9 +202,9 @@ const CitiesSection = () => {
           </h2>
         </div>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+      <div className="flex md:grid md:grid-cols-3 lg:grid-cols-5 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0 pb-3">
         {cities.map((c) => (
-          <Link key={c.slug} to={`/cities/${c.slug}`} className="rounded-3xl bg-card shadow-soft hover:shadow-pop transition-all hover:-translate-y-1 p-5 group">
+          <Link key={c.slug} to={`/cities/${c.slug}`} className="min-w-[78vw] sm:min-w-[46vw] md:min-w-0 snap-center rounded-3xl bg-card shadow-soft hover:shadow-pop transition-all hover:-translate-y-1 p-5 group">
             <p className="font-display text-2xl font-semibold">{lang === "zh" ? c.zh : c.en}</p>
             <p className="text-xs text-muted-foreground">{lang === "zh" ? c.en : c.zh}</p>
             <p className="text-xs text-muted-foreground mt-3">
@@ -233,17 +233,17 @@ const CitiesSection = () => {
 const TreatmentsSection = () => {
   const { t, lang, fmt } = useAsia();
   return (
-    <section id="projects" className="container py-16 md:py-20">
+    <section id="projects" className="container py-12 md:py-20">
       <div className="mb-8">
         <span className="pill bg-accent text-accent-foreground mb-3"><Flame className="size-3.5" /> {t("tx.kicker")}</span>
-        <h2 className="font-display text-4xl md:text-5xl font-medium tracking-tight">
+        <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight">
           {t("tx.title1")} <em className="text-primary not-italic">{t("tx.titleEm")}</em>
         </h2>
         <p className="text-muted-foreground mt-2 text-sm">{t("tx.note")}</p>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="flex md:grid md:grid-cols-4 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0 pb-3">
         {treatments.map((tx) => (
-          <div key={tx.en} className={`rounded-3xl p-5 bg-gradient-to-br ${tx.grad} hover:-translate-y-1 transition-transform shadow-soft relative overflow-hidden`}>
+          <div key={tx.en} className={`min-w-[76vw] sm:min-w-[44vw] md:min-w-0 snap-center rounded-3xl p-5 bg-gradient-to-br ${tx.grad} hover:-translate-y-1 transition-transform shadow-soft relative overflow-hidden`}>
             {tx.tag && (
               <span className="absolute top-3 right-3 text-[10px] px-2 py-0.5 rounded-full bg-foreground text-background font-semibold">
                 {lang === "zh" ? tx.tag.zh : tx.tag.en}
@@ -276,11 +276,11 @@ const DoctorsSection = () => {
   const { t, lang } = useAsia();
   const featured = DOCTORS.slice(0, 3);
   return (
-    <section id="compliance" className="container py-16 md:py-20">
+    <section id="compliance" className="container py-12 md:py-20">
       <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
         <div>
           <span className="pill bg-accent text-accent-foreground mb-3"><Stethoscope className="size-3.5" /> {t("doctors.kicker")}</span>
-          <h2 className="font-display text-4xl md:text-5xl font-medium tracking-tight">
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight">
             {t("doctors.title1")} <em className="text-primary not-italic">{t("doctors.titleEm")}</em>
           </h2>
         </div>
@@ -358,11 +358,11 @@ const DoctorsSection = () => {
 const CasesSection = () => {
   const { t, lang, fmt } = useAsia();
   return (
-    <section id="cases" className="container py-16 md:py-20">
+    <section id="cases" className="container py-12 md:py-20">
       <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
         <div>
           <span className="pill bg-accent text-accent-foreground mb-3"><Heart className="size-3.5" /> {t("cases.kicker")}</span>
-          <h2 className="font-display text-4xl md:text-5xl font-medium tracking-tight">
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight">
             {t("cases.title1")} <em className="text-primary not-italic">{t("cases.titleEm")}</em>
           </h2>
           <p className="text-sm text-muted-foreground mt-2">{t("cases.wallSub")}</p>
@@ -382,8 +382,8 @@ const CasesSection = () => {
 const PromoBar = () => {
   const { t } = useAsia();
   return (
-    <section className="container py-10">
-      <div className="rounded-3xl bg-gradient-to-r from-[hsl(340,85%,90%)] via-[hsl(50,80%,90%)] to-[hsl(155,60%,85%)] p-8 md:p-10 grid md:grid-cols-3 gap-6 items-center shadow-pop">
+    <section className="container py-8 md:py-10">
+      <div className="rounded-3xl bg-gradient-to-r from-[hsl(340,85%,90%)] via-[hsl(50,80%,90%)] to-[hsl(155,60%,85%)] p-6 md:p-10 grid md:grid-cols-3 gap-6 items-center shadow-pop">
         <div className="md:col-span-2">
           <span className="pill bg-card/80 backdrop-blur shadow-soft mb-3"><Gift className="size-3.5 text-primary" /> {t("promo.kicker")}</span>
           <h3 className="font-display text-3xl md:text-4xl font-medium tracking-tight">{t("promo.title")}</h3>

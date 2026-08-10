@@ -173,12 +173,14 @@ const TikTokCard = ({
 const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase }: TikTokWallProps) => {
   const cols =
     variant === "wall"
-      ? "grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
-      : "grid-cols-2 md:grid-cols-3 lg:grid-cols-6";
+      ? "sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
+      : "sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6";
   return (
-    <div className={`grid ${cols} gap-4`}>
+    <div className={`flex sm:grid ${cols} gap-4 overflow-x-auto sm:overflow-visible snap-x snap-mandatory scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0 pb-3`}>
       {items.map((it) => (
-        <TikTokCard key={it.id} item={it} lang={lang} fmtPrice={fmtPrice} caseHrefBase={caseHrefBase} />
+        <div key={it.id} className="min-w-[78vw] sm:min-w-0 snap-center">
+          <TikTokCard item={it} lang={lang} fmtPrice={fmtPrice} caseHrefBase={caseHrefBase} />
+        </div>
       ))}
     </div>
   );

@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Sparkles, DollarSign, Languages, MessageCircle, LogOut, User as UserIcon } from "lucide-react";
+import { Sparkles, DollarSign, Languages, MessageCircle, LogOut, User as UserIcon, Menu, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel,
@@ -7,6 +7,7 @@ import {
 import { useAsia, asiaLangLabel as langLabel, type AsiaLang as Lang } from "@/lib/asia-i18n";
 import { useQuote } from "@/components/QuoteRequest";
 import { useAuth } from "@/lib/auth";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 
 type Props = { homeLinks?: boolean };
 
@@ -29,12 +30,12 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
       ];
   return (
     <header className="sticky top-0 z-50 backdrop-blur-xl bg-background/80 border-b border-border/60">
-      <nav className="container flex h-16 items-center justify-between gap-3">
+      <nav className="container flex h-14 md:h-16 items-center justify-between gap-3">
         <Link to="/" className="flex items-center gap-2 shrink-0">
-          <div className="grid place-items-center size-9 rounded-2xl bg-gradient-mint shadow-glow">
+          <div className="grid place-items-center size-8 md:size-9 rounded-xl md:rounded-2xl bg-gradient-mint shadow-glow">
             <Sparkles className="size-4 text-foreground" />
           </div>
-          <span className="font-display text-xl font-semibold tracking-tight">
+          <span className="font-display text-lg md:text-xl font-semibold tracking-tight">
             cosmetics<span className="text-primary">·{t("brand.suffix")}</span>
           </span>
         </Link>
@@ -45,7 +46,7 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
             </Link>
           ))}
         </div>
-        <div className="flex items-center gap-1.5">
+        <div className="hidden md:flex items-center gap-1.5">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="sm" className="rounded-full gap-1.5">
@@ -104,6 +105,42 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
             </Button>
           )}
         </div>
+
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button variant="ghost" size="icon" className="md:hidden size-10 rounded-full bg-card shadow-soft" aria-label={lang === "zh" ? "打开菜单" : "Open menu"}>
+              <Menu className="size-5" />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="right" className="w-[88vw] max-w-sm p-0">
+            <SheetHeader className="p-5 border-b text-left">
+              <SheetTitle className="font-display text-xl">cosmetics<span className="text-primary">·{t("brand.suffix")}</span></SheetTitle>
+            </SheetHeader>
+            <div className="p-4 flex flex-col h-[calc(100%-73px)]">
+              <div className="space-y-1">
+                {links.map((l) => (
+                  <Link key={l.to} to={l.to} className="flex items-center justify-between min-h-12 px-4 rounded-2xl text-base font-semibold hover:bg-muted">
+                    {l.label}<ChevronRight className="size-4 text-muted-foreground" />
+                  </Link>
+                ))}
+              </div>
+              <div className="grid grid-cols-2 gap-2 mt-5 pt-5 border-t">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild><Button variant="outline" className="rounded-2xl h-11"><DollarSign className="size-4 mr-1" />{currency}</Button></DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="rounded-2xl"><DropdownMenuItem onClick={() => setCurrency("USD")}>🇺🇸 USD ($)</DropdownMenuItem><DropdownMenuItem onClick={() => setCurrency("CNY")}>🇨🇳 CNY (¥)</DropdownMenuItem></DropdownMenuContent>
+                </DropdownMenu>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild><Button variant="outline" className="rounded-2xl h-11"><Languages className="size-4 mr-1" />{langLabel[lang].flag} {langLabel[lang].label}</Button></DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="rounded-2xl">{(Object.keys(langLabel) as Lang[]).map((l) => <DropdownMenuItem key={l} onClick={() => setLang(l)}>{langLabel[l].flag} {langLabel[l].label}</DropdownMenuItem>)}</DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+              <div className="mt-auto space-y-2 pt-6">
+                <Button onClick={() => open()} className="w-full h-12 rounded-2xl gap-2"><MessageCircle className="size-4" />{lang === "zh" ? "人工咨询" : "Consult"}</Button>
+                {user ? <Button variant="outline" className="w-full h-12 rounded-2xl" onClick={async () => { await signOut(); navigate("/"); }}><LogOut className="size-4 mr-2" />{lang === "zh" ? "退出登录" : "Sign out"}</Button> : <Button asChild variant="outline" className="w-full h-12 rounded-2xl"><Link to="/auth">{t("nav.signin")}</Link></Button>}
+              </div>
+            </div>
+          </SheetContent>
+        </Sheet>
       </nav>
     </header>
   );
