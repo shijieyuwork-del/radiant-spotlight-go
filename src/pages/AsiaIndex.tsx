@@ -139,33 +139,6 @@ const Hero = () => {
   );
 };
 
-const ComplianceBar = () => {
-  const { t } = useAsia();
-  const items = [
-    { icon: FileCheck2, t: t("compliance.t1"), d: t("compliance.d1") },
-    { icon: Stethoscope, t: t("compliance.t2"), d: t("compliance.d2") },
-    { icon: ShieldCheck, t: t("compliance.t3"), d: t("compliance.d3") },
-    { icon: Wallet, t: t("compliance.t4"), d: t("compliance.d4") },
-  ];
-  return (
-    <section className="container mt-3 md:-mt-4 relative z-10">
-      <div className="rounded-2xl md:rounded-3xl bg-card shadow-pop border border-border p-4 md:p-6 grid grid-cols-2 md:grid-cols-4 gap-4">
-        {items.map((x) => (
-          <div key={x.t} className="flex gap-2 md:gap-3 items-start min-w-0">
-            <div className="size-9 md:size-10 rounded-xl md:rounded-2xl bg-accent grid place-items-center shrink-0">
-              <x.icon className="size-5 text-primary" />
-            </div>
-            <div>
-              <p className="font-display font-semibold text-sm">{x.t}</p>
-              <p className="text-xs text-muted-foreground mt-0.5">{x.d}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-};
-
 const TravelBar = () => {
   const { lang } = useAsia();
   if (lang === "zh") return null;
@@ -412,7 +385,6 @@ const AsiaIndex = () => (
     <div className="min-h-screen bg-background overflow-x-hidden">
       <AsiaNavbar />
       <Hero />
-      <ComplianceBar />
       <TravelBar />
       <CitiesSection />
       <TreatmentsSection />
