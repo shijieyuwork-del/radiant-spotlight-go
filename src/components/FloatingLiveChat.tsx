@@ -7,6 +7,8 @@ type Msg = { id: string; from: "user" | "agent"; text: string; ts: number };
 const STORAGE_KEY = "glowy.livechat.v1";
 const AGENT_NAME_EN = "Lina · Care concierge";
 const AGENT_NAME_ZH = "Lina · 客服管家";
+const WHATSAPP_URL = "https://wa.me/14708613825?text=Hi%20Cosmetics%20Asia%2C%20I%20would%20like%20to%20ask%20about%20your%20services.";
+const PHONE_URL = "tel:+14708613825";
 
 const QUICK_REPLIES_EN = [
   "How does pricing work?",
@@ -204,10 +206,10 @@ const FloatingLiveChat = () => {
           {/* Channels */}
           <div className="px-4 py-2 border-t border-border bg-muted/40 flex items-center gap-2 text-[11px] text-muted-foreground">
             <span className="font-semibold">{lang === "zh" ? "也可联系：" : "Also reach us:"}</span>
-            <a href="https://wa.me/8618800000000" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 hover:text-foreground">
+            <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 hover:text-foreground">
               <MessageCircle className="size-3" /> WhatsApp
             </a>
-            <a href="tel:+8618800000000" className="inline-flex items-center gap-1 hover:text-foreground">
+            <a href={PHONE_URL} className="inline-flex items-center gap-1 hover:text-foreground">
               <Phone className="size-3" /> {lang === "zh" ? "电话" : "Call"}
             </a>
             {/* 收信已通：Cloudflare Email Routing 转发到 Gmail。
