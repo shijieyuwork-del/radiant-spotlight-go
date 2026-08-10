@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
+import { useRef } from "react";
 import {
   Sparkles, ArrowRight, Star, MapPin, ShieldCheck, BadgeCheck,
   Search, Heart, MessageCircle, Stethoscope, FileCheck2, Building2,
-  Flame, Gift, Wallet, Users, Plane,
+  Flame, Gift, Wallet, Users, Plane, ChevronLeft, ChevronRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Footer from "@/components/Footer";
@@ -45,6 +46,8 @@ const treatments: Treatment[] = [
 // ============== Sections ==============
 const Hero = () => {
   const { t, lang } = useAsia();
+  const videoRail = useRef<HTMLDivElement>(null);
+  const moveVideos = (direction: number) => videoRail.current?.scrollBy({ left: direction * 420, behavior: "smooth" });
   return (
     <section className="relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-hero opacity-90" />
@@ -53,8 +56,8 @@ const Hero = () => {
       <div className="absolute top-40 right-0 size-80 bg-gradient-peach blur-3xl opacity-50 animate-blob" style={{ animationDelay: "2s" }} />
 
       <div className="container relative py-10 sm:py-14 md:py-24">
-        <div className="grid lg:grid-cols-12 gap-8 md:gap-10 items-center">
-          <div className="lg:col-span-7 space-y-4 md:space-y-6">
+        <div className="flex flex-col gap-8 md:gap-10">
+          <div className="space-y-4 md:space-y-6 text-center max-w-4xl mx-auto w-full">
             <span className="pill bg-card/80 backdrop-blur shadow-soft max-w-full leading-relaxed">
               <ShieldCheck className="size-3.5 text-primary" />
               {t("hero.badge")}
@@ -63,19 +66,19 @@ const Hero = () => {
               {t("hero.title1")}<br />
               <em className="text-primary not-italic">{t("hero.titleEm")}</em>
             </h1>
-            <p className="text-[15px] md:text-lg leading-relaxed text-muted-foreground max-w-xl">{t("hero.subtitle")}</p>
+            <p className="text-[15px] md:text-lg leading-relaxed text-muted-foreground max-w-2xl mx-auto">{t("hero.subtitle")}</p>
 
-            <div className="bg-card rounded-2xl md:rounded-3xl p-2 shadow-pop flex flex-col sm:flex-row gap-2 max-w-2xl">
+            <div className="bg-card rounded-full p-2 shadow-pop flex gap-2 max-w-2xl mx-auto border border-border/60">
               <div className="flex-1 px-3 md:px-5 py-2.5 md:py-3 flex items-center gap-3 min-w-0">
                 <Search className="size-4 text-muted-foreground shrink-0" />
                 <input className="w-full bg-transparent outline-none text-sm font-medium" placeholder={t("hero.searchPh")} />
               </div>
-              <Button size="lg" className="rounded-xl md:rounded-2xl bg-foreground text-background hover:bg-foreground/90 h-12 sm:h-auto px-6 w-full sm:w-auto">
-                {t("hero.cta")} <ArrowRight className="ml-1 size-4" />
+              <Button size="lg" className="rounded-full bg-foreground text-background hover:bg-foreground/90 h-12 px-5 md:px-7 shrink-0">
+                <span className="hidden sm:inline">{t("hero.cta")}</span><Search className="sm:hidden size-4" /><ArrowRight className="ml-1 size-4 hidden sm:block" />
               </Button>
             </div>
 
-            <div className="flex gap-2 pt-1 overflow-x-auto scrollbar-hide -mx-1 px-1 pb-1 sm:flex-wrap">
+            <div className="flex gap-2 pt-1 overflow-x-auto scrollbar-hide -mx-1 px-1 pb-1 sm:flex-wrap sm:justify-center">
               <span className="text-xs uppercase tracking-wider text-muted-foreground font-semibold mr-1">{t("hero.hot")}</span>
               {(lang === "zh" ? ["鼻综合", "面部拉皮", "双眼皮/眼袋", "吸脂", "腹壁整形", "巴西提臀", "隆胸", "脂肪填充"] : ["Rhinoplasty", "Facelift", "Blepharoplasty", "Liposuction", "Tummy Tuck", "BBL", "Breast Aug", "Fat Grafting"]).map((p) => (
                 <span key={p} className="pill bg-card/80 backdrop-blur shadow-soft text-foreground shrink-0">
@@ -84,31 +87,47 @@ const Hero = () => {
               ))}
             </div>
 
-            <div className="grid grid-cols-1 sm:flex sm:flex-wrap items-center gap-2 sm:gap-x-6 pt-2 text-xs sm:text-sm text-muted-foreground">
+            <div className="flex flex-wrap justify-center items-center gap-2 sm:gap-x-6 pt-2 text-xs sm:text-sm text-muted-foreground">
               <span className="flex items-center gap-1.5"><FileCheck2 className="size-4 text-primary" /> {t("hero.feat1")}</span>
               <span className="flex items-center gap-1.5"><Building2 className="size-4 text-primary" /> {t("hero.feat2")}</span>
               <span className="flex items-center gap-1.5"><Wallet className="size-4 text-primary" /> {t("hero.feat3")}</span>
             </div>
           </div>
 
-          <div className="lg:col-span-5 hidden lg:flex flex-col justify-center">
-            <div className="flex items-center justify-between mb-3 px-1">
-              <p className="text-sm font-semibold text-muted-foreground">
-                {lang === "zh" ? "真实案例短视频" : "Real patient video diaries"}
-              </p>
-              <Link
+          <div className="w-full flex flex-col justify-center rounded-[1.75rem] border border-primary/20 bg-card/80 backdrop-blur-md p-4 md:p-6 shadow-pop">
+            <div className="flex items-center justify-between mb-4 gap-3 px-1">
+              <div>
+                <span className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-primary">
+                  <Sparkles className="size-3" /> {lang === "zh" ? "热门内容" : "Trending now"}
+                </span>
+                <p className="font-display text-xl md:text-2xl font-semibold mt-1">
+                  {lang === "zh" ? "真实案例短视频" : "Real patient video diaries"}
+                </p>
+                <p className="text-xs text-muted-foreground mt-0.5">
+                  {lang === "zh" ? "滑动查看真实恢复过程" : "Swipe through real recovery journeys"}
+                </p>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <button type="button" onClick={() => moveVideos(-1)} aria-label="Previous videos" className="hidden md:grid size-9 place-items-center rounded-full border bg-background hover:bg-muted">
+                  <ChevronLeft className="size-4" />
+                </button>
+                <button type="button" onClick={() => moveVideos(1)} aria-label="Next videos" className="hidden md:grid size-9 place-items-center rounded-full border bg-background hover:bg-muted">
+                  <ChevronRight className="size-4" />
+                </button>
+                <Link
                 to="/cases"
-                className="inline-flex items-center gap-1.5 rounded-full bg-foreground text-background px-4 py-2 text-xs font-semibold shadow-soft hover:shadow-pop hover:-translate-y-0.5 transition-all"
+                className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-primary text-primary-foreground px-4 py-2.5 text-xs font-bold shadow-soft hover:shadow-pop hover:-translate-y-0.5 transition-all"
               >
-                {lang === "zh" ? "见证真实蜕变" : "Watch real transformations"} <ArrowRight className="size-3.5" />
+                {lang === "zh" ? "全部视频" : "Watch all"} <ArrowRight className="size-3.5" />
               </Link>
+              </div>
             </div>
-            <div className="flex gap-3 overflow-x-auto pb-3 scrollbar-hide snap-x snap-mandatory">
+            <div ref={videoRail} onWheel={(e) => { if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) e.currentTarget.scrollLeft += e.deltaY; }} className="flex gap-3 md:gap-4 overflow-x-auto pb-3 scrollbar-hide snap-x snap-mandatory cursor-grab active:cursor-grabbing overscroll-x-contain">
               {TIKTOK_CASES.slice(0, 6).map((it) => (
                 <Link
                   key={it.id}
                   to={`/cases/${it.id}`}
-                  className="snap-start shrink-0 relative w-36 aspect-[9/16] rounded-2xl overflow-hidden shadow-pop group block"
+                  className="snap-start shrink-0 relative w-[42vw] max-w-48 md:w-44 lg:w-48 aspect-[9/16] rounded-2xl overflow-hidden shadow-pop ring-1 ring-black/5 group block transition-transform hover:-translate-y-1"
                 >
                   <video
                     src={it.src}

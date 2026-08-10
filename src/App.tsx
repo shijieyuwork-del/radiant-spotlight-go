@@ -19,6 +19,8 @@ import Packages from "./pages/Packages.tsx";
 import Treatments from "./pages/Treatments.tsx";
 import TreatmentDetail from "./pages/TreatmentDetail.tsx";
 import Auth from "./pages/Auth.tsx";
+import VideoAdmin from "./pages/VideoAdmin.tsx";
+import WhyChina from "./pages/WhyChina.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -45,7 +47,10 @@ const App = () => (
                     <Route path="/treatments" element={<Treatments />} />
                     <Route path="/treatments/:slug" element={<TreatmentDetail />} />
                     <Route path="/packages" element={<Packages />} />
+                    <Route path="/why-china" element={<WhyChina />} />
                     <Route path="/auth" element={<Auth />} />
+                    <Route path="/admin/videos" element={<VideoAdmin />} />
+                    <Route path="/upload" element={<VideoAdmin />} />
                     <Route path="/cn" element={<Navigate to="/" replace />} />
                     <Route path="/:lang/*" element={<Navigate to="/" replace />} />
                     <Route path="*" element={<NotFound />} />
