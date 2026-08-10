@@ -96,8 +96,11 @@ const Hero = () => {
               <p className="text-sm font-semibold text-muted-foreground">
                 {lang === "zh" ? "真实案例短视频" : "Real patient video diaries"}
               </p>
-              <Link to="/cases" className="text-xs font-semibold text-primary inline-flex items-center gap-1 hover:gap-2 transition-all">
-                {lang === "zh" ? "查看更多" : "View all"} <ArrowRight className="size-3" />
+              <Link
+                to="/cases"
+                className="inline-flex items-center gap-1.5 rounded-full bg-foreground text-background px-4 py-2 text-xs font-semibold shadow-soft hover:shadow-pop hover:-translate-y-0.5 transition-all"
+              >
+                {lang === "zh" ? "见证真实蜕变" : "Watch real transformations"} <ArrowRight className="size-3.5" />
               </Link>
             </div>
             <div className="flex gap-3 overflow-x-auto pb-3 scrollbar-hide snap-x snap-mandatory">
