@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Check, Sparkles, Crown, Gem, ArrowRight } from "lucide-react";
+import { Check, Sparkles, Crown, Gem, ArrowRight, ShieldCheck } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
