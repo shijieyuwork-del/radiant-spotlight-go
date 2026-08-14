@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Sparkles, DollarSign, Languages, MessageCircle, LogOut, User as UserIcon, Menu, ChevronRight } from "lucide-react";
+import { DollarSign, Languages, MessageCircle, LogOut, User as UserIcon, Menu, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel,
@@ -8,6 +8,7 @@ import { useAsia, asiaLangLabel as langLabel, type AsiaLang as Lang } from "@/li
 import { useQuote } from "@/components/QuoteRequest";
 import { useAuth } from "@/lib/auth";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import BrandLogo from "@/components/BrandLogo";
 
 type Props = { homeLinks?: boolean };
 
@@ -18,11 +19,12 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
   const navigate = useNavigate();
   const links = homeLinks
     ? [
+        { to: "/", label: lang === "zh" ? "首页" : "Home" },
         { to: "/cities", label: t("nav.cities") },
         { to: "/treatments", label: t("nav.projects") },
         { to: "/cases", label: t("nav.cases") },
         { to: "/doctors", label: t("nav.compliance") },
-        { to: "/packages", label: lang === "zh" ? "服务套餐" : "Packages" },
+        { to: "/travel-packages", label: lang === "zh" ? "旅行套餐" : "Travel Packages" },
         { to: "/why-china", label: lang === "zh" ? "为什么选中国" : "Why China" },
       ]
     : [
@@ -33,16 +35,11 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
     <header className="sticky top-0 z-50 backdrop-blur-xl bg-background/80 border-b border-border/60">
       <nav className="container flex h-14 md:h-16 items-center justify-between gap-3">
         <Link to="/" className="flex items-center gap-2 shrink-0">
-          <div className="grid place-items-center size-8 md:size-9 rounded-xl md:rounded-2xl bg-gradient-mint shadow-glow">
-            <Sparkles className="size-4 text-foreground" />
-          </div>
-          <span className="font-display text-lg md:text-xl font-semibold tracking-tight">
-            cosmetics<span className="text-primary">·{t("brand.suffix")}</span>
-          </span>
+          <BrandLogo markClassName="size-8 md:size-9" textClassName="text-lg md:text-xl" />
         </Link>
-        <div className="hidden md:flex items-center gap-1 rounded-full bg-muted/60 p-1">
+        <div className="hidden md:flex items-center gap-0.5 rounded-full bg-muted/60 p-1">
           {links.map((l) => (
-            <Link key={l.to} to={l.to} className="px-4 py-1.5 rounded-full text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            <Link key={l.to} to={l.to} className="whitespace-nowrap px-2.5 xl:px-4 py-1.5 rounded-full text-[13px] xl:text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
               {l.label}
             </Link>
           ))}
@@ -115,7 +112,7 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
           </SheetTrigger>
           <SheetContent side="right" className="w-[88vw] max-w-sm p-0">
             <SheetHeader className="p-5 border-b text-left">
-              <SheetTitle className="font-display text-xl">cosmetics<span className="text-primary">·{t("brand.suffix")}</span></SheetTitle>
+              <SheetTitle><BrandLogo /></SheetTitle>
             </SheetHeader>
             <div className="p-4 flex flex-col h-[calc(100%-73px)]">
               <div className="space-y-1">

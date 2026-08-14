@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom";
-import { useRef } from "react";
 import {
   Sparkles, ArrowRight, Star, MapPin, ShieldCheck, BadgeCheck,
-  Search, Heart, MessageCircle, Stethoscope, FileCheck2, Building2,
-  Flame, Gift, Wallet, Users, Plane, ChevronLeft, ChevronRight,
+  Search, Stethoscope, FileCheck2, Building2,
+  Flame, Gift, Wallet, Users, Plane,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Footer from "@/components/Footer";
@@ -15,7 +14,19 @@ import { DOCTORS } from "@/data/doctors";
 import { CITIES } from "@/data/cities";
 import { useAsia } from "@/lib/asia-i18n";
 import { ORGANIZATION_SCHEMA } from "@/lib/seo-config";
+import { useQuote } from "@/components/QuoteRequest";
 import heroBg from "@/assets/hero-bg.jpg";
+import treatmentRhinoplasty from "@/assets/treatment-rhinoplasty.jpg";
+import treatmentFacelift from "@/assets/treatment-facelift.jpg";
+import treatmentNeckLift from "@/assets/treatment-neck-lift.jpg";
+import treatmentEyelid from "@/assets/treatment-eyelid.jpg";
+import treatmentFatGrafting from "@/assets/treatment-fat-grafting.jpg";
+import treatmentLiposuction from "@/assets/treatment-liposuction.jpg";
+import treatmentTummyTuck from "@/assets/treatment-tummy-tuck.jpg";
+import treatmentBbl from "@/assets/treatment-bbl.jpg";
+import treatmentBreastAugmentation from "@/assets/treatment-breast-augmentation.jpg";
+import treatmentBreastLift from "@/assets/treatment-breast-lift.jpg";
+import treatmentBodyContouring from "@/assets/treatment-body-contouring.jpg";
 
 // ============== Data (bilingual) ==============
 const cities = CITIES;
@@ -23,19 +34,20 @@ const cities = CITIES;
 type Treatment = {
   zh: string; en: string; emoji: string; from: number; orig?: number;
   groupPrice?: number; tag?: { en: string; zh: string }; grad: string;
+  image: string;
 };
 const treatments: Treatment[] = [
-  { zh: "鼻综合", en: "Rhinoplasty", emoji: "👃", from: 18800, orig: 28000, groupPrice: 15800, tag: { en: "TOP 1", zh: "热度TOP1" }, grad: "from-[hsl(340,85%,88%)] to-[hsl(18,90%,88%)]" },
-  { zh: "面部拉皮 (SMAS)", en: "Facelift (SMAS)", emoji: "✨", from: 88000, orig: 128000, groupPrice: 78000, tag: { en: "Signature", zh: "招牌项目" }, grad: "from-[hsl(190,70%,88%)] to-[hsl(155,70%,88%)]" },
-  { zh: "颈部提升", en: "Neck Lift", emoji: "🦢", from: 68000, orig: 88000, tag: { en: "Pairs with facelift", zh: "搭配拉皮" }, grad: "from-[hsl(155,60%,80%)] to-[hsl(190,70%,88%)]" },
-  { zh: "双眼皮 / 眼袋", en: "Blepharoplasty (upper + lower)", emoji: "👁️", from: 12800, orig: 19800, groupPrice: 11800, tag: { en: "New patient", zh: "新人专享" }, grad: "from-[hsl(50,80%,90%)] to-[hsl(340,85%,90%)]" },
-  { zh: "面部脂肪填充", en: "Facial Fat Grafting", emoji: "🪞", from: 26800, orig: 38000, groupPrice: 24800, tag: { en: "Recommended", zh: "推荐" }, grad: "from-[hsl(340,85%,90%)] to-[hsl(155,60%,85%)]" },
-  { zh: "吸脂塑形", en: "Liposuction", emoji: "⚡", from: 32000, orig: 48000, groupPrice: 28000, tag: { en: "Sculpt", zh: "塑形" }, grad: "from-[hsl(155,60%,85%)] to-[hsl(190,70%,88%)]" },
-  { zh: "腹壁整形 (Tummy Tuck)", en: "Tummy Tuck / Mommy Makeover", emoji: "🤰", from: 78000, orig: 108000, tag: { en: "Mommy makeover", zh: "产后修复" }, grad: "from-[hsl(18,90%,88%)] to-[hsl(50,80%,90%)]" },
-  { zh: "巴西提臀 (BBL)", en: "Brazilian Butt Lift (BBL)", emoji: "🍑", from: 96000, orig: 138000, tag: { en: "Hot", zh: "热门" }, grad: "from-[hsl(340,85%,88%)] to-[hsl(18,90%,88%)]" },
-  { zh: "隆胸 (Motiva)", en: "Breast Augmentation (Motiva)", emoji: "💗", from: 88000, orig: 128000, groupPrice: 82000, tag: { en: "Authentic implants", zh: "正品假体" }, grad: "from-[hsl(340,85%,90%)] to-[hsl(190,70%,88%)]" },
-  { zh: "提胸 (Mastopexy)", en: "Breast Lift (Mastopexy)", emoji: "🌷", from: 72000, orig: 98000, grad: "from-[hsl(155,70%,88%)] to-[hsl(50,80%,90%)]" },
-  { zh: "全身体形雕塑", en: "Full Body Contouring", emoji: "🧬", from: 128000, orig: 168000, tag: { en: "Premier", zh: "高端" }, grad: "from-[hsl(190,70%,88%)] to-[hsl(340,85%,90%)]" },
+  { zh: "鼻综合", en: "Rhinoplasty", emoji: "👃", from: 18800, orig: 28000, groupPrice: 15800, tag: { en: "TOP 1", zh: "热度TOP1" }, grad: "", image: treatmentRhinoplasty },
+  { zh: "面部拉皮 (SMAS)", en: "Facelift (SMAS)", emoji: "✨", from: 88000, orig: 128000, groupPrice: 78000, tag: { en: "Signature", zh: "招牌项目" }, grad: "", image: treatmentFacelift },
+  { zh: "颈部提升", en: "Neck Lift", emoji: "🦢", from: 68000, orig: 88000, tag: { en: "Pairs with facelift", zh: "搭配拉皮" }, grad: "", image: treatmentNeckLift },
+  { zh: "双眼皮 / 眼袋", en: "Blepharoplasty (upper + lower)", emoji: "👁️", from: 12800, orig: 19800, groupPrice: 11800, tag: { en: "New patient", zh: "新人专享" }, grad: "", image: treatmentEyelid },
+  { zh: "面部脂肪填充", en: "Facial Fat Grafting", emoji: "🪞", from: 26800, orig: 38000, groupPrice: 24800, tag: { en: "Recommended", zh: "推荐" }, grad: "", image: treatmentFatGrafting },
+  { zh: "吸脂塑形", en: "Liposuction", emoji: "⚡", from: 32000, orig: 48000, groupPrice: 28000, tag: { en: "Sculpt", zh: "塑形" }, grad: "", image: treatmentLiposuction },
+  { zh: "腹壁整形 (Tummy Tuck)", en: "Tummy Tuck / Mommy Makeover", emoji: "🤰", from: 78000, orig: 108000, tag: { en: "Mommy makeover", zh: "产后修复" }, grad: "", image: treatmentTummyTuck },
+  { zh: "巴西提臀 (BBL)", en: "Brazilian Butt Lift (BBL)", emoji: "🍑", from: 96000, orig: 138000, tag: { en: "Hot", zh: "热门" }, grad: "", image: treatmentBbl },
+  { zh: "隆胸 (Motiva)", en: "Breast Augmentation (Motiva)", emoji: "💗", from: 88000, orig: 128000, groupPrice: 82000, tag: { en: "Authentic implants", zh: "正品假体" }, grad: "", image: treatmentBreastAugmentation },
+  { zh: "提胸 (Mastopexy)", en: "Breast Lift (Mastopexy)", emoji: "🌷", from: 72000, orig: 98000, grad: "", image: treatmentBreastLift },
+  { zh: "全身体形雕塑", en: "Full Body Contouring", emoji: "🧬", from: 128000, orig: 168000, tag: { en: "Premier", zh: "高端" }, grad: "", image: treatmentBodyContouring },
 ];
 
 // Clinics data removed — patients select by doctor, not by clinic.
@@ -45,9 +57,7 @@ const treatments: Treatment[] = [
 
 // ============== Sections ==============
 const Hero = () => {
-  const { t, lang } = useAsia();
-  const videoRail = useRef<HTMLDivElement>(null);
-  const moveVideos = (direction: number) => videoRail.current?.scrollBy({ left: direction * 420, behavior: "smooth" });
+  const { t, lang, fmt } = useAsia();
   return (
     <section className="relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-hero opacity-90" />
@@ -94,8 +104,8 @@ const Hero = () => {
             </div>
           </div>
 
-          <div className="w-full flex flex-col justify-center rounded-[1.75rem] border border-primary/20 bg-card/80 backdrop-blur-md p-4 md:p-6 shadow-pop">
-            <div className="flex items-center justify-between mb-4 gap-3 px-1">
+          <div className="w-full">
+            <div className="mb-4 flex items-center justify-between gap-3 px-1">
               <div>
                 <span className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-primary">
                   <Sparkles className="size-3" /> {lang === "zh" ? "热门内容" : "Trending now"}
@@ -107,50 +117,14 @@ const Hero = () => {
                   {lang === "zh" ? "滑动查看真实恢复过程" : "Swipe through real recovery journeys"}
                 </p>
               </div>
-              <div className="flex items-center gap-1.5">
-                <button type="button" onClick={() => moveVideos(-1)} aria-label="Previous videos" className="hidden md:grid size-9 place-items-center rounded-full border bg-background hover:bg-muted">
-                  <ChevronLeft className="size-4" />
-                </button>
-                <button type="button" onClick={() => moveVideos(1)} aria-label="Next videos" className="hidden md:grid size-9 place-items-center rounded-full border bg-background hover:bg-muted">
-                  <ChevronRight className="size-4" />
-                </button>
-                <Link
+              <Link
                 to="/cases"
                 className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-primary text-primary-foreground px-4 py-2.5 text-xs font-bold shadow-soft hover:shadow-pop hover:-translate-y-0.5 transition-all"
               >
                 {lang === "zh" ? "全部视频" : "Watch all"} <ArrowRight className="size-3.5" />
               </Link>
-              </div>
             </div>
-            <div ref={videoRail} onWheel={(e) => { if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) e.currentTarget.scrollLeft += e.deltaY; }} className="flex gap-3 md:gap-4 overflow-x-auto pb-3 scrollbar-hide snap-x snap-mandatory cursor-grab active:cursor-grabbing overscroll-x-contain">
-              {TIKTOK_CASES.slice(0, 6).map((it) => (
-                <Link
-                  key={it.id}
-                  to={`/cases/${it.id}`}
-                  className="snap-start shrink-0 relative w-[42vw] max-w-48 md:w-44 lg:w-48 aspect-[9/16] rounded-2xl overflow-hidden shadow-pop ring-1 ring-black/5 group block transition-transform hover:-translate-y-1"
-                >
-                  <video
-                    src={it.src}
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    preload="metadata"
-                    className="absolute inset-0 size-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20 pointer-events-none" />
-                  <div className="absolute top-2 left-2 right-2">
-                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/90 text-foreground font-semibold truncate block">
-                      {it.treatment[lang === "ru" ? "en" : lang]}
-                    </span>
-                  </div>
-                  <div className="absolute inset-x-0 bottom-0 p-2.5">
-                    <p className="text-[11px] font-semibold text-white truncate">{it.user[lang === "ru" ? "en" : lang]}</p>
-                    <p className="text-[10px] text-white/80 line-clamp-1">{it.caption[lang === "ru" ? "en" : lang]}</p>
-                  </div>
-                </Link>
-              ))}
-            </div>
+            <TikTokWall items={TIKTOK_CASES.slice(0, 7)} lang={lang} fmtPrice={fmt} variant="preview" />
           </div>
         </div>
       </div>
@@ -199,20 +173,24 @@ const CitiesSection = () => {
       </div>
       <div className="flex md:grid md:grid-cols-3 lg:grid-cols-5 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0 pb-3">
         {cities.map((c) => (
-          <Link key={c.slug} to={`/cities/${c.slug}`} className="min-w-[78vw] sm:min-w-[46vw] md:min-w-0 snap-center rounded-3xl bg-card shadow-soft hover:shadow-pop transition-all hover:-translate-y-1 p-5 group">
-            <p className="font-display text-2xl font-semibold">{lang === "zh" ? c.zh : c.en}</p>
-            <p className="text-xs text-muted-foreground">{lang === "zh" ? c.en : c.zh}</p>
-            <p className="text-xs text-muted-foreground mt-3">
+          <Link key={c.slug} to={`/cities/${c.slug}`} className="group relative flex min-h-[390px] min-w-[78vw] snap-center flex-col justify-end overflow-hidden rounded-[2rem] p-5 text-white shadow-soft transition-all duration-500 hover:-translate-y-1 hover:shadow-pop sm:min-w-[46vw] md:min-w-0">
+            <img src={c.img} alt={`${c.en} city`} className="absolute inset-0 size-full object-cover transition-transform duration-700 group-hover:scale-105" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-black/10" />
+            <div className="relative z-10">
+            <p className="font-display text-3xl font-semibold">{lang === "zh" ? c.zh : c.en}</p>
+            <p className="text-sm text-white/75">{lang === "zh" ? c.en : c.zh}</p>
+            <p className="mt-4 text-xs font-semibold uppercase tracking-[0.14em] text-white/75">
               {lang === "zh" ? "热门手术" : "Trending procedures"}
             </p>
             <div className="flex flex-wrap gap-1 mt-2">
               {(lang === "zh" ? c.hotZh : c.hotEn).map((h) => (
-                <span key={h} className="text-[10px] px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground">{h}</span>
+                <span key={h} className="rounded-full border border-white/20 bg-white/20 px-2.5 py-1 text-[10px] font-medium text-white backdrop-blur-md">{h}</span>
               ))}
             </div>
-            <p className="text-[11px] text-primary font-semibold mt-3 inline-flex items-center gap-1 group-hover:translate-x-0.5 transition">
+            <p className="mt-4 inline-flex items-center gap-1 rounded-full bg-white px-3 py-1.5 text-[11px] font-semibold text-foreground transition group-hover:gap-2">
               {lang === "zh" ? "查看城市" : "Explore city"} <ArrowRight className="size-3" />
             </p>
+            </div>
           </Link>
         ))}
       </div>
@@ -227,6 +205,19 @@ const CitiesSection = () => {
 
 const TreatmentsSection = () => {
   const { t, lang, fmt } = useAsia();
+  const editorialSizes = [
+    "md:col-span-6 md:row-span-2",
+    "md:col-span-3",
+    "md:col-span-3",
+    "md:col-span-3",
+    "md:col-span-3",
+    "md:col-span-4",
+    "md:col-span-4",
+    "md:col-span-4",
+    "md:col-span-5",
+    "md:col-span-3",
+    "md:col-span-4",
+  ];
   return (
     <section id="projects" className="container py-12 md:py-20">
       <div className="mb-8">
@@ -236,29 +227,39 @@ const TreatmentsSection = () => {
         </h2>
         <p className="text-muted-foreground mt-2 text-sm">{t("tx.note")}</p>
       </div>
-      <div className="flex md:grid md:grid-cols-4 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0 pb-3">
-        {treatments.map((tx) => (
-          <div key={tx.en} className={`min-w-[76vw] sm:min-w-[44vw] md:min-w-0 snap-center rounded-3xl p-5 bg-gradient-to-br ${tx.grad} hover:-translate-y-1 transition-transform shadow-soft relative overflow-hidden`}>
+      <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide -mx-4 px-4 pb-3 md:mx-0 md:grid md:auto-rows-[250px] md:grid-cols-12 md:gap-5 md:overflow-visible md:px-0">
+        {treatments.map((tx, index) => (
+          <Link
+            to={`/treatments/${tx.en.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")}`}
+            key={tx.en}
+            className={`group relative flex min-h-[360px] min-w-[78vw] snap-center flex-col justify-end overflow-hidden rounded-[2rem] p-5 shadow-soft transition-all duration-500 hover:-translate-y-1 hover:shadow-pop sm:min-w-[44vw] md:min-h-0 md:min-w-0 ${editorialSizes[index] ?? "md:col-span-4"}`}
+          >
+            <img src={tx.image} alt="" className="absolute inset-0 size-full object-cover transition-transform duration-700 group-hover:scale-105" aria-hidden="true" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-black/10 transition-colors duration-500 group-hover:via-black/20" />
+            <span className="absolute left-5 top-4 z-10 font-display text-4xl font-medium text-white/25" aria-hidden="true">
+              {String(index + 1).padStart(2, "0")}
+            </span>
             {tx.tag && (
-              <span className="absolute top-3 right-3 text-[10px] px-2 py-0.5 rounded-full bg-foreground text-background font-semibold">
+              <span className="absolute top-3 right-3 z-10 text-[10px] px-2.5 py-1 rounded-full bg-black/65 backdrop-blur text-white font-semibold">
                 {lang === "zh" ? tx.tag.zh : tx.tag.en}
               </span>
             )}
-            <div className="text-3xl">{tx.emoji}</div>
-            <p className="font-display text-lg font-semibold mt-3 leading-tight">{lang === "zh" ? tx.zh : tx.en}</p>
+            <div className="relative z-10 text-white">
+            <p className={`font-display font-medium leading-tight tracking-tight ${index === 0 ? "text-3xl md:max-w-md md:text-4xl" : "text-xl"}`}>{lang === "zh" ? tx.zh : tx.en}</p>
             <div className="mt-3 flex items-baseline gap-2 flex-wrap">
-              <span className="font-display text-2xl font-semibold">{fmt(tx.from)}</span>
-              {tx.orig && <span className="text-xs line-through text-muted-foreground">{fmt(tx.orig)}</span>}
+              <span className={`font-display font-semibold ${index === 0 ? "text-3xl" : "text-2xl"}`}>{fmt(tx.from)}</span>
+              {tx.orig && <span className="text-xs line-through text-white/60">{fmt(tx.orig)}</span>}
             </div>
             {tx.groupPrice && (
-              <p className="text-xs mt-1 flex items-center gap-1 text-foreground/80">
+              <p className="text-xs mt-1 flex items-center gap-1 text-white/80">
                 <Users className="size-3" /> {t("tx.group")} {fmt(tx.groupPrice)}
               </p>
             )}
-            <Button variant="outline" size="sm" className="mt-4 rounded-full bg-card/70 backdrop-blur border-0 w-full">
+            <Button variant="outline" size="sm" className={`mt-4 rounded-full border-0 bg-white/90 text-foreground backdrop-blur hover:bg-white ${index === 0 ? "w-full md:w-auto md:px-8" : "w-full"}`}>
               {t("tx.book")} <ArrowRight className="ml-1 size-3" />
             </Button>
-          </div>
+            </div>
+          </Link>
         ))}
       </div>
     </section>
@@ -350,26 +351,54 @@ const DoctorsSection = () => {
   );
 };
 
-const CasesSection = () => {
-  const { t, lang, fmt } = useAsia();
+const HowItWorks = () => {
+  const { lang } = useAsia();
+  const { open } = useQuote();
+  const zh = lang === "zh";
+  const steps = [
+    {
+      icon: Search,
+      title: zh ? "告诉我们你的需求" : "Tell us what you want",
+      text: zh ? "分享项目、预算和希望前往的城市。" : "Share the procedure, budget and city you have in mind.",
+    },
+    {
+      icon: BadgeCheck,
+      title: zh ? "比较适合的医生" : "Compare verified doctors",
+      text: zh ? "查看医生背景、相关案例和清晰费用。" : "Review credentials, relevant cases and itemized pricing.",
+    },
+    {
+      icon: Plane,
+      title: zh ? "安心前往中国" : "Travel with full support",
+      text: zh ? "我们协调行程、翻译、接送和术后支持。" : "We coordinate travel, translation, transfers and aftercare.",
+    },
+  ];
+
   return (
-    <section id="cases" className="container py-12 md:py-20">
-      <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
-        <div>
-          <span className="pill bg-accent text-accent-foreground mb-3"><Heart className="size-3.5" /> {t("cases.kicker")}</span>
-          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight">
-            {t("cases.title1")} <em className="text-primary not-italic">{t("cases.titleEm")}</em>
-          </h2>
-          <p className="text-sm text-muted-foreground mt-2">{t("cases.wallSub")}</p>
+    <section className="container py-12 md:py-20">
+      <div className="rounded-[2rem] border border-primary/15 bg-card p-6 shadow-soft md:p-10">
+        <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+          <div className="max-w-2xl">
+            <span className="pill mb-3 bg-accent text-accent-foreground"><Sparkles className="size-3.5" /> {zh ? "简单三步" : "A simple three-step process"}</span>
+            <h2 className="font-display text-3xl font-medium tracking-tight sm:text-4xl md:text-5xl">
+              {zh ? "从想法到中国，" : "From first question to China, "}<em className="text-primary not-italic">{zh ? "全程有人协助" : "we coordinate the details"}</em>
+            </h2>
+          </div>
+          <Button size="lg" onClick={() => open()} className="shrink-0 rounded-full bg-foreground px-7 text-background hover:bg-foreground/90">
+            {zh ? "开始免费咨询" : "Start your free consultation"}<ArrowRight className="ml-2 size-4" />
+          </Button>
         </div>
-        <Link
-          to="/cases"
-          className="text-sm font-semibold pill bg-foreground text-background hover:bg-foreground/90 px-5 py-2"
-        >
-          {t("cases.viewAll")} <ArrowRight className="size-4" />
-        </Link>
+
+        <div className="mt-9 grid gap-4 md:grid-cols-3">
+          {steps.map((step, index) => (
+            <article key={step.title} className="relative rounded-3xl bg-muted/45 p-6">
+              <span className="absolute right-5 top-4 font-display text-4xl text-primary/20">0{index + 1}</span>
+              <span className="grid size-11 place-items-center rounded-2xl bg-primary/15 text-primary"><step.icon className="size-5" /></span>
+              <h3 className="mt-5 font-display text-xl font-medium tracking-tight">{step.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{step.text}</p>
+            </article>
+          ))}
+        </div>
       </div>
-      <TikTokWall items={TIKTOK_CASES} lang={lang} fmtPrice={fmt} variant="preview" />
     </section>
   );
 };
@@ -392,12 +421,73 @@ const PromoBar = () => {
   );
 };
 
+const PatientReviewsSection = () => {
+  const { lang } = useAsia();
+  const zh = lang === "zh";
+  const standards = [
+    {
+      title: zh ? "核验就诊记录" : "Booking or visit verified",
+      text: zh ? "仅在确认预约或到院记录后添加 Verified 标识。" : "The Verified label appears only after booking or clinic attendance is confirmed.",
+    },
+    {
+      title: zh ? "保留真实感受" : "Opinions stay in the patient's words",
+      text: zh ? "我们不会为了营销而改写患者对沟通、恢复或服务的评价。" : "We do not rewrite opinions about communication, recovery or service for marketing.",
+    },
+    {
+      title: zh ? "医疗结果因人而异" : "Outcomes vary by patient",
+      text: zh ? "评价代表个人经历，不构成疗效保证或医疗建议。" : "A review reflects one person's experience—not a promise of results or medical advice.",
+    },
+  ];
+
+  return (
+    <section className="container py-12 md:py-20">
+      <div className="relative overflow-hidden rounded-[2.25rem] bg-foreground px-6 py-9 text-background shadow-pop md:px-10 md:py-12">
+        <div className="absolute -right-24 -top-28 size-80 rounded-full bg-primary/30 blur-3xl" />
+        <div className="absolute -bottom-32 left-1/4 size-72 rounded-full bg-accent/20 blur-3xl" />
+        <div className="relative">
+          <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+            <div className="max-w-3xl">
+              <span className="pill mb-3 bg-accent text-accent-foreground"><Star className="size-3.5 fill-primary text-primary" /> {zh ? "已核验患者评价" : "Verified patient reviews"}</span>
+              <h2 className="font-display text-3xl font-medium tracking-tight sm:text-4xl md:text-5xl">
+                {zh ? "真实经历，" : "Real experiences, "}<em className="not-italic text-primary">{zh ? "不制造完美故事" : "without the polished sales script"}</em>
+              </h2>
+              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-background/70 md:text-base">
+                {zh
+                  ? "我们正在收集首批通过 Cosmetics Asia 预约的患者评价。评价会在核验后公开展示；在此之前，我们不会使用虚构姓名、星级或手术结果填充页面。"
+                  : "We are collecting the first reviews from patients booked through Cosmetics Asia. Reviews will appear after verification; until then, we will not fill this space with invented names, ratings or outcomes."}
+              </p>
+            </div>
+            <Button asChild size="lg" className="w-fit shrink-0 rounded-full bg-primary px-7 text-primary-foreground hover:bg-primary/90">
+              <a href="https://wa.me/14708613825?text=I%27d%20like%20to%20share%20my%20Cosmetics%20Asia%20experience" target="_blank" rel="noreferrer">
+                {zh ? "提交我的评价" : "Share your experience"}<ArrowRight className="ml-2 size-4" />
+              </a>
+            </Button>
+          </div>
+
+          <div className="mt-9 grid gap-3 md:grid-cols-3">
+            {standards.map((item, index) => (
+              <article key={item.title} className="rounded-3xl border border-background/10 bg-background/[0.06] p-5 backdrop-blur-sm">
+                <div className="flex items-center justify-between gap-3">
+                  <ShieldCheck className="size-5 text-primary" />
+                  <span className="font-display text-2xl text-background/20">0{index + 1}</span>
+                </div>
+                <h3 className="mt-4 font-display text-lg font-medium">{item.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-background/65">{item.text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 // ============== Page ==============
 const AsiaIndex = () => (
   <>
     <PageMeta
-      title="Beauty in Asia, Made Simple | Medical Aesthetics"
-      description="Cosmetics Asia connects you with 6,000+ board-certified surgeons across Asia. Watch real before-after videos, compare prices, book procedures in seconds. 100k+ verified cases."
+      title="Beauty in China, Made Simple | Cosmetic Medical Travel"
+      description="Cosmetics Asia connects international patients with licensed cosmetic surgeons across China. Watch real before-after videos, compare prices, and plan your medical trip."
       path="/"
       structuredData={ORGANIZATION_SCHEMA}
     />
@@ -408,8 +498,9 @@ const AsiaIndex = () => (
       <CitiesSection />
       <TreatmentsSection />
       <DoctorsSection />
-      <CasesSection />
+      <HowItWorks />
       <PromoBar />
+      <PatientReviewsSection />
       <Footer />
     </div>
   </>

@@ -128,6 +128,12 @@ const Auth = () => {
         </Link>
 
         <div className="rounded-3xl bg-card shadow-pop p-6 md:p-8">
+          <div className="mb-3 text-center">
+            <span className="pill bg-accent text-accent-foreground">
+              <Sparkles className="size-3.5" />
+              {t("Your Cosmetics Asia account", "你的 Cosmetics Asia 账户")}
+            </span>
+          </div>
           <h1 className="font-display text-2xl md:text-3xl font-semibold text-center tracking-tight">
             {mode === "forgot" ? t("Reset your password", "重置密码") : mode === "reset" ? t("Choose a new password", "设置新密码") : tab === "signin" ? t("Welcome back", "欢迎回来") : t("Create your account", "创建账户")}
           </h1>

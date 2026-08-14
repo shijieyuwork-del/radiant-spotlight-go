@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Heart, MessageCircle, Share2, Volume2, VolumeX, Play, ArrowRight, BadgeCheck } from "lucide-react";
+import { Heart, MessageCircle, Share2, Volume2, VolumeX, Play, ArrowRight, BadgeCheck, MapPin, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export type TikTokItem = {
@@ -12,6 +12,7 @@ export type TikTokItem = {
   caption: { en: string; zh: string };
   treatment: { en: string; zh: string };
   clinic: { en: string; zh: string };
+  city?: { en: string; zh: string };
   likes: string;
   comments: string;
   priceCny: number;
@@ -32,8 +33,8 @@ const labels = {
 };
 
 const TikTokCard = ({
-  item, lang, fmtPrice, caseHrefBase = "/cases/",
-}: { item: TikTokItem; lang: "en" | "zh" | "ru"; fmtPrice: (n: number) => string; caseHrefBase?: string }) => {
+  item, lang, fmtPrice, caseHrefBase = "/cases/", autoPlayEligible = true,
+}: { item: TikTokItem; lang: "en" | "zh" | "ru"; fmtPrice: (n: number) => string; caseHrefBase?: string; autoPlayEligible?: boolean }) => {
   const ref = useRef<HTMLVideoElement>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
   const [muted, setMuted] = useState(true);
@@ -47,6 +48,11 @@ const TikTokCard = ({
     const el = wrapRef.current;
     const v = ref.current;
     if (!el || !v) return;
+    if (!autoPlayEligible) {
+      v.pause();
+      setPlaying(false);
+      return;
+    }
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && entry.intersectionRatio > 0.55) {
@@ -60,7 +66,7 @@ const TikTokCard = ({
     );
     io.observe(el);
     return () => io.disconnect();
-  }, []);
+  }, [autoPlayEligible]);
 
   const toggleMute = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -168,6 +174,11 @@ const TikTokCard = ({
         <p className="text-xs font-semibold opacity-95">{item.user[lang]}</p>
         <p className="text-[12px] mt-1 leading-snug line-clamp-2">{item.caption[lang]}</p>
         <p className="text-[11px] opacity-80 mt-1">{item.clinic[lang]}</p>
+        {item.city && (
+          <p className="mt-1 flex items-center gap-1 text-[11px] font-medium text-white/90">
+            <MapPin className="size-3" /> {item.city[lang]}
+          </p>
+        )}
         <div className="mt-2 flex items-center justify-between gap-2">
           <span className="text-sm font-semibold">{fmtPrice(item.priceCny)}</span>
           <Link
@@ -184,12 +195,74 @@ const TikTokCard = ({
 };
 
 const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase }: TikTokWallProps) => {
-  const cols =
-    variant === "wall"
-      ? "sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
-      : "sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6";
+  const [active, setActive] = useState(0);
+
+  if (variant === "preview") {
+    const move = (direction: number) => setActive((current) => (current + direction + items.length) % items.length);
+    const distanceFromActive = (index: number) => {
+      let distance = index - active;
+      if (distance > items.length / 2) distance -= items.length;
+      if (distance < -items.length / 2) distance += items.length;
+      return distance;
+    };
+
+    return (
+      <div className="relative overflow-hidden rounded-[2rem] border border-primary/10 bg-[radial-gradient(ellipse_at_50%_100%,hsl(var(--primary)/.16),transparent_58%)] px-2 pb-5 pt-2 shadow-soft sm:px-6">
+        <div className="relative mx-auto h-[390px] max-w-6xl [perspective:1400px] sm:h-[430px]">
+          {items.map((it, index) => {
+            const distance = distanceFromActive(index);
+            const depth = Math.abs(distance);
+            const visible = depth <= 3;
+            const direction = distance < 0 ? "-" : "+";
+            const offset = distance === 0
+              ? "-50%"
+              : `calc(-50% ${direction} clamp(${depth * 135}px, ${depth * 23}vw, ${depth * 290}px))`;
+
+            return (
+              <div
+                key={it.id}
+                className="absolute left-1/2 top-3 w-[58vw] max-w-[230px] transition-all duration-700 ease-out sm:w-[210px] lg:w-[230px]"
+                style={{
+                  opacity: visible ? 1 - depth * 0.18 : 0,
+                  pointerEvents: visible ? "auto" : "none",
+                  zIndex: 10 - depth,
+                  transform: `translateX(${offset}) translateY(${depth * 26}px) translateZ(${-depth * 110}px) rotateY(${distance * -13}deg) rotateZ(${distance * 1.8}deg) scale(${1 - depth * 0.08})`,
+                  transformStyle: "preserve-3d",
+                }}
+              >
+                <TikTokCard item={it} lang={lang} fmtPrice={fmtPrice} caseHrefBase={caseHrefBase} autoPlayEligible={distance === 0} />
+                {distance !== 0 && (
+                  <button
+                    type="button"
+                    className="absolute inset-0 z-50 rounded-3xl"
+                    onClick={() => setActive(index)}
+                    aria-label={`${labels[lang].view}: ${it.caption[lang]}`}
+                  />
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="relative z-20 mt-1 flex items-center justify-center gap-4">
+          <Button type="button" variant="outline" size="icon" className="size-11 rounded-full bg-card shadow-soft" onClick={() => move(-1)} aria-label="Previous video">
+            <ChevronLeft className="size-5" />
+          </Button>
+          <div className="flex items-center gap-1.5" aria-hidden="true">
+            {items.map((item, index) => (
+              <span key={item.id} className={`h-1.5 rounded-full transition-all ${index === active ? "w-6 bg-primary" : "w-1.5 bg-border"}`} />
+            ))}
+          </div>
+          <Button type="button" variant="outline" size="icon" className="size-11 rounded-full bg-card shadow-soft" onClick={() => move(1)} aria-label="Next video">
+            <ChevronRight className="size-5" />
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className={`flex sm:grid ${cols} gap-4 overflow-x-auto sm:overflow-visible snap-x snap-mandatory scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0 pb-3`}>
+    <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide -mx-4 px-4 pb-3 sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
       {items.map((it) => (
         <div key={it.id} className="min-w-[78vw] sm:min-w-0 snap-center">
           <TikTokCard item={it} lang={lang} fmtPrice={fmtPrice} caseHrefBase={caseHrefBase} />

@@ -15,11 +15,16 @@ const Cases = () => {
   const [activeTreatments, setActiveTreatments] = useState<string[]>([]);
   const [activeCities, setActiveCities] = useState<string[]>([]);
 
-  // caseId -> { cityEn, cityZh }
+  // Use the case's own China destination; fall back to doctor data for legacy entries.
   const caseCity = useMemo(() => {
     const map = new Map<string, { en: string; zh: string }>();
+    TIKTOK_CASES.forEach((c) => {
+      if (c.city) map.set(c.id, c.city);
+    });
     DOCTORS.forEach((d) =>
-      d.caseIds.forEach((id) => map.set(id, { en: d.cityEn, zh: d.cityZh }))
+      d.caseIds.forEach((id) => {
+        if (!map.has(id)) map.set(id, { en: d.cityEn, zh: d.cityZh });
+      })
     );
     return map;
   }, []);
@@ -61,7 +66,7 @@ const Cases = () => {
     <>
       <PageMeta
         title="Real Patient Cases & Before-After Videos | Medical Aesthetics"
-        description="Browse 100+ verified real patient cases across Asia. Watch authentic before-and-after videos, recovery timelines, and pricing from board-certified surgeons in Seoul, Bangkok, Tokyo, and more."
+        description="Browse real patient cosmetic surgery cases across China. Watch before-and-after videos, recovery timelines, pricing, doctors, and cases from Shanghai, Beijing, Guangzhou, Hangzhou, and Hainan."
         path="/cases"
       />
       <div className="min-h-screen bg-background">
@@ -71,7 +76,7 @@ const Cases = () => {
         <div className="text-center max-w-2xl mx-auto mb-8">
           <span className="pill bg-accent text-accent-foreground mb-3"><Heart className="size-3.5" /> {t("cases.kicker")}</span>
           <h1 className="font-display text-4xl md:text-5xl font-medium tracking-tight">
-            {t("cases.wallTitle")}
+            {t("cases.wallTitleMain")}<em className="text-primary not-italic">{t("cases.wallTitleEm")}</em>
           </h1>
           <p className="text-muted-foreground mt-3">{t("cases.wallSub")}</p>
         </div>

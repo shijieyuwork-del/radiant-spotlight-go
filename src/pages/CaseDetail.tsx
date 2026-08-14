@@ -2,7 +2,7 @@ import { useMemo, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
   ArrowLeft, ArrowRight, Heart, MessageCircle, Share2, Volume2, VolumeX, Play,
-  BadgeCheck, Building2, Calendar, ShieldCheck, Maximize2, Images,
+  BadgeCheck, Building2, Calendar, ShieldCheck, Maximize2, Images, MapPin,
 } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
@@ -34,6 +34,7 @@ const CaseDetail = () => {
   const [muted, setMuted] = useState(false);
   const [playing, setPlaying] = useState(true);
   const [expanded, setExpanded] = useState(false);
+  const [ended, setEnded] = useState(false);
 
   if (!item) {
     return (
@@ -59,10 +60,14 @@ const CaseDetail = () => {
     );
   }
 
+  const currentIndex = TIKTOK_CASES.findIndex((caseItem) => caseItem.id === item.id);
+  const previousItem = TIKTOK_CASES[(currentIndex - 1 + TIKTOK_CASES.length) % TIKTOK_CASES.length];
+  const nextItem = TIKTOK_CASES[(currentIndex + 1) % TIKTOK_CASES.length];
+
   const togglePlay = () => {
     const v = ref.current;
     if (!v) return;
-    if (v.paused) { v.play(); setPlaying(true); }
+    if (v.paused) { setEnded(false); v.play(); setPlaying(true); }
     else { v.pause(); setPlaying(false); }
   };
 
@@ -83,7 +88,7 @@ const CaseDetail = () => {
     <>
       <PageMeta
         title={`${treatment} - Real Patient Case | Before & After`}
-        description={`Watch a real before-and-after ${treatment} procedure performed in Asia. Patient recovery timeline, price, surgeon info, and verified results.`}
+        description={`Watch a real before-and-after ${treatment} case in China. View the recovery timeline, reference price, location, and surgeon information.`}
         path={`/cases/${id}`}
         type="article"
         structuredData={caseSchema}
@@ -104,12 +109,15 @@ const CaseDetail = () => {
               onClick={togglePlay}
             >
               <video
+                key={item.id}
                 ref={ref}
                 src={item.src}
                 autoPlay
                 muted={muted}
-                loop
                 playsInline
+                onPlay={() => { setPlaying(true); setEnded(false); }}
+                onPause={() => setPlaying(false)}
+                onEnded={() => { setPlaying(false); setEnded(true); }}
                 className="absolute inset-0 size-full object-cover"
               />
               <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/50 to-transparent pointer-events-none" />
@@ -119,6 +127,22 @@ const CaseDetail = () => {
                 <div className="absolute inset-0 grid place-items-center pointer-events-none">
                   <div className="size-16 rounded-full bg-white/85 grid place-items-center shadow-pop">
                     <Play className="size-7 text-foreground fill-foreground translate-x-0.5" />
+                  </div>
+                </div>
+              )}
+
+              {ended && (
+                <div className="absolute inset-0 z-20 grid place-items-center bg-black/65 p-6 backdrop-blur-[2px]" onClick={(event) => event.stopPropagation()}>
+                  <div className="max-w-xs text-center text-white">
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/65">{lang === "zh" ? "下一个案例" : "Up next"}</p>
+                    <p className="mt-2 font-display text-2xl font-medium leading-tight">{nextItem.treatment[lang]}</p>
+                    <p className="mt-2 line-clamp-2 text-sm text-white/75">{nextItem.caption[lang]}</p>
+                    <Button asChild size="lg" className="mt-5 rounded-full bg-primary px-7 text-primary-foreground hover:bg-primary/90">
+                      <Link to={`/cases/${nextItem.id}`}>{lang === "zh" ? "播放下一个" : "Watch next case"}<ArrowRight className="ml-2 size-4" /></Link>
+                    </Button>
+                    <button type="button" className="mt-3 block w-full text-xs text-white/70 hover:text-white" onClick={() => { setEnded(false); ref.current?.play(); }}>
+                      {lang === "zh" ? "重新播放当前视频" : "Replay this video"}
+                    </button>
                   </div>
                 </div>
               )}
@@ -152,6 +176,17 @@ const CaseDetail = () => {
                 <p className="text-[13px] mt-1 leading-snug">{item.caption[lang]}</p>
               </div>
             </div>
+
+            <nav className="mx-auto mt-4 grid max-w-md grid-cols-2 gap-3 lg:max-w-none" aria-label={lang === "zh" ? "案例浏览" : "Browse cases"}>
+              <Link to={`/cases/${previousItem.id}`} className="group rounded-2xl border border-border/70 bg-card p-3 shadow-soft transition hover:-translate-y-0.5 hover:border-primary/30">
+                <span className="flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground"><ArrowLeft className="size-3.5" />{lang === "zh" ? "上一个" : "Previous"}</span>
+                <span className="mt-1 block truncate text-sm font-semibold">{previousItem.treatment[lang]}</span>
+              </Link>
+              <Link to={`/cases/${nextItem.id}`} className="group rounded-2xl border border-primary/30 bg-primary/10 p-3 shadow-soft transition hover:-translate-y-0.5 hover:bg-primary/15">
+                <span className="flex items-center justify-end gap-1 text-[11px] font-semibold uppercase tracking-wider text-primary">{lang === "zh" ? "下一个" : "Next"}<ArrowRight className="size-3.5" /></span>
+                <span className="mt-1 block truncate text-right text-sm font-semibold">{nextItem.treatment[lang]}</span>
+              </Link>
+            </nav>
           </div>
 
           {/* Info */}
@@ -166,6 +201,9 @@ const CaseDetail = () => {
 
             <div className="rounded-3xl bg-card shadow-soft p-5 space-y-3">
               <p className="text-sm flex items-center gap-2"><Building2 className="size-4 text-primary" /> {item.clinic[lang]}</p>
+              {item.city && (
+                <p className="text-sm flex items-center gap-2"><MapPin className="size-4 text-primary" /> {item.city[lang]}, China</p>
+              )}
               <p className="text-sm flex items-center gap-2"><Calendar className="size-4 text-primary" /> {lang === "zh" ? "手术时间 · 近 6 个月" : "Procedure date · within 6 months"}</p>
               <p className="text-sm flex items-center gap-2"><ShieldCheck className="size-4 text-primary" /> {lang === "zh" ? "身份证 + 消费凭证已核验" : "Identity & receipt verified"}</p>
             </div>

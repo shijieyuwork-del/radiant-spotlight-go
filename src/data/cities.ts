@@ -2,6 +2,11 @@ import heroBg from "@/assets/hero-bg.jpg";
 import c1 from "@/assets/clinic1.jpg";
 import c2 from "@/assets/clinic2.jpg";
 import c3 from "@/assets/clinic3.jpg";
+import shanghaiImg from "@/assets/city-shanghai.jpg";
+import guangzhouImg from "@/assets/city-guangzhou.jpg";
+import beijingImg from "@/assets/city-beijing.jpg";
+import hainanImg from "@/assets/city-hainan.jpg";
+import hangzhouImg from "@/assets/city-hangzhou.jpg";
 
 export type City = {
   /** URL slug (lowercase English city name) */
@@ -209,7 +214,7 @@ const CITY_CATALOG: City[] = [
       "上海是亚洲规模最大的医美市场之一，拥有大量卫健委许可的三级整形机构与英文协调团队，是海外求美者进入亚洲手术市场最便利的入口。",
     introEn:
       "Shanghai is one of Asia's largest aesthetic surgery markets, with many licensed Class-III hospitals and English-speaking coordinators. It is the most convenient entry point for international patients coming to Asia for surgery.",
-    img: heroBg,
+    img: shanghaiImg,
     clinics: 128, doctorsCount: 86, savings: "60–70%",
     hotZh: ["双眼皮 / 眼袋", "鼻综合", "面部拉皮", "巴西提臀", "颈部提升"],
     hotEn: ["Blepharoplasty", "Rhinoplasty", "Facelift", "BBL", "Neck Lift"],
@@ -250,7 +255,7 @@ const CITY_CATALOG: City[] = [
       "北京汇集了协和、八大处等国家级整形外科教学中心，主刀医师学术背景深厚，特别适合鼻修复、二次手术与高难度乳房整形。",
     introEn:
       "Beijing hosts flagship academic plastic-surgery centers. Choose Beijing for revision rhinoplasty, secondary procedures, and complex breast lift work led by faculty surgeons.",
-    img: c2,
+    img: beijingImg,
     clinics: 142, doctorsCount: 94, savings: "55–70%",
     hotZh: ["鼻综合", "鼻修复", "提胸", "面部拉皮", "双眼皮 / 眼袋"],
     hotEn: ["Rhinoplasty", "Rhino Revision", "Breast Lift", "Facelift", "Blepharoplasty"],
@@ -289,7 +294,7 @@ const CITY_CATALOG: City[] = [
     taglineEn: "South China aesthetics hub · eyes, nose & body contouring",
     introZh: "广州汇集众多卫健委许可的整形机构，在眼鼻整形、吸脂塑形与术后管理方面经验丰富，交通便利，粤语、普通话与英语服务成熟。",
     introEn: "Guangzhou is a major South China aesthetics hub with licensed hospitals experienced in eye and nose surgery, body contouring and coordinated recovery care.",
-    img: c1,
+    img: guangzhouImg,
     clinics: 116, doctorsCount: 72, savings: "55–70%",
     hotZh: ["双眼皮 / 眼袋", "鼻综合", "吸脂塑形", "隆胸", "面部年轻化"],
     hotEn: ["Blepharoplasty", "Rhinoplasty", "Liposuction", "Breast Augmentation", "Facial Rejuvenation"],
@@ -310,7 +315,7 @@ const CITY_CATALOG: City[] = [
     taglineEn: "Island wellness destination · aesthetics & recovery",
     introZh: "海南结合医疗美容与海岛康养资源，适合安排轻医美、皮肤管理以及术后休养。海口与三亚拥有完善的酒店、康复和国际医疗配套。",
     introEn: "Hainan combines aesthetic care with island wellness resources, making it well suited to minimally invasive treatments, skin care and a comfortable recovery stay in Haikou or Sanya.",
-    img: c3,
+    img: hainanImg,
     clinics: 48, doctorsCount: 31, savings: "45–60%",
     hotZh: ["皮肤管理", "抗衰年轻化", "脂肪塑形", "术后康复", "微创医美"],
     hotEn: ["Skin Treatments", "Anti-aging", "Body Contouring", "Post-op Recovery", "Minimally Invasive Aesthetics"],
@@ -331,7 +336,7 @@ const CITY_CATALOG: City[] = [
     taglineEn: "Premium East China care · eyes, nose & facial rejuvenation",
     introZh: "杭州拥有成熟的公立整形专科与品质医美机构，在眼鼻精细化手术、面部年轻化和皮肤管理方面选择丰富，并可便捷衔接上海交通网络。",
     introEn: "Hangzhou offers strong public-hospital specialists and premium aesthetic clinics, with particular depth in refined eye and nose surgery, facial rejuvenation and skin treatments.",
-    img: c2,
+    img: hangzhouImg,
     clinics: 82, doctorsCount: 53, savings: "50–65%",
     hotZh: ["双眼皮 / 眼袋", "鼻综合", "面部年轻化", "皮肤管理", "脂肪填充"],
     hotEn: ["Blepharoplasty", "Rhinoplasty", "Facial Rejuvenation", "Skin Treatments", "Fat Grafting"],

@@ -105,11 +105,16 @@
     @apply bg-background text-foreground antialiased;
     font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
     font-feature-settings: "ss01", "cv11";
+    line-height: 1.6;
   }
   h1, h2, h3, h4 {
     font-family: 'Fraunces', serif;
     font-optical-sizing: auto;
     letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  button, input, textarea, select {
+    font: inherit;
   }
 }
 
@@ -124,7 +129,7 @@
     box-shadow: var(--shadow-pop);
   }
   .pill {
-    @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium;
+    @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium normal-case tracking-normal;
   }
   .marquee-track {
     animation: marquee 40s linear infinite;

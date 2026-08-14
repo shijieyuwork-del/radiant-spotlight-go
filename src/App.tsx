@@ -49,7 +49,8 @@ const App = () => (
                     <Route path="/cities/:slug" element={<CityDetail />} />
                     <Route path="/treatments" element={<Treatments />} />
                     <Route path="/treatments/:slug" element={<TreatmentDetail />} />
-                    <Route path="/packages" element={<Packages />} />
+                    <Route path="/travel-packages" element={<Packages />} />
+                    <Route path="/packages" element={<Navigate to="/travel-packages" replace />} />
                     <Route path="/why-china" element={<WhyChina />} />
                     <Route path="/auth" element={<Auth />} />
                     <Route path="/admin/videos" element={<VideoAdmin />} />

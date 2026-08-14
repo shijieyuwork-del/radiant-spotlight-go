@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
-import { Check, Sparkles, Crown, Gem, ArrowRight, ShieldCheck } from "lucide-react";
+import { Check, Sparkles, Crown, Gem, ArrowRight } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
+import PageMeta from "@/components/PageMeta";
 import { useAsia } from "@/lib/asia-i18n";
 
 type Pkg = {
@@ -13,74 +14,62 @@ type Pkg = {
   icon: React.ComponentType<{ className?: string }>;
   grad: string;
   highlight?: boolean;
-  features: { en: string; zh: string; bold?: boolean }[];
+  includesEn?: string;
+  includesZh?: string;
+  features: { en: string; zh: string; noteEn?: string; noteZh?: string; bold?: boolean }[];
 };
 
 const PACKAGES: Pkg[] = [
   {
     id: "basic",
-    nameEn: "Basic Package", nameZh: "基础套餐",
-    price: 599,
-    originalPrice: 699,
-    taglineEn: "Essentials for a smooth medical trip",
-    taglineZh: "出行必备 · 全程基础保障",
+    nameEn: "Free Package", nameZh: "免费套餐",
+    price: 0,
+    taglineEn: "Essential travel support at no service fee",
+    taglineZh: "基础旅行协助 · 免服务费",
     icon: Sparkles,
     grad: "from-[hsl(190,70%,92%)] to-[hsl(155,60%,90%)]",
     features: [
-      { en: "Medical Invitation Letter (For Visa Use)", zh: "医疗邀请函（用于签证）" },
-      { en: "Priority Hospital Appointment Scheduling", zh: "医院优先排期预约" },
       { en: "Airport Pickup & Drop-off", zh: "机场接送" },
-      { en: "Daily Online Concierge Support (10:00 AM – 6:00 PM, 7 Days · WeChat / WhatsApp / Message)", zh: "每日在线管家支持（10:00–18:00 · 7 天 · 微信 / WhatsApp / 短信）" },
-      { en: "Professional Medical Records Translation & Organization", zh: "专业病历翻译与整理" },
-      { en: "In-Hospital Medical Translation", zh: "院内医疗翻译陪同" },
       { en: "Hotel Booking Assistance", zh: "酒店预订协助" },
+      { en: "In-Clinic Translation Service", zh: "诊所内翻译服务" },
+      { en: "Professional Medical Records Translation & Organization", zh: "专业病历翻译与整理" },
+      { en: "Daily Online Concierge Support (10:00 AM – 10:00 PM Beijing Time, 7 Days · WeChat / WhatsApp / Message)", zh: "每日在线管家支持（北京时间 10:00–22:00 · 7 天 · 微信 / WhatsApp / 短信）" },
     ],
   },
   {
     id: "gold",
     nameEn: "Gold Package", nameZh: "金牌套餐",
-    price: 799,
-    originalPrice: 1199,
+    price: 699,
+    originalPrice: 1099,
     taglineEn: "Most popular · stay + accompaniment included",
     taglineZh: "人气之选 · 含住宿与陪同",
     icon: Crown,
     grad: "from-[hsl(50,90%,90%)] to-[hsl(18,90%,88%)]",
     highlight: true,
+    includesEn: "Everything in the Free Package, plus:",
+    includesZh: "包含免费套餐的全部服务，另加：",
     features: [
-      { en: "Medical Invitation Letter (For Visa Use)", zh: "医疗邀请函（用于签证）" },
-      { en: "Priority Hospital Appointment Scheduling", zh: "医院优先排期预约" },
-      { en: "Airport Pickup & Drop-off", zh: "机场接送" },
-      { en: "Daily Online Concierge Support (10:00 AM – 6:00 PM, 7 Days · WeChat / WhatsApp / Message)", zh: "每日在线管家支持（10:00–18:00 · 7 天 · 微信 / WhatsApp / 短信）" },
-      { en: "Professional Medical Records Translation & Organization", zh: "专业病历翻译与整理" },
-      { en: "In-Hospital Medical Translation", zh: "院内医疗翻译陪同" },
-      { en: "Hotel Booking Assistance", zh: "酒店预订协助" },
-      { en: "7-Night Stay in a Comfortable Hotel Near the Hospital — Included", zh: "医院附近舒适酒店 7 晚住宿 — 已含", bold: true },
-      { en: "Extra Nights Available (+$30 / night · Up to 20 Days Total)", zh: "可额外加住（+30 美元/晚 · 最长 20 天）" },
       { en: "1-on-1 In-Hospital Accompaniment (3 Days)", zh: "1 对 1 院内陪同（3 天）", bold: true },
+      { en: "7-Night Stay in a Comfortable 3-Star Hotel — Included", zh: "舒适三星级酒店 7 晚住宿 — 已含", bold: true },
+      { en: "Extra Nights Available (+$45 / night · Up to 20 Days Total)", zh: "可额外加住（+45 美元/晚 · 最长 20 天）" },
     ],
   },
   {
     id: "diamond",
     nameEn: "Diamond VIP Package", nameZh: "钻石尊享套餐",
-    price: 2499,
-    originalPrice: 3399,
-    taglineEn: "End-to-end VIP · 5-star stay & doctor on call",
-    taglineZh: "尊享一站式 · 五星酒店 + 在线医生随叫随到",
+    price: 1999,
+    originalPrice: 2799,
+    taglineEn: "End-to-end VIP · 5-star stay & private guide",
+    taglineZh: "尊享一站式 · 五星酒店 + 私人导游",
     icon: Gem,
     grad: "from-[hsl(280,60%,90%)] to-[hsl(340,85%,90%)]",
+    includesEn: "Everything in Gold, with the following services upgraded:",
+    includesZh: "包含金牌套餐的全部服务，以下项目升级为：",
     features: [
-      { en: "Medical Invitation Letter (For Visa Use)", zh: "医疗邀请函（用于签证）" },
-      { en: "Priority Hospital Appointment Scheduling", zh: "医院优先排期预约" },
-      { en: "Airport Pickup & Drop-off", zh: "机场接送" },
-      { en: "Daily Online Concierge Support (10:00 AM – 6:00 PM, 7 Days · WeChat / WhatsApp / Message)", zh: "每日在线管家支持（10:00–18:00 · 7 天 · 微信 / WhatsApp / 短信）" },
-      { en: "Professional Medical Records Translation & Organization", zh: "专业病历翻译与整理" },
-      { en: "In-Hospital Medical Translation", zh: "院内医疗翻译陪同" },
-      { en: "Hotel Booking Assistance", zh: "酒店预订协助" },
-      { en: "7-Night Stay in a 5-Star Hotel Near the Hospital — Included", zh: "医院附近五星酒店 7 晚住宿 — 已含", bold: true },
-      { en: "Extra Nights Available (+$100 / night · Up to 20 Days Total)", zh: "可额外加住（+100 美元/晚 · 最长 20 天）" },
-      { en: "1-on-1 In-Hospital Accompaniment (Unlimited Days)", zh: "1 对 1 院内陪同（不限天数）", bold: true },
-      { en: "1-on-1 Personal Assistance Outside the Hospital (Up to 5 Days)", zh: "1 对 1 院外私人助理（最多 5 天）", bold: true },
-      { en: "1-on-1 Online Doctor Consultation (Daily 10:00 AM – 6:00 PM, Up to 7 Days · Response Within 30 Min)", zh: "1 对 1 在线医生咨询（每日 10:00–18:00 · 最多 7 天 · 30 分钟内回复）", bold: true },
+      { en: "Unlimited 1-on-1 In-Hospital Accompaniment — Replaces the 3-Day Limit", zh: "不限天数的 1 对 1 院内陪同 — 替代原 3 天限制", bold: true },
+      { en: "1-on-1 Private Tour Guide in China with a Customized Itinerary (Up to 5 Days)", zh: "中国境内 1 对 1 私人导游及定制行程（最多 5 天）", bold: true },
+      { en: "7-Night 5-Star Hotel Stay — Upgrade from the 3-Star Hotel", zh: "五星级酒店 7 晚住宿 — 由三星级酒店升级", bold: true },
+      { en: "Additional Nights: $100 / Night (Up to 20 Days Total)", zh: "额外住宿：100 美元/晚（总行程最长 20 天）" },
     ],
   },
 ];
@@ -88,29 +77,45 @@ const PACKAGES: Pkg[] = [
 const Packages = () => {
   const { lang } = useAsia();
   return (
-    <div className="min-h-screen bg-background">
-      <AsiaNavbar />
+    <>
+      <PageMeta
+        title="China Medical Travel Packages | Cosmetics Asia"
+        description="Choose a China medical travel package with visa support, airport transfers, translation, accommodation, and recovery assistance for international patients."
+        path="/travel-packages"
+      />
+      <div className="min-h-screen bg-background">
+        <AsiaNavbar />
 
       {/* Hero */}
       <section className="container py-12 md:py-16 text-center">
         <span className="pill bg-accent text-accent-foreground mb-3">
-          <ShieldCheck className="size-3.5" />
-          {lang === "zh" ? "服务套餐" : "Concierge packages"}
+          <Sparkles className="size-3.5" />
+          {lang === "zh" ? "全程旅行支持" : "Travel care, simplified"}
         </span>
-        <h1 className="font-display text-4xl md:text-6xl font-medium tracking-tight max-w-3xl mx-auto">
+        <h1 className="font-display text-4xl md:text-5xl font-medium tracking-tight max-w-3xl mx-auto">
           {lang === "zh" ? (
-            <>选择适合你的<em className="text-primary not-italic">专属套餐</em></>
+            <>选择适合你的<em className="text-primary not-italic">旅行套餐</em></>
           ) : (
-            <>Choose your <em className="text-primary not-italic">care package</em></>
+            <>Choose your <em className="text-primary not-italic">travel package</em></>
           )}
         </h1>
         <p className="text-muted-foreground mt-3 max-w-2xl mx-auto">
-          {lang === "zh" ? "签证函 / 机场接送 / 医院对接 / 中英文翻译 / 术后陪同，打包成三档套餐，让你专注恢复。" : "Visa letter, airport pickup, hospital coordination, translation and recovery — packaged into three tiers so you can focus on healing."}
+          {lang === "zh" ? "签证函 / 机场接送 / 中英文翻译 / 酒店住宿 / 术后陪同，打包成三档旅行套餐，让你专注恢复。" : "Visa support, airport transfers, translation, accommodation and recovery assistance — three travel tiers designed so you can focus on healing."}
         </p>
       </section>
 
       {/* Packages grid */}
       <section className="container pb-16 md:pb-20">
+        <div className="mx-auto mb-8 max-w-3xl rounded-2xl border border-border bg-card px-5 py-4 shadow-soft">
+          <p className="text-sm font-semibold text-foreground">
+            {lang === "zh" ? "可选签证支持：医疗邀请函" : "Optional Visa Support: Medical Invitation Letter"}
+          </p>
+          <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+            {lang === "zh"
+              ? "仅在客户需要并申请医疗邀请函时收取 400 美元押金；抵达诊所后退还。"
+              : "A $400 deposit is required only if you request a Medical Invitation Letter. The deposit is refunded when you arrive at the clinic."}
+          </p>
+        </div>
         <div className="grid md:grid-cols-3 gap-6 items-stretch">
           {PACKAGES.map((p) => {
             const Icon = p.icon;
@@ -132,10 +137,10 @@ const Packages = () => {
                       <Icon className="size-5 text-primary" />
                     </div>
                     <div>
-                      <p className="font-display text-xl font-semibold leading-tight">
+                      <p className="font-display text-xl font-medium leading-tight tracking-tight">
                         {lang === "zh" ? p.nameZh : p.nameEn}
                       </p>
-                      <p className="text-[11px] text-muted-foreground mt-0.5">
+                      <p className="text-xs leading-relaxed text-muted-foreground mt-0.5">
                         {lang === "zh" ? p.taglineZh : p.taglineEn}
                       </p>
                     </div>
@@ -153,7 +158,7 @@ const Packages = () => {
                       </div>
                     )}
                     <div className="flex items-baseline gap-2">
-                      <span className="font-display text-5xl font-semibold">
+                      <span className="font-display text-5xl font-medium tracking-tight">
                         ${p.price.toLocaleString()}
                       </span>
                       <span className="text-xs text-muted-foreground">
@@ -162,9 +167,15 @@ const Packages = () => {
                     </div>
                   </div>
 
-                  <ul className="mt-6 space-y-3 flex-1">
+                  <div className="mt-6 flex-1">
+                    {p.includesEn && (
+                      <p className="mb-4 rounded-2xl bg-accent/70 px-4 py-3 text-sm font-semibold text-foreground">
+                        {lang === "zh" ? p.includesZh : p.includesEn}
+                      </p>
+                    )}
+                    <ul className="space-y-3">
                     {p.features.map((f) => (
-                      <li key={f.en} className="flex gap-2.5 items-start text-sm leading-snug">
+                      <li key={f.en} className="flex gap-2.5 items-start text-[15px] leading-relaxed">
                         <span
                           className={`mt-0.5 size-4 rounded-full grid place-items-center shrink-0 ${
                             f.bold ? "bg-primary text-primary-foreground" : "bg-accent text-primary"
@@ -172,12 +183,20 @@ const Packages = () => {
                         >
                           <Check className="size-2.5" strokeWidth={3} />
                         </span>
-                        <span className={f.bold ? "font-semibold text-foreground" : "text-foreground/80"}>
-                          {lang === "zh" ? f.zh : f.en}
+                        <span>
+                          <span className={f.bold ? "font-semibold text-foreground" : "text-foreground/80"}>
+                            {lang === "zh" ? f.zh : f.en}
+                          </span>
+                          {(lang === "zh" ? f.noteZh : f.noteEn) && (
+                            <span className="mt-1 block text-[13px] leading-relaxed text-muted-foreground">
+                              {lang === "zh" ? f.noteZh : f.noteEn}
+                            </span>
+                          )}
                         </span>
                       </li>
                     ))}
-                  </ul>
+                    </ul>
+                  </div>
 
                   <Link
                     to="/doctors"
@@ -187,7 +206,9 @@ const Packages = () => {
                         : "bg-accent text-foreground hover:bg-accent/80"
                     }`}
                   >
-                    {lang === "zh" ? "预订该套餐" : "Book this package"}
+                    {p.price === 0
+                      ? (lang === "zh" ? "免费获取套餐" : "Get the free package")
+                      : (lang === "zh" ? "预订旅行套餐" : "Book this travel package")}
                     <ArrowRight className="size-4" />
                   </Link>
                 </div>
@@ -197,7 +218,7 @@ const Packages = () => {
         </div>
 
         {/* Notes */}
-        <div className="mt-10 rounded-3xl bg-card shadow-soft p-6 md:p-7 grid md:grid-cols-3 gap-5 text-sm">
+        <div className="mt-10 rounded-3xl bg-card shadow-soft p-6 md:p-7 grid md:grid-cols-3 gap-5 text-[15px] leading-relaxed">
           {[
             {
               en: "Surgery fees not included — paid directly to the hospital with full price transparency.",
@@ -208,8 +229,8 @@ const Packages = () => {
               zh: "支持自定义套餐：延长住宿 / 家属同行 / 升级酒店均可定制。",
             },
             {
-              en: "Free cancellation up to 14 days before arrival. Visa letter refundable within 7 days of issuance.",
-              zh: "抵达前 14 天可免费取消，签证函开具后 7 天内可退。",
+              en: "Free cancellation when requested at least 20 days before your scheduled arrival. If your trip is postponed, your package and invitation-letter deposit remain valid for 18 months. The deposit will be refunded when you arrive at the clinic.",
+              zh: "在计划抵达日前至少 20 天提出申请可免费取消。如行程延期，已购买的套餐和邀请函押金均可保留 18 个月；抵达诊所后退还押金。",
             },
           ].map((n) => (
             <div key={n.en} className="flex gap-2 items-start">
@@ -220,8 +241,9 @@ const Packages = () => {
         </div>
       </section>
 
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </>
   );
 };
 
