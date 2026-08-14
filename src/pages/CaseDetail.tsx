@@ -2,13 +2,14 @@ import { useMemo, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
   ArrowLeft, ArrowRight, Heart, MessageCircle, Share2, Volume2, VolumeX, Play,
-  BadgeCheck, Building2, Calendar, ShieldCheck,
+  BadgeCheck, Building2, Calendar, ShieldCheck, Maximize2, Images,
 } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
 import TikTokWall from "@/components/TikTokWall";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
 import { DOCTORS } from "@/data/doctors";
 import { useAsia } from "@/lib/asia-i18n";
@@ -18,14 +19,21 @@ const CaseDetail = () => {
   const { t, lang, fmt } = useAsia();
   const item = useMemo(() => TIKTOK_CASES.find((c) => c.id === id), [id]);
   const doctor = useMemo(() => DOCTORS.find((d) => id && d.caseIds.includes(id)), [id]);
+  const doctorCases = useMemo(
+    () => doctor
+      ? TIKTOK_CASES.filter((c) => c.id !== id && doctor.caseIds.includes(c.id))
+      : [],
+    [doctor, id],
+  );
   const related = useMemo(
-    () => TIKTOK_CASES.filter((c) => c.id !== id).slice(0, 5),
-    [id],
+    () => TIKTOK_CASES.filter((c) => c.id !== id && !doctorCases.some((other) => other.id === c.id)).slice(0, 5),
+    [doctorCases, id],
   );
 
   const ref = useRef<HTMLVideoElement>(null);
   const [muted, setMuted] = useState(false);
   const [playing, setPlaying] = useState(true);
+  const [expanded, setExpanded] = useState(false);
 
   if (!item) {
     return (
@@ -116,6 +124,13 @@ const CaseDetail = () => {
               )}
 
               <div className="absolute right-3 bottom-24 flex flex-col items-center gap-3">
+                <button
+                  onClick={(e) => { e.stopPropagation(); setExpanded(true); }}
+                  className="size-11 rounded-full bg-black/40 backdrop-blur grid place-items-center text-white"
+                  aria-label={lang === "zh" ? "全屏放大" : "Open large view"}
+                >
+                  <Maximize2 className="size-5" />
+                </button>
                 <button onClick={(e) => { e.stopPropagation(); }} className="size-11 rounded-full bg-black/40 backdrop-blur grid place-items-center text-white">
                   <Heart className="size-5" />
                 </button>
@@ -156,24 +171,31 @@ const CaseDetail = () => {
             </div>
 
             {doctor && (
-              <Link
-                to={`/doctors/${doctor.id}`}
-                className="rounded-3xl bg-card shadow-soft p-5 flex items-center gap-4 hover:shadow-glow transition group block"
-              >
-                <img src={doctor.img} alt="" className="size-16 rounded-2xl object-cover shrink-0" />
-                <div className="min-w-0 flex-1">
-                  <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold">
-                    {lang === "zh" ? "主刀医师" : "Performed by"}
-                  </p>
-                  <p className="font-display text-lg font-semibold leading-tight truncate mt-0.5">
-                    {lang === "zh" ? doctor.zh : doctor.en}
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-0.5 truncate">
-                    {lang === "zh" ? doctor.titleZh : doctor.titleEn} · {doctor.years}{lang === "zh" ? "年" : " yrs"} · {doctor.surgeries}
-                  </p>
-                </div>
-                <ArrowRight className="size-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition shrink-0" />
-              </Link>
+              <div className="rounded-3xl bg-card shadow-soft p-5">
+                <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold mb-3">
+                  {lang === "zh" ? "本案例主刀医师" : "Surgeon for this case"}
+                </p>
+                <Link
+                  to={`/doctors/${doctor.id}`}
+                  className="flex items-center gap-4 hover:opacity-90 transition group"
+                >
+                  <img src={doctor.img} alt={lang === "zh" ? doctor.zh : doctor.en} className="size-20 rounded-2xl object-cover shrink-0" />
+                  <div className="min-w-0 flex-1">
+                    <p className="font-display text-xl font-semibold leading-tight truncate">
+                      {lang === "zh" ? doctor.zh : doctor.en}
+                    </p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      {lang === "zh" ? doctor.titleZh : doctor.titleEn} · {doctor.years}{lang === "zh" ? "年经验" : " years experience"}
+                    </p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      {doctor.surgeries} {lang === "zh" ? "台案例" : "procedures"} · {doctor.rating} ★
+                    </p>
+                  </div>
+                  <span className="hidden sm:inline-flex items-center gap-1 text-xs font-semibold text-primary shrink-0">
+                    {lang === "zh" ? "查看医生" : "View doctor"} <ArrowRight className="size-4" />
+                  </span>
+                </Link>
+              </div>
             )}
 
             <div className="rounded-3xl bg-gradient-to-br from-[hsl(155,60%,90%)] to-[hsl(50,80%,92%)] p-5 flex items-center justify-between gap-4 shadow-soft">
@@ -194,13 +216,52 @@ const CaseDetail = () => {
           </div>
         </div>
 
+        {doctor && doctorCases.length > 0 && (
+          <div className="mt-16 rounded-[2rem] bg-card shadow-soft p-5 md:p-8">
+            <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-6">
+              <div>
+                <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary mb-2">
+                  <Images className="size-4" /> {lang === "zh" ? "同一位医生" : "Same surgeon"}
+                </span>
+                <h2 className="font-display text-2xl md:text-3xl font-medium tracking-tight">
+                  {lang === "zh"
+                    ? `${doctor.zh} 的其他真实案例`
+                    : `More cases by ${doctor.en}`}
+                </h2>
+              </div>
+              <Link to={`/doctors/${doctor.id}`} className="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline">
+                {lang === "zh" ? "查看医生全部案例" : "See surgeon's full profile"} <ArrowRight className="size-4" />
+              </Link>
+            </div>
+            <TikTokWall items={doctorCases} lang={lang} fmtPrice={fmt} variant="wall" />
+          </div>
+        )}
+
         <div className="mt-16">
           <h2 className="font-display text-2xl md:text-3xl font-medium tracking-tight mb-6">
-            {t("case.related")}
+            {lang === "zh" ? "你可能也感兴趣" : "You may also like"}
           </h2>
           <TikTokWall items={related} lang={lang} fmtPrice={fmt} variant="wall" />
         </div>
       </section>
+
+      <Dialog open={expanded} onOpenChange={setExpanded}>
+        <DialogContent className="w-[min(96vw,1100px)] max-w-none h-[92vh] border-0 bg-black p-3 sm:p-5 rounded-3xl overflow-hidden">
+          <DialogTitle className="sr-only">{item.caption[lang]}</DialogTitle>
+          <DialogDescription className="sr-only">
+            {lang === "zh" ? "真实案例放大视频" : "Expanded real case video"}
+          </DialogDescription>
+          <video
+            src={item.src}
+            poster={item.poster}
+            autoPlay
+            controls
+            loop
+            playsInline
+            className="size-full object-contain rounded-2xl"
+          />
+        </DialogContent>
+      </Dialog>
 
       <Footer />
       </div>

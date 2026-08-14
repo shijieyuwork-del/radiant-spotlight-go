@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Heart, MessageCircle, Share2, Volume2, VolumeX, Play, ArrowRight, BadgeCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -39,6 +39,8 @@ const TikTokCard = ({
   const [muted, setMuted] = useState(true);
   const [playing, setPlaying] = useState(false);
   const [liked, setLiked] = useState(false);
+  const navigate = useNavigate();
+  const caseUrl = `${caseHrefBase}${item.id}`;
 
   // Autoplay when visible; pause when off-screen
   useEffect(() => {
@@ -77,7 +79,13 @@ const TikTokCard = ({
     <div
       ref={wrapRef}
       className="relative aspect-[9/16] rounded-3xl overflow-hidden bg-card shadow-pop group cursor-pointer hover:-translate-y-1 transition-transform"
-      onClick={togglePlay}
+      onClick={() => navigate(caseUrl)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") navigate(caseUrl);
+      }}
+      role="link"
+      tabIndex={0}
+      aria-label={`${labels[lang].view}: ${item.caption[lang]}`}
     >
       <video
         ref={ref}
@@ -106,11 +114,16 @@ const TikTokCard = ({
 
       {/* center play hint when paused */}
       {!playing && (
-        <div className="absolute inset-0 grid place-items-center pointer-events-none">
-          <div className="size-14 rounded-full bg-white/85 backdrop-blur grid place-items-center shadow-pop">
+        <button
+          type="button"
+          onClick={(e) => { e.stopPropagation(); togglePlay(); }}
+          className="absolute inset-0 grid place-items-center"
+          aria-label={labels[lang].play}
+        >
+          <div className="size-14 rounded-full bg-white/85 backdrop-blur grid place-items-center shadow-pop transition-transform hover:scale-105">
             <Play className="size-6 text-foreground fill-foreground translate-x-0.5" />
           </div>
-        </div>
+        </button>
       )}
 
       {/* right action rail */}
@@ -158,7 +171,7 @@ const TikTokCard = ({
         <div className="mt-2 flex items-center justify-between gap-2">
           <span className="text-sm font-semibold">{fmtPrice(item.priceCny)}</span>
           <Link
-            to={`${caseHrefBase}${item.id}`}
+            to={caseUrl}
             onClick={(e) => e.stopPropagation()}
             className="text-[11px] font-semibold pill bg-white text-foreground hover:bg-white/90"
           >
