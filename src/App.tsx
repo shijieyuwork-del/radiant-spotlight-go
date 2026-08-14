@@ -13,6 +13,8 @@ import Cases from "./pages/Cases.tsx";
 import CaseDetail from "./pages/CaseDetail.tsx";
 import Doctors from "./pages/Doctors.tsx";
 import DoctorDetail from "./pages/DoctorDetail.tsx";
+import ManagedDoctorDetail from "./pages/ManagedDoctorDetail.tsx";
+import DoctorAdmin from "./pages/DoctorAdmin.tsx";
 import Cities from "./pages/Cities.tsx";
 import CityDetail from "./pages/CityDetail.tsx";
 import Packages from "./pages/Packages.tsx";
@@ -41,6 +43,7 @@ const App = () => (
                     <Route path="/cases" element={<Cases />} />
                     <Route path="/cases/:id" element={<CaseDetail />} />
                     <Route path="/doctors" element={<Doctors />} />
+                    <Route path="/doctors/profile/:id" element={<ManagedDoctorDetail />} />
                     <Route path="/doctors/:id" element={<DoctorDetail />} />
                     <Route path="/cities" element={<Cities />} />
                     <Route path="/cities/:slug" element={<CityDetail />} />
@@ -50,6 +53,7 @@ const App = () => (
                     <Route path="/why-china" element={<WhyChina />} />
                     <Route path="/auth" element={<Auth />} />
                     <Route path="/admin/videos" element={<VideoAdmin />} />
+                    <Route path="/admin/doctors" element={<DoctorAdmin />} />
                     <Route path="/upload" element={<VideoAdmin />} />
                     <Route path="/cn" element={<Navigate to="/" replace />} />
                     <Route path="/:lang/*" element={<Navigate to="/" replace />} />

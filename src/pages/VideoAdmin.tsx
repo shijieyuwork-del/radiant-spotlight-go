@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
-import { ArrowLeft, Film, Loader2, LogOut, Trash2, UploadCloud } from "lucide-react";
+import { ArrowLeft, Film, Loader2, LogOut, Stethoscope, Trash2, UploadCloud } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
@@ -24,7 +24,9 @@ type VideoRow = {
   storage_path: string;
   status: string;
   created_at: string;
+  doctor_id: string | null;
 };
+type DoctorOption = { id: string; name: string };
 
 const VideoAdmin = () => {
   const { user, loading: authLoading, signOut } = useAuth();
@@ -37,14 +39,20 @@ const VideoAdmin = () => {
   const [city, setCity] = useState("上海");
   const [procedure, setProcedure] = useState("");
   const [status, setStatus] = useState("published");
+  const [doctorId, setDoctorId] = useState("none");
+  const [doctors, setDoctors] = useState<DoctorOption[]>([]);
 
   const isAdmin = user?.email?.toLowerCase() === ADMIN_EMAIL;
 
   const loadVideos = async () => {
     setLoading(true);
-    const { data, error } = await supabase.from("videos").select("*").order("created_at", { ascending: false });
+    const [{ data, error }, doctorResult] = await Promise.all([
+      supabase.from("videos").select("*").order("created_at", { ascending: false }),
+      supabase.from("doctors").select("id,name").order("name"),
+    ]);
     if (error) toast.error(error.message);
     else setVideos((data ?? []) as VideoRow[]);
+    if (!doctorResult.error) setDoctors((doctorResult.data ?? []) as DoctorOption[]);
     setLoading(false);
   };
 
@@ -98,6 +106,7 @@ const VideoAdmin = () => {
         procedure: procedure.trim() || null,
         storage_path: storagePath,
         status,
+        doctor_id: doctorId === "none" ? null : doctorId,
       });
       if (dbError) {
         await supabase.storage.from(BUCKET).remove([storagePath]);
@@ -105,7 +114,7 @@ const VideoAdmin = () => {
       }
 
       toast.success("短视频上传成功");
-      setFile(null); setTitle(""); setCaption(""); setProcedure(""); setStatus("published");
+      setFile(null); setTitle(""); setCaption(""); setProcedure(""); setStatus("published"); setDoctorId("none");
       await loadVideos();
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "上传失败");
@@ -130,6 +139,7 @@ const VideoAdmin = () => {
         <div className="container h-16 flex items-center justify-between">
           <Link to="/" className="inline-flex items-center gap-2 text-sm font-semibold"><ArrowLeft className="size-4" /> 返回网站</Link>
           <div className="flex items-center gap-3 text-sm text-muted-foreground">
+            <Button asChild variant="outline" size="sm" className="rounded-full"><Link to="/admin/doctors"><Stethoscope className="size-4 mr-1"/>医生管理</Link></Button>
             <span className="hidden sm:inline">{user.email}</span>
             <Button variant="outline" size="sm" className="rounded-full" onClick={() => void signOut()}><LogOut className="size-4 mr-1" />退出</Button>
           </div>
@@ -148,6 +158,7 @@ const VideoAdmin = () => {
               <div><Label>城市</Label><Select value={city} onValueChange={setCity}><SelectTrigger className="mt-1.5"><SelectValue /></SelectTrigger><SelectContent>{["上海", "广州", "北京", "海南", "杭州"].map((item) => <SelectItem value={item} key={item}>{item}</SelectItem>)}</SelectContent></Select></div>
               <div><Label htmlFor="procedure">项目</Label><Input id="procedure" value={procedure} onChange={(e) => setProcedure(e.target.value)} className="mt-1.5" placeholder="例如：鼻综合" /></div>
             </div>
+            <div><Label>对应医生</Label><Select value={doctorId} onValueChange={setDoctorId}><SelectTrigger className="mt-1.5"><SelectValue placeholder="选择医生"/></SelectTrigger><SelectContent><SelectItem value="none">暂不关联</SelectItem>{doctors.map(d=><SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>)}</SelectContent></Select></div>
             <div><Label>状态</Label><Select value={status} onValueChange={setStatus}><SelectTrigger className="mt-1.5"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="published">立即发布</SelectItem><SelectItem value="draft">保存草稿</SelectItem></SelectContent></Select></div>
             <Button type="submit" disabled={uploading || !file} className="w-full rounded-full h-11">{uploading ? <><Loader2 className="size-4 mr-2 animate-spin" />正在上传…</> : <><UploadCloud className="size-4 mr-2" />上传视频</>}</Button>
           </form>

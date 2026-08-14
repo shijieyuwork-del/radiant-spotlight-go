@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Search, Filter, Stethoscope, BadgeCheck, Building2, FileCheck2, Star, ArrowRight, MapPin,
@@ -9,12 +9,17 @@ import PageMeta from "@/components/PageMeta";
 import { Button } from "@/components/ui/button";
 import { DOCTORS } from "@/data/doctors";
 import { useAsia } from "@/lib/asia-i18n";
+import { supabase } from "@/integrations/supabase/client";
+
+type ManagedDoctor = { id:string; name:string; title:string; hospital:string; city:string; specialties:string[]; bio:string; photo_path:string|null };
 
 const Doctors = () => {
   const { t, lang } = useAsia();
   const [q, setQ] = useState("");
   const [city, setCity] = useState<string>("all");
   const [spec, setSpec] = useState<string>("all");
+  const [managedDoctors, setManagedDoctors] = useState<ManagedDoctor[]>([]);
+  useEffect(()=>{supabase.from("doctors").select("id,name,title,hospital,city,specialties,bio,photo_path").eq("status","published").order("created_at",{ascending:false}).then(({data})=>setManagedDoctors((data??[]) as ManagedDoctor[]))},[]);
 
   const cities = useMemo(() => {
     const set = new Map<string, string>();
@@ -109,6 +114,8 @@ const Doctors = () => {
             ))}
           </div>
         </div>
+
+        {managedDoctors.length > 0 && <div className="mb-10"><h2 className="font-display text-2xl mb-5">{lang === "zh" ? "平台新增医生" : "Newly added doctors"}</h2><div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">{managedDoctors.map(d=>{const photo=d.photo_path?supabase.storage.from("doctor-photos").getPublicUrl(d.photo_path).data.publicUrl:"";return <Link key={d.id} to={`/doctors/profile/${d.id}`} className="rounded-3xl bg-card shadow-pop p-6 hover:shadow-glow"><div className="flex gap-4">{photo?<img src={photo} alt={d.name} className="size-20 rounded-2xl object-cover"/>:<div className="size-20 rounded-2xl bg-muted grid place-items-center"><Stethoscope/></div>}<div><h3 className="font-display text-xl font-semibold">{d.name}</h3><p className="text-xs text-muted-foreground mt-1">{d.title}</p><p className="text-xs text-muted-foreground mt-1"><MapPin className="inline size-3"/> {d.city}</p></div></div><p className="text-sm mt-4"><Building2 className="inline size-4 text-primary"/> {d.hospital}</p><div className="flex flex-wrap gap-1 mt-4">{d.specialties.map(s=><span key={s} className="text-[11px] px-2 py-1 rounded-full bg-accent">{s}</span>)}</div><p className="text-sm text-primary font-semibold mt-4">{lang === "zh" ? "查看医生和视频" : "View doctor and videos"} →</p></Link>})}</div></div>}
 
         {items.length === 0 ? (
           <p className="text-center text-muted-foreground py-12 text-sm">

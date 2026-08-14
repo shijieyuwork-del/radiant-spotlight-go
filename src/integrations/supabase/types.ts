@@ -26,6 +26,7 @@ export type Database = {
           storage_path: string
           title: string
           updated_at: string
+          doctor_id: string | null
         }
         Insert: {
           caption?: string | null
@@ -38,6 +39,7 @@ export type Database = {
           storage_path: string
           title: string
           updated_at?: string
+          doctor_id?: string | null
         }
         Update: {
           caption?: string | null
@@ -50,7 +52,14 @@ export type Database = {
           storage_path?: string
           title?: string
           updated_at?: string
+          doctor_id?: string | null
         }
+        Relationships: []
+      }
+      doctors: {
+        Row: { id: string; owner_id: string; name: string; title: string; hospital: string; city: string; specialties: string[]; bio: string; credentials: string | null; languages: string | null; photo_path: string | null; status: string; created_at: string; updated_at: string }
+        Insert: { id?: string; owner_id?: string; name: string; title: string; hospital: string; city: string; specialties?: string[]; bio: string; credentials?: string | null; languages?: string | null; photo_path?: string | null; status?: string; created_at?: string; updated_at?: string }
+        Update: { id?: string; owner_id?: string; name?: string; title?: string; hospital?: string; city?: string; specialties?: string[]; bio?: string; credentials?: string | null; languages?: string | null; photo_path?: string | null; status?: string; created_at?: string; updated_at?: string }
         Relationships: []
       }
       profiles: {
