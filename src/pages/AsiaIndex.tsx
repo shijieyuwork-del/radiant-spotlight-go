@@ -37,17 +37,17 @@ type Treatment = {
   image: string;
 };
 const treatments: Treatment[] = [
-  { zh: "鼻综合", en: "Rhinoplasty", emoji: "👃", from: 18800, orig: 28000, groupPrice: 15800, tag: { en: "TOP 1", zh: "热度TOP1" }, grad: "", image: treatmentRhinoplasty },
-  { zh: "面部拉皮 (SMAS)", en: "Facelift (SMAS)", emoji: "✨", from: 88000, orig: 128000, groupPrice: 78000, tag: { en: "Signature", zh: "招牌项目" }, grad: "", image: treatmentFacelift },
+  { zh: "鼻综合", en: "Rhinoplasty", emoji: "👃", from: 18800, orig: 28000, groupPrice: 15800, tag: { en: "Most requested", zh: "咨询较多" }, grad: "", image: treatmentRhinoplasty },
+  { zh: "面部拉皮 (SMAS)", en: "Facelift (SMAS)", emoji: "✨", from: 88000, orig: 128000, groupPrice: 78000, tag: { en: "Facial rejuvenation", zh: "面部年轻化" }, grad: "", image: treatmentFacelift },
   { zh: "颈部提升", en: "Neck Lift", emoji: "🦢", from: 68000, orig: 88000, tag: { en: "Pairs with facelift", zh: "搭配拉皮" }, grad: "", image: treatmentNeckLift },
-  { zh: "双眼皮 / 眼袋", en: "Blepharoplasty (upper + lower)", emoji: "👁️", from: 12800, orig: 19800, groupPrice: 11800, tag: { en: "New patient", zh: "新人专享" }, grad: "", image: treatmentEyelid },
-  { zh: "面部脂肪填充", en: "Facial Fat Grafting", emoji: "🪞", from: 26800, orig: 38000, groupPrice: 24800, tag: { en: "Recommended", zh: "推荐" }, grad: "", image: treatmentFatGrafting },
-  { zh: "吸脂塑形", en: "Liposuction", emoji: "⚡", from: 32000, orig: 48000, groupPrice: 28000, tag: { en: "Sculpt", zh: "塑形" }, grad: "", image: treatmentLiposuction },
+  { zh: "双眼皮 / 眼袋", en: "Blepharoplasty (upper + lower)", emoji: "👁️", from: 12800, orig: 19800, groupPrice: 11800, tag: { en: "Eye procedures", zh: "眼部项目" }, grad: "", image: treatmentEyelid },
+  { zh: "面部脂肪填充", en: "Facial Fat Grafting", emoji: "🪞", from: 26800, orig: 38000, groupPrice: 24800, tag: { en: "Volume restoration", zh: "容量改善" }, grad: "", image: treatmentFatGrafting },
+  { zh: "吸脂塑形", en: "Liposuction", emoji: "⚡", from: 32000, orig: 48000, groupPrice: 28000, tag: { en: "Body contouring", zh: "身体塑形" }, grad: "", image: treatmentLiposuction },
   { zh: "腹壁整形 (Tummy Tuck)", en: "Tummy Tuck / Mommy Makeover", emoji: "🤰", from: 78000, orig: 108000, tag: { en: "Mommy makeover", zh: "产后修复" }, grad: "", image: treatmentTummyTuck },
-  { zh: "巴西提臀 (BBL)", en: "Brazilian Butt Lift (BBL)", emoji: "🍑", from: 96000, orig: 138000, tag: { en: "Hot", zh: "热门" }, grad: "", image: treatmentBbl },
+  { zh: "巴西提臀 (BBL)", en: "Brazilian Butt Lift (BBL)", emoji: "🍑", from: 96000, orig: 138000, tag: { en: "Fat transfer", zh: "脂肪移植" }, grad: "", image: treatmentBbl },
   { zh: "隆胸 (Motiva)", en: "Breast Augmentation (Motiva)", emoji: "💗", from: 88000, orig: 128000, groupPrice: 82000, tag: { en: "Authentic implants", zh: "正品假体" }, grad: "", image: treatmentBreastAugmentation },
   { zh: "提胸 (Mastopexy)", en: "Breast Lift (Mastopexy)", emoji: "🌷", from: 72000, orig: 98000, grad: "", image: treatmentBreastLift },
-  { zh: "全身体形雕塑", en: "Full Body Contouring", emoji: "🧬", from: 128000, orig: 168000, tag: { en: "Premier", zh: "高端" }, grad: "", image: treatmentBodyContouring },
+  { zh: "全身体形雕塑", en: "Full Body Contouring", emoji: "🧬", from: 128000, orig: 168000, tag: { en: "Combined planning", zh: "联合方案" }, grad: "", image: treatmentBodyContouring },
 ];
 
 // Clinics data removed — patients select by doctor, not by clinic.
@@ -83,7 +83,7 @@ const Hero = () => {
                 <Search className="size-4 text-muted-foreground shrink-0" />
                 <input className="w-full bg-transparent outline-none text-sm font-medium" placeholder={t("hero.searchPh")} />
               </div>
-              <Button size="lg" className="rounded-full bg-foreground text-background hover:bg-foreground/90 h-12 px-5 md:px-7 shrink-0">
+              <Button size="lg" className="h-12 shrink-0 rounded-full bg-primary px-5 text-primary-foreground hover:bg-primary/90 md:px-7">
                 <span className="hidden sm:inline">{t("hero.cta")}</span><Search className="sm:hidden size-4" /><ArrowRight className="ml-1 size-4 hidden sm:block" />
               </Button>
             </div>
@@ -174,7 +174,7 @@ const CitiesSection = () => {
       <div className="flex md:grid md:grid-cols-3 lg:grid-cols-5 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0 pb-3">
         {cities.map((c) => (
           <Link key={c.slug} to={`/cities/${c.slug}`} className="group relative flex min-h-[390px] min-w-[78vw] snap-center flex-col justify-end overflow-hidden rounded-[2rem] p-5 text-white shadow-soft transition-all duration-500 hover:-translate-y-1 hover:shadow-pop sm:min-w-[46vw] md:min-w-0">
-            <img src={c.img} alt={`${c.en} city`} className="absolute inset-0 size-full object-cover transition-transform duration-700 group-hover:scale-105" />
+            <img src={c.img} alt={`${c.en} city`} className="absolute inset-0 size-full object-cover saturate-[.78] transition-all duration-700 group-hover:scale-105 group-hover:saturate-90" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-black/10" />
             <div className="relative z-10">
             <p className="font-display text-3xl font-semibold">{lang === "zh" ? c.zh : c.en}</p>
@@ -195,7 +195,7 @@ const CitiesSection = () => {
         ))}
       </div>
       <div className="mt-6 flex justify-center">
-        <Link to="/cities" className="inline-flex items-center gap-1.5 rounded-full bg-foreground text-background px-5 py-2.5 text-sm font-semibold hover:bg-foreground/90 transition">
+        <Link to="/cities" className="inline-flex items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90">
           {lang === "zh" ? "查看全部城市" : "All cities"} <ArrowRight className="size-4" />
         </Link>
       </div>
@@ -234,7 +234,7 @@ const TreatmentsSection = () => {
             key={tx.en}
             className={`group relative flex min-h-[360px] min-w-[78vw] snap-center flex-col justify-end overflow-hidden rounded-[2rem] p-5 shadow-soft transition-all duration-500 hover:-translate-y-1 hover:shadow-pop sm:min-w-[44vw] md:min-h-0 md:min-w-0 ${editorialSizes[index] ?? "md:col-span-4"}`}
           >
-            <img src={tx.image} alt="" className="absolute inset-0 size-full object-cover transition-transform duration-700 group-hover:scale-105" aria-hidden="true" />
+            <img src={tx.image} alt="" className="absolute inset-0 size-full object-cover saturate-[.8] transition-all duration-700 group-hover:scale-105 group-hover:saturate-100" aria-hidden="true" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-black/10 transition-colors duration-500 group-hover:via-black/20" />
             <span className="absolute left-5 top-4 z-10 font-display text-4xl font-medium text-white/25" aria-hidden="true">
               {String(index + 1).padStart(2, "0")}
@@ -246,15 +246,10 @@ const TreatmentsSection = () => {
             )}
             <div className="relative z-10 text-white">
             <p className={`font-display font-medium leading-tight tracking-tight ${index === 0 ? "text-3xl md:max-w-md md:text-4xl" : "text-xl"}`}>{lang === "zh" ? tx.zh : tx.en}</p>
-            <div className="mt-3 flex items-baseline gap-2 flex-wrap">
+            <p className="mt-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/65">{t("tx.from")}</p>
+            <div className="mt-1 flex items-baseline gap-2 flex-wrap">
               <span className={`font-display font-semibold ${index === 0 ? "text-3xl" : "text-2xl"}`}>{fmt(tx.from)}</span>
-              {tx.orig && <span className="text-xs line-through text-white/60">{fmt(tx.orig)}</span>}
             </div>
-            {tx.groupPrice && (
-              <p className="text-xs mt-1 flex items-center gap-1 text-white/80">
-                <Users className="size-3" /> {t("tx.group")} {fmt(tx.groupPrice)}
-              </p>
-            )}
             <Button variant="outline" size="sm" className={`mt-4 rounded-full border-0 bg-white/90 text-foreground backdrop-blur hover:bg-white ${index === 0 ? "w-full md:w-auto md:px-8" : "w-full"}`}>
               {t("tx.book")} <ArrowRight className="ml-1 size-3" />
             </Button>
@@ -282,7 +277,7 @@ const DoctorsSection = () => {
         </div>
         <Link
           to="/doctors"
-          className="text-sm font-semibold pill bg-foreground text-background hover:bg-foreground/90 px-5 py-2"
+          className="pill bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
         >
           {lang === "zh" ? "查看全部医师" : "Browse all surgeons"} <ArrowRight className="size-4" />
         </Link>
@@ -383,7 +378,7 @@ const HowItWorks = () => {
               {zh ? "从想法到中国，" : "From first question to China, "}<em className="text-primary not-italic">{zh ? "全程有人协助" : "we coordinate the details"}</em>
             </h2>
           </div>
-          <Button size="lg" onClick={() => open()} className="shrink-0 rounded-full bg-foreground px-7 text-background hover:bg-foreground/90">
+          <Button size="lg" onClick={() => open()} className="shrink-0 rounded-full bg-primary px-7 text-primary-foreground hover:bg-primary/90">
             {zh ? "开始免费咨询" : "Start your free consultation"}<ArrowRight className="ml-2 size-4" />
           </Button>
         </div>
@@ -413,7 +408,7 @@ const PromoBar = () => {
           <h3 className="font-display text-3xl md:text-4xl font-medium tracking-tight">{t("promo.title")}</h3>
           <p className="text-sm text-foreground/70 mt-2">{t("promo.note")}</p>
         </div>
-        <Button size="lg" className="rounded-2xl bg-foreground text-background hover:bg-foreground/90 h-auto px-6 justify-self-start md:justify-self-end">
+        <Button size="lg" className="h-auto justify-self-start rounded-full bg-primary px-6 text-primary-foreground hover:bg-primary/90 md:justify-self-end">
           {t("promo.cta")} <ArrowRight className="ml-1 size-4" />
         </Button>
       </div>
