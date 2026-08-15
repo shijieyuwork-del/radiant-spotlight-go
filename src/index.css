@@ -51,7 +51,7 @@
 
     /* Gradients */
     --gradient-hero: linear-gradient(135deg, hsl(155 55% 93%) 0%, hsl(50 55% 97%) 58%, hsl(342 45% 96%) 100%);
-    --gradient-mint: linear-gradient(135deg, hsl(158 60% 80%), hsl(155 70% 90%));
+    --gradient-mint: linear-gradient(135deg, hsl(var(--primary) / 0.38), hsl(var(--primary) / 0.12));
     --gradient-peach: linear-gradient(135deg, hsl(18 90% 88%), hsl(340 85% 92%));
     --gradient-card: linear-gradient(180deg, hsl(48 60% 99%) 0%, hsl(50 40% 96%) 100%);
 
@@ -71,6 +71,33 @@
     --sidebar-accent-foreground: 160 25% 15%;
     --sidebar-border: 50 25% 90%;
     --sidebar-ring: 158 45% 55%;
+  }
+
+  .home-content-flow {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at -8% 12%, hsl(340 82% 90% / 0.28), transparent 28%),
+      radial-gradient(circle at 108% 39%, hsl(var(--primary) / 0.18), transparent 30%),
+      radial-gradient(circle at 4% 68%, hsl(50 82% 88% / 0.24), transparent 27%),
+      radial-gradient(circle at 96% 91%, hsl(340 82% 90% / 0.18), transparent 26%),
+      hsl(var(--background));
+  }
+
+  .home-content-flow > section {
+    position: relative;
+    z-index: 1;
+  }
+
+  .home-content-flow > section + section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: clamp(1rem, 5vw, 5rem);
+    right: clamp(1rem, 5vw, 5rem);
+    height: 1px;
+    background: linear-gradient(90deg, transparent, hsl(var(--primary) / 0.16), hsl(340 70% 72% / 0.13), transparent);
   }
 
   .dark {

@@ -19,6 +19,7 @@ import { useAsia } from "@/lib/asia-i18n";
 import { ORGANIZATION_SCHEMA } from "@/lib/seo-config";
 import { useQuote } from "@/components/QuoteRequest";
 import heroBg from "@/assets/hero-bg.jpg";
+import AppPromoSection from "@/components/AppPromoSection";
 
 // ============== Data (bilingual) ==============
 const cities = CITIES;
@@ -154,7 +155,7 @@ const TravelBar = () => {
   if (lang === "zh") return null;
   return (
     <section className="container py-6">
-      <div className="rounded-3xl bg-gradient-to-r from-[hsl(190,70%,92%)] via-[hsl(155,60%,90%)] to-[hsl(50,80%,92%)] p-6 md:p-7 grid md:grid-cols-4 gap-4 items-center shadow-soft">
+      <div className="rounded-3xl bg-gradient-to-r from-[hsl(340,82%,92%)] via-[hsl(var(--primary)/.20)] to-[hsl(50,80%,92%)] p-6 md:p-7 grid md:grid-cols-4 gap-4 items-center shadow-soft">
         {[
           { icon: Plane, t: "Medical visa support", d: "Invitation letter & visa filing assistance" },
           { icon: Users, t: "English coordinator", d: "From landing to follow-up · WhatsApp 24/7" },
@@ -178,54 +179,73 @@ const TravelBar = () => {
 
 const CitiesSection = () => {
   const { t, lang } = useAsia();
+  const cityRailRef = useRef<HTMLDivElement>(null);
+  const cityRailPausedRef = useRef(false);
+  const moveCities = (direction: -1 | 1) => {
+    const rail = cityRailRef.current;
+    if (!rail) return;
+    rail.scrollBy({ left: direction * Math.min(rail.clientWidth * 0.86, 1080), behavior: "smooth" });
+  };
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const timer = window.setInterval(() => {
+      const rail = cityRailRef.current;
+      if (!rail || cityRailPausedRef.current || document.hidden) return;
+      const atEnd = rail.scrollLeft + rail.clientWidth >= rail.scrollWidth - 24;
+      rail.scrollTo({ left: atEnd ? 0 : rail.scrollLeft + Math.min(rail.clientWidth * 0.86, 1080), behavior: "smooth" });
+    }, 4800);
+    return () => window.clearInterval(timer);
+  }, []);
   return (
-    <section id="cities" className="container py-12 md:py-20">
-      <div className="flex items-end justify-between mb-8 gap-4">
+    <section id="cities" className="container py-12 md:py-16">
+      <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <div>
           <span className="pill bg-accent text-accent-foreground mb-3"><MapPin className="size-3.5" /> {t("cities.kicker")}</span>
           <h2 className="font-display text-4xl md:text-5xl font-medium tracking-tight">
             {t("cities.title1")} <em className="text-primary not-italic">{t("cities.titleEm")}</em>
           </h2>
         </div>
+        <div className="flex items-center gap-2">
+          <button type="button" onClick={() => moveCities(-1)} className="grid size-10 place-items-center rounded-full border border-border bg-card text-foreground shadow-soft transition hover:border-primary hover:text-primary" aria-label={lang === "zh" ? "上一组城市" : "Previous cities"}><ChevronLeft className="size-5" /></button>
+          <button type="button" onClick={() => moveCities(1)} className="grid size-10 place-items-center rounded-full bg-primary text-primary-foreground shadow-soft transition hover:bg-primary/90" aria-label={lang === "zh" ? "下一组城市" : "More cities"}><ChevronRight className="size-5" /></button>
+          <Link to="/cities" className="pill ml-1 hidden bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90 sm:inline-flex">{lang === "zh" ? "全部城市" : "All cities"}<ArrowRight className="size-4" /></Link>
+        </div>
       </div>
-      <div className="flex md:grid md:grid-cols-3 lg:grid-cols-5 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0 pb-3">
+      <div
+        ref={cityRailRef}
+        onMouseEnter={() => { cityRailPausedRef.current = true; }}
+        onMouseLeave={() => { cityRailPausedRef.current = false; }}
+        onFocusCapture={() => { cityRailPausedRef.current = true; }}
+        onBlurCapture={() => { cityRailPausedRef.current = false; }}
+        className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-4 pb-4 scrollbar-hide md:-mx-6 md:gap-6 md:px-6"
+      >
         {cities.map((c) => (
-          <Link key={c.slug} to={`/cities/${c.slug}`} className="group h-[410px] min-w-[78vw] snap-center [perspective:1400px] sm:min-w-[46vw] md:min-w-0">
-            <div className="relative size-full transition-transform duration-500 [transform-style:preserve-3d] md:group-hover:[transform:rotateY(180deg)] md:group-focus-visible:[transform:rotateY(180deg)]">
-              <article className="absolute inset-0 flex flex-col justify-end overflow-hidden rounded-[2rem] p-5 text-white shadow-soft [backface-visibility:hidden]">
-                <img src={c.img} alt={`${c.en} city`} className="absolute inset-0 size-full object-cover saturate-[.78] transition-all duration-700 group-hover:scale-105 group-hover:saturate-90" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-black/10" />
-                <div className="relative z-10">
-                  <p className="font-display text-3xl font-semibold">{lang === "zh" ? c.zh : c.en}</p>
-                  <p className="text-sm text-white/75">{lang === "zh" ? c.en : c.zh}</p>
-                  <p className="mt-4 text-xs font-semibold uppercase tracking-[0.14em] text-white/75">{lang === "zh" ? "热门手术" : "Trending procedures"}</p>
-                  <div className="mt-2 flex flex-wrap gap-1">
-                    {(lang === "zh" ? c.hotZh : c.hotEn).map((h) => <span key={h} className="rounded-full border border-white/20 bg-white/20 px-2.5 py-1 text-[10px] font-medium text-white backdrop-blur-md">{h}</span>)}
-                  </div>
-                  <p className="mt-4 inline-flex items-center gap-1 rounded-full bg-white px-3 py-1.5 text-[11px] font-semibold text-foreground">
-                    {lang === "zh" ? "悬停了解城市" : "Hover to discover"}<ArrowRight className="size-3" />
-                  </p>
+          <Link key={c.slug} to={`/cities/${c.slug}`} className="group block min-w-[88vw] snap-start sm:min-w-[62vw] md:min-w-[calc((100%_-_3rem)/3)] md:max-w-[calc((100%_-_3rem)/3)]">
+            <article className="flex h-[410px] flex-col rounded-2xl border border-border bg-card p-5 shadow-soft transition duration-300 group-hover:-translate-y-1 group-hover:border-primary/35 group-hover:shadow-pop md:p-6">
+              <div className="flex min-w-0 items-center gap-4">
+                <img src={c.img} alt={`${c.en} city`} className="size-24 shrink-0 rounded-full border-2 border-primary/15 object-cover transition-transform duration-500 group-hover:scale-105 md:size-28" />
+                <div className="min-w-0">
+                  <h3 className="font-display text-2xl font-semibold leading-tight text-foreground md:text-3xl">{lang === "zh" ? c.zh : c.en}</h3>
+                  <p className="mt-1 text-sm text-muted-foreground">{lang === "zh" ? c.en : c.zh}</p>
+                  <p className="mt-2 line-clamp-2 text-sm font-medium text-primary">{lang === "zh" ? c.taglineZh : c.taglineEn}</p>
                 </div>
-              </article>
-
-              <article className="absolute inset-0 flex flex-col rounded-[2rem] bg-foreground p-5 text-background shadow-pop [backface-visibility:hidden] [transform:rotateY(180deg)]">
-                <span className="w-fit rounded-full bg-primary/20 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-primary">{lang === "zh" ? "城市指南" : "City guide"}</span>
-                <h3 className="mt-4 font-display text-3xl font-semibold">{lang === "zh" ? c.zh : c.en}</h3>
-                <p className="mt-1 text-sm font-semibold text-primary">{lang === "zh" ? c.taglineZh : c.taglineEn}</p>
-                <p className="mt-4 line-clamp-5 text-xs leading-relaxed text-background/70">{lang === "zh" ? c.introZh : c.introEn}</p>
-                <div className="mt-4 grid grid-cols-2 gap-2 text-center">
-                  <div className="rounded-2xl bg-background/[0.07] px-2 py-2.5"><p className="font-display text-xl font-semibold text-primary">{c.doctorsCount}+</p><p className="text-[9px] text-background/55">{lang === "zh" ? "平台医生" : "listed surgeons"}</p></div>
-                  <div className="rounded-2xl bg-background/[0.07] px-2 py-2.5"><p className="font-display text-xl font-semibold text-primary">{c.savings}</p><p className="text-[9px] text-background/55">{lang === "zh" ? "参考节省" : "indicative savings"}</p></div>
-                </div>
-                <div className="mt-auto inline-flex items-center gap-1.5 border-t border-background/10 pt-3 text-sm font-semibold text-primary">
-                  {lang === "zh" ? "查看完整城市指南" : "Explore the full city guide"}<ArrowRight className="size-4" />
-                </div>
-              </article>
-            </div>
+              </div>
+              <p className="mt-5 line-clamp-2 text-sm leading-relaxed text-muted-foreground">{lang === "zh" ? c.introZh : c.introEn}</p>
+              <div className="mt-4 grid grid-cols-2 gap-2 text-center">
+                <div className="rounded-xl bg-secondary py-2.5"><p className="font-display text-xl font-semibold">{c.doctorsCount}+</p><p className="text-[10px] text-muted-foreground">{lang === "zh" ? "平台医生" : "listed surgeons"}</p></div>
+                <div className="rounded-xl bg-secondary py-2.5"><p className="font-display text-xl font-semibold text-primary">{c.savings}</p><p className="text-[10px] text-muted-foreground">{lang === "zh" ? "参考节省" : "indicative savings"}</p></div>
+              </div>
+              <div className="mt-4 flex max-h-[50px] flex-wrap gap-1.5 overflow-hidden">
+                {(lang === "zh" ? c.hotZh : c.hotEn).slice(0, 3).map((h) => <span key={h} className="rounded-full bg-accent px-2.5 py-1 text-[10px] text-accent-foreground">{h}</span>)}
+              </div>
+              <div className="mt-auto flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3.5 text-sm font-semibold text-primary-foreground transition group-hover:bg-primary/90">
+                {lang === "zh" ? "查看城市与医生" : "Explore city & doctors"}<ArrowRight className="size-4" />
+              </div>
+            </article>
           </Link>
         ))}
       </div>
-      <div className="mt-6 flex justify-center">
+      <div className="mt-2 flex justify-center sm:hidden">
         <Link to="/cities" className="inline-flex items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90">
           {lang === "zh" ? "查看全部城市" : "All cities"} <ArrowRight className="size-4" />
         </Link>
@@ -277,7 +297,7 @@ const TreatmentsSection = () => {
     return () => window.cancelAnimationFrame(frame);
   }, []);
   return (
-    <section id="projects" className="container py-12 md:py-20">
+    <section id="projects" className="container py-12 md:py-16">
       <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <div>
           <span className="pill bg-accent text-accent-foreground mb-3"><Flame className="size-3.5" /> {t("tx.kicker")}</span>
@@ -360,7 +380,7 @@ const DoctorsSection = () => {
     return () => window.clearInterval(timer);
   }, []);
   return (
-    <section id="compliance" className="container py-10 md:py-20">
+    <section id="compliance" className="container py-12 md:py-16">
       <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
         <div>
           <span className="pill bg-accent text-accent-foreground mb-3"><Stethoscope className="size-3.5" /> {t("doctors.kicker")}</span>
@@ -476,8 +496,8 @@ const HowItWorks = () => {
     },
     {
       icon: BadgeCheck,
-      title: zh ? "比较适合的医生" : "Compare verified doctors",
-      text: zh ? "查看医生背景、相关案例和清晰费用。" : "Review credentials, relevant cases and itemized pricing.",
+      title: zh ? "预约线上咨询" : "Book online consultation",
+      text: zh ? "选择适合的医生，并预约线上咨询时间。" : "Choose your doctor and schedule a convenient online consultation.",
     },
     {
       icon: Plane,
@@ -487,23 +507,25 @@ const HowItWorks = () => {
   ];
 
   return (
-    <section className="container py-10 md:py-20">
-      <div className="rounded-[2rem] border border-primary/15 bg-card p-5 shadow-soft md:p-10">
-        <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+    <section className="container py-12 md:py-16">
+      <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-r from-[hsl(190,70%,92%)] via-[hsl(var(--primary)/.20)] to-[hsl(50,80%,92%)] p-5 text-foreground shadow-pop md:p-10">
+        <div className="pointer-events-none absolute -right-24 -top-32 size-80 rounded-full bg-white/25" />
+        <div className="pointer-events-none absolute -bottom-32 -left-20 size-72 rounded-full bg-primary/10" />
+        <div className="relative flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl">
-            <span className="pill mb-3 bg-accent text-accent-foreground"><Sparkles className="size-3.5" /> {zh ? "简单三步" : "A simple three-step process"}</span>
+            <span className="pill mb-3 bg-white/85 text-foreground"><Sparkles className="size-3.5 text-primary" /> {zh ? "简单三步" : "A simple three-step process"}</span>
             <h2 className="font-display text-3xl font-medium tracking-tight sm:text-4xl md:text-5xl">
               {zh ? "从想法到中国，" : "From first question to China, "}<em className="text-primary not-italic">{zh ? "全程有人协助" : "we coordinate the details"}</em>
             </h2>
           </div>
-          <Button size="lg" onClick={() => open()} className="w-full shrink-0 rounded-full bg-primary px-7 text-primary-foreground hover:bg-primary/90 md:w-fit">
+          <Button size="lg" onClick={() => open()} className="w-full shrink-0 rounded-full bg-primary px-7 text-primary-foreground shadow-pop hover:bg-primary/90 md:w-fit">
             {zh ? "开始免费咨询" : "Start your free consultation"}<ArrowRight className="ml-2 size-4" />
           </Button>
         </div>
 
-        <div className="-mx-5 mt-7 flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 pb-2 scrollbar-hide md:mx-0 md:grid md:grid-cols-3 md:gap-4 md:overflow-visible md:px-0">
+        <div className="relative -mx-5 mt-7 flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 pb-2 scrollbar-hide md:mx-0 md:grid md:grid-cols-3 md:gap-4 md:overflow-visible md:px-0">
           {steps.map((step, index) => (
-            <article key={step.title} className="relative min-w-[78vw] snap-center rounded-3xl bg-muted/45 p-5 sm:min-w-[56vw] md:min-w-0 md:p-6">
+            <article key={step.title} className="relative min-w-[78vw] snap-center rounded-3xl border border-white/55 bg-white/78 p-5 text-foreground shadow-soft backdrop-blur sm:min-w-[56vw] md:min-w-0 md:p-6">
               <span className="absolute right-5 top-4 font-display text-4xl text-primary/20">0{index + 1}</span>
               <span className="grid size-11 place-items-center rounded-2xl bg-primary/15 text-primary"><step.icon className="size-5" /></span>
               <h3 className="mt-5 font-display text-xl font-medium tracking-tight">{step.title}</h3>
@@ -520,7 +542,7 @@ const PromoBar = () => {
   const { t } = useAsia();
   return (
     <section className="container py-6 md:py-10">
-      <div className="grid items-center gap-5 rounded-3xl bg-gradient-to-r from-[hsl(340,85%,90%)] via-[hsl(50,80%,90%)] to-[hsl(155,60%,85%)] p-5 shadow-pop md:grid-cols-3 md:gap-6 md:p-10">
+      <div className="grid items-center gap-5 rounded-3xl bg-gradient-to-r from-[hsl(340,85%,90%)] via-[hsl(50,80%,90%)] to-[hsl(var(--primary)/.28)] p-5 shadow-pop md:grid-cols-3 md:gap-6 md:p-10">
         <div className="md:col-span-2">
           <span className="pill bg-card/80 backdrop-blur shadow-soft mb-3"><Gift className="size-3.5 text-primary" /> {t("promo.kicker")}</span>
           <h3 className="font-display text-3xl md:text-4xl font-medium tracking-tight">{t("promo.title")}</h3>
@@ -607,13 +629,14 @@ const AsiaIndex = () => (
     <div className="min-h-screen bg-background overflow-x-hidden">
       <AsiaNavbar />
       <Hero />
-      <TravelBar />
-      <TreatmentsSection />
-      <DoctorsSection />
-      <CitiesSection />
-      <HowItWorks />
-      <PromoBar />
-      <PatientReviewsSection />
+      <main className="home-content-flow">
+        <TravelBar />
+        <TreatmentsSection />
+        <DoctorsSection />
+        <CitiesSection />
+        <HowItWorks />
+        <AppPromoSection />
+      </main>
       <Footer />
     </div>
   </>

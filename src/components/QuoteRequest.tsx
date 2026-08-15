@@ -155,7 +155,7 @@ const QuoteDialog = ({
     ? `Connect with Dr. ${ctx.doctorName}`
     : ctx.procedure
     ? `Get pricing for ${ctx.procedure}`
-    : "Get a free, personalized quote";
+    : "Send us an email or WhatsApp message";
 
   const subline = ctx.doctorName
     ? `${ctx.city ?? "Verified surgeon"} · usually replies within 24h`
