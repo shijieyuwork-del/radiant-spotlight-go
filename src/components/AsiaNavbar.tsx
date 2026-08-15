@@ -1,12 +1,10 @@
-import { Link, useNavigate } from "react-router-dom";
-import { DollarSign, Languages, MessageCircle, LogOut, User as UserIcon, Menu, ChevronRight } from "lucide-react";
+import { Link } from "react-router-dom";
+import { DollarSign, Languages, MessageCircle, Menu, ChevronRight, ChevronDown, Phone, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
-  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel,
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAsia, asiaLangLabel as langLabel, type AsiaLang as Lang } from "@/lib/asia-i18n";
-import { useQuote } from "@/components/QuoteRequest";
-import { useAuth } from "@/lib/auth";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import BrandLogo from "@/components/BrandLogo";
 
@@ -14,9 +12,6 @@ type Props = { homeLinks?: boolean };
 
 const AsiaNavbar = ({ homeLinks = true }: Props) => {
   const { t, lang, setLang, currency, setCurrency } = useAsia();
-  const { open } = useQuote();
-  const { user, signOut } = useAuth();
-  const navigate = useNavigate();
   const links = homeLinks
     ? [
         { to: "/", label: lang === "zh" ? "首页" : "Home" },
@@ -31,18 +26,64 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
         { to: "/", label: lang === "zh" ? "首页" : "Home" },
         { to: "/cases", label: t("nav.cases") },
       ];
+  const desktopLinks = homeLinks
+    ? links.filter((link) => ["/", "/treatments", "/cases", "/doctors", "/travel-packages"].includes(link.to))
+    : links;
+  const moreLinks = homeLinks
+    ? links.filter((link) => ["/cities", "/why-china"].includes(link.to))
+    : [];
   return (
     <header className="sticky top-0 z-50 backdrop-blur-xl bg-background/80 border-b border-border/60">
+      <div className="border-b border-primary bg-primary text-primary-foreground">
+        <div className="container flex min-h-9 items-center justify-between gap-3 py-1 text-[11px] sm:text-xs">
+          <div className="flex min-w-0 items-center gap-3 sm:gap-5">
+            <a href="tel:+14708613825" className="inline-flex shrink-0 items-center gap-1.5 font-medium text-primary-foreground/90 transition hover:text-primary-foreground">
+              <Phone className="size-3.5" />
+              <span className="hidden sm:inline">+1 470 861 3825</span>
+              <span className="sm:hidden">Call</span>
+            </a>
+            <a href="mailto:hello@cosmetics-asia.com" className="inline-flex min-w-0 items-center gap-1.5 font-medium text-primary-foreground/90 transition hover:text-primary-foreground">
+              <Mail className="size-3.5 shrink-0" />
+              <span className="hidden truncate sm:inline">hello@cosmetics-asia.com</span>
+              <span className="sm:hidden">Email</span>
+            </a>
+          </div>
+          <a
+            href="https://wa.me/14708613825?text=Hi%20Cosmetics%20Asia%2C%20I%20would%20like%20to%20ask%20about%20your%20services."
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-card px-3 py-1 font-semibold text-foreground shadow-soft transition hover:bg-card/90"
+          >
+            <MessageCircle className="size-3.5" /> WhatsApp
+          </a>
+        </div>
+      </div>
       <nav className="container flex h-14 md:h-16 items-center justify-between gap-3">
         <Link to="/" className="flex items-center gap-2 shrink-0">
           <BrandLogo markClassName="size-8 md:size-9" textClassName="text-lg md:text-xl" />
         </Link>
         <div className="hidden md:flex items-center gap-0.5 rounded-full bg-muted/60 p-1">
-          {links.map((l) => (
+          {desktopLinks.map((l) => (
             <Link key={l.to} to={l.to} className="whitespace-nowrap px-2.5 xl:px-4 py-1.5 rounded-full text-[13px] xl:text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
               {l.label}
             </Link>
           ))}
+          {moreLinks.length > 0 && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="inline-flex items-center gap-1 whitespace-nowrap rounded-full px-2.5 py-1.5 text-[13px] font-medium text-muted-foreground transition-colors hover:text-foreground xl:px-4 xl:text-sm">
+                  {lang === "zh" ? "更多" : "More"}<ChevronDown className="size-3.5" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="min-w-44 rounded-2xl p-1.5">
+                {moreLinks.map((link) => (
+                  <DropdownMenuItem key={link.to} asChild className="rounded-xl">
+                    <Link to={link.to}>{link.label}</Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
         </div>
         <div className="hidden md:flex items-center gap-1.5">
           <DropdownMenu>
@@ -70,38 +111,6 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button onClick={() => open()} className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 px-5 gap-1.5">
-            <MessageCircle className="size-4" />
-            {lang === "zh" ? "人工咨询" : "Consult"}
-          </Button>
-          {user ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="rounded-full size-9 p-0 bg-accent">
-                  <span className="text-sm font-semibold">
-                    {(user.email?.[0] ?? "U").toUpperCase()}
-                  </span>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="rounded-2xl w-56">
-                <DropdownMenuLabel className="truncate">{user.email}</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem className="rounded-xl gap-2" disabled>
-                  <UserIcon className="size-4" /> {lang === "zh" ? "个人中心" : "Profile"}
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  className="rounded-xl gap-2 text-destructive focus:text-destructive"
-                  onClick={async () => { await signOut(); navigate("/"); }}
-                >
-                  <LogOut className="size-4" /> {lang === "zh" ? "退出登录" : "Sign out"}
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          ) : (
-            <Button asChild className="rounded-full bg-foreground text-background hover:bg-foreground/90 px-5">
-              <Link to="/auth">{t("nav.signin")}</Link>
-            </Button>
-          )}
         </div>
 
         <Sheet>
@@ -131,10 +140,6 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
                   <DropdownMenuTrigger asChild><Button variant="outline" className="rounded-2xl h-11"><Languages className="size-4 mr-1" />{langLabel[lang].flag} {langLabel[lang].label}</Button></DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="rounded-2xl">{(Object.keys(langLabel) as Lang[]).map((l) => <DropdownMenuItem key={l} onClick={() => setLang(l)}>{langLabel[l].flag} {langLabel[l].label}</DropdownMenuItem>)}</DropdownMenuContent>
                 </DropdownMenu>
-              </div>
-              <div className="mt-auto space-y-2 pt-6">
-                <Button onClick={() => open()} className="w-full h-12 rounded-2xl gap-2"><MessageCircle className="size-4" />{lang === "zh" ? "人工咨询" : "Consult"}</Button>
-                {user ? <Button variant="outline" className="w-full h-12 rounded-2xl" onClick={async () => { await signOut(); navigate("/"); }}><LogOut className="size-4 mr-2" />{lang === "zh" ? "退出登录" : "Sign out"}</Button> : <Button asChild variant="outline" className="w-full h-12 rounded-2xl"><Link to="/auth">{t("nav.signin")}</Link></Button>}
               </div>
             </div>
           </SheetContent>

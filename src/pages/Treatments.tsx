@@ -175,9 +175,17 @@ const Treatments = () => {
             </p>
           </div>
 
+          <nav className="-mx-4 mb-7 flex snap-x gap-2 overflow-x-auto px-4 pb-2 scrollbar-hide md:mx-0 md:flex-wrap md:justify-center md:px-0" aria-label={zh ? "项目分类" : "Procedure categories"}>
+            {PROCEDURE_CATEGORIES.map((category) => (
+              <a key={category.en} href={`#${procedureSlug(category.en)}`} className="min-h-11 shrink-0 snap-start rounded-full border border-border bg-card px-4 py-2.5 text-sm font-semibold shadow-soft transition hover:border-primary/40 hover:text-primary">
+                {zh ? category.zh : category.en}
+              </a>
+            ))}
+          </nav>
+
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {PROCEDURE_CATEGORIES.map((category, categoryIndex) => (
-              <section key={category.en} className="rounded-3xl border border-border/60 bg-card p-6 shadow-soft">
+              <section id={procedureSlug(category.en)} key={category.en} className="scroll-mt-20 rounded-3xl border border-border/60 bg-card p-5 shadow-soft md:p-6">
                 <div className="flex items-center gap-2">
                   <span className="grid size-9 place-items-center rounded-xl bg-primary/10 text-primary"><Sparkles className="size-4" /></span>
                   <h2 className="font-display text-xl font-medium tracking-tight">{zh ? category.zh : category.en}</h2>

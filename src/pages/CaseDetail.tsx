@@ -101,11 +101,11 @@ const CaseDetail = () => {
           <ArrowLeft className="size-4" /> {t("case.back")}
         </Link>
 
-        <div className="grid lg:grid-cols-12 gap-8 items-start">
+        <div className="grid min-w-0 gap-8 lg:grid-cols-12 lg:items-start">
           {/* Player */}
-          <div className="lg:col-span-5">
+          <div className="min-w-0 lg:col-span-5">
             <div
-              className="relative aspect-[9/16] rounded-3xl overflow-hidden bg-black shadow-pop cursor-pointer max-w-md mx-auto lg:max-w-none"
+              className="relative mx-auto aspect-[9/16] w-full max-w-md cursor-pointer overflow-hidden rounded-3xl bg-black shadow-pop lg:max-w-none"
               onClick={togglePlay}
             >
               <video
@@ -177,7 +177,7 @@ const CaseDetail = () => {
               </div>
             </div>
 
-            <nav className="mx-auto mt-4 grid max-w-md grid-cols-2 gap-3 lg:max-w-none" aria-label={lang === "zh" ? "案例浏览" : "Browse cases"}>
+            <nav className="mx-auto mt-4 grid w-full max-w-md grid-cols-2 gap-3 lg:max-w-none" aria-label={lang === "zh" ? "案例浏览" : "Browse cases"}>
               <Link to={`/cases/${previousItem.id}`} className="group rounded-2xl border border-border/70 bg-card p-3 shadow-soft transition hover:-translate-y-0.5 hover:border-primary/30">
                 <span className="flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground"><ArrowLeft className="size-3.5" />{lang === "zh" ? "上一个" : "Previous"}</span>
                 <span className="mt-1 block truncate text-sm font-semibold">{previousItem.treatment[lang]}</span>
@@ -190,7 +190,7 @@ const CaseDetail = () => {
           </div>
 
           {/* Info */}
-          <div className="lg:col-span-7 space-y-5">
+          <div className="min-w-0 space-y-5 lg:col-span-7">
             <div>
               <span className="pill bg-accent text-accent-foreground"><BadgeCheck className="size-3.5 text-primary" /> {item.treatment[lang]}</span>
               <h1 className="font-display text-3xl md:text-4xl font-medium tracking-tight mt-3 leading-tight">

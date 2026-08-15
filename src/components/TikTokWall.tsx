@@ -207,8 +207,8 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase }
     };
 
     return (
-      <div className="relative overflow-hidden rounded-[2rem] border border-primary/10 bg-[radial-gradient(ellipse_at_50%_100%,hsl(var(--primary)/.16),transparent_58%)] px-2 pb-5 pt-2 shadow-soft sm:px-6">
-        <div className="relative mx-auto h-[390px] max-w-6xl [perspective:1400px] sm:h-[430px]">
+      <div className="relative overflow-hidden rounded-[2.25rem] border border-primary/15 bg-[radial-gradient(ellipse_at_50%_100%,hsl(var(--primary)/.22),transparent_62%)] px-2 pb-6 pt-4 shadow-pop sm:px-6 md:pt-6">
+        <div className="relative mx-auto h-[470px] max-w-[90rem] [perspective:1600px] sm:h-[540px] md:h-[590px]">
           {items.map((it, index) => {
             const distance = distanceFromActive(index);
             const depth = Math.abs(distance);
@@ -216,17 +216,17 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase }
             const direction = distance < 0 ? "-" : "+";
             const offset = distance === 0
               ? "-50%"
-              : `calc(-50% ${direction} clamp(${depth * 135}px, ${depth * 23}vw, ${depth * 290}px))`;
+              : `calc(-50% ${direction} clamp(${depth * 155}px, ${depth * 22}vw, ${depth * 340}px))`;
 
             return (
               <div
                 key={it.id}
-                className="absolute left-1/2 top-3 w-[58vw] max-w-[230px] transition-all duration-700 ease-out sm:w-[210px] lg:w-[230px]"
+                className="absolute left-1/2 top-3 w-[66vw] max-w-[255px] transition-all duration-700 ease-out sm:w-[270px] sm:max-w-[270px] md:w-[300px] md:max-w-[300px] lg:w-[320px] lg:max-w-[320px]"
                 style={{
                   opacity: visible ? 1 - depth * 0.18 : 0,
                   pointerEvents: visible ? "auto" : "none",
                   zIndex: 10 - depth,
-                  transform: `translateX(${offset}) translateY(${depth * 26}px) translateZ(${-depth * 110}px) rotateY(${distance * -13}deg) rotateZ(${distance * 1.8}deg) scale(${1 - depth * 0.08})`,
+                  transform: `translateX(${offset}) translateY(${depth * 28}px) translateZ(${-depth * 120}px) rotateY(${distance * -12}deg) rotateZ(${distance * 1.5}deg) scale(${1 - depth * 0.075})`,
                   transformStyle: "preserve-3d",
                 }}
               >

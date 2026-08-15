@@ -113,7 +113,7 @@ const FloatingLiveChat = () => {
         <button
           onClick={handleOpen}
           aria-label={lang === "zh" ? "联系真人客服" : "Chat with a human agent"}
-          className="fixed z-50 bottom-6 right-6 group flex items-center gap-2 rounded-full bg-foreground text-background pl-2 pr-5 py-2 shadow-pop hover:shadow-glow transition-all hover:-translate-y-0.5"
+          className="group fixed bottom-4 right-4 z-50 flex items-center gap-2 rounded-full bg-foreground p-2 text-background shadow-pop transition-all hover:-translate-y-0.5 hover:shadow-glow sm:bottom-6 sm:right-6 sm:pl-2 sm:pr-5"
         >
           <span className="relative size-10 rounded-full bg-primary grid place-items-center text-foreground">
             <Headphones className="size-5" />
@@ -124,7 +124,7 @@ const FloatingLiveChat = () => {
               </span>
             )}
           </span>
-          <span className="text-sm font-semibold whitespace-nowrap">
+          <span className="hidden whitespace-nowrap text-sm font-semibold sm:inline">
             {lang === "zh" ? "真人客服" : "Live agent"}
           </span>
         </button>
@@ -132,7 +132,7 @@ const FloatingLiveChat = () => {
 
       {/* Panel */}
       {open && (
-        <div className="fixed z-50 bottom-6 right-6 w-[min(380px,calc(100vw-2rem))] h-[min(560px,calc(100vh-6rem))] rounded-3xl bg-card shadow-pop border border-border flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-200">
+        <div className="fixed inset-x-2 bottom-2 z-50 flex h-[min(620px,calc(100dvh-1rem))] flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-pop animate-in fade-in slide-in-from-bottom-4 duration-200 sm:inset-x-auto sm:bottom-6 sm:right-6 sm:h-[min(560px,calc(100vh-6rem))] sm:w-[min(380px,calc(100vw-2rem))]">
           {/* Header */}
           <div className="bg-gradient-mint p-4 flex items-start gap-3">
             <div className="relative shrink-0">

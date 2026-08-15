@@ -106,6 +106,13 @@ const Packages = () => {
 
       {/* Packages grid */}
       <section className="container pb-16 md:pb-20">
+        <nav className="-mx-4 mb-6 flex snap-x gap-2 overflow-x-auto px-4 pb-2 scrollbar-hide md:mx-0 md:justify-center md:px-0" aria-label={lang === "zh" ? "套餐快捷入口" : "Package shortcuts"}>
+          {PACKAGES.map((p) => (
+            <a key={p.id} href={`#package-${p.id}`} className="min-h-11 shrink-0 snap-start rounded-full border border-border bg-card px-4 py-2.5 text-sm font-semibold shadow-soft transition hover:border-primary/40 hover:text-primary">
+              {lang === "zh" ? p.nameZh : p.nameEn} · ${p.price.toLocaleString()}
+            </a>
+          ))}
+        </nav>
         <div className="mx-auto mb-8 max-w-3xl rounded-2xl border border-border bg-card px-5 py-4 shadow-soft">
           <p className="text-sm font-semibold text-foreground">
             {lang === "zh" ? "可选签证支持：医疗邀请函" : "Optional Visa Support: Medical Invitation Letter"}
@@ -121,8 +128,9 @@ const Packages = () => {
             const Icon = p.icon;
             return (
               <div
+                id={`package-${p.id}`}
                 key={p.id}
-                className={`relative rounded-3xl bg-gradient-to-br ${p.grad} p-1 ${
+                className={`relative scroll-mt-20 rounded-3xl bg-gradient-to-br ${p.grad} p-1 ${
                   p.highlight ? "shadow-pop md:-translate-y-3" : "shadow-soft"
                 }`}
               >
