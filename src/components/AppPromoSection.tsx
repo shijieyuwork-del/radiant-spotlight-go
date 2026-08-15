@@ -4,14 +4,14 @@ const WAITLIST_URL = "https://wa.me/14708613825?text=Hi%2C%20please%20add%20me%2
 
 const AppPromoSection = () => (
   <section className="container py-12 md:py-16">
-    <div className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-[hsl(340,85%,89%)] via-[hsl(42,82%,91%)] to-[hsl(var(--primary)/.30)] px-6 py-10 shadow-pop md:px-12 md:py-14 lg:px-16">
+    <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[hsl(340,85%,89%)] via-[hsl(42,82%,91%)] to-[hsl(var(--primary)/.30)] px-5 py-9 shadow-pop sm:rounded-[2.5rem] sm:px-6 sm:py-10 md:px-12 md:py-14 lg:px-16">
       <div className="absolute -left-28 -top-36 size-80 rounded-full bg-white/30 blur-2xl" />
       <div className="absolute -bottom-[65%] right-[-12%] size-[760px] rounded-full bg-primary/20" />
       <div className="absolute bottom-[-8rem] left-[32%] size-72 rounded-full bg-[hsl(340,85%,88%)]/45 blur-2xl" />
       <div className="relative grid items-center gap-10 md:grid-cols-[0.95fr_1.05fr]">
         <div className="relative z-10 max-w-xl">
           <span className="pill mb-5 bg-white/75 text-foreground"><Smartphone className="size-3.5 text-primary" /> App coming soon</span>
-          <h2 className="font-display text-4xl font-medium leading-[0.98] tracking-[-0.04em] sm:text-5xl lg:text-6xl">
+          <h2 className="font-display text-3xl font-medium leading-[0.98] tracking-[-0.04em] sm:text-5xl lg:text-6xl">
             China’s cosmetic care.<br /><em className="not-italic text-primary">One app.</em>
           </h2>
           <p className="mt-5 max-w-lg text-base leading-relaxed text-foreground/75 md:text-lg">
@@ -22,7 +22,7 @@ const AppPromoSection = () => (
             <span className="rounded-full bg-white/65 px-4 py-2">10K+ diaries</span>
             <span className="rounded-full bg-white/65 px-4 py-2">iOS + Android</span>
           </div>
-          <a href={WAITLIST_URL} target="_blank" rel="noreferrer" className="mt-7 inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-6 py-4 font-semibold text-background transition hover:-translate-y-0.5 hover:bg-foreground/90">
+          <a href={WAITLIST_URL} target="_blank" rel="noreferrer" className="mt-7 inline-flex w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 py-4 text-center font-semibold text-background transition hover:-translate-y-0.5 hover:bg-foreground/90 sm:w-auto sm:px-6">
             <MessageCircle className="size-5" /> Join the launch list <ArrowRight className="size-4" />
           </a>
         </div>

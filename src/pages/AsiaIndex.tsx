@@ -155,7 +155,7 @@ const TravelBar = () => {
   if (lang === "zh") return null;
   return (
     <section className="container py-6">
-      <div className="rounded-3xl bg-gradient-to-r from-[hsl(340,82%,92%)] via-[hsl(var(--primary)/.20)] to-[hsl(50,80%,92%)] p-6 md:p-7 grid md:grid-cols-4 gap-4 items-center shadow-soft">
+      <div className="grid items-center gap-4 rounded-3xl bg-gradient-to-r from-[hsl(340,82%,92%)] via-[hsl(var(--primary)/.20)] to-[hsl(50,80%,92%)] p-4 shadow-soft sm:grid-cols-2 sm:p-6 md:grid-cols-4 md:p-7">
         {[
           { icon: Plane, t: "Medical visa support", d: "Invitation letter & visa filing assistance" },
           { icon: Users, t: "English coordinator", d: "From landing to follow-up · WhatsApp 24/7" },
@@ -201,7 +201,7 @@ const CitiesSection = () => {
       <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <div>
           <span className="pill bg-accent text-accent-foreground mb-3"><MapPin className="size-3.5" /> {t("cities.kicker")}</span>
-          <h2 className="font-display text-4xl md:text-5xl font-medium tracking-tight">
+          <h2 className="font-display text-3xl font-medium tracking-tight sm:text-4xl md:text-5xl">
             {t("cities.title1")} <em className="text-primary not-italic">{t("cities.titleEm")}</em>
           </h2>
         </div>
@@ -215,12 +215,14 @@ const CitiesSection = () => {
         ref={cityRailRef}
         onMouseEnter={() => { cityRailPausedRef.current = true; }}
         onMouseLeave={() => { cityRailPausedRef.current = false; }}
+        onPointerDown={() => { cityRailPausedRef.current = true; }}
+        onPointerUp={() => { cityRailPausedRef.current = false; }}
         onFocusCapture={() => { cityRailPausedRef.current = true; }}
         onBlurCapture={() => { cityRailPausedRef.current = false; }}
-        className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-4 pb-4 scrollbar-hide md:-mx-6 md:gap-6 md:px-6"
+        className="-mx-4 flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain scroll-smooth px-4 pb-4 scrollbar-hide md:-mx-6 md:gap-6 md:px-6"
       >
         {cities.map((c) => (
-          <Link key={c.slug} to={`/cities/${c.slug}`} className="group block min-w-[88vw] snap-start sm:min-w-[62vw] md:min-w-[calc((100%_-_3rem)/3)] md:max-w-[calc((100%_-_3rem)/3)]">
+          <Link key={c.slug} to={`/cities/${c.slug}`} className="group block min-w-[84vw] snap-start sm:min-w-[62vw] md:min-w-[calc((100%_-_3rem)/3)] md:max-w-[calc((100%_-_3rem)/3)]">
             <article className="flex h-[410px] flex-col rounded-2xl border border-border bg-card p-5 shadow-soft transition duration-300 group-hover:-translate-y-1 group-hover:border-primary/35 group-hover:shadow-pop md:p-6">
               <div className="flex min-w-0 items-center gap-4">
                 <img src={c.img} alt={`${c.en} city`} className="size-24 shrink-0 rounded-full border-2 border-primary/15 object-cover transition-transform duration-500 group-hover:scale-105 md:size-28" />
@@ -322,7 +324,7 @@ const TreatmentsSection = () => {
         ref={treatmentCloudRailRef}
         onFocusCapture={() => { treatmentCloudPausedRef.current = true; }}
         onBlurCapture={() => { treatmentCloudPausedRef.current = false; }}
-        className="-mx-4 flex items-center gap-10 overflow-x-auto px-4 py-6 scrollbar-hide md:-mx-6 md:gap-12 md:px-6"
+        className="-mx-4 flex touch-pan-x items-center gap-10 overflow-x-auto overscroll-x-contain px-4 py-6 scrollbar-hide md:-mx-6 md:gap-12 md:px-6"
       >
         {[...procedureClouds, ...procedureClouds].map((cloud, repeatedIndex) => {
           const cloudIndex = repeatedIndex % procedureClouds.length;
@@ -417,14 +419,16 @@ const DoctorsSection = () => {
         ref={doctorRailRef}
         onMouseEnter={() => { doctorRailPausedRef.current = true; }}
         onMouseLeave={() => { doctorRailPausedRef.current = false; }}
+        onPointerDown={() => { doctorRailPausedRef.current = true; }}
+        onPointerUp={() => { doctorRailPausedRef.current = false; }}
         onFocusCapture={() => { doctorRailPausedRef.current = true; }}
         onBlurCapture={() => { doctorRailPausedRef.current = false; }}
-        className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-4 pb-4 scrollbar-hide md:-mx-6 md:gap-6 md:px-6"
+        className="-mx-4 flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain scroll-smooth px-4 pb-4 scrollbar-hide md:-mx-6 md:gap-6 md:px-6"
       >
         {DOCTORS.map((d) => (
           <article
             key={d.id}
-            className="group block min-w-[88vw] snap-start sm:min-w-[62vw] md:min-w-[calc((100%_-_3rem)/3)] md:max-w-[calc((100%_-_3rem)/3)]"
+            className="group block min-w-[84vw] snap-start sm:min-w-[62vw] md:min-w-[calc((100%_-_3rem)/3)] md:max-w-[calc((100%_-_3rem)/3)]"
           >
             <div className="flex h-[410px] flex-col rounded-2xl border border-border bg-card p-5 shadow-soft transition duration-300 group-hover:-translate-y-1 group-hover:border-primary/35 group-hover:shadow-pop md:p-6">
               <div className="flex min-w-0 items-center gap-4">
@@ -523,7 +527,7 @@ const HowItWorks = () => {
           </Button>
         </div>
 
-        <div className="relative -mx-5 mt-7 flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 pb-2 scrollbar-hide md:mx-0 md:grid md:grid-cols-3 md:gap-4 md:overflow-visible md:px-0">
+        <div className="relative -mx-5 mt-7 flex touch-pan-x snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain px-5 pb-2 scrollbar-hide md:mx-0 md:grid md:grid-cols-3 md:gap-4 md:overflow-visible md:px-0">
           {steps.map((step, index) => (
             <article key={step.title} className="relative min-w-[78vw] snap-center rounded-3xl border border-white/55 bg-white/78 p-5 text-foreground shadow-soft backdrop-blur sm:min-w-[56vw] md:min-w-0 md:p-6">
               <span className="absolute right-5 top-4 font-display text-4xl text-primary/20">0{index + 1}</span>

@@ -222,7 +222,7 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase }
         onMouseLeave={() => { carouselPausedRef.current = false; }}
         onFocusCapture={() => { carouselPausedRef.current = true; }}
         onBlurCapture={() => { carouselPausedRef.current = false; }}
-        className="relative overflow-hidden rounded-[2.25rem] border border-primary/15 bg-[radial-gradient(ellipse_at_50%_100%,hsl(var(--primary)/.22),transparent_62%)] px-2 pb-6 pt-4 shadow-pop sm:px-6 md:pt-6"
+        className="relative touch-pan-x overflow-hidden overscroll-x-contain rounded-[2.25rem] border border-primary/15 bg-[radial-gradient(ellipse_at_50%_100%,hsl(var(--primary)/.22),transparent_62%)] px-2 pb-6 pt-4 shadow-pop sm:px-6 md:pt-6"
       >
         <div className="relative mx-auto h-[470px] max-w-[90rem] [perspective:1600px] sm:h-[540px] md:h-[590px]">
           {items.map((it, index) => {
