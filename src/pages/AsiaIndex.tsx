@@ -4,8 +4,8 @@ import {
   Sparkles, ArrowRight, Star, MapPin, ShieldCheck, BadgeCheck,
   Search, Stethoscope, Building2,
   Flame, Gift, Wallet, Users, Plane,
-  ChevronLeft, ChevronRight, ScanFace, Eye, HeartPulse, Activity,
-  Scissors, Smile, Heart, Scale, UserRound, HelpCircle,
+  ChevronLeft, ChevronRight, Eye, HeartPulse,
+  Scale, UserRound, HelpCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -22,6 +22,45 @@ import heroBg from "@/assets/hero-bg.jpg";
 import AppPromoSection from "@/components/AppPromoSection";
 import { supabase } from "@/integrations/supabase/client";
 import { DEMO_CHINA_DOCTORS } from "@/data/demoChinaDoctors";
+
+type ProcedureIconProps = { className?: string; strokeWidth?: number };
+
+const NoseLineIcon = ({ className, strokeWidth = 1.5 }: ProcedureIconProps) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+    <path d="M14 3c-2.2 2.6-2.8 6.1-3.4 8.8-.3 1.4-1.8 2.4-2.6 3.5-.8 1.1 0 2.5 1.4 2.5h3.4" />
+    <path d="M12.8 17.8c1.2 0 2.1.5 2.8 1.4M9.8 21c1.7.5 3.7.3 5.2-.7" />
+  </svg>
+);
+
+const BodyContourLineIcon = ({ className, strokeWidth = 1.5 }: ProcedureIconProps) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+    <path d="M8 3c.8 3.2.3 5.4-1.3 7.5C5.3 12.3 5.4 16.8 8 21" />
+    <path d="M16 3c-.8 3.2-.3 5.4 1.3 7.5 1.4 1.8 1.3 6.3-1.3 10.5" />
+    <path d="M7 11.5c2.9 1.6 7.1 1.6 10 0M8 21c2.5-1.3 5.5-1.3 8 0" />
+  </svg>
+);
+
+const HairLineIcon = ({ className, strokeWidth = 1.5 }: ProcedureIconProps) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+    <path d="M5 11a7 7 0 0 1 14 0v3c0 4.2-3.1 7-7 7s-7-2.8-7-7v-3Z" />
+    <path d="M5.5 10.2c2.2-.5 3.7-1.8 4.5-4 .7 1.8 2.1 3 4.2 3.5.2-1.4.8-2.5 1.8-3.4.6 1.5 1.7 2.7 3 3.5" />
+    <path d="M9.5 16.5c1.6.8 3.4.8 5 0" />
+  </svg>
+);
+
+const ToothLineIcon = ({ className, strokeWidth = 1.5 }: ProcedureIconProps) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+    <path d="M7.2 3.5C4.7 4.4 3.5 7 4.1 9.8c.5 2.3 1.8 3.5 2.2 6.7.3 2.4 1 4.5 2.4 4.5 1.8 0 1.6-5.3 3.3-5.3s1.5 5.3 3.3 5.3c1.4 0 2.1-2.1 2.4-4.5.4-3.2 1.7-4.4 2.2-6.7.6-2.8-.6-5.4-3.1-6.3-1.7-.6-3.1.3-4.8.3s-3.1-.9-4.8-.3Z" />
+    <path d="M9 5.8c1.8.7 4.2.7 6 0" />
+  </svg>
+);
+
+const LipsLineIcon = ({ className, strokeWidth = 1.5 }: ProcedureIconProps) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+    <path d="M3 12c2.8-1.4 4.8-4.1 7.1-3.2L12 10l1.9-1.2c2.3-.9 4.3 1.8 7.1 3.2-2.7 1.2-4.7 4.1-9 4.1S5.7 13.2 3 12Z" />
+    <path d="M3 12c3 .3 5.9.1 9-.1 3.1.2 6 .4 9 .1" />
+  </svg>
+);
 
 // ============== Data (bilingual) ==============
 const cities = CITIES;
@@ -274,16 +313,16 @@ const CitiesSection = () => {
 const TreatmentsSection = () => {
   const { t, lang } = useAsia();
   const procedureClouds = [
-    { en: "Nose", zh: "鼻部整形", icon: ScanFace, items: [["Rhinoplasty", "鼻综合"], ["Revision Rhinoplasty", "鼻修复"], ["Septorhinoplasty", "功能性鼻整形"], ["Alar Base Reduction", "鼻翼缩小"], ["Nasal Tip Surgery", "鼻尖塑形"]] },
+    { en: "Nose", zh: "鼻部整形", icon: NoseLineIcon, items: [["Rhinoplasty", "鼻综合"], ["Revision Rhinoplasty", "鼻修复"], ["Septorhinoplasty", "功能性鼻整形"], ["Alar Base Reduction", "鼻翼缩小"], ["Nasal Tip Surgery", "鼻尖塑形"]] },
     { en: "Facial Rejuvenation", zh: "面部年轻化", icon: Sparkles, items: [["Facelift", "面部拉皮"], ["Neck Lift", "颈部提升"], ["Deep-Plane Facelift", "深层平面拉皮"], ["Mini Facelift", "小切口拉皮"], ["Brow Lift", "眉提升"], ["Facial Fat Grafting", "面部脂肪填充"]] },
     { en: "Eyes", zh: "眼部整形", icon: Eye, items: [["Double Eyelid Surgery", "双眼皮"], ["Upper Blepharoplasty", "上睑成形"], ["Lower Blepharoplasty", "下睑成形"], ["Ptosis Correction", "上睑下垂矫正"], ["Epicanthoplasty", "内眼角成形"]] },
     { en: "Face & Contour", zh: "面部轮廓", icon: UserRound, items: [["Jaw Contouring", "下颌角整形"], ["Chin Augmentation", "下巴塑形"], ["Zygoma Reduction", "颧骨降低"], ["Genioplasty", "颏成形"], ["Otoplasty", "耳廓整形"]] },
     { en: "Breast", zh: "胸部整形", icon: HeartPulse, items: [["Breast Augmentation", "隆胸"], ["Breast Lift", "乳房提升"], ["Breast Reduction", "乳房缩小"], ["Implant Revision", "假体修复"], ["Implant Removal", "假体取出"]] },
-    { en: "Body Contouring", zh: "身体塑形", icon: Activity, items: [["Liposuction", "吸脂"], ["Tummy Tuck", "腹壁成形"], ["Mommy Makeover", "产后综合塑形"], ["Body Lift", "环形身体提升"], ["Fat Transfer", "自体脂肪移植"], ["Arm Lift", "上臂提升"]] },
-    { en: "Hair Restoration", zh: "植发", icon: Scissors, items: [["FUE Hair Transplant", "FUE 植发"], ["Hairline Restoration", "发际线种植"], ["Crown Restoration", "头顶加密"], ["Eyebrow Transplant", "眉毛种植"], ["Beard Transplant", "胡须种植"]] },
-    { en: "Cosmetic Dentistry", zh: "牙齿美容", icon: Smile, items: [["Dental Implants", "种植牙"], ["Porcelain Veneers", "瓷贴面"], ["Teeth Whitening", "牙齿美白"], ["Clear Aligners", "隐形矫正"], ["All-Ceramic Crowns", "全瓷牙冠"]] },
+    { en: "Body Contouring", zh: "身体塑形", icon: BodyContourLineIcon, items: [["Liposuction", "吸脂"], ["Tummy Tuck", "腹壁成形"], ["Mommy Makeover", "产后综合塑形"], ["Body Lift", "环形身体提升"], ["Fat Transfer", "自体脂肪移植"], ["Arm Lift", "上臂提升"]] },
+    { en: "Hair Restoration", zh: "植发", icon: HairLineIcon, items: [["FUE Hair Transplant", "FUE 植发"], ["Hairline Restoration", "发际线种植"], ["Crown Restoration", "头顶加密"], ["Eyebrow Transplant", "眉毛种植"], ["Beard Transplant", "胡须种植"]] },
+    { en: "Cosmetic Dentistry", zh: "牙齿美容", icon: ToothLineIcon, items: [["Dental Implants", "种植牙"], ["Porcelain Veneers", "瓷贴面"], ["Teeth Whitening", "牙齿美白"], ["Clear Aligners", "隐形矫正"], ["All-Ceramic Crowns", "全瓷牙冠"]] },
     { en: "Skin & Non-Surgical", zh: "皮肤与非手术", icon: Sparkles, items: [["Laser Skin Resurfacing", "激光皮肤重塑"], ["Pigmentation Treatment", "色斑治疗"], ["RF Microneedling", "射频微针"], ["Ultrasound Skin Tightening", "超声紧肤"], ["Botulinum Toxin", "肉毒素"], ["Dermal Fillers", "皮肤填充剂"]] },
-    { en: "Lips & Smile", zh: "唇部与微笑", icon: Heart, items: [["Lip Lift", "唇提升"], ["Lip Reduction", "厚唇改薄"], ["Lip Contouring", "唇形塑造"], ["Gummy Smile Correction", "露龈笑改善"], ["Lip Fillers", "唇部填充"]] },
+    { en: "Lips & Smile", zh: "唇部与微笑", icon: LipsLineIcon, items: [["Lip Lift", "唇提升"], ["Lip Reduction", "厚唇改薄"], ["Lip Contouring", "唇形塑造"], ["Gummy Smile Correction", "露龈笑改善"], ["Lip Fillers", "唇部填充"]] },
     { en: "Post-Weight-Loss", zh: "减重后塑形", icon: Scale, items: [["Lower Body Lift", "下半身提升"], ["Arm Lift", "上臂提升"], ["Thigh Lift", "大腿提升"], ["Back Lift", "背部提升"], ["Skin Removal", "多余皮肤切除"]] },
     { en: "Men's Procedures", zh: "男性医美", icon: UserRound, items: [["Male Breast Reduction", "男性乳房缩小"], ["Male Liposuction", "男性吸脂"], ["Jawline Contouring", "下颌线塑形"], ["Hair Transplant", "男性植发"], ["Eyelid Surgery", "男性眼部整形"]] },
   ];
