@@ -33,9 +33,9 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
     ? links.filter((link) => ["/cities", "/why-china"].includes(link.to))
     : [];
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-xl bg-background/80 border-b border-border/60">
-      <div className="border-b border-primary bg-primary text-primary-foreground">
-        <div className="container flex min-h-9 items-center justify-between gap-3 py-1 text-[11px] sm:text-xs">
+    <header className="relative z-50 border-b border-border/60 bg-background/80 pt-9 backdrop-blur-xl">
+      <div className="fixed inset-x-0 top-0 z-[60] h-9 border-b border-primary bg-primary text-primary-foreground shadow-sm">
+        <div className="container flex h-full items-center justify-between gap-3 text-[11px] sm:text-xs">
           <div className="flex min-w-0 items-center gap-2.5 sm:gap-5">
             <a
               href="https://wa.me/14708613825?text=Hi%20Cosmetics%20Asia%2C%20I%20would%20like%20to%20ask%20about%20your%20services."
