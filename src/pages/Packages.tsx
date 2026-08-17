@@ -168,12 +168,12 @@ const Packages = () => {
         <AsiaNavbar />
 
       {/* Hero */}
-      <section className="container py-12 md:py-16 text-center">
+      <section className="container py-9 text-center md:py-16">
         <span className="pill bg-accent text-accent-foreground mb-3">
           <Sparkles className="size-3.5" />
           {lang === "zh" ? "全程旅行支持" : "Travel care, simplified"}
         </span>
-        <h1 className="font-display text-4xl md:text-5xl font-medium tracking-tight max-w-3xl mx-auto">
+        <h1 className="mx-auto max-w-3xl font-display text-[2.15rem] font-medium leading-[1.04] tracking-tight sm:text-4xl md:text-5xl">
           {lang === "zh" ? (
             <>选择适合你的<em className="text-primary not-italic">旅行套餐</em></>
           ) : (
@@ -193,7 +193,7 @@ const Packages = () => {
         </div>
         <nav className="-mx-4 mb-7 flex snap-x gap-3 overflow-x-auto px-4 pb-3 scrollbar-hide md:mx-0 md:grid md:grid-cols-3 md:px-0" aria-label={lang === "zh" ? "套餐快捷入口" : "Package shortcuts"}>
           {PACKAGES.map((p, index) => (
-            <a key={p.id} href={`#package-${p.id}`} className={`min-w-[17rem] snap-start rounded-2xl bg-gradient-to-br ${p.grad} p-[1px] shadow-soft transition hover:-translate-y-1 hover:shadow-pop md:min-w-0`}>
+            <a key={p.id} href={`#package-${p.id}`} className={`min-w-[82vw] snap-start rounded-2xl bg-gradient-to-br ${p.grad} p-[1px] shadow-soft transition hover:-translate-y-1 hover:shadow-pop sm:min-w-[17rem] md:min-w-0`}>
               <span className="flex h-full min-h-[7.5rem] flex-col rounded-[15px] bg-card/90 px-5 py-4 backdrop-blur">
                 <span className="flex items-center justify-between gap-3">
                   <span className="text-sm font-semibold">{lang === "zh" ? p.nameZh : p.nameEn}</span>
@@ -218,7 +218,7 @@ const Packages = () => {
             </p>
           </div>
         </div>
-        <div className="grid md:grid-cols-3 gap-6 items-stretch">
+        <div className="grid items-stretch gap-4 md:grid-cols-3 md:gap-6">
           {PACKAGES.map((p) => {
             const Icon = p.icon;
             return (
@@ -234,7 +234,7 @@ const Packages = () => {
                     {lang === "zh" ? "最受欢迎" : "Most popular"}
                   </span>
                 )}
-                <div className="rounded-[22px] bg-card h-full p-6 md:p-7 flex flex-col">
+                <div className="flex h-full flex-col rounded-[22px] bg-card p-5 md:p-7">
                   <div className="-mx-2 -mt-2 rounded-2xl border border-border/40 bg-secondary/45 p-4">
                   <div className="flex items-center gap-3">
                     <div className="size-11 rounded-2xl bg-accent grid place-items-center">
@@ -280,7 +280,7 @@ const Packages = () => {
                     )}
                     <ul className="space-y-3">
                     {p.features.map((f) => (
-                      <li key={f.en} className="flex gap-2.5 items-start text-[15px] leading-relaxed">
+                      <li key={f.en} className="flex items-start gap-2.5 text-sm leading-relaxed md:text-[15px]">
                         <span
                           className={`mt-0.5 size-4 rounded-full grid place-items-center shrink-0 ${
                             f.bold ? "bg-primary text-primary-foreground" : "bg-accent text-primary"
@@ -377,9 +377,9 @@ const Packages = () => {
               return (
                 <article
                   key={service.titleEn}
-                  className={`group grid grid-cols-[7rem_minmax(0,1fr)] gap-4 border-b border-border/70 py-5 sm:grid-cols-[9rem_minmax(0,1fr)] ${index === SERVICE_DETAILS.length - 1 ? "md:col-span-2 md:mx-auto md:w-[calc(50%-1rem)]" : ""}`}
+                    className={`group grid grid-cols-1 gap-3 border-b border-border/70 py-5 min-[430px]:grid-cols-[8rem_minmax(0,1fr)] min-[430px]:gap-4 sm:grid-cols-[9rem_minmax(0,1fr)] ${index === SERVICE_DETAILS.length - 1 ? "md:col-span-2 md:mx-auto md:w-[calc(50%-1rem)]" : ""}`}
                 >
-                  <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-muted">
+                  <div className="relative aspect-[16/8] overflow-hidden rounded-2xl bg-muted min-[430px]:aspect-[4/3]">
                     <img
                       src={service.image}
                       alt={lang === "zh" ? service.titleZh : service.titleEn}

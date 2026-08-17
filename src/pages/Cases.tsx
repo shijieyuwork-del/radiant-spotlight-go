@@ -81,16 +81,16 @@ const Cases = () => {
       <div className="min-h-screen bg-background">
         <AsiaNavbar />
 
-      <section className="container py-12 md:py-16">
-        <div className="text-center max-w-2xl mx-auto mb-8">
+      <section className="container py-9 md:py-16">
+        <div className="mx-auto mb-6 max-w-2xl text-center md:mb-8">
           <span className="pill bg-accent text-accent-foreground mb-3"><Heart className="size-3.5" /> {t("cases.kicker")}</span>
-          <h1 className="font-display text-4xl md:text-5xl font-medium tracking-tight">
+          <h1 className="font-display text-[2.15rem] font-medium leading-[1.04] tracking-tight sm:text-4xl md:text-5xl">
             {lang === "zh" ? "真实恢复历程，" : "Real recovery journeys, "}<em className="text-primary not-italic">{lang === "zh" ? "从面诊到最终效果" : "from consultation to final results."}</em>
           </h1>
-          <p className="text-muted-foreground mt-3">{lang === "zh" ? "按项目、恢复阶段或中国城市筛选，看看整个过程真实是什么样。" : "Filter by procedure, recovery stage or China destination—and see what the process actually looks like."}</p>
+          <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground md:text-base">{lang === "zh" ? "按项目、恢复阶段或中国城市筛选，看看整个过程真实是什么样。" : "Filter by procedure, recovery stage or China destination—and see what the process actually looks like."}</p>
         </div>
 
-        <div className="bg-card rounded-full border border-border/70 p-2 shadow-soft flex flex-col sm:flex-row gap-2 max-w-3xl mx-auto mb-5">
+        <div className="mx-auto mb-4 flex max-w-3xl flex-col gap-2 rounded-2xl border border-border/70 bg-card p-1.5 shadow-soft sm:flex-row sm:rounded-full">
           <div className="flex-1 px-5 py-3 flex items-center gap-3">
             <Search className="size-4 text-muted-foreground shrink-0" />
             <input
@@ -102,13 +102,13 @@ const Cases = () => {
           </div>
         </div>
 
-        <div className="mx-auto mb-5 grid max-w-3xl gap-2 sm:grid-cols-3">
+        <div className="mx-auto mb-4 grid max-w-3xl grid-cols-1 gap-2 min-[430px]:grid-cols-3">
           <FilterSelect value={activeTreatment} onChange={setActiveTreatment} label={lang === "zh" ? "全部项目" : "All procedures"} options={treatments} />
           <FilterSelect value={activeStage} onChange={setActiveStage} label={lang === "zh" ? "全部恢复阶段" : "All recovery stages"} options={["Consultation", "Week 1", "Month 1", "Month 3+", "Final result", "Recovery update"].map((key) => ({ key, label: lang === "zh" ? ({ Consultation: "面诊", "Week 1": "术后第 1 周", "Month 1": "术后第 1 月", "Month 3+": "术后 3 个月以上", "Final result": "最终效果", "Recovery update": "恢复更新" } as Record<string,string>)[key] : key }))} />
           <FilterSelect value={activeCity} onChange={setActiveCity} label={lang === "zh" ? "全部城市" : "All cities"} options={cities} />
         </div>
 
-        <div className="flex items-center justify-center mb-10 gap-3 text-xs text-muted-foreground">
+        <div className="mb-7 flex items-center justify-center gap-3 text-xs text-muted-foreground md:mb-10">
           <SlidersHorizontal className="size-3" />
           <span>
             {lang === "zh" ? `共 ${items.length} 个案例` : `${items.length} case${items.length === 1 ? "" : "s"}`}
@@ -131,7 +131,7 @@ const Cases = () => {
           </p>
         ) : (
           <div>
-            <div className="mb-5 flex items-end justify-between gap-4"><div><span className="pill bg-accent text-accent-foreground">{lang === "zh" ? "最新更新" : "Latest recovery updates"}</span><h2 className="mt-3 font-display text-3xl font-medium">{lang === "zh" ? "选择一个历程继续观看" : "Choose a journey to continue"}</h2></div><span className="hidden items-center gap-1 text-sm font-semibold text-primary sm:inline-flex">{lang === "zh" ? "点击卡片查看完整时间线" : "Open a card for the full timeline"}<ArrowRight className="size-4" /></span></div>
+            <div className="mb-4 flex items-end justify-between gap-4 md:mb-5"><div><span className="pill bg-accent text-accent-foreground">{lang === "zh" ? "最新更新" : "Latest recovery updates"}</span><h2 className="mt-3 font-display text-[1.75rem] font-medium leading-tight md:text-3xl">{lang === "zh" ? "选择一个历程继续观看" : "Choose a journey to continue"}</h2></div><span className="hidden items-center gap-1 text-sm font-semibold text-primary sm:inline-flex">{lang === "zh" ? "点击卡片查看完整时间线" : "Open a card for the full timeline"}<ArrowRight className="size-4" /></span></div>
             <TikTokWall items={items} lang={lang} fmtPrice={fmt} variant="cases" />
           </div>
         )}
@@ -144,7 +144,7 @@ const Cases = () => {
 };
 
 const FilterSelect = ({ value, onChange, label, options }: { value: string; onChange: (value: string) => void; label: string; options: { key: string; label: string }[] }) => (
-  <select value={value} onChange={(event) => onChange(event.target.value)} className="min-h-11 rounded-full border border-border/70 bg-card px-4 text-sm font-semibold text-foreground shadow-soft outline-none transition focus:border-primary/50 focus:ring-4 focus:ring-primary/10">
+  <select value={value} onChange={(event) => onChange(event.target.value)} className="min-h-12 w-full rounded-xl border border-border/70 bg-card px-3 text-[13px] font-semibold text-foreground shadow-soft outline-none transition focus:border-primary/50 focus:ring-4 focus:ring-primary/10 sm:rounded-full sm:px-4 sm:text-sm">
     <option value="">{label}</option>
     {options.map((option) => <option key={option.key} value={option.key}>{option.label}</option>)}
   </select>

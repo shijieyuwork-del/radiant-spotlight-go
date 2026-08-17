@@ -143,6 +143,30 @@
     text-rendering: optimizeLegibility;
   }
 
+  @media (max-width: 639px) {
+    body {
+      line-height: 1.55;
+    }
+
+    h1, h2, h3 {
+      overflow-wrap: anywhere;
+    }
+
+    main, section {
+      scroll-margin-top: 6.5rem;
+    }
+
+    input, select, textarea {
+      font-size: 16px;
+    }
+
+    .pill {
+      max-width: 100%;
+      white-space: normal;
+      text-align: left;
+    }
+  }
+
   h1, h2, h3 {
     font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
     font-optical-sizing: auto;

@@ -65,12 +65,12 @@ const Doctors = () => {
       <div className="min-h-screen bg-background">
         <AsiaNavbar />
 
-      <section className="container py-12 md:py-16">
+      <section className="container py-9 md:py-16">
         <div className="text-center max-w-2xl mx-auto mb-8">
           <span className="pill bg-accent text-accent-foreground mb-3">
             <Stethoscope className="size-3.5" /> {t("doctors.kicker")}
           </span>
-          <h1 className="font-display text-4xl md:text-5xl font-medium tracking-tight">
+          <h1 className="font-display text-[2.15rem] font-medium leading-[1.04] tracking-tight sm:text-4xl md:text-5xl">
             {t("doctors.title1")} <em className="text-primary not-italic">{t("doctors.titleEm")}</em>
           </h1>
           <p className="text-muted-foreground mt-3">
@@ -91,7 +91,7 @@ const Doctors = () => {
         </div>
 
         {/* Procedure filter */}
-        <div className="mb-3">
+        {specialties.length > 0 && <div className="mb-3">
           <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold text-center mb-2">
             {lang === "zh" ? "手术类型" : "Procedure"}
           </p>
@@ -105,10 +105,10 @@ const Doctors = () => {
               </Button>
             ))}
           </div>
-        </div>
+        </div>}
 
         {/* City filter */}
-        <div className="mb-10">
+        {cities.length > 0 && <div className="mb-10">
           <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold text-center mb-2">
             {lang === "zh" ? "城市" : "City"}
           </p>
@@ -123,20 +123,20 @@ const Doctors = () => {
               </Button>
             ))}
           </div>
-        </div>
+        </div>}
 
         {directoryDoctors.length > 0 && (
           <div className="mb-10">
             <h2 className="mb-5 font-display text-2xl">{managedDoctors.length > 0 ? (lang === "zh" ? "已发布的中国医生" : "Published doctors in China") : (lang === "zh" ? "中国医生展示样例" : "Sample China doctor profiles")}</h2>
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
               {directoryDoctors.map((d) => {
                 const photo = d.photo;
                 return (
-                  <article key={d.id} className="flex min-h-[25rem] flex-col rounded-3xl bg-card p-6 shadow-pop transition hover:shadow-glow">
+                  <article key={d.id} className="flex min-h-0 flex-col rounded-3xl bg-card p-5 shadow-pop transition hover:shadow-glow md:min-h-[25rem] md:p-6">
                     <div className="flex gap-4">
                       {photo
-                        ? <img src={photo} alt={d.name} className="size-24 shrink-0 rounded-full border-2 border-primary/15 object-cover" />
-                        : <div className="grid size-24 shrink-0 place-items-center rounded-full bg-muted"><Stethoscope /></div>}
+                        ? <img src={photo} alt={d.name} className="size-28 shrink-0 rounded-full border-2 border-primary/15 object-cover md:size-24" />
+                        : <div className="grid size-28 shrink-0 place-items-center rounded-full bg-muted md:size-24"><Stethoscope /></div>}
                       <div className="min-w-0">
                         <h3 className="font-display text-xl font-semibold leading-tight">{d.name}</h3>
                         <p className="mt-1 text-xs text-muted-foreground">{d.title}</p>
@@ -147,12 +147,12 @@ const Doctors = () => {
                     <p className="mt-5 text-sm text-muted-foreground"><Building2 className="mr-1 inline size-4 text-primary" />{d.hospital}</p>
                     {d.bio && <p className="mt-4 line-clamp-2 text-sm leading-relaxed text-muted-foreground">{d.bio}</p>}
                     <div className="mt-4 flex flex-wrap gap-1.5">{d.specialties.map((s) => <span key={s} className="rounded-full bg-accent px-2.5 py-1 text-[11px]">{s}</span>)}</div>
-                    <div className="mt-auto grid grid-cols-[0.9fr_1.1fr] gap-2 pt-6">
+                    <div className="mt-auto grid gap-2 pt-6 min-[430px]:grid-cols-[0.9fr_1.1fr]">
                       <Link to={d.demo ? "/doctors" : `/doctors/profile/${d.id}`} className="flex items-center justify-center rounded-xl border border-primary/30 px-3 py-3 text-center text-xs font-semibold text-primary hover:bg-primary/10">
                         {lang === "zh" ? "医生与案例" : "Doctor & cases"}
                       </Link>
                       <button type="button" onClick={() => open({ doctorName: d.name, city: d.city })} className="flex items-center justify-center gap-1.5 rounded-xl bg-primary px-3 py-3 text-sm font-semibold text-primary-foreground hover:bg-primary/90">
-                        {lang === "zh" ? "预约免费视频咨询" : "Book a Free Video Consultation"}<ArrowRight className="size-4" />
+                        {lang === "zh" ? "预约免费视频咨询" : "Book free consultation"}<ArrowRight className="size-4" />
                       </button>
                     </div>
                   </article>

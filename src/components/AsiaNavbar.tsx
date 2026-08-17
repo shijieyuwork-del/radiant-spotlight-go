@@ -36,7 +36,7 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
     <header className="sticky top-0 z-50 backdrop-blur-xl bg-background/80 border-b border-border/60">
       <div className="border-b border-primary bg-primary text-primary-foreground">
         <div className="container flex min-h-9 items-center justify-between gap-3 py-1 text-[11px] sm:text-xs">
-          <div className="flex min-w-0 items-center gap-3 sm:gap-5">
+          <div className="flex min-w-0 items-center gap-2.5 sm:gap-5">
             <a
               href="https://wa.me/14708613825?text=Hi%20Cosmetics%20Asia%2C%20I%20would%20like%20to%20ask%20about%20your%20services."
               target="_blank"
@@ -46,12 +46,11 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
             >
               <Phone className="size-3.5" />
               <span className="hidden sm:inline">+1 470 861 3825</span>
-              <span className="sm:hidden">Call</span>
+              <span className="sm:hidden">WhatsApp</span>
             </a>
-            <a href="mailto:hello@cosmetics-asia.com" className="inline-flex min-w-0 items-center gap-1.5 font-medium text-primary-foreground/90 transition hover:text-primary-foreground">
+            <a href="mailto:hello@cosmetics-asia.com" className="hidden min-w-0 items-center gap-1.5 font-medium text-primary-foreground/90 transition hover:text-primary-foreground min-[390px]:inline-flex">
               <Mail className="size-3.5 shrink-0" />
               <span className="hidden truncate sm:inline">hello@cosmetics-asia.com</span>
-              <span className="sm:hidden">Email</span>
             </a>
           </div>
           <Link
@@ -60,7 +59,8 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
             className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-card px-3 py-1 font-semibold text-foreground shadow-soft transition hover:bg-card/90"
           >
             <UserRound className="size-3.5" />
-            <span>{lang === "zh" ? "登录 / 注册" : "Sign in / Sign up"}</span>
+            <span className="hidden min-[360px]:inline">{lang === "zh" ? "登录 / 注册" : "Sign in / Sign up"}</span>
+            <span className="min-[360px]:hidden">{lang === "zh" ? "账户" : "Account"}</span>
             <span className="hidden text-[10px] font-medium text-muted-foreground lg:inline">
               · {lang === "zh" ? "保存案例" : "Save cases"}
             </span>
@@ -132,7 +132,7 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
             <SheetHeader className="p-5 border-b text-left">
               <SheetTitle><BrandLogo /></SheetTitle>
             </SheetHeader>
-            <div className="p-4 flex flex-col h-[calc(100%-73px)]">
+            <div className="flex h-[calc(100%-73px)] flex-col overflow-y-auto p-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
               <div className="space-y-1">
                 {links.map((l) => (
                   <Link key={l.to} to={l.to} className="flex items-center justify-between min-h-12 px-4 rounded-2xl text-base font-semibold hover:bg-muted">
@@ -150,6 +150,10 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
                   <DropdownMenuContent align="end" className="rounded-2xl">{(Object.keys(langLabel) as Lang[]).map((l) => <DropdownMenuItem key={l} onClick={() => setLang(l)}>{langLabel[l].flag} {langLabel[l].label}</DropdownMenuItem>)}</DropdownMenuContent>
                 </DropdownMenu>
               </div>
+              <Link to="/auth?next=/cases" className="mt-3 flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-primary px-4 text-sm font-semibold text-primary-foreground">
+                <UserRound className="size-4" />
+                {lang === "zh" ? "登录或注册 · 保存案例" : "Sign in or sign up · Save cases"}
+              </Link>
             </div>
           </SheetContent>
         </Sheet>

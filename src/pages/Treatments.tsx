@@ -191,12 +191,12 @@ const Treatments = () => {
       <div className="min-h-screen bg-background">
         <AsiaNavbar />
 
-        <section className="container py-12 md:py-16">
-          <div className="text-center max-w-2xl mx-auto mb-10">
+        <section className="container py-9 md:py-16">
+          <div className="mx-auto mb-7 max-w-2xl text-center md:mb-10">
             <span className="pill bg-accent text-accent-foreground mb-3">
               <BookOpen className="size-3.5" /> {zh ? "项目科普" : "Procedure guides"}
             </span>
-            <h1 className="font-display text-4xl md:text-5xl font-medium tracking-tight">
+            <h1 className="font-display text-[2.15rem] font-medium leading-[1.04] tracking-tight sm:text-4xl md:text-5xl">
               {zh ? "先了解清楚" : "Understand it first,"}{" "}
               <em className="text-primary not-italic">{zh ? "再做决定" : "then decide."}</em>
             </h1>
@@ -256,7 +256,7 @@ const Treatments = () => {
                 </nav>
               </aside>
 
-              <div className="min-h-[34rem] px-5 py-6 md:px-8 md:py-8">
+              <div className="min-h-[34rem] px-4 py-5 sm:px-5 sm:py-6 md:px-8 md:py-8">
                 {visibleCategories.length === 0 && (
                   <div className="grid min-h-[24rem] place-items-center text-center">
                     <div><Search className="mx-auto size-7 text-primary" /><h2 className="mt-3 font-display text-2xl">{zh ? "没有找到相关项目" : "No procedures found"}</h2><p className="mt-2 text-sm text-muted-foreground">{zh ? "换一个项目名称或身体部位试试。" : "Try another procedure name or body area."}</p></div>
@@ -267,9 +267,9 @@ const Treatments = () => {
                     key={category.en}
                     className={visibleCategories.length > 1 ? "border-b border-border/70 py-7 first:pt-0 last:border-b-0 last:pb-0" : ""}
                   >
-                    <div className="flex items-start gap-4">
+                    <div className="flex items-start gap-3 sm:gap-4">
                       <span className={`grid size-11 shrink-0 place-items-center rounded-2xl ${CATEGORY_STYLES[categoryIndex].marker}`}>{(() => { const Icon = CATEGORY_META[categoryIndex].icon; return <Icon className="size-5" />; })()}</span>
-                      <div><span className="font-mono text-[11px] font-bold text-primary">{String(categoryIndex + 1).padStart(2, "0")}</span><h2 className="font-display text-3xl font-medium tracking-tight">{zh ? category.zh : category.en}</h2><p className="mt-1 max-w-xl text-sm leading-relaxed text-muted-foreground">{CATEGORY_DESCRIPTIONS[categoryIndex][zh ? 1 : 0]}</p></div>
+                      <div><span className="font-mono text-[11px] font-bold text-primary">{String(categoryIndex + 1).padStart(2, "0")}</span><h2 className="font-display text-[1.7rem] font-medium leading-tight tracking-tight sm:text-3xl">{zh ? category.zh : category.en}</h2><p className="mt-1 max-w-xl text-sm leading-relaxed text-muted-foreground">{CATEGORY_DESCRIPTIONS[categoryIndex][zh ? 1 : 0]}</p></div>
                     </div>
                     <div className="mt-6 grid gap-3 sm:grid-cols-2">
                         {category.items.map(([en, cn]) => (
