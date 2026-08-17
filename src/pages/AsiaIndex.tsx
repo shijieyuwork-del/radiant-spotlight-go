@@ -238,7 +238,7 @@ const TravelBar = () => {
           { icon: Users, t: "1. Book your consultation", d: "Contact us by email or WhatsApp to choose a time and a doctor" },
           { icon: Stethoscope, t: "2. Meet your doctor online", d: "Understand your options, expected results, risks and recovery" },
           { icon: Plane, t: "3. Travel to China for treatment", d: "We coordinate your arrival, clinic visit and translation" },
-          { icon: MapPin, t: "4. Recover & explore China", d: "Recover with our support and enjoy a personalized itinerary" },
+          { icon: MapPin, t: "4. Recover & explore China", d: "Recover with our support, with an optional personalized travel itinerary" },
         ].map((x) => (
           <div key={x.t} className="flex gap-3 items-start">
             <div className="size-10 rounded-2xl bg-card grid place-items-center shrink-0">
