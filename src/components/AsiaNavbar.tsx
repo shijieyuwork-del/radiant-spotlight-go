@@ -35,20 +35,20 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
   return (
     <>
       <div className="fixed inset-x-0 top-0 z-[70] h-9 border-b border-primary bg-primary text-primary-foreground shadow-sm">
-        <div className="container flex h-full items-center justify-between gap-3 text-[11px] sm:text-xs">
+        <div className="container flex h-full items-center justify-between gap-3 text-xs">
           <div className="flex min-w-0 items-center gap-2.5 sm:gap-5">
             <a
               href="https://wa.me/14708613825?text=Hi%20Cosmetics%20Asia%2C%20I%20would%20like%20to%20ask%20about%20your%20services."
               target="_blank"
               rel="noreferrer"
               aria-label="Contact Cosmetics Asia on WhatsApp"
-              className="inline-flex shrink-0 items-center gap-1.5 font-medium text-primary-foreground/90 transition hover:text-primary-foreground"
+              className="inline-flex min-h-7 shrink-0 items-center gap-1.5 rounded-full bg-white/10 px-2.5 font-bold tracking-[0.01em] text-white transition hover:bg-white/20"
             >
               <Phone className="size-3.5" />
               <span className="hidden sm:inline">+1 470 861 3825</span>
               <span className="sm:hidden">WhatsApp</span>
             </a>
-            <a href="mailto:hello@cosmetics-asia.com" className="hidden min-w-0 items-center gap-1.5 font-medium text-primary-foreground/90 transition hover:text-primary-foreground sm:inline-flex">
+            <a href="mailto:hello@cosmetics-asia.com" className="hidden min-h-7 min-w-0 items-center gap-1.5 rounded-full px-2 font-semibold tracking-[0.01em] text-white/95 transition hover:bg-white/10 hover:text-white sm:inline-flex">
               <Mail className="size-3.5 shrink-0" />
               <span className="hidden truncate sm:inline">hello@cosmetics-asia.com</span>
             </a>
@@ -56,12 +56,12 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
           <Link
             to="/auth?next=/cases"
             aria-label={lang === "zh" ? "登录或注册并保存喜欢的案例" : "Sign in or sign up to save favorite cases"}
-            className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-card px-3 py-1 font-semibold text-foreground shadow-soft transition hover:bg-card/90"
+            className="inline-flex min-h-7 shrink-0 items-center gap-1.5 rounded-full border border-white/30 bg-foreground/10 px-3 font-semibold text-white transition hover:bg-foreground/20"
           >
             <UserRound className="size-3.5" />
             <span className="hidden min-[360px]:inline">{lang === "zh" ? "登录 / 注册" : "Sign in / Sign up"}</span>
             <span className="min-[360px]:hidden">{lang === "zh" ? "账户" : "Account"}</span>
-            <span className="hidden text-[10px] font-medium text-muted-foreground lg:inline">
+            <span className="hidden text-[10px] font-medium text-white/65 lg:inline">
               · {lang === "zh" ? "保存案例" : "Save cases"}
             </span>
           </Link>
