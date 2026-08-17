@@ -46,9 +46,6 @@ const Cities = () => {
       <section className="container pb-16 md:pb-20">
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {CITIES.map((c) => {
-            const cityDoctors = DOCTORS.filter(
-              (d) => d.cityEn === c.en
-            );
             return (
               <Link
                 key={c.slug}
@@ -71,10 +68,7 @@ const Cities = () => {
                         {lang === "zh" ? c.en : c.zh}
                       </p>
                     </div>
-                    <span className="pill bg-background/95 text-foreground text-[10px]">
-                      <Wallet className="size-3 text-primary" />
-                      {lang === "zh" ? `省 ${c.savings}` : `Save ${c.savings}`}
-                    </span>
+                    <span className="pill bg-background/95 text-foreground text-[10px]"><Wallet className="size-3 text-primary" />{lang === "zh" ? "行程指南" : "Travel guide"}</span>
                   </div>
                 </div>
 
@@ -83,21 +77,16 @@ const Cities = () => {
                     {lang === "zh" ? c.taglineZh : c.taglineEn}
                   </p>
 
-                  <div className="grid grid-cols-3 gap-2 text-center">
+                  <div className="grid grid-cols-2 gap-2 text-center">
                     <Stat
                       icon={<Building2 className="size-3.5" />}
-                      label={lang === "zh" ? "正规机构" : "Hospitals"}
-                      value={`${c.clinics}`}
+                      label={lang === "zh" ? "机构资料" : "Provider info"}
+                      value={lang === "zh" ? "当地" : "Local"}
                     />
                     <Stat
                       icon={<Stethoscope className="size-3.5" />}
-                      label={lang === "zh" ? "主刀医生" : "Surgeons"}
-                      value={`${c.doctorsCount}`}
-                    />
-                    <Stat
-                      icon={<Users className="size-3.5" />}
-                      label={lang === "zh" ? "平台医师" : "On Cosmetics Asia"}
-                      value={`${cityDoctors.length}`}
+                      label={lang === "zh" ? "医生资料" : "Doctor profiles"}
+                      value={lang === "zh" ? "审核后发布" : "Reviewed"}
                     />
                   </div>
 

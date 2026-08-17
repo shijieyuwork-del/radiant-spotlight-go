@@ -36,9 +36,9 @@ const BrandLogo = ({ className, markClassName, textClassName }: BrandLogoProps) 
         strokeLinecap="round"
       />
     </svg>
-    <span className={cn("inline-flex items-baseline whitespace-nowrap font-display text-xl tracking-[-0.035em]", textClassName)}>
+    <span className={cn("inline-flex items-baseline whitespace-nowrap font-display text-xl leading-none tracking-[-0.04em]", textClassName)}>
       <span className="font-semibold text-[#102A24]">Cosmetics</span>
-      <span className="ml-[0.28em] font-semibold text-[#4EB58F]">Asia</span>
+      <span className="ml-[0.24em] font-semibold text-[#4EB58F]">Asia</span>
     </span>
   </span>
 );

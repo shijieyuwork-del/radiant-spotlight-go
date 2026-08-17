@@ -1,6 +1,6 @@
 import type { TikTokItem } from "@/components/TikTokWall";
 
-export const TIKTOK_CASES: TikTokItem[] = [
+const DIARY_PREVIEWS: TikTokItem[] = [
   {
     id: "rhinoplasty-beijing",
     src: "/videos/v2.mp4",
@@ -112,3 +112,13 @@ export const TIKTOK_CASES: TikTokItem[] = [
     likes: "19k", comments: "612", priceCny: 128000,
   },
 ];
+
+// These assets are layout previews until the related patient, clinic and price
+// records have completed review. Do not present demo metadata as verified fact.
+export const TIKTOK_CASES: TikTokItem[] = DIARY_PREVIEWS.map((item) => ({
+  ...item,
+  clinic: { en: "Provider details pending review", zh: "机构资料待审核" },
+  likes: "",
+  comments: "",
+  priceCny: 0,
+}));

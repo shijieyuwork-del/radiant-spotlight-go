@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { Sparkles, Mail, Lock, ArrowRight, Loader2, Eye, EyeOff, CheckCircle2 } from "lucide-react";
+import { Sparkles, Mail, Lock, ArrowRight, Loader2, Eye, EyeOff, CheckCircle2, Heart } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
@@ -21,7 +21,9 @@ const Auth = () => {
     searchParams.get("mode") === "reset" ? "reset" : "auth",
   );
 
-  const [tab, setTab] = useState<"signin" | "signup">("signin");
+  const [tab, setTab] = useState<"signin" | "signup">(
+    searchParams.get("tab") === "signup" ? "signup" : "signin",
+  );
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -139,9 +141,16 @@ const Auth = () => {
           </h1>
           <p className="text-sm text-muted-foreground text-center mt-1.5">
             {mode === "forgot" ? t("Enter your email and we’ll send you a secure reset link.", "输入邮箱，我们会发送安全的重置链接。") : mode === "reset" ? t("Enter a new password with at least 8 characters.", "请输入至少 8 位的新密码。") : tab === "signin"
-              ? t("Sign in to manage quotes, bookings & saved doctors.", "登录后可管理咨询、预约与收藏。")
+              ? t("Sign in to manage quotes, bookings and favorite cases.", "登录后可管理咨询、预约和喜欢的案例。")
               : t("Join Cosmetics Asia in 30 seconds — totally free.", "30 秒注册 Cosmetics Asia，完全免费。")}
           </p>
+
+          {mode === "auth" && searchParams.get("reason") === "save-case" && (
+            <div className="mt-4 flex items-center justify-center gap-2 rounded-2xl bg-rose-50 px-4 py-3 text-center text-sm font-medium text-rose-700">
+              <Heart className="size-4 fill-rose-500 text-rose-500" />
+              {t("Create a free account to save this case.", "免费注册，即可保存这个喜欢的案例。")}
+            </div>
+          )}
 
           {mode === "auth" && <><Button
             type="button"

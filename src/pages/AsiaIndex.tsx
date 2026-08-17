@@ -1,25 +1,27 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Sparkles, ArrowRight, Star, MapPin, ShieldCheck, BadgeCheck,
   Search, Stethoscope, FileCheck2, Building2,
   Flame, Gift, Wallet, Users, Plane,
   ChevronLeft, ChevronRight, ScanFace, Eye, HeartPulse, Activity,
-  Scissors, Smile, Heart, Scale, UserRound,
+  Scissors, Smile, Heart, Scale, UserRound, HelpCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import Footer from "@/components/Footer";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import TikTokWall from "@/components/TikTokWall";
 import PageMeta from "@/components/PageMeta";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
-import { DOCTORS } from "@/data/doctors";
 import { CITIES } from "@/data/cities";
 import { useAsia } from "@/lib/asia-i18n";
 import { ORGANIZATION_SCHEMA } from "@/lib/seo-config";
 import { useQuote } from "@/components/QuoteRequest";
 import heroBg from "@/assets/hero-bg.jpg";
 import AppPromoSection from "@/components/AppPromoSection";
+import { supabase } from "@/integrations/supabase/client";
+import { DEMO_CHINA_DOCTORS } from "@/data/demoChinaDoctors";
 
 // ============== Data (bilingual) ==============
 const cities = CITIES;
@@ -53,13 +55,13 @@ const Hero = () => {
   const copy = lang === "zh"
     ? {
         badge: "专为国际患者打造的中国医美平台",
-        title: "中国头部医美医生，",
-        emphasis: "一个平台轻松比较",
-        subtitle: "先看真实案例、医生资质与明细报价，再决定是否出发。翻译、行程和术后支持由我们协调。",
-        procedures: "比较医生与项目",
-        cases: "观看真实案例",
-        licensed: "300+ 中国头部医生",
-        english: "10,000+ 真实案例日记",
+        title: "比较中国医美医生，",
+        emphasis: "找到适合你的方案",
+        subtitle: "先了解项目、查看已发布的医生资料与患者恢复日记，再决定是否出发。翻译、行程和术后支持由我们协调。",
+        procedures: "我知道想做什么",
+        cases: "查看患者恢复日记",
+        licensed: "中国医生资料目录",
+        english: "患者恢复日记",
         aftercare: "5 大医美目的地",
       }
     : lang === "ru"
@@ -70,19 +72,19 @@ const Hero = () => {
           subtitle: "Сравните реальные случаи, квалификацию врачей и прозрачные цены до поездки. Мы организуем перевод, поездку и последующий уход.",
           procedures: "Сравнить врачей",
           cases: "Реальные случаи",
-          licensed: "300+ ведущих врачей",
-          english: "10 000+ историй пациентов",
+          licensed: "Каталог врачей Китая",
+          english: "Дневники восстановления",
           aftercare: "5 направлений в Китае",
         }
       : {
           badge: "China's cosmetic care platform for international patients",
-          title: "China’s top cosmetic surgeons,",
-          emphasis: "all in one place",
-          subtitle: "Compare real cases, doctor credentials and itemized quotes before you travel. We coordinate translation, your trip and aftercare.",
-          procedures: "Compare doctors & procedures",
-          cases: "Watch real cases",
-          licensed: "300+ top-tier surgeons",
-          english: "10,000+ real case diaries",
+          title: "Compare cosmetic surgeons across China,",
+          emphasis: "then choose with confidence",
+          subtitle: "Understand procedures, review published doctor profiles and explore patient recovery diaries before you travel. We coordinate translation, travel and aftercare.",
+          procedures: "I know the procedure",
+          cases: "View patient recovery diaries",
+          licensed: "China-focused doctor directory",
+          english: "Patient recovery diaries",
           aftercare: "5 China destinations",
         };
   return (
@@ -128,11 +130,11 @@ const Hero = () => {
                   <Sparkles className="size-3.5" /> {lang === "zh" ? "我们的核心优势" : "Our biggest difference"}
                 </span>
                 <h2 className="mt-2 max-w-4xl font-display text-3xl font-medium leading-tight tracking-tight sm:text-4xl md:text-5xl">
-                  {lang === "zh" ? "10,000+ 真实患者日记，" : "10,000+ real patient diaries, "}
-                  <em className="not-italic text-primary">{lang === "zh" ? "选择医生前先看结果" : "before you choose"}</em>
+                  {lang === "zh" ? "患者恢复日记，" : "Patient recovery diaries, "}
+                  <em className="not-italic text-primary">{lang === "zh" ? "帮助你做功课" : "before you choose"}</em>
                 </h2>
                 <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">
-                  {lang === "zh" ? "查看咨询、手术到恢复的完整过程，再决定哪位医生和方案更适合你。" : "See the consultation, procedure and recovery journey—not just a polished after photo—before choosing your doctor."}
+                  {lang === "zh" ? "了解咨询、治疗和恢复过程。只有完成核验的患者内容才会标记为已核验。" : "Explore consultation, treatment and recovery journeys. Only patient content that completes verification is labeled verified."}
                 </p>
               </div>
               <Link
@@ -159,8 +161,8 @@ const TravelBar = () => {
         {[
           { icon: Plane, t: "Medical visa support", d: "Invitation letter & visa filing assistance" },
           { icon: Users, t: "English coordinator", d: "From landing to follow-up · WhatsApp 24/7" },
-          { icon: MapPin, t: "Airport pickup & hotel", d: "Recovery hotels next to top clinics" },
-          { icon: ShieldCheck, t: "Up to 70% savings", d: "vs. comparable US clinics · same authentic products" },
+          { icon: MapPin, t: "Airport pickup & hotel", d: "Hotel options matched to your itinerary" },
+          { icon: ShieldCheck, t: "Itemized pricing", d: "Understand estimated costs before you travel" },
         ].map((x) => (
           <div key={x.t} className="flex gap-3 items-start">
             <div className="size-10 rounded-2xl bg-card grid place-items-center shrink-0">
@@ -234,8 +236,8 @@ const CitiesSection = () => {
               </div>
               <p className="mt-5 line-clamp-2 text-sm leading-relaxed text-muted-foreground">{lang === "zh" ? c.introZh : c.introEn}</p>
               <div className="mt-4 grid grid-cols-2 gap-2 text-center">
-                <div className="rounded-xl bg-secondary py-2.5"><p className="font-display text-xl font-semibold">{c.doctorsCount}+</p><p className="text-[10px] text-muted-foreground">{lang === "zh" ? "平台医生" : "listed surgeons"}</p></div>
-                <div className="rounded-xl bg-secondary py-2.5"><p className="font-display text-xl font-semibold text-primary">{c.savings}</p><p className="text-[10px] text-muted-foreground">{lang === "zh" ? "参考节省" : "indicative savings"}</p></div>
+                <div className="rounded-xl bg-secondary px-2 py-2.5"><p className="font-display text-base font-semibold">{lang === "zh" ? "医生资料" : "Doctor profiles"}</p><p className="text-[10px] text-muted-foreground">{lang === "zh" ? "审核后发布" : "published after review"}</p></div>
+                <div className="rounded-xl bg-secondary px-2 py-2.5"><p className="font-display text-base font-semibold text-primary">{lang === "zh" ? "行程指南" : "Travel guide"}</p><p className="text-[10px] text-muted-foreground">{lang === "zh" ? "交通与住宿" : "logistics & stays"}</p></div>
               </div>
               <div className="mt-4 flex max-h-[50px] flex-wrap gap-1.5 overflow-hidden">
                 {(lang === "zh" ? c.hotZh : c.hotEn).slice(0, 3).map((h) => <span key={h} className="rounded-full bg-accent px-2.5 py-1 text-[10px] text-accent-foreground">{h}</span>)}
@@ -364,8 +366,27 @@ const TreatmentsSection = () => {
 const DoctorsSection = () => {
   const { t, lang } = useAsia();
   const { open } = useQuote();
+  const [publishedDoctors, setPublishedDoctors] = useState<Array<{
+    id: string; name: string; title: string; hospital: string; city: string;
+    specialties: string[]; bio: string; photo_path: string | null;
+  }>>([]);
   const doctorRailRef = useRef<HTMLDivElement>(null);
   const doctorRailPausedRef = useRef(false);
+  const displayedDoctors = publishedDoctors.length > 0
+    ? publishedDoctors.map((doctor) => ({ ...doctor, photo: doctor.photo_path ? supabase.storage.from("doctor-photos").getPublicUrl(doctor.photo_path).data.publicUrl : "", demo: false as const }))
+    : DEMO_CHINA_DOCTORS.map((doctor) => ({ ...doctor, photo_path: null }));
+  useEffect(() => {
+    const chinaCities = ["Shanghai", "Beijing", "Guangzhou", "Hangzhou", "Hainan", "上海", "北京", "广州", "杭州", "海南"];
+    supabase
+      .from("doctors")
+      .select("id,name,title,hospital,city,specialties,bio,photo_path")
+      .eq("status", "published")
+      .order("created_at", { ascending: false })
+      .then(({ data }) => {
+        const rows = (data ?? []).filter((doctor) => chinaCities.some((city) => doctor.city?.toLowerCase().includes(city.toLowerCase())));
+        setPublishedDoctors(rows as typeof publishedDoctors);
+      });
+  }, []);
   const moveDoctors = (direction: -1 | 1) => {
     const rail = doctorRailRef.current;
     if (!rail) return;
@@ -425,59 +446,49 @@ const DoctorsSection = () => {
         onBlurCapture={() => { doctorRailPausedRef.current = false; }}
         className="-mx-4 flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain scroll-smooth px-4 pb-4 scrollbar-hide md:-mx-6 md:gap-6 md:px-6"
       >
-        {DOCTORS.map((d) => (
+        {displayedDoctors.map((d) => {
+          const photo = d.photo;
+          return (
           <article
             key={d.id}
             className="group block min-w-[84vw] snap-start sm:min-w-[62vw] md:min-w-[calc((100%_-_3rem)/3)] md:max-w-[calc((100%_-_3rem)/3)]"
           >
             <div className="flex h-[410px] flex-col rounded-2xl border border-border bg-card p-5 shadow-soft transition duration-300 group-hover:-translate-y-1 group-hover:border-primary/35 group-hover:shadow-pop md:p-6">
               <div className="flex min-w-0 items-center gap-4">
-                <img
-                  src={d.img}
-                  alt={lang === "zh" ? d.zh : d.en}
-                  className="size-24 shrink-0 rounded-full border-2 border-primary/15 object-cover transition-transform duration-500 group-hover:scale-105 md:size-28"
-                />
+                {photo ? <img src={photo} alt={d.name} className="size-24 shrink-0 rounded-full border-2 border-primary/15 object-cover transition-transform duration-500 group-hover:scale-105 md:size-28" /> : <div className="grid size-24 shrink-0 place-items-center rounded-full bg-primary/10 text-primary md:size-28"><Stethoscope className="size-10" /></div>}
                 <div className="min-w-0">
-                  <h3 className="font-display text-xl font-semibold leading-tight text-foreground md:text-2xl">{lang === "zh" ? d.zh : d.en}</h3>
-                  <p className="mt-1 line-clamp-1 text-sm font-medium text-muted-foreground">{lang === "zh" ? d.titleZh : d.titleEn}</p>
-                  <p className="mt-2 flex items-center gap-1.5 text-sm">
-                    <Star className="size-4 fill-amber-400 text-amber-400" />
-                    <strong>{d.rating.toFixed(2)}</strong>
-                    <span className="text-muted-foreground">· {d.reviews.toLocaleString()} {lang === "zh" ? "条评价" : "reviews"}</span>
-                  </p>
+                  <h3 className="font-display text-xl font-semibold leading-tight text-foreground md:text-2xl">{d.name}</h3>
+                  <p className="mt-1 line-clamp-2 text-sm font-medium text-muted-foreground">{d.title}</p>
+                  {d.demo && <span className="mt-2 inline-flex rounded-full bg-accent px-2.5 py-1 text-[10px] font-semibold text-accent-foreground">Sample profile</span>}
                 </div>
               </div>
 
-              <p className="mt-5 flex items-center gap-2 text-sm text-foreground/80"><MapPin className="size-4 text-primary" />{lang === "zh" ? d.cityZh : d.cityEn} · {lang === "zh" ? d.clinicZh : d.clinicEn}</p>
-              <p className="mt-4 line-clamp-2 text-sm leading-relaxed text-muted-foreground">
-                {lang === "zh"
-                  ? `${d.years} 年经验 · ${d.surgeries} 例手术 · 接受国际患者`
-                  : `${d.years} years' experience · ${d.surgeries} procedures · International patients welcome`}
-              </p>
+              <p className="mt-5 flex items-center gap-2 text-sm text-foreground/80"><MapPin className="size-4 text-primary" />{d.city} · {d.hospital}</p>
+              <p className="mt-4 line-clamp-3 text-sm leading-relaxed text-muted-foreground">{d.bio}</p>
               <div className="mt-4 flex flex-wrap gap-1.5 overflow-hidden max-h-[54px]">
-                {(lang === "zh" ? d.specZh : d.specEn).slice(0, 3).map((s) => (
+                {d.specialties.slice(0, 3).map((s) => (
                   <span key={s} className="rounded-full bg-accent px-2.5 py-1 text-[11px] text-accent-foreground">{s}</span>
                 ))}
               </div>
 
               <div className="mt-auto grid grid-cols-[0.9fr_1.1fr] gap-2">
                 <Link
-                  to={`/doctors/${d.id}`}
+                  to={d.demo ? "/doctors" : `/doctors/profile/${d.id}`}
                   className="flex items-center justify-center rounded-xl border border-primary/30 bg-card px-3 py-3 text-center text-xs font-semibold text-primary transition hover:bg-primary/10"
                 >
                   {lang === "zh" ? "医生与案例" : "Doctor & cases"}
                 </Link>
                 <button
                   type="button"
-                  onClick={() => open({ doctorName: lang === "zh" ? d.zh : d.en, city: lang === "zh" ? d.cityZh : d.cityEn })}
+                  onClick={() => open({ doctorName: d.name, city: d.city })}
                   className="flex items-center justify-center gap-1.5 rounded-xl bg-primary px-3 py-3 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90"
                 >
-                  {lang === "zh" ? "在线预约" : "Book online"}<ArrowRight className="size-4" />
+                  {lang === "zh" ? "预约免费视频咨询" : "Book a Free Video Consultation"}<ArrowRight className="size-4" />
                 </button>
               </div>
             </div>
           </article>
-        ))}
+        )})}
       </div>
       <div className="mt-2 flex justify-center sm:hidden">
         <Link to="/doctors" className="inline-flex items-center gap-1 text-sm font-semibold text-primary">
@@ -500,7 +511,7 @@ const HowItWorks = () => {
     },
     {
       icon: BadgeCheck,
-      title: zh ? "预约线上咨询" : "Book online consultation",
+      title: zh ? "预约免费视频咨询" : "Book a Free Video Consultation",
       text: zh ? "选择适合的医生，并预约线上咨询时间。" : "Choose your doctor and schedule a convenient online consultation.",
     },
     {
@@ -537,6 +548,85 @@ const HowItWorks = () => {
             </article>
           ))}
         </div>
+      </div>
+    </section>
+  );
+};
+
+const HomeFaq = () => {
+  const { lang } = useAsia();
+  const zh = lang === "zh";
+  const questions = [
+    {
+      q: zh ? "我需要向 Cosmetics Asia 支付费用吗？" : "Do I need to pay Cosmetics Asia?",
+      a: zh
+        ? "你可以选择我们的三档旅行支持套餐。免费套餐不收取服务费，但需要支付 400 美元协调押金，以便我们提前安排接送、翻译、酒店及院内陪同。你抵达诊所后，押金会退还。"
+        : "You can choose from three travel-support packages. Our Free Package has no service fee, but it requires a $400 coordination deposit so we can prepare transfers, translation, hotel support and in-hospital accompaniment. The deposit is refunded after you arrive at the clinic.",
+    },
+    {
+      q: zh ? "400 美元押金是做什么用的？" : "What is the $400 deposit for?",
+      a: zh
+        ? "押金用于确认你的行程，并让协调团队在你抵达前开始准备相关服务。它不是平台服务费，也不是额外的医疗费用。"
+        : "The deposit confirms your trip and allows our coordination team to begin preparing services before you arrive. It is not a platform service fee or an additional medical charge.",
+    },
+    {
+      q: zh ? "手术和治疗费用支付给谁？" : "Who receives my medical payment?",
+      a: zh
+        ? "全部手术、检查、麻醉及其他医疗费用均由诊所或医院直接收取。Cosmetics Asia 不代收医疗费用。"
+        : "All surgery, examination, anesthesia and other medical fees are charged directly by the clinic or hospital. Cosmetics Asia does not collect your medical payment.",
+    },
+    {
+      q: zh ? "必须购买付费旅行套餐吗？" : "Do I have to buy a paid travel package?",
+      a: zh
+        ? "不需要。你可以选择免费套餐，也可以根据住宿、陪同时间及私人行程需求升级到金牌或钻石套餐。"
+        : "No. You may choose the Free Package, or upgrade to Gold or Diamond if you want additional accommodation, longer accompaniment or a private itinerary.",
+    },
+    {
+      q: zh ? "你们如何审核医生资料？" : "How do you review surgeon credentials?",
+      a: zh ? "我们要求医生或机构提交执业、任职与专业资料，并在公开展示前进行资料审核。未完成审核的资料不会标记为已核验。最终请同时向接诊机构和当地主管部门确认。" : "We request licensing, hospital affiliation and specialty information from the doctor or clinic and review it before publication. Incomplete profiles are not labeled verified. You should also confirm credentials with the treating facility and relevant local authority.",
+    },
+    {
+      q: zh ? "回国后出现问题怎么办？" : "What if I have a concern after returning home?",
+      a: zh ? "我们可以协助你整理情况并联系原诊所，但不能替代急诊或本地医生。出现紧急症状时，应立即联系当地急救服务或持证医生。" : "We can help organize your information and contact the treating clinic, but we do not replace emergency or local medical care. Seek urgent help from local emergency services or a licensed clinician if symptoms are concerning.",
+    },
+    {
+      q: zh ? "线上咨询可以使用英语吗？" : "Can my consultation be conducted in English?",
+      a: zh ? "可以。我们会根据已确认的预约安排英语沟通支持；具体形式可能是英语医生或双语协调员陪同。" : "Yes. We arrange confirmed English-language support for the appointment, either with an English-speaking clinician or a bilingual coordinator, depending on availability.",
+    },
+    {
+      q: zh ? "我的医疗资料如何使用？" : "How is my medical information handled?",
+      a: zh ? "资料仅用于你授权的咨询和行程协调，并只向相关服务方提供必要信息。请勿通过公开评论或社交媒体发送敏感病历。" : "Information is used for the consultation and coordination you authorize, and only necessary details are shared with relevant service providers. Do not send sensitive records through public comments or social media.",
+    },
+  ];
+
+  return (
+    <section className="container py-12 md:py-16" aria-labelledby="home-faq-title">
+      <div className="grid gap-7 rounded-[2rem] border border-primary/15 bg-card p-5 shadow-soft md:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] md:p-10">
+        <div className="md:pr-8">
+          <span className="pill mb-3 bg-accent text-accent-foreground"><HelpCircle className="size-3.5" /> {zh ? "费用常见问题" : "Payment FAQ"}</span>
+          <h2 id="home-faq-title" className="font-display text-3xl font-medium tracking-tight sm:text-4xl md:text-5xl">
+            {zh ? "费用由谁收取，" : "Who gets paid, "}<em className="not-italic text-primary">{zh ? "出发前先说清楚" : "made clear before you travel"}</em>
+          </h2>
+          <p className="mt-4 max-w-md text-sm leading-relaxed text-muted-foreground md:text-base">
+            {zh ? "旅行支持费用与医疗费用分开处理，避免隐藏收费和付款混淆。" : "Travel-support costs and medical payments are handled separately, so you know exactly who receives each payment."}
+          </p>
+          <Link to="/travel-packages" className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary/80">
+            {zh ? "查看三档旅行套餐" : "Compare all travel packages"}<ArrowRight className="size-4" />
+          </Link>
+        </div>
+
+        <Accordion type="single" collapsible defaultValue="payment" className="overflow-hidden rounded-2xl border border-border/80 bg-background/60 px-4 sm:px-5">
+          {questions.map((item, index) => (
+            <AccordionItem key={item.q} value={index === 0 ? "payment" : `faq-${index}`} className="border-border/70">
+              <AccordionTrigger className="gap-4 py-5 text-left text-sm font-semibold hover:no-underline sm:text-base">
+                <span className="flex items-start gap-3"><span className="mt-0.5 font-mono text-[10px] text-primary">0{index + 1}</span>{item.q}</span>
+              </AccordionTrigger>
+              <AccordionContent className="pl-8 pr-2 text-sm leading-relaxed text-muted-foreground sm:text-[15px]">
+                {item.a}
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
       </div>
     </section>
   );
@@ -635,10 +725,11 @@ const AsiaIndex = () => (
       <Hero />
       <main className="home-content-flow">
         <TravelBar />
-        <TreatmentsSection />
         <DoctorsSection />
-        <CitiesSection />
+        <TreatmentsSection />
         <HowItWorks />
+        <HomeFaq />
+        <CitiesSection />
         <AppPromoSection />
       </main>
       <Footer />

@@ -18,7 +18,7 @@ const CityDetail = () => {
 
   if (!city) return <Navigate to="/cities" replace />;
 
-  const cityDoctors = DOCTORS.filter((d) => d.cityEn === city.en);
+  const cityDoctors = DOCTORS.filter(() => false);
   const cityCaseIds = new Set(cityDoctors.flatMap((d) => d.caseIds));
   const cityCases = TIKTOK_CASES.filter((c) => cityCaseIds.has(c.id));
   const travel = lang === "zh" ? city.travelZh : city.travelEn;
@@ -41,7 +41,7 @@ const CityDetail = () => {
     <>
       <PageMeta
         title={`${cityTitle} | Medical Aesthetics, Cosmetic Surgeons & Prices`}
-        description={`Discover the best cosmetic surgeons and clinics in ${cityTitle}. ${city.doctorsCount}+ verified doctors, real patient cases, compare prices. ${city.savings} less than US clinics.`}
+        description={`Plan cosmetic medical travel in ${cityTitle}, China. Explore local logistics, commonly requested procedures and published doctor profiles.`}
         path={`/cities/${slug}`}
         structuredData={citySchema}
       />
@@ -78,10 +78,10 @@ const CityDetail = () => {
             </p>
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl pt-2">
-              <HeroStat icon={<Building2 className="size-4" />} value={`${city.clinics}`} label={lang === "zh" ? "正规机构" : "Hospitals"} />
-              <HeroStat icon={<Stethoscope className="size-4" />} value={`${city.doctorsCount}`} label={lang === "zh" ? "主刀医生" : "Surgeons"} />
-              <HeroStat icon={<Sparkles className="size-4" />} value={`${cityDoctors.length}`} label={lang === "zh" ? "平台医师" : "On Cosmetics Asia"} />
-              <HeroStat icon={<Wallet className="size-4" />} value={city.savings} label={lang === "zh" ? "对比美国" : "vs US clinics"} />
+              <HeroStat icon={<Building2 className="size-4" />} value={lang === "zh" ? "当地" : "Local"} label={lang === "zh" ? "机构信息" : "provider information"} />
+              <HeroStat icon={<Stethoscope className="size-4" />} value={lang === "zh" ? "审核" : "Review"} label={lang === "zh" ? "医生资料" : "doctor profiles"} />
+              <HeroStat icon={<Sparkles className="size-4" />} value={lang === "zh" ? "项目" : "Care"} label={lang === "zh" ? "热门项目" : "popular procedures"} />
+              <HeroStat icon={<Wallet className="size-4" />} value={lang === "zh" ? "明细" : "Itemized"} label={lang === "zh" ? "报价说明" : "pricing guidance"} />
             </div>
           </div>
 
@@ -127,10 +127,10 @@ const CityDetail = () => {
           <div>
             <span className="pill bg-accent text-accent-foreground mb-2">
               <Stethoscope className="size-3.5" />
-              {lang === "zh" ? "认证主刀" : "Verified surgeons"}
+              {lang === "zh" ? "医生资料" : "Doctor profiles"}
             </span>
             <h2 className="font-display text-3xl md:text-4xl font-semibold">
-              {lang === "zh" ? `${city.zh}主刀医生推荐` : `Top surgeons in ${city.en}`}
+              {lang === "zh" ? `${city.zh}医生资料` : `Surgeons in ${city.en}`}
             </h2>
           </div>
           <Link
@@ -189,12 +189,12 @@ const CityDetail = () => {
       </section>
 
 
-      {/* Real cases from this city */}
+      {/* Recovery diary previews from this city */}
       {cityCases.length > 0 && (
         <section className="container py-10">
           <div className="flex items-end justify-between mb-5 gap-4">
             <h2 className="font-display text-3xl md:text-4xl font-semibold">
-              {lang === "zh" ? `${city.zh}真实案例` : `Real cases from ${city.en}`}
+              {lang === "zh" ? `${city.zh}恢复日记预览` : `Recovery diary previews from ${city.en}`}
             </h2>
             <Link to="/cases" className="text-sm font-semibold text-primary hover:translate-x-0.5 transition inline-flex items-center gap-1">
               {lang === "zh" ? "全部案例" : "All cases"} <ArrowRight className="size-4" />

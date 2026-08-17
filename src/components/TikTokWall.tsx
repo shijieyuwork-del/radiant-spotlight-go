@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Heart, MessageCircle, Share2, Volume2, VolumeX, Play, ArrowRight, BadgeCheck, MapPin, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useSavedCase } from "@/lib/saved-cases";
 
 export type TikTokItem = {
   id: string;                 // for case detail route
@@ -23,25 +24,34 @@ export type TikTokWallProps = {
   lang: "en" | "zh" | "ru";
   fmtPrice: (cny: number) => string;
   /** 'preview' = small grid, 'wall' = larger immersive wall */
-  variant?: "preview" | "wall";
+  variant?: "preview" | "wall" | "cases";
   caseHrefBase?: string;       // default "/cases/"
 };
 
 const labels = {
-  en: { play: "Tap to play", view: "View case", verified: "Verified" },
-  zh: { play: "点击播放", view: "查看案例", verified: "已认证" },
+  en: { play: "Tap to play", view: "View diary", verified: "Diary preview" },
+  zh: { play: "点击播放", view: "查看日记", verified: "日记预览" },
 };
 
 const TikTokCard = ({
-  item, lang, fmtPrice, caseHrefBase = "/cases/", autoPlayEligible = true,
-}: { item: TikTokItem; lang: "en" | "zh" | "ru"; fmtPrice: (n: number) => string; caseHrefBase?: string; autoPlayEligible?: boolean }) => {
+  item, lang, fmtPrice, caseHrefBase = "/cases/", autoPlayEligible = true, discovery = false,
+}: { item: TikTokItem; lang: "en" | "zh" | "ru"; fmtPrice: (n: number) => string; caseHrefBase?: string; autoPlayEligible?: boolean; discovery?: boolean }) => {
   const ref = useRef<HTMLVideoElement>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
   const [muted, setMuted] = useState(true);
   const [playing, setPlaying] = useState(false);
-  const [liked, setLiked] = useState(false);
   const navigate = useNavigate();
   const caseUrl = `${caseHrefBase}${item.id}`;
+  const { saved, toggleSaved, signedIn } = useSavedCase(item.id);
+  const recoveryStage = (() => {
+    const text = item.caption.en;
+    const match = text.match(/(\d+)[- ]?(day|week|month)/i);
+    if (!match) return lang === "zh" ? "恢复日记" : "Recovery diary";
+    const value = match[1];
+    const unit = match[2].toLowerCase();
+    if (lang === "zh") return `${value}${unit === "day" ? "天" : unit === "week" ? "周" : "个月"}`;
+    return `${unit[0].toUpperCase()}${unit.slice(1)} ${value}`;
+  })();
 
   // Autoplay when visible; pause when off-screen
   useEffect(() => {
@@ -114,7 +124,7 @@ const TikTokCard = ({
           {item.treatment[lang]}
         </span>
         <span className="pill bg-primary/90 text-primary-foreground text-[10px] font-semibold">
-          <BadgeCheck className="size-3" /> {labels[lang].verified}
+          {discovery ? recoveryStage : labels[lang].verified}
         </span>
       </div>
 
@@ -133,60 +143,62 @@ const TikTokCard = ({
       )}
 
       {/* right action rail */}
-      <div className="absolute right-2 bottom-24 flex flex-col items-center gap-3">
+      <div className={`absolute right-2 flex flex-col items-center gap-3 ${discovery ? "top-14" : "bottom-24"}`}>
         <button
-          onClick={(e) => { e.stopPropagation(); setLiked((l) => !l); }}
+          onClick={(e) => { e.stopPropagation(); toggleSaved(); }}
           className="size-10 rounded-full bg-black/40 backdrop-blur grid place-items-center text-white hover:scale-110 transition-transform"
-          aria-label="like"
+          aria-label={signedIn
+            ? saved ? "Remove from saved cases" : "Save this case"
+            : "Sign up to save this case"}
         >
-          <Heart className={`size-5 ${liked ? "fill-rose-500 text-rose-500" : ""}`} />
+          <Heart className={`size-5 ${saved ? "fill-rose-500 text-rose-500" : ""}`} />
         </button>
-        <span className="text-[10px] text-white font-semibold -mt-2">{item.likes}</span>
+        {!discovery && item.likes && <span className="text-[10px] text-white font-semibold -mt-2">{item.likes}</span>}
 
-        <button
+        {!discovery && <button
           onClick={(e) => e.stopPropagation()}
           className="size-10 rounded-full bg-black/40 backdrop-blur grid place-items-center text-white hover:scale-110 transition-transform"
           aria-label="comments"
         >
           <MessageCircle className="size-5" />
-        </button>
-        <span className="text-[10px] text-white font-semibold -mt-2">{item.comments}</span>
+        </button>}
+        {!discovery && item.comments && <span className="text-[10px] text-white font-semibold -mt-2">{item.comments}</span>}
 
-        <button
+        {!discovery && <button
           onClick={(e) => e.stopPropagation()}
           className="size-10 rounded-full bg-black/40 backdrop-blur grid place-items-center text-white hover:scale-110 transition-transform"
           aria-label="share"
         >
           <Share2 className="size-5" />
-        </button>
+        </button>}
 
-        <button
+        {!discovery && <button
           onClick={toggleMute}
           className="size-10 rounded-full bg-black/40 backdrop-blur grid place-items-center text-white hover:scale-110 transition-transform"
           aria-label="mute"
         >
           {muted ? <VolumeX className="size-5" /> : <Volume2 className="size-5" />}
-        </button>
+        </button>}
       </div>
 
       {/* bottom info */}
       <div className="absolute left-3 right-16 bottom-3 text-white">
         <p className="text-xs font-semibold opacity-95">{item.user[lang]}</p>
         <p className="text-[12px] mt-1 leading-snug line-clamp-2">{item.caption[lang]}</p>
-        <p className="text-[11px] opacity-80 mt-1">{item.clinic[lang]}</p>
+        {!discovery && <p className="text-[11px] opacity-80 mt-1">{item.clinic[lang]}</p>}
         {item.city && (
           <p className="mt-1 flex items-center gap-1 text-[11px] font-medium text-white/90">
             <MapPin className="size-3" /> {item.city[lang]}
           </p>
         )}
         <div className="mt-2 flex items-center justify-between gap-2">
-          <span className="text-sm font-semibold">{fmtPrice(item.priceCny)}</span>
+          {item.priceCny > 0 && <span className="text-sm font-semibold">{fmtPrice(item.priceCny)}</span>}
           <Link
             to={caseUrl}
             onClick={(e) => e.stopPropagation()}
             className="text-[11px] font-semibold pill bg-white text-foreground hover:bg-white/90"
           >
-            {labels[lang].view} <ArrowRight className="size-3" />
+            {discovery ? (lang === "zh" ? "查看完整历程" : "View full journey") : labels[lang].view} <ArrowRight className="size-3" />
           </Link>
         </div>
       </div>
@@ -273,6 +285,18 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase }
             <ChevronRight className="size-5" />
           </Button>
         </div>
+      </div>
+    );
+  }
+
+  if (variant === "cases") {
+    return (
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {items.map((it) => (
+          <div key={it.id} className="mx-auto w-full max-w-[25rem]">
+            <TikTokCard item={it} lang={lang} fmtPrice={fmtPrice} caseHrefBase={caseHrefBase} discovery />
+          </div>
+        ))}
       </div>
     );
   }

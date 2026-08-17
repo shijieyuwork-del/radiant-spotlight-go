@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { DollarSign, Languages, MessageCircle, Menu, ChevronRight, ChevronDown, Phone, Mail } from "lucide-react";
+import { DollarSign, Languages, Menu, ChevronRight, ChevronDown, Phone, Mail, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
@@ -37,7 +37,13 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
       <div className="border-b border-primary bg-primary text-primary-foreground">
         <div className="container flex min-h-9 items-center justify-between gap-3 py-1 text-[11px] sm:text-xs">
           <div className="flex min-w-0 items-center gap-3 sm:gap-5">
-            <a href="tel:+14708613825" className="inline-flex shrink-0 items-center gap-1.5 font-medium text-primary-foreground/90 transition hover:text-primary-foreground">
+            <a
+              href="https://wa.me/14708613825?text=Hi%20Cosmetics%20Asia%2C%20I%20would%20like%20to%20ask%20about%20your%20services."
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Contact Cosmetics Asia on WhatsApp"
+              className="inline-flex shrink-0 items-center gap-1.5 font-medium text-primary-foreground/90 transition hover:text-primary-foreground"
+            >
               <Phone className="size-3.5" />
               <span className="hidden sm:inline">+1 470 861 3825</span>
               <span className="sm:hidden">Call</span>
@@ -48,14 +54,17 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
               <span className="sm:hidden">Email</span>
             </a>
           </div>
-          <a
-            href="https://wa.me/14708613825?text=Hi%20Cosmetics%20Asia%2C%20I%20would%20like%20to%20ask%20about%20your%20services."
-            target="_blank"
-            rel="noreferrer"
+          <Link
+            to="/auth?next=/cases"
+            aria-label={lang === "zh" ? "登录或注册并保存喜欢的案例" : "Sign in or sign up to save favorite cases"}
             className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-card px-3 py-1 font-semibold text-foreground shadow-soft transition hover:bg-card/90"
           >
-            <MessageCircle className="size-3.5" /> WhatsApp
-          </a>
+            <UserRound className="size-3.5" />
+            <span>{lang === "zh" ? "登录 / 注册" : "Sign in / Sign up"}</span>
+            <span className="hidden text-[10px] font-medium text-muted-foreground lg:inline">
+              · {lang === "zh" ? "保存案例" : "Save cases"}
+            </span>
+          </Link>
         </div>
       </div>
       <nav className="container flex h-14 md:h-16 items-center justify-between gap-3">

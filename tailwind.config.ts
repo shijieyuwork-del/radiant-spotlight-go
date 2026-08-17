@@ -18,8 +18,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ['Fraunces', 'serif'],
-        sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+        display: ['Newsreader', 'Georgia', 'Times New Roman', 'serif'],
+        sans: ['Manrope', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
       },
       backgroundImage: {
         'gradient-hero': 'var(--gradient-hero)',

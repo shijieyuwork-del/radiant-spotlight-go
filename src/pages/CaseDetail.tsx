@@ -13,12 +13,13 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/compone
 import { TIKTOK_CASES } from "@/data/tiktokCases";
 import { DOCTORS } from "@/data/doctors";
 import { useAsia } from "@/lib/asia-i18n";
+import { useSavedCase } from "@/lib/saved-cases";
 
 const CaseDetail = () => {
   const { id } = useParams();
   const { t, lang, fmt } = useAsia();
   const item = useMemo(() => TIKTOK_CASES.find((c) => c.id === id), [id]);
-  const doctor = useMemo(() => DOCTORS.find((d) => id && d.caseIds.includes(id)), [id]);
+  const doctor = useMemo(() => DOCTORS.find(() => false), []);
   const doctorCases = useMemo(
     () => doctor
       ? TIKTOK_CASES.filter((c) => c.id !== id && doctor.caseIds.includes(c.id))
@@ -35,6 +36,7 @@ const CaseDetail = () => {
   const [playing, setPlaying] = useState(true);
   const [expanded, setExpanded] = useState(false);
   const [ended, setEnded] = useState(false);
+  const { saved, toggleSaved, signedIn } = useSavedCase(id ?? "");
 
   if (!item) {
     return (
@@ -74,7 +76,7 @@ const CaseDetail = () => {
   const treatment = item.treatment[lang];
   const caseSchema = {
     "@context": "https://schema.org",
-    "@type": "MedicalCase",
+    "@type": "CreativeWork",
     name: treatment,
     description: item.caption[lang],
     image: `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==`,
@@ -87,8 +89,8 @@ const CaseDetail = () => {
   return (
     <>
       <PageMeta
-        title={`${treatment} - Real Patient Case | Before & After`}
-        description={`Watch a real before-and-after ${treatment} case in China. View the recovery timeline, reference price, location, and surgeon information.`}
+        title={`${treatment} Recovery Diary Preview | Cosmetics Asia`}
+        description={`View a ${treatment} recovery diary preview for China. Provider and patient verification details are published only after review.`}
         path={`/cases/${id}`}
         type="article"
         structuredData={caseSchema}
@@ -155,8 +157,14 @@ const CaseDetail = () => {
                 >
                   <Maximize2 className="size-5" />
                 </button>
-                <button onClick={(e) => { e.stopPropagation(); }} className="size-11 rounded-full bg-black/40 backdrop-blur grid place-items-center text-white">
-                  <Heart className="size-5" />
+                <button
+                  onClick={(e) => { e.stopPropagation(); toggleSaved(); }}
+                  className="size-11 rounded-full bg-black/40 backdrop-blur grid place-items-center text-white"
+                  aria-label={signedIn
+                    ? saved ? "Remove from saved cases" : "Save this case"
+                    : "Sign up to save this case"}
+                >
+                  <Heart className={`size-5 ${saved ? "fill-rose-500 text-rose-500" : ""}`} />
                 </button>
                 <span className="text-[11px] text-white font-semibold -mt-2">{item.likes}</span>
                 <button onClick={(e) => { e.stopPropagation(); }} className="size-11 rounded-full bg-black/40 backdrop-blur grid place-items-center text-white">
@@ -204,8 +212,7 @@ const CaseDetail = () => {
               {item.city && (
                 <p className="text-sm flex items-center gap-2"><MapPin className="size-4 text-primary" /> {item.city[lang]}, China</p>
               )}
-              <p className="text-sm flex items-center gap-2"><Calendar className="size-4 text-primary" /> {lang === "zh" ? "手术时间 · 近 6 个月" : "Procedure date · within 6 months"}</p>
-              <p className="text-sm flex items-center gap-2"><ShieldCheck className="size-4 text-primary" /> {lang === "zh" ? "身份证 + 消费凭证已核验" : "Identity & receipt verified"}</p>
+              <p className="text-sm flex items-center gap-2"><ShieldCheck className="size-4 text-primary" /> {lang === "zh" ? "日记预览 · 核验状态待更新" : "Diary preview · verification status pending"}</p>
             </div>
 
             {doctor && (
@@ -236,7 +243,7 @@ const CaseDetail = () => {
               </div>
             )}
 
-            <div className="rounded-3xl bg-gradient-to-br from-[hsl(155,60%,90%)] to-[hsl(50,80%,92%)] p-5 flex items-center justify-between gap-4 shadow-soft">
+            {item.priceCny > 0 && <div className="rounded-3xl bg-gradient-to-br from-[hsl(155,60%,90%)] to-[hsl(50,80%,92%)] p-5 flex items-center justify-between gap-4 shadow-soft">
               <div>
                 <p className="text-xs text-foreground/60">{lang === "zh" ? "参考价格" : "Reference price"}</p>
                 <p className="font-display text-3xl font-semibold mt-1">{fmt(item.priceCny)}</p>
@@ -244,11 +251,11 @@ const CaseDetail = () => {
               <Button size="lg" className="rounded-2xl bg-foreground text-background hover:bg-foreground/90">
                 {t("case.book")}
               </Button>
-            </div>
+            </div>}
 
             <div className="prose prose-sm max-w-none text-muted-foreground">
               <p>
-                {lang === "zh" ? "本日记包含术前术后真实对比、每日恢复记录，以及主诊医师术后回访。Cosmetics Asia 已根据消费凭证与身份证核实日记真实性。" : "This patient diary documents real before/after, daily recovery photos, and a follow-up call with the attending surgeon. Cosmetics Asia verifies every diary against the patient's clinic receipt and ID."}
+                {lang === "zh" ? "这是日记版式预览。患者身份、接诊机构、价格和就诊凭证完成审核后，页面才会展示相应的已核验标识。" : "This is a diary-format preview. Patient identity, provider, pricing and attendance evidence are shown as verified only after review is complete."}
               </p>
             </div>
           </div>

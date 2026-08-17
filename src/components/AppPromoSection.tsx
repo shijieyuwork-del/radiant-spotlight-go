@@ -18,7 +18,7 @@ const AppPromoSection = () => (
             Compare surgeons, watch real patient diaries, book consultations and keep your China medical trip in one place.
           </p>
           <div className="mt-6 flex flex-wrap gap-2 text-xs font-semibold sm:text-sm">
-            <span className="rounded-full bg-white/65 px-4 py-2">300+ surgeons</span>
+            <span className="rounded-full bg-white/65 px-4 py-2">China-focused doctor directory</span>
             <span className="rounded-full bg-white/65 px-4 py-2">10K+ diaries</span>
             <span className="rounded-full bg-white/65 px-4 py-2">iOS + Android</span>
           </div>

@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import { ArrowLeft, ArrowRight, BadgeCheck, CircleHelp, CircleSlash, Clock, DollarSign, FileCheck2, ShieldAlert, Sparkles, Stethoscope } from "lucide-react";
+import { ArrowLeft, ArrowRight, BadgeCheck, CircleHelp, CircleSlash, Clock, DollarSign, FileCheck2, HeartPulse, Pill, ShieldAlert, Sparkles, Stethoscope } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
@@ -74,6 +74,7 @@ const TreatmentDetail = () => {
   }
 
   const name = zh ? t.zh : t.en;
+  const fullGuideEducation = catalogEducation[catalogMatch?.categoryEn || "Skin & Non-Surgical"];
 
   // MedicalWebPage + FAQPage 组合：前者标明这是医学科普内容，
   // 后者让"面诊该问什么"有机会拿到 FAQ 富媒体摘要。
@@ -158,6 +159,16 @@ const TreatmentDetail = () => {
             </div>
           </Section>
 
+          <Section icon={<HeartPulse className="size-5" />} title={zh ? "术前必须告知医生" : "Tell the clinician before surgery"}>
+            <div className="rounded-2xl border border-primary/20 bg-primary/[0.045] p-5">
+              <Bullets items={zh ? fullGuideEducation.discloseZh : fullGuideEducation.discloseEn} />
+              <p className="mt-4 flex gap-2 text-xs font-medium leading-relaxed text-foreground">
+                <Pill className="mt-0.5 size-4 shrink-0 text-primary" />
+                {zh ? "不要自行停药。是否暂停或调整药物，必须由开药医生、手术医生或麻醉医生决定。" : "Do not stop medication on your own. Any change must be directed by the prescribing clinician, surgeon or anesthesiologist."}
+              </p>
+            </div>
+          </Section>
+
           <Section icon={<CircleHelp className="size-5" />} title={zh ? "面诊时该问什么" : "What to ask at consultation"}>
             <Bullets items={zh ? t.askZh : t.askEn} />
           </Section>
@@ -225,10 +236,99 @@ const categoryCopy: Record<string, { en: string; zh: string }> = {
   },
 };
 
+type CatalogEducation = {
+  price: string;
+  downtimeEn: string;
+  downtimeZh: string;
+  finalEn: string;
+  finalZh: string;
+  anesthesiaEn: string;
+  anesthesiaZh: string;
+  risksEn: string[];
+  risksZh: string[];
+  discloseEn: string[];
+  discloseZh: string[];
+};
+
+const sharedDisclosure = {
+  en: [
+    "Heart disease, high blood pressure, asthma, sleep apnea or other lung conditions",
+    "Diabetes, liver or kidney disease, immune disorders, bleeding or clotting problems",
+    "Pregnancy, breastfeeding, active infection, severe allergies or a history of difficult scarring",
+    "Any previous reaction to anesthesia, surgery or an implanted medical product",
+    "All prescriptions, over-the-counter medicines, blood thinners, vitamins, herbal supplements, nicotine, alcohol and recreational drugs",
+  ],
+  zh: [
+    "心脏病、高血压、哮喘、睡眠呼吸暂停或其他肺部疾病",
+    "糖尿病、肝肾疾病、免疫系统疾病、出血或凝血问题",
+    "妊娠、哺乳、活动性感染、严重过敏或增生性瘢痕史",
+    "既往麻醉、手术或植入类医疗产品的不良反应",
+    "全部处方药、非处方药、抗凝药、维生素、草药补充剂，以及尼古丁、酒精和其他药物使用情况",
+  ],
+};
+
+const catalogEducation: Record<string, CatalogEducation> = {
+  Nose: {
+    price: "$2,200–$9,000", downtimeEn: "About 1–2 weeks", downtimeZh: "约 1–2 周", finalEn: "6–12 months", finalZh: "6–12 个月", anesthesiaEn: "Usually general anesthesia", anesthesiaZh: "通常为全身麻醉",
+    risksEn: ["Bleeding, infection and anesthesia-related complications", "Persistent swelling, asymmetry, contour irregularity or visible scarring", "Breathing difficulty, numbness or need for revision surgery"],
+    risksZh: ["出血、感染及麻醉相关并发症", "持续肿胀、不对称、轮廓不规则或明显瘢痕", "呼吸困难、麻木或需要修复手术"],
+    discloseEn: [...sharedDisclosure.en, "Previous nasal surgery, trauma, chronic sinus disease or breathing obstruction"], discloseZh: [...sharedDisclosure.zh, "既往鼻部手术、外伤、慢性鼻窦疾病或通气障碍"],
+  },
+  Eyes: {
+    price: "$800–$5,000", downtimeEn: "About 7–14 days", downtimeZh: "约 7–14 天", finalEn: "1–3 months", finalZh: "1–3 个月", anesthesiaEn: "Local anesthesia or sedation", anesthesiaZh: "局部麻醉或镇静",
+    risksEn: ["Bleeding, infection, dry eye and temporary blurred vision", "Asymmetry, visible scarring, difficulty closing the eyes or lid-position change", "Rare injury to eye structures or need for revision"],
+    risksZh: ["出血、感染、干眼及暂时性视物模糊", "不对称、明显瘢痕、闭眼困难或眼睑位置改变", "罕见眼部结构损伤或需要修复"],
+    discloseEn: [...sharedDisclosure.en, "Dry eye, glaucoma, thyroid eye disease, contact-lens problems or previous eye surgery"], discloseZh: [...sharedDisclosure.zh, "干眼、青光眼、甲状腺相关眼病、隐形眼镜问题或既往眼部手术"],
+  },
+  "Face & Contour": {
+    price: "$2,500–$15,000", downtimeEn: "About 2–4 weeks", downtimeZh: "约 2–4 周", finalEn: "3–12 months", finalZh: "3–12 个月", anesthesiaEn: "Sedation or general anesthesia", anesthesiaZh: "镇静或全身麻醉",
+    risksEn: ["Bleeding, infection, swelling and anesthesia-related complications", "Asymmetry, contour irregularity, numbness or unfavorable scarring", "Nerve, tooth or bone-healing complications depending on the procedure"],
+    risksZh: ["出血、感染、肿胀及麻醉相关并发症", "不对称、轮廓不规则、麻木或瘢痕不理想", "根据术式可能出现神经、牙齿或骨愈合问题"],
+    discloseEn: [...sharedDisclosure.en, "Jaw-joint symptoms, dental disease, facial nerve problems, previous fillers or facial implants"], discloseZh: [...sharedDisclosure.zh, "颞下颌关节症状、牙科疾病、面神经问题、既往填充剂或面部植入物"],
+  },
+  "Facial Rejuvenation": {
+    price: "$2,000–$18,000", downtimeEn: "About 2–4 weeks", downtimeZh: "约 2–4 周", finalEn: "3–6 months", finalZh: "3–6 个月", anesthesiaEn: "Sedation or general anesthesia", anesthesiaZh: "镇静或全身麻醉",
+    risksEn: ["Bleeding, infection, fluid collection and anesthesia-related complications", "Facial-nerve injury, altered sensation, hairline change or skin loss", "Asymmetry, visible scarring or need for revision"],
+    risksZh: ["出血、感染、积液及麻醉相关并发症", "面神经损伤、感觉变化、发际线改变或皮肤坏死", "不对称、明显瘢痕或需要修复"],
+    discloseEn: [...sharedDisclosure.en, "Previous facelift, threads, energy-device treatment, fillers or facial nerve weakness"], discloseZh: [...sharedDisclosure.zh, "既往拉皮、线雕、能量类治疗、填充剂或面神经无力"],
+  },
+  Breast: {
+    price: "$3,500–$14,000", downtimeEn: "About 2–6 weeks", downtimeZh: "约 2–6 周", finalEn: "3–6 months", finalZh: "3–6 个月", anesthesiaEn: "Usually general anesthesia", anesthesiaZh: "通常为全身麻醉",
+    risksEn: ["Bleeding, infection, fluid collection and anesthesia-related complications", "Changes in nipple sensation, asymmetry, scarring or wound-healing problems", "Implant rupture, displacement or capsular contracture when implants are used"],
+    risksZh: ["出血、感染、积液及麻醉相关并发症", "乳头感觉变化、不对称、瘢痕或伤口愈合问题", "使用假体时可能发生破裂、移位或包膜挛缩"],
+    discloseEn: [...sharedDisclosure.en, "Breast symptoms, abnormal imaging, family cancer history, prior breast surgery, pregnancy or breastfeeding plans"], discloseZh: [...sharedDisclosure.zh, "乳房症状、异常影像、肿瘤家族史、既往乳房手术以及妊娠或哺乳计划"],
+  },
+  "Body Contouring": {
+    price: "$2,500–$18,000", downtimeEn: "About 2–6 weeks", downtimeZh: "约 2–6 周", finalEn: "3–12 months", finalZh: "3–12 个月", anesthesiaEn: "Sedation or general anesthesia", anesthesiaZh: "镇静或全身麻醉",
+    risksEn: ["Bleeding, infection, fluid collection, blood clots and anesthesia-related complications", "Contour irregularity, asymmetry, numbness, skin loss or poor scarring", "Fluid shifts and cardiopulmonary complications when large areas are treated"],
+    risksZh: ["出血、感染、积液、血栓及麻醉相关并发症", "轮廓不规则、不对称、麻木、皮肤坏死或瘢痕不理想", "大范围治疗时可能发生体液变化及心肺并发症"],
+    discloseEn: [...sharedDisclosure.en, "History of blood clots, significant weight change, bariatric surgery, hernia or future pregnancy plans"], discloseZh: [...sharedDisclosure.zh, "血栓史、明显体重变化、减重手术史、疝气或未来妊娠计划"],
+  },
+  "Hair Restoration": {
+    price: "$1,500–$7,000", downtimeEn: "About 7–14 days", downtimeZh: "约 7–14 天", finalEn: "6–12 months", finalZh: "6–12 个月", anesthesiaEn: "Usually local anesthesia", anesthesiaZh: "通常为局部麻醉",
+    risksEn: ["Bleeding, infection, swelling, folliculitis and scarring", "Temporary shock loss, poor graft growth or unnatural hairline", "Donor-area thinning, numbness or need for additional sessions"],
+    risksZh: ["出血、感染、肿胀、毛囊炎及瘢痕", "暂时性休止期脱发、移植物生长不佳或发际线不自然", "供区变薄、麻木或需要追加治疗"],
+    discloseEn: [...sharedDisclosure.en, "Sudden or patchy hair loss, scalp disease, autoimmune disease, anemia, thyroid disease or hormonal symptoms"], discloseZh: [...sharedDisclosure.zh, "突发或斑片状脱发、头皮疾病、自身免疫病、贫血、甲状腺疾病或激素相关症状"],
+  },
+  "Cosmetic Dentistry": {
+    price: "$300–$15,000", downtimeEn: "Same day to 2 weeks", downtimeZh: "当天至 2 周", finalEn: "Varies by treatment", finalZh: "依治疗项目而定", anesthesiaEn: "None, local anesthesia or sedation", anesthesiaZh: "无需麻醉、局麻或镇静",
+    risksEn: ["Pain, sensitivity, gum irritation, infection or bite changes", "Damage to tooth structure, nerve injury or restoration failure", "Implant failure, bone loss or need for retreatment in complex cases"],
+    risksZh: ["疼痛、敏感、牙龈刺激、感染或咬合改变", "牙体损伤、神经损伤或修复体失败", "复杂病例可能发生种植失败、骨丧失或需要再次治疗"],
+    discloseEn: [...sharedDisclosure.en, "Gum disease, loose teeth, jaw-joint pain, osteoporosis medication, prior radiation or poorly controlled diabetes"], discloseZh: [...sharedDisclosure.zh, "牙周病、牙齿松动、颞下颌关节疼痛、骨质疏松用药、既往放疗或控制不佳的糖尿病"],
+  },
+  "Skin & Non-Surgical": {
+    price: "$100–$4,000", downtimeEn: "Hours to 2 weeks", downtimeZh: "数小时至 2 周", finalEn: "Days to several months", finalZh: "数日至数月", anesthesiaEn: "None or topical/local anesthesia", anesthesiaZh: "无需麻醉或表面/局部麻醉",
+    risksEn: ["Redness, swelling, bruising, burns, pigment change, infection or scarring", "Allergic reaction, nodules, asymmetry or unintended tissue injury", "Fillers can rarely block a blood vessel, causing skin loss, vision injury or stroke"],
+    risksZh: ["红肿、淤青、灼伤、色素改变、感染或瘢痕", "过敏反应、结节、不对称或非预期组织损伤", "填充剂极少数情况下可阻塞血管，导致皮肤坏死、视力损伤或卒中"],
+    discloseEn: [...sharedDisclosure.en, "Active rash, acne or herpes, recent dental work, previous fillers, isotretinoin use or pigment/scarring disorders"], discloseZh: [...sharedDisclosure.zh, "活动性皮疹、痤疮或疱疹、近期牙科治疗、既往填充剂、异维 A 酸使用史或色素/瘢痕问题"],
+  },
+};
+
 const CatalogProcedureDetail = ({ procedure, zh }: { procedure: { en: string; zh: string; categoryEn: string; categoryZh: string }; zh: boolean }) => {
   const { fmt } = useAsia();
   const name = zh ? procedure.zh : procedure.en;
   const intro = categoryCopy[procedure.categoryEn];
+  const education = catalogEducation[procedure.categoryEn];
   const path = `/treatments/${procedureSlug(procedure.en)}`;
 
   return (
@@ -257,6 +357,61 @@ const CatalogProcedureDetail = ({ procedure, zh }: { procedure: { en: string; zh
             <InfoCard icon={<ShieldAlert />} title={zh ? "了解风险与恢复" : "Discuss risk & recovery"} text={zh ? "确认术式、麻醉、恢复安排、并发症处理及完整费用。" : "Confirm technique, anesthesia, recovery, complication management and total cost."} />
           </section>
 
+          <section className="mt-8 rounded-[2rem] border border-border/70 bg-card p-5 shadow-soft md:p-8">
+            <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+              <div>
+                <span className="pill bg-accent text-accent-foreground"><Sparkles className="size-3.5" />{zh ? "快速了解" : "At a glance"}</span>
+                <h2 className="mt-3 font-display text-3xl font-medium tracking-tight">{zh ? "先看关键数字" : "Start with the essentials"}</h2>
+              </div>
+              <p className="max-w-md text-xs leading-relaxed text-muted-foreground">{zh ? "以下为中国市场的一般规划参考，不是医院报价或个人恢复承诺。" : "General planning ranges for China—not a hospital quote or a personal recovery promise."}</p>
+            </div>
+            <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4">
+              <QuickFact icon={<DollarSign />} label={zh ? "参考价格" : "Planning range"} value={education.price} />
+              <QuickFact icon={<Clock />} label={zh ? "初步恢复" : "Typical downtime"} value={zh ? education.downtimeZh : education.downtimeEn} />
+              <QuickFact icon={<Sparkles />} label={zh ? "结果逐步稳定" : "Result settles"} value={zh ? education.finalZh : education.finalEn} />
+              <QuickFact icon={<Stethoscope />} label={zh ? "常见麻醉" : "Common anesthesia"} value={zh ? education.anesthesiaZh : education.anesthesiaEn} />
+            </div>
+          </section>
+
+          <div className="mt-8 grid gap-5 md:grid-cols-2">
+            <section className="rounded-3xl border border-destructive/20 bg-destructive/[0.035] p-6">
+              <h2 className="flex items-center gap-2 font-display text-2xl font-medium tracking-tight"><ShieldAlert className="size-5 text-destructive/75" />{zh ? "需要认真了解的风险" : "Risks to understand"}</h2>
+              <div className="mt-4"><Bullets items={zh ? education.risksZh : education.risksEn} /></div>
+              <p className="mt-4 text-xs leading-relaxed text-muted-foreground">{zh ? "这不是完整风险清单。风险会随具体术式、麻醉方式、治疗范围和个人健康状况改变。" : "This is not a complete risk list. Risk changes with technique, anesthesia, treatment extent and your health."}</p>
+            </section>
+
+            <section className="rounded-3xl border border-primary/20 bg-primary/[0.045] p-6">
+              <h2 className="flex items-center gap-2 font-display text-2xl font-medium tracking-tight"><HeartPulse className="size-5 text-primary" />{zh ? "这些疾病和情况要提前说" : "Tell the clinician before treatment"}</h2>
+              <div className="mt-4"><Bullets items={zh ? education.discloseZh : education.discloseEn} /></div>
+              <p className="mt-4 flex gap-2 text-xs font-medium leading-relaxed text-foreground"><Pill className="mt-0.5 size-4 shrink-0 text-primary" />{zh ? "不要自行停药。是否暂停或调整药物，必须由开药医生、手术医生或麻醉医生决定。" : "Do not stop medication on your own. Any change must be directed by the prescribing clinician, surgeon or anesthesiologist."}</p>
+            </section>
+          </div>
+
+          <section className="mt-8 rounded-3xl border border-border/70 bg-secondary/30 p-6 md:p-8">
+            <h2 className="flex items-center gap-2 font-display text-2xl font-medium tracking-tight"><CircleHelp className="size-5 text-primary" />{zh ? "面诊时一定要问" : "Questions to ask at consultation"}</h2>
+            <div className="mt-5 grid gap-3 sm:grid-cols-2">
+              {(zh ? [
+                `您做过多少例与我的情况相似的 ${procedure.zh}？`,
+                "推荐的具体术式是什么？为什么适合我？是否有替代方案？",
+                "完整费用包含什么？麻醉、检查、复诊和并发症处理是否另收费？",
+                "我应在中国停留多久？出现哪些症状需要立即就医？",
+                "谁负责麻醉和术后随访？回国后出现问题如何联系？",
+                "能否查看未经滤镜、与我情况相近且已获授权的真实案例？",
+              ] : [
+                `How many ${procedure.en} cases similar to mine have you performed?`,
+                "Which exact technique do you recommend, why, and what are the alternatives?",
+                "What does the total fee include—anesthesia, tests, follow-ups and complication care?",
+                "How long should I stay in China, and which symptoms require urgent care?",
+                "Who provides anesthesia and follow-up care, including after I return home?",
+                "May I review unfiltered, consented cases with anatomy similar to mine?",
+              ]).map((question, index) => (
+                <div key={question} className="flex gap-3 rounded-2xl border border-border/60 bg-card/80 p-4 text-sm leading-relaxed">
+                  <span className="font-mono text-xs font-bold text-primary">{String(index + 1).padStart(2, "0")}</span><span>{question}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+
           <ProcedureVideoRow procedure={`${procedure.en} ${procedure.categoryEn}`} zh={zh} fmt={fmt} />
 
           <section className="mt-8 rounded-3xl bg-muted/45 p-6 md:p-8">
@@ -275,6 +430,14 @@ const CatalogProcedureDetail = ({ procedure, zh }: { procedure: { en: string; zh
     </>
   );
 };
+
+const QuickFact = ({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) => (
+  <div className="rounded-2xl bg-secondary/55 p-4 md:p-5">
+    <span className="text-primary [&>svg]:size-4">{icon}</span>
+    <p className="mt-3 text-[11px] font-bold uppercase tracking-[0.12em] text-muted-foreground">{label}</p>
+    <p className="mt-1 text-sm font-semibold leading-snug text-foreground md:text-base">{value}</p>
+  </div>
+);
 
 const relatedCaseTerms: Record<string, string[]> = {
   nose: ["rhinoplasty"],

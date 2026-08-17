@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button";
 import { DOCTORS } from "@/data/doctors";
 import { useAsia } from "@/lib/asia-i18n";
 import { supabase } from "@/integrations/supabase/client";
+import { useQuote } from "@/components/QuoteRequest";
+import { DEMO_CHINA_DOCTORS } from "@/data/demoChinaDoctors";
 
 type ManagedDoctor = { id:string; name:string; title:string; hospital:string; city:string; specialties:string[]; bio:string; photo_path:string|null };
 
@@ -19,37 +21,45 @@ const Doctors = () => {
   const [city, setCity] = useState<string>("all");
   const [spec, setSpec] = useState<string>("all");
   const [managedDoctors, setManagedDoctors] = useState<ManagedDoctor[]>([]);
-  useEffect(()=>{supabase.from("doctors").select("id,name,title,hospital,city,specialties,bio,photo_path").eq("status","published").order("created_at",{ascending:false}).then(({data})=>setManagedDoctors((data??[]) as ManagedDoctor[]))},[]);
+  const { open } = useQuote();
+  useEffect(()=>{supabase.from("doctors").select("id,name,title,hospital,city,specialties,bio,photo_path").eq("status","published").order("created_at",{ascending:false}).then(({data})=>{
+    const chinaCities = ["shanghai", "beijing", "guangzhou", "hangzhou", "hainan", "上海", "北京", "广州", "杭州", "海南"];
+    setManagedDoctors(((data??[]) as ManagedDoctor[]).filter((doctor)=>chinaCities.some((cityName)=>doctor.city?.toLowerCase().includes(cityName))));
+  })},[]);
 
+  const publicDoctors = useMemo(() => DOCTORS.filter(() => false), []);
+  const directoryDoctors = managedDoctors.length > 0
+    ? managedDoctors.map((doctor) => ({ ...doctor, demo: false as const, photo: doctor.photo_path ? supabase.storage.from("doctor-photos").getPublicUrl(doctor.photo_path).data.publicUrl : "" }))
+    : DEMO_CHINA_DOCTORS.map((doctor) => ({ ...doctor, photo_path: null, credentials: null }));
   const cities = useMemo(() => {
     const set = new Map<string, string>();
-    DOCTORS.forEach((d) => set.set(d.cityEn, d[lang === "zh" ? "cityZh" : "cityEn"]));
+    publicDoctors.forEach((d) => set.set(d.cityEn, d[lang === "zh" ? "cityZh" : "cityEn"]));
     return Array.from(set, ([key, label]) => ({ key, label }));
-  }, [lang]);
+  }, [lang, publicDoctors]);
 
   const specialties = useMemo(() => {
     const set = new Map<string, string>();
-    DOCTORS.forEach((d) =>
+    publicDoctors.forEach((d) =>
       d.specEn.forEach((s, i) => set.set(s, lang === "zh" ? d.specZh[i] ?? s : s)),
     );
     return Array.from(set, ([key, label]) => ({ key, label }));
-  }, [lang]);
+  }, [lang, publicDoctors]);
 
   const items = useMemo(() => {
-    return DOCTORS.filter((d) => {
+    return publicDoctors.filter((d) => {
       if (city !== "all" && d.cityEn !== city) return false;
       if (spec !== "all" && !d.specEn.includes(spec)) return false;
       if (!q.trim()) return true;
       const hay = `${d.en} ${d.zh} ${d.clinicEn} ${d.clinicZh} ${d.specEn.join(" ")} ${d.specZh.join(" ")}`.toLowerCase();
       return hay.includes(q.toLowerCase());
     });
-  }, [q, city, spec]);
+  }, [q, city, spec, publicDoctors]);
 
   return (
     <>
       <PageMeta
-        title="Board-Certified Surgeons in Asia | Find Your Cosmetic Doctor"
-        description="Find 6,000+ verified board-certified cosmetic surgeons across Seoul, Bangkok, Tokyo, Singapore, Shanghai, and Beijing. Compare credentials, patient reviews, pricing, and real case studies."
+        title="Cosmetic Surgeons in China | Review Doctor Profiles"
+        description="Review published cosmetic surgeon profiles in China, explore specialties, and book a free video consultation with English-language coordination support."
         path="/doctors"
       />
       <div className="min-h-screen bg-background">
@@ -64,7 +74,7 @@ const Doctors = () => {
             {t("doctors.title1")} <em className="text-primary not-italic">{t("doctors.titleEm")}</em>
           </h1>
           <p className="text-muted-foreground mt-3">
-            {lang === "zh" ? "每位医师均持有当地医疗委员会颁发的执业许可。可按手术类型与城市筛选，点击档案查看完整介绍与真实手术案例。" : "Every surgeon below is licensed by their national medical board. Filter by procedure or city, then click any profile to read their bio and verified case diaries."}
+            {lang === "zh" ? "查看已发布的医生资料、擅长项目与任职机构。只有完成资料审核的内容才会标记为已核验。" : "Review published doctor profiles, specialties and hospital affiliations. Only information that completes our review is labeled verified."}
           </p>
         </div>
 
@@ -115,22 +125,56 @@ const Doctors = () => {
           </div>
         </div>
 
-        {managedDoctors.length > 0 && <div className="mb-10"><h2 className="font-display text-2xl mb-5">{lang === "zh" ? "平台新增医生" : "Newly added doctors"}</h2><div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">{managedDoctors.map(d=>{const photo=d.photo_path?supabase.storage.from("doctor-photos").getPublicUrl(d.photo_path).data.publicUrl:"";return <Link key={d.id} to={`/doctors/profile/${d.id}`} className="rounded-3xl bg-card shadow-pop p-6 hover:shadow-glow"><div className="flex gap-4">{photo?<img src={photo} alt={d.name} className="size-20 rounded-2xl object-cover"/>:<div className="size-20 rounded-2xl bg-muted grid place-items-center"><Stethoscope/></div>}<div><h3 className="font-display text-xl font-semibold">{d.name}</h3><p className="text-xs text-muted-foreground mt-1">{d.title}</p><p className="text-xs text-muted-foreground mt-1"><MapPin className="inline size-3"/> {d.city}</p></div></div><p className="text-sm mt-4"><Building2 className="inline size-4 text-primary"/> {d.hospital}</p><div className="flex flex-wrap gap-1 mt-4">{d.specialties.map(s=><span key={s} className="text-[11px] px-2 py-1 rounded-full bg-accent">{s}</span>)}</div><p className="text-sm text-primary font-semibold mt-4">{lang === "zh" ? "查看医生和视频" : "View doctor and videos"} →</p></Link>})}</div></div>}
+        {directoryDoctors.length > 0 && (
+          <div className="mb-10">
+            <h2 className="mb-5 font-display text-2xl">{managedDoctors.length > 0 ? (lang === "zh" ? "已发布的中国医生" : "Published doctors in China") : (lang === "zh" ? "中国医生展示样例" : "Sample China doctor profiles")}</h2>
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {directoryDoctors.map((d) => {
+                const photo = d.photo;
+                return (
+                  <article key={d.id} className="flex min-h-[25rem] flex-col rounded-3xl bg-card p-6 shadow-pop transition hover:shadow-glow">
+                    <div className="flex gap-4">
+                      {photo
+                        ? <img src={photo} alt={d.name} className="size-24 shrink-0 rounded-full border-2 border-primary/15 object-cover" />
+                        : <div className="grid size-24 shrink-0 place-items-center rounded-full bg-muted"><Stethoscope /></div>}
+                      <div className="min-w-0">
+                        <h3 className="font-display text-xl font-semibold leading-tight">{d.name}</h3>
+                        <p className="mt-1 text-xs text-muted-foreground">{d.title}</p>
+                        <p className="mt-2 text-xs text-muted-foreground"><MapPin className="mr-1 inline size-3" />{d.city}</p>
+                        {d.demo && <span className="mt-2 inline-flex rounded-full bg-accent px-2.5 py-1 text-[10px] font-semibold text-accent-foreground">Sample profile</span>}
+                      </div>
+                    </div>
+                    <p className="mt-5 text-sm text-muted-foreground"><Building2 className="mr-1 inline size-4 text-primary" />{d.hospital}</p>
+                    {d.bio && <p className="mt-4 line-clamp-2 text-sm leading-relaxed text-muted-foreground">{d.bio}</p>}
+                    <div className="mt-4 flex flex-wrap gap-1.5">{d.specialties.map((s) => <span key={s} className="rounded-full bg-accent px-2.5 py-1 text-[11px]">{s}</span>)}</div>
+                    <div className="mt-auto grid grid-cols-[0.9fr_1.1fr] gap-2 pt-6">
+                      <Link to={d.demo ? "/doctors" : `/doctors/profile/${d.id}`} className="flex items-center justify-center rounded-xl border border-primary/30 px-3 py-3 text-center text-xs font-semibold text-primary hover:bg-primary/10">
+                        {lang === "zh" ? "医生与案例" : "Doctor & cases"}
+                      </Link>
+                      <button type="button" onClick={() => open({ doctorName: d.name, city: d.city })} className="flex items-center justify-center gap-1.5 rounded-xl bg-primary px-3 py-3 text-sm font-semibold text-primary-foreground hover:bg-primary/90">
+                        {lang === "zh" ? "预约免费视频咨询" : "Book a Free Video Consultation"}<ArrowRight className="size-4" />
+                      </button>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         {items.length === 0 ? (
           <p className="text-center text-muted-foreground py-12 text-sm">
-            {lang === "zh" ? "没有匹配的医师，换个筛选试试。" : "No surgeons match this filter."}
+            {lang === "zh" ? "医生资料正在审核中。你仍可预约免费视频咨询，我们会根据需求协助匹配。" : "Doctor profiles are currently under review. You can still book a free video consultation and we will help identify suitable options."}
           </p>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {items.map((d) => (
-              <Link
+              <article
                 key={d.id}
-                to={`/doctors/${d.id}`}
-                className="rounded-3xl bg-card shadow-pop p-6 hover:shadow-glow transition group block"
+                className="group flex min-h-[37rem] flex-col rounded-3xl bg-card p-6 shadow-pop transition hover:shadow-glow"
               >
                 <div className="flex items-center gap-4">
-                  <img src={d.img} alt={lang === "zh" ? d.zh : d.en} className="size-16 rounded-2xl object-cover" />
+                  <img src={d.img} alt={lang === "zh" ? d.zh : d.en} className="size-24 shrink-0 rounded-full border-2 border-primary/15 object-cover transition-transform duration-500 group-hover:scale-105" />
                   <div className="min-w-0">
                     <p className="font-display text-lg font-semibold leading-tight truncate">{lang === "zh" ? d.zh : d.en}</p>
                     <p className="text-xs text-muted-foreground mt-1 truncate">
@@ -201,10 +245,19 @@ const Doctors = () => {
                   </div>
                 </div>
 
-                <div className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary group-hover:gap-2 transition-all">
-                  {t("doctors.cta")} <ArrowRight className="size-4" />
+                <div className="mt-auto grid grid-cols-[0.9fr_1.1fr] gap-2 pt-6">
+                  <Link to={`/doctors/${d.id}`} className="flex items-center justify-center rounded-xl border border-primary/30 bg-card px-3 py-3 text-center text-xs font-semibold text-primary transition hover:bg-primary/10">
+                    {lang === "zh" ? "医生与案例" : "Doctor & cases"}
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => open({ doctorName: lang === "zh" ? d.zh : d.en, city: lang === "zh" ? d.cityZh : d.cityEn })}
+                    className="flex items-center justify-center gap-1.5 rounded-xl bg-primary px-3 py-3 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90"
+                  >
+                    {lang === "zh" ? "预约免费视频咨询" : "Book a Free Video Consultation"}<ArrowRight className="size-4" />
+                  </button>
                 </div>
-              </Link>
+              </article>
             ))}
           </div>
         )}
