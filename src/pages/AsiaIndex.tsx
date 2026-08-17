@@ -791,8 +791,8 @@ const PatientReviewsSection = () => {
 const AsiaIndex = () => (
   <>
     <PageMeta
-      title="Beauty in China, Made Simple | Cosmetic Medical Travel"
-      description="Cosmetics Asia connects international patients with licensed cosmetic surgeons across China. Watch real before-after videos, compare prices, and plan your medical trip."
+      title="Cosmetic Surgery in China | Doctors & Patient Diaries"
+      description="Compare cosmetic surgeons in China, watch patient recovery diaries, understand procedures, and plan translation, travel and aftercare with Cosmetics Asia."
       path="/"
       structuredData={ORGANIZATION_SCHEMA}
     />

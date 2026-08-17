@@ -97,9 +97,9 @@ function buildRoutes(d) {
   const routes = [
     {
       path: "/",
-      title: "Beauty in Asia, Made Simple | Medical Aesthetics",
+      title: "Cosmetic Surgery in China | Doctors & Patient Diaries",
       description:
-        "Cosmetics Asia connects you with 6,000+ board-certified surgeons across Asia. Watch real before-after videos, compare prices, book procedures in seconds. 100k+ verified cases.",
+        "Compare cosmetic surgeons in China, watch patient recovery diaries, understand procedures, and plan translation, travel and aftercare with Cosmetics Asia.",
       schema: d.ORGANIZATION_SCHEMA,
     },
     {
@@ -110,15 +110,25 @@ function buildRoutes(d) {
     },
     {
       path: "/doctors",
-      title: "Board-Certified Surgeons in Asia | Find Your Cosmetic Doctor",
+      title: "Cosmetic Surgeons in China | Review Doctor Profiles",
       description:
-        "Find 6,000+ verified board-certified cosmetic surgeons across Seoul, Bangkok, Tokyo, Singapore, Shanghai, and Beijing. Compare credentials, patient reviews, pricing, and real case studies.",
+        "Review published cosmetic surgeon profiles in China, compare specialties and hospital affiliations, and request an online consultation with English-language coordination.",
     },
     {
       path: "/cases",
-      title: "Real Patient Cases & Before-After Videos | Medical Aesthetics",
+      title: "Patient Recovery Diaries | Cosmetic Surgery in China",
       description:
-        "Browse 100+ verified real patient cases across Asia. Watch authentic before-and-after videos, recovery timelines, and pricing from board-certified surgeons in Seoul, Bangkok, Tokyo, and more.",
+        "Explore cosmetic surgery recovery diary previews by procedure and destination in China, including recovery stages, provider details and related doctor profiles.",
+    },
+    {
+      path: "/travel-packages",
+      title: "China Medical Travel Packages",
+      description: "Compare China medical travel support packages with airport transfers, hotel assistance, in-clinic translation and coordinated aftercare.",
+    },
+    {
+      path: "/why-china",
+      title: "Why China for Cosmetic Surgery | Facts & Safety",
+      description: "Review evidence, safety questions, travel considerations and source-backed information for patients considering cosmetic surgery in China.",
     },
   ];
 
@@ -168,6 +178,7 @@ function buildRoutes(d) {
   for (const doc of d.DOCTORS) {
     routes.push({
       path: `/doctors/${doc.id}`,
+      includeInSitemap: false,
       title: `${doc.en} - ${doc.titleEn} in ${doc.cityEn}`,
       description: `Consult ${doc.en}, a board-certified surgeon in ${doc.cityEn} with ${doc.years}+ years experience and ${doc.reviews}+ verified patient reviews. Specializes in ${doc.specEn.slice(0, 2).join(", ")}.`,
       schema: {
@@ -230,6 +241,17 @@ async function main() {
     await mkdir(path.dirname(outFile), { recursive: true });
     await writeFile(outFile, html, "utf8");
   }
+
+  const lastmod = new Date().toISOString().slice(0, 10);
+  const sitemapUrls = routes
+    .filter((route) => route.includeInSitemap !== false)
+    .map((route) => `  <url>\n    <loc>${esc(`${cfg.SITE_URL}${route.path}`)}</loc>\n    <lastmod>${lastmod}</lastmod>\n  </url>`)
+    .join("\n");
+  await writeFile(
+    path.join(DIST, "sitemap.xml"),
+    `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapUrls}\n</urlset>\n`,
+    "utf8",
+  );
 
   await rm(TMP, { force: true });
   console.log(`prerender: 已生成 ${routes.length} 个静态页面`);

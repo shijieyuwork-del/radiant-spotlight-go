@@ -9,7 +9,7 @@ export const SITE_URL = import.meta.env.VITE_SITE_URL || "https://cosmetics-asia
 
 export const SITE_NAME = "Cosmetics Asia";
 export const SITE_DESCRIPTION =
-  "Cosmetics Asia is the video-first platform to discover medical aesthetic clinics across Asia. Watch real treatments, compare prices, book in seconds.";
+  "Cosmetics Asia helps international patients compare cosmetic surgeons in China, watch patient recovery diaries, understand procedures, and coordinate travel and aftercare.";
 export const SITE_AUTHOR = "Cosmetics Asia";
 
 // OG 图片（医疗类网站建议用现场治疗对比图）
@@ -23,30 +23,34 @@ export const TWITTER_HANDLE = "@CosmeticsAsia";
 // JSON-LD Organization Schema
 export const ORGANIZATION_SCHEMA = {
   "@context": "https://schema.org",
-  "@type": "MedicalBusiness",
-  name: SITE_NAME,
-  description: SITE_DESCRIPTION,
-  url: SITE_URL,
-  image: OG_IMAGE,
-  // sameAs 只能填“确实归本站所有”的账号。原来这里填的是
-  // instagram.com/glowy 和 tiktok.com/@glowy —— 那是别人的账号，
-  // 在结构化数据里声明会误导搜索引擎。等真实账号注册好再往里加。
-  sameAs: [] as string[],
-  contactPoint: {
-    "@type": "ContactPoint",
-    contactType: "Customer Service",
-    areaServed: ["CN", "TH", "JP", "SG", "KR"],
-    availableLanguageId: ["en", "zh"],
-  },
-  address: {
-    "@type": "PostalAddress",
-    addressCountry: "CN",
-    // 可选：后续补充实际办公地址
-  },
-  // ⚠️ 这里原本写死了 aggregateRating: 4.8 分 / 6000 条评价。
-  // 站上并没有真实评价系统支撑这个数字，而 Google 明确禁止伪造
-  // AggregateRating（医疗类站点尤其敏感），一旦被判定会吃人工处罚，
-  // 富媒体摘要也会被取消。等有真实评价数据再按实际数值加回来。
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${SITE_URL}/#organization`,
+      name: SITE_NAME,
+      description: SITE_DESCRIPTION,
+      url: SITE_URL,
+      logo: `${SITE_URL}/ca-favicon.svg`,
+      email: "hello@cosmetics-asia.com",
+      telephone: "+1-470-861-3825",
+      contactPoint: {
+        "@type": "ContactPoint",
+        contactType: "Customer Service",
+        telephone: "+1-470-861-3825",
+        email: "hello@cosmetics-asia.com",
+        availableLanguage: ["English", "Chinese", "Russian"],
+      },
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${SITE_URL}/#website`,
+      url: SITE_URL,
+      name: SITE_NAME,
+      alternateName: "Cosmetics Asia China Medical Travel",
+      publisher: { "@id": `${SITE_URL}/#organization` },
+      inLanguage: ["en", "zh", "ru"],
+    },
+  ],
 };
 
 // 医疗信息补充说明（医疗类 SEO 需要这个）
