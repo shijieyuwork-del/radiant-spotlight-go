@@ -234,9 +234,9 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase }
         onMouseLeave={() => { carouselPausedRef.current = false; }}
         onFocusCapture={() => { carouselPausedRef.current = true; }}
         onBlurCapture={() => { carouselPausedRef.current = false; }}
-        className="relative touch-pan-x overflow-hidden overscroll-x-contain rounded-[2.25rem] border border-primary/15 bg-[radial-gradient(ellipse_at_50%_100%,hsl(var(--primary)/.22),transparent_62%)] px-2 pb-6 pt-4 shadow-pop sm:px-6 md:pt-6"
+        className="relative touch-pan-x overflow-hidden overscroll-x-contain rounded-[1.75rem] border border-primary/15 bg-[radial-gradient(ellipse_at_50%_100%,hsl(var(--primary)/.22),transparent_62%)] px-2 pb-5 pt-3 shadow-pop sm:rounded-[2.25rem] sm:px-6 sm:pb-6 sm:pt-4 md:pt-6"
       >
-        <div className="relative mx-auto h-[470px] max-w-[90rem] [perspective:1600px] sm:h-[540px] md:h-[590px]">
+        <div className="relative mx-auto h-[500px] max-w-[90rem] [perspective:1600px] sm:h-[540px] md:h-[590px]">
           {items.map((it, index) => {
             const distance = distanceFromActive(index);
             const depth = Math.abs(distance);
@@ -249,7 +249,7 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase }
             return (
               <div
                 key={it.id}
-                className="absolute left-1/2 top-3 w-[66vw] max-w-[255px] transition-all duration-700 ease-out sm:w-[270px] sm:max-w-[270px] md:w-[300px] md:max-w-[300px] lg:w-[320px] lg:max-w-[320px]"
+                className="absolute left-1/2 top-3 w-[74vw] max-w-[280px] transition-all duration-700 ease-out sm:w-[270px] sm:max-w-[270px] md:w-[300px] md:max-w-[300px] lg:w-[320px] lg:max-w-[320px]"
                 style={{
                   opacity: visible ? 1 - depth * 0.18 : 0,
                   pointerEvents: visible ? "auto" : "none",
@@ -273,7 +273,7 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase }
         </div>
 
         <div className="relative z-20 mt-1 flex items-center justify-center gap-4">
-          <Button type="button" variant="outline" size="icon" className="size-11 rounded-full bg-card shadow-soft" onClick={() => move(-1)} aria-label="Previous video">
+          <Button type="button" variant="outline" size="icon" className="size-12 rounded-full bg-card shadow-soft sm:size-11" onClick={() => move(-1)} aria-label="Previous video">
             <ChevronLeft className="size-5" />
           </Button>
           <div className="flex items-center gap-1.5" aria-hidden="true">
@@ -281,7 +281,7 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase }
               <span key={item.id} className={`h-1.5 rounded-full transition-all ${index === active ? "w-6 bg-primary" : "w-1.5 bg-border"}`} />
             ))}
           </div>
-          <Button type="button" variant="outline" size="icon" className="size-11 rounded-full bg-card shadow-soft" onClick={() => move(1)} aria-label="Next video">
+          <Button type="button" variant="outline" size="icon" className="size-12 rounded-full bg-card shadow-soft sm:size-11" onClick={() => move(1)} aria-label="Next video">
             <ChevronRight className="size-5" />
           </Button>
         </div>
@@ -291,9 +291,9 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase }
 
   if (variant === "cases") {
     return (
-      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-4 scrollbar-hide sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3">
         {items.map((it) => (
-          <div key={it.id} className="mx-auto w-full max-w-[25rem]">
+          <div key={it.id} className="w-[82vw] max-w-[22rem] shrink-0 snap-center sm:mx-auto sm:w-full sm:max-w-[25rem]">
             <TikTokCard item={it} lang={lang} fmtPrice={fmtPrice} caseHrefBase={caseHrefBase} discovery />
           </div>
         ))}

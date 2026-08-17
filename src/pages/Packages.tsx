@@ -305,7 +305,7 @@ const Packages = () => {
 
                   <Link
                     to="/doctors"
-                    className={`mt-7 inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition ${
+                    className={`mt-7 inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl px-5 py-3 text-center text-sm font-semibold transition sm:rounded-full ${
                       p.highlight
                         ? "bg-foreground text-background hover:bg-foreground/90"
                         : "bg-accent text-foreground hover:bg-accent/80"

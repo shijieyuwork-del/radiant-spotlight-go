@@ -165,6 +165,20 @@
       white-space: normal;
       text-align: left;
     }
+
+    .container {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+
+    .home-content-flow > section + section::before {
+      left: 1rem;
+      right: 1rem;
+    }
+
+    a, button, [role="button"] {
+      -webkit-tap-highlight-color: transparent;
+    }
   }
 
   h1, h2, h3 {

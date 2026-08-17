@@ -48,7 +48,7 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
               <span className="hidden sm:inline">+1 470 861 3825</span>
               <span className="sm:hidden">WhatsApp</span>
             </a>
-            <a href="mailto:hello@cosmetics-asia.com" className="hidden min-w-0 items-center gap-1.5 font-medium text-primary-foreground/90 transition hover:text-primary-foreground min-[390px]:inline-flex">
+            <a href="mailto:hello@cosmetics-asia.com" className="hidden min-w-0 items-center gap-1.5 font-medium text-primary-foreground/90 transition hover:text-primary-foreground sm:inline-flex">
               <Mail className="size-3.5 shrink-0" />
               <span className="hidden truncate sm:inline">hello@cosmetics-asia.com</span>
             </a>
@@ -68,7 +68,7 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
         </div>
       </div>
       <header className="relative z-50 mt-9 border-b border-border/60 bg-background/80 backdrop-blur-xl">
-      <nav className="container flex h-14 md:h-16 items-center justify-between gap-3">
+      <nav className="container flex h-[3.75rem] md:h-16 items-center justify-between gap-3">
         <Link to="/" className="flex items-center gap-2 shrink-0">
           <BrandLogo markClassName="size-8 md:size-9" textClassName="text-lg md:text-xl" />
         </Link>
@@ -125,7 +125,7 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
 
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="md:hidden size-10 rounded-full bg-card shadow-soft" aria-label={lang === "zh" ? "打开菜单" : "Open menu"}>
+            <Button variant="ghost" size="icon" className="md:hidden size-11 rounded-full border border-primary/10 bg-card shadow-soft" aria-label={lang === "zh" ? "打开菜单" : "Open menu"}>
               <Menu className="size-5" />
             </Button>
           </SheetTrigger>

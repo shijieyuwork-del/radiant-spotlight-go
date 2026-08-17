@@ -163,32 +163,32 @@ const Hero = () => {
       <div className="absolute -top-20 -left-10 size-72 bg-gradient-mint blur-3xl opacity-60 animate-blob" />
       <div className="absolute top-40 right-0 size-80 bg-gradient-peach blur-3xl opacity-50 animate-blob" style={{ animationDelay: "2s" }} />
 
-      <div className="container relative py-10 sm:py-14 md:py-20">
-        <div className="flex flex-col gap-10 md:gap-14">
+      <div className="container relative pb-9 pt-8 sm:py-14 md:py-20">
+        <div className="flex flex-col gap-8 md:gap-14">
           <div className="text-center max-w-3xl mx-auto w-full">
-            <span className="pill bg-card/80 backdrop-blur shadow-soft max-w-full leading-relaxed">
+            <span className="pill max-w-full justify-center bg-card/80 text-center leading-relaxed shadow-soft backdrop-blur">
               <ShieldCheck className="size-3.5 text-primary" />
               {copy.badge}
             </span>
-            <h1 className="mt-5 font-display text-[2.55rem] sm:text-5xl md:text-6xl font-medium leading-[1.02] tracking-tight">
+            <h1 className="mt-4 font-display text-[2.35rem] font-medium leading-[1.01] tracking-tight min-[390px]:text-[2.55rem] sm:mt-5 sm:text-5xl md:text-6xl">
               {copy.title}<br />
               <em className="text-primary not-italic">{copy.emphasis}</em>
             </h1>
-            <p className="mx-auto mt-5 max-w-xl text-[15px] leading-relaxed text-muted-foreground md:text-lg">{copy.subtitle}</p>
+            <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground sm:mt-5 sm:text-[15px] md:text-lg">{copy.subtitle}</p>
 
-            <div className="mx-auto mt-7 flex max-w-lg justify-center">
-              <Button asChild size="lg" className="h-12 w-full rounded-full px-8 text-sm font-semibold shadow-soft sm:w-auto sm:min-w-72">
+            <div className="mx-auto mt-6 flex max-w-lg justify-center sm:mt-7">
+              <Button asChild size="lg" className="h-[3.25rem] w-full rounded-2xl px-8 text-[15px] font-semibold shadow-pop sm:h-12 sm:w-auto sm:min-w-72 sm:rounded-full">
                 <Link to="/cases">{copy.cases}<ArrowRight className="ml-1.5 size-4" /></Link>
               </Button>
             </div>
 
-            <div className="mt-8 grid grid-cols-1 gap-2 sm:grid-cols-3 sm:gap-3">
+            <div className="-mx-4 mt-6 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 scrollbar-hide sm:mx-0 sm:mt-8 sm:grid sm:grid-cols-3 sm:overflow-visible sm:px-0 sm:pb-0">
               {[
                 { icon: Users, title: copy.english, detail: copy.englishDetail },
                 { icon: MapPin, title: copy.travel, detail: copy.travelDetail },
                 { icon: ShieldCheck, title: copy.pricing, detail: copy.pricingDetail },
               ].map((item) => (
-                <span key={item.title} className="flex min-h-16 items-center gap-3 rounded-2xl border border-primary/10 bg-card/70 px-4 py-3 text-left shadow-soft backdrop-blur">
+                <span key={item.title} className="flex min-h-[4.5rem] min-w-[76vw] snap-center items-center gap-3 rounded-2xl border border-primary/10 bg-card/75 px-4 py-3 text-left shadow-soft backdrop-blur sm:min-h-16 sm:min-w-0">
                   <span className="grid size-9 shrink-0 place-items-center rounded-full bg-card"><item.icon className="size-4 text-primary" /></span>
                   <span className="min-w-0">
                     <strong className="block font-display text-sm font-semibold leading-tight">{item.title}</strong>
@@ -199,7 +199,7 @@ const Hero = () => {
             </div>
           </div>
 
-          <div className="w-full border-t border-primary/10 pt-10 md:pt-14">
+          <div className="w-full border-t border-primary/10 pt-8 md:pt-14">
             <div className="mb-6 flex flex-col items-start justify-between gap-4 px-1 sm:flex-row sm:items-end md:mb-8">
               <div>
                 <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.16em] text-primary">
@@ -215,7 +215,7 @@ const Hero = () => {
               </div>
               <Link
                 to="/cases"
-                className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-primary text-primary-foreground px-4 py-2.5 text-xs font-bold shadow-soft hover:shadow-pop hover:-translate-y-0.5 transition-all"
+                className="inline-flex min-h-11 w-full shrink-0 items-center justify-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground shadow-soft transition-all hover:-translate-y-0.5 hover:shadow-pop sm:w-auto sm:text-xs"
               >
                 {lang === "zh" ? "浏览全部日记" : "Explore all diaries"} <ArrowRight className="size-3.5" />
               </Link>
@@ -232,15 +232,15 @@ const TravelBar = () => {
   const { lang } = useAsia();
   if (lang === "zh") return null;
   return (
-    <section className="container py-6">
-      <div className="grid items-center gap-4 rounded-3xl bg-gradient-to-r from-[hsl(340,82%,92%)] via-[hsl(var(--primary)/.20)] to-[hsl(50,80%,92%)] p-4 shadow-soft sm:grid-cols-2 sm:p-6 md:grid-cols-4 md:p-7">
+    <section className="container py-5 md:py-6">
+      <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto bg-gradient-to-r from-[hsl(340,82%,92%)] via-[hsl(var(--primary)/.20)] to-[hsl(50,80%,92%)] px-4 py-4 shadow-soft scrollbar-hide sm:mx-0 sm:grid sm:grid-cols-2 sm:rounded-3xl sm:p-6 md:grid-cols-4 md:p-7">
         {[
           { icon: Users, t: "1. Book your consultation", d: "Contact us by email or WhatsApp to choose a time and a doctor" },
           { icon: Stethoscope, t: "2. Meet us online", d: "Understand your options, expected results, risks and recovery" },
           { icon: Plane, t: "3. Travel to China for treatment", d: "We coordinate your arrival, clinic visit and translation" },
           { icon: MapPin, t: "4. Recover & explore China", d: "Recover with our support, with an optional personalized travel itinerary" },
         ].map((x) => (
-          <div key={x.t} className="flex gap-3 items-start">
+          <div key={x.t} className="flex min-w-[78vw] snap-center items-start gap-3 rounded-2xl bg-card/60 p-4 backdrop-blur sm:min-w-0 sm:bg-transparent sm:p-0">
             <div className="size-10 rounded-2xl bg-card grid place-items-center shrink-0">
               <x.icon className="size-5 text-primary" />
             </div>
@@ -275,8 +275,8 @@ const CitiesSection = () => {
     return () => window.clearInterval(timer);
   }, []);
   return (
-    <section id="cities" className="container py-12 md:py-16">
-      <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+    <section id="cities" className="container py-10 md:py-16">
+      <div className="mb-6 flex flex-wrap items-end justify-between gap-4 md:mb-8">
         <div>
           <span className="pill bg-accent text-accent-foreground mb-3"><MapPin className="size-3.5" /> {t("cities.kicker")}</span>
           <h2 className="font-display text-3xl font-medium tracking-tight sm:text-4xl md:text-5xl">
@@ -300,8 +300,8 @@ const CitiesSection = () => {
         className="-mx-4 flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain scroll-smooth px-4 pb-4 scrollbar-hide md:-mx-6 md:gap-6 md:px-6"
       >
         {cities.map((c) => (
-          <Link key={c.slug} to={`/cities/${c.slug}`} className="group block min-w-[84vw] snap-start sm:min-w-[62vw] md:min-w-[calc((100%_-_3rem)/3)] md:max-w-[calc((100%_-_3rem)/3)]">
-            <article className="flex h-[410px] flex-col rounded-2xl border border-border bg-card p-5 shadow-soft transition duration-300 group-hover:-translate-y-1 group-hover:border-primary/35 group-hover:shadow-pop md:p-6">
+          <Link key={c.slug} to={`/cities/${c.slug}`} className="group block min-w-[82vw] snap-center sm:min-w-[62vw] md:min-w-[calc((100%_-_3rem)/3)] md:max-w-[calc((100%_-_3rem)/3)]">
+            <article className="flex h-[390px] flex-col rounded-3xl border border-border bg-card p-5 shadow-soft transition duration-300 group-hover:-translate-y-1 group-hover:border-primary/35 group-hover:shadow-pop md:h-[410px] md:p-6">
               <div className="flex min-w-0 items-center gap-4">
                 <img src={c.img} alt={`${c.en} city`} className="size-24 shrink-0 rounded-full border-2 border-primary/15 object-cover transition-transform duration-500 group-hover:scale-105 md:size-28" />
                 <div className="min-w-0">
@@ -377,8 +377,8 @@ const TreatmentsSection = () => {
     return () => window.cancelAnimationFrame(frame);
   }, []);
   return (
-    <section id="projects" className="container py-12 md:py-16">
-      <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+    <section id="projects" className="container py-10 md:py-16">
+      <div className="mb-5 flex flex-wrap items-end justify-between gap-4 md:mb-8">
         <div>
           <span className="pill bg-accent text-accent-foreground mb-3"><Flame className="size-3.5" /> {t("tx.kicker")}</span>
           <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight">
@@ -393,7 +393,7 @@ const TreatmentsSection = () => {
           <button type="button" onClick={() => moveTreatmentClouds(1)} className="grid size-10 place-items-center rounded-full bg-primary text-primary-foreground shadow-soft transition hover:bg-primary/90" aria-label={lang === "zh" ? "下一组手术类型" : "Next procedure groups"}>
             <ChevronRight className="size-5" />
           </button>
-          <Link to="/treatments" className="pill bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90">
+          <Link to="/treatments" className="pill hidden bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90 sm:inline-flex">
             {lang === "zh" ? "全部项目" : "All procedures"}<ArrowRight className="size-4" />
           </Link>
         </div>
@@ -479,8 +479,8 @@ const DoctorsSection = () => {
     return () => window.clearInterval(timer);
   }, []);
   return (
-    <section id="compliance" className="container py-12 md:py-16">
-      <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
+    <section id="compliance" className="container py-10 md:py-16">
+      <div className="mb-6 flex flex-wrap items-end justify-between gap-4 md:mb-8">
         <div>
           <span className="pill bg-accent text-accent-foreground mb-3"><Stethoscope className="size-3.5" /> {t("doctors.kicker")}</span>
           <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight">
@@ -527,9 +527,9 @@ const DoctorsSection = () => {
           return (
           <article
             key={d.id}
-            className="group block min-w-[84vw] snap-start sm:min-w-[62vw] md:min-w-[calc((100%_-_3rem)/3)] md:max-w-[calc((100%_-_3rem)/3)]"
+            className="group block min-w-[82vw] snap-center sm:min-w-[62vw] md:min-w-[calc((100%_-_3rem)/3)] md:max-w-[calc((100%_-_3rem)/3)]"
           >
-            <div className="flex h-[410px] flex-col rounded-2xl border border-border bg-card p-5 shadow-soft transition duration-300 group-hover:-translate-y-1 group-hover:border-primary/35 group-hover:shadow-pop md:p-6">
+            <div className="flex h-[395px] flex-col rounded-3xl border border-border bg-card p-5 shadow-soft transition duration-300 group-hover:-translate-y-1 group-hover:border-primary/35 group-hover:shadow-pop md:h-[410px] md:p-6">
               <div className="flex min-w-0 items-center gap-4">
                 {photo ? <img src={photo} alt={d.name} className="size-24 shrink-0 rounded-full border-2 border-primary/15 object-cover transition-transform duration-500 group-hover:scale-105 md:size-28" /> : <div className="grid size-24 shrink-0 place-items-center rounded-full bg-primary/10 text-primary md:size-28"><Stethoscope className="size-10" /></div>}
                 <div className="min-w-0">
@@ -550,14 +550,14 @@ const DoctorsSection = () => {
               <div className="mt-auto grid grid-cols-[0.9fr_1.1fr] gap-2">
                 <Link
                   to={d.demo ? "/doctors" : `/doctors/profile/${d.id}`}
-                  className="flex items-center justify-center rounded-xl border border-primary/30 bg-card px-3 py-3 text-center text-xs font-semibold text-primary transition hover:bg-primary/10"
+                  className="flex min-h-12 items-center justify-center rounded-xl border border-primary/30 bg-card px-3 py-3 text-center text-xs font-semibold text-primary transition hover:bg-primary/10"
                 >
                   {lang === "zh" ? "医生与案例" : "Doctor & cases"}
                 </Link>
                 <button
                   type="button"
                   onClick={() => open({ doctorName: d.name, city: d.city })}
-                  className="flex items-center justify-center gap-1.5 rounded-xl bg-primary px-3 py-3 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90"
+                  className="flex min-h-12 items-center justify-center gap-1.5 rounded-xl bg-primary px-3 py-3 text-center text-[13px] font-semibold leading-tight text-primary-foreground transition hover:bg-primary/90"
                 >
                   {lang === "zh" ? "预约免费视频咨询" : "Book a Free Video Consultation"}<ArrowRight className="size-4" />
                 </button>

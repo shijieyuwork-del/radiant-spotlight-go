@@ -148,10 +148,10 @@ const Doctors = () => {
                     {d.bio && <p className="mt-4 line-clamp-2 text-sm leading-relaxed text-muted-foreground">{d.bio}</p>}
                     <div className="mt-4 flex flex-wrap gap-1.5">{d.specialties.map((s) => <span key={s} className="rounded-full bg-accent px-2.5 py-1 text-[11px]">{s}</span>)}</div>
                     <div className="mt-auto grid gap-2 pt-6 min-[430px]:grid-cols-[0.9fr_1.1fr]">
-                      <Link to={d.demo ? "/doctors" : `/doctors/profile/${d.id}`} className="flex items-center justify-center rounded-xl border border-primary/30 px-3 py-3 text-center text-xs font-semibold text-primary hover:bg-primary/10">
+                      <Link to={d.demo ? "/doctors" : `/doctors/profile/${d.id}`} className="flex min-h-12 items-center justify-center rounded-xl border border-primary/30 px-3 py-3 text-center text-xs font-semibold text-primary hover:bg-primary/10">
                         {lang === "zh" ? "医生与案例" : "Doctor & cases"}
                       </Link>
-                      <button type="button" onClick={() => open({ doctorName: d.name, city: d.city })} className="flex items-center justify-center gap-1.5 rounded-xl bg-primary px-3 py-3 text-sm font-semibold text-primary-foreground hover:bg-primary/90">
+                      <button type="button" onClick={() => open({ doctorName: d.name, city: d.city })} className="flex min-h-12 items-center justify-center gap-1.5 rounded-xl bg-primary px-3 py-3 text-center text-[13px] font-semibold leading-tight text-primary-foreground hover:bg-primary/90">
                         {lang === "zh" ? "预约免费视频咨询" : "Book free consultation"}<ArrowRight className="size-4" />
                       </button>
                     </div>
@@ -171,7 +171,7 @@ const Doctors = () => {
             {items.map((d) => (
               <article
                 key={d.id}
-                className="group flex min-h-[37rem] flex-col rounded-3xl bg-card p-6 shadow-pop transition hover:shadow-glow"
+                className="group flex min-h-[34rem] flex-col rounded-3xl bg-card p-5 shadow-pop transition hover:shadow-glow sm:p-6 md:min-h-[37rem]"
               >
                 <div className="flex items-center gap-4">
                   <img src={d.img} alt={lang === "zh" ? d.zh : d.en} className="size-24 shrink-0 rounded-full border-2 border-primary/15 object-cover transition-transform duration-500 group-hover:scale-105" />
@@ -245,14 +245,14 @@ const Doctors = () => {
                   </div>
                 </div>
 
-                <div className="mt-auto grid grid-cols-[0.9fr_1.1fr] gap-2 pt-6">
-                  <Link to={`/doctors/${d.id}`} className="flex items-center justify-center rounded-xl border border-primary/30 bg-card px-3 py-3 text-center text-xs font-semibold text-primary transition hover:bg-primary/10">
+                <div className="mt-auto grid gap-2 pt-6 min-[430px]:grid-cols-[0.9fr_1.1fr]">
+                  <Link to={`/doctors/${d.id}`} className="flex min-h-12 items-center justify-center rounded-xl border border-primary/30 bg-card px-3 py-3 text-center text-xs font-semibold text-primary transition hover:bg-primary/10">
                     {lang === "zh" ? "医生与案例" : "Doctor & cases"}
                   </Link>
                   <button
                     type="button"
                     onClick={() => open({ doctorName: lang === "zh" ? d.zh : d.en, city: lang === "zh" ? d.cityZh : d.cityEn })}
-                    className="flex items-center justify-center gap-1.5 rounded-xl bg-primary px-3 py-3 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90"
+                    className="flex min-h-12 items-center justify-center gap-1.5 rounded-xl bg-primary px-3 py-3 text-center text-[13px] font-semibold leading-tight text-primary-foreground transition hover:bg-primary/90"
                   >
                     {lang === "zh" ? "预约免费视频咨询" : "Book a Free Video Consultation"}<ArrowRight className="size-4" />
                   </button>
