@@ -112,7 +112,7 @@ const FloatingLiveChat = () => {
       {!open && (
         <button
           onClick={handleOpen}
-          aria-label={lang === "zh" ? "联系真人客服" : "Chat with a human agent"}
+          aria-label={lang === "zh" ? "通过 WhatsApp 联系我们" : "Contact us on WhatsApp"}
           className="group fixed bottom-4 right-4 z-50 flex items-center gap-2 rounded-full bg-foreground p-2 text-background shadow-pop transition-all hover:-translate-y-0.5 hover:shadow-glow sm:bottom-6 sm:right-6 sm:pl-2 sm:pr-5"
         >
           <span className="relative size-10 rounded-full bg-primary grid place-items-center text-foreground">
@@ -125,7 +125,7 @@ const FloatingLiveChat = () => {
             )}
           </span>
           <span className="hidden whitespace-nowrap text-sm font-semibold sm:inline">
-            {lang === "zh" ? "真人客服" : "Live agent"}
+            {lang === "zh" ? "WhatsApp 联系" : "WhatsApp Us"}
           </span>
         </button>
       )}
