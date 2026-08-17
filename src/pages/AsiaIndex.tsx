@@ -235,10 +235,10 @@ const TravelBar = () => {
     <section className="container py-6">
       <div className="grid items-center gap-4 rounded-3xl bg-gradient-to-r from-[hsl(340,82%,92%)] via-[hsl(var(--primary)/.20)] to-[hsl(50,80%,92%)] p-4 shadow-soft sm:grid-cols-2 sm:p-6 md:grid-cols-4 md:p-7">
         {[
-          { icon: Plane, t: "Medical visa support", d: "Invitation letter & visa filing assistance" },
-          { icon: Users, t: "English coordinator", d: "From landing to follow-up · WhatsApp 24/7" },
-          { icon: MapPin, t: "Airport pickup & hotel", d: "Hotel options matched to your itinerary" },
-          { icon: ShieldCheck, t: "Itemized pricing", d: "Understand estimated costs before you travel" },
+          { icon: Users, t: "1. Book your consultation", d: "Contact us by email or WhatsApp to choose a time" },
+          { icon: Stethoscope, t: "2. Meet your doctor online", d: "Understand your options, expected results, risks and recovery" },
+          { icon: Plane, t: "3. Travel to China for treatment", d: "We coordinate your arrival, clinic visit and translation" },
+          { icon: MapPin, t: "4. Recover & explore China", d: "Recover with our support and enjoy a personalized itinerary" },
         ].map((x) => (
           <div key={x.t} className="flex gap-3 items-start">
             <div className="size-10 rounded-2xl bg-card grid place-items-center shrink-0">
