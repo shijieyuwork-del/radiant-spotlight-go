@@ -475,7 +475,7 @@ const DoctorsSection = () => {
       if (!rail || doctorRailPausedRef.current || document.hidden) return;
       const atEnd = rail.scrollLeft + rail.clientWidth >= rail.scrollWidth - 24;
       rail.scrollTo({ left: atEnd ? 0 : rail.scrollLeft + Math.min(rail.clientWidth * 0.86, 1080), behavior: "smooth" });
-    }, 4800);
+    }, 3200);
     return () => window.clearInterval(timer);
   }, []);
   return (
