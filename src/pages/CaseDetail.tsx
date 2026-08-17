@@ -258,6 +258,36 @@ const CaseDetail = () => {
                 {lang === "zh" ? "这是日记版式预览。患者身份、接诊机构、价格和就诊凭证完成审核后，页面才会展示相应的已核验标识。" : "This is a diary-format preview. Patient identity, provider, pricing and attendance evidence are shown as verified only after review is complete."}
               </p>
             </div>
+
+            <aside className="overflow-hidden rounded-[2rem] border border-primary/15 bg-gradient-to-br from-[hsl(340,82%,92%)] via-[hsl(var(--primary)/.18)] to-[hsl(50,80%,92%)] p-5 shadow-soft sm:p-7">
+              <span className="pill bg-card/80 text-accent-foreground shadow-soft">
+                <MessageCircle className="size-3.5 text-primary" />
+                {lang === "zh" ? "免费咨询" : lang === "ru" ? "Бесплатная консультация" : "Free guidance"}
+              </span>
+              <h2 className="mt-4 font-display text-2xl font-medium leading-tight tracking-tight sm:text-3xl">
+                {lang === "zh"
+                  ? "正在考虑类似的项目？"
+                  : lang === "ru"
+                    ? "Рассматриваете похожую процедуру?"
+                    : "Considering a similar procedure?"}
+              </h2>
+              <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-[15px]">
+                {lang === "zh"
+                  ? "把这个案例发给我们，并告诉我们你的目标。我们可以协助你匹配医生、了解预估费用和恢复安排。"
+                  : lang === "ru"
+                    ? "Отправьте нам этот пример и расскажите о своей цели. Мы поможем подобрать врача и разобраться в стоимости и восстановлении."
+                    : "Send us this case and tell us your goals. We can help you compare doctors and understand estimated pricing and recovery planning."}
+              </p>
+              <a
+                href={`https://wa.me/14708613825?text=${encodeURIComponent(`Hi Cosmetics Asia, I’m interested in this ${item.treatment.en} case: https://cosmetics-asia.com/cases/${item.id}`)}`}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-5 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl bg-primary px-6 py-3 text-sm font-bold text-primary-foreground shadow-pop transition hover:-translate-y-0.5 hover:bg-primary/90 sm:w-auto sm:rounded-full"
+              >
+                {lang === "zh" ? "联系我们" : lang === "ru" ? "Связаться с нами" : "Contact us about this case"}
+                <ArrowRight className="size-4" />
+              </a>
+            </aside>
           </div>
         </div>
 
