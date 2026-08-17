@@ -37,7 +37,7 @@ const PACKAGES: Pkg[] = [
       { en: "$400 Coordination Deposit — Refunded After You Arrive at the Clinic", zh: "400 美元协调押金 — 抵达诊所后退还", bold: true },
       { en: "1-on-1 In-Hospital Accompaniment (1 Day)", zh: "1 对 1 院内陪同（1 天）", bold: true },
       { en: "Airport Pickup & Drop-off", zh: "机场接送" },
-      { en: "Hotel Booking Assistance", zh: "酒店预订协助" },
+      { en: "Hotel Near the Clinic", zh: "诊所附近酒店" },
       { en: "In-Clinic Translation Service", zh: "诊所内翻译服务" },
       { en: "Professional Medical Records Translation & Organization", zh: "专业病历翻译与整理" },
       { en: "Daily Online Concierge Support (10:00 AM – 10:00 PM Beijing Time, 7 Days · WeChat / WhatsApp / Message)", zh: "每日在线管家支持（北京时间 10:00–22:00 · 7 天 · 微信 / WhatsApp / 短信）" },
@@ -114,7 +114,7 @@ const SERVICE_DETAILS = [
     icon: Plane,
   },
   {
-    titleEn: "Hotel Booking Assistance",
+    titleEn: "Hotel Near the Clinic",
     titleZh: "酒店预订协助",
     descriptionEn: "Tell us your dates, budget and recovery needs. We help shortlist suitable hotels, check practical details and coordinate the reservation. Hotel charges are separate unless your selected package specifically includes accommodation.",
     descriptionZh: "告知我们日期、预算和恢复需求，我们会协助筛选合适酒店、确认实用细节并协调预订。除非所选套餐明确包含住宿，酒店费用需另行支付。",
