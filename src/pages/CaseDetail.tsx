@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
 import { DOCTORS } from "@/data/doctors";
+import { DEMO_CHINA_DOCTORS } from "@/data/demoChinaDoctors";
 import { useAsia } from "@/lib/asia-i18n";
 import { useSavedCase } from "@/lib/saved-cases";
 
@@ -20,6 +21,14 @@ const CaseDetail = () => {
   const { t, lang, fmt } = useAsia();
   const item = useMemo(() => TIKTOK_CASES.find((c) => c.id === id), [id]);
   const doctor = useMemo(() => DOCTORS.find(() => false), []);
+  const caseDoctor = useMemo(() => {
+    const treatment = item?.treatment.en.toLowerCase() ?? "";
+    if (/facelift|neck lift|fat graft/.test(treatment)) return DEMO_CHINA_DOCTORS[1];
+    if (/breast/.test(treatment)) return DEMO_CHINA_DOCTORS[2];
+    if (/liposuction|tummy|body|bbl/.test(treatment)) return DEMO_CHINA_DOCTORS[3];
+    if (/skin|non-surgical/.test(treatment)) return DEMO_CHINA_DOCTORS[4];
+    return DEMO_CHINA_DOCTORS[0];
+  }, [item]);
   const doctorCases = useMemo(
     () => doctor
       ? TIKTOK_CASES.filter((c) => c.id !== id && doctor.caseIds.includes(c.id))
@@ -218,33 +227,37 @@ const CaseDetail = () => {
               <p className="text-sm flex items-center gap-2"><ShieldCheck className="size-4 text-primary" /> {lang === "zh" ? "日记预览 · 核验状态待更新" : "Diary preview · verification status pending"}</p>
             </div>
 
-            {doctor && (
-              <div className="rounded-3xl bg-card shadow-soft p-5">
-                <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold mb-3">
-                  {lang === "zh" ? "本案例主刀医师" : "Surgeon for this case"}
+            <div className="rounded-3xl border border-border/70 bg-card p-5 shadow-soft sm:p-6">
+              <div className="mb-4 flex items-center justify-between gap-3">
+                <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  {lang === "zh" ? "相关专科医生" : lang === "ru" ? "Врач по данному направлению" : "Doctor for this specialty"}
                 </p>
-                <Link
-                  to={`/doctors/${doctor.id}`}
-                  className="flex items-center gap-4 hover:opacity-90 transition group"
-                >
-                  <img src={doctor.img} alt={lang === "zh" ? doctor.zh : doctor.en} className="size-20 rounded-2xl object-cover shrink-0" />
-                  <div className="min-w-0 flex-1">
-                    <p className="font-display text-xl font-semibold leading-tight truncate">
-                      {lang === "zh" ? doctor.zh : doctor.en}
-                    </p>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      {lang === "zh" ? doctor.titleZh : doctor.titleEn} · {doctor.years}{lang === "zh" ? "年经验" : " years experience"}
-                    </p>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      {doctor.surgeries} {lang === "zh" ? "台案例" : "procedures"} · {doctor.rating} ★
-                    </p>
-                  </div>
-                  <span className="hidden sm:inline-flex items-center gap-1 text-xs font-semibold text-primary shrink-0">
-                    {lang === "zh" ? "查看医生" : "View doctor"} <ArrowRight className="size-4" />
-                  </span>
-                </Link>
+                <span className="rounded-full bg-accent px-2.5 py-1 text-[10px] font-semibold text-accent-foreground">
+                  {lang === "zh" ? "示例资料" : lang === "ru" ? "Демо-профиль" : "Sample profile"}
+                </span>
               </div>
-            )}
+              <div className="flex items-start gap-4">
+                <img src={caseDoctor.photo} alt={caseDoctor.name} className="size-24 shrink-0 rounded-2xl border-2 border-primary/15 object-cover sm:size-28" />
+                <div className="min-w-0 flex-1">
+                  <h2 className="font-display text-xl font-semibold leading-tight sm:text-2xl">{caseDoctor.name}</h2>
+                  <p className="mt-1 text-sm text-muted-foreground">{caseDoctor.title}</p>
+                  <p className="mt-2 flex items-start gap-1.5 text-xs leading-relaxed text-muted-foreground"><Building2 className="mt-0.5 size-3.5 shrink-0 text-primary" />{caseDoctor.hospital}</p>
+                  <p className="mt-1 flex items-center gap-1.5 text-xs text-muted-foreground"><MapPin className="size-3.5 shrink-0 text-primary" />{caseDoctor.city}, China</p>
+                </div>
+              </div>
+              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{caseDoctor.bio}</p>
+              <div className="mt-4 flex flex-wrap gap-1.5">
+                {caseDoctor.specialties.map((specialty) => <span key={specialty} className="rounded-full bg-secondary px-3 py-1 text-[11px] font-semibold text-foreground/80">{specialty}</span>)}
+              </div>
+              <div className="mt-5 grid gap-2 min-[430px]:grid-cols-2">
+                <Link to="/doctors" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-primary/30 px-4 text-sm font-semibold text-primary transition hover:bg-primary/10">
+                  {lang === "zh" ? "浏览医生" : lang === "ru" ? "Смотреть врачей" : "Browse doctors"}<ArrowRight className="size-4" />
+                </Link>
+                <a href={`https://wa.me/14708613825?text=${encodeURIComponent(`Hi Cosmetics Asia, I’d like help finding a doctor for ${item.treatment.en}.`)}`} target="_blank" rel="noreferrer" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-primary px-4 text-sm font-bold text-primary-foreground transition hover:bg-primary/90">
+                  {lang === "zh" ? "咨询匹配医生" : lang === "ru" ? "Подобрать врача" : "Find a matching doctor"}<MessageCircle className="size-4" />
+                </a>
+              </div>
+            </div>
 
             {item.priceCny > 0 && <div className="rounded-3xl bg-gradient-to-br from-[hsl(155,60%,90%)] to-[hsl(50,80%,92%)] p-5 flex items-center justify-between gap-4 shadow-soft">
               <div>
