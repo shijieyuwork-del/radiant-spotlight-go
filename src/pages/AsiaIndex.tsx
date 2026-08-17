@@ -236,7 +236,7 @@ const TravelBar = () => {
       <div className="grid items-center gap-4 rounded-3xl bg-gradient-to-r from-[hsl(340,82%,92%)] via-[hsl(var(--primary)/.20)] to-[hsl(50,80%,92%)] p-4 shadow-soft sm:grid-cols-2 sm:p-6 md:grid-cols-4 md:p-7">
         {[
           { icon: Users, t: "1. Book your consultation", d: "Contact us by email or WhatsApp to choose a time and a doctor" },
-          { icon: Stethoscope, t: "2. Meet your doctor online", d: "Understand your options, expected results, risks and recovery" },
+          { icon: Stethoscope, t: "2. Meet us online", d: "Understand your options, expected results, risks and recovery" },
           { icon: Plane, t: "3. Travel to China for treatment", d: "We coordinate your arrival, clinic visit and translation" },
           { icon: MapPin, t: "4. Recover & explore China", d: "Recover with our support, with an optional personalized travel itinerary" },
         ].map((x) => (
