@@ -14,6 +14,7 @@ import CaseDetail from "./pages/CaseDetail.tsx";
 import Doctors from "./pages/Doctors.tsx";
 import DoctorDetail from "./pages/DoctorDetail.tsx";
 import ManagedDoctorDetail from "./pages/ManagedDoctorDetail.tsx";
+import DemoDoctorDetail from "./pages/DemoDoctorDetail.tsx";
 import DoctorAdmin from "./pages/DoctorAdmin.tsx";
 import Cities from "./pages/Cities.tsx";
 import CityDetail from "./pages/CityDetail.tsx";
@@ -44,6 +45,7 @@ const App = () => (
                     <Route path="/cases/:id" element={<CaseDetail />} />
                     <Route path="/doctors" element={<Doctors />} />
                     <Route path="/doctors/profile/:id" element={<ManagedDoctorDetail />} />
+                    <Route path="/doctors/demo/:id" element={<DemoDoctorDetail />} />
                     <Route path="/doctors/:id" element={<DoctorDetail />} />
                     <Route path="/cities" element={<Cities />} />
                     <Route path="/cities/:slug" element={<CityDetail />} />

@@ -250,11 +250,11 @@ const CaseDetail = () => {
                 {caseDoctor.specialties.map((specialty) => <span key={specialty} className="rounded-full bg-secondary px-3 py-1 text-[11px] font-semibold text-foreground/80">{specialty}</span>)}
               </div>
               <div className="mt-5 grid gap-2 min-[430px]:grid-cols-2">
-                <Link to="/doctors" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-primary/30 px-4 text-sm font-semibold text-primary transition hover:bg-primary/10">
-                  {lang === "zh" ? "浏览医生" : lang === "ru" ? "Смотреть врачей" : "Browse doctors"}<ArrowRight className="size-4" />
+                <Link to={`/doctors/demo/${caseDoctor.id}`} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-primary/30 px-4 text-sm font-semibold text-primary transition hover:bg-primary/10">
+                  {lang === "zh" ? "查看这位医生" : lang === "ru" ? "Подробнее о враче" : "Browse this doctor"}<ArrowRight className="size-4" />
                 </Link>
-                <a href={`https://wa.me/14708613825?text=${encodeURIComponent(`Hi Cosmetics Asia, I’d like help finding a doctor for ${item.treatment.en}.`)}`} target="_blank" rel="noreferrer" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-primary px-4 text-sm font-bold text-primary-foreground transition hover:bg-primary/90">
-                  {lang === "zh" ? "咨询匹配医生" : lang === "ru" ? "Подобрать врача" : "Find a matching doctor"}<MessageCircle className="size-4" />
+                <a href={`https://wa.me/14708613825?text=${encodeURIComponent(`Hi Cosmetics Asia, I’d like to ask about ${caseDoctor.name} and this ${item.treatment.en} case: https://cosmetics-asia.com/cases/${item.id}`)}`} target="_blank" rel="noreferrer" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-primary px-4 text-sm font-bold text-primary-foreground transition hover:bg-primary/90">
+                  {lang === "zh" ? "咨询这位医生" : lang === "ru" ? "Связаться по поводу врача" : "Contact us about this doctor"}<MessageCircle className="size-4" />
                 </a>
               </div>
             </div>

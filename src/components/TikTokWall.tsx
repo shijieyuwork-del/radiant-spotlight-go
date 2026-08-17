@@ -31,6 +31,7 @@ export type TikTokWallProps = {
 const labels = {
   en: { play: "Tap to play", view: "View diary", verified: "Diary preview" },
   zh: { play: "点击播放", view: "查看日记", verified: "日记预览" },
+  ru: { play: "Нажмите для просмотра", view: "Открыть дневник", verified: "Предпросмотр дневника" },
 };
 
 const TikTokCard = ({
