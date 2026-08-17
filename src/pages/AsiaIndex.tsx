@@ -72,8 +72,9 @@ const JawContourLineIcon = ({ className, strokeWidth = 1.5 }: ProcedureIconProps
 
 const BreastLineIcon = ({ className, strokeWidth = 1.5 }: ProcedureIconProps) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
-    <path d="M8.5 4.5c.1 2.8-1.8 4.5-3 6.7-1.8 3.3-.3 7.8 3.7 8.3 1.2.1 2.2-.3 2.8-1.2.6.9 1.6 1.3 2.8 1.2 4-.5 5.5-5 3.7-8.3-1.2-2.2-3.1-3.9-3-6.7" />
-    <path d="M12 8.2v10.1M7.5 14.3c1.4.6 2.7.6 4.5 0M12 14.3c1.8.6 3.1.6 4.5 0" />
+    <path d="M8.2 3.5c.2 2.5-.8 4.1-2.1 5.7C4.8 10.8 4 13.2 4 16v4.5M15.8 3.5c-.2 2.5.8 4.1 2.1 5.7 1.3 1.6 2.1 4 2.1 6.8v4.5" />
+    <path d="M6.2 13.1c1.4-1.5 4.3-1.3 5.8.9 1.5-2.2 4.4-2.4 5.8-.9M6 17.2c1.9.8 4 .6 6-.8 2 1.4 4.1 1.6 6 .8" />
+    <path d="M12 7.7v8.7M8.3 6.3h3M9.8 4.8v3" />
   </svg>
 );
 
