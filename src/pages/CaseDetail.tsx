@@ -125,6 +125,16 @@ const CaseDetail = () => {
               <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/50 to-transparent pointer-events-none" />
               <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 to-transparent pointer-events-none" />
 
+              <button
+                type="button"
+                onClick={(event) => { event.stopPropagation(); setExpanded(true); }}
+                className="absolute right-3 top-3 z-20 inline-flex min-h-11 items-center gap-2 rounded-full bg-white/90 px-4 text-xs font-bold text-foreground shadow-pop backdrop-blur transition hover:bg-white active:scale-[0.98]"
+                aria-label={lang === "zh" ? "放大观看案例" : lang === "ru" ? "Открыть в большом формате" : "Enlarge case video"}
+              >
+                <Maximize2 className="size-4" />
+                {lang === "zh" ? "放大观看" : lang === "ru" ? "Увеличить" : "Enlarge"}
+              </button>
+
               {!playing && (
                 <div className="absolute inset-0 grid place-items-center pointer-events-none">
                   <div className="size-16 rounded-full bg-white/85 grid place-items-center shadow-pop">
@@ -150,13 +160,6 @@ const CaseDetail = () => {
               )}
 
               <div className="absolute right-3 bottom-24 flex flex-col items-center gap-3">
-                <button
-                  onClick={(e) => { e.stopPropagation(); setExpanded(true); }}
-                  className="size-11 rounded-full bg-black/40 backdrop-blur grid place-items-center text-white"
-                  aria-label={lang === "zh" ? "全屏放大" : "Open large view"}
-                >
-                  <Maximize2 className="size-5" />
-                </button>
                 <button
                   onClick={(e) => { e.stopPropagation(); toggleSaved(); }}
                   className="size-11 rounded-full bg-black/40 backdrop-blur grid place-items-center text-white"
