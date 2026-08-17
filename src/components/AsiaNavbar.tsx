@@ -34,7 +34,8 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
     : [];
   return (
     <>
-      <div className="fixed inset-x-0 top-0 z-[70] h-9 border-b border-primary bg-primary text-primary-foreground shadow-sm">
+      <div className="fixed inset-x-0 top-0 z-[70]">
+      <div className="h-9 border-b border-primary bg-primary text-primary-foreground shadow-sm">
         <div className="container flex h-full items-center justify-between gap-3 text-xs">
           <div className="flex min-w-0 items-center gap-2.5 sm:gap-5">
             <a
@@ -67,7 +68,7 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
           </Link>
         </div>
       </div>
-      <header className="relative z-50 mt-9 border-b border-border/60 bg-background/80 backdrop-blur-xl">
+      <header className="border-b border-border/60 bg-background/95 shadow-[0_4px_18px_rgba(16,42,36,0.04)] backdrop-blur-xl">
       <nav className="container flex h-[3.75rem] md:h-16 items-center justify-between gap-3">
         <Link to="/" className="flex items-center gap-2 shrink-0">
           <BrandLogo markClassName="size-8 md:size-9" textClassName="text-lg md:text-xl" />
@@ -160,6 +161,8 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
         </Sheet>
       </nav>
       </header>
+      </div>
+      <div className="h-24 md:h-[6.25rem]" aria-hidden="true" />
     </>
   );
 };
