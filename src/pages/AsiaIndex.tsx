@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Sparkles, ArrowRight, Star, MapPin, ShieldCheck, BadgeCheck,
-  Search, Stethoscope, FileCheck2, Building2,
+  Search, Stethoscope, Building2,
   Flame, Gift, Wallet, Users, Plane,
   ChevronLeft, ChevronRight, ScanFace, Eye, HeartPulse, Activity,
   Scissors, Smile, Heart, Scale, UserRound, HelpCircle,
@@ -58,11 +58,13 @@ const Hero = () => {
         title: "比较中国医美医生，",
         emphasis: "找到适合你的方案",
         subtitle: "先了解项目、查看已发布的医生资料与患者恢复日记，再决定是否出发。翻译、行程和术后支持由我们协调。",
-        procedures: "我知道想做什么",
-        cases: "查看患者恢复日记",
-        licensed: "中国医生资料目录",
-        english: "患者恢复日记",
-        aftercare: "5 大医美目的地",
+        cases: "观看患者短视频",
+        english: "英文协调员",
+        englishDetail: "从抵达到随访 · WhatsApp 24/7",
+        travel: "机场接送与酒店",
+        travelDetail: "根据行程匹配酒店方案",
+        pricing: "明细报价",
+        pricingDetail: "出发前了解预计费用",
       }
     : lang === "ru"
       ? {
@@ -70,22 +72,26 @@ const Hero = () => {
           title: "Лучшие эстетические хирурги Китая —",
           emphasis: "на одной платформе",
           subtitle: "Сравните реальные случаи, квалификацию врачей и прозрачные цены до поездки. Мы организуем перевод, поездку и последующий уход.",
-          procedures: "Сравнить врачей",
-          cases: "Реальные случаи",
-          licensed: "Каталог врачей Китая",
-          english: "Дневники восстановления",
-          aftercare: "5 направлений в Китае",
+          cases: "Смотреть видео пациентов",
+          english: "Координатор на английском",
+          englishDetail: "От прилёта до наблюдения · WhatsApp 24/7",
+          travel: "Трансфер и отель",
+          travelDetail: "Отель подбирается под ваш маршрут",
+          pricing: "Подробная смета",
+          pricingDetail: "Ориентировочные расходы до поездки",
         }
       : {
           badge: "China's cosmetic care platform for international patients",
           title: "Compare cosmetic surgeons across China,",
           emphasis: "then choose with confidence",
           subtitle: "Understand procedures, review published doctor profiles and explore patient recovery diaries before you travel. We coordinate translation, travel and aftercare.",
-          procedures: "I know the procedure",
-          cases: "View patient recovery diaries",
-          licensed: "China-focused doctor directory",
-          english: "Patient recovery diaries",
-          aftercare: "5 China destinations",
+          cases: "Watch patient recovery videos",
+          english: "English coordinator",
+          englishDetail: "From landing to follow-up · WhatsApp 24/7",
+          travel: "Airport pickup & hotel",
+          travelDetail: "Hotel options matched to your itinerary",
+          pricing: "Itemized pricing",
+          pricingDetail: "Understand estimated costs before you travel",
         };
   return (
     <section className="relative overflow-hidden">
@@ -107,19 +113,26 @@ const Hero = () => {
             </h1>
             <p className="mx-auto mt-5 max-w-xl text-[15px] leading-relaxed text-muted-foreground md:text-lg">{copy.subtitle}</p>
 
-            <div className="mx-auto mt-7 flex max-w-lg flex-col justify-center gap-3 sm:flex-row">
-              <Button asChild size="lg" className="h-12 rounded-full px-7 text-sm font-semibold shadow-soft">
-                <Link to="/treatments">{copy.procedures}<ArrowRight className="ml-1.5 size-4" /></Link>
-              </Button>
-              <Button asChild variant="outline" size="lg" className="h-12 rounded-full border-border/80 bg-card/75 px-7 text-sm font-semibold backdrop-blur hover:bg-card">
+            <div className="mx-auto mt-7 flex max-w-lg justify-center">
+              <Button asChild size="lg" className="h-12 w-full rounded-full px-8 text-sm font-semibold shadow-soft sm:w-auto sm:min-w-72">
                 <Link to="/cases">{copy.cases}<ArrowRight className="ml-1.5 size-4" /></Link>
               </Button>
             </div>
 
             <div className="mt-8 grid grid-cols-1 gap-2 sm:grid-cols-3 sm:gap-3">
-              <span className="flex min-h-12 items-center justify-center gap-2 rounded-2xl border border-primary/10 bg-card/70 px-3 text-xs font-semibold text-foreground shadow-soft backdrop-blur sm:text-sm"><FileCheck2 className="size-4 shrink-0 text-primary" /> {copy.licensed}</span>
-              <span className="flex min-h-12 items-center justify-center gap-2 rounded-2xl border border-primary/10 bg-card/70 px-3 text-xs font-semibold text-foreground shadow-soft backdrop-blur sm:text-sm"><Users className="size-4 shrink-0 text-primary" /> {copy.english}</span>
-              <span className="flex min-h-12 items-center justify-center gap-2 rounded-2xl border border-primary/10 bg-card/70 px-3 text-xs font-semibold text-foreground shadow-soft backdrop-blur sm:text-sm"><MapPin className="size-4 shrink-0 text-primary" /> {copy.aftercare}</span>
+              {[
+                { icon: Users, title: copy.english, detail: copy.englishDetail },
+                { icon: MapPin, title: copy.travel, detail: copy.travelDetail },
+                { icon: ShieldCheck, title: copy.pricing, detail: copy.pricingDetail },
+              ].map((item) => (
+                <span key={item.title} className="flex min-h-16 items-center gap-3 rounded-2xl border border-primary/10 bg-card/70 px-4 py-3 text-left shadow-soft backdrop-blur">
+                  <span className="grid size-9 shrink-0 place-items-center rounded-full bg-card"><item.icon className="size-4 text-primary" /></span>
+                  <span className="min-w-0">
+                    <strong className="block font-display text-sm font-semibold leading-tight">{item.title}</strong>
+                    <small className="mt-1 block text-[11px] leading-snug text-muted-foreground">{item.detail}</small>
+                  </span>
+                </span>
+              ))}
             </div>
           </div>
 
