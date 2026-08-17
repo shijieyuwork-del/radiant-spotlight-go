@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  Search, Filter, Stethoscope, BadgeCheck, Building2, FileCheck2, Star, ArrowRight, MapPin,
+  Search, Filter, Stethoscope, BadgeCheck, Building2, FileCheck2, Star, ArrowRight, MapPin, MessageCircle,
 } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
@@ -261,6 +261,34 @@ const Doctors = () => {
             ))}
           </div>
         )}
+
+        <aside className="mt-10 overflow-hidden rounded-[2rem] border border-primary/15 bg-gradient-to-r from-[hsl(340,82%,92%)] via-[hsl(var(--primary)/.18)] to-[hsl(50,80%,92%)] px-5 py-7 shadow-soft sm:mt-14 sm:px-8 sm:py-9 md:flex md:items-center md:justify-between md:gap-8">
+          <div className="max-w-2xl">
+            <span className="pill bg-card/80 text-accent-foreground shadow-soft">
+              <MessageCircle className="size-3.5 text-primary" />
+              {lang === "zh" ? "免费匹配建议" : lang === "ru" ? "Бесплатная помощь с выбором" : "Free matching guidance"}
+            </span>
+            <h2 className="mt-4 font-display text-[1.9rem] font-medium leading-[1.05] tracking-tight sm:text-4xl">
+              {lang === "zh" ? "不确定哪位医生更适合你？" : lang === "ru" ? "Не уверены, какой врач вам подходит?" : "Not sure which doctor is right for you?"}
+            </h2>
+            <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+              {lang === "zh"
+                ? "告诉我们你在考虑的项目、预算和城市，我们会帮助你缩小选择范围。"
+                : lang === "ru"
+                  ? "Расскажите нам о желаемой процедуре, бюджете и городе — мы поможем сузить выбор."
+                  : "Tell us what you’re considering, your budget and preferred city, and we’ll help you narrow down suitable options."}
+            </p>
+          </div>
+          <a
+            href="https://wa.me/14708613825?text=Hi%20Cosmetics%20Asia%2C%20I%20would%20like%20help%20choosing%20a%20doctor."
+            target="_blank"
+            rel="noreferrer"
+            className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl bg-primary px-6 py-3 text-sm font-bold text-primary-foreground shadow-pop transition hover:-translate-y-0.5 hover:bg-primary/90 md:mt-0 md:w-auto md:min-w-44 md:rounded-full"
+          >
+            {lang === "zh" ? "联系我们" : lang === "ru" ? "Связаться с нами" : "Contact us"}
+            <ArrowRight className="size-4" />
+          </a>
+        </aside>
       </section>
 
       <Footer />
