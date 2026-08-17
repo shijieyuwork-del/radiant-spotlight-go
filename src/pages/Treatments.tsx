@@ -436,7 +436,6 @@ const Treatments = () => {
               <ul className="mt-6 grid gap-3 sm:grid-cols-2">
                 {(zh ? ["医生经验与手术复杂度", "医院与麻醉费用", "假体或医疗材料", "检查、药物与住院时间", "联合项目与修复手术", "术后复查与支持范围"] : ["Surgeon experience and complexity", "Hospital and anesthesia fees", "Implants or medical materials", "Tests, medication and hospital stay", "Combined or revision procedures", "Follow-up and aftercare scope"]).map((item) => <li key={item} className="flex gap-2 text-sm"><CheckCircle2 className="mt-0.5 size-4 shrink-0 text-primary" /><span>{item}</span></li>)}
               </ul>
-              <Link to="/travel-packages" className="mt-7 inline-flex min-h-11 items-center gap-2 rounded-full bg-foreground px-5 text-sm font-bold text-background">{zh ? "了解费用如何分开支付" : "See how payments are separated"}<ArrowRight className="size-4" /></Link>
             </article>
           </section>
 
