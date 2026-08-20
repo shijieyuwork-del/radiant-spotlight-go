@@ -19,6 +19,12 @@ import { useAsia } from "@/lib/asia-i18n";
 import { ORGANIZATION_SCHEMA } from "@/lib/seo-config";
 import { useQuote } from "@/components/QuoteRequest";
 import heroBg from "@/assets/hero-bg.jpg";
+import journeyConsultation from "@/assets/service-medical-records.jpg";
+import journeyOnline from "@/assets/service-online-concierge.jpg";
+import journeyArrival from "@/assets/service-airport-pickup.jpg";
+import journeySupport from "@/assets/service-clinic-translation.jpg";
+import journeyRecovery from "@/assets/service-hotel-booking.jpg";
+import journeyFollowUp from "@/assets/city-hangzhou.jpg";
 import AppPromoSection from "@/components/AppPromoSection";
 import { supabase } from "@/integrations/supabase/client";
 import { DEMO_CHINA_DOCTORS } from "@/data/demoChinaDoctors";
@@ -238,6 +244,47 @@ const Hero = () => {
 
 const TravelBar = () => {
   const { lang } = useAsia();
+  const [activeStep, setActiveStep] = useState(0);
+  const railRef = useRef<HTMLDivElement>(null);
+  const pausedRef = useRef(false);
+  const steps = [
+    { icon: Users, image: journeyConsultation, t: "Book your consultation", d: "Choose a doctor—or let us recommend suitable specialists" },
+    { icon: Stethoscope, image: journeyOnline, t: "Meet your doctor online", d: "Review options, expected results, risks and recovery" },
+    { icon: Plane, image: journeyArrival, t: "Arrange travel & visa", d: "Confirm flights, documents, pickup and accommodation" },
+    { icon: MapPin, image: journeySupport, t: "Receive on-ground support", d: "Get coordinated arrival, translation and clinic assistance" },
+    { icon: HeartPulse, image: journeyRecovery, t: "Treatment & recovery", d: "Recover with practical support around your care plan" },
+    { icon: MessageCircle, image: journeyFollowUp, t: "Follow up from home", d: "Stay connected and coordinate remote follow-up when needed" },
+  ];
+
+  const showStep = (next: number) => {
+    const normalized = (next + steps.length) % steps.length;
+    setActiveStep(normalized);
+    const rail = railRef.current;
+    const card = rail?.children[normalized] as HTMLElement | undefined;
+    if (!rail || !card) return;
+    const left = card.offsetLeft - rail.offsetLeft - Math.max(0, (rail.clientWidth - card.clientWidth) / 2);
+    rail.scrollTo({ left, behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const timer = window.setInterval(() => {
+      if (!pausedRef.current && !document.hidden) {
+        setActiveStep((current) => {
+          const next = (current + 1) % steps.length;
+          const rail = railRef.current;
+          const card = rail?.children[next] as HTMLElement | undefined;
+          if (rail && card) {
+            const left = card.offsetLeft - rail.offsetLeft - Math.max(0, (rail.clientWidth - card.clientWidth) / 2);
+            rail.scrollTo({ left, behavior: "smooth" });
+          }
+          return next;
+        });
+      }
+    }, 4600);
+    return () => window.clearInterval(timer);
+  }, []);
+
   if (lang === "zh") return null;
   return (
     <section className="container py-7 md:py-10" aria-labelledby="home-journey-title">
@@ -254,27 +301,49 @@ const TravelBar = () => {
           See full journey <ArrowRight className="size-4" />
         </Link>
       </div>
-      <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto bg-gradient-to-r from-[hsl(340,82%,91%)] via-[hsl(var(--primary)/.22)] to-[hsl(50,80%,91%)] px-4 py-5 shadow-pop scrollbar-hide sm:mx-0 sm:grid sm:grid-cols-2 sm:rounded-[2rem] sm:p-5 lg:grid-cols-3 md:gap-4 md:p-6">
-        {[
-          { icon: Users, n: "01", t: "Book your consultation", d: "Choose a doctor—or let us recommend suitable specialists" },
-          { icon: Stethoscope, n: "02", t: "Meet your doctor online", d: "Review options, expected results, risks and recovery" },
-          { icon: Plane, n: "03", t: "Arrange travel & visa", d: "Confirm flights, documents, pickup and accommodation" },
-          { icon: MapPin, n: "04", t: "Receive on-ground support", d: "Get coordinated arrival, translation and clinic assistance" },
-          { icon: HeartPulse, n: "05", t: "Treatment & recovery", d: "Recover with practical support around your care plan" },
-          { icon: MessageCircle, n: "06", t: "Follow up from home", d: "Stay connected and coordinate remote follow-up when needed" },
-        ].map((x) => (
-          <div key={x.t} className="group relative flex min-w-[82vw] snap-center items-start gap-4 overflow-hidden rounded-2xl border border-white/75 bg-card/80 p-5 shadow-soft backdrop-blur-md transition hover:-translate-y-1 hover:bg-card/95 hover:shadow-pop sm:min-w-0">
-            <span className="pointer-events-none absolute -right-1 -top-4 font-display text-6xl font-semibold text-primary/10" aria-hidden="true">{x.n}</span>
-            <div className="grid size-12 shrink-0 place-items-center rounded-2xl bg-primary text-primary-foreground shadow-soft transition group-hover:scale-105">
-              <x.icon className="size-5" />
-            </div>
-            <div className="relative min-w-0">
-              <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-primary">Step {Number(x.n)}</span>
-              <p className="mt-1 font-display text-lg font-semibold leading-tight text-foreground">{x.t}</p>
-              <p className="mt-2 text-[13px] leading-relaxed text-foreground/70">{x.d}</p>
-            </div>
+      <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-r from-[hsl(340,82%,91%)] via-[hsl(var(--primary)/.20)] to-[hsl(50,80%,91%)] py-5 shadow-pop md:py-7">
+        <div className="pointer-events-none absolute left-[8%] right-[8%] top-[7.65rem] hidden h-px bg-primary/30 md:block" aria-hidden="true" />
+        <div
+          ref={railRef}
+          onMouseEnter={() => { pausedRef.current = true; }}
+          onMouseLeave={() => { pausedRef.current = false; }}
+          onPointerDown={() => { pausedRef.current = true; }}
+          onPointerUp={() => { pausedRef.current = false; }}
+          onFocusCapture={() => { pausedRef.current = true; }}
+          onBlurCapture={() => { pausedRef.current = false; }}
+          className="flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-4 pb-3 scrollbar-hide md:gap-5 md:px-6"
+        >
+          {steps.map((x, index) => (
+            <article
+              key={x.t}
+              onClick={() => showStep(index)}
+              className={`group relative min-w-[82vw] cursor-pointer snap-center overflow-hidden rounded-[1.6rem] border bg-card shadow-soft transition-all duration-500 sm:min-w-[55vw] md:min-w-[calc((100%_-_2.5rem)/3)] ${activeStep === index ? "border-primary/60 shadow-pop md:-translate-y-1" : "border-white/70 opacity-80 hover:opacity-100"}`}
+            >
+              <div className="relative h-40 overflow-hidden md:h-44">
+                <img src={x.image} alt="" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
+                <div className="absolute inset-0 bg-gradient-to-t from-foreground/55 via-transparent to-transparent" />
+                <span className="absolute right-4 top-3 font-display text-5xl font-semibold text-white/70" aria-hidden="true">0{index + 1}</span>
+                <div className="absolute bottom-4 left-4 grid size-11 place-items-center rounded-2xl bg-primary text-primary-foreground shadow-pop">
+                  <x.icon className="size-5" />
+                </div>
+              </div>
+              <div className="min-h-[9.25rem] p-5">
+                <span className="text-[10px] font-bold uppercase tracking-[0.17em] text-primary">Step {index + 1}</span>
+                <h3 className="mt-1 font-display text-xl font-semibold leading-tight text-foreground">{x.t}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-foreground/68">{x.d}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+        <div className="mt-1 flex items-center justify-center gap-3 px-5">
+          <button type="button" onClick={() => showStep(activeStep - 1)} className="grid size-10 place-items-center rounded-full border border-primary/20 bg-card/80 text-foreground backdrop-blur-md transition hover:border-primary hover:text-primary" aria-label="Previous step"><ChevronLeft className="size-5" /></button>
+          <div className="flex items-center gap-1.5" aria-label={`Step ${activeStep + 1} of ${steps.length}`}>
+            {steps.map((step, index) => (
+              <button key={step.t} type="button" onClick={() => showStep(index)} className={`h-2 rounded-full transition-all ${activeStep === index ? "w-8 bg-primary" : "w-2 bg-card/80 hover:bg-primary/40"}`} aria-label={`Show step ${index + 1}`} />
+            ))}
           </div>
-        ))}
+          <button type="button" onClick={() => showStep(activeStep + 1)} className="grid size-10 place-items-center rounded-full bg-primary text-primary-foreground shadow-soft transition hover:bg-primary/90" aria-label="Next step"><ChevronRight className="size-5" /></button>
+        </div>
       </div>
       <Link to="/travel-packages" className="mt-4 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground sm:hidden">
         See full journey <ArrowRight className="size-4" />
