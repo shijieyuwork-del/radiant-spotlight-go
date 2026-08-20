@@ -54,7 +54,7 @@ const koreaRhino: DestinationData = {
   faq: [
     { q: "Is rhinoplasty in Korea safe for international patients?", a: "Korean Society of Plastic & Reconstructive Surgeons (KSPRS) board certification is mandatory for every doctor on Cosmetics Asia. All clinics are JCI-accredited or Korean MOHW-licensed." },
     { q: "Do surgeons speak English?", a: "Yes — every doctor we list speaks English, and most clinics provide Mandarin, Japanese, and Arabic interpreters at no extra cost." },
-    { q: "What's included in the price?", a: "Surgery, anesthesia, hospital stay, post-op medication, and follow-up visits. Recovery hotel and airport transfer are bundled in our travel packages." },
+    { q: "What's included in the price?", a: "Medical fees are confirmed and collected by the treating clinic. Airport pickup, accommodation guidance and other coordination services are explained separately before you travel." },
     { q: "What if I'm not happy with the result?", a: "Cosmetics Asia mediates revision policies. Most Seoul clinics offer free revision within 12 months if outcomes don't match the agreed simulation." },
     { q: "How long should I stay in Korea?", a: "Minimum 10 days. Cast removal is on day 7, and you'll want surgeon clearance before flying." },
     { q: "Will my insurance cover it?", a: "Cosmetic procedures abroad are typically not covered, but functional corrections (deviated septum) may be partially reimbursable. We provide full medical documentation." },

@@ -12,7 +12,7 @@ const Footer = () => {
         </div>
         {[
           { title: "Explore", items: [{ label: "Patient Diaries", to: "/cases" }, { label: "Doctors in China", to: "/doctors" }, { label: "Procedure Academy", to: "/treatments" }, { label: "China Destinations", to: "/cities" }] },
-          { title: "Plan Your Trip", items: [{ label: "Travel Packages", to: "/travel-packages" }, { label: "Why China", to: "/why-china" }, { label: "Shanghai", to: "/cities/shanghai" }, { label: "Beijing", to: "/cities/beijing" }] },
+          { title: "Plan Your Trip", items: [{ label: "Travel Support", to: "/travel-packages" }, { label: "Why China", to: "/why-china" }, { label: "Shanghai", to: "/cities/shanghai" }, { label: "Beijing", to: "/cities/beijing" }] },
           { title: "Popular Guides", items: [{ label: "Rhinoplasty", to: "/treatments/rhinoplasty" }, { label: "Eyelid Surgery", to: "/treatments/blepharoplasty" }, { label: "Facelift", to: "/treatments/facelift" }, { label: "Liposuction", to: "/treatments/liposuction" }] },
         ].map((c) => (
           <div key={c.title}>

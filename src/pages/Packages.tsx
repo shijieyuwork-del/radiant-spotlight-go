@@ -189,8 +189,8 @@ const JOURNEY_STEPS = [
     eyebrowZh: "出发前准备",
     titleEn: "Choose your on-ground support",
     titleZh: "选择落地支持方案",
-    descriptionEn: "Select the travel package that matches your needs. Before departure, receive your confirmed itinerary, pickup details, hotel information and practical arrival guidance in one place.",
-    descriptionZh: "根据需求选择旅行套餐。出发前，你会收到已确认的行程、接机安排、酒店信息及实用抵达指南。",
+    descriptionEn: "Confirm the support services that match your needs. Before departure, receive your itinerary, pickup details, accommodation information and practical arrival guidance in one place.",
+    descriptionZh: "根据需求确认所需的协助服务。出发前，你会收到行程、接机安排、住宿信息及实用抵达指南。",
     noteEn: "Your coordinator confirms what is included, what is optional and any separately payable costs before you travel.",
     noteZh: "出发前，协调员会说明包含服务、可选服务及需要另行支付的费用。",
     icon: Route,
@@ -245,8 +245,8 @@ const Packages = () => {
   return (
     <>
       <PageMeta
-        title="China Medical Travel Packages | Cosmetics Asia"
-        description="Choose a China medical travel package with visa support, airport transfers, translation, accommodation, and recovery assistance for international patients."
+        title="China Medical Travel Support | Cosmetics Asia"
+        description="Plan care in China with coordinated airport pickup, clinic translation, accommodation guidance and recovery support for international patients."
         path="/travel-packages"
       />
       <div className="min-h-screen bg-background">
@@ -256,17 +256,17 @@ const Packages = () => {
       <section className="container py-9 text-center md:py-16">
         <span className="pill bg-accent text-accent-foreground mb-3">
           <Sparkles className="size-3.5" />
-          {lang === "zh" ? "全程旅行支持" : "Travel care, simplified"}
+          {lang === "zh" ? "中国医疗行程支持" : "Medical travel support"}
         </span>
         <h1 className="mx-auto max-w-3xl font-display text-[2.15rem] font-medium leading-[1.04] tracking-tight sm:text-4xl md:text-5xl">
           {lang === "zh" ? (
-            <>选择适合你的<em className="text-primary not-italic">旅行套餐</em></>
+            <>安心安排你的<em className="text-primary not-italic">中国就医之旅</em></>
           ) : (
-            <>Choose your <em className="text-primary not-italic">travel package</em></>
+            <>Support for your <em className="text-primary not-italic">care journey in China</em></>
           )}
         </h1>
         <p className="text-muted-foreground mt-3 max-w-2xl mx-auto">
-          {lang === "zh" ? "签证函 / 机场接送 / 中英文翻译 / 酒店住宿 / 术后陪同，打包成三档旅行套餐，让你专注恢复。" : "Visa support, airport transfers, translation, accommodation and recovery assistance — three travel tiers designed so you can focus on healing."}
+          {lang === "zh" ? "从机场接送、诊所翻译到住宿建议与恢复支持，我们会根据你已确认的就医计划协助安排。" : "Airport pickup, clinic translation, accommodation guidance and recovery support—coordinated around your confirmed care plan."}
         </p>
       </section>
 
@@ -400,7 +400,7 @@ const Packages = () => {
                   >
                     {p.price === 0
                       ? (lang === "zh" ? "选择免费支持套餐" : "Choose the Free Support Package")
-                      : (lang === "zh" ? "预订旅行套餐" : "Book this travel package")}
+                      : (lang === "zh" ? "联系行程支持" : "Request travel support")}
                     <ArrowRight className="size-4" />
                   </Link>
                 </div>

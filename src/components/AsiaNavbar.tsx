@@ -21,7 +21,7 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
         { to: "/cases", label: t("nav.cases") },
         { to: "/doctors", label: t("nav.compliance") },
         { to: "/treatments", label: t("nav.projects") },
-        { to: "/travel-packages", label: lang === "zh" ? "旅行套餐" : "Travel Packages" },
+        { to: "/travel-packages", label: lang === "zh" ? "行程支持" : "Travel Support" },
         { to: "/why-china", label: lang === "zh" ? "为什么选中国" : "Why China" },
       ]
     : [

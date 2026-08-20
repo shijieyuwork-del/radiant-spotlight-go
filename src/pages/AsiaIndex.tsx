@@ -777,8 +777,8 @@ const HomeFaq = () => {
     {
       q: zh ? "我需要向 Cosmetics Asia 支付费用吗？" : "Do I need to pay Cosmetics Asia?",
       a: zh
-        ? "你可以选择我们的三档旅行支持套餐。免费套餐不收取服务费，但需要支付 400 美元协调押金，以便我们提前安排接送、翻译、酒店及院内陪同。你抵达诊所后，押金会退还。"
-        : "You can choose from three travel-support packages. Our Free Package has no service fee, but it requires a $400 coordination deposit so we can prepare transfers, translation, hotel support and in-hospital accompaniment. The deposit is refunded after you arrive at the clinic.",
+        ? "医疗费用全部由诊所或医院直接收取，Cosmetics Asia 不代收。若你选择机场接送、翻译、住宿协调或其他行程支持，我们会在开始安排前逐项说明服务范围、费用及是否需要押金。"
+        : "Medical fees are paid directly to the treating clinic or hospital; Cosmetics Asia does not collect them. If you request airport pickup, translation, accommodation coordination or other travel support, we explain the scope, price and any required deposit before arrangements begin.",
     },
     {
       q: zh ? "400 美元押金是做什么用的？" : "What is the $400 deposit for?",
@@ -793,10 +793,10 @@ const HomeFaq = () => {
         : "All surgery, examination, anesthesia and other medical fees are charged directly by the clinic or hospital. Cosmetics Asia does not collect your medical payment.",
     },
     {
-      q: zh ? "必须购买付费旅行套餐吗？" : "Do I have to buy a paid travel package?",
+      q: zh ? "可以选择哪些行程协助服务？" : "What travel-support services can I request?",
       a: zh
-        ? "不需要。你可以选择免费套餐，也可以根据住宿、陪同时间及私人行程需求升级到金牌或钻石套餐。"
-        : "No. You may choose the Free Package, or upgrade to Gold or Diamond if you want additional accommodation, longer accompaniment or a private itinerary.",
+        ? "我们可以根据已确认的就医计划，协助安排机场接送、诊所翻译、住宿建议与恢复期支持。实际包含内容会在出发前与你逐项确认。"
+        : "We can help coordinate airport pickup, clinic translation, accommodation guidance and recovery support around your confirmed care plan. The exact scope is confirmed with you before travel.",
     },
     {
       q: zh ? "你们如何审核医生资料？" : "How do you review surgeon credentials?",
@@ -828,7 +828,7 @@ const HomeFaq = () => {
             {zh ? "旅行支持费用与医疗费用分开处理，避免隐藏收费和付款混淆。" : "Travel-support costs and medical payments are handled separately, so you know exactly who receives each payment."}
           </p>
           <Link to="/travel-packages" className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary/80">
-            {zh ? "查看三档旅行套餐" : "Compare all travel packages"}<ArrowRight className="size-4" />
+            {zh ? "查看行程支持" : "Explore travel support"}<ArrowRight className="size-4" />
           </Link>
         </div>
 

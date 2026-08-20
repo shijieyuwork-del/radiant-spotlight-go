@@ -421,7 +421,7 @@ const CatalogProcedureDetail = ({ procedure, zh }: { procedure: { en: string; zh
             </p>
             <div className="mt-5 flex flex-col gap-3 sm:flex-row">
               <Button asChild className="rounded-full px-6"><Link to="/doctors">{zh ? "查看医生" : "Explore doctors"}<ArrowRight className="ml-2 size-4" /></Link></Button>
-              <Button asChild variant="outline" className="rounded-full px-6"><Link to="/travel-packages">{zh ? "查看旅行套餐" : "View travel packages"}</Link></Button>
+              <Button asChild variant="outline" className="rounded-full px-6"><Link to="/travel-packages">{zh ? "查看行程支持" : "View travel support"}</Link></Button>
             </div>
           </section>
         </main>
