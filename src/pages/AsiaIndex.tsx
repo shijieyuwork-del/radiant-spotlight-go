@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  Sparkles, ArrowRight, Star, MapPin, ShieldCheck, BadgeCheck,
-  Search, Stethoscope, Building2,
+  Sparkles, ArrowRight, Star, MapPin, ShieldCheck,
+  Stethoscope, Building2,
   Flame, Gift, Wallet, Users, Plane,
   ChevronLeft, ChevronRight, Eye,
   Scale, HelpCircle, HeartPulse, MessageCircle,
@@ -724,51 +724,46 @@ const DoctorsSection = () => {
 const HowItWorks = () => {
   const { lang } = useAsia();
   const { open } = useQuote();
-  const zh = lang === "zh";
-  const steps = [
-    {
-      icon: Search,
-      title: zh ? "告诉我们你的需求" : "Tell us what you want",
-      text: zh ? "分享项目、预算和希望前往的城市。" : "Share the procedure, budget and city you have in mind.",
-    },
-    {
-      icon: BadgeCheck,
-      title: zh ? "预约免费视频咨询" : "Book a Free Video Consultation",
-      text: zh ? "选择适合的医生，并预约线上咨询时间。" : "Choose your doctor and schedule a convenient online consultation.",
-    },
-    {
-      icon: Plane,
-      title: zh ? "安心前往中国" : "Travel with full support",
-      text: zh ? "我们协调行程、翻译、接送和术后支持。" : "We coordinate travel, translation, transfers and aftercare.",
-    },
-  ];
+  const copy = lang === "zh"
+    ? {
+        eyebrow: "免费线上咨询",
+        title: "不知道从哪里开始？",
+        emphasis: "先和我们在线聊聊",
+        text: "告诉我们你关注的项目、预算和希望前往的城市。我们会帮你梳理需求，并协助你找到合适的中国医生。",
+        cta: "预约免费线上咨询",
+      }
+    : lang === "ru"
+      ? {
+          eyebrow: "Бесплатная онлайн-консультация",
+          title: "Не знаете, с чего начать?",
+          emphasis: "Поговорите с нами онлайн",
+          text: "Расскажите о процедуре, бюджете и желаемом городе. Мы поможем уточнить ваши потребности и подобрать подходящего врача в Китае.",
+          cta: "Записаться бесплатно",
+        }
+      : {
+          eyebrow: "Free online consultation",
+          title: "Not sure where to start?",
+          emphasis: "Meet with us online",
+          text: "Tell us the procedure, budget and city you have in mind. We’ll help clarify your needs and connect you with a suitable doctor in China.",
+          cta: "Book a free online consultation",
+        };
 
   return (
     <section className="container py-12 md:py-16">
-      <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-r from-[hsl(190,70%,92%)] via-[hsl(var(--primary)/.20)] to-[hsl(50,80%,92%)] p-5 text-foreground shadow-pop md:p-10">
+      <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-r from-[hsl(190,70%,92%)] via-[hsl(var(--primary)/.20)] to-[hsl(50,80%,92%)] px-5 py-9 text-foreground shadow-pop md:px-10 md:py-12">
         <div className="pointer-events-none absolute -right-24 -top-32 size-80 rounded-full bg-white/25" />
         <div className="pointer-events-none absolute -bottom-32 -left-20 size-72 rounded-full bg-primary/10" />
-        <div className="relative flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
-          <div className="max-w-2xl">
-            <span className="pill mb-3 bg-white/85 text-foreground"><Sparkles className="size-3.5 text-primary" /> {zh ? "简单三步" : "A simple three-step process"}</span>
-            <h2 className="font-display text-3xl font-medium tracking-tight sm:text-4xl md:text-5xl">
-              {zh ? "从想法到中国，" : "From first question to China, "}<em className="text-primary not-italic">{zh ? "全程有人协助" : "we coordinate the details"}</em>
+        <div className="relative flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between md:gap-10">
+          <div className="max-w-3xl">
+            <span className="pill mb-3 bg-white/85 text-foreground"><MessageCircle className="size-3.5 text-primary" /> {copy.eyebrow}</span>
+            <h2 className="font-display text-3xl font-medium leading-tight tracking-tight sm:text-4xl md:text-5xl">
+              {copy.title} <em className="text-primary not-italic">{copy.emphasis}</em>
             </h2>
+            <p className="mt-4 max-w-2xl text-base leading-relaxed text-foreground/70 md:text-lg">{copy.text}</p>
           </div>
-          <Button size="lg" onClick={() => open()} className="w-full shrink-0 rounded-full bg-primary px-7 text-primary-foreground shadow-pop hover:bg-primary/90 md:w-fit">
-            {zh ? "开始免费咨询" : "Start your free consultation"}<ArrowRight className="ml-2 size-4" />
+          <Button size="lg" onClick={() => open()} className="min-h-12 w-full shrink-0 rounded-full bg-primary px-7 text-primary-foreground shadow-pop hover:bg-primary/90 md:w-fit">
+            {copy.cta}<ArrowRight className="ml-2 size-4" />
           </Button>
-        </div>
-
-        <div className="relative -mx-5 mt-7 flex touch-pan-x snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain px-5 pb-2 scrollbar-hide md:mx-0 md:grid md:grid-cols-3 md:gap-4 md:overflow-visible md:px-0">
-          {steps.map((step, index) => (
-            <article key={step.title} className="relative min-w-[78vw] snap-center rounded-3xl border border-white/55 bg-white/78 p-5 text-foreground shadow-soft backdrop-blur sm:min-w-[56vw] md:min-w-0 md:p-6">
-              <span className="absolute right-5 top-4 font-display text-4xl text-primary/20">0{index + 1}</span>
-              <span className="grid size-11 place-items-center rounded-2xl bg-primary/15 text-primary"><step.icon className="size-5" /></span>
-              <h3 className="mt-5 font-display text-xl font-medium tracking-tight">{step.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{step.text}</p>
-            </article>
-          ))}
         </div>
       </div>
     </section>
