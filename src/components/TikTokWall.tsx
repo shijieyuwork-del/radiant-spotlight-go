@@ -95,7 +95,7 @@ const TikTokCard = ({
   return (
     <div
       ref={wrapRef}
-      className="relative aspect-[9/16] rounded-3xl overflow-hidden bg-card shadow-pop group cursor-pointer hover:-translate-y-1 transition-transform"
+      className="group relative aspect-[9/16] cursor-pointer overflow-hidden rounded-3xl bg-card shadow-pop [backface-visibility:hidden] [transform:translateZ(0)]"
       onClick={() => navigate(caseUrl)}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") navigate(caseUrl);
@@ -112,7 +112,7 @@ const TikTokCard = ({
         loop
         playsInline
         preload="metadata"
-        className="absolute inset-0 size-full object-cover"
+        className="absolute inset-0 size-full object-cover [backface-visibility:hidden] [transform:translateZ(0)]"
       />
 
       {/* gradient overlays */}
@@ -209,7 +209,15 @@ const TikTokCard = ({
 
 const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase }: TikTokWallProps) => {
   const [active, setActive] = useState(0);
+  const [settledActive, setSettledActive] = useState<number | null>(0);
   const carouselPausedRef = useRef(false);
+
+  useEffect(() => {
+    if (variant !== "preview") return;
+    setSettledActive(null);
+    const timer = window.setTimeout(() => setSettledActive(active), 760);
+    return () => window.clearTimeout(timer);
+  }, [active, variant]);
 
   useEffect(() => {
     if (variant !== "preview" || items.length < 2 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -250,7 +258,7 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase }
             return (
               <div
                 key={it.id}
-                className="absolute left-1/2 top-3 w-[74vw] max-w-[280px] transition-all duration-700 ease-out sm:w-[270px] sm:max-w-[270px] md:w-[300px] md:max-w-[300px] lg:w-[320px] lg:max-w-[320px]"
+                className="absolute left-1/2 top-3 w-[74vw] max-w-[280px] transition-[transform,opacity] duration-700 ease-out [backface-visibility:hidden] [will-change:transform,opacity] sm:w-[270px] sm:max-w-[270px] md:w-[300px] md:max-w-[300px] lg:w-[320px] lg:max-w-[320px]"
                 style={{
                   opacity: visible ? 1 - depth * 0.18 : 0,
                   pointerEvents: visible ? "auto" : "none",
@@ -259,7 +267,7 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase }
                   transformStyle: "preserve-3d",
                 }}
               >
-                <TikTokCard item={it} lang={lang} fmtPrice={fmtPrice} caseHrefBase={caseHrefBase} autoPlayEligible={distance === 0} />
+                <TikTokCard item={it} lang={lang} fmtPrice={fmtPrice} caseHrefBase={caseHrefBase} autoPlayEligible={distance === 0 && settledActive === active} />
                 {distance !== 0 && (
                   <button
                     type="button"
