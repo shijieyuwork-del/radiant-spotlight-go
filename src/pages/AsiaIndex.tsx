@@ -5,7 +5,7 @@ import {
   Search, Stethoscope, Building2,
   Flame, Gift, Wallet, Users, Plane,
   ChevronLeft, ChevronRight, Eye,
-  Scale, HelpCircle,
+  Scale, HelpCircle, HeartPulse, MessageCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -252,12 +252,14 @@ const TravelBar = () => {
           See full journey <ArrowRight className="size-4" />
         </Link>
       </div>
-      <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto bg-gradient-to-r from-[hsl(340,82%,91%)] via-[hsl(var(--primary)/.22)] to-[hsl(50,80%,91%)] px-4 py-5 shadow-pop scrollbar-hide sm:mx-0 sm:grid sm:grid-cols-2 sm:rounded-[2rem] sm:p-5 md:grid-cols-4 md:gap-4 md:p-6">
+      <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto bg-gradient-to-r from-[hsl(340,82%,91%)] via-[hsl(var(--primary)/.22)] to-[hsl(50,80%,91%)] px-4 py-5 shadow-pop scrollbar-hide sm:mx-0 sm:grid sm:grid-cols-2 sm:rounded-[2rem] sm:p-5 lg:grid-cols-3 md:gap-4 md:p-6">
         {[
-          { icon: Users, n: "01", t: "Book your consultation", d: "Contact us by email or WhatsApp to choose a time and a doctor" },
-          { icon: Stethoscope, n: "02", t: "Meet us online", d: "Understand your options, expected results, risks and recovery" },
-          { icon: Plane, n: "03", t: "Travel to China for treatment", d: "We coordinate your arrival, clinic visit and translation" },
-          { icon: MapPin, n: "04", t: "Recover & explore China", d: "Recover with our support, with an optional personalized travel itinerary" },
+          { icon: Users, n: "01", t: "Book your consultation", d: "Choose a doctor—or let us recommend suitable specialists" },
+          { icon: Stethoscope, n: "02", t: "Meet your doctor online", d: "Review options, expected results, risks and recovery" },
+          { icon: Plane, n: "03", t: "Arrange travel & visa", d: "Confirm flights, documents, pickup and accommodation" },
+          { icon: MapPin, n: "04", t: "Receive on-ground support", d: "Get coordinated arrival, translation and clinic assistance" },
+          { icon: HeartPulse, n: "05", t: "Treatment & recovery", d: "Recover with practical support around your care plan" },
+          { icon: MessageCircle, n: "06", t: "Follow up from home", d: "Stay connected and coordinate remote follow-up when needed" },
         ].map((x) => (
           <div key={x.t} className="group relative flex min-w-[82vw] snap-center items-start gap-4 overflow-hidden rounded-2xl border border-white/75 bg-card/80 p-5 shadow-soft backdrop-blur-md transition hover:-translate-y-1 hover:bg-card/95 hover:shadow-pop sm:min-w-0">
             <span className="pointer-events-none absolute -right-1 -top-4 font-display text-6xl font-semibold text-primary/10" aria-hidden="true">{x.n}</span>
