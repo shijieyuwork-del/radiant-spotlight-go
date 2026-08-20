@@ -240,25 +240,41 @@ const TravelBar = () => {
   const { lang } = useAsia();
   if (lang === "zh") return null;
   return (
-    <section className="container py-5 md:py-6">
-      <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto bg-gradient-to-r from-[hsl(340,82%,92%)] via-[hsl(var(--primary)/.20)] to-[hsl(50,80%,92%)] px-4 py-4 shadow-soft scrollbar-hide sm:mx-0 sm:grid sm:grid-cols-2 sm:rounded-3xl sm:p-6 md:grid-cols-4 md:p-7">
+    <section className="container py-7 md:py-10" aria-labelledby="home-journey-title">
+      <div className="mb-4 flex items-end justify-between gap-4 px-1">
+        <div>
+          <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-primary">How it works</span>
+          <h2 id="home-journey-title" className="mt-1 font-display text-2xl font-semibold tracking-tight md:text-3xl">
+            Your journey to care in China
+          </h2>
+        </div>
+        <Link to="/travel-packages" className="hidden items-center gap-1.5 text-sm font-semibold text-primary transition hover:gap-2.5 sm:inline-flex">
+          See full journey <ArrowRight className="size-4" />
+        </Link>
+      </div>
+      <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto bg-gradient-to-r from-[hsl(340,82%,91%)] via-[hsl(var(--primary)/.22)] to-[hsl(50,80%,91%)] px-4 py-5 shadow-pop scrollbar-hide sm:mx-0 sm:grid sm:grid-cols-2 sm:rounded-[2rem] sm:p-5 md:grid-cols-4 md:gap-4 md:p-6">
         {[
-          { icon: Users, t: "1. Book your consultation", d: "Contact us by email or WhatsApp to choose a time and a doctor" },
-          { icon: Stethoscope, t: "2. Meet us online", d: "Understand your options, expected results, risks and recovery" },
-          { icon: Plane, t: "3. Travel to China for treatment", d: "We coordinate your arrival, clinic visit and translation" },
-          { icon: MapPin, t: "4. Recover & explore China", d: "Recover with our support, with an optional personalized travel itinerary" },
+          { icon: Users, n: "01", t: "Book your consultation", d: "Contact us by email or WhatsApp to choose a time and a doctor" },
+          { icon: Stethoscope, n: "02", t: "Meet us online", d: "Understand your options, expected results, risks and recovery" },
+          { icon: Plane, n: "03", t: "Travel to China for treatment", d: "We coordinate your arrival, clinic visit and translation" },
+          { icon: MapPin, n: "04", t: "Recover & explore China", d: "Recover with our support, with an optional personalized travel itinerary" },
         ].map((x) => (
-          <div key={x.t} className="flex min-w-[78vw] snap-center items-start gap-3 rounded-2xl bg-card/60 p-4 backdrop-blur sm:min-w-0 sm:bg-transparent sm:p-0">
-            <div className="size-10 rounded-2xl bg-card grid place-items-center shrink-0">
-              <x.icon className="size-5 text-primary" />
+          <div key={x.t} className="group relative flex min-w-[82vw] snap-center items-start gap-4 overflow-hidden rounded-2xl border border-white/75 bg-card/80 p-5 shadow-soft backdrop-blur-md transition hover:-translate-y-1 hover:bg-card/95 hover:shadow-pop sm:min-w-0">
+            <span className="pointer-events-none absolute -right-1 -top-4 font-display text-6xl font-semibold text-primary/10" aria-hidden="true">{x.n}</span>
+            <div className="grid size-12 shrink-0 place-items-center rounded-2xl bg-primary text-primary-foreground shadow-soft transition group-hover:scale-105">
+              <x.icon className="size-5" />
             </div>
-            <div>
-              <p className="font-display font-semibold text-sm">{x.t}</p>
-              <p className="text-xs text-foreground/70 mt-0.5">{x.d}</p>
+            <div className="relative min-w-0">
+              <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-primary">Step {Number(x.n)}</span>
+              <p className="mt-1 font-display text-lg font-semibold leading-tight text-foreground">{x.t}</p>
+              <p className="mt-2 text-[13px] leading-relaxed text-foreground/70">{x.d}</p>
             </div>
           </div>
         ))}
       </div>
+      <Link to="/travel-packages" className="mt-4 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground sm:hidden">
+        See full journey <ArrowRight className="size-4" />
+      </Link>
     </section>
   );
 };
