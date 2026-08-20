@@ -5,7 +5,7 @@ import {
   Stethoscope, Building2,
   Flame, Gift, Wallet, Users, Plane,
   ChevronLeft, ChevronRight, Eye,
-  Scale, HelpCircle, HeartPulse, MessageCircle,
+  Scale, HelpCircle, HeartPulse, MessageCircle, Video,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -128,6 +128,8 @@ const Hero = () => {
         emphasis: "找到适合你的方案",
         subtitle: "先了解项目、查看已发布的医生资料与患者恢复日记，再决定是否出发。翻译、行程和术后支持由我们协调。",
         cases: "观看患者短视频",
+        consultation: "在线面诊",
+        consultationDetail: "出发前与医生进行一对一线上沟通",
         english: "英文院内翻译",
         englishDetail: "协助就诊期间的现场沟通",
         travel: "机场接送",
@@ -142,6 +144,8 @@ const Hero = () => {
           emphasis: "на одной платформе",
           subtitle: "Сравните реальные случаи, квалификацию врачей и прозрачные цены до поездки. Мы организуем перевод, поездку и последующий уход.",
           cases: "Смотреть видео пациентов",
+          consultation: "Онлайн-консультация",
+          consultationDetail: "Встреча с врачом онлайн до поездки",
           english: "Переводчик в клинике",
           englishDetail: "Помощь в общении во время визита",
           travel: "Трансфер из аэропорта",
@@ -155,6 +159,8 @@ const Hero = () => {
           emphasis: "then choose with confidence",
           subtitle: "Understand procedures, review published doctor profiles and explore patient recovery diaries before you travel.",
           cases: "Watch patient recovery videos",
+          consultation: "Online consultation",
+          consultationDetail: "Meet your doctor online before you travel",
           english: "English in-clinic translation",
           englishDetail: "Communication support during clinic visits",
           travel: "Airport pickup & drop-off",
@@ -199,8 +205,9 @@ const Hero = () => {
               </Button>
             </div>
 
-            <div className="-mx-4 mt-6 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 scrollbar-hide sm:mx-0 sm:mt-8 sm:grid sm:grid-cols-3 sm:overflow-visible sm:px-0 sm:pb-0">
+            <div className="-mx-4 mt-6 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 scrollbar-hide sm:mx-0 sm:mt-8 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4">
               {[
+                { icon: Video, title: copy.consultation, detail: copy.consultationDetail },
                 { icon: MapPin, title: copy.travel, detail: copy.travelDetail },
                 { icon: Users, title: copy.english, detail: copy.englishDetail },
                 { icon: ShieldCheck, title: copy.pricing, detail: copy.pricingDetail },
@@ -789,11 +796,11 @@ const HomeFaq = () => {
   const questions = [
     {
       q: c("Do I need to pay Cosmetics Asia?", "我需要向 Cosmetics Asia 支付费用吗？", "Нужно ли платить Cosmetics Asia?"),
-      a: c("Medical fees are paid directly to the treating clinic or hospital; Cosmetics Asia does not collect them. If you request airport pickup, translation, accommodation coordination or other travel support, we explain the scope, price and any required deposit before arrangements begin.", "医疗费用全部由诊所或医院直接收取，Cosmetics Asia 不代收。若你选择机场接送、翻译、住宿协调或其他行程支持，我们会在开始安排前逐项说明服务范围、费用及是否需要押金。", "Медицинские услуги оплачиваются непосредственно клинике или больнице; Cosmetics Asia их не принимает. До начала организации трансфера, перевода, проживания или другой поддержки мы заранее объясним объём услуг, стоимость и условия депозита."),
+      a: c("Medical fees are paid directly to the treating clinic or hospital; Cosmetics Asia does not collect them. Before you depart, we collect a $400 coordination deposit to confirm and coordinate your airport pickup and secure your procedure appointment slot. The $400 deposit is refunded when you pay the clinic for your procedure.", "医疗费用全部由诊所或医院直接收取，Cosmetics Asia 不代收。在你出发前，我们会收取 400 美元协调押金，用于确认并协调机场接送，以及确认并保留你的手术预约名额。当你在诊所支付手术费用时，这笔 400 美元押金将退还给你。", "Медицинские услуги оплачиваются напрямую клинике или больнице; Cosmetics Asia их не принимает. До вашего вылета мы взимаем координационный депозит в размере 400 долларов, чтобы подтвердить и организовать трансфер из аэропорта, а также закрепить за вами время проведения процедуры. Депозит возвращается, когда вы оплачиваете процедуру в клинике."),
     },
     {
       q: c("What is the $400 deposit for?", "400 美元押金是做什么用的？", "Для чего нужен депозит $400?"),
-      a: c("The deposit confirms your trip and allows our coordination team to begin preparing services before you arrive. It is not a platform service fee or an additional medical charge.", "押金用于确认你的行程，并让协调团队在你抵达前开始准备相关服务。它不是平台服务费，也不是额外的医疗费用。", "Депозит подтверждает поездку и позволяет координаторам начать подготовку до вашего прибытия. Это не комиссия платформы и не дополнительная медицинская плата."),
+      a: c("The $400 deposit is collected before departure so our team can confirm and coordinate your airport pickup and secure your procedure appointment slot. It is not an additional medical charge. We refund it when you pay the clinic for your procedure.", "这笔 400 美元押金会在你出发前收取，用于确认并协调机场接送，以及确认并保留你的手术预约名额。它不是额外的医疗费用；当你在诊所支付手术费用时，我们会将押金退还给你。", "Депозит в размере 400 долларов взимается до вылета, чтобы наша команда могла подтвердить и организовать трансфер из аэропорта, а также закрепить за вами время проведения процедуры. Это не дополнительная медицинская плата. Мы возвращаем депозит, когда вы оплачиваете процедуру в клинике."),
     },
     {
       q: c("Who receives my medical payment?", "手术和治疗费用支付给谁？", "Кому оплачиваются медицинские услуги?"),

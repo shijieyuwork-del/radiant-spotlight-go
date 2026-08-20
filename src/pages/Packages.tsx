@@ -36,7 +36,7 @@ const PACKAGES: Pkg[] = [
     icon: Sparkles,
     grad: "from-[hsl(158,34%,93%)] to-[hsl(48,45%,97%)]",
     features: [
-      { en: "$400 Coordination Deposit — Refunded After You Arrive at the Clinic", zh: "400 美元协调押金 — 抵达诊所后退还", bold: true },
+      { en: "$400 Coordination Deposit — Confirms Airport Pickup & Secures Your Procedure Appointment; Refunded When You Pay the Clinic", zh: "400 美元协调押金 — 用于确认机场接送并保留手术预约名额；在诊所支付手术费用时退还", bold: true },
       { en: "1-on-1 In-Hospital Accompaniment (1 Day)", zh: "1 对 1 院内陪同（1 天）", bold: true },
       { en: "Airport Pickup & Drop-off", zh: "机场接送" },
       { en: "Hotel Near the Clinic", zh: "诊所附近酒店" },
@@ -445,8 +445,8 @@ const Packages = () => {
             {
               titleEn: "Flexible cancellation",
               titleZh: "灵活取消与延期",
-              en: "Free cancellation when requested at least 20 days before your scheduled arrival. If your trip is postponed, your package and deposit remain valid for 18 months. The deposit is refunded after you arrive at the clinic.",
-              zh: "在计划抵达日前至少 20 天提出申请可免费取消。如行程延期，已购买的套餐和押金均可保留 18 个月；抵达诊所后退还押金。",
+              en: "Free cancellation when requested at least 20 days before your scheduled arrival. If your trip is postponed, your package and deposit remain valid for 18 months. The deposit is refunded when you pay the clinic for your procedure.",
+              zh: "在计划抵达日前至少 20 天提出申请可免费取消。如行程延期，已购买的套餐和押金均可保留 18 个月；在诊所支付手术费用时退还押金。",
             },
           ].map((n) => (
             <div key={n.en} className="rounded-2xl border border-border/70 bg-card p-4 shadow-soft">
