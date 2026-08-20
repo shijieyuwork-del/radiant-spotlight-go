@@ -157,11 +157,22 @@ const Hero = () => {
           pricingDetail: "Understand estimated costs before you travel",
         };
   return (
-    <section className="relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-hero opacity-90" />
-      <img src={heroBg} alt="" className="absolute inset-0 size-full object-cover opacity-40 mix-blend-multiply" />
-      <div className="absolute -top-20 -left-10 size-72 bg-gradient-mint blur-3xl opacity-60 animate-blob" />
-      <div className="absolute top-40 right-0 size-80 bg-gradient-peach blur-3xl opacity-50 animate-blob" style={{ animationDelay: "2s" }} />
+    <section className="hero-motion relative overflow-hidden">
+      <div className="hero-motion__background absolute inset-x-0 top-0 h-[720px] sm:h-[780px]" aria-hidden="true">
+        <img src={heroBg} alt="" className="hero-motion__image absolute inset-0 size-full object-cover" />
+        <video
+          className="hero-motion__video absolute inset-0 size-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster="/video/source/shanghai-consultation.png"
+        >
+          <source src="/video/cosmetics-asia-hero-stabilized.mp4?v=1" type="video/mp4" />
+        </video>
+        <div className="hero-motion__veil absolute inset-0" />
+      </div>
 
       <div className="container relative pb-9 pt-8 sm:py-14 md:py-20">
         <div className="flex flex-col gap-8 md:gap-14">
