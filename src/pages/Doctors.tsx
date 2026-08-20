@@ -75,9 +75,6 @@ const Doctors = () => {
           <h1 className="font-display text-[2.15rem] font-medium leading-[1.04] tracking-tight sm:text-4xl md:text-5xl">
             {t("doctors.title1")} <em className="text-primary not-italic">{t("doctors.titleEm")}</em>
           </h1>
-          <p className="text-muted-foreground mt-3">
-            {c("Review published doctor profiles, specialties and hospital affiliations. Only information that completes our review is labeled verified.", "查看已发布的医生资料、擅长项目与任职机构。只有完成资料审核的内容才会标记为已核验。", "Изучайте опубликованные профили врачей, специализации и клиники. Отметка «Проверено» появляется только после завершения проверки.")}
-          </p>
         </div>
 
         <div className="bg-card rounded-3xl p-2 shadow-pop flex flex-col sm:flex-row gap-2 max-w-2xl mx-auto mb-6">

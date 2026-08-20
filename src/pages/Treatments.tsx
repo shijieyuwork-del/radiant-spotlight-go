@@ -322,13 +322,6 @@ const Treatments = () => {
               {copy("Understand it first,", "先了解清楚", "Сначала разберитесь,")}{" "}
               <em className="text-primary not-italic">{copy("then decide.", "再做决定", "затем решайте.")}</em>
             </h1>
-            <p className="mt-4 text-muted-foreground">
-              {copy(
-                "Welcome to Cosmetics Asia Academy—clear, expert-led guides to pricing, recovery, real risks and the questions worth asking, so you can make every decision with confidence.",
-                "欢迎来到 Cosmetics Asia Academy——通过清晰、专业的项目指南，提前了解价格、恢复时间、真实风险与面诊重点，让每一次选择都有依据。",
-                "Добро пожаловать в Cosmetics Asia Academy — понятные экспертные материалы о ценах, восстановлении, реальных рисках и важных вопросах врачу, чтобы вы принимали решения уверенно."
-              )}
-            </p>
           </div>
 
           <div className="mx-auto mb-7 max-w-4xl">

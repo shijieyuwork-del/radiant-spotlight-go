@@ -286,9 +286,6 @@ const Packages = () => {
             <>Support for your <em className="text-primary not-italic">care journey in China</em></>
           )}
         </h1>
-        <p className="text-muted-foreground mt-3 max-w-2xl mx-auto">
-          {c("Airport pickup, clinic translation, accommodation guidance and recovery support—coordinated around your confirmed care plan.", "从机场接送、诊所翻译到住宿建议与恢复支持，我们会根据你已确认的就医计划协助安排。", "Трансфер из аэропорта, перевод в клинике, помощь с проживанием и поддержка во время восстановления — по вашему подтверждённому плану лечения.")}
-        </p>
       </section>
 
       {/* Packages grid */}
@@ -480,9 +477,6 @@ const Packages = () => {
                   <>Six clear steps, <em className="not-italic text-primary">one coordinated journey</em></>
                 )}
               </h2>
-              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">
-                {c("See what happens from your first online consultation through travel, treatment, recovery and follow-up at home.", "快速了解从首次线上咨询、签证与抵达到治疗、恢复和回国随访的完整流程。", "Узнайте, как проходит путь от первой онлайн-консультации и поездки до лечения, восстановления и наблюдения после возвращения домой.")}
-              </p>
             </div>
             <a href="https://wa.me/14708613825?text=Hi%20Cosmetics%20Asia%2C%20I%20would%20like%20help%20planning%20my%20medical%20journey%20to%20China." target="_blank" rel="noreferrer" className="inline-flex min-h-12 shrink-0 items-center justify-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground shadow-soft transition hover:-translate-y-0.5 hover:bg-primary/90">
               {c("Start planning your journey", "开始规划行程", "Начать планирование")}
@@ -554,9 +548,6 @@ const Packages = () => {
               {c("Practical support for", "抵达中国以后，", "Практическая поддержка")}{" "}
               <em className="not-italic text-primary">{c("your time in China", "我们提供这些协助服务", "во время поездки в Китай")}</em>
             </h2>
-            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-foreground/65 md:text-base">
-              {c("From airport arrival to clinic communication, each service is coordinated around your confirmed itinerary—with clear scope and no hidden assumptions.", "从机场接送到诊所沟通，我们提前说明服务内容、使用方式和边界，让你安心安排中国医疗行程。", "От встречи в аэропорту до общения в клинике: каждая услуга согласуется с подтверждённым маршрутом, а её объём объясняется заранее.")}
-            </p>
           </div>
 
           <div className="relative -mt-12 grid gap-x-8 gap-y-1 rounded-t-[2rem] bg-card px-4 pb-5 pt-4 sm:px-6 md:mx-8 md:grid-cols-2 md:px-5 md:pb-7 md:pt-5">

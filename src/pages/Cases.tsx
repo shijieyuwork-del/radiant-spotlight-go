@@ -89,7 +89,6 @@ const Cases = () => {
           <h1 className="font-display text-[2.15rem] font-medium leading-[1.04] tracking-tight sm:text-4xl md:text-5xl">
             {c("Real recovery journeys, ", "真实恢复历程，", "Реальные истории восстановления: ")}<em className="text-primary not-italic">{c("from consultation to final results.", "从面诊到最终效果", "от консультации до результата.")}</em>
           </h1>
-          <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground md:text-base">{c("Filter by procedure, recovery stage or China destination—and see what the process actually looks like.", "按项目、恢复阶段或中国城市筛选，看看整个过程真实是什么样。", "Фильтруйте по процедуре, этапу восстановления или городу Китая и смотрите весь путь пациента.")}</p>
         </div>
 
         <div className="mx-auto mb-4 flex max-w-3xl flex-col gap-2 rounded-2xl border border-border/70 bg-card p-1.5 shadow-soft sm:flex-row sm:rounded-full">

@@ -818,9 +818,6 @@ const HomeFaq = () => {
           <h2 id="home-faq-title" className="font-display text-3xl font-medium tracking-tight sm:text-4xl md:text-5xl">
             {c("Who gets paid, ", "费用由谁收取，", "Кто получает оплату — ")}<em className="not-italic text-primary">{c("made clear before you travel", "出发前先说清楚", "разберитесь до поездки")}</em>
           </h2>
-          <p className="mt-4 max-w-md text-sm leading-relaxed text-muted-foreground md:text-base">
-            {zh ? "旅行支持费用与医疗费用分开处理，避免隐藏收费和付款混淆。" : "Travel-support costs and medical payments are handled separately, so you know exactly who receives each payment."}
-          </p>
           <Link to="/travel-packages" className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary/80">
             {zh ? "查看行程支持" : "Explore travel support"}<ArrowRight className="size-4" />
           </Link>
