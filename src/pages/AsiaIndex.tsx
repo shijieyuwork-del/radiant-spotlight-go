@@ -122,12 +122,12 @@ const Hero = () => {
         emphasis: "找到适合你的方案",
         subtitle: "先了解项目、查看已发布的医生资料与患者恢复日记，再决定是否出发。翻译、行程和术后支持由我们协调。",
         cases: "观看患者短视频",
-        english: "英文协调员",
-        englishDetail: "从抵达到随访 · WhatsApp 24/7",
-        travel: "机场接送与酒店",
-        travelDetail: "根据行程匹配酒店方案",
-        pricing: "明细报价",
-        pricingDetail: "出发前了解预计费用",
+        english: "英文院内翻译",
+        englishDetail: "协助就诊期间的现场沟通",
+        travel: "机场接送",
+        travelDetail: "机场与目的地之间的专车接送",
+        pricing: "术后支持",
+        pricingDetail: "恢复期间提供持续协调",
       }
     : lang === "ru"
       ? {
@@ -136,25 +136,25 @@ const Hero = () => {
           emphasis: "на одной платформе",
           subtitle: "Сравните реальные случаи, квалификацию врачей и прозрачные цены до поездки. Мы организуем перевод, поездку и последующий уход.",
           cases: "Смотреть видео пациентов",
-          english: "Координатор на английском",
-          englishDetail: "От прилёта до наблюдения · WhatsApp 24/7",
-          travel: "Трансфер и отель",
-          travelDetail: "Отель подбирается под ваш маршрут",
-          pricing: "Подробная смета",
-          pricingDetail: "Ориентировочные расходы до поездки",
+          english: "Переводчик в клинике",
+          englishDetail: "Помощь в общении во время визита",
+          travel: "Трансфер из аэропорта",
+          travelDetail: "Индивидуальный трансфер до места назначения",
+          pricing: "Поддержка после лечения",
+          pricingDetail: "Координация во время восстановления",
         }
       : {
           badge: "China's cosmetic care platform for international patients",
           title: "Compare cosmetic surgeons across China,",
           emphasis: "then choose with confidence",
-          subtitle: "Understand procedures, review published doctor profiles and explore patient recovery diaries before you travel. We coordinate translation, travel and aftercare.",
+          subtitle: "Understand procedures, review published doctor profiles and explore patient recovery diaries before you travel.",
           cases: "Watch patient recovery videos",
-          english: "English coordinator",
-          englishDetail: "From landing to follow-up · WhatsApp 24/7",
-          travel: "Airport pickup & hotel",
-          travelDetail: "Hotel options matched to your itinerary",
-          pricing: "Itemized pricing",
-          pricingDetail: "Understand estimated costs before you travel",
+          english: "English in-clinic translation",
+          englishDetail: "Communication support during clinic visits",
+          travel: "Airport pickup & drop-off",
+          travelDetail: "Private transfer to and from your destination",
+          pricing: "Aftercare support",
+          pricingDetail: "Coordinated support throughout recovery",
         };
   return (
     <section className="hero-motion relative overflow-hidden">
@@ -195,12 +195,12 @@ const Hero = () => {
 
             <div className="-mx-4 mt-6 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 scrollbar-hide sm:mx-0 sm:mt-8 sm:grid sm:grid-cols-3 sm:overflow-visible sm:px-0 sm:pb-0">
               {[
-                { icon: Users, title: copy.english, detail: copy.englishDetail },
                 { icon: MapPin, title: copy.travel, detail: copy.travelDetail },
+                { icon: Users, title: copy.english, detail: copy.englishDetail },
                 { icon: ShieldCheck, title: copy.pricing, detail: copy.pricingDetail },
               ].map((item) => (
-                <span key={item.title} className="flex min-h-[4.5rem] min-w-[76vw] snap-center items-center gap-3 rounded-2xl border border-primary/10 bg-card/75 px-4 py-3 text-left shadow-soft backdrop-blur sm:min-h-16 sm:min-w-0">
-                  <span className="grid size-9 shrink-0 place-items-center rounded-full bg-card"><item.icon className="size-4 text-primary" /></span>
+                <span key={item.title} className="flex min-h-[4.5rem] min-w-[76vw] snap-center items-center gap-3 rounded-2xl border border-white/60 bg-white/45 px-4 py-3 text-left shadow-[0_12px_32px_rgba(18,55,45,0.09)] backdrop-blur-xl sm:min-h-16 sm:min-w-0">
+                  <span className="grid size-9 shrink-0 place-items-center rounded-full border border-white/60 bg-white/55 backdrop-blur-md"><item.icon className="size-4 text-primary" /></span>
                   <span className="min-w-0">
                     <strong className="block font-display text-sm font-semibold leading-tight">{item.title}</strong>
                     <small className="mt-1 block text-[11px] leading-snug text-muted-foreground">{item.detail}</small>
@@ -220,9 +220,6 @@ const Hero = () => {
                   {lang === "zh" ? "患者恢复日记，" : "Patient recovery diaries, "}
                   <em className="not-italic text-primary">{lang === "zh" ? "帮助你做功课" : "before you choose"}</em>
                 </h2>
-                <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">
-                  {lang === "zh" ? "了解咨询、治疗和恢复过程。只有完成核验的患者内容才会标记为已核验。" : "Explore consultation, treatment and recovery journeys. Only patient content that completes verification is labeled verified."}
-                </p>
               </div>
               <Link
                 to="/cases"
@@ -395,7 +392,6 @@ const TreatmentsSection = () => {
           <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight">
             {t("tx.title1")} <em className="text-primary not-italic">{t("tx.titleEm")}</em>
           </h2>
-          <p className="text-muted-foreground mt-2 text-sm">{t("tx.note")}</p>
         </div>
         <div className="flex items-center gap-2">
           <button type="button" onClick={() => moveTreatmentClouds(-1)} className="grid size-10 place-items-center rounded-full border border-border bg-card text-foreground shadow-soft transition hover:border-primary hover:text-primary" aria-label={lang === "zh" ? "上一组手术类型" : "Previous procedure groups"}>

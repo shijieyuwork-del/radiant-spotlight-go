@@ -12,13 +12,13 @@
   :root {
     /* Core surfaces */
     --background: 50 50% 97%;          /* warm cream */
-    --foreground: 160 25% 12%;         /* deep forest ink */
+    --foreground: 163 47% 12%;         /* #102C24 deep forest ink */
 
     --card: 48 60% 99%;
-    --card-foreground: 160 25% 12%;
+    --card-foreground: 163 47% 12%;
 
     --popover: 48 60% 99%;
-    --popover-foreground: 160 25% 12%;
+    --popover-foreground: 163 47% 12%;
 
     /* Brand */
     --primary: 158 45% 55%;            /* mint */
@@ -64,7 +64,7 @@
     --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
 
     --sidebar-background: 50 50% 97%;
-    --sidebar-foreground: 160 25% 12%;
+    --sidebar-foreground: 163 47% 12%;
     --sidebar-primary: 158 45% 55%;
     --sidebar-primary-foreground: 50 50% 98%;
     --sidebar-accent: 50 30% 94%;
@@ -222,6 +222,33 @@
 }
 
 @layer components {
+  .hero-motion {
+    isolation: isolate;
+    background: hsl(var(--background));
+  }
+
+  .hero-motion__background {
+    overflow: hidden;
+    pointer-events: none;
+    background: hsl(var(--background));
+    mask-image: linear-gradient(to bottom, black 0%, black 78%, transparent 100%);
+  }
+
+  .hero-motion__image {
+    opacity: 0.7;
+  }
+
+  .hero-motion__video {
+    opacity: 0.7;
+    filter: saturate(0.82) contrast(0.86) brightness(1.04);
+  }
+
+  .hero-motion__veil {
+    background:
+      linear-gradient(to bottom, hsl(var(--background) / 0.26), hsl(var(--background) / 0.58)),
+      radial-gradient(circle at 50% 36%, hsl(var(--background) / 0.72), hsl(var(--background) / 0.18) 65%);
+  }
+
   .glow-card {
     background: var(--gradient-card);
     box-shadow: var(--shadow-soft);
@@ -273,3 +300,9 @@
   scrollbar-width: none;
 }
 .scrollbar-hide::-webkit-scrollbar { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-motion__video {
+    display: none;
+  }
+}
