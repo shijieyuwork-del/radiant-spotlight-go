@@ -33,7 +33,7 @@
     --accent-foreground: 160 25% 15%;
 
     --muted: 50 30% 94%;
-    --muted-foreground: 160 12% 40%;
+    --muted-foreground: 160 15% 34%;
 
     --destructive: 0 75% 60%;
     --destructive-foreground: 0 0% 100%;
@@ -281,6 +281,36 @@
 @keyframes marquee {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
+}
+
+/* Public-site readability floor: keep supporting copy comfortably legible
+   without flattening the display hierarchy. */
+@layer utilities {
+  .text-xs {
+    font-size: 0.8125rem;
+    line-height: 1.25rem;
+  }
+
+  .text-sm {
+    font-size: 0.9375rem;
+    line-height: 1.5rem;
+  }
+
+  .text-\[10px\],
+  .text-\[11px\] {
+    font-size: 0.75rem;
+    line-height: 1.125rem;
+  }
+
+  @media (max-width: 639px) {
+    .text-xs {
+      font-size: 0.8125rem;
+    }
+
+    .text-sm {
+      font-size: 0.9375rem;
+    }
+  }
 }
 
 @keyframes float {
