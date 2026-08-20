@@ -527,11 +527,11 @@ const Packages = () => {
           <div className="bg-[linear-gradient(120deg,hsl(190_75%_91%),hsl(155_52%_89%)_55%,hsl(48_85%_92%))] px-6 pb-20 pt-8 md:px-10 md:pb-24 md:pt-10">
             <span className="pill mb-3 bg-white/80 text-foreground shadow-soft backdrop-blur">
               <ShieldCheck className="size-3.5 text-primary" />
-              {lang === "zh" ? "基础服务说明" : "What’s included"}
+              {lang === "zh" ? "我们的协助服务" : "Our support services"}
             </span>
             <h2 id="included-services-title" className="max-w-2xl font-display text-3xl font-medium tracking-tight md:text-4xl">
-              {lang === "zh" ? "抵达中国以后，" : "Travel support that stays"}{" "}
-              <em className="not-italic text-primary">{lang === "zh" ? "每一步都有人协助" : "with you at every step"}</em>
+              {lang === "zh" ? "抵达中国以后，" : "Practical support for"}{" "}
+              <em className="not-italic text-primary">{lang === "zh" ? "我们提供这些协助服务" : "your time in China"}</em>
             </h2>
             <p className="mt-3 max-w-2xl text-sm leading-relaxed text-foreground/65 md:text-base">
               {lang === "zh"
@@ -560,10 +560,7 @@ const Packages = () => {
                     </span>
                   </div>
                   <div className="min-w-0 py-0.5">
-                    <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-primary">
-                      {String(index + 1).padStart(2, "0")}
-                    </p>
-                    <h3 className="mt-0.5 font-display text-lg font-semibold leading-tight tracking-tight md:text-xl">
+                    <h3 className="font-display text-lg font-semibold leading-tight tracking-tight md:text-xl">
                       {lang === "zh" ? service.titleZh : service.titleEn}
                     </h3>
                     <p className="mt-2 text-xs leading-relaxed text-muted-foreground md:text-[13px]">
