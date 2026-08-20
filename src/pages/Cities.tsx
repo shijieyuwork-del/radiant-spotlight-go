@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { MapPin, ArrowRight, Users, Stethoscope, Wallet, Plane, Building2 } from "lucide-react";
+import { MapPin, ArrowRight, Stethoscope, Wallet, MessageCircle, Building2 } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
@@ -112,25 +112,46 @@ const Cities = () => {
         </div>
       </section>
 
-      {/* Travel callout */}
+      {/* City request callout */}
       <section className="container pb-20">
-        <div className="rounded-3xl bg-gradient-to-r from-[hsl(190,70%,92%)] via-[hsl(155,60%,90%)] to-[hsl(50,80%,92%)] p-6 md:p-8 grid md:grid-cols-3 gap-5 items-center shadow-soft">
+        <div className="rounded-3xl border border-primary/15 bg-gradient-to-r from-[hsl(190,70%,92%)] via-[hsl(155,60%,90%)] to-[hsl(50,80%,92%)] p-6 md:p-9 grid md:grid-cols-3 gap-5 items-center shadow-soft">
           <div className="md:col-span-2">
-            <h2 className="font-display text-2xl md:text-3xl font-semibold">
-              {lang === "zh" ? "不确定选哪个城市？" : "Not sure which city fits you?"}
+            <span className="pill mb-3 bg-background/80 text-foreground">
+              <MapPin className="size-3.5 text-primary" />
+              {lang === "zh" ? "更多城市" : lang === "ru" ? "Другие города" : "More destinations"}
+            </span>
+            <h2 className="font-display text-3xl md:text-4xl font-semibold tracking-tight text-[#26483f]">
+              {lang === "zh"
+                ? "你的城市不在这里？告诉我们"
+                : lang === "ru"
+                  ? "Не нашли нужный город? Расскажите нам"
+                  : "Don’t see your preferred city? Tell us"}
             </h2>
-            <p className="text-sm text-foreground/70 mt-2 max-w-xl">
-              {lang === "zh" ? "告诉我们手术项目与回国时间，24 小时内为你匹配城市 / 主刀 / 恢复酒店一站式方案。" : "Tell us your procedure and travel window — we'll match a surgeon, hospital, and recovery hotel in the right city within 24 hours."}
+            <p className="text-base text-foreground/75 mt-3 max-w-2xl leading-relaxed">
+              {lang === "zh"
+                ? "告诉我们你希望前往的城市和想咨询的项目，我们会协助查找合适的医生与诊所选择。"
+                : lang === "ru"
+                  ? "Сообщите желаемый город и интересующую процедуру — мы поможем найти подходящих врачей и клиники."
+                  : "Share the city and procedure you’re considering, and we’ll help explore suitable doctor and clinic options."}
             </p>
           </div>
           <div className="flex md:justify-end">
-            <Link
-              to="/doctors"
-              className="inline-flex items-center gap-2 rounded-full bg-foreground text-background px-6 py-3 text-sm font-semibold hover:bg-foreground/90 transition"
+            <a
+              href={`https://wa.me/14708613825?text=${encodeURIComponent(
+                lang === "zh"
+                  ? "你好 Cosmetics Asia，我想咨询一个目前城市列表中没有的城市。"
+                  : lang === "ru"
+                    ? "Здравствуйте, Cosmetics Asia. Я хочу узнать о городе, которого пока нет в списке."
+                    : "Hi Cosmetics Asia, I’d like to ask about a city that is not currently listed."
+              )}`}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex min-h-12 w-full md:w-auto items-center justify-center gap-2 rounded-full bg-primary px-7 py-3 text-sm font-semibold text-primary-foreground shadow-soft transition hover:-translate-y-0.5 hover:bg-primary/90"
             >
-              <Plane className="size-4" />
-              {lang === "zh" ? "立即匹配主刀" : "Get matched"}
-            </Link>
+              <MessageCircle className="size-4" />
+              {lang === "zh" ? "告诉我们" : lang === "ru" ? "Написать нам" : "Tell us"}
+              <ArrowRight className="size-4" />
+            </a>
           </div>
         </div>
       </section>
