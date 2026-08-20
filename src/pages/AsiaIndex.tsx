@@ -19,12 +19,12 @@ import { useAsia } from "@/lib/asia-i18n";
 import { ORGANIZATION_SCHEMA } from "@/lib/seo-config";
 import { useQuote } from "@/components/QuoteRequest";
 import heroBg from "@/assets/hero-bg.jpg";
-import journeyConsultation from "@/assets/service-medical-records.jpg";
-import journeyOnline from "@/assets/service-online-concierge.jpg";
-import journeyArrival from "@/assets/service-airport-pickup.jpg";
-import journeySupport from "@/assets/service-clinic-translation.jpg";
-import journeyRecovery from "@/assets/service-hotel-booking.jpg";
-import journeyFollowUp from "@/assets/city-hangzhou.jpg";
+import journeyConsultation from "@/assets/journey-real-consultation.webp";
+import journeyOnline from "@/assets/journey-real-online.webp";
+import journeyArrival from "@/assets/journey-real-arrival.webp";
+import journeySupport from "@/assets/journey-real-support.webp";
+import journeyRecovery from "@/assets/journey-real-recovery.webp";
+import journeyFollowUp from "@/assets/journey-real-follow-up.webp";
 import AppPromoSection from "@/components/AppPromoSection";
 import { supabase } from "@/integrations/supabase/client";
 import { DEMO_CHINA_DOCTORS } from "@/data/demoChinaDoctors";
@@ -326,7 +326,7 @@ const TravelBar = () => {
           return next;
         });
       }
-    }, 4600);
+    }, 3200);
     return () => window.clearInterval(timer);
   }, []);
 
@@ -364,8 +364,14 @@ const TravelBar = () => {
               className={`group relative min-w-[82vw] cursor-pointer snap-center overflow-hidden rounded-[1.6rem] border bg-card shadow-soft transition-all duration-500 sm:min-w-[55vw] md:min-w-[calc((100%_-_2.5rem)/3)] ${activeStep === index ? "border-primary/60 shadow-pop md:-translate-y-1" : "border-white/70 opacity-80 hover:opacity-100"}`}
             >
               <div className="relative h-40 overflow-hidden md:h-44">
-                <img src={x.image} alt="" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
-                <div className="absolute inset-0 bg-gradient-to-t from-foreground/55 via-transparent to-transparent" />
+                <img
+                  src={x.image}
+                  alt=""
+                  loading={index < 3 ? "eager" : "lazy"}
+                  decoding="async"
+                  className="h-full w-full object-cover saturate-[0.88] transition-transform duration-700 group-hover:scale-[1.025]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-foreground/45 via-transparent to-white/5" />
                 <span className="absolute right-4 top-3 font-display text-5xl font-semibold text-white/70" aria-hidden="true">0{index + 1}</span>
                 <div className="absolute bottom-4 left-4 grid size-11 place-items-center rounded-2xl bg-primary text-primary-foreground shadow-pop">
                   <x.icon className="size-5" />
