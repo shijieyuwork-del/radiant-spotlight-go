@@ -6,9 +6,11 @@ import PageMeta from "@/components/PageMeta";
 import { CITIES } from "@/data/cities";
 import { DOCTORS } from "@/data/doctors";
 import { useAsia } from "@/lib/asia-i18n";
+import { asiaCopy } from "@/lib/asia-copy";
 
 const Cities = () => {
   const { lang } = useAsia();
+  const c = <T,>(en: T, zh: T, ru: T) => asiaCopy(lang, { en, zh, ru });
   return (
     <>
       <PageMeta
@@ -23,12 +25,16 @@ const Cities = () => {
       <section className="container py-12 md:py-16">
         <span className="pill bg-accent text-accent-foreground mb-3">
           <MapPin className="size-3.5" />
-          {lang === "zh" ? "中国城市" : "China destinations"}
+          {c("China destinations", "中国城市", "Города Китая")}
         </span>
         <h1 className="font-display text-4xl md:text-5xl font-medium tracking-tight max-w-3xl">
           {lang === "zh" ? (
             <>
               选择城市，<em className="text-primary not-italic">找到主刀医生</em>
+            </>
+          ) : lang === "ru" ? (
+            <>
+              Выберите город — <em className="text-primary not-italic">найдите своего врача</em>
             </>
           ) : (
             <>
@@ -38,7 +44,7 @@ const Cities = () => {
           )}
         </h1>
         <p className="text-muted-foreground mt-3 max-w-2xl">
-          {lang === "zh" ? "上海、广州、北京、海南、杭州五大中国医美目的地，各有强势项目、价格区间与出行配套。" : "Five medical-aesthetic destinations in China — Shanghai, Guangzhou, Beijing, Hainan and Hangzhou — each with its own specialties, price level and travel logistics."}
+          {c("Five medical-aesthetic destinations in China — Shanghai, Guangzhou, Beijing, Hainan and Hangzhou — each with its own specialties, price level and travel logistics.", "上海、广州、北京、海南、杭州五大中国医美目的地，各有强势项目、价格区间与出行配套。", "Пять направлений медицинской эстетики в Китае — Шанхай, Гуанчжоу, Пекин, Хайнань и Ханчжоу — со своими специализациями, ценами и логистикой.")}
         </p>
       </section>
 
@@ -68,7 +74,7 @@ const Cities = () => {
                         {lang === "zh" ? c.en : c.zh}
                       </p>
                     </div>
-                    <span className="pill bg-background/95 text-foreground text-[10px]"><Wallet className="size-3 text-primary" />{lang === "zh" ? "行程指南" : "Travel guide"}</span>
+                    <span className="pill bg-background/95 text-foreground text-[10px]"><Wallet className="size-3 text-primary" />{c("Travel guide", "行程指南", "Путеводитель")}</span>
                   </div>
                 </div>
 
@@ -80,13 +86,13 @@ const Cities = () => {
                   <div className="grid grid-cols-2 gap-2 text-center">
                     <Stat
                       icon={<Building2 className="size-3.5" />}
-                      label={lang === "zh" ? "机构资料" : "Provider info"}
-                      value={lang === "zh" ? "当地" : "Local"}
+                      label={c("Provider info", "机构资料", "Информация о клинике")}
+                      value={c("Local", "当地", "Местные")}
                     />
                     <Stat
                       icon={<Stethoscope className="size-3.5" />}
-                      label={lang === "zh" ? "医生资料" : "Doctor profiles"}
-                      value={lang === "zh" ? "审核后发布" : "Reviewed"}
+                      label={c("Doctor profiles", "医生资料", "Профили врачей")}
+                      value={c("Reviewed", "审核后发布", "Проверено")}
                     />
                   </div>
 
@@ -102,7 +108,7 @@ const Cities = () => {
                   </div>
 
                   <div className="mt-auto pt-3 flex items-center justify-between text-sm font-semibold text-primary">
-                    {lang === "zh" ? "查看城市详情" : "Explore the city"}
+                    {c("Explore the city", "查看城市详情", "Узнать о городе")}
                     <ArrowRight className="size-4 group-hover:translate-x-1 transition" />
                   </div>
                 </div>

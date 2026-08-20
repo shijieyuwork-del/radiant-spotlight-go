@@ -28,7 +28,7 @@ const DemoDoctorDetail = () => {
   }, [doctor]);
 
   if (!doctor) {
-    return <div className="min-h-screen bg-background"><AsiaNavbar homeLinks={false} /><main className="container py-24 text-center"><p>{lang === "zh" ? "医生资料不存在。" : "Doctor profile not found."}</p><Link to="/doctors" className="mt-4 inline-block text-primary underline">{lang === "zh" ? "返回医生列表" : "Back to doctors"}</Link></main></div>;
+    return <div className="min-h-screen bg-background"><AsiaNavbar homeLinks={false} /><main className="container py-24 text-center"><p>{lang === "zh" ? "医生资料不存在。" : lang === "ru" ? "Профиль врача не найден." : "Doctor profile not found."}</p><Link to="/doctors" className="mt-4 inline-block text-primary underline">{lang === "zh" ? "返回医生列表" : lang === "ru" ? "Вернуться к врачам" : "Back to doctors"}</Link></main></div>;
   }
 
   const whatsapp = `https://wa.me/14708613825?text=${encodeURIComponent(`Hi Cosmetics Asia, I’d like to ask about ${doctor.name} and available consultation options.`)}`;
@@ -56,7 +56,7 @@ const DemoDoctorDetail = () => {
           <section className="mt-12 md:mt-16">
             <span className="text-xs font-bold uppercase tracking-[0.14em] text-primary">{lang === "zh" ? "相关案例" : lang === "ru" ? "Похожие случаи" : "Related patient diaries"}</span>
             <h2 className="mt-2 font-display text-3xl font-medium tracking-tight md:text-4xl">{lang === "zh" ? "查看该专科的其他案例" : lang === "ru" ? "Другие случаи по этой специализации" : "Explore more cases in this specialty"}</h2>
-            <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">{lang === "zh" ? "这些案例按专科匹配，并不代表由该虚构示例医生完成。真实医生发布后，其本人案例将在这里单独展示。" : "These diaries are matched by specialty and are not attributed to this fictional sample doctor. Doctor-linked cases will appear here after real profiles are published."}</p>
+            <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">{lang === "zh" ? "这些案例按专科匹配，并不代表由该虚构示例医生完成。真实医生发布后，其本人案例将在这里单独展示。" : lang === "ru" ? "Эти дневники подобраны по специализации и не относятся к вымышленному врачу. Случаи конкретных врачей появятся после публикации реальных профилей." : "These diaries are matched by specialty and are not attributed to this fictional sample doctor. Doctor-linked cases will appear here after real profiles are published."}</p>
             {cases.length > 0 && <div className="mt-7"><TikTokWall items={cases} lang={lang} fmtPrice={fmt} variant="preview" /></div>}
           </section>
         </main>

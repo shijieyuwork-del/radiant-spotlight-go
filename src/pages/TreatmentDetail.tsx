@@ -45,13 +45,15 @@ const TreatmentDetail = () => {
   const { slug = "" } = useParams();
   const { lang, fmt } = useAsia();
   const zh = lang === "zh";
+  const ru = lang === "ru";
+  const c = (en: string, cn: string, russian: string) => zh ? cn : ru ? russian : en;
   const t = findTreatment(slug);
   const catalogMatch = PROCEDURE_CATEGORIES.flatMap((category) =>
     category.items.map(([en, cn]) => ({ en, zh: cn, categoryEn: category.en, categoryZh: category.zh }))
   ).find((item) => procedureSlug(item.en) === slug);
 
   if (!t) {
-    if (catalogMatch) return <CatalogProcedureDetail procedure={catalogMatch} zh={zh} />;
+    if (catalogMatch) return <CatalogProcedureDetail procedure={catalogMatch} lang={lang} />;
     return (
       <>
         <PageMeta
@@ -62,9 +64,9 @@ const TreatmentDetail = () => {
         <div className="min-h-screen bg-background">
           <AsiaNavbar />
           <div className="container py-24 text-center">
-            <h1 className="font-display text-3xl">{zh ? "未找到该项目" : "Procedure not found"}</h1>
+            <h1 className="font-display text-3xl">{c("Procedure not found", "未找到该项目", "Процедура не найдена")}</h1>
             <Link to="/treatments" className="mt-4 inline-block text-primary hover:underline">
-              {zh ? "查看全部项目" : "See all procedures"}
+              {c("See all procedures", "查看全部项目", "Все процедуры")}
             </Link>
           </div>
           <Footer />
@@ -104,29 +106,29 @@ const TreatmentDetail = () => {
             to="/treatments"
             className="mb-6 inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-soft transition-colors hover:bg-primary/90"
           >
-            <ArrowLeft className="size-4" /> {zh ? "全部项目" : "All procedures"}
+            <ArrowLeft className="size-4" /> {c("All procedures", "全部项目", "Все процедуры")}
           </Link>
 
           <span className="pill bg-accent text-accent-foreground mb-3">
             <Stethoscope className="size-3.5" />
-            {zh ? "项目指南" : "Procedure guide"}
+            {c("Procedure guide", "项目指南", "Справочник по процедуре")}
           </span>
           <h1 className="font-display text-4xl md:text-5xl font-medium tracking-tight">{name}</h1>
           <p className="mt-3 text-lg text-muted-foreground leading-relaxed">
             {zh ? t.summaryZh : t.summaryEn}
           </p>
 
-          <Section icon={<Sparkles className="size-5" />} title={zh ? "这是什么" : "What it is"}>
+          <Section icon={<Sparkles className="size-5" />} title={c("What it is", "这是什么", "Что это такое")}>
             <p className="text-sm text-muted-foreground leading-relaxed">{zh ? t.whatZh : t.whatEn}</p>
           </Section>
 
-          <Section icon={<Stethoscope className="size-5" />} title={zh ? "常见术式" : "Common techniques"}>
+          <Section icon={<Stethoscope className="size-5" />} title={c("Common techniques", "常见术式", "Распространённые методики")}>
             <Bullets items={zh ? t.techniquesZh : t.techniquesEn} />
           </Section>
 
           <div className="mt-10 grid gap-6 sm:grid-cols-2">
             <div className="rounded-2xl border border-border/60 bg-card p-5">
-              <h3 className="font-medium">{zh ? "通常适合" : "Usually a good fit"}</h3>
+              <h3 className="font-medium">{c("Usually a good fit", "通常适合", "Кому обычно подходит")}</h3>
               <div className="mt-3">
                 <Bullets items={zh ? t.goodFitZh : t.goodFitEn} />
               </div>
@@ -134,7 +136,7 @@ const TreatmentDetail = () => {
             <div className="rounded-2xl border border-border/60 bg-card p-5">
               <h3 className="flex items-center gap-1.5 font-medium">
                 <CircleSlash className="size-4 text-muted-foreground" />
-                {zh ? "通常不适合" : "Usually not a fit"}
+                {c("Usually not a fit", "通常不适合", "Кому обычно не подходит")}
               </h3>
               <div className="mt-3">
                 <Bullets items={zh ? t.notFitZh : t.notFitEn} />
@@ -142,7 +144,7 @@ const TreatmentDetail = () => {
             </div>
           </div>
 
-          <Section icon={<Clock className="size-5" />} title={zh ? "恢复时间线" : "Recovery timeline"}>
+          <Section icon={<Clock className="size-5" />} title={c("Recovery timeline", "恢复时间线", "Этапы восстановления")}>
             <ol className="space-y-4">
               {t.recovery.map((r, i) => (
                 <li key={i} className="flex gap-4">
@@ -153,27 +155,27 @@ const TreatmentDetail = () => {
             </ol>
           </Section>
 
-          <Section icon={<ShieldAlert className="size-5" />} title={zh ? "风险与并发症" : "Risks & complications"}>
+          <Section icon={<ShieldAlert className="size-5" />} title={c("Risks & complications", "风险与并发症", "Риски и осложнения")}>
             <div className="rounded-2xl border border-destructive/25 bg-destructive/5 p-5">
               <Bullets items={zh ? t.risksZh : t.risksEn} />
             </div>
           </Section>
 
-          <Section icon={<HeartPulse className="size-5" />} title={zh ? "术前必须告知医生" : "Tell the clinician before surgery"}>
+          <Section icon={<HeartPulse className="size-5" />} title={c("Tell the clinician before surgery", "术前必须告知医生", "Что сообщить врачу до операции")}>
             <div className="rounded-2xl border border-primary/20 bg-primary/[0.045] p-5">
               <Bullets items={zh ? fullGuideEducation.discloseZh : fullGuideEducation.discloseEn} />
               <p className="mt-4 flex gap-2 text-xs font-medium leading-relaxed text-foreground">
                 <Pill className="mt-0.5 size-4 shrink-0 text-primary" />
-                {zh ? "不要自行停药。是否暂停或调整药物，必须由开药医生、手术医生或麻醉医生决定。" : "Do not stop medication on your own. Any change must be directed by the prescribing clinician, surgeon or anesthesiologist."}
+                {c("Do not stop medication on your own. Any change must be directed by the prescribing clinician, surgeon or anesthesiologist.", "不要自行停药。是否暂停或调整药物，必须由开药医生、手术医生或麻醉医生决定。", "Не прекращайте приём лекарств самостоятельно. Любые изменения должен назначить лечащий врач, хирург или анестезиолог.")}
               </p>
             </div>
           </Section>
 
-          <Section icon={<CircleHelp className="size-5" />} title={zh ? "面诊时该问什么" : "What to ask at consultation"}>
+          <Section icon={<CircleHelp className="size-5" />} title={c("What to ask at consultation", "面诊时该问什么", "Что спросить на консультации")}>
             <Bullets items={zh ? t.askZh : t.askEn} />
           </Section>
 
-          <Section icon={<DollarSign className="size-5" />} title={zh ? "费用参考" : "What it costs"}>
+          <Section icon={<DollarSign className="size-5" />} title={c("What it costs", "费用参考", "Ориентировочная стоимость")}>
             <p className="font-display text-3xl font-medium tracking-tight">
               ${t.priceUsdLow.toLocaleString()} – ${t.priceUsdHigh.toLocaleString()}
             </p>
@@ -182,12 +184,12 @@ const TreatmentDetail = () => {
             </p>
           </Section>
 
-          <ProcedureVideoRow procedure={t.en} zh={zh} fmt={fmt} />
+          <ProcedureVideoRow procedure={t.en} lang={lang} fmt={fmt} />
 
           <p className="mt-12 rounded-2xl bg-muted/50 p-5 text-xs text-muted-foreground leading-relaxed">
             {zh
               ? "以上为一般性医学科普，不构成针对个人的诊疗建议。每个人的解剖条件、既往病史与用药情况不同，实际方案与风险应以面诊后执业医师的评估为准。"
-              : MEDICAL_DISCLAIMER}
+              : ru ? "Эта информация носит общий образовательный характер и не заменяет персональную медицинскую консультацию. План лечения и риски определяет лицензированный врач после оценки вашего состояния." : MEDICAL_DISCLAIMER}
           </p>
         </article>
 
@@ -324,8 +326,11 @@ const catalogEducation: Record<string, CatalogEducation> = {
   },
 };
 
-const CatalogProcedureDetail = ({ procedure, zh }: { procedure: { en: string; zh: string; categoryEn: string; categoryZh: string }; zh: boolean }) => {
+const CatalogProcedureDetail = ({ procedure, lang }: { procedure: { en: string; zh: string; categoryEn: string; categoryZh: string }; lang: "en" | "zh" | "ru" }) => {
   const { fmt } = useAsia();
+  const zh = lang === "zh";
+  const ru = lang === "ru";
+  const c = (en: string, cn: string, russian: string) => zh ? cn : ru ? russian : en;
   const name = zh ? procedure.zh : procedure.en;
   const intro = categoryCopy[procedure.categoryEn];
   const education = catalogEducation[procedure.categoryEn];
@@ -342,7 +347,7 @@ const CatalogProcedureDetail = ({ procedure, zh }: { procedure: { en: string; zh
         <AsiaNavbar />
         <main className="container max-w-4xl py-10 md:py-14">
           <Link to="/treatments" className="mb-7 inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-soft transition-colors hover:bg-primary/90">
-            <ArrowLeft className="size-4" /> {zh ? "全部项目" : "All procedures"}
+            <ArrowLeft className="size-4" /> {c("All procedures", "全部项目", "Все процедуры")}
           </Link>
 
           <section className="rounded-[2rem] border border-border/60 bg-card p-6 shadow-soft md:p-9">
@@ -352,43 +357,43 @@ const CatalogProcedureDetail = ({ procedure, zh }: { procedure: { en: string; zh
           </section>
 
           <section className="mt-8 grid gap-4 md:grid-cols-3">
-            <InfoCard icon={<FileCheck2 />} title={zh ? "先确认目标" : "Clarify your goal"} text={zh ? "说明希望改善的问题、既往治疗、病史和用药情况。" : "Describe the concern, previous treatment, medical history and current medication."} />
-            <InfoCard icon={<BadgeCheck />} title={zh ? "核验医生经验" : "Verify experience"} text={zh ? "查看执业信息，并要求与自身情况相近的真实案例。" : "Check licensing and request genuine cases relevant to your anatomy and goals."} />
-            <InfoCard icon={<ShieldAlert />} title={zh ? "了解风险与恢复" : "Discuss risk & recovery"} text={zh ? "确认术式、麻醉、恢复安排、并发症处理及完整费用。" : "Confirm technique, anesthesia, recovery, complication management and total cost."} />
+            <InfoCard icon={<FileCheck2 />} title={c("Clarify your goal", "先确认目标", "Определите цель")} text={c("Describe the concern, previous treatment, medical history and current medication.", "说明希望改善的问题、既往治疗、病史和用药情况。", "Опишите ваши пожелания, предыдущее лечение, заболевания и лекарства.")} />
+            <InfoCard icon={<BadgeCheck />} title={c("Verify experience", "核验医生经验", "Проверьте опыт")} text={c("Check licensing and request genuine cases relevant to your anatomy and goals.", "查看执业信息，并要求与自身情况相近的真实案例。", "Проверьте лицензию и запросите реальные похожие случаи.")} />
+            <InfoCard icon={<ShieldAlert />} title={c("Discuss risk & recovery", "了解风险与恢复", "Обсудите риски и восстановление")} text={c("Confirm technique, anesthesia, recovery, complication management and total cost.", "确认术式、麻醉、恢复安排、并发症处理及完整费用。", "Уточните методику, анестезию, восстановление, осложнения и полную стоимость.")} />
           </section>
 
           <section className="mt-8 rounded-[2rem] border border-border/70 bg-card p-5 shadow-soft md:p-8">
             <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
               <div>
-                <span className="pill bg-accent text-accent-foreground"><Sparkles className="size-3.5" />{zh ? "快速了解" : "At a glance"}</span>
-                <h2 className="mt-3 font-display text-3xl font-medium tracking-tight">{zh ? "先看关键数字" : "Start with the essentials"}</h2>
+                <span className="pill bg-accent text-accent-foreground"><Sparkles className="size-3.5" />{c("At a glance", "快速了解", "Кратко")}</span>
+                <h2 className="mt-3 font-display text-3xl font-medium tracking-tight">{c("Start with the essentials", "先看关键数字", "Основные сведения")}</h2>
               </div>
-              <p className="max-w-md text-xs leading-relaxed text-muted-foreground">{zh ? "以下为中国市场的一般规划参考，不是医院报价或个人恢复承诺。" : "General planning ranges for China—not a hospital quote or a personal recovery promise."}</p>
+              <p className="max-w-md text-xs leading-relaxed text-muted-foreground">{c("General planning ranges for China—not a hospital quote or a personal recovery promise.", "以下为中国市场的一般规划参考，不是医院报价或个人恢复承诺。", "Это общие ориентиры для Китая, а не предложение клиники или гарантия восстановления.")}</p>
             </div>
             <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4">
-              <QuickFact icon={<DollarSign />} label={zh ? "参考价格" : "Planning range"} value={education.price} />
-              <QuickFact icon={<Clock />} label={zh ? "初步恢复" : "Typical downtime"} value={zh ? education.downtimeZh : education.downtimeEn} />
-              <QuickFact icon={<Sparkles />} label={zh ? "结果逐步稳定" : "Result settles"} value={zh ? education.finalZh : education.finalEn} />
-              <QuickFact icon={<Stethoscope />} label={zh ? "常见麻醉" : "Common anesthesia"} value={zh ? education.anesthesiaZh : education.anesthesiaEn} />
+              <QuickFact icon={<DollarSign />} label={c("Planning range", "参考价格", "Диапазон цен")} value={education.price} />
+              <QuickFact icon={<Clock />} label={c("Typical downtime", "初步恢复", "Первичное восстановление")} value={zh ? education.downtimeZh : education.downtimeEn} />
+              <QuickFact icon={<Sparkles />} label={c("Result settles", "结果逐步稳定", "Окончательный результат")} value={zh ? education.finalZh : education.finalEn} />
+              <QuickFact icon={<Stethoscope />} label={c("Common anesthesia", "常见麻醉", "Обычная анестезия")} value={zh ? education.anesthesiaZh : education.anesthesiaEn} />
             </div>
           </section>
 
           <div className="mt-8 grid gap-5 md:grid-cols-2">
             <section className="rounded-3xl border border-destructive/20 bg-destructive/[0.035] p-6">
-              <h2 className="flex items-center gap-2 font-display text-2xl font-medium tracking-tight"><ShieldAlert className="size-5 text-destructive/75" />{zh ? "需要认真了解的风险" : "Risks to understand"}</h2>
+              <h2 className="flex items-center gap-2 font-display text-2xl font-medium tracking-tight"><ShieldAlert className="size-5 text-destructive/75" />{c("Risks to understand", "需要认真了解的风险", "Важные риски")}</h2>
               <div className="mt-4"><Bullets items={zh ? education.risksZh : education.risksEn} /></div>
               <p className="mt-4 text-xs leading-relaxed text-muted-foreground">{zh ? "这不是完整风险清单。风险会随具体术式、麻醉方式、治疗范围和个人健康状况改变。" : "This is not a complete risk list. Risk changes with technique, anesthesia, treatment extent and your health."}</p>
             </section>
 
             <section className="rounded-3xl border border-primary/20 bg-primary/[0.045] p-6">
-              <h2 className="flex items-center gap-2 font-display text-2xl font-medium tracking-tight"><HeartPulse className="size-5 text-primary" />{zh ? "这些疾病和情况要提前说" : "Tell the clinician before treatment"}</h2>
+              <h2 className="flex items-center gap-2 font-display text-2xl font-medium tracking-tight"><HeartPulse className="size-5 text-primary" />{c("Tell the clinician before treatment", "这些疾病和情况要提前说", "Что сообщить врачу заранее")}</h2>
               <div className="mt-4"><Bullets items={zh ? education.discloseZh : education.discloseEn} /></div>
               <p className="mt-4 flex gap-2 text-xs font-medium leading-relaxed text-foreground"><Pill className="mt-0.5 size-4 shrink-0 text-primary" />{zh ? "不要自行停药。是否暂停或调整药物，必须由开药医生、手术医生或麻醉医生决定。" : "Do not stop medication on your own. Any change must be directed by the prescribing clinician, surgeon or anesthesiologist."}</p>
             </section>
           </div>
 
           <section className="mt-8 rounded-3xl border border-border/70 bg-secondary/30 p-6 md:p-8">
-            <h2 className="flex items-center gap-2 font-display text-2xl font-medium tracking-tight"><CircleHelp className="size-5 text-primary" />{zh ? "面诊时一定要问" : "Questions to ask at consultation"}</h2>
+            <h2 className="flex items-center gap-2 font-display text-2xl font-medium tracking-tight"><CircleHelp className="size-5 text-primary" />{c("Questions to ask at consultation", "面诊时一定要问", "Вопросы для консультации")}</h2>
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
               {(zh ? [
                 `您做过多少例与我的情况相似的 ${procedure.zh}？`,
@@ -412,16 +417,16 @@ const CatalogProcedureDetail = ({ procedure, zh }: { procedure: { en: string; zh
             </div>
           </section>
 
-          <ProcedureVideoRow procedure={`${procedure.en} ${procedure.categoryEn}`} zh={zh} fmt={fmt} />
+          <ProcedureVideoRow procedure={`${procedure.en} ${procedure.categoryEn}`} lang={lang} fmt={fmt} />
 
           <section className="mt-8 rounded-3xl bg-muted/45 p-6 md:p-8">
-            <h2 className="font-display text-2xl font-medium tracking-tight">{zh ? "下一步：获取适合你的方案" : "Next: get a plan built around you"}</h2>
+            <h2 className="font-display text-2xl font-medium tracking-tight">{c("Next: get a plan built around you", "下一步：获取适合你的方案", "Следующий шаг: персональный план")}</h2>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
               {zh ? "这是一份一般性项目介绍，不构成医疗建议。具体方案、价格与恢复期只能在医生评估后确定。" : "This is a general overview, not medical advice. Technique, price and recovery can only be confirmed after a clinician evaluates you."}
             </p>
             <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-              <Button asChild className="rounded-full px-6"><Link to="/doctors">{zh ? "查看医生" : "Explore doctors"}<ArrowRight className="ml-2 size-4" /></Link></Button>
-              <Button asChild variant="outline" className="rounded-full px-6"><Link to="/travel-packages">{zh ? "查看行程支持" : "View travel support"}</Link></Button>
+              <Button asChild className="rounded-full px-6"><Link to="/doctors">{c("Explore doctors", "查看医生", "Смотреть врачей")}<ArrowRight className="ml-2 size-4" /></Link></Button>
+              <Button asChild variant="outline" className="rounded-full px-6"><Link to="/travel-packages">{c("View travel support", "查看行程支持", "Поддержка поездки")}</Link></Button>
             </div>
           </section>
         </main>
@@ -463,23 +468,26 @@ const getRelatedCases = (procedure: string) => {
     .slice(0, 4);
 };
 
-const ProcedureVideoRow = ({ procedure, zh, fmt }: { procedure: string; zh: boolean; fmt: (cny: number) => string }) => {
+const ProcedureVideoRow = ({ procedure, lang, fmt }: { procedure: string; lang: "en" | "zh" | "ru"; fmt: (cny: number) => string }) => {
+  const zh = lang === "zh";
+  const ru = lang === "ru";
+  const c = (en: string, cn: string, russian: string) => zh ? cn : ru ? russian : en;
   const items = getRelatedCases(procedure);
   return (
     <section className="mt-10 border-t border-border/60 pt-9">
       <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <span className="pill bg-accent text-accent-foreground">{zh ? "真实案例" : "Real case videos"}</span>
+          <span className="pill bg-accent text-accent-foreground">{c("Real case videos", "真实案例", "Видео реальных случаев")}</span>
           <h2 className="mt-3 font-display text-2xl font-medium tracking-tight md:text-3xl">
-            {zh ? "观看相关恢复短视频" : "Watch related recovery diaries"}
+            {c("Watch related recovery diaries", "观看相关恢复短视频", "Смотрите дневники восстановления")}
           </h2>
-          <p className="mt-1 text-sm text-muted-foreground">{zh ? "左右滑动查看更多案例与恢复过程。" : "Swipe to explore patient journeys and recovery updates."}</p>
+          <p className="mt-1 text-sm text-muted-foreground">{c("Swipe to explore patient journeys and recovery updates.", "左右滑动查看更多案例与恢复过程。", "Листайте, чтобы увидеть больше историй пациентов.")}</p>
         </div>
         <Button asChild variant="outline" className="w-fit rounded-full">
-          <Link to="/cases">{zh ? "查看全部案例" : "View all cases"}<ArrowRight className="ml-2 size-4" /></Link>
+          <Link to="/cases">{c("View all cases", "查看全部案例", "Все случаи")}<ArrowRight className="ml-2 size-4" /></Link>
         </Button>
       </div>
-      <TikTokWall items={items} lang={zh ? "zh" : "en"} fmtPrice={fmt} variant="wall" />
+      <TikTokWall items={items} lang={lang} fmtPrice={fmt} variant="wall" />
     </section>
   );
 };

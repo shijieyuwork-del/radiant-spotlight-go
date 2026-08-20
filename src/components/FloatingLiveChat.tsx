@@ -6,14 +6,14 @@ const WHATSAPP_URL =
 
 const FloatingLiveChat = () => {
   const { lang } = useAsia();
-  const label = lang === "zh" ? "WhatsApp 联系" : "WhatsApp Us";
+  const label = lang === "zh" ? "WhatsApp 联系" : lang === "ru" ? "Написать в WhatsApp" : "WhatsApp Us";
 
   return (
     <a
       href={WHATSAPP_URL}
       target="_blank"
       rel="noreferrer"
-      aria-label={lang === "zh" ? "通过 WhatsApp 联系我们" : "Contact us on WhatsApp"}
+      aria-label={lang === "zh" ? "通过 WhatsApp 联系我们" : lang === "ru" ? "Связаться с нами в WhatsApp" : "Contact us on WhatsApp"}
       className="group fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 z-50 flex items-center gap-2 rounded-full bg-foreground p-2 text-background shadow-pop transition-all hover:-translate-y-0.5 hover:shadow-glow sm:bottom-6 sm:right-6 sm:pl-2 sm:pr-5"
     >
       <span className="relative grid size-10 place-items-center rounded-full bg-primary text-foreground">

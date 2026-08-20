@@ -17,6 +17,7 @@ import { useAsia } from "@/lib/asia-i18n";
 const DoctorDetail = () => {
   const { id } = useParams();
   const { t, lang, fmt } = useAsia();
+  const c = (en: string, zh: string, ru: string) => lang === "zh" ? zh : lang === "ru" ? ru : en;
   const doctor = useMemo(() => (id ? findDoctor(id) : undefined), [id]);
 
   const cases = useMemo(
@@ -40,10 +41,10 @@ const DoctorDetail = () => {
           <AsiaNavbar homeLinks={false} />
           <div className="container py-24 text-center">
             <p className="text-muted-foreground">
-              {lang === "zh" ? "医师档案不存在。" : "Doctor profile not found."}
+              {c("Doctor profile not found.", "医师档案不存在。", "Профиль врача не найден.")}
             </p>
             <Link to="/doctors" className="text-primary underline mt-4 inline-block">
-              {lang === "zh" ? "返回医师列表" : "Back to all doctors"}
+              {c("Back to all doctors", "返回医师列表", "Вернуться ко всем врачам")}
             </Link>
           </div>
           <Footer />
@@ -93,7 +94,7 @@ const DoctorDetail = () => {
 
       <section className="container py-8 md:py-12">
         <Link to="/doctors" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-6">
-          <ArrowLeft className="size-4" /> {lang === "zh" ? "全部医师" : "All doctors"}
+          <ArrowLeft className="size-4" /> {c("All doctors", "全部医师", "Все врачи")}
         </Link>
 
         {/* Header card */}
@@ -171,7 +172,7 @@ const DoctorDetail = () => {
             <div>
               <h2 className="font-display text-2xl font-medium tracking-tight flex items-center gap-2 mb-3">
                 <Stethoscope className="size-5 text-primary" />
-                {lang === "zh" ? "医师简介" : "About the surgeon"}
+                {c("About the surgeon", "医师简介", "О враче")}
               </h2>
               <p className="text-muted-foreground leading-relaxed">
                 {lang === "zh" ? doctor.bioZh : doctor.bioEn}
@@ -183,7 +184,7 @@ const DoctorDetail = () => {
               <div className="rounded-3xl bg-card shadow-soft p-5">
                 <h3 className="font-display text-base font-semibold flex items-center gap-2 mb-3">
                   <GraduationCap className="size-4 text-primary" />
-                  {lang === "zh" ? "教育与研修" : "Education & training"}
+                  {c("Education & training", "教育与研修", "Образование и подготовка")}
                 </h3>
                 <ul className="space-y-2 text-sm text-muted-foreground">
                   {(lang === "zh" ? doctor.eduZh : doctor.eduEn).map((line) => (
@@ -197,7 +198,7 @@ const DoctorDetail = () => {
               <div className="rounded-3xl bg-card shadow-soft p-5">
                 <h3 className="font-display text-base font-semibold flex items-center gap-2 mb-3">
                   <Trophy className="size-4 text-primary" />
-                  {lang === "zh" ? "荣誉与学会" : "Awards & memberships"}
+                  {c("Awards & memberships", "荣誉与学会", "Награды и профессиональные сообщества")}
                 </h3>
                 <ul className="space-y-2 text-sm text-muted-foreground">
                   {(lang === "zh" ? doctor.awardsZh : doctor.awardsEn).map((line) => (
@@ -213,11 +214,11 @@ const DoctorDetail = () => {
             {/* Cases */}
             <div>
               <h2 className="font-display text-2xl font-medium tracking-tight mb-4">
-                {lang === "zh" ? `本医师真实案例（${cases.length}）` : `Verified cases by this surgeon (${cases.length})`}
+                {c(`Verified cases by this surgeon (${cases.length})`, `本医师真实案例（${cases.length}）`, `Проверенные случаи этого врача (${cases.length})`)}
               </h2>
               {cases.length === 0 ? (
                 <p className="text-sm text-muted-foreground">
-                  {lang === "zh" ? "暂无公开案例 · 预约面诊可查看私密相册。" : "No public cases yet — book a consult to view private galleries."}
+                  {c("No public cases yet — book a consult to view private galleries.", "暂无公开案例 · 预约面诊可查看私密相册。", "Публичных случаев пока нет — запишитесь на консультацию, чтобы запросить закрытое портфолио.")}
                 </p>
               ) : (
                 <TikTokWall items={cases} lang={lang} fmtPrice={fmt} variant="wall" />
@@ -228,12 +229,12 @@ const DoctorDetail = () => {
           {/* Sidebar */}
           <aside className="lg:col-span-4 space-y-6">
             <div className="rounded-3xl bg-gradient-to-br from-[hsl(155,60%,90%)] to-[hsl(50,80%,92%)] p-5 shadow-soft">
-              <p className="text-xs text-foreground/60">{lang === "zh" ? "预约本医师" : "Book with this surgeon"}</p>
+              <p className="text-xs text-foreground/60">{c("Book with this surgeon", "预约本医师", "Запись к этому врачу")}</p>
               <p className="font-display text-xl font-semibold mt-1 leading-tight">
-                {lang === "zh" ? "免费 1 对 1 面诊" : "Free 1-on-1 consult"}
+                {c("Free 1-on-1 consult", "免费 1 对 1 面诊", "Бесплатная индивидуальная консультация")}
               </p>
               <p className="text-xs text-foreground/70 mt-2">
-                {lang === "zh" ? "全程中英双语助理 · 含医疗签证与机场接送。" : "English-speaking coordinator · medical visa & airport pickup included."}
+                {c("English-speaking coordinator · medical visa and airport pickup support.", "全程中英双语助理 · 提供医疗签证与机场接送协助。", "Англоязычный координатор · помощь с медицинской визой и трансфером из аэропорта.")}
               </p>
               <Button className="mt-4 w-full rounded-2xl bg-foreground text-background hover:bg-foreground/90">
                 <MessageCircle className="size-4" /> {t("cl.cta")}
@@ -242,7 +243,7 @@ const DoctorDetail = () => {
 
             <div className="rounded-3xl bg-card shadow-soft p-5">
               <h3 className="font-display text-base font-semibold mb-3">
-                {lang === "zh" ? "参考价目表" : "Reference price list"}
+                {c("Reference price list", "参考价目表", "Ориентировочные цены")}
               </h3>
               <ul className="divide-y divide-border">
                 {doctor.priceList.map((p) => (
@@ -257,7 +258,7 @@ const DoctorDetail = () => {
             <div className="rounded-3xl bg-card shadow-soft p-5">
               <h3 className="font-display text-base font-semibold flex items-center gap-2 mb-3">
                 <Languages className="size-4 text-primary" />
-                {lang === "zh" ? "可用语言" : "Languages spoken"}
+                {c("Languages spoken", "可用语言", "Языки общения")}
               </h3>
               <div className="flex flex-wrap gap-1.5">
                 {doctor.languages.map((l) => (
@@ -271,7 +272,7 @@ const DoctorDetail = () => {
         {/* Other doctors */}
         <div className="mt-16">
           <h2 className="font-display text-2xl md:text-3xl font-medium tracking-tight mb-6">
-            {lang === "zh" ? "其他持证医师" : "Other verified surgeons"}
+            {c("Other verified surgeons", "其他持证医师", "Другие проверенные врачи")}
           </h2>
           <div className="grid md:grid-cols-3 gap-6">
             {otherDoctors.map((d) => (

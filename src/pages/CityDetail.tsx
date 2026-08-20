@@ -15,6 +15,7 @@ const CityDetail = () => {
   const { slug = "" } = useParams();
   const city = findCity(slug);
   const { lang, fmt } = useAsia();
+  const c = (en: string, zh: string, ru: string) => lang === "zh" ? zh : lang === "ru" ? ru : en;
 
   if (!city) return <Navigate to="/cities" replace />;
 
@@ -55,7 +56,7 @@ const CityDetail = () => {
           className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition"
         >
           <ArrowLeft className="size-4" />
-          {lang === "zh" ? "返回城市列表" : "All cities"}
+          {c("All cities", "返回城市列表", "Все города")}
         </Link>
       </div>
 
@@ -65,7 +66,7 @@ const CityDetail = () => {
           <div className="lg:col-span-7 space-y-5">
             <span className="pill bg-accent text-accent-foreground">
               <MapPin className="size-3.5" />
-              {lang === "zh" ? "城市指南" : "City guide"}
+              {c("City guide", "城市指南", "Гид по городу")}
             </span>
             <h1 className="font-display text-5xl md:text-6xl font-medium tracking-tight leading-[0.95]">
               {lang === "zh" ? city.zh : city.en}
@@ -78,10 +79,10 @@ const CityDetail = () => {
             </p>
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl pt-2">
-              <HeroStat icon={<Building2 className="size-4" />} value={lang === "zh" ? "当地" : "Local"} label={lang === "zh" ? "机构信息" : "provider information"} />
-              <HeroStat icon={<Stethoscope className="size-4" />} value={lang === "zh" ? "审核" : "Review"} label={lang === "zh" ? "医生资料" : "doctor profiles"} />
-              <HeroStat icon={<Sparkles className="size-4" />} value={lang === "zh" ? "项目" : "Care"} label={lang === "zh" ? "热门项目" : "popular procedures"} />
-              <HeroStat icon={<Wallet className="size-4" />} value={lang === "zh" ? "明细" : "Itemized"} label={lang === "zh" ? "报价说明" : "pricing guidance"} />
+              <HeroStat icon={<Building2 className="size-4" />} value={c("Local", "当地", "Местные")} label={c("provider information", "机构信息", "данные клиник")} />
+              <HeroStat icon={<Stethoscope className="size-4" />} value={c("Review", "审核", "Проверка")} label={c("doctor profiles", "医生资料", "профилей врачей")} />
+              <HeroStat icon={<Sparkles className="size-4" />} value={c("Care", "项目", "Услуги")} label={c("popular procedures", "热门项目", "популярные процедуры")} />
+              <HeroStat icon={<Wallet className="size-4" />} value={c("Itemized", "明细", "Подробно")} label={c("pricing guidance", "报价说明", "ориентиры по ценам")} />
             </div>
           </div>
 
@@ -90,7 +91,7 @@ const CityDetail = () => {
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
             <div className="absolute bottom-5 left-5 right-5 text-background">
               <p className="text-xs uppercase tracking-wider opacity-80 mb-2">
-                {lang === "zh" ? "热门项目" : "Trending procedures"}
+                {c("Trending procedures", "热门项目", "Популярные процедуры")}
               </p>
               <div className="flex flex-wrap gap-1.5">
                 {(lang === "zh" ? city.hotZh : city.hotEn).map((h) => (
@@ -108,7 +109,7 @@ const CityDetail = () => {
       <section className="container py-10">
         <div className="rounded-3xl bg-card shadow-soft p-6 md:p-8">
           <h2 className="font-display text-2xl md:text-3xl font-semibold mb-5">
-            {lang === "zh" ? `为什么选 ${city.zh}？` : `Why ${city.en}?`}
+            {c(`Why ${city.en}?`, `为什么选 ${city.zh}？`, `Почему ${city.en}?`)}
           </h2>
           <div className="grid md:grid-cols-3 gap-4">
             {(lang === "zh" ? city.whyZh : city.whyEn).map((w) => (
@@ -127,23 +128,23 @@ const CityDetail = () => {
           <div>
             <span className="pill bg-accent text-accent-foreground mb-2">
               <Stethoscope className="size-3.5" />
-              {lang === "zh" ? "医生资料" : "Doctor profiles"}
+              {c("Doctor profiles", "医生资料", "Профили врачей")}
             </span>
             <h2 className="font-display text-3xl md:text-4xl font-semibold">
-              {lang === "zh" ? `${city.zh}医生资料` : `Surgeons in ${city.en}`}
+              {c(`Surgeons in ${city.en}`, `${city.zh}医生资料`, `Врачи в городе ${city.en}`)}
             </h2>
           </div>
           <Link
             to="/doctors"
             className="hidden md:inline-flex items-center gap-1 text-sm font-semibold text-primary hover:translate-x-0.5 transition"
           >
-            {lang === "zh" ? "全部医生" : "All surgeons"} <ArrowRight className="size-4" />
+            {c("All surgeons", "全部医生", "Все врачи")} <ArrowRight className="size-4" />
           </Link>
         </div>
 
         {cityDoctors.length === 0 ? (
           <p className="text-sm text-muted-foreground">
-            {lang === "zh" ? "本城市暂无平台主推医师，可在下方提交匹配申请。" : "No Cosmetics Asia-listed surgeons yet for this city — request a match below."}
+            {c("No Cosmetics Asia-listed surgeons yet for this city — request a match below.", "本城市暂无平台主推医师，可在下方提交匹配申请。", "В этом городе пока нет опубликованных врачей Cosmetics Asia — отправьте запрос на подбор ниже.")}
           </p>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -194,10 +195,10 @@ const CityDetail = () => {
         <section className="container py-10">
           <div className="flex items-end justify-between mb-5 gap-4">
             <h2 className="font-display text-3xl md:text-4xl font-semibold">
-              {lang === "zh" ? `${city.zh}恢复日记预览` : `Recovery diary previews from ${city.en}`}
+              {c(`Recovery diary previews from ${city.en}`, `${city.zh}恢复日记预览`, `Дневники восстановления из города ${city.en}`)}
             </h2>
             <Link to="/cases" className="text-sm font-semibold text-primary hover:translate-x-0.5 transition inline-flex items-center gap-1">
-              {lang === "zh" ? "全部案例" : "All cases"} <ArrowRight className="size-4" />
+              {c("All cases", "全部案例", "Все случаи")} <ArrowRight className="size-4" />
             </Link>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -228,13 +229,13 @@ const CityDetail = () => {
       <section className="container py-10">
         <div className="rounded-3xl bg-gradient-to-r from-[hsl(190,70%,92%)] via-[hsl(155,60%,90%)] to-[hsl(50,80%,92%)] p-6 md:p-8 shadow-soft">
           <h2 className="font-display text-2xl md:text-3xl font-semibold mb-5">
-            {lang === "zh" ? "出行配套" : "Travel essentials"}
+            {c("Travel essentials", "出行配套", "Всё необходимое для поездки")}
           </h2>
           <div className="grid md:grid-cols-4 gap-4">
-            <TravelCard icon={<Plane className="size-5 text-primary" />} title={lang === "zh" ? "机场" : "Airports"} body={travel.airport} />
-            <TravelCard icon={<FileCheck2 className="size-5 text-primary" />} title={lang === "zh" ? "签证" : "Visa"} body={travel.visa} />
-            <TravelCard icon={<Hotel className="size-5 text-primary" />} title={lang === "zh" ? "恢复酒店" : "Recovery hotels"} body={travel.hotel} />
-            <TravelCard icon={<Languages className="size-5 text-primary" />} title={lang === "zh" ? "语言" : "Languages"} body={travel.lang} />
+            <TravelCard icon={<Plane className="size-5 text-primary" />} title={c("Airports", "机场", "Аэропорты")} body={travel.airport} />
+            <TravelCard icon={<FileCheck2 className="size-5 text-primary" />} title={c("Visa", "签证", "Виза")} body={travel.visa} />
+            <TravelCard icon={<Hotel className="size-5 text-primary" />} title={c("Recovery hotels", "恢复酒店", "Отели для восстановления")} body={travel.hotel} />
+            <TravelCard icon={<Languages className="size-5 text-primary" />} title={c("Languages", "语言", "Языки")} body={travel.lang} />
           </div>
         </div>
       </section>
@@ -244,17 +245,17 @@ const CityDetail = () => {
         <div className="rounded-3xl bg-foreground text-background p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <div>
             <h2 className="font-display text-2xl md:text-3xl font-semibold">
-              {lang === "zh" ? `让 Cosmetics Asia 为你规划 ${city.zh} 行程` : `Plan your ${city.en} trip with Cosmetics Asia`}
+              {c(`Plan your ${city.en} trip with Cosmetics Asia`, `让 Cosmetics Asia 为你规划 ${city.zh} 行程`, `Спланируйте поездку в ${city.en} с Cosmetics Asia`)}
             </h2>
             <p className="text-sm text-background/80 mt-2 max-w-xl">
-              {lang === "zh" ? "主刀候选 / 报价 / 机构预约 / 恢复酒店，全程中英文专属顾问对接。" : "Surgeon shortlist, price quote, hospital booking and recovery hotel — handled by an English-speaking coordinator."}
+              {c("Surgeon shortlist, price quote, hospital booking and recovery hotel — handled by an English-speaking coordinator.", "主刀候选 / 报价 / 机构预约 / 恢复酒店，全程中英文专属顾问对接。", "Подбор врачей, смета, запись в клинику и отель для восстановления — с поддержкой англоязычного координатора.")}
             </p>
           </div>
           <Link
             to="/doctors"
             className="inline-flex items-center gap-2 rounded-full bg-background text-foreground px-6 py-3 text-sm font-semibold hover:opacity-90 transition shrink-0"
           >
-            {lang === "zh" ? "立即匹配主刀" : "Get matched"} <ArrowRight className="size-4" />
+            {c("Get matched", "立即匹配主刀", "Подобрать врача")} <ArrowRight className="size-4" />
           </Link>
         </div>
       </section>

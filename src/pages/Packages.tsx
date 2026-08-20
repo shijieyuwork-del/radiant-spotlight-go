@@ -4,6 +4,7 @@ import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
 import { useAsia } from "@/lib/asia-i18n";
+import { asiaCopy } from "@/lib/asia-copy";
 import serviceAirportPickup from "@/assets/service-airport-pickup.jpg";
 import serviceHotelBooking from "@/assets/service-hotel-booking.jpg";
 import serviceClinicTranslation from "@/assets/service-clinic-translation.jpg";
@@ -240,8 +241,26 @@ const JOURNEY_STEPS = [
 // Keep the sales section easy to restore after the temporary pause.
 const SHOW_PACKAGE_SALES = false;
 
+const JOURNEY_RU = [
+  ["Онлайн-консультация", "Запишитесь на медицинскую консультацию", "Выберите врача или клинику в Китае либо отправьте медицинские документы, чтобы мы помогли подобрать подходящего специалиста. План может включать предварительный разбор документов, 40-минутную видеоконсультацию, перевод и письменное резюме.", ""],
+  ["Перелёт и документы", "Организуйте поездку и визу", "После подтверждения приёма мы поможем подготовить детали прибытия и необходимые документы. Для подходящих записей в партнёрские клиники может быть доступен трансфер из аэропорта и помощь после прилёта.", "Если требуется виза, мы можем помочь оформить медицинское приглашение. Сообщите подтверждённые данные рейса минимум за пять дней до прибытия."],
+  ["До вылета", "Выберите поддержку на месте", "Выберите объём сопровождения в соответствии с вашими потребностями. До вылета вы получите подтверждённый маршрут, данные трансфера, информацию об отеле и практические инструкции.", "Координатор заранее подтвердит, что включено, что доступно дополнительно и какие расходы оплачиваются отдельно."],
+  ["Клиника и восстановление", "Лечение с координационной поддержкой", "Во время включённых визитов двуязычный координатор помогает общаться с лечащей командой и организовать практические следующие шаги.", "Медицинские решения принимает лицензированный лечащий врач. Поддержка доступна в часы, указанные в выбранном плане."],
+  ["Дополнительная поездка", "Восстанавливайтесь и путешествуйте, когда будете готовы", "Если врач разрешит поездки, мы можем познакомить вас с проверенными туристическими партнёрами или помочь составить маршрут с учётом восстановления.", "Экскурсии необязательны и не заменяют рекомендации врача по восстановлению."],
+  ["После возвращения", "Последующее сопровождение", "После возвращения домой оставайтесь на связи через WhatsApp, WeChat или электронную почту. При необходимости мы поможем организовать дистанционную консультацию и перевод.", "Знаете человека, который планирует лечение в Китае? Спросите нашу команду о действующей реферальной программе."],
+] as const;
+
+const SERVICES_RU = [
+  ["Трансфер из аэропорта", "Мы заранее уточняем данные прибытия и организуем прямой трансфер между аэропортом и подтверждённым отелем или клиникой.", "Данные прибытия подтверждаются до поездки"],
+  ["Отель рядом с клиникой", "Сообщите даты, бюджет и требования к восстановлению. Мы предложим подходящие варианты и поможем согласовать бронирование.", "Варианты подбираются под маршрут и бюджет"],
+  ["Перевод в клинике", "Двуязычный координатор помогает общаться во время запланированных визитов, включая вопросы врачу, инструкции по уходу и следующие шаги.", "Понятное общение во время визитов"],
+  ["Перевод и подготовка медицинских документов", "Мы систематизируем предоставленные документы и переводим важную информацию в удобный для клиники файл.", "Документы подготовлены для медицинского рассмотрения"],
+  ["Ежедневная онлайн-поддержка", "В течение семи дней можно связаться с координатором через WeChat, WhatsApp или сообщения с 10:00 до 22:00 по пекинскому времени.", "10:00–22:00 по пекинскому времени · 7 дней"],
+] as const;
+
 const Packages = () => {
   const { lang } = useAsia();
+  const c = <T,>(en: T, zh: T, ru: T) => asiaCopy(lang, { en, zh, ru });
   return (
     <>
       <PageMeta
@@ -256,17 +275,19 @@ const Packages = () => {
       <section className="container py-9 text-center md:py-16">
         <span className="pill bg-accent text-accent-foreground mb-3">
           <Sparkles className="size-3.5" />
-          {lang === "zh" ? "中国医疗行程支持" : "Medical travel support"}
+          {c("Medical travel support", "中国医疗行程支持", "Поддержка медицинской поездки")}
         </span>
         <h1 className="mx-auto max-w-3xl font-display text-[2.15rem] font-medium leading-[1.04] tracking-tight sm:text-4xl md:text-5xl">
           {lang === "zh" ? (
             <>安心安排你的<em className="text-primary not-italic">中国就医之旅</em></>
+          ) : lang === "ru" ? (
+            <>Поддержка вашей <em className="text-primary not-italic">поездки на лечение в Китай</em></>
           ) : (
             <>Support for your <em className="text-primary not-italic">care journey in China</em></>
           )}
         </h1>
         <p className="text-muted-foreground mt-3 max-w-2xl mx-auto">
-          {lang === "zh" ? "从机场接送、诊所翻译到住宿建议与恢复支持，我们会根据你已确认的就医计划协助安排。" : "Airport pickup, clinic translation, accommodation guidance and recovery support—coordinated around your confirmed care plan."}
+          {c("Airport pickup, clinic translation, accommodation guidance and recovery support—coordinated around your confirmed care plan.", "从机场接送、诊所翻译到住宿建议与恢复支持，我们会根据你已确认的就医计划协助安排。", "Трансфер из аэропорта, перевод в клинике, помощь с проживанием и поддержка во время восстановления — по вашему подтверждённому плану лечения.")}
         </p>
       </section>
 
@@ -448,23 +469,23 @@ const Packages = () => {
             <div>
               <span className="pill mb-3 bg-accent text-accent-foreground">
                 <Route className="size-3.5" />
-                {lang === "zh" ? "从咨询到回国随访" : "Your journey, step by step"}
+                {c("Your journey, step by step", "从咨询到回国随访", "Ваш путь — шаг за шагом")}
               </span>
               <h2 id="medical-journey-title" className="max-w-3xl font-display text-3xl font-medium leading-tight tracking-tight md:text-5xl">
                 {lang === "zh" ? (
                   <>六个步骤，<em className="not-italic text-primary">安心完成中国医疗行程</em></>
+                ) : lang === "ru" ? (
+                  <>Шесть понятных этапов, <em className="not-italic text-primary">одна согласованная поездка</em></>
                 ) : (
                   <>Six clear steps, <em className="not-italic text-primary">one coordinated journey</em></>
                 )}
               </h2>
               <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">
-                {lang === "zh"
-                  ? "快速了解从首次线上咨询、签证与抵达到治疗、恢复和回国随访的完整流程。"
-                  : "See what happens from your first online consultation through travel, treatment, recovery and follow-up at home."}
+                {c("See what happens from your first online consultation through travel, treatment, recovery and follow-up at home.", "快速了解从首次线上咨询、签证与抵达到治疗、恢复和回国随访的完整流程。", "Узнайте, как проходит путь от первой онлайн-консультации и поездки до лечения, восстановления и наблюдения после возвращения домой.")}
               </p>
             </div>
             <a href="https://wa.me/14708613825?text=Hi%20Cosmetics%20Asia%2C%20I%20would%20like%20help%20planning%20my%20medical%20journey%20to%20China." target="_blank" rel="noreferrer" className="inline-flex min-h-12 shrink-0 items-center justify-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground shadow-soft transition hover:-translate-y-0.5 hover:bg-primary/90">
-              {lang === "zh" ? "开始规划行程" : "Start planning your journey"}
+              {c("Start planning your journey", "开始规划行程", "Начать планирование")}
               <ArrowRight className="size-4" />
             </a>
           </div>
@@ -478,13 +499,13 @@ const Packages = () => {
                   <div className="relative -mx-5 -mt-5 mb-5 aspect-[16/6] overflow-hidden bg-muted sm:-mx-6 sm:-mt-6 md:-mx-7 md:-mt-7">
                     <img
                       src={step.image}
-                      alt={lang === "zh" ? step.titleZh : step.titleEn}
+                      alt={lang === "zh" ? step.titleZh : lang === "ru" ? JOURNEY_RU[index][1] : step.titleEn}
                       loading="lazy"
                       className="absolute inset-0 size-full object-cover transition-transform duration-700 group-hover:scale-[1.035]"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-foreground/35 via-transparent to-transparent" />
                     <span className="absolute bottom-3 left-4 rounded-full border border-white/50 bg-white/85 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-foreground shadow-soft backdrop-blur-md sm:left-5">
-                      {lang === "zh" ? `第 ${index + 1} 步` : `Step ${index + 1}`}
+                      {c(`Step ${index + 1}`, `第 ${index + 1} 步`, `Этап ${index + 1}`)}
                     </span>
                   </div>
                   <div className="pointer-events-none absolute -right-5 -top-8 font-display text-[7rem] font-semibold leading-none text-primary/[0.055] transition group-hover:text-primary/[0.09]" aria-hidden="true">
@@ -497,24 +518,24 @@ const Packages = () => {
                     <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-center gap-2">
                         <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-primary">
-                          {lang === "zh" ? `第 ${index + 1} 步` : `Step ${index + 1}`}
+                          {c(`Step ${index + 1}`, `第 ${index + 1} 步`, `Этап ${index + 1}`)}
                         </span>
                         <span className="rounded-full bg-accent px-2.5 py-1 text-[10px] font-semibold text-foreground/75">
-                          {lang === "zh" ? step.eyebrowZh : step.eyebrowEn}
+                          {lang === "zh" ? step.eyebrowZh : lang === "ru" ? JOURNEY_RU[index][0] : step.eyebrowEn}
                         </span>
                       </div>
                       <h3 className="mt-2 font-display text-xl font-semibold leading-tight tracking-tight sm:text-2xl">
-                        {lang === "zh" ? step.titleZh : step.titleEn}
+                        {lang === "zh" ? step.titleZh : lang === "ru" ? JOURNEY_RU[index][1] : step.titleEn}
                       </h3>
                     </div>
                   </div>
                   <p className="relative mt-4 text-sm leading-7 text-foreground/75">
-                    {lang === "zh" ? step.descriptionZh : step.descriptionEn}
+                    {lang === "zh" ? step.descriptionZh : lang === "ru" ? JOURNEY_RU[index][2] : step.descriptionEn}
                   </p>
-                  {(lang === "zh" ? step.noteZh : step.noteEn) && (
+                  {(lang === "zh" ? step.noteZh : lang === "ru" ? JOURNEY_RU[index][3] : step.noteEn) && (
                     <div className="relative mt-4 flex items-start gap-2 rounded-2xl bg-secondary/55 px-4 py-3 text-xs leading-relaxed text-muted-foreground">
                       <Check className="mt-0.5 size-3.5 shrink-0 text-primary" />
-                      <span>{lang === "zh" ? step.noteZh : step.noteEn}</span>
+                      <span>{lang === "zh" ? step.noteZh : lang === "ru" ? JOURNEY_RU[index][3] : step.noteEn}</span>
                     </div>
                   )}
                 </article>
@@ -527,16 +548,14 @@ const Packages = () => {
           <div className="bg-[linear-gradient(120deg,hsl(190_75%_91%),hsl(155_52%_89%)_55%,hsl(48_85%_92%))] px-6 pb-20 pt-8 md:px-10 md:pb-24 md:pt-10">
             <span className="pill mb-3 bg-white/80 text-foreground shadow-soft backdrop-blur">
               <ShieldCheck className="size-3.5 text-primary" />
-              {lang === "zh" ? "我们的协助服务" : "Our support services"}
+              {c("Our support services", "我们的协助服务", "Наша помощь")}
             </span>
             <h2 id="included-services-title" className="max-w-2xl font-display text-3xl font-medium tracking-tight md:text-4xl">
-              {lang === "zh" ? "抵达中国以后，" : "Practical support for"}{" "}
-              <em className="not-italic text-primary">{lang === "zh" ? "我们提供这些协助服务" : "your time in China"}</em>
+              {c("Practical support for", "抵达中国以后，", "Практическая поддержка")}{" "}
+              <em className="not-italic text-primary">{c("your time in China", "我们提供这些协助服务", "во время поездки в Китай")}</em>
             </h2>
             <p className="mt-3 max-w-2xl text-sm leading-relaxed text-foreground/65 md:text-base">
-              {lang === "zh"
-                ? "从机场接送到诊所沟通，我们提前说明服务内容、使用方式和边界，让你安心安排中国医疗行程。"
-                : "From airport arrival to clinic communication, each service is coordinated around your confirmed itinerary—with clear scope and no hidden assumptions."}
+              {c("From airport arrival to clinic communication, each service is coordinated around your confirmed itinerary—with clear scope and no hidden assumptions.", "从机场接送到诊所沟通，我们提前说明服务内容、使用方式和边界，让你安心安排中国医疗行程。", "От встречи в аэропорту до общения в клинике: каждая услуга согласуется с подтверждённым маршрутом, а её объём объясняется заранее.")}
             </p>
           </div>
 
@@ -551,7 +570,7 @@ const Packages = () => {
                   <div className="relative aspect-[16/8] overflow-hidden rounded-2xl bg-muted min-[430px]:aspect-[4/3]">
                     <img
                       src={service.image}
-                      alt={lang === "zh" ? service.titleZh : service.titleEn}
+                      alt={lang === "zh" ? service.titleZh : lang === "ru" ? SERVICES_RU[index][0] : service.titleEn}
                       loading="lazy"
                       className="absolute inset-0 size-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                     />
@@ -561,14 +580,14 @@ const Packages = () => {
                   </div>
                   <div className="min-w-0 py-0.5">
                     <h3 className="font-display text-lg font-semibold leading-tight tracking-tight md:text-xl">
-                      {lang === "zh" ? service.titleZh : service.titleEn}
+                      {lang === "zh" ? service.titleZh : lang === "ru" ? SERVICES_RU[index][0] : service.titleEn}
                     </h3>
                     <p className="mt-2 text-xs leading-relaxed text-muted-foreground md:text-[13px]">
-                      {lang === "zh" ? service.descriptionZh : service.descriptionEn}
+                      {lang === "zh" ? service.descriptionZh : lang === "ru" ? SERVICES_RU[index][1] : service.descriptionEn}
                     </p>
                     <div className="mt-2.5 flex items-center gap-1.5 text-[11px] font-semibold leading-snug text-foreground/75">
                       <Check className="size-3.5 shrink-0 text-primary" />
-                      {lang === "zh" ? service.noteZh : service.noteEn}
+                      {lang === "zh" ? service.noteZh : lang === "ru" ? SERVICES_RU[index][2] : service.noteEn}
                     </div>
                   </div>
                 </article>

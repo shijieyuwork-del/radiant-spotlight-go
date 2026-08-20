@@ -7,9 +7,11 @@ import TikTokWall from "@/components/TikTokWall";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
 import { DOCTORS } from "@/data/doctors";
 import { useAsia } from "@/lib/asia-i18n";
+import { asiaCopy } from "@/lib/asia-copy";
 
 const Cases = () => {
   const { t, lang, fmt } = useAsia();
+  const c = (en: string, zh: string, ru: string) => asiaCopy(lang, { en, zh, ru });
   const [q, setQ] = useState("");
   const [activeTreatment, setActiveTreatment] = useState("");
   const [activeCity, setActiveCity] = useState("");
@@ -85,9 +87,9 @@ const Cases = () => {
         <div className="mx-auto mb-6 max-w-2xl text-center md:mb-8">
           <span className="pill bg-accent text-accent-foreground mb-3"><Heart className="size-3.5" /> {t("cases.kicker")}</span>
           <h1 className="font-display text-[2.15rem] font-medium leading-[1.04] tracking-tight sm:text-4xl md:text-5xl">
-            {lang === "zh" ? "真实恢复历程，" : "Real recovery journeys, "}<em className="text-primary not-italic">{lang === "zh" ? "从面诊到最终效果" : "from consultation to final results."}</em>
+            {c("Real recovery journeys, ", "真实恢复历程，", "Реальные истории восстановления: ")}<em className="text-primary not-italic">{c("from consultation to final results.", "从面诊到最终效果", "от консультации до результата.")}</em>
           </h1>
-          <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground md:text-base">{lang === "zh" ? "按项目、恢复阶段或中国城市筛选，看看整个过程真实是什么样。" : "Filter by procedure, recovery stage or China destination—and see what the process actually looks like."}</p>
+          <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground md:text-base">{c("Filter by procedure, recovery stage or China destination—and see what the process actually looks like.", "按项目、恢复阶段或中国城市筛选，看看整个过程真实是什么样。", "Фильтруйте по процедуре, этапу восстановления или городу Китая и смотрите весь путь пациента.")}</p>
         </div>
 
         <div className="mx-auto mb-4 flex max-w-3xl flex-col gap-2 rounded-2xl border border-border/70 bg-card p-1.5 shadow-soft sm:flex-row sm:rounded-full">
@@ -97,21 +99,21 @@ const Cases = () => {
               value={q}
               onChange={(e) => setQ(e.target.value)}
               className="w-full bg-transparent outline-none text-sm font-medium"
-              placeholder={lang === "zh" ? "搜索项目、恢复阶段或城市…" : "Search procedures, recovery stages or cities…"}
+              placeholder={c("Search procedures, recovery stages or cities…", "搜索项目、恢复阶段或城市…", "Поиск по процедуре, этапу или городу…")}
             />
           </div>
         </div>
 
         <div className="mx-auto mb-4 grid max-w-3xl grid-cols-1 gap-2 min-[430px]:grid-cols-3">
-          <FilterSelect value={activeTreatment} onChange={setActiveTreatment} label={lang === "zh" ? "全部项目" : "All procedures"} options={treatments} />
-          <FilterSelect value={activeStage} onChange={setActiveStage} label={lang === "zh" ? "全部恢复阶段" : "All recovery stages"} options={["Consultation", "Week 1", "Month 1", "Month 3+", "Final result", "Recovery update"].map((key) => ({ key, label: lang === "zh" ? ({ Consultation: "面诊", "Week 1": "术后第 1 周", "Month 1": "术后第 1 月", "Month 3+": "术后 3 个月以上", "Final result": "最终效果", "Recovery update": "恢复更新" } as Record<string,string>)[key] : key }))} />
-          <FilterSelect value={activeCity} onChange={setActiveCity} label={lang === "zh" ? "全部城市" : "All cities"} options={cities} />
+          <FilterSelect value={activeTreatment} onChange={setActiveTreatment} label={c("All procedures", "全部项目", "Все процедуры")} options={treatments} />
+          <FilterSelect value={activeStage} onChange={setActiveStage} label={lang === "zh" ? "全部恢复阶段" : lang === "ru" ? "Все этапы восстановления" : "All recovery stages"} options={["Consultation", "Week 1", "Month 1", "Month 3+", "Final result", "Recovery update"].map((key) => ({ key, label: lang === "zh" ? ({ Consultation: "面诊", "Week 1": "术后第 1 周", "Month 1": "术后第 1 月", "Month 3+": "术后 3 个月以上", "Final result": "最终效果", "Recovery update": "恢复更新" } as Record<string,string>)[key] : lang === "ru" ? ({ Consultation: "Консультация", "Week 1": "1-я неделя", "Month 1": "1-й месяц", "Month 3+": "3+ месяца", "Final result": "Итоговый результат", "Recovery update": "Ход восстановления" } as Record<string,string>)[key] : key }))} />
+          <FilterSelect value={activeCity} onChange={setActiveCity} label={c("All cities", "全部城市", "Все города")} options={cities} />
         </div>
 
         <div className="mb-7 flex items-center justify-center gap-3 text-xs text-muted-foreground md:mb-10">
           <SlidersHorizontal className="size-3" />
           <span>
-            {lang === "zh" ? `共 ${items.length} 个案例` : `${items.length} case${items.length === 1 ? "" : "s"}`}
+            {lang === "zh" ? `共 ${items.length} 个案例` : lang === "ru" ? `${items.length} историй` : `${items.length} case${items.length === 1 ? "" : "s"}`}
           </span>
           {hasFilters && (
             <button
@@ -120,18 +122,18 @@ const Cases = () => {
               }}
               className="inline-flex items-center gap-1 font-semibold text-primary hover:underline"
             >
-              {lang === "zh" ? "清空筛选" : "Clear"}
+              {c("Clear", "清空筛选", "Сбросить")}
             </button>
           )}
         </div>
 
         {items.length === 0 ? (
           <p className="text-center text-muted-foreground py-12 text-sm">
-            {lang === "zh" ? "没有匹配的案例，换个筛选试试。" : "No matching cases — try a different filter."}
+            {c("No matching cases — try a different filter.", "没有匹配的案例，换个筛选试试。", "Подходящих историй не найдено — измените фильтры.")}
           </p>
         ) : (
           <div>
-            <div className="mb-4 flex items-end justify-between gap-4 md:mb-5"><div><span className="pill bg-accent text-accent-foreground">{lang === "zh" ? "最新更新" : "Latest recovery updates"}</span><h2 className="mt-3 font-display text-[1.75rem] font-medium leading-tight md:text-3xl">{lang === "zh" ? "选择一个历程继续观看" : "Choose a journey to continue"}</h2></div><span className="hidden items-center gap-1 text-sm font-semibold text-primary sm:inline-flex">{lang === "zh" ? "点击卡片查看完整时间线" : "Open a card for the full timeline"}<ArrowRight className="size-4" /></span></div>
+            <div className="mb-4 flex items-end justify-between gap-4 md:mb-5"><div><span className="pill bg-accent text-accent-foreground">{c("Latest recovery updates", "最新更新", "Последние обновления")}</span><h2 className="mt-3 font-display text-[1.75rem] font-medium leading-tight md:text-3xl">{c("Choose a journey to continue", "选择一个历程继续观看", "Выберите историю и продолжайте просмотр")}</h2></div><span className="hidden items-center gap-1 text-sm font-semibold text-primary sm:inline-flex">{c("Open a card for the full timeline", "点击卡片查看完整时间线", "Откройте карточку, чтобы увидеть весь путь")}<ArrowRight className="size-4" /></span></div>
             <TikTokWall items={items} lang={lang} fmtPrice={fmt} variant="cases" />
           </div>
         )}

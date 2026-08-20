@@ -59,10 +59,10 @@ const CaseDetail = () => {
           <AsiaNavbar homeLinks={false} />
           <div className="container py-24 text-center">
             <p className="text-muted-foreground">
-              {lang === "zh" ? "案例不存在。" : "Case not found."}
+              {lang === "zh" ? "案例不存在。" : lang === "ru" ? "История не найдена." : "Case not found."}
             </p>
             <Link to="/cases" className="text-primary underline mt-4 inline-block">
-              {lang === "zh" ? "返回案例列表" : "Back to all cases"}
+              {lang === "zh" ? "返回案例列表" : lang === "ru" ? "Вернуться ко всем историям" : "Back to all cases"}
             </Link>
           </div>
           <Footer />
@@ -155,14 +155,14 @@ const CaseDetail = () => {
               {ended && (
                 <div className="absolute inset-0 z-20 grid place-items-center bg-black/65 p-6 backdrop-blur-[2px]" onClick={(event) => event.stopPropagation()}>
                   <div className="max-w-xs text-center text-white">
-                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/65">{lang === "zh" ? "下一个案例" : "Up next"}</p>
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/65">{lang === "zh" ? "下一个案例" : lang === "ru" ? "Следующая история" : "Up next"}</p>
                     <p className="mt-2 font-display text-2xl font-medium leading-tight">{nextItem.treatment[lang]}</p>
                     <p className="mt-2 line-clamp-2 text-sm text-white/75">{nextItem.caption[lang]}</p>
                     <Button asChild size="lg" className="mt-5 rounded-full bg-primary px-7 text-primary-foreground hover:bg-primary/90">
-                      <Link to={`/cases/${nextItem.id}`}>{lang === "zh" ? "播放下一个" : "Watch next case"}<ArrowRight className="ml-2 size-4" /></Link>
+                      <Link to={`/cases/${nextItem.id}`}>{lang === "zh" ? "播放下一个" : lang === "ru" ? "Смотреть следующую" : "Watch next case"}<ArrowRight className="ml-2 size-4" /></Link>
                     </Button>
                     <button type="button" className="mt-3 block w-full text-xs text-white/70 hover:text-white" onClick={() => { setEnded(false); ref.current?.play(); }}>
-                      {lang === "zh" ? "重新播放当前视频" : "Replay this video"}
+                      {lang === "zh" ? "重新播放当前视频" : lang === "ru" ? "Повторить видео" : "Replay this video"}
                     </button>
                   </div>
                 </div>
@@ -197,13 +197,13 @@ const CaseDetail = () => {
               </div>
             </div>
 
-            <nav className="mx-auto mt-4 grid w-full max-w-md grid-cols-2 gap-3 lg:max-w-none" aria-label={lang === "zh" ? "案例浏览" : "Browse cases"}>
+            <nav className="mx-auto mt-4 grid w-full max-w-md grid-cols-2 gap-3 lg:max-w-none" aria-label={lang === "zh" ? "案例浏览" : lang === "ru" ? "Просмотр историй" : "Browse cases"}>
               <Link to={`/cases/${previousItem.id}`} className="group rounded-2xl border border-border/70 bg-card p-3 shadow-soft transition hover:-translate-y-0.5 hover:border-primary/30">
-                <span className="flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground"><ArrowLeft className="size-3.5" />{lang === "zh" ? "上一个" : "Previous"}</span>
+                <span className="flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground"><ArrowLeft className="size-3.5" />{lang === "zh" ? "上一个" : lang === "ru" ? "Предыдущая" : "Previous"}</span>
                 <span className="mt-1 block truncate text-sm font-semibold">{previousItem.treatment[lang]}</span>
               </Link>
               <Link to={`/cases/${nextItem.id}`} className="group rounded-2xl border border-primary/30 bg-primary/10 p-3 shadow-soft transition hover:-translate-y-0.5 hover:bg-primary/15">
-                <span className="flex items-center justify-end gap-1 text-[11px] font-semibold uppercase tracking-wider text-primary">{lang === "zh" ? "下一个" : "Next"}<ArrowRight className="size-3.5" /></span>
+                <span className="flex items-center justify-end gap-1 text-[11px] font-semibold uppercase tracking-wider text-primary">{lang === "zh" ? "下一个" : lang === "ru" ? "Следующая" : "Next"}<ArrowRight className="size-3.5" /></span>
                 <span className="mt-1 block truncate text-right text-sm font-semibold">{nextItem.treatment[lang]}</span>
               </Link>
             </nav>
@@ -224,7 +224,7 @@ const CaseDetail = () => {
               {item.city && (
                 <p className="text-sm flex items-center gap-2"><MapPin className="size-4 text-primary" /> {item.city[lang]}, China</p>
               )}
-              <p className="text-sm flex items-center gap-2"><ShieldCheck className="size-4 text-primary" /> {lang === "zh" ? "日记预览 · 核验状态待更新" : "Diary preview · verification status pending"}</p>
+              <p className="text-sm flex items-center gap-2"><ShieldCheck className="size-4 text-primary" /> {lang === "zh" ? "日记预览 · 核验状态待更新" : lang === "ru" ? "Предпросмотр дневника · проверка ожидается" : "Diary preview · verification status pending"}</p>
             </div>
 
             <div className="rounded-3xl border border-border/70 bg-card p-5 shadow-soft sm:p-6">
@@ -261,7 +261,7 @@ const CaseDetail = () => {
 
             {item.priceCny > 0 && <div className="rounded-3xl bg-gradient-to-br from-[hsl(155,60%,90%)] to-[hsl(50,80%,92%)] p-5 flex items-center justify-between gap-4 shadow-soft">
               <div>
-                <p className="text-xs text-foreground/60">{lang === "zh" ? "参考价格" : "Reference price"}</p>
+                <p className="text-xs text-foreground/60">{lang === "zh" ? "参考价格" : lang === "ru" ? "Ориентировочная цена" : "Reference price"}</p>
                 <p className="font-display text-3xl font-semibold mt-1">{fmt(item.priceCny)}</p>
               </div>
               <Button size="lg" className="rounded-2xl bg-foreground text-background hover:bg-foreground/90">
@@ -271,7 +271,7 @@ const CaseDetail = () => {
 
             <div className="prose prose-sm max-w-none text-muted-foreground">
               <p>
-                {lang === "zh" ? "这是日记版式预览。患者身份、接诊机构、价格和就诊凭证完成审核后，页面才会展示相应的已核验标识。" : "This is a diary-format preview. Patient identity, provider, pricing and attendance evidence are shown as verified only after review is complete."}
+                {lang === "zh" ? "这是日记版式预览。患者身份、接诊机构、价格和就诊凭证完成审核后，页面才会展示相应的已核验标识。" : lang === "ru" ? "Это предварительный формат дневника. Личность пациента, клиника, цена и подтверждение визита отмечаются как проверенные только после завершения проверки." : "This is a diary-format preview. Patient identity, provider, pricing and attendance evidence are shown as verified only after review is complete."}
               </p>
             </div>
 

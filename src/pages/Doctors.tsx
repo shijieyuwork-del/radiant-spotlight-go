@@ -12,11 +12,13 @@ import { useAsia } from "@/lib/asia-i18n";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuote } from "@/components/QuoteRequest";
 import { DEMO_CHINA_DOCTORS } from "@/data/demoChinaDoctors";
+import { asiaCopy } from "@/lib/asia-copy";
 
 type ManagedDoctor = { id:string; name:string; title:string; hospital:string; city:string; specialties:string[]; bio:string; photo_path:string|null };
 
 const Doctors = () => {
   const { t, lang } = useAsia();
+  const c = <T,>(en: T, zh: T, ru: T) => asiaCopy(lang, { en, zh, ru });
   const [q, setQ] = useState("");
   const [city, setCity] = useState<string>("all");
   const [spec, setSpec] = useState<string>("all");
@@ -74,7 +76,7 @@ const Doctors = () => {
             {t("doctors.title1")} <em className="text-primary not-italic">{t("doctors.titleEm")}</em>
           </h1>
           <p className="text-muted-foreground mt-3">
-            {lang === "zh" ? "查看已发布的医生资料、擅长项目与任职机构。只有完成资料审核的内容才会标记为已核验。" : "Review published doctor profiles, specialties and hospital affiliations. Only information that completes our review is labeled verified."}
+            {c("Review published doctor profiles, specialties and hospital affiliations. Only information that completes our review is labeled verified.", "查看已发布的医生资料、擅长项目与任职机构。只有完成资料审核的内容才会标记为已核验。", "Изучайте опубликованные профили врачей, специализации и клиники. Отметка «Проверено» появляется только после завершения проверки.")}
           </p>
         </div>
 
@@ -85,7 +87,7 @@ const Doctors = () => {
               value={q}
               onChange={(e) => setQ(e.target.value)}
               className="w-full bg-transparent outline-none text-sm font-medium"
-              placeholder={lang === "zh" ? "搜索医生、机构或擅长项目…" : "Search by name, clinic or specialty…"}
+              placeholder={c("Search by name, clinic or specialty…", "搜索医生、机构或擅长项目…", "Поиск по имени, клинике или специализации…")}
             />
           </div>
         </div>
@@ -93,7 +95,7 @@ const Doctors = () => {
         {/* Procedure filter */}
         {specialties.length > 0 && <div className="mb-3">
           <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold text-center mb-2">
-            {lang === "zh" ? "手术类型" : "Procedure"}
+            {c("Procedure", "手术类型", "Процедура")}
           </p>
           <div className="flex items-center gap-2 flex-wrap justify-center">
             <Button variant={spec === "all" ? "default" : "outline"} size="sm" className="rounded-full" onClick={() => setSpec("all")}>
@@ -110,7 +112,7 @@ const Doctors = () => {
         {/* City filter */}
         {cities.length > 0 && <div className="mb-10">
           <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold text-center mb-2">
-            {lang === "zh" ? "城市" : "City"}
+            {c("City", "城市", "Город")}
           </p>
           <div className="flex items-center gap-2 flex-wrap justify-center">
             <span className="text-xs text-muted-foreground inline-flex items-center gap-1 mr-1"><Filter className="size-3" /></span>
@@ -127,7 +129,7 @@ const Doctors = () => {
 
         {directoryDoctors.length > 0 && (
           <div className="mb-10">
-            <h2 className="mb-5 font-display text-2xl">{managedDoctors.length > 0 ? (lang === "zh" ? "已发布的中国医生" : "Published doctors in China") : (lang === "zh" ? "中国医生展示样例" : "Sample China doctor profiles")}</h2>
+            <h2 className="mb-5 font-display text-2xl">{managedDoctors.length > 0 ? c("Published doctors in China", "已发布的中国医生", "Опубликованные профили врачей в Китае") : c("Sample China doctor profiles", "中国医生展示样例", "Примеры профилей врачей в Китае")}</h2>
             <div className="grid gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
               {directoryDoctors.map((d) => {
                 const photo = d.photo;
@@ -141,7 +143,7 @@ const Doctors = () => {
                         <h3 className="font-display text-xl font-semibold leading-tight">{d.name}</h3>
                         <p className="mt-1 text-xs text-muted-foreground">{d.title}</p>
                         <p className="mt-2 text-xs text-muted-foreground"><MapPin className="mr-1 inline size-3" />{d.city}</p>
-                        {d.demo && <span className="mt-2 inline-flex rounded-full bg-accent px-2.5 py-1 text-[10px] font-semibold text-accent-foreground">Sample profile</span>}
+                        {d.demo && <span className="mt-2 inline-flex rounded-full bg-accent px-2.5 py-1 text-[10px] font-semibold text-accent-foreground">{c("Sample profile", "示例资料", "Демо-профиль")}</span>}
                       </div>
                     </div>
                     <p className="mt-5 text-sm text-muted-foreground"><Building2 className="mr-1 inline size-4 text-primary" />{d.hospital}</p>
@@ -149,10 +151,10 @@ const Doctors = () => {
                     <div className="mt-4 flex flex-wrap gap-1.5">{d.specialties.map((s) => <span key={s} className="rounded-full bg-accent px-2.5 py-1 text-[11px]">{s}</span>)}</div>
                     <div className="mt-auto grid gap-2 pt-6 min-[430px]:grid-cols-[0.9fr_1.1fr]">
                       <Link to={d.demo ? "/doctors" : `/doctors/profile/${d.id}`} className="flex min-h-12 items-center justify-center rounded-xl border border-primary/30 px-3 py-3 text-center text-xs font-semibold text-primary hover:bg-primary/10">
-                        {lang === "zh" ? "医生与案例" : "Doctor & cases"}
+                        {c("Doctor & cases", "医生与案例", "Врач и истории пациентов")}
                       </Link>
                       <button type="button" onClick={() => open({ doctorName: d.name, city: d.city })} className="flex min-h-12 items-center justify-center gap-1.5 rounded-xl bg-primary px-3 py-3 text-center text-[13px] font-semibold leading-tight text-primary-foreground hover:bg-primary/90">
-                        {lang === "zh" ? "预约免费视频咨询" : "Book free consultation"}<ArrowRight className="size-4" />
+                        {c("Book free consultation", "预约免费视频咨询", "Записаться на бесплатную консультацию")}<ArrowRight className="size-4" />
                       </button>
                     </div>
                   </article>
@@ -164,7 +166,7 @@ const Doctors = () => {
 
         {items.length === 0 ? (
           <p className="text-center text-muted-foreground py-12 text-sm">
-            {lang === "zh" ? "医生资料正在审核中。你仍可预约免费视频咨询，我们会根据需求协助匹配。" : "Doctor profiles are currently under review. You can still book a free video consultation and we will help identify suitable options."}
+            {c("Doctor profiles are currently under review. You can still book a free video consultation and we will help identify suitable options.", "医生资料正在审核中。你仍可预约免费视频咨询，我们会根据需求协助匹配。", "Профили врачей проходят проверку. Вы можете записаться на бесплатную видеоконсультацию, а мы поможем подобрать подходящие варианты.")}
           </p>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -222,7 +224,7 @@ const Doctors = () => {
 
                 <div className="mt-4">
                   <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold mb-1.5">
-                    {lang === "zh" ? "手术类型" : "Procedures"}
+                    {c("Procedures", "手术类型", "Процедуры")}
                   </p>
                   <div className="flex flex-wrap gap-1.5">
                     {d.specEn.map((sEn, i) => {
@@ -247,14 +249,14 @@ const Doctors = () => {
 
                 <div className="mt-auto grid gap-2 pt-6 min-[430px]:grid-cols-[0.9fr_1.1fr]">
                   <Link to={`/doctors/${d.id}`} className="flex min-h-12 items-center justify-center rounded-xl border border-primary/30 bg-card px-3 py-3 text-center text-xs font-semibold text-primary transition hover:bg-primary/10">
-                    {lang === "zh" ? "医生与案例" : "Doctor & cases"}
+                    {c("Doctor & cases", "医生与案例", "Врач и истории пациентов")}
                   </Link>
                   <button
                     type="button"
                     onClick={() => open({ doctorName: lang === "zh" ? d.zh : d.en, city: lang === "zh" ? d.cityZh : d.cityEn })}
                     className="flex min-h-12 items-center justify-center gap-1.5 rounded-xl bg-primary px-3 py-3 text-center text-[13px] font-semibold leading-tight text-primary-foreground transition hover:bg-primary/90"
                   >
-                    {lang === "zh" ? "预约免费视频咨询" : "Book a Free Video Consultation"}<ArrowRight className="size-4" />
+                    {c("Book a Free Video Consultation", "预约免费视频咨询", "Записаться на бесплатную видеоконсультацию")}<ArrowRight className="size-4" />
                   </button>
                 </div>
               </article>

@@ -7,25 +7,27 @@ import {
 import { useAsia, asiaLangLabel as langLabel, type AsiaLang as Lang } from "@/lib/asia-i18n";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import BrandLogo from "@/components/BrandLogo";
+import { asiaCopy } from "@/lib/asia-copy";
 
 type Props = { homeLinks?: boolean };
 
 const AsiaNavbar = ({ homeLinks = true }: Props) => {
   const { t, lang, setLang, currency, setCurrency } = useAsia();
   const { pathname } = useLocation();
+  const c = (en: string, zh: string, ru: string) => asiaCopy(lang, { en, zh, ru });
   const isActive = (to: string) => to === "/" ? pathname === "/" : pathname === to || pathname.startsWith(`${to}/`);
   const links = homeLinks
     ? [
-        { to: "/", label: lang === "zh" ? "首页" : "Home" },
+        { to: "/", label: c("Home", "首页", "Главная") },
         { to: "/cities", label: t("nav.cities") },
         { to: "/cases", label: t("nav.cases") },
         { to: "/doctors", label: t("nav.compliance") },
         { to: "/treatments", label: t("nav.projects") },
-        { to: "/travel-packages", label: lang === "zh" ? "行程支持" : "Travel Support" },
-        { to: "/why-china", label: lang === "zh" ? "为什么选中国" : "Why China" },
+        { to: "/travel-packages", label: c("Travel Support", "行程支持", "Поддержка поездки") },
+        { to: "/why-china", label: c("Why China", "为什么选中国", "Почему Китай") },
       ]
     : [
-        { to: "/", label: lang === "zh" ? "首页" : "Home" },
+        { to: "/", label: c("Home", "首页", "Главная") },
         { to: "/cases", label: t("nav.cases") },
       ];
   const desktopLinks = homeLinks
@@ -58,14 +60,14 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
           </div>
           <Link
             to="/auth?next=/cases"
-            aria-label={lang === "zh" ? "登录或注册并保存喜欢的案例" : "Sign in or sign up to save favorite cases"}
+            aria-label={c("Sign in or sign up to save favorite cases", "登录或注册并保存喜欢的案例", "Войдите или зарегистрируйтесь, чтобы сохранять понравившиеся истории")}
             className="inline-flex min-h-7 shrink-0 items-center gap-1.5 rounded-full border border-white/30 bg-foreground/10 px-3 font-semibold text-white transition hover:bg-foreground/20"
           >
             <UserRound className="size-3.5" />
-            <span className="hidden min-[360px]:inline">{lang === "zh" ? "登录 / 注册" : "Sign in / Sign up"}</span>
-            <span className="min-[360px]:hidden">{lang === "zh" ? "账户" : "Account"}</span>
+            <span className="hidden min-[360px]:inline">{c("Sign in / Sign up", "登录 / 注册", "Войти / Регистрация")}</span>
+            <span className="min-[360px]:hidden">{c("Account", "账户", "Аккаунт")}</span>
             <span className="hidden text-[10px] font-medium text-white/65 lg:inline">
-              · {lang === "zh" ? "保存案例" : "Save cases"}
+              · {c("Save cases", "保存案例", "Сохранять истории")}
             </span>
           </Link>
         </div>
@@ -98,7 +100,7 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
                     ? "bg-primary text-primary-foreground shadow-sm"
                     : "text-muted-foreground hover:bg-primary/10 hover:text-foreground"
                 }`}>
-                  {lang === "zh" ? "更多" : "More"}<ChevronDown className="size-3.5" />
+                  {c("More", "更多", "Ещё")}<ChevronDown className="size-3.5" />
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="min-w-44 rounded-2xl p-1.5">
@@ -141,7 +143,7 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
 
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="md:hidden size-11 rounded-full border border-primary/10 bg-card shadow-soft" aria-label={lang === "zh" ? "打开菜单" : "Open menu"}>
+            <Button variant="ghost" size="icon" className="md:hidden size-11 rounded-full border border-primary/10 bg-card shadow-soft" aria-label={c("Open menu", "打开菜单", "Открыть меню")}>
               <Menu className="size-5" />
             </Button>
           </SheetTrigger>
@@ -176,7 +178,7 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
               </div>
               <Link to="/auth?next=/cases" className="mt-3 flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-primary px-4 text-sm font-semibold text-primary-foreground">
                 <UserRound className="size-4" />
-                {lang === "zh" ? "登录或注册 · 保存案例" : "Sign in or sign up · Save cases"}
+                {c("Sign in or sign up · Save cases", "登录或注册 · 保存案例", "Войти или зарегистрироваться · Сохранять истории")}
               </Link>
             </div>
           </SheetContent>

@@ -47,10 +47,11 @@ const TikTokCard = ({
   const recoveryStage = (() => {
     const text = item.caption.en;
     const match = text.match(/(\d+)[- ]?(day|week|month)/i);
-    if (!match) return lang === "zh" ? "恢复日记" : "Recovery diary";
+    if (!match) return lang === "zh" ? "恢复日记" : lang === "ru" ? "Дневник восстановления" : "Recovery diary";
     const value = match[1];
     const unit = match[2].toLowerCase();
     if (lang === "zh") return `${value}${unit === "day" ? "天" : unit === "week" ? "周" : "个月"}`;
+    if (lang === "ru") return `${value} ${unit === "day" ? "дн." : unit === "week" ? "нед." : "мес."}`;
     return `${unit[0].toUpperCase()}${unit.slice(1)} ${value}`;
   })();
 
@@ -199,7 +200,7 @@ const TikTokCard = ({
             onClick={(e) => e.stopPropagation()}
             className="text-[11px] font-semibold pill bg-white text-foreground hover:bg-white/90"
           >
-            {discovery ? (lang === "zh" ? "查看完整历程" : "View full journey") : labels[lang].view} <ArrowRight className="size-3" />
+            {discovery ? (lang === "zh" ? "查看完整历程" : lang === "ru" ? "Посмотреть весь путь" : "View full journey") : labels[lang].view} <ArrowRight className="size-3" />
           </Link>
         </div>
       </div>

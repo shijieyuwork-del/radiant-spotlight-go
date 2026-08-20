@@ -220,18 +220,18 @@ const Hero = () => {
             <div className="mb-6 flex flex-col items-start justify-between gap-4 px-1 sm:flex-row sm:items-end md:mb-8">
               <div>
                 <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.16em] text-primary">
-                  <Sparkles className="size-3.5" /> {lang === "zh" ? "我们的核心优势" : "Our biggest difference"}
+                  <Sparkles className="size-3.5" /> {lang === "zh" ? "我们的核心优势" : lang === "ru" ? "Наше главное отличие" : "Our biggest difference"}
                 </span>
                 <h2 className="mt-2 max-w-4xl font-display text-3xl font-medium leading-tight tracking-tight sm:text-4xl md:text-5xl">
-                  {lang === "zh" ? "患者恢复日记，" : "Patient recovery diaries, "}
-                  <em className="not-italic text-primary">{lang === "zh" ? "帮助你做功课" : "before you choose"}</em>
+                  {lang === "zh" ? "患者恢复日记，" : lang === "ru" ? "Дневники восстановления пациентов — " : "Patient recovery diaries, "}
+                  <em className="not-italic text-primary">{lang === "zh" ? "帮助你做功课" : lang === "ru" ? "изучите до выбора" : "before you choose"}</em>
                 </h2>
               </div>
               <Link
                 to="/cases"
                 className="inline-flex min-h-11 w-full shrink-0 items-center justify-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground shadow-soft transition-all hover:-translate-y-0.5 hover:shadow-pop sm:w-auto sm:text-xs"
               >
-                {lang === "zh" ? "浏览全部日记" : "Explore all diaries"} <ArrowRight className="size-3.5" />
+                {lang === "zh" ? "浏览全部日记" : lang === "ru" ? "Все дневники" : "Explore all diaries"} <ArrowRight className="size-3.5" />
               </Link>
             </div>
             <TikTokWall items={TIKTOK_CASES.slice(0, 7)} lang={lang} fmtPrice={fmt} variant="preview" />
@@ -431,9 +431,9 @@ const CitiesSection = () => {
           </h2>
         </div>
         <div className="flex items-center gap-2">
-          <button type="button" onClick={() => moveCities(-1)} className="grid size-10 place-items-center rounded-full border border-border bg-card text-foreground shadow-soft transition hover:border-primary hover:text-primary" aria-label={lang === "zh" ? "上一组城市" : "Previous cities"}><ChevronLeft className="size-5" /></button>
-          <button type="button" onClick={() => moveCities(1)} className="grid size-10 place-items-center rounded-full bg-primary text-primary-foreground shadow-soft transition hover:bg-primary/90" aria-label={lang === "zh" ? "下一组城市" : "More cities"}><ChevronRight className="size-5" /></button>
-          <Link to="/cities" className="pill ml-1 hidden bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90 sm:inline-flex">{lang === "zh" ? "全部城市" : "All cities"}<ArrowRight className="size-4" /></Link>
+          <button type="button" onClick={() => moveCities(-1)} className="grid size-10 place-items-center rounded-full border border-border bg-card text-foreground shadow-soft transition hover:border-primary hover:text-primary" aria-label={lang === "zh" ? "上一组城市" : lang === "ru" ? "Предыдущие города" : "Previous cities"}><ChevronLeft className="size-5" /></button>
+          <button type="button" onClick={() => moveCities(1)} className="grid size-10 place-items-center rounded-full bg-primary text-primary-foreground shadow-soft transition hover:bg-primary/90" aria-label={lang === "zh" ? "下一组城市" : lang === "ru" ? "Следующие города" : "More cities"}><ChevronRight className="size-5" /></button>
+          <Link to="/cities" className="pill ml-1 hidden bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90 sm:inline-flex">{lang === "zh" ? "全部城市" : lang === "ru" ? "Все города" : "All cities"}<ArrowRight className="size-4" /></Link>
         </div>
       </div>
       <div
@@ -459,14 +459,14 @@ const CitiesSection = () => {
               </div>
               <p className="mt-5 line-clamp-2 text-sm leading-relaxed text-muted-foreground">{lang === "zh" ? c.introZh : c.introEn}</p>
               <div className="mt-4 grid grid-cols-2 gap-2 text-center">
-                <div className="rounded-xl bg-secondary px-2 py-2.5"><p className="font-display text-base font-semibold">{lang === "zh" ? "医生资料" : "Doctor profiles"}</p><p className="text-[10px] text-muted-foreground">{lang === "zh" ? "审核后发布" : "published after review"}</p></div>
-                <div className="rounded-xl bg-secondary px-2 py-2.5"><p className="font-display text-base font-semibold text-primary">{lang === "zh" ? "行程指南" : "Travel guide"}</p><p className="text-[10px] text-muted-foreground">{lang === "zh" ? "交通与住宿" : "logistics & stays"}</p></div>
+                <div className="rounded-xl bg-secondary px-2 py-2.5"><p className="font-display text-base font-semibold">{lang === "zh" ? "医生资料" : lang === "ru" ? "Профили врачей" : "Doctor profiles"}</p><p className="text-[10px] text-muted-foreground">{lang === "zh" ? "审核后发布" : lang === "ru" ? "после проверки" : "published after review"}</p></div>
+                <div className="rounded-xl bg-secondary px-2 py-2.5"><p className="font-display text-base font-semibold text-primary">{lang === "zh" ? "行程指南" : lang === "ru" ? "Гид по поездке" : "Travel guide"}</p><p className="text-[10px] text-muted-foreground">{lang === "zh" ? "交通与住宿" : lang === "ru" ? "транспорт и проживание" : "logistics & stays"}</p></div>
               </div>
               <div className="mt-4 flex max-h-[50px] flex-wrap gap-1.5 overflow-hidden">
                 {(lang === "zh" ? c.hotZh : c.hotEn).slice(0, 3).map((h) => <span key={h} className="rounded-full bg-accent px-2.5 py-1 text-[10px] text-accent-foreground">{h}</span>)}
               </div>
               <div className="mt-auto flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3.5 text-sm font-semibold text-primary-foreground transition group-hover:bg-primary/90">
-                {lang === "zh" ? "查看城市与医生" : "Explore city & doctors"}<ArrowRight className="size-4" />
+                {lang === "zh" ? "查看城市与医生" : lang === "ru" ? "Город и врачи" : "Explore city & doctors"}<ArrowRight className="size-4" />
               </div>
             </article>
           </Link>
@@ -474,7 +474,7 @@ const CitiesSection = () => {
       </div>
       <div className="mt-2 flex justify-center sm:hidden">
         <Link to="/cities" className="inline-flex items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90">
-          {lang === "zh" ? "查看全部城市" : "All cities"} <ArrowRight className="size-4" />
+          {lang === "zh" ? "查看全部城市" : lang === "ru" ? "Все города" : "All cities"} <ArrowRight className="size-4" />
         </Link>
       </div>
     </section>
@@ -533,14 +533,14 @@ const TreatmentsSection = () => {
           </h2>
         </div>
         <div className="flex items-center gap-2">
-          <button type="button" onClick={() => moveTreatmentClouds(-1)} className="grid size-10 place-items-center rounded-full border border-border bg-card text-foreground shadow-soft transition hover:border-primary hover:text-primary" aria-label={lang === "zh" ? "上一组手术类型" : "Previous procedure groups"}>
+          <button type="button" onClick={() => moveTreatmentClouds(-1)} className="grid size-10 place-items-center rounded-full border border-border bg-card text-foreground shadow-soft transition hover:border-primary hover:text-primary" aria-label={lang === "zh" ? "上一组手术类型" : lang === "ru" ? "Предыдущие группы процедур" : "Previous procedure groups"}>
             <ChevronLeft className="size-5" />
           </button>
-          <button type="button" onClick={() => moveTreatmentClouds(1)} className="grid size-10 place-items-center rounded-full bg-primary text-primary-foreground shadow-soft transition hover:bg-primary/90" aria-label={lang === "zh" ? "下一组手术类型" : "Next procedure groups"}>
+          <button type="button" onClick={() => moveTreatmentClouds(1)} className="grid size-10 place-items-center rounded-full bg-primary text-primary-foreground shadow-soft transition hover:bg-primary/90" aria-label={lang === "zh" ? "下一组手术类型" : lang === "ru" ? "Следующие группы процедур" : "Next procedure groups"}>
             <ChevronRight className="size-5" />
           </button>
           <Link to="/treatments" className="pill hidden bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90 sm:inline-flex">
-            {lang === "zh" ? "全部项目" : "All procedures"}<ArrowRight className="size-4" />
+            {lang === "zh" ? "全部项目" : lang === "ru" ? "Все процедуры" : "All procedures"}<ArrowRight className="size-4" />
           </Link>
         </div>
       </div>
@@ -638,7 +638,7 @@ const DoctorsSection = () => {
             type="button"
             onClick={() => moveDoctors(-1)}
             className="grid size-10 place-items-center rounded-full border border-border bg-card text-foreground shadow-soft transition hover:border-primary hover:text-primary"
-            aria-label={lang === "zh" ? "查看上一组医生" : "Previous surgeons"}
+            aria-label={lang === "zh" ? "查看上一组医生" : lang === "ru" ? "Предыдущие врачи" : "Previous surgeons"}
           >
             <ChevronLeft className="size-5" />
           </button>
@@ -646,7 +646,7 @@ const DoctorsSection = () => {
             type="button"
             onClick={() => moveDoctors(1)}
             className="grid size-10 place-items-center rounded-full bg-primary text-primary-foreground shadow-soft transition hover:bg-primary/90"
-            aria-label={lang === "zh" ? "查看更多医生" : "More surgeons"}
+            aria-label={lang === "zh" ? "查看更多医生" : lang === "ru" ? "Следующие врачи" : "More surgeons"}
           >
             <ChevronRight className="size-5" />
           </button>
@@ -654,7 +654,7 @@ const DoctorsSection = () => {
             to="/doctors"
             className="pill ml-1 hidden bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90 sm:inline-flex"
           >
-            {lang === "zh" ? "全部医师" : "All surgeons"} <ArrowRight className="size-4" />
+            {lang === "zh" ? "全部医师" : lang === "ru" ? "Все врачи" : "All surgeons"} <ArrowRight className="size-4" />
           </Link>
         </div>
       </div>
@@ -698,14 +698,14 @@ const DoctorsSection = () => {
                   to={d.demo ? "/doctors" : `/doctors/profile/${d.id}`}
                   className="flex min-h-12 items-center justify-center rounded-xl border border-primary/30 bg-card px-3 py-3 text-center text-xs font-semibold text-primary transition hover:bg-primary/10"
                 >
-                  {lang === "zh" ? "医生与案例" : "Doctor & cases"}
+                  {lang === "zh" ? "医生与案例" : lang === "ru" ? "Врач и случаи" : "Doctor & cases"}
                 </Link>
                 <button
                   type="button"
                   onClick={() => open({ doctorName: d.name, city: d.city })}
                   className="flex min-h-12 items-center justify-center gap-1.5 rounded-xl bg-primary px-3 py-3 text-center text-[13px] font-semibold leading-tight text-primary-foreground transition hover:bg-primary/90"
                 >
-                  {lang === "zh" ? "预约免费视频咨询" : "Book a Free Video Consultation"}<ArrowRight className="size-4" />
+                  {lang === "zh" ? "预约免费视频咨询" : lang === "ru" ? "Бесплатная видеоконсультация" : "Book a Free Video Consultation"}<ArrowRight className="size-4" />
                 </button>
               </div>
             </div>
@@ -714,7 +714,7 @@ const DoctorsSection = () => {
       </div>
       <div className="mt-2 flex justify-center sm:hidden">
         <Link to="/doctors" className="inline-flex items-center gap-1 text-sm font-semibold text-primary">
-          {lang === "zh" ? "查看全部医师" : "Browse all surgeons"}<ArrowRight className="size-4" />
+          {lang === "zh" ? "查看全部医师" : lang === "ru" ? "Все врачи" : "Browse all surgeons"}<ArrowRight className="size-4" />
         </Link>
       </div>
     </section>
@@ -773,46 +773,40 @@ const HowItWorks = () => {
 const HomeFaq = () => {
   const { lang } = useAsia();
   const zh = lang === "zh";
+  const ru = lang === "ru";
+  const c = (en: string, cn: string, Russian: string) => zh ? cn : ru ? Russian : en;
   const questions = [
     {
-      q: zh ? "我需要向 Cosmetics Asia 支付费用吗？" : "Do I need to pay Cosmetics Asia?",
-      a: zh
-        ? "医疗费用全部由诊所或医院直接收取，Cosmetics Asia 不代收。若你选择机场接送、翻译、住宿协调或其他行程支持，我们会在开始安排前逐项说明服务范围、费用及是否需要押金。"
-        : "Medical fees are paid directly to the treating clinic or hospital; Cosmetics Asia does not collect them. If you request airport pickup, translation, accommodation coordination or other travel support, we explain the scope, price and any required deposit before arrangements begin.",
+      q: c("Do I need to pay Cosmetics Asia?", "我需要向 Cosmetics Asia 支付费用吗？", "Нужно ли платить Cosmetics Asia?"),
+      a: c("Medical fees are paid directly to the treating clinic or hospital; Cosmetics Asia does not collect them. If you request airport pickup, translation, accommodation coordination or other travel support, we explain the scope, price and any required deposit before arrangements begin.", "医疗费用全部由诊所或医院直接收取，Cosmetics Asia 不代收。若你选择机场接送、翻译、住宿协调或其他行程支持，我们会在开始安排前逐项说明服务范围、费用及是否需要押金。", "Медицинские услуги оплачиваются непосредственно клинике или больнице; Cosmetics Asia их не принимает. До начала организации трансфера, перевода, проживания или другой поддержки мы заранее объясним объём услуг, стоимость и условия депозита."),
     },
     {
-      q: zh ? "400 美元押金是做什么用的？" : "What is the $400 deposit for?",
-      a: zh
-        ? "押金用于确认你的行程，并让协调团队在你抵达前开始准备相关服务。它不是平台服务费，也不是额外的医疗费用。"
-        : "The deposit confirms your trip and allows our coordination team to begin preparing services before you arrive. It is not a platform service fee or an additional medical charge.",
+      q: c("What is the $400 deposit for?", "400 美元押金是做什么用的？", "Для чего нужен депозит $400?"),
+      a: c("The deposit confirms your trip and allows our coordination team to begin preparing services before you arrive. It is not a platform service fee or an additional medical charge.", "押金用于确认你的行程，并让协调团队在你抵达前开始准备相关服务。它不是平台服务费，也不是额外的医疗费用。", "Депозит подтверждает поездку и позволяет координаторам начать подготовку до вашего прибытия. Это не комиссия платформы и не дополнительная медицинская плата."),
     },
     {
-      q: zh ? "手术和治疗费用支付给谁？" : "Who receives my medical payment?",
-      a: zh
-        ? "全部手术、检查、麻醉及其他医疗费用均由诊所或医院直接收取。Cosmetics Asia 不代收医疗费用。"
-        : "All surgery, examination, anesthesia and other medical fees are charged directly by the clinic or hospital. Cosmetics Asia does not collect your medical payment.",
+      q: c("Who receives my medical payment?", "手术和治疗费用支付给谁？", "Кому оплачиваются медицинские услуги?"),
+      a: c("All surgery, examination, anesthesia and other medical fees are charged directly by the clinic or hospital. Cosmetics Asia does not collect your medical payment.", "全部手术、检查、麻醉及其他医疗费用均由诊所或医院直接收取。Cosmetics Asia 不代收医疗费用。", "Операция, обследования, анестезия и другие медицинские услуги оплачиваются напрямую клинике или больнице. Cosmetics Asia не принимает медицинские платежи."),
     },
     {
-      q: zh ? "可以选择哪些行程协助服务？" : "What travel-support services can I request?",
-      a: zh
-        ? "我们可以根据已确认的就医计划，协助安排机场接送、诊所翻译、住宿建议与恢复期支持。实际包含内容会在出发前与你逐项确认。"
-        : "We can help coordinate airport pickup, clinic translation, accommodation guidance and recovery support around your confirmed care plan. The exact scope is confirmed with you before travel.",
+      q: c("What travel-support services can I request?", "可以选择哪些行程协助服务？", "Какую помощь в поездке можно заказать?"),
+      a: c("We can help coordinate airport pickup, clinic translation, accommodation guidance and recovery support around your confirmed care plan. The exact scope is confirmed with you before travel.", "我们可以根据已确认的就医计划，协助安排机场接送、诊所翻译、住宿建议与恢复期支持。实际包含内容会在出发前与你逐项确认。", "Мы можем помочь с трансфером из аэропорта, переводом в клинике, подбором проживания и поддержкой во время восстановления. Точный объём согласуется до поездки."),
     },
     {
-      q: zh ? "你们如何审核医生资料？" : "How do you review surgeon credentials?",
-      a: zh ? "我们要求医生或机构提交执业、任职与专业资料，并在公开展示前进行资料审核。未完成审核的资料不会标记为已核验。最终请同时向接诊机构和当地主管部门确认。" : "We request licensing, hospital affiliation and specialty information from the doctor or clinic and review it before publication. Incomplete profiles are not labeled verified. You should also confirm credentials with the treating facility and relevant local authority.",
+      q: c("How do you review surgeon credentials?", "你们如何审核医生资料？", "Как проверяются данные врачей?"),
+      a: c("We request licensing, hospital affiliation and specialty information from the doctor or clinic and review it before publication. Incomplete profiles are not labeled verified. You should also confirm credentials with the treating facility and relevant local authority.", "我们要求医生或机构提交执业、任职与专业资料，并在公开展示前进行资料审核。未完成审核的资料不会标记为已核验。最终请同时向接诊机构和当地主管部门确认。", "Мы запрашиваем сведения о лицензии, месте работы и специализации и проверяем их до публикации. Неполные профили не получают отметку о проверке. Также подтвердите данные в клинике и у местного регулятора."),
     },
     {
-      q: zh ? "回国后出现问题怎么办？" : "What if I have a concern after returning home?",
-      a: zh ? "我们可以协助你整理情况并联系原诊所，但不能替代急诊或本地医生。出现紧急症状时，应立即联系当地急救服务或持证医生。" : "We can help organize your information and contact the treating clinic, but we do not replace emergency or local medical care. Seek urgent help from local emergency services or a licensed clinician if symptoms are concerning.",
+      q: c("What if I have a concern after returning home?", "回国后出现问题怎么办？", "Что делать, если после возвращения возникли вопросы?"),
+      a: c("We can help organize your information and contact the treating clinic, but we do not replace emergency or local medical care. Seek urgent help from local emergency services or a licensed clinician if symptoms are concerning.", "我们可以协助你整理情况并联系原诊所，但不能替代急诊或本地医生。出现紧急症状时，应立即联系当地急救服务或持证医生。", "Мы поможем собрать информацию и связаться с клиникой, но не заменяем экстренную или местную медицинскую помощь. При тревожных симптомах немедленно обратитесь в местную экстренную службу или к лицензированному врачу."),
     },
     {
-      q: zh ? "线上咨询可以使用英语吗？" : "Can my consultation be conducted in English?",
-      a: zh ? "可以。我们会根据已确认的预约安排英语沟通支持；具体形式可能是英语医生或双语协调员陪同。" : "Yes. We arrange confirmed English-language support for the appointment, either with an English-speaking clinician or a bilingual coordinator, depending on availability.",
+      q: c("Can my consultation be conducted in English?", "线上咨询可以使用英语吗？", "Можно ли провести консультацию на английском?"),
+      a: c("Yes. We arrange confirmed English-language support for the appointment, either with an English-speaking clinician or a bilingual coordinator, depending on availability.", "可以。我们会根据已确认的预约安排英语沟通支持；具体形式可能是英语医生或双语协调员陪同。", "Да. Для подтверждённой записи мы организуем поддержку на английском: англоговорящего врача или двуязычного координатора, в зависимости от доступности."),
     },
     {
-      q: zh ? "我的医疗资料如何使用？" : "How is my medical information handled?",
-      a: zh ? "资料仅用于你授权的咨询和行程协调，并只向相关服务方提供必要信息。请勿通过公开评论或社交媒体发送敏感病历。" : "Information is used for the consultation and coordination you authorize, and only necessary details are shared with relevant service providers. Do not send sensitive records through public comments or social media.",
+      q: c("How is my medical information handled?", "我的医疗资料如何使用？", "Как используются мои медицинские данные?"),
+      a: c("Information is used for the consultation and coordination you authorize, and only necessary details are shared with relevant service providers. Do not send sensitive records through public comments or social media.", "资料仅用于你授权的咨询和行程协调，并只向相关服务方提供必要信息。请勿通过公开评论或社交媒体发送敏感病历。", "Данные используются только для разрешённой вами консультации и координации; партнёрам передаётся лишь необходимая информация. Не отправляйте конфиденциальные документы в открытых комментариях или соцсетях."),
     },
   ];
 
@@ -820,9 +814,9 @@ const HomeFaq = () => {
     <section className="container py-12 md:py-16" aria-labelledby="home-faq-title">
       <div className="grid gap-7 rounded-[2rem] border border-primary/15 bg-card p-5 shadow-soft md:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] md:p-10">
         <div className="md:pr-8">
-          <span className="pill mb-3 bg-accent text-accent-foreground"><HelpCircle className="size-3.5" /> {zh ? "费用常见问题" : "Payment FAQ"}</span>
+          <span className="pill mb-3 bg-accent text-accent-foreground"><HelpCircle className="size-3.5" /> {c("Payment FAQ", "费用常见问题", "Вопросы об оплате")}</span>
           <h2 id="home-faq-title" className="font-display text-3xl font-medium tracking-tight sm:text-4xl md:text-5xl">
-            {zh ? "费用由谁收取，" : "Who gets paid, "}<em className="not-italic text-primary">{zh ? "出发前先说清楚" : "made clear before you travel"}</em>
+            {c("Who gets paid, ", "费用由谁收取，", "Кто получает оплату — ")}<em className="not-italic text-primary">{c("made clear before you travel", "出发前先说清楚", "разберитесь до поездки")}</em>
           </h2>
           <p className="mt-4 max-w-md text-sm leading-relaxed text-muted-foreground md:text-base">
             {zh ? "旅行支持费用与医疗费用分开处理，避免隐藏收费和付款混淆。" : "Travel-support costs and medical payments are handled separately, so you know exactly who receives each payment."}
