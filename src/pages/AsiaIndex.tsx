@@ -247,14 +247,59 @@ const TravelBar = () => {
   const [activeStep, setActiveStep] = useState(0);
   const railRef = useRef<HTMLDivElement>(null);
   const pausedRef = useRef(false);
-  const steps = [
-    { icon: Users, image: journeyConsultation, t: "Book your consultation", d: "Choose a doctor—or let us recommend suitable specialists" },
-    { icon: Stethoscope, image: journeyOnline, t: "Meet your doctor online", d: "Review options, expected results, risks and recovery" },
-    { icon: Plane, image: journeyArrival, t: "Arrange travel & visa", d: "Confirm flights, documents, pickup and accommodation" },
-    { icon: MapPin, image: journeySupport, t: "Receive on-ground support", d: "Get coordinated arrival, translation and clinic assistance" },
-    { icon: HeartPulse, image: journeyRecovery, t: "Treatment & recovery", d: "Recover with practical support around your care plan" },
-    { icon: MessageCircle, image: journeyFollowUp, t: "Follow up from home", d: "Stay connected and coordinate remote follow-up when needed" },
+  const journeyCopy = lang === "zh"
+    ? { eyebrow: "服务流程", title: "你的中国", emphasis: "医疗之旅", cta: "查看完整流程", step: "步骤", previous: "上一步", next: "下一步" }
+    : lang === "ru"
+      ? { eyebrow: "Как это работает", title: "Ваш путь к", emphasis: "лечению в Китае", cta: "Посмотреть весь путь", step: "Шаг", previous: "Предыдущий шаг", next: "Следующий шаг" }
+      : { eyebrow: "How it works", title: "Your journey to", emphasis: "care in China", cta: "See full journey", step: "Step", previous: "Previous step", next: "Next step" };
+  const localizedSteps = [
+    {
+      icon: Users,
+      image: journeyConsultation,
+      en: ["Book your consultation", "Choose a doctor—or let us recommend suitable specialists"],
+      zh: ["预约咨询", "选择心仪医生，或让我们为你推荐合适的专家"],
+      ru: ["Запишитесь на консультацию", "Выберите врача или позвольте нам подобрать подходящего специалиста"],
+    },
+    {
+      icon: Stethoscope,
+      image: journeyOnline,
+      en: ["Meet your doctor online", "Review options, expected results, risks and recovery"],
+      zh: ["线上会见医生", "了解治疗选择、预期效果、风险与恢复过程"],
+      ru: ["Встретьтесь с врачом онлайн", "Обсудите варианты, ожидаемые результаты, риски и восстановление"],
+    },
+    {
+      icon: Plane,
+      image: journeyArrival,
+      en: ["Arrange travel & visa", "Confirm flights, documents, pickup and accommodation"],
+      zh: ["安排行程与签证", "确认航班、文件、接机与住宿安排"],
+      ru: ["Организуйте поездку и визу", "Подтвердите перелёт, документы, трансфер и проживание"],
+    },
+    {
+      icon: MapPin,
+      image: journeySupport,
+      en: ["Receive on-ground support", "Get coordinated arrival, translation and clinic assistance"],
+      zh: ["获得落地支持", "协调抵达、院内翻译与就诊协助"],
+      ru: ["Получите поддержку на месте", "Помощь по прибытии, перевод и сопровождение в клинике"],
+    },
+    {
+      icon: HeartPulse,
+      image: journeyRecovery,
+      en: ["Treatment & recovery", "Recover with practical support around your care plan"],
+      zh: ["治疗与恢复", "根据你的治疗计划获得实用的恢复支持"],
+      ru: ["Лечение и восстановление", "Получайте практическую поддержку по вашему плану лечения"],
+    },
+    {
+      icon: MessageCircle,
+      image: journeyFollowUp,
+      en: ["Follow up from home", "Stay connected and coordinate remote follow-up when needed"],
+      zh: ["回国后随访", "保持联系，并在需要时协调远程复诊"],
+      ru: ["Наблюдение после возвращения", "Оставайтесь на связи и при необходимости организуйте онлайн-приём"],
+    },
   ];
+  const steps = localizedSteps.map((item) => {
+    const [t, d] = item[lang === "zh" ? "zh" : lang === "ru" ? "ru" : "en"];
+    return { icon: item.icon, image: item.image, t, d };
+  });
 
   const showStep = (next: number) => {
     const normalized = (next + steps.length) % steps.length;
@@ -285,20 +330,19 @@ const TravelBar = () => {
     return () => window.clearInterval(timer);
   }, []);
 
-  if (lang === "zh") return null;
   return (
     <section className="container py-7 md:py-10" aria-labelledby="home-journey-title">
       <div className="mb-6 flex flex-col items-start justify-between gap-4 px-1 sm:flex-row sm:items-end md:mb-8">
         <div>
           <span className="pill mb-3 bg-accent text-accent-foreground">
-            <Plane className="size-3.5" /> How it works
+            <Plane className="size-3.5" /> {journeyCopy.eyebrow}
           </span>
           <h2 id="home-journey-title" className="font-display text-3xl font-medium leading-tight tracking-tight sm:text-4xl md:text-5xl">
-            Your journey to <em className="not-italic text-primary">care in China</em>
+            {journeyCopy.title} <em className="not-italic text-primary">{journeyCopy.emphasis}</em>
           </h2>
         </div>
         <Link to="/travel-packages" className="hidden min-h-11 shrink-0 items-center justify-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-xs font-bold text-primary-foreground shadow-soft transition-all hover:-translate-y-0.5 hover:shadow-pop sm:inline-flex">
-          See full journey <ArrowRight className="size-4" />
+          {journeyCopy.cta} <ArrowRight className="size-4" />
         </Link>
       </div>
       <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-r from-[hsl(340,82%,91%)] via-[hsl(var(--primary)/.20)] to-[hsl(50,80%,91%)] py-5 shadow-pop md:py-7">
@@ -328,7 +372,7 @@ const TravelBar = () => {
                 </div>
               </div>
               <div className="min-h-[9.25rem] p-5">
-                <span className="text-[10px] font-bold uppercase tracking-[0.17em] text-primary">Step {index + 1}</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.17em] text-primary">{journeyCopy.step} {index + 1}</span>
                 <h3 className="mt-1 font-display text-xl font-semibold leading-tight text-foreground">{x.t}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-foreground/68">{x.d}</p>
               </div>
@@ -336,17 +380,17 @@ const TravelBar = () => {
           ))}
         </div>
         <div className="mt-1 flex items-center justify-center gap-3 px-5">
-          <button type="button" onClick={() => showStep(activeStep - 1)} className="grid size-10 place-items-center rounded-full border border-primary/20 bg-card/80 text-foreground backdrop-blur-md transition hover:border-primary hover:text-primary" aria-label="Previous step"><ChevronLeft className="size-5" /></button>
+          <button type="button" onClick={() => showStep(activeStep - 1)} className="grid size-10 place-items-center rounded-full border border-primary/20 bg-card/80 text-foreground backdrop-blur-md transition hover:border-primary hover:text-primary" aria-label={journeyCopy.previous}><ChevronLeft className="size-5" /></button>
           <div className="flex items-center gap-1.5" aria-label={`Step ${activeStep + 1} of ${steps.length}`}>
             {steps.map((step, index) => (
               <button key={step.t} type="button" onClick={() => showStep(index)} className={`h-2 rounded-full transition-all ${activeStep === index ? "w-8 bg-primary" : "w-2 bg-card/80 hover:bg-primary/40"}`} aria-label={`Show step ${index + 1}`} />
             ))}
           </div>
-          <button type="button" onClick={() => showStep(activeStep + 1)} className="grid size-10 place-items-center rounded-full bg-primary text-primary-foreground shadow-soft transition hover:bg-primary/90" aria-label="Next step"><ChevronRight className="size-5" /></button>
+          <button type="button" onClick={() => showStep(activeStep + 1)} className="grid size-10 place-items-center rounded-full bg-primary text-primary-foreground shadow-soft transition hover:bg-primary/90" aria-label={journeyCopy.next}><ChevronRight className="size-5" /></button>
         </div>
       </div>
       <Link to="/travel-packages" className="mt-4 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground sm:hidden">
-        See full journey <ArrowRight className="size-4" />
+        {journeyCopy.cta} <ArrowRight className="size-4" />
       </Link>
     </section>
   );
