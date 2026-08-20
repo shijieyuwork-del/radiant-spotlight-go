@@ -237,6 +237,9 @@ const JOURNEY_STEPS = [
   },
 ] as const;
 
+// Keep the sales section easy to restore after the temporary pause.
+const SHOW_PACKAGE_SALES = false;
+
 const Packages = () => {
   const { lang } = useAsia();
   return (
@@ -269,6 +272,8 @@ const Packages = () => {
 
       {/* Packages grid */}
       <section className="container pb-16 md:pb-20">
+        {SHOW_PACKAGE_SALES && (
+          <>
         <div className="mb-3 flex items-center justify-between gap-3">
           <p className="text-sm font-semibold text-foreground">{lang === "zh" ? "三档套餐，一眼看懂区别" : "Compare the three options at a glance"}</p>
           <span className="hidden text-xs text-muted-foreground sm:inline">{lang === "zh" ? "点击可跳转到套餐" : "Select to jump to details"}</span>
@@ -435,6 +440,8 @@ const Packages = () => {
             </div>
           ))}
         </div>
+          </>
+        )}
 
         <section className="mt-16 md:mt-24" aria-labelledby="medical-journey-title">
           <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
