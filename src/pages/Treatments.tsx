@@ -418,24 +418,6 @@ const Treatments = () => {
             </div>
           </div>
 
-          <section className="mx-auto mt-16 max-w-6xl md:mt-24">
-            <div className="max-w-3xl">
-              <span className="pill bg-accent text-accent-foreground"><Sparkles className="size-3.5" /> {copy("Start with your goal", "从需求开始", "Начните со своей цели")}</span>
-              <h2 className="mt-4 font-display text-3xl font-medium leading-tight tracking-tight sm:text-4xl">
-                {copy("Start with the decision,", "先说你想改善什么，", "Начните с желаемого результата,")} <em className="not-italic text-primary">{copy("not the procedure name", "再了解对应项目", "а не с названия процедуры")}</em>
-              </h2>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">{copy("You do not need to know the medical terminology. Begin with what you want to understand, then explore the relevant guides.", "不熟悉医学术语也没关系。选择你的关注点，我们会带你进入相关科普分类。", "Вам не нужно знать медицинские термины. Начните с того, что хотите изменить, а затем изучите подходящие руководства.")}</p>
-            </div>
-            <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {CONCERN_LINKS.slice(0, 6).map(([en, cn, index], itemIndex) => (
-                <button key={en} type="button" onClick={() => { setQuery(""); setActiveCategory(index); window.scrollTo({ top: 280, behavior: "smooth" }); }} className={`group min-h-28 rounded-3xl border border-border/70 p-5 text-left transition hover:-translate-y-0.5 hover:border-primary/35 hover:shadow-soft ${CATEGORY_STYLES[index].panel}`}>
-                  <span className="font-mono text-xs font-bold text-primary">0{itemIndex + 1}</span>
-                  <span className="mt-3 flex items-center justify-between gap-3 font-display text-xl font-semibold"><span>{label(en, cn)}</span><ArrowRight className="size-4 text-primary transition group-hover:translate-x-1" /></span>
-                </button>
-              ))}
-            </div>
-          </section>
-
           <section className="mx-auto mt-16 max-w-6xl rounded-[2rem] bg-gradient-to-r from-[hsl(190,70%,92%)] via-[hsl(155,55%,91%)] to-[hsl(48,80%,92%)] p-5 shadow-soft sm:p-8 md:mt-24 md:p-10">
             <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
               <div className="max-w-3xl">
