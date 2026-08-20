@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { DollarSign, Languages, Menu, ChevronRight, ChevronDown, Phone, Mail, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,6 +12,8 @@ type Props = { homeLinks?: boolean };
 
 const AsiaNavbar = ({ homeLinks = true }: Props) => {
   const { t, lang, setLang, currency, setCurrency } = useAsia();
+  const { pathname } = useLocation();
+  const isActive = (to: string) => to === "/" ? pathname === "/" : pathname === to || pathname.startsWith(`${to}/`);
   const links = homeLinks
     ? [
         { to: "/", label: lang === "zh" ? "首页" : "Home" },
@@ -75,21 +77,34 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
         </Link>
         <div className="hidden md:flex items-center gap-0.5 rounded-full bg-muted/60 p-1">
           {desktopLinks.map((l) => (
-            <Link key={l.to} to={l.to} className="whitespace-nowrap px-2.5 xl:px-4 py-1.5 rounded-full text-[13px] xl:text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            <Link
+              key={l.to}
+              to={l.to}
+              aria-current={isActive(l.to) ? "page" : undefined}
+              className={`whitespace-nowrap rounded-full px-2.5 py-1.5 text-[13px] font-medium transition-all xl:px-4 xl:text-sm ${
+                isActive(l.to)
+                  ? "bg-primary text-primary-foreground shadow-sm"
+                  : "text-muted-foreground hover:bg-primary/10 hover:text-foreground"
+              }`}
+            >
               {l.label}
             </Link>
           ))}
           {moreLinks.length > 0 && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="inline-flex items-center gap-1 whitespace-nowrap rounded-full px-2.5 py-1.5 text-[13px] font-medium text-muted-foreground transition-colors hover:text-foreground xl:px-4 xl:text-sm">
+                <button className={`inline-flex items-center gap-1 whitespace-nowrap rounded-full px-2.5 py-1.5 text-[13px] font-medium transition-all xl:px-4 xl:text-sm ${
+                  moreLinks.some((link) => isActive(link.to))
+                    ? "bg-primary text-primary-foreground shadow-sm"
+                    : "text-muted-foreground hover:bg-primary/10 hover:text-foreground"
+                }`}>
                   {lang === "zh" ? "更多" : "More"}<ChevronDown className="size-3.5" />
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="min-w-44 rounded-2xl p-1.5">
                 {moreLinks.map((link) => (
-                  <DropdownMenuItem key={link.to} asChild className="rounded-xl">
-                    <Link to={link.to}>{link.label}</Link>
+                  <DropdownMenuItem key={link.to} asChild className={`rounded-xl ${isActive(link.to) ? "bg-primary/12 font-semibold text-primary" : ""}`}>
+                    <Link to={link.to} aria-current={isActive(link.to) ? "page" : undefined}>{link.label}</Link>
                   </DropdownMenuItem>
                 ))}
               </DropdownMenuContent>
@@ -137,7 +152,14 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
             <div className="flex h-[calc(100%-73px)] flex-col overflow-y-auto p-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
               <div className="space-y-1">
                 {links.map((l) => (
-                  <Link key={l.to} to={l.to} className="flex items-center justify-between min-h-12 px-4 rounded-2xl text-base font-semibold hover:bg-muted">
+                  <Link
+                    key={l.to}
+                    to={l.to}
+                    aria-current={isActive(l.to) ? "page" : undefined}
+                    className={`flex min-h-12 items-center justify-between rounded-2xl px-4 text-base font-semibold transition-colors ${
+                      isActive(l.to) ? "bg-primary text-primary-foreground" : "hover:bg-muted"
+                    }`}
+                  >
                     {l.label}<ChevronRight className="size-4 text-muted-foreground" />
                   </Link>
                 ))}
