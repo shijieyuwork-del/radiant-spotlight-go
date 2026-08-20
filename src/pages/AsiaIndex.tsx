@@ -241,14 +241,16 @@ const TravelBar = () => {
   if (lang === "zh") return null;
   return (
     <section className="container py-7 md:py-10" aria-labelledby="home-journey-title">
-      <div className="mb-4 flex items-end justify-between gap-4 px-1">
+      <div className="mb-6 flex flex-col items-start justify-between gap-4 px-1 sm:flex-row sm:items-end md:mb-8">
         <div>
-          <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-primary">How it works</span>
-          <h2 id="home-journey-title" className="mt-1 font-display text-2xl font-semibold tracking-tight md:text-3xl">
-            Your journey to care in China
+          <span className="pill mb-3 bg-accent text-accent-foreground">
+            <Plane className="size-3.5" /> How it works
+          </span>
+          <h2 id="home-journey-title" className="font-display text-3xl font-medium leading-tight tracking-tight sm:text-4xl md:text-5xl">
+            Your journey to <em className="not-italic text-primary">care in China</em>
           </h2>
         </div>
-        <Link to="/travel-packages" className="hidden items-center gap-1.5 text-sm font-semibold text-primary transition hover:gap-2.5 sm:inline-flex">
+        <Link to="/travel-packages" className="hidden min-h-11 shrink-0 items-center justify-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-xs font-bold text-primary-foreground shadow-soft transition-all hover:-translate-y-0.5 hover:shadow-pop sm:inline-flex">
           See full journey <ArrowRight className="size-4" />
         </Link>
       </div>
