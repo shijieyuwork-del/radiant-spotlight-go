@@ -160,13 +160,13 @@ const JOURNEY_STEPS = [
   {
     number: "01",
     eyebrowEn: "Consultation · $99–$699",
-    eyebrowZh: "在线咨询 · 99–699 美元",
+    eyebrowZh: "在线咨询",
     titleEn: "Book your medical consultation",
     titleZh: "预约医疗咨询",
     descriptionEn: "Choose a doctor or hospital in China, or let us recommend suitable specialists after reviewing the records you provide. Your consultation plan may include a pre-meeting, a recorded 40-minute one-on-one video consultation, professional translation and a written summary.",
     descriptionZh: "选择你心仪的中国医生或医院，也可以提交病历，由我们协助匹配合适的专家。咨询方案可包含会前病历梳理、40 分钟一对一视频面诊、专业翻译及书面总结。",
     noteEn: "Dental and cosmetic consultations may start at $99; complex multidisciplinary cases may range from $399–$699. The final fee is confirmed before booking.",
-    noteZh: "牙科及医美咨询可低至 99 美元；复杂多学科病例通常为 399–699 美元。预约前会确认最终费用。",
+    noteZh: "",
     icon: Video,
     image: serviceMedicalRecords,
   },
@@ -511,10 +511,12 @@ const Packages = () => {
                   <p className="relative mt-4 text-sm leading-7 text-foreground/75">
                     {lang === "zh" ? step.descriptionZh : step.descriptionEn}
                   </p>
-                  <div className="relative mt-4 flex items-start gap-2 rounded-2xl bg-secondary/55 px-4 py-3 text-xs leading-relaxed text-muted-foreground">
-                    <Check className="mt-0.5 size-3.5 shrink-0 text-primary" />
-                    <span>{lang === "zh" ? step.noteZh : step.noteEn}</span>
-                  </div>
+                  {(lang === "zh" ? step.noteZh : step.noteEn) && (
+                    <div className="relative mt-4 flex items-start gap-2 rounded-2xl bg-secondary/55 px-4 py-3 text-xs leading-relaxed text-muted-foreground">
+                      <Check className="mt-0.5 size-3.5 shrink-0 text-primary" />
+                      <span>{lang === "zh" ? step.noteZh : step.noteEn}</span>
+                    </div>
+                  )}
                 </article>
               );
             })}
