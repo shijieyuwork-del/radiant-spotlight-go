@@ -9,6 +9,7 @@ import serviceHotelBooking from "@/assets/service-hotel-booking.jpg";
 import serviceClinicTranslation from "@/assets/service-clinic-translation.jpg";
 import serviceMedicalRecords from "@/assets/service-medical-records.jpg";
 import serviceOnlineConcierge from "@/assets/service-online-concierge.jpg";
+import cityHangzhou from "@/assets/city-hangzhou.jpg";
 
 type Pkg = {
   id: string;
@@ -167,6 +168,7 @@ const JOURNEY_STEPS = [
     noteEn: "Dental and cosmetic consultations may start at $99; complex multidisciplinary cases may range from $399–$699. The final fee is confirmed before booking.",
     noteZh: "牙科及医美咨询可低至 99 美元；复杂多学科病例通常为 399–699 美元。预约前会确认最终费用。",
     icon: Video,
+    image: serviceMedicalRecords,
   },
   {
     number: "02",
@@ -179,6 +181,7 @@ const JOURNEY_STEPS = [
     noteEn: "If a visa is required, we can help arrange a Medical Invitation Letter. Share confirmed flight details at least five days before arrival.",
     noteZh: "如需签证，我们可协助准备医疗邀请函。请至少提前 5 天提供已确认的航班信息。",
     icon: Plane,
+    image: serviceAirportPickup,
   },
   {
     number: "03",
@@ -191,6 +194,7 @@ const JOURNEY_STEPS = [
     noteEn: "Your coordinator confirms what is included, what is optional and any separately payable costs before you travel.",
     noteZh: "出发前，协调员会说明包含服务、可选服务及需要另行支付的费用。",
     icon: Route,
+    image: serviceHotelBooking,
   },
   {
     number: "04",
@@ -203,6 +207,7 @@ const JOURNEY_STEPS = [
     noteEn: "Medical decisions remain with your licensed treating clinician. Concierge support is available during the hours shown in your selected package.",
     noteZh: "医疗决定由持证接诊医生负责；在线管家支持时间以所选套餐说明为准。",
     icon: HeartPulse,
+    image: serviceClinicTranslation,
   },
   {
     number: "05",
@@ -215,6 +220,7 @@ const JOURNEY_STEPS = [
     noteEn: "Touring is optional and should never replace clinical recovery instructions.",
     noteZh: "旅游完全自愿，并应始终以医生的恢复指导为优先。",
     icon: Map,
+    image: cityHangzhou,
   },
   {
     number: "06",
@@ -227,6 +233,7 @@ const JOURNEY_STEPS = [
     noteEn: "Know someone planning care in China? Ask our team whether a current referral benefit is available.",
     noteZh: "身边有人计划来中国就医？可以联系我们了解当前是否有推荐奖励。",
     icon: MessageCircle,
+    image: serviceOnlineConcierge,
   },
 ] as const;
 
@@ -461,6 +468,18 @@ const Packages = () => {
               const Icon = step.icon;
               return (
                 <article key={step.number} className="group relative overflow-hidden rounded-[1.75rem] border border-border/70 bg-card p-5 shadow-soft transition hover:-translate-y-1 hover:shadow-pop sm:p-6 md:p-7">
+                  <div className="relative -mx-5 -mt-5 mb-5 aspect-[16/6] overflow-hidden bg-muted sm:-mx-6 sm:-mt-6 md:-mx-7 md:-mt-7">
+                    <img
+                      src={step.image}
+                      alt={lang === "zh" ? step.titleZh : step.titleEn}
+                      loading="lazy"
+                      className="absolute inset-0 size-full object-cover transition-transform duration-700 group-hover:scale-[1.035]"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-foreground/35 via-transparent to-transparent" />
+                    <span className="absolute bottom-3 left-4 rounded-full border border-white/50 bg-white/85 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-foreground shadow-soft backdrop-blur-md sm:left-5">
+                      {lang === "zh" ? `第 ${index + 1} 步` : `Step ${index + 1}`}
+                    </span>
+                  </div>
                   <div className="pointer-events-none absolute -right-5 -top-8 font-display text-[7rem] font-semibold leading-none text-primary/[0.055] transition group-hover:text-primary/[0.09]" aria-hidden="true">
                     {step.number}
                   </div>
