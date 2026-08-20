@@ -7,6 +7,19 @@ import PageMeta from "@/components/PageMeta";
 import TikTokWall from "@/components/TikTokWall";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
 import { useAsia } from "@/lib/asia-i18n";
+import treatmentRhinoplasty from "@/assets/treatment-rhinoplasty.jpg";
+import treatmentEyelid from "@/assets/treatment-eyelid.jpg";
+import treatmentFatGrafting from "@/assets/treatment-fat-grafting.jpg";
+import treatmentFacelift from "@/assets/treatment-facelift.jpg";
+import treatmentNeckLift from "@/assets/treatment-neck-lift.jpg";
+import treatmentBreastAugmentation from "@/assets/treatment-breast-augmentation.jpg";
+import treatmentBreastLift from "@/assets/treatment-breast-lift.jpg";
+import treatmentLiposuction from "@/assets/treatment-liposuction.jpg";
+import treatmentTummyTuck from "@/assets/treatment-tummy-tuck.jpg";
+import treatmentBodyContouring from "@/assets/treatment-body-contouring.jpg";
+import clinicConsultation from "@/assets/clinic1.jpg";
+import clinicTreatment from "@/assets/clinic2.jpg";
+import clinicInterior from "@/assets/clinic3.jpg";
 
 export const PROCEDURE_CATEGORIES = [
   {
@@ -122,6 +135,23 @@ export const PROCEDURE_CATEGORIES = [
 ] as const;
 
 export const procedureSlug = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+
+const PROCEDURE_IMAGES: Record<number, string[]> = {
+  0: [treatmentRhinoplasty],
+  1: [treatmentEyelid],
+  2: [treatmentFatGrafting, treatmentRhinoplasty],
+  3: [treatmentFacelift, treatmentNeckLift, treatmentFatGrafting],
+  4: [treatmentBreastAugmentation, treatmentBreastLift],
+  5: [treatmentLiposuction, treatmentTummyTuck, treatmentBodyContouring],
+  6: [clinicConsultation, clinicTreatment],
+  7: [clinicTreatment, clinicInterior],
+  8: [clinicConsultation, clinicInterior, treatmentFatGrafting],
+};
+
+const procedureImage = (categoryIndex: number, itemIndex: number) => {
+  const images = PROCEDURE_IMAGES[categoryIndex] ?? [clinicInterior];
+  return images[itemIndex % images.length];
+};
 
 const CATEGORY_DESCRIPTIONS = [
   ["Procedures that alter nasal structure, proportion or breathing function.", "改善鼻部结构、比例或呼吸功能的相关术式。"],
@@ -366,15 +396,26 @@ const Treatments = () => {
                       <div><span className="font-mono text-[11px] font-bold text-primary">{String(categoryIndex + 1).padStart(2, "0")}</span><h2 className="font-display text-[1.7rem] font-medium leading-tight tracking-tight sm:text-3xl">{label(category.en, category.zh)}</h2><p className="mt-1 max-w-xl text-sm leading-relaxed text-muted-foreground">{ru ? RU_CATEGORY_DESCRIPTIONS[categoryIndex] : CATEGORY_DESCRIPTIONS[categoryIndex][zh ? 1 : 0]}</p></div>
                     </div>
                     <div className="mt-6 grid gap-3 sm:grid-cols-2">
-                        {category.items.map(([en, cn]) => (
+                        {category.items.map(([en, cn], itemIndex) => (
                           <Link
                             to={`/treatments/${procedureSlug(en)}`}
                             key={en}
-                            className="group rounded-2xl border border-border/70 bg-background/75 p-4 transition duration-200 hover:-translate-y-0.5 hover:border-primary/35 hover:bg-card hover:shadow-soft"
+                            className="group grid min-h-[9.5rem] grid-cols-[6.5rem_minmax(0,1fr)] overflow-hidden rounded-2xl border border-border/70 bg-background/75 transition duration-200 hover:-translate-y-0.5 hover:border-primary/35 hover:bg-card hover:shadow-soft sm:grid-cols-[7.5rem_minmax(0,1fr)]"
                           >
-                            <div className="flex items-start justify-between gap-3"><h3 className="font-semibold text-foreground">{label(en, cn)}</h3><ArrowRight className="mt-0.5 size-4 shrink-0 text-primary transition group-hover:translate-x-1" /></div>
-                            <div className="mt-4 flex flex-wrap gap-2 text-[11px] font-medium text-muted-foreground"><span className="rounded-full bg-secondary px-2.5 py-1">{CATEGORY_META[categoryIndex].price}</span><span className="rounded-full bg-primary/10 px-2.5 py-1 text-primary">{zh ? CATEGORY_META[categoryIndex].recoveryZh : CATEGORY_META[categoryIndex].recovery}</span><span className="rounded-full bg-accent/60 px-2.5 py-1">{zh ? CATEGORY_META[categoryIndex].typeZh : ru ? (CATEGORY_META[categoryIndex].type === "Surgical" ? "Хирургия" : CATEGORY_META[categoryIndex].type === "Non-surgical" ? "Без операции" : "Комплексное лечение") : CATEGORY_META[categoryIndex].type}</span></div>
-                            <p className="mt-4 text-xs font-semibold text-primary">{copy("Read the full guide", "阅读完整指南", "Читать полное руководство")} <span aria-hidden="true">→</span></p>
+                            <div className="relative min-h-full overflow-hidden bg-muted">
+                              <img
+                                src={procedureImage(categoryIndex, itemIndex)}
+                                alt=""
+                                loading="lazy"
+                                className="absolute inset-0 size-full object-cover transition-transform duration-500 group-hover:scale-105"
+                              />
+                              <div className="absolute inset-0 bg-gradient-to-t from-foreground/30 via-transparent to-transparent" />
+                            </div>
+                            <div className="min-w-0 p-4">
+                              <div className="flex items-start justify-between gap-3"><h3 className="font-semibold text-foreground">{label(en, cn)}</h3><ArrowRight className="mt-0.5 size-4 shrink-0 text-primary transition group-hover:translate-x-1" /></div>
+                              <div className="mt-3 flex flex-wrap gap-1.5 text-[10px] font-medium text-muted-foreground"><span className="rounded-full bg-secondary px-2 py-1">{CATEGORY_META[categoryIndex].price}</span><span className="rounded-full bg-primary/10 px-2 py-1 text-primary">{zh ? CATEGORY_META[categoryIndex].recoveryZh : CATEGORY_META[categoryIndex].recovery}</span><span className="rounded-full bg-accent/60 px-2 py-1">{zh ? CATEGORY_META[categoryIndex].typeZh : ru ? (CATEGORY_META[categoryIndex].type === "Surgical" ? "Хирургия" : CATEGORY_META[categoryIndex].type === "Non-surgical" ? "Без операции" : "Комплексное лечение") : CATEGORY_META[categoryIndex].type}</span></div>
+                              <p className="mt-3 text-xs font-semibold text-primary">{copy("Read the full guide", "阅读完整指南", "Читать полное руководство")} <span aria-hidden="true">→</span></p>
+                            </div>
                           </Link>
                         ))}
                     </div>
