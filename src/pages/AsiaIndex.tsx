@@ -345,7 +345,7 @@ const TravelBar = () => {
           {journeyCopy.cta} <ArrowRight className="size-4" />
         </Link>
       </div>
-      <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-r from-[hsl(340,82%,91%)] via-[hsl(var(--primary)/.20)] to-[hsl(50,80%,91%)] py-5 shadow-pop md:py-7">
+      <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-r from-[hsl(158,58%,90%)] via-[hsl(145,48%,91%)] to-[hsl(50,80%,91%)] py-5 shadow-pop md:py-7">
         <div className="pointer-events-none absolute left-[8%] right-[8%] top-[7.65rem] hidden h-px bg-primary/30 md:block" aria-hidden="true" />
         <div
           ref={railRef}
