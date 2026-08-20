@@ -497,7 +497,14 @@ const TreatmentsSection = () => {
     { en: "Post-Weight-Loss", zh: "减重后塑形", icon: Scale, items: [["Lower Body Lift", "下半身提升"], ["Arm Lift", "上臂提升"], ["Thigh Lift", "大腿提升"], ["Back Lift", "背部提升"], ["Skin Removal", "多余皮肤切除"]] },
     { en: "Men's Procedures", zh: "男性医美", icon: MaleChestLineIcon, items: [["Male Breast Reduction", "男性乳房缩小"], ["Male Liposuction", "男性吸脂"], ["Jawline Contouring", "下颌线塑形"], ["Hair Transplant", "男性植发"], ["Eyelid Surgery", "男性眼部整形"]] },
   ];
-  const itemStyles = ["text-3xl text-primary", "text-2xl text-foreground", "text-lg text-rose-400", "text-xl text-foreground/65", "text-base text-primary", "text-lg text-amber-500"];
+  const itemStyles = [
+    "text-[1.7rem] text-primary md:text-3xl",
+    "text-xl text-foreground md:text-2xl",
+    "text-base text-foreground/72 md:text-lg",
+    "text-base text-foreground/60 md:text-lg",
+    "text-sm text-primary md:text-base",
+    "text-sm text-foreground/65 md:text-base",
+  ];
   const treatmentCloudRailRef = useRef<HTMLDivElement>(null);
   const treatmentCloudPausedRef = useRef(false);
   const moveTreatmentClouds = (direction: -1 | 1) => {
@@ -546,25 +553,29 @@ const TreatmentsSection = () => {
       </div>
       <div
         ref={treatmentCloudRailRef}
+        onMouseEnter={() => { treatmentCloudPausedRef.current = true; }}
+        onMouseLeave={() => { treatmentCloudPausedRef.current = false; }}
+        onTouchStart={() => { treatmentCloudPausedRef.current = true; }}
+        onTouchEnd={() => { treatmentCloudPausedRef.current = false; }}
         onFocusCapture={() => { treatmentCloudPausedRef.current = true; }}
         onBlurCapture={() => { treatmentCloudPausedRef.current = false; }}
-        className="-mx-4 flex touch-pan-x items-center gap-10 overflow-x-auto overscroll-x-contain px-4 py-6 scrollbar-hide md:-mx-6 md:gap-12 md:px-6"
+        className="-mx-4 flex touch-pan-x items-stretch gap-8 overflow-x-auto overscroll-x-contain px-4 py-6 scrollbar-hide sm:gap-9 md:-mx-6 md:gap-10 md:px-6 lg:[mask-image:linear-gradient(to_right,transparent,black_3%,black_97%,transparent)]"
       >
         {[...procedureClouds, ...procedureClouds].map((cloud, repeatedIndex) => {
           const cloudIndex = repeatedIndex % procedureClouds.length;
           const duplicate = repeatedIndex >= procedureClouds.length;
           const CloudIcon = cloud.icon;
           return (
-          <article key={`${cloud.en}-${duplicate ? "loop" : "primary"}`} aria-hidden={duplicate || undefined} className="group relative flex min-h-[340px] w-full min-w-[84vw] shrink-0 flex-col justify-center px-1 py-5 transition duration-500 hover:-translate-y-1 sm:w-[calc((100%_-_2.5rem)/2)] sm:min-w-[calc((100%_-_2.5rem)/2)] md:w-[calc((100%_-_6rem)/3)] md:min-w-[calc((100%_-_6rem)/3)] lg:w-[calc((100%_-_12rem)/5)] lg:min-w-[calc((100%_-_12rem)/5)] xl:w-[calc((100%_-_15rem)/6)] xl:min-w-[calc((100%_-_15rem)/6)]">
+          <article key={`${cloud.en}-${duplicate ? "loop" : "primary"}`} aria-hidden={duplicate || undefined} className="group relative flex min-h-[310px] w-[82vw] min-w-[82vw] shrink-0 flex-col justify-center px-3 py-5 transition duration-500 hover:-translate-y-1 sm:w-[56vw] sm:min-w-[56vw] md:w-[calc((100%_-_5rem)/3)] md:min-w-[calc((100%_-_5rem)/3)] lg:w-[calc((100%_-_7.5rem)/4)] lg:min-w-[calc((100%_-_7.5rem)/4)]">
             <span className="absolute right-0 top-2 font-display text-6xl font-semibold leading-none text-foreground/[0.04]">0{cloudIndex + 1}</span>
             <div className="mb-5 flex justify-center" aria-hidden="true">
-              <CloudIcon strokeWidth={1.35} className="size-16 text-primary transition duration-500 group-hover:scale-110 group-hover:text-rose-400" />
+              <CloudIcon strokeWidth={1.35} className="size-14 text-primary transition duration-500 group-hover:scale-110 md:size-16" />
             </div>
             <div className="relative flex items-center justify-between gap-3">
               <h3 className="text-xs font-bold uppercase tracking-[0.16em] text-primary">{lang === "zh" ? cloud.zh : cloud.en}</h3>
               <ArrowRight className="size-4 text-primary transition-transform group-hover:translate-x-1" />
             </div>
-            <div className="relative mt-7 flex flex-wrap content-center items-baseline justify-center gap-x-3 gap-y-1.5 text-center">
+            <div className="relative mt-7 flex flex-wrap content-center items-baseline justify-center gap-x-3.5 gap-y-2 text-center">
               {cloud.items.map(([en, zh], itemIndex) => (
                 <Link
                   key={en}
