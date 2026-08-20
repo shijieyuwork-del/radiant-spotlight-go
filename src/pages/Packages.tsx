@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Check, Sparkles, Crown, Gem, ArrowRight, ShieldCheck, Plane, Hotel, Languages, Files, Headphones, FileText } from "lucide-react";
+import { Check, Sparkles, Crown, Gem, ArrowRight, ShieldCheck, Plane, Hotel, Languages, Files, Headphones, FileText, Video, Route, HeartPulse, Map, MessageCircle } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
@@ -152,6 +152,81 @@ const SERVICE_DETAILS = [
     noteZh: "北京时间 10:00–22:00 · 7 天",
     image: serviceOnlineConcierge,
     icon: Headphones,
+  },
+] as const;
+
+const JOURNEY_STEPS = [
+  {
+    number: "01",
+    eyebrowEn: "Consultation · $99–$699",
+    eyebrowZh: "在线咨询 · 99–699 美元",
+    titleEn: "Book your medical consultation",
+    titleZh: "预约医疗咨询",
+    descriptionEn: "Choose a doctor or hospital in China, or let us recommend suitable specialists after reviewing the records you provide. Your consultation plan may include a pre-meeting, a recorded 40-minute one-on-one video consultation, professional translation and a written summary.",
+    descriptionZh: "选择你心仪的中国医生或医院，也可以提交病历，由我们协助匹配合适的专家。咨询方案可包含会前病历梳理、40 分钟一对一视频面诊、专业翻译及书面总结。",
+    noteEn: "Dental and cosmetic consultations may start at $99; complex multidisciplinary cases may range from $399–$699. The final fee is confirmed before booking.",
+    noteZh: "牙科及医美咨询可低至 99 美元；复杂多学科病例通常为 399–699 美元。预约前会确认最终费用。",
+    icon: Video,
+  },
+  {
+    number: "02",
+    eyebrowEn: "Flights & documents",
+    eyebrowZh: "航班与签证材料",
+    titleEn: "Arrange your travel & visa",
+    titleZh: "安排行程与签证",
+    descriptionEn: "Once your appointment is confirmed, we help organize arrival details and the documents needed for your trip. Eligible partner-hospital bookings may include airport pickup and assistance getting connected after arrival.",
+    descriptionZh: "面诊确认后，我们协助梳理抵达信息和行程所需文件。符合条件的合作医院预约可包含机场接送，以及抵达后的通信设置协助。",
+    noteEn: "If a visa is required, we can help arrange a Medical Invitation Letter. Share confirmed flight details at least five days before arrival.",
+    noteZh: "如需签证，我们可协助准备医疗邀请函。请至少提前 5 天提供已确认的航班信息。",
+    icon: Plane,
+  },
+  {
+    number: "03",
+    eyebrowEn: "Before departure",
+    eyebrowZh: "出发前准备",
+    titleEn: "Choose your on-ground support",
+    titleZh: "选择落地支持方案",
+    descriptionEn: "Select the travel package that matches your needs. Before departure, receive your confirmed itinerary, pickup details, hotel information and practical arrival guidance in one place.",
+    descriptionZh: "根据需求选择旅行套餐。出发前，你会收到已确认的行程、接机安排、酒店信息及实用抵达指南。",
+    noteEn: "Your coordinator confirms what is included, what is optional and any separately payable costs before you travel.",
+    noteZh: "出发前，协调员会说明包含服务、可选服务及需要另行支付的费用。",
+    icon: Route,
+  },
+  {
+    number: "04",
+    eyebrowEn: "Clinic & recovery",
+    eyebrowZh: "就诊与恢复",
+    titleEn: "Treatment with coordinated support",
+    titleZh: "就诊及恢复期协调",
+    descriptionEn: "For included clinic visits, a bilingual coordinator can support communication between you and the treating team. We also help coordinate practical next steps during your scheduled support period.",
+    descriptionZh: "在套餐包含的诊所行程中，双语协调员可协助你与医疗团队沟通，并在约定的服务时段内协调实际后续安排。",
+    noteEn: "Medical decisions remain with your licensed treating clinician. Concierge support is available during the hours shown in your selected package.",
+    noteZh: "医疗决定由持证接诊医生负责；在线管家支持时间以所选套餐说明为准。",
+    icon: HeartPulse,
+  },
+  {
+    number: "05",
+    eyebrowEn: "Optional China itinerary",
+    eyebrowZh: "可选中国行程",
+    titleEn: "Recover—and explore when ready",
+    titleZh: "安心恢复，状态允许时探索中国",
+    descriptionEn: "If your clinician agrees that you are ready to travel, we can connect you with trusted travel providers or help shape a personalized itinerary around your recovery needs.",
+    descriptionZh: "如医生确认身体状态适合出行，我们可以为你对接可信赖的旅行服务商，或根据恢复需求协助规划个性化行程。",
+    noteEn: "Touring is optional and should never replace clinical recovery instructions.",
+    noteZh: "旅游完全自愿，并应始终以医生的恢复指导为优先。",
+    icon: Map,
+  },
+  {
+    number: "06",
+    eyebrowEn: "After you return home",
+    eyebrowZh: "回国后的联系",
+    titleEn: "Post-treatment follow-up",
+    titleZh: "术后随访协调",
+    descriptionEn: "Stay connected through WhatsApp, WeChat or email after returning home. When your doctor recommends a follow-up, we help coordinate the remote appointment and translation.",
+    descriptionZh: "回国后可继续通过 WhatsApp、微信或电子邮件保持联系。如医生建议复诊，我们会协助协调远程随访及翻译。",
+    noteEn: "Know someone planning care in China? Ask our team whether a current referral benefit is available.",
+    noteZh: "身边有人计划来中国就医？可以联系我们了解当前是否有推荐奖励。",
+    icon: MessageCircle,
   },
 ] as const;
 
@@ -353,6 +428,72 @@ const Packages = () => {
             </div>
           ))}
         </div>
+
+        <section className="mt-16 md:mt-24" aria-labelledby="medical-journey-title">
+          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <div>
+              <span className="pill mb-3 bg-accent text-accent-foreground">
+                <Route className="size-3.5" />
+                {lang === "zh" ? "从咨询到回国随访" : "Your journey, step by step"}
+              </span>
+              <h2 id="medical-journey-title" className="max-w-3xl font-display text-3xl font-medium leading-tight tracking-tight md:text-5xl">
+                {lang === "zh" ? (
+                  <>六个步骤，<em className="not-italic text-primary">安心完成中国医疗行程</em></>
+                ) : (
+                  <>Six clear steps, <em className="not-italic text-primary">one coordinated journey</em></>
+                )}
+              </h2>
+              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">
+                {lang === "zh"
+                  ? "快速了解从首次线上咨询、签证与抵达到治疗、恢复和回国随访的完整流程。"
+                  : "See what happens from your first online consultation through travel, treatment, recovery and follow-up at home."}
+              </p>
+            </div>
+            <a href="https://wa.me/14708613825?text=Hi%20Cosmetics%20Asia%2C%20I%20would%20like%20help%20planning%20my%20medical%20journey%20to%20China." target="_blank" rel="noreferrer" className="inline-flex min-h-12 shrink-0 items-center justify-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground shadow-soft transition hover:-translate-y-0.5 hover:bg-primary/90">
+              {lang === "zh" ? "开始规划行程" : "Start planning your journey"}
+              <ArrowRight className="size-4" />
+            </a>
+          </div>
+
+          <div className="relative mt-9 grid gap-4 md:grid-cols-2 md:gap-6">
+            <div className="absolute bottom-10 left-1/2 top-10 hidden w-px -translate-x-1/2 bg-primary/15 md:block" aria-hidden="true" />
+            {JOURNEY_STEPS.map((step, index) => {
+              const Icon = step.icon;
+              return (
+                <article key={step.number} className="group relative overflow-hidden rounded-[1.75rem] border border-border/70 bg-card p-5 shadow-soft transition hover:-translate-y-1 hover:shadow-pop sm:p-6 md:p-7">
+                  <div className="pointer-events-none absolute -right-5 -top-8 font-display text-[7rem] font-semibold leading-none text-primary/[0.055] transition group-hover:text-primary/[0.09]" aria-hidden="true">
+                    {step.number}
+                  </div>
+                  <div className="relative flex items-start gap-4">
+                    <div className="grid size-12 shrink-0 place-items-center rounded-2xl bg-[linear-gradient(135deg,hsl(158_55%_91%),hsl(340_65%_94%))] text-primary shadow-soft">
+                      <Icon className="size-5" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-primary">
+                          {lang === "zh" ? `第 ${index + 1} 步` : `Step ${index + 1}`}
+                        </span>
+                        <span className="rounded-full bg-accent px-2.5 py-1 text-[10px] font-semibold text-foreground/75">
+                          {lang === "zh" ? step.eyebrowZh : step.eyebrowEn}
+                        </span>
+                      </div>
+                      <h3 className="mt-2 font-display text-xl font-semibold leading-tight tracking-tight sm:text-2xl">
+                        {lang === "zh" ? step.titleZh : step.titleEn}
+                      </h3>
+                    </div>
+                  </div>
+                  <p className="relative mt-4 text-sm leading-7 text-foreground/75">
+                    {lang === "zh" ? step.descriptionZh : step.descriptionEn}
+                  </p>
+                  <div className="relative mt-4 flex items-start gap-2 rounded-2xl bg-secondary/55 px-4 py-3 text-xs leading-relaxed text-muted-foreground">
+                    <Check className="mt-0.5 size-3.5 shrink-0 text-primary" />
+                    <span>{lang === "zh" ? step.noteZh : step.noteEn}</span>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </section>
 
         <section className="mt-16 overflow-hidden rounded-[2rem] border border-primary/15 bg-card shadow-pop md:mt-20" aria-labelledby="included-services-title">
           <div className="bg-[linear-gradient(120deg,hsl(190_75%_91%),hsl(155_52%_89%)_55%,hsl(48_85%_92%))] px-6 pb-20 pt-8 md:px-10 md:pb-24 md:pt-10">
