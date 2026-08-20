@@ -275,7 +275,7 @@ const CaseDetail = () => {
               </p>
             </div>
 
-            <aside className="overflow-hidden rounded-[2rem] border border-primary/15 bg-gradient-to-br from-[hsl(340,82%,92%)] via-[hsl(var(--primary)/.18)] to-[hsl(50,80%,92%)] p-5 shadow-soft sm:p-7">
+            <aside className="overflow-hidden rounded-[2rem] border border-primary/15 bg-gradient-to-br from-[hsl(158,58%,90%)] via-[hsl(145,48%,91%)] to-[hsl(50,80%,91%)] p-5 shadow-soft sm:p-7">
               <span className="pill bg-card/80 text-accent-foreground shadow-soft">
                 <MessageCircle className="size-3.5 text-primary" />
                 {lang === "zh" ? "免费咨询" : lang === "ru" ? "Бесплатная консультация" : "Free guidance"}

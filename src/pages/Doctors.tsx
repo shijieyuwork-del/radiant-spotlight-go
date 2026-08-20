@@ -262,7 +262,7 @@ const Doctors = () => {
           </div>
         )}
 
-        <aside className="mt-10 overflow-hidden rounded-[2rem] border border-primary/15 bg-gradient-to-r from-[hsl(340,82%,92%)] via-[hsl(var(--primary)/.18)] to-[hsl(50,80%,92%)] px-5 py-7 shadow-soft sm:mt-14 sm:px-8 sm:py-9 md:flex md:items-center md:justify-between md:gap-8">
+        <aside className="mt-10 overflow-hidden rounded-[2rem] border border-primary/15 bg-gradient-to-r from-[hsl(158,58%,90%)] via-[hsl(145,48%,91%)] to-[hsl(50,80%,91%)] px-5 py-7 shadow-soft sm:mt-14 sm:px-8 sm:py-9 md:flex md:items-center md:justify-between md:gap-8">
           <div className="max-w-2xl">
             <span className="pill bg-card/80 text-accent-foreground shadow-soft">
               <MessageCircle className="size-3.5 text-primary" />
