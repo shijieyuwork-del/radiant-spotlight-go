@@ -14,54 +14,6 @@ export type Database = {
   }
   public: {
     Tables: {
-      videos: {
-        Row: {
-          caption: string | null
-          city: string | null
-          created_at: string
-          id: string
-          owner_id: string
-          procedure: string | null
-          status: string
-          storage_path: string
-          title: string
-          updated_at: string
-          doctor_id: string | null
-        }
-        Insert: {
-          caption?: string | null
-          city?: string | null
-          created_at?: string
-          id?: string
-          owner_id?: string
-          procedure?: string | null
-          status?: string
-          storage_path: string
-          title: string
-          updated_at?: string
-          doctor_id?: string | null
-        }
-        Update: {
-          caption?: string | null
-          city?: string | null
-          created_at?: string
-          id?: string
-          owner_id?: string
-          procedure?: string | null
-          status?: string
-          storage_path?: string
-          title?: string
-          updated_at?: string
-          doctor_id?: string | null
-        }
-        Relationships: []
-      }
-      doctors: {
-        Row: { id: string; owner_id: string; name: string; title: string; hospital: string; city: string; specialties: string[]; bio: string; credentials: string | null; languages: string | null; photo_path: string | null; status: string; created_at: string; updated_at: string }
-        Insert: { id?: string; owner_id?: string; name: string; title: string; hospital: string; city: string; specialties?: string[]; bio: string; credentials?: string | null; languages?: string | null; photo_path?: string | null; status?: string; created_at?: string; updated_at?: string }
-        Update: { id?: string; owner_id?: string; name?: string; title?: string; hospital?: string; city?: string; specialties?: string[]; bio?: string; credentials?: string | null; languages?: string | null; photo_path?: string | null; status?: string; created_at?: string; updated_at?: string }
-        Relationships: []
-      }
       profiles: {
         Row: {
           avatar_url: string | null
