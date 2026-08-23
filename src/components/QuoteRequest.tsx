@@ -1,11 +1,12 @@
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
-import { MessageCircle, Lock, ArrowRight, ArrowLeft, CheckCircle2, X, Sparkles, DollarSign, CalendarDays, Video } from "lucide-react";
+import { MessageCircle, Lock, ArrowRight, ArrowLeft, CheckCircle2, X, Sparkles, DollarSign, CalendarDays, Video, Clock } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+import { getCityTimezone, useCityTime } from "@/lib/timezones";
 
 export interface QuoteContext {
   doctorName?: string;
@@ -188,6 +189,7 @@ const QuoteDialog = ({
             doctorName={ctx.doctorName}
             intent={intent}
             slot={slot}
+            city={ctx.city}
           />
         ) : (
           <>
@@ -261,7 +263,7 @@ const QuoteDialog = ({
 
                 {intent === "consultation" && (
                   <Field label="Pick a consultation time" required>
-                    <SlotPicker value={slot} onChange={setSlot} />
+                    <SlotPicker value={slot} onChange={setSlot} city={ctx.city} />
                   </Field>
                 )}
 
@@ -370,13 +372,22 @@ const buildSlots = () => {
   return days;
 };
 
-const SlotPicker = ({ value, onChange }: { value: string; onChange: (v: string) => void }) => {
+const SlotPicker = ({ value, onChange, city }: { value: string; onChange: (v: string) => void; city?: string }) => {
   const days = buildSlots();
   const [activeDay, setActiveDay] = useState(days[0].key);
   const day = days.find((d) => d.key === activeDay) ?? days[0];
+  const cityName = city ?? "Shanghai";
+  const tz = getCityTimezone(city);
+  const cityNow = useCityTime(tz);
 
   return (
     <div className="rounded-2xl border border-border bg-card p-3 space-y-3">
+      <p className="flex items-center gap-1.5 rounded-xl bg-accent/70 px-3 py-2 text-[11px] font-medium leading-snug text-foreground/80">
+        <Clock className="size-3.5 shrink-0 text-primary" />
+        <span>
+          All times are <b>{cityName}</b> local time ({tz.offset} · {tz.label.en}) — it&apos;s <b>{cityNow}</b> there now.
+        </span>
+      </p>
       <div className="grid grid-cols-5 gap-1.5">
         {days.map((d) => (
           <button
@@ -424,15 +435,17 @@ const Field = ({ label, required, children }: { label: string; required?: boolea
 );
 
 const SuccessState = ({
-  onClose, doctorName, intent, slot,
+  onClose, doctorName, intent, slot, city,
 }: {
   onClose: () => void;
   doctorName?: string;
   intent: Intent | null;
   slot?: string;
+  city?: string;
 }) => {
   const isConsult = intent === "consultation";
-  const prettySlot = slot ? slot.replace(" ", " · ") : "";
+  const tz = getCityTimezone(city);
+  const prettySlot = slot ? `${slot.replace(" ", " · ")} (${city ?? "Shanghai"} time, ${tz.offset})` : "";
   return (
     <div className="p-8 text-center">
       <div className="size-16 rounded-3xl bg-gradient-mint grid place-items-center mx-auto shadow-soft">
