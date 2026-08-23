@@ -10,11 +10,12 @@ import { Button } from "@/components/ui/button";
 import { DOCTORS } from "@/data/doctors";
 import { useAsia } from "@/lib/asia-i18n";
 import { supabase } from "@/integrations/supabase/client";
+import { signedUrls } from "@/lib/storage-urls";
 import { useQuote } from "@/components/QuoteRequest";
 import { DEMO_CHINA_DOCTORS } from "@/data/demoChinaDoctors";
 import { asiaCopy } from "@/lib/asia-copy";
 
-type ManagedDoctor = { id:string; name:string; title:string; hospital:string; city:string; specialties:string[]; bio:string; photo_path:string|null };
+type ManagedDoctor = { id:string; name:string; title:string; hospital:string; city:string; specialties:string[]; bio:string; photo_path:string|null; photo?:string };
 
 const Doctors = () => {
   const { t, lang } = useAsia();
@@ -24,14 +25,16 @@ const Doctors = () => {
   const [spec, setSpec] = useState<string>("all");
   const [managedDoctors, setManagedDoctors] = useState<ManagedDoctor[]>([]);
   const { open } = useQuote();
-  useEffect(()=>{supabase.from("doctors").select("id,name,title,hospital,city,specialties,bio,photo_path").eq("status","published").order("created_at",{ascending:false}).then(({data})=>{
+  useEffect(()=>{supabase.from("doctors").select("id,name,title,hospital,city,specialties,bio,photo_path").eq("status","published").order("created_at",{ascending:false}).then(async ({data})=>{
     const chinaCities = ["shanghai", "beijing", "guangzhou", "hangzhou", "hainan", "上海", "北京", "广州", "杭州", "海南"];
-    setManagedDoctors(((data??[]) as ManagedDoctor[]).filter((doctor)=>chinaCities.some((cityName)=>doctor.city?.toLowerCase().includes(cityName))));
+    const rows = ((data??[]) as ManagedDoctor[]).filter((doctor)=>chinaCities.some((cityName)=>doctor.city?.toLowerCase().includes(cityName)));
+    const photos = await signedUrls("doctor-photos", rows.map((doctor)=>doctor.photo_path));
+    setManagedDoctors(rows.map((doctor, index)=>({ ...doctor, photo: photos[index] })));
   })},[]);
 
   const publicDoctors = useMemo(() => DOCTORS.filter(() => false), []);
   const directoryDoctors = managedDoctors.length > 0
-    ? managedDoctors.map((doctor) => ({ ...doctor, demo: false as const, photo: doctor.photo_path ? supabase.storage.from("doctor-photos").getPublicUrl(doctor.photo_path).data.publicUrl : "" }))
+    ? managedDoctors.map((doctor) => ({ ...doctor, demo: false as const, photo: doctor.photo ?? "" }))
     : DEMO_CHINA_DOCTORS.map((doctor) => ({ ...doctor, photo_path: null, credentials: null }));
   const cities = useMemo(() => {
     const set = new Map<string, string>();
