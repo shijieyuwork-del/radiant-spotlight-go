@@ -331,10 +331,10 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase }
 
   if (variant === "cases") {
     return (
-      <div className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-4 scrollbar-hide sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3">
-        {items.map((it) => (
+      <div className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth overscroll-x-contain px-4 pb-4 scrollbar-hide sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3">
+        {items.map((it, index) => (
           <div key={it.id} className="w-[82vw] max-w-[22rem] shrink-0 snap-center sm:mx-auto sm:w-full sm:max-w-[25rem]">
-            <TikTokCard item={it} lang={lang} fmtPrice={fmtPrice} caseHrefBase={caseHrefBase} discovery />
+            <TikTokCard item={it} lang={lang} fmtPrice={fmtPrice} caseHrefBase={caseHrefBase} discovery eager={index < 3} />
           </div>
         ))}
       </div>
@@ -342,10 +342,10 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase }
   }
 
   return (
-    <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide -mx-4 px-4 pb-3 sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-      {items.map((it) => (
+    <div className="flex gap-4 overflow-x-auto scroll-smooth overscroll-x-contain snap-x snap-mandatory scrollbar-hide -mx-4 px-4 pb-3 sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+      {items.map((it, index) => (
         <div key={it.id} className="min-w-[78vw] sm:min-w-0 snap-center">
-          <TikTokCard item={it} lang={lang} fmtPrice={fmtPrice} caseHrefBase={caseHrefBase} />
+          <TikTokCard item={it} lang={lang} fmtPrice={fmtPrice} caseHrefBase={caseHrefBase} eager={index < 4} />
         </div>
       ))}
     </div>
