@@ -125,7 +125,7 @@ const TikTokCard = ({
     >
       <video
         ref={ref}
-        src={near || eager ? item.src : undefined}
+        src={item.src}
         poster={item.poster}
         muted={muted}
         loop
