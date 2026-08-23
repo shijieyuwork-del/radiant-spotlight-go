@@ -35,12 +35,13 @@ const labels = {
 };
 
 const TikTokCard = ({
-  item, lang, fmtPrice, caseHrefBase = "/cases/", autoPlayEligible = true, discovery = false,
-}: { item: TikTokItem; lang: "en" | "zh" | "ru"; fmtPrice: (n: number) => string; caseHrefBase?: string; autoPlayEligible?: boolean; discovery?: boolean }) => {
+  item, lang, fmtPrice, caseHrefBase = "/cases/", autoPlayEligible = true, discovery = false, eager = false, beforeNavigate,
+}: { item: TikTokItem; lang: "en" | "zh" | "ru"; fmtPrice: (n: number) => string; caseHrefBase?: string; autoPlayEligible?: boolean; discovery?: boolean; eager?: boolean; beforeNavigate?: () => boolean }) => {
   const ref = useRef<HTMLVideoElement>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
   const [muted, setMuted] = useState(true);
   const [playing, setPlaying] = useState(false);
+  const [near, setNear] = useState(eager);
   const navigate = useNavigate();
   const caseUrl = `${caseHrefBase}${item.id}`;
   const { saved, toggleSaved, signedIn } = useSavedCase(item.id);
