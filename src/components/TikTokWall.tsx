@@ -249,9 +249,33 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase }
       return distance;
     };
 
+    const allowClick = () => !suppressClick.current;
+
     return (
       <div
-        className="relative touch-pan-x overflow-hidden overscroll-x-contain rounded-[1.75rem] border border-primary/15 bg-[radial-gradient(ellipse_at_50%_100%,hsl(var(--primary)/.22),transparent_62%)] px-2 pb-5 pt-3 shadow-pop sm:rounded-[2.25rem] sm:px-6 sm:pb-6 sm:pt-4 md:pt-6"
+        className="relative touch-pan-y select-none overflow-hidden overscroll-x-contain rounded-[1.75rem] border border-primary/15 bg-[radial-gradient(ellipse_at_50%_100%,hsl(var(--primary)/.22),transparent_62%)] px-2 pb-5 pt-3 shadow-pop sm:rounded-[2.25rem] sm:px-6 sm:pb-6 sm:pt-4 md:pt-6"
+        onTouchStart={(e) => {
+          touchStart.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+          swipeMoved.current = false;
+        }}
+        onTouchMove={(e) => {
+          const start = touchStart.current;
+          if (!start || swipeMoved.current) return;
+          const dx = e.touches[0].clientX - start.x;
+          const dy = e.touches[0].clientY - start.y;
+          if (Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy)) swipeMoved.current = true;
+        }}
+        onTouchEnd={(e) => {
+          const start = touchStart.current;
+          touchStart.current = null;
+          if (!start || !swipeMoved.current) return;
+          const dx = e.changedTouches[0].clientX - start.x;
+          if (Math.abs(dx) > 40) {
+            suppressClick.current = true;
+            move(dx < 0 ? 1 : -1);
+            window.setTimeout(() => { suppressClick.current = false; }, 400);
+          }
+        }}
       >
         <div className="relative mx-auto h-[500px] max-w-[90rem] sm:h-[540px] md:h-[590px]">
           {items.map((it, index) => {
