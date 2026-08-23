@@ -115,7 +115,7 @@ const TikTokCard = ({
     <div
       ref={wrapRef}
       className="group relative aspect-[9/16] cursor-pointer overflow-hidden rounded-3xl bg-card shadow-pop [backface-visibility:hidden] [transform:translateZ(0)]"
-      onClick={() => navigate(caseUrl)}
+      onClick={() => { if (beforeNavigate && !beforeNavigate()) return; navigate(caseUrl); }}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") navigate(caseUrl);
       }}
