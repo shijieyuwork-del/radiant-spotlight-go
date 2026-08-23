@@ -27,6 +27,7 @@ import journeyRecovery from "@/assets/journey-real-recovery.webp";
 import journeyFollowUp from "@/assets/journey-real-follow-up.webp";
 import AppPromoSection from "@/components/AppPromoSection";
 import { supabase } from "@/integrations/supabase/client";
+import { signedUrls } from "@/lib/storage-urls";
 import { DEMO_CHINA_DOCTORS } from "@/data/demoChinaDoctors";
 
 type ProcedureIconProps = { className?: string; strokeWidth?: number };
@@ -608,12 +609,12 @@ const DoctorsSection = () => {
   const { open } = useQuote();
   const [publishedDoctors, setPublishedDoctors] = useState<Array<{
     id: string; name: string; title: string; hospital: string; city: string;
-    specialties: string[]; bio: string; photo_path: string | null;
+    specialties: string[]; bio: string; photo_path: string | null; photo?: string;
   }>>([]);
   const doctorRailRef = useRef<HTMLDivElement>(null);
   const doctorRailPausedRef = useRef(false);
   const displayedDoctors = publishedDoctors.length > 0
-    ? publishedDoctors.map((doctor) => ({ ...doctor, photo: doctor.photo_path ? supabase.storage.from("doctor-photos").getPublicUrl(doctor.photo_path).data.publicUrl : "", demo: false as const }))
+    ? publishedDoctors.map((doctor) => ({ ...doctor, photo: doctor.photo ?? "", demo: false as const }))
     : DEMO_CHINA_DOCTORS.map((doctor) => ({ ...doctor, photo_path: null }));
   useEffect(() => {
     const chinaCities = ["Shanghai", "Beijing", "Guangzhou", "Hangzhou", "Hainan", "上海", "北京", "广州", "杭州", "海南"];
@@ -622,9 +623,10 @@ const DoctorsSection = () => {
       .select("id,name,title,hospital,city,specialties,bio,photo_path")
       .eq("status", "published")
       .order("created_at", { ascending: false })
-      .then(({ data }) => {
+      .then(async ({ data }) => {
         const rows = (data ?? []).filter((doctor) => chinaCities.some((city) => doctor.city?.toLowerCase().includes(city.toLowerCase())));
-        setPublishedDoctors(rows as typeof publishedDoctors);
+        const photos = await signedUrls("doctor-photos", rows.map((doctor) => doctor.photo_path));
+        setPublishedDoctors(rows.map((doctor, index) => ({ ...doctor, photo: photos[index] })) as typeof publishedDoctors);
       });
   }, []);
   const moveDoctors = (direction: -1 | 1) => {
