@@ -125,12 +125,12 @@ const TikTokCard = ({
     >
       <video
         ref={ref}
-        src={item.src}
+        src={near || eager ? item.src : undefined}
         poster={item.poster}
         muted={muted}
         loop
         playsInline
-        preload="metadata"
+        preload={eager ? "auto" : near ? "metadata" : "none"}
         className="absolute inset-0 size-full object-cover [backface-visibility:hidden] [transform:translateZ(0)]"
       />
 
