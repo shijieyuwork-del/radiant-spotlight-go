@@ -11,8 +11,7 @@ export const SITE_DESCRIPTION =
   "Cosmetics Asia helps international patients compare verified cosmetic surgeons across Asia, watch real patient recovery diaries, get transparent prices, and coordinate travel and aftercare in English.";
 export const SITE_AUTHOR = "Cosmetics Asia";
 
-// OG 图片（医疗类网站建议用现场治疗对比图）
-// 暂时用通用占位符，你之后可以替换成真实的高质量图片
+// OG 分享卡片：public/og-image.jpg（1200×630），发布后可被社交平台抓取
 export const OG_IMAGE = `${SITE_URL}/og-image.jpg`;
 
 // Twitter 账号
