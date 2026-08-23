@@ -229,6 +229,9 @@ const TikTokCard = ({
 const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase }: TikTokWallProps) => {
   const [active, setActive] = useState(0);
   const [settledActive, setSettledActive] = useState<number | null>(0);
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
+  const swipeMoved = useRef(false);
+  const suppressClick = useRef(false);
 
   useEffect(() => {
     if (variant !== "preview") return;
