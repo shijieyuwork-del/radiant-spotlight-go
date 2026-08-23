@@ -943,8 +943,8 @@ const PatientReviewsSection = () => {
 const AsiaIndex = () => (
   <>
     <PageMeta
-      title="Cosmetic Surgery in China | Doctors & Patient Diaries"
-      description="Compare cosmetic surgeons in China, watch patient recovery diaries, understand procedures, and plan translation, travel and aftercare with Cosmetics Asia."
+      title="Cosmetic Surgery in Asia | Patient Diaries"
+      description="Compare verified cosmetic surgeons across Asia, watch real patient recovery diaries, get transparent prices, and plan travel and aftercare in English with Cosmetics Asia."
       path="/"
       structuredData={ORGANIZATION_SCHEMA}
     />

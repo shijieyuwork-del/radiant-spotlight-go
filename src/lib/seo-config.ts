@@ -3,17 +3,15 @@
  * 域名改过后，只需改这一处
  */
 
-// 网站上线后换成真实域名（如 https://cosmetics-asia.com）
-// 开发时用 localhost，构建/部署时会通过环境变量或 vite 配置补充
-export const SITE_URL = import.meta.env.VITE_SITE_URL || "https://cosmetics-asia.com";
+// 当前已发布域名；接入自定义域名后只需改这一处（或设置 VITE_SITE_URL）
+export const SITE_URL = import.meta.env.VITE_SITE_URL || "https://radiant-spotlight-go.lovable.app";
 
 export const SITE_NAME = "Cosmetics Asia";
 export const SITE_DESCRIPTION =
-  "Cosmetics Asia helps international patients compare cosmetic surgeons in China, watch patient recovery diaries, understand procedures, and coordinate travel and aftercare.";
+  "Cosmetics Asia helps international patients compare verified cosmetic surgeons across Asia, watch real patient recovery diaries, get transparent prices, and coordinate travel and aftercare in English.";
 export const SITE_AUTHOR = "Cosmetics Asia";
 
-// OG 图片（医疗类网站建议用现场治疗对比图）
-// 暂时用通用占位符，你之后可以替换成真实的高质量图片
+// OG 分享卡片：public/og-image.jpg（1200×630），发布后可被社交平台抓取
 export const OG_IMAGE = `${SITE_URL}/og-image.jpg`;
 
 // Twitter 账号

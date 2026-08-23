@@ -97,38 +97,38 @@ function buildRoutes(d) {
   const routes = [
     {
       path: "/",
-      title: "Cosmetic Surgery in China | Doctors & Patient Diaries",
+      title: "Cosmetic Surgery in Asia | Patient Diaries",
       description:
-        "Compare cosmetic surgeons in China, watch patient recovery diaries, understand procedures, and plan translation, travel and aftercare with Cosmetics Asia.",
+        "Compare verified cosmetic surgeons across Asia, watch real patient recovery diaries, get transparent prices, and plan travel and aftercare in English with Cosmetics Asia.",
       schema: d.ORGANIZATION_SCHEMA,
     },
     {
       path: "/cities",
-      title: "Medical Aesthetics in China | Shanghai, Guangzhou, Beijing, Hainan, Hangzhou",
+      title: "Top Surgery Destinations in Asia",
       description:
-        "Explore medical-aesthetic destinations in Shanghai, Guangzhou, Beijing, Hainan, and Hangzhou with clinics, specialties, pricing, and travel information.",
+        "Explore Seoul, Shanghai, Bangkok, Tokyo, Singapore and more — Asia's cosmetic surgery hubs with specialties, USD pricing, visa info and travel planning.",
     },
     {
       path: "/doctors",
-      title: "Cosmetic Surgeons in China | Review Doctor Profiles",
+      title: "Verified Cosmetic Surgeons in Asia",
       description:
-        "Review published cosmetic surgeon profiles in China, compare specialties and hospital affiliations, and request an online consultation with English-language coordination.",
+        "Review verified surgeon profiles across Asia, compare specialties and credentials, and book a free consultation with English-language coordination.",
     },
     {
       path: "/cases",
-      title: "Patient Recovery Diaries | Cosmetic Surgery in China",
+      title: "Real Patient Recovery Diaries",
       description:
-        "Explore cosmetic surgery recovery diary previews by procedure and destination in China, including recovery stages, provider details and related doctor profiles.",
+        "Watch real before-and-after recovery diaries by procedure and city across Asia — timelines, prices, surgeon info and verified results.",
     },
     {
       path: "/travel-packages",
-      title: "China Medical Travel Packages",
-      description: "Compare China medical travel support packages with airport transfers, hotel assistance, in-clinic translation and coordinated aftercare.",
+      title: "Medical Travel Packages",
+      description: "Compare concierge packages for your Asia surgery trip — airport pickup, in-clinic translation, hotel help, and coordinated aftercare.",
     },
     {
       path: "/why-china",
-      title: "Why China for Cosmetic Surgery | Facts & Safety",
-      description: "Review evidence, safety questions, travel considerations and source-backed information for patients considering cosmetic surgery in China.",
+      title: "Why Choose Asia for Surgery",
+      description: "Evidence-based reasons to consider cosmetic medical travel in Asia, plus a practical safety checklist and original sources.",
     },
   ];
 

@@ -264,8 +264,8 @@ const Packages = () => {
   return (
     <>
       <PageMeta
-        title="China Medical Travel Support | Cosmetics Asia"
-        description="Plan care in China with coordinated airport pickup, clinic translation, accommodation guidance and recovery support for international patients."
+        title="Medical Travel Packages"
+        description="Compare concierge packages for your Asia surgery trip — airport pickup, in-clinic translation, hotel help, and coordinated aftercare."
         path="/travel-packages"
       />
       <div className="min-h-screen bg-background">

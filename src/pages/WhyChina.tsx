@@ -44,8 +44,8 @@ const WhyChina = () => {
   return (
     <div className="min-h-screen bg-background">
       <PageMeta
-        title="Why China for Cosmetic Surgery | Facts & Safety"
-        description="Three evidence-based reasons to consider cosmetic medical travel in China, plus a practical safety checklist and original sources."
+        title="Why Choose Asia for Surgery"
+        description="Evidence-based reasons to consider cosmetic medical travel in Asia, plus a practical safety checklist and original sources."
         path="/why-china"
         type="article"
         structuredData={schema}
