@@ -49,11 +49,13 @@ const Cases = () => {
     return Array.from(set, ([key, label]) => ({ key, label }));
   }, [caseCity, lang]);
 
-  // URL 里带了无效城市时清掉，避免筛选静默变成「无结果」
-  useEffect(() => {
-    if (activeCity && cities.length > 0 && !cities.some((o) => o.key === activeCity)) {
-      setActiveCity("");
+  // URL 带进来的城市若暂时没有案例（如 Seoul），保留筛选并把它显示在下拉框里，
+  // 让空态如实呈现「该城市暂无案例」，而不是静默清除后展示全部。
+  const cityOptions = useMemo(() => {
+    if (activeCity && !cities.some((o) => o.key === activeCity)) {
+      return [...cities, { key: activeCity, label: activeCity }];
     }
+    return cities;
   }, [cities, activeCity]);
 
   const stageFor = (caption: string) => {
