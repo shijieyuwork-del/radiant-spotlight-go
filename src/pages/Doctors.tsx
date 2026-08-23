@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import {
   Search, Filter, Stethoscope, BadgeCheck, Building2, FileCheck2, Star, ArrowRight, MapPin, MessageCircle,
 } from "lucide-react";
@@ -13,6 +13,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { signedUrls } from "@/lib/storage-urls";
 import { useQuote } from "@/components/QuoteRequest";
 import { DEMO_CHINA_DOCTORS } from "@/data/demoChinaDoctors";
+import { CITIES } from "@/data/cities";
 import { asiaCopy } from "@/lib/asia-copy";
 
 type ManagedDoctor = { id:string; name:string; title:string; hospital:string; city:string; specialties:string[]; bio:string; photo_path:string|null; photo?:string };
@@ -20,8 +21,10 @@ type ManagedDoctor = { id:string; name:string; title:string; hospital:string; ci
 const Doctors = () => {
   const { t, lang } = useAsia();
   const c = <T,>(en: T, zh: T, ru: T) => asiaCopy(lang, { en, zh, ru });
+  const [searchParams] = useSearchParams();
   const [q, setQ] = useState("");
-  const [city, setCity] = useState<string>("all");
+  // 支持从城市搜索跳转进来时预选城市（/doctors?city=Seoul）
+  const [city, setCity] = useState<string>(() => searchParams.get("city") || "all");
   const [spec, setSpec] = useState<string>("all");
   const [managedDoctors, setManagedDoctors] = useState<ManagedDoctor[]>([]);
   const { open } = useQuote();
@@ -39,8 +42,30 @@ const Doctors = () => {
   const cities = useMemo(() => {
     const set = new Map<string, string>();
     publicDoctors.forEach((d) => set.set(d.cityEn, d[lang === "zh" ? "cityZh" : "cityEn"]));
+    directoryDoctors.forEach((d) => { if (d.city) set.set(d.city, d.city); });
     return Array.from(set, ([key, label]) => ({ key, label }));
-  }, [lang, publicDoctors]);
+  }, [lang, publicDoctors, directoryDoctors]);
+
+  /** 医生资料里的城市是自由文本，匹配时同时认英文名与中文名 */
+  const matchesCity = (docCity: string | undefined, filter: string) => {
+    if (!docCity) return false;
+    const f = filter.trim().toLowerCase();
+    const dc = docCity.trim().toLowerCase();
+    if (dc === f || dc.includes(f) || f.includes(dc)) return true;
+    const known = CITIES.find((x) => x.en.toLowerCase() === f || x.zh === filter.trim());
+    return Boolean(known && (docCity.trim() === known.zh || dc === known.en.toLowerCase()));
+  };
+
+  const visibleDirectoryDoctors = useMemo(() => {
+    const query = q.trim().toLowerCase();
+    return directoryDoctors.filter((d) => {
+      if (city !== "all" && !matchesCity(d.city, city)) return false;
+      if (!query) return true;
+      const hay = `${d.name} ${d.title} ${d.hospital} ${d.city} ${d.specialties.join(" ")} ${d.bio ?? ""}`.toLowerCase();
+      return hay.includes(query);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [directoryDoctors, city, q]);
 
   const specialties = useMemo(() => {
     const set = new Map<string, string>();
@@ -129,9 +154,14 @@ const Doctors = () => {
 
         {directoryDoctors.length > 0 && (
           <div className="mb-10">
-            <h2 className="mb-5 font-display text-2xl">{managedDoctors.length > 0 ? c("Published doctors in China", "已发布的中国医生", "Опубликованные профили врачей в Китае") : c("Sample China doctor profiles", "中国医生展示样例", "Примеры профилей врачей в Китае")}</h2>
+            <h2 className="mb-5 font-display text-2xl">{managedDoctors.length > 0 ? c("Published doctors", "已发布医生", "Опубликованные врачи") : c("Sample doctor profiles", "医生展示样例", "Примеры профилей врачей")}</h2>
+            {visibleDirectoryDoctors.length === 0 ? (
+              <p className="rounded-3xl border border-dashed border-border bg-card/60 px-6 py-8 text-center text-sm text-muted-foreground">
+                {c("No doctors in this city yet — try another city or ask us for a match.", "该城市暂无医生资料 —— 换个城市试试，或让我们帮你匹配。", "В этом городе пока нет врачей — попробуйте другой город или напишите нам.")}
+              </p>
+            ) : (
             <div className="grid gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
-              {directoryDoctors.map((d) => {
+              {visibleDirectoryDoctors.map((d) => {
                 const photo = d.photo;
                 return (
                   <article key={d.id} className="flex min-h-0 flex-col rounded-3xl bg-card p-5 shadow-pop transition hover:shadow-glow md:min-h-[25rem] md:p-6">

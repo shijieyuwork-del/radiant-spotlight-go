@@ -1,4 +1,5 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { ArrowRight, Heart, MessageCircle, Search, SlidersHorizontal } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
@@ -12,9 +13,11 @@ import { asiaCopy } from "@/lib/asia-copy";
 const Cases = () => {
   const { t, lang, fmt } = useAsia();
   const c = (en: string, zh: string, ru: string) => asiaCopy(lang, { en, zh, ru });
+  const [searchParams] = useSearchParams();
   const [q, setQ] = useState("");
   const [activeTreatment, setActiveTreatment] = useState("");
-  const [activeCity, setActiveCity] = useState("");
+  // 支持从城市搜索跳转进来时预选城市（/cases?city=Seoul）
+  const [activeCity, setActiveCity] = useState(() => searchParams.get("city") ?? "");
   const [activeStage, setActiveStage] = useState("");
 
   // Use the case's own China destination; fall back to doctor data for legacy entries.
@@ -45,6 +48,13 @@ const Cases = () => {
     });
     return Array.from(set, ([key, label]) => ({ key, label }));
   }, [caseCity, lang]);
+
+  // URL 里带了无效城市时清掉，避免筛选静默变成「无结果」
+  useEffect(() => {
+    if (activeCity && cities.length > 0 && !cities.some((o) => o.key === activeCity)) {
+      setActiveCity("");
+    }
+  }, [cities, activeCity]);
 
   const stageFor = (caption: string) => {
     const text = caption.toLowerCase();
