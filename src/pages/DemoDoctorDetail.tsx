@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
-import { ArrowLeft, Building2, MapPin, MessageCircle, Stethoscope } from "lucide-react";
+import { ArrowLeft, Building2, Clock, MapPin, MessageCircle, Stethoscope } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
@@ -8,11 +8,14 @@ import TikTokWall from "@/components/TikTokWall";
 import { DEMO_CHINA_DOCTORS } from "@/data/demoChinaDoctors";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
 import { useAsia } from "@/lib/asia-i18n";
+import { getCityTimezone, useCityTime } from "@/lib/timezones";
 
 const DemoDoctorDetail = () => {
   const { id } = useParams();
   const { lang, fmt } = useAsia();
   const doctor = useMemo(() => DEMO_CHINA_DOCTORS.find((item) => item.id === id), [id]);
+  const tz = getCityTimezone(doctor?.city);
+  const cityNow = useCityTime(tz, lang);
   const cases = useMemo(() => {
     if (!doctor) return [];
     const specialties = doctor.specialties.map((item) => item.toLowerCase());
@@ -47,6 +50,7 @@ const DemoDoctorDetail = () => {
               <p className="mt-2 text-lg text-muted-foreground">{doctor.title}</p>
               <p className="mt-5 flex items-center gap-2 text-sm"><Building2 className="size-4 text-primary" />{doctor.hospital}</p>
               <p className="mt-2 flex items-center gap-2 text-sm"><MapPin className="size-4 text-primary" />{doctor.city}, China</p>
+              <p className="mt-2 flex items-center gap-2 text-sm text-muted-foreground"><Clock className="size-4 text-primary" />{lang === "zh" ? `${doctor.city}当地时间 ${tz.offset}（${tz.label.zh}）· 现在约 ${cityNow}，咨询预约以此时区为准` : lang === "ru" ? `Местное время в г. ${doctor.city}: ${cityNow} (${tz.offset} · ${tz.label.ru}) — консультации назначаются по этому времени` : `Local time in ${doctor.city}: ${cityNow} (${tz.offset} · ${tz.label.en}) — consultations are booked in this timezone`}</p>
               <p className="mt-5 max-w-2xl leading-relaxed text-muted-foreground">{doctor.bio}</p>
               <div className="mt-5 flex flex-wrap gap-2">{doctor.specialties.map((specialty) => <span key={specialty} className="rounded-full bg-secondary px-3 py-1.5 text-xs font-semibold">{specialty}</span>)}</div>
               <a href={whatsapp} target="_blank" rel="noreferrer" className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl bg-primary px-6 text-sm font-bold text-primary-foreground hover:bg-primary/90 sm:w-auto sm:rounded-full"><MessageCircle className="size-4" />{lang === "zh" ? "咨询这位医生" : lang === "ru" ? "Связаться по поводу врача" : "Contact us about this doctor"}</a>
