@@ -298,12 +298,12 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase }
                   transform: `translate3d(${offset}, 0, 0)`,
                 }}
               >
-                <TikTokCard item={it} lang={lang} fmtPrice={fmtPrice} caseHrefBase={caseHrefBase} autoPlayEligible={distance === 0 && settledActive === active} />
+                <TikTokCard item={it} lang={lang} fmtPrice={fmtPrice} caseHrefBase={caseHrefBase} autoPlayEligible={distance === 0 && settledActive === active} eager={index === 0} beforeNavigate={allowClick} />
                 {distance !== 0 && (
                   <button
                     type="button"
                     className="absolute inset-0 z-50 rounded-3xl"
-                    onClick={() => setActive(index)}
+                    onClick={() => { if (!allowClick()) return; setActive(index); }}
                     aria-label={`${labels[lang].view}: ${it.caption[lang]}`}
                   />
                 )}
