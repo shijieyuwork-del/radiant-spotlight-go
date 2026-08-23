@@ -1,0 +1,5 @@
+CREATE POLICY "Anyone can view doctor photos" ON storage.objects FOR SELECT TO anon, authenticated USING (bucket_id = 'doctor-photos');
+CREATE POLICY "Admin can manage doctor photos" ON storage.objects FOR ALL TO authenticated USING (bucket_id = 'doctor-photos' AND (auth.jwt() ->> 'email') = 'shijieyuwork@gmail.com') WITH CHECK (bucket_id = 'doctor-photos' AND (auth.jwt() ->> 'email') = 'shijieyuwork@gmail.com');
+
+CREATE POLICY "Anyone can view short videos" ON storage.objects FOR SELECT TO anon, authenticated USING (bucket_id = 'short-videos');
+CREATE POLICY "Admin can manage short videos" ON storage.objects FOR ALL TO authenticated USING (bucket_id = 'short-videos' AND (auth.jwt() ->> 'email') = 'shijieyuwork@gmail.com') WITH CHECK (bucket_id = 'short-videos' AND (auth.jwt() ->> 'email') = 'shijieyuwork@gmail.com');
