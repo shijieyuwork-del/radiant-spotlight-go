@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-type Doctor={id:string;name:string;title:string;hospital:string;city:string;specialties:string[];bio:string;credentials:string|null;photo_path:string|null;status:string};
+type Doctor={id:string;name:string;title:string;hospital:string;city:string;specialties:string[];bio:string;credentials:string|null;photo_path:string|null;status:string;photoUrl?:string};
 const ADMIN="shijieyuwork@gmail.com";
 export default function DoctorAdmin(){const{user,loading:authLoading}=useAuth();const[doctors,setDoctors]=useState<Doctor[]>([]);const[busy,setBusy]=useState(false);const[photo,setPhoto]=useState<File|null>(null);const[name,setName]=useState("");const[title,setTitle]=useState("");const[hospital,setHospital]=useState("");const[city,setCity]=useState("上海");const[specialties,setSpecialties]=useState("");const[bio,setBio]=useState("");const[credentials,setCredentials]=useState("");const[languages,setLanguages]=useState("中文, English");
 const load=async()=>{const{data,error}=await supabase.from("doctors").select("*").order("created_at",{ascending:false});if(error)toast.error(error.message);else setDoctors((data??[])as Doctor[])};useEffect(()=>{if(user?.email?.toLowerCase()===ADMIN)void load()},[user]);if(authLoading)return <div/>;if(!user)return <Navigate to="/auth?next=/admin/doctors" replace/>;if(user.email?.toLowerCase()!==ADMIN)return <Navigate to="/" replace/>;
