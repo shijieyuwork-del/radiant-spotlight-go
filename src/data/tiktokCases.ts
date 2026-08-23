@@ -4,6 +4,7 @@ const DIARY_PREVIEWS: TikTokItem[] = [
   {
     id: "rhinoplasty-beijing",
     src: "/videos/v2.mp4",
+    poster: "/videos/v2-poster.webp",
     user: { en: "@Rosie", zh: "@Rosie" },
     caption: { en: "Rhinoplasty 6-month reveal — bridge & tip refinement", zh: "鼻综合术后6个月对比，鼻背鼻头精修" },
     treatment: { en: "Rhinoplasty", zh: "鼻综合" },
@@ -14,6 +15,7 @@ const DIARY_PREVIEWS: TikTokItem[] = [
   {
     id: "facelift-chengdu",
     src: "/videos/v3.mp4",
+    poster: "/videos/v3-poster.webp",
     user: { en: "@JiaSeoul", zh: "@嘉嘉_Seoul" },
     caption: { en: "SMAS facelift · 90-day reveal, jawline & neck", zh: "SMAS拉皮提升术后90天，下颌线与颈部对比" },
     treatment: { en: "Facelift", zh: "面部拉皮" },
@@ -24,6 +26,7 @@ const DIARY_PREVIEWS: TikTokItem[] = [
   {
     id: "necklift-shanghai",
     src: "/videos/v4.mp4",
+    poster: "/videos/v4-poster.webp",
     user: { en: "@Karen.Y", zh: "@Karen.Y" },
     caption: { en: "Neck lift + platysmaplasty · 8-week side profile vlog", zh: "颈部提升 + 颈阔肌成形 · 8周侧颈对比" },
     treatment: { en: "Neck Lift", zh: "颈部提升" },
@@ -34,6 +37,7 @@ const DIARY_PREVIEWS: TikTokItem[] = [
   {
     id: "blepharoplasty-shanghai",
     src: "/videos/v4.mp4",
+    poster: "/videos/v4-poster.webp",
     user: { en: "@MinTokyo", zh: "@小敏_东京" },
     caption: { en: "Upper + lower blepharoplasty · 30-day swelling timeline", zh: "上睑双眼皮 + 下睑眼袋 · 30天消肿日记" },
     treatment: { en: "Blepharoplasty", zh: "双眼皮 / 眼袋" },
@@ -44,6 +48,7 @@ const DIARY_PREVIEWS: TikTokItem[] = [
   {
     id: "fat-grafting-90d",
     src: "/videos/v6.mp4",
+    poster: "/videos/v6-poster.webp",
     user: { en: "@Donutgirl", zh: "@甜甜圈" },
     caption: { en: "Facial fat grafting · 90-day vlog with nurse follow-up", zh: "全面部脂肪填充 90天 vlog，含护士回访" },
     treatment: { en: "Facial Fat Grafting", zh: "面部脂肪填充" },
@@ -54,6 +59,7 @@ const DIARY_PREVIEWS: TikTokItem[] = [
   {
     id: "liposuction-guangzhou",
     src: "/videos/v5.mp4",
+    poster: "/videos/v5-poster.webp",
     user: { en: "@Lulu", zh: "@Lulu" },
     caption: { en: "Waist & abdomen liposuction · 6-week recovery diary", zh: "腰腹吸脂塑形 · 6周恢复日记" },
     treatment: { en: "Liposuction", zh: "吸脂塑形" },
@@ -64,6 +70,7 @@ const DIARY_PREVIEWS: TikTokItem[] = [
   {
     id: "tummy-tuck-shenzhen",
     src: "/videos/v1.mp4",
+    poster: "/videos/v1-poster.webp",
     user: { en: "@MamaMia", zh: "@MamaMia" },
     caption: { en: "Mommy makeover — full tummy tuck · 12-week reveal", zh: "产后腹壁整形（Tummy Tuck） · 12周恢复" },
     treatment: { en: "Tummy Tuck", zh: "腹壁整形" },
@@ -74,6 +81,7 @@ const DIARY_PREVIEWS: TikTokItem[] = [
   {
     id: "bbl-shanghai",
     src: "/videos/v6.mp4",
+    poster: "/videos/v6-poster.webp",
     user: { en: "@Mia.K", zh: "@Mia.K" },
     caption: { en: "BBL — Brazilian Butt Lift · 10-week shape update", zh: "巴西提臀（BBL） · 10周身形对比" },
     clinic: { en: "Mount Elizabeth Orchard Hospital Singapore · Dr. Lim Wei Jie", zh: "新加坡伊丽莎白乌节医院 · 林伟杰医生" },
@@ -84,6 +92,7 @@ const DIARY_PREVIEWS: TikTokItem[] = [
   {
     id: "breast-aug-guangzhou",
     src: "/videos/v5.mp4",
+    poster: "/videos/v5-poster.webp",
     user: { en: "@Sophie", zh: "@Sophie" },
     caption: { en: "Breast augmentation (Motiva) · 8-week post-op", zh: "Motiva 假体隆胸 · 8周术后" },
     treatment: { en: "Breast Augmentation", zh: "隆胸" },
@@ -94,6 +103,7 @@ const DIARY_PREVIEWS: TikTokItem[] = [
   {
     id: "breast-lift-singapore",
     src: "/videos/v2.mp4",
+    poster: "/videos/v2-poster.webp",
     user: { en: "@Hannah", zh: "@Hannah" },
     caption: { en: "Breast lift (mastopexy) · 6-week scar update", zh: "提胸（Mastopexy） · 6周疤痕恢复" },
     treatment: { en: "Breast Lift", zh: "提胸" },
@@ -104,6 +114,7 @@ const DIARY_PREVIEWS: TikTokItem[] = [
   {
     id: "body-contouring-bangkok",
     src: "/videos/v3.mp4",
+    poster: "/videos/v3-poster.webp",
     user: { en: "@FitJia", zh: "@FitJia" },
     caption: { en: "Full body contouring — 360° lipo + arm lift, 14-week", zh: "全身体形雕塑 · 360°吸脂 + 上臂提升 14周" },
     treatment: { en: "Body Contouring", zh: "全身体形雕塑" },
