@@ -15,6 +15,7 @@ import TikTokWall from "@/components/TikTokWall";
 import PageMeta from "@/components/PageMeta";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
 import { CITIES } from "@/data/cities";
+import { CitySearchBar, CityQuickResults, useCityFilter } from "@/components/CitySearch";
 import { useAsia } from "@/lib/asia-i18n";
 import { ORGANIZATION_SCHEMA } from "@/lib/seo-config";
 import { useQuote } from "@/components/QuoteRequest";
@@ -412,6 +413,7 @@ const TravelBar = () => {
 
 const CitiesSection = () => {
   const { t, lang } = useAsia();
+  const cityFilter = useCityFilter();
   const cityRailRef = useRef<HTMLDivElement>(null);
   const cityRailPausedRef = useRef(false);
   const moveCities = (direction: -1 | 1) => {
@@ -443,6 +445,10 @@ const CitiesSection = () => {
           <button type="button" onClick={() => moveCities(1)} className="grid size-10 place-items-center rounded-full bg-primary text-primary-foreground shadow-soft transition hover:bg-primary/90" aria-label={lang === "zh" ? "下一组城市" : lang === "ru" ? "Следующие города" : "More cities"}><ChevronRight className="size-5" /></button>
           <Link to="/cities" className="pill ml-1 hidden bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90 sm:inline-flex">{lang === "zh" ? "全部城市" : lang === "ru" ? "Все города" : "All cities"}<ArrowRight className="size-4" /></Link>
         </div>
+      </div>
+      <div className="mb-6 md:mb-8">
+        <CitySearchBar filter={cityFilter} />
+        {cityFilter.active && <CityQuickResults results={cityFilter.results} />}
       </div>
       <div
         ref={cityRailRef}

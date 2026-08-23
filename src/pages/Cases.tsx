@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { ArrowRight, Heart, MessageCircle, Search, SlidersHorizontal } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
@@ -12,9 +13,11 @@ import { asiaCopy } from "@/lib/asia-copy";
 const Cases = () => {
   const { t, lang, fmt } = useAsia();
   const c = (en: string, zh: string, ru: string) => asiaCopy(lang, { en, zh, ru });
+  const [searchParams] = useSearchParams();
   const [q, setQ] = useState("");
   const [activeTreatment, setActiveTreatment] = useState("");
-  const [activeCity, setActiveCity] = useState("");
+  // 支持从城市搜索跳转进来时预选城市（/cases?city=Seoul）
+  const [activeCity, setActiveCity] = useState(() => searchParams.get("city") ?? "");
   const [activeStage, setActiveStage] = useState("");
 
   // Use the case's own China destination; fall back to doctor data for legacy entries.
@@ -45,6 +48,15 @@ const Cases = () => {
     });
     return Array.from(set, ([key, label]) => ({ key, label }));
   }, [caseCity, lang]);
+
+  // URL 带进来的城市若暂时没有案例（如 Seoul），保留筛选并把它显示在下拉框里，
+  // 让空态如实呈现「该城市暂无案例」，而不是静默清除后展示全部。
+  const cityOptions = useMemo(() => {
+    if (activeCity && !cities.some((o) => o.key === activeCity)) {
+      return [...cities, { key: activeCity, label: activeCity }];
+    }
+    return cities;
+  }, [cities, activeCity]);
 
   const stageFor = (caption: string) => {
     const text = caption.toLowerCase();
@@ -106,7 +118,7 @@ const Cases = () => {
         <div className="mx-auto mb-4 grid max-w-3xl grid-cols-1 gap-2 min-[430px]:grid-cols-3">
           <FilterSelect value={activeTreatment} onChange={setActiveTreatment} label={c("All procedures", "全部项目", "Все процедуры")} options={treatments} />
           <FilterSelect value={activeStage} onChange={setActiveStage} label={lang === "zh" ? "全部恢复阶段" : lang === "ru" ? "Все этапы восстановления" : "All recovery stages"} options={["Consultation", "Week 1", "Month 1", "Month 3+", "Final result", "Recovery update"].map((key) => ({ key, label: lang === "zh" ? ({ Consultation: "面诊", "Week 1": "术后第 1 周", "Month 1": "术后第 1 月", "Month 3+": "术后 3 个月以上", "Final result": "最终效果", "Recovery update": "恢复更新" } as Record<string,string>)[key] : lang === "ru" ? ({ Consultation: "Консультация", "Week 1": "1-я неделя", "Month 1": "1-й месяц", "Month 3+": "3+ месяца", "Final result": "Итоговый результат", "Recovery update": "Ход восстановления" } as Record<string,string>)[key] : key }))} />
-          <FilterSelect value={activeCity} onChange={setActiveCity} label={c("All cities", "全部城市", "Все города")} options={cities} />
+          <FilterSelect value={activeCity} onChange={setActiveCity} label={c("All cities", "全部城市", "Все города")} options={cityOptions} />
         </div>
 
         <div className="mb-7 flex items-center justify-center gap-3 text-xs text-muted-foreground md:mb-10">

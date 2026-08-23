@@ -352,9 +352,13 @@ const CITY_CATALOG: City[] = [
   },
 ];
 
-const DOMESTIC_CITY_ORDER = ["shanghai", "guangzhou", "beijing", "hainan", "hangzhou"];
+// 国内城市在前（延续既有首页顺序），国际城市随后
+const ASIA_CITY_ORDER = [
+  "shanghai", "guangzhou", "beijing", "hainan", "hangzhou",
+  "seoul", "bangkok", "tokyo", "singapore",
+];
 
-export const CITIES: City[] = DOMESTIC_CITY_ORDER.map((slug) =>
+export const CITIES: City[] = ASIA_CITY_ORDER.map((slug) =>
   CITY_CATALOG.find((city) => city.slug === slug),
 ).filter((city): city is City => Boolean(city));
 
@@ -381,3 +385,12 @@ export const COUNTRY_BY_CITY: Record<string, string> = {
 /** 查不到时退回 CN，保持与旧行为一致而不是抛错 */
 export const countryOf = (city: string): string =>
   COUNTRY_BY_CITY[String(city ?? "").trim().toLowerCase()] ?? "CN";
+
+/** 国家代码 → 展示名（三语 + 旗帜），供城市搜索的国家筛选使用 */
+export const COUNTRY_META: Record<string, { en: string; zh: string; ru: string; flag: string }> = {
+  CN: { en: "China", zh: "中国", ru: "Китай", flag: "🇨🇳" },
+  KR: { en: "South Korea", zh: "韩国", ru: "Южная Корея", flag: "🇰🇷" },
+  TH: { en: "Thailand", zh: "泰国", ru: "Таиланд", flag: "🇹🇭" },
+  JP: { en: "Japan", zh: "日本", ru: "Япония", flag: "🇯🇵" },
+  SG: { en: "Singapore", zh: "新加坡", ru: "Сингапур", flag: "🇸🇬" },
+};
