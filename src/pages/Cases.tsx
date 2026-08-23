@@ -76,8 +76,8 @@ const Cases = () => {
   return (
     <>
       <PageMeta
-        title="Patient Recovery Diaries in China | Cosmetics Asia"
-        description="Explore cosmetic procedure recovery diary previews for China. Verified labels appear only after booking or clinic attendance has been confirmed."
+        title="Real Patient Recovery Diaries"
+        description="Watch real before-and-after recovery diaries by procedure and city across Asia — timelines, prices, surgeon info and verified results."
         path="/cases"
       />
       <div className="min-h-screen bg-background">

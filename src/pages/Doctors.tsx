@@ -63,8 +63,8 @@ const Doctors = () => {
   return (
     <>
       <PageMeta
-        title="Cosmetic Surgeons in China | Review Doctor Profiles"
-        description="Review published cosmetic surgeon profiles in China, explore specialties, and book a free video consultation with English-language coordination support."
+        title="Verified Cosmetic Surgeons in Asia"
+        description="Review verified surgeon profiles across Asia, compare specialties and credentials, and book a free consultation with English-language coordination."
         path="/doctors"
       />
       <div className="min-h-screen bg-background">
