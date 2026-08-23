@@ -56,6 +56,23 @@ const TikTokCard = ({
     return `${unit[0].toUpperCase()}${unit.slice(1)} ${value}`;
   })();
 
+  // Start fetching the video slightly before it scrolls into view
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el || near) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setNear(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: "400px" }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [near]);
+
   // Autoplay when visible; pause when off-screen
   useEffect(() => {
     const el = wrapRef.current;
