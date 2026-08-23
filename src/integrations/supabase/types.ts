@@ -14,52 +14,49 @@ export type Database = {
   }
   public: {
     Tables: {
-      videos: {
+      doctors: {
         Row: {
-          caption: string | null
-          city: string | null
+          bio: string
+          city: string
           created_at: string
+          credentials: string | null
+          hospital: string
           id: string
-          owner_id: string
-          procedure: string | null
+          languages: string | null
+          name: string
+          photo_path: string | null
+          specialties: string[]
           status: string
-          storage_path: string
           title: string
-          updated_at: string
-          doctor_id: string | null
         }
         Insert: {
-          caption?: string | null
-          city?: string | null
+          bio: string
+          city: string
           created_at?: string
+          credentials?: string | null
+          hospital: string
           id?: string
-          owner_id?: string
-          procedure?: string | null
+          languages?: string | null
+          name: string
+          photo_path?: string | null
+          specialties?: string[]
           status?: string
-          storage_path: string
           title: string
-          updated_at?: string
-          doctor_id?: string | null
         }
         Update: {
-          caption?: string | null
-          city?: string | null
+          bio?: string
+          city?: string
           created_at?: string
+          credentials?: string | null
+          hospital?: string
           id?: string
-          owner_id?: string
-          procedure?: string | null
+          languages?: string | null
+          name?: string
+          photo_path?: string | null
+          specialties?: string[]
           status?: string
-          storage_path?: string
           title?: string
-          updated_at?: string
-          doctor_id?: string | null
         }
-        Relationships: []
-      }
-      doctors: {
-        Row: { id: string; owner_id: string; name: string; title: string; hospital: string; city: string; specialties: string[]; bio: string; credentials: string | null; languages: string | null; photo_path: string | null; status: string; created_at: string; updated_at: string }
-        Insert: { id?: string; owner_id?: string; name: string; title: string; hospital: string; city: string; specialties?: string[]; bio: string; credentials?: string | null; languages?: string | null; photo_path?: string | null; status?: string; created_at?: string; updated_at?: string }
-        Update: { id?: string; owner_id?: string; name?: string; title?: string; hospital?: string; city?: string; specialties?: string[]; bio?: string; credentials?: string | null; languages?: string | null; photo_path?: string | null; status?: string; created_at?: string; updated_at?: string }
         Relationships: []
       }
       profiles: {
@@ -85,6 +82,50 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      videos: {
+        Row: {
+          caption: string | null
+          city: string | null
+          created_at: string
+          doctor_id: string | null
+          id: string
+          procedure: string | null
+          status: string
+          storage_path: string
+          title: string
+        }
+        Insert: {
+          caption?: string | null
+          city?: string | null
+          created_at?: string
+          doctor_id?: string | null
+          id?: string
+          procedure?: string | null
+          status?: string
+          storage_path: string
+          title: string
+        }
+        Update: {
+          caption?: string | null
+          city?: string | null
+          created_at?: string
+          doctor_id?: string | null
+          id?: string
+          procedure?: string | null
+          status?: string
+          storage_path?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "videos_doctor_id_fkey"
+            columns: ["doctor_id"]
+            isOneToOne: false
+            referencedRelation: "doctors"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {

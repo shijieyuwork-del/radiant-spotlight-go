@@ -4,6 +4,7 @@ import { ArrowLeft, Film, Loader2, LogOut, Stethoscope, Trash2, UploadCloud } fr
 import { toast } from "sonner";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
+import { signedUrls } from "@/lib/storage-urls";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -25,6 +26,7 @@ type VideoRow = {
   status: string;
   created_at: string;
   doctor_id: string | null;
+  url?: string;
 };
 type DoctorOption = { id: string; name: string };
 
@@ -51,7 +53,11 @@ const VideoAdmin = () => {
       supabase.from("doctors").select("id,name").order("name"),
     ]);
     if (error) toast.error(error.message);
-    else setVideos((data ?? []) as VideoRow[]);
+    else {
+      const rows = (data ?? []) as VideoRow[];
+      const urls = await signedUrls(BUCKET, rows.map((row) => row.storage_path));
+      setVideos(rows.map((row, index) => ({ ...row, url: urls[index] })));
+    }
     if (!doctorResult.error) setDoctors((doctorResult.data ?? []) as DoctorOption[]);
     setLoading(false);
   };
@@ -166,7 +172,7 @@ const VideoAdmin = () => {
 
         <section>
           <div className="flex items-end justify-between mb-4"><div><h2 className="font-display text-2xl font-semibold">视频管理</h2><p className="text-sm text-muted-foreground">共 {videos.length} 条</p></div></div>
-          {loading ? <LoadingScreen compact /> : videos.length === 0 ? <div className="rounded-3xl border border-dashed bg-card p-12 text-center text-muted-foreground"><Film className="size-10 mx-auto mb-3 opacity-40" /><p>还没有上传视频</p></div> : <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-5">{videos.map((video) => { const url = supabase.storage.from(BUCKET).getPublicUrl(video.storage_path).data.publicUrl; return <article key={video.id} className="rounded-3xl bg-card shadow-soft overflow-hidden"><video src={url} controls preload="metadata" className="w-full aspect-[9/16] max-h-80 object-cover bg-black" /><div className="p-4"><div className="flex items-start justify-between gap-2"><div><h3 className="font-semibold line-clamp-2">{video.title}</h3><p className="text-xs text-muted-foreground mt-1">{video.city || "未设置城市"}{video.procedure ? ` · ${video.procedure}` : ""}</p></div><span className={`text-[10px] px-2 py-1 rounded-full ${video.status === "published" ? "bg-primary/10 text-primary" : "bg-muted text-muted-foreground"}`}>{video.status === "published" ? "已发布" : "草稿"}</span></div><Button variant="ghost" size="sm" className="text-destructive mt-3 px-0" onClick={() => void removeVideo(video)}><Trash2 className="size-4 mr-1" />删除</Button></div></article>; })}</div>}
+          {loading ? <LoadingScreen compact /> : videos.length === 0 ? <div className="rounded-3xl border border-dashed bg-card p-12 text-center text-muted-foreground"><Film className="size-10 mx-auto mb-3 opacity-40" /><p>还没有上传视频</p></div> : <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-5">{videos.map((video) => { const url = video.url ?? ""; return <article key={video.id} className="rounded-3xl bg-card shadow-soft overflow-hidden"><video src={url} controls preload="metadata" className="w-full aspect-[9/16] max-h-80 object-cover bg-black" /><div className="p-4"><div className="flex items-start justify-between gap-2"><div><h3 className="font-semibold line-clamp-2">{video.title}</h3><p className="text-xs text-muted-foreground mt-1">{video.city || "未设置城市"}{video.procedure ? ` · ${video.procedure}` : ""}</p></div><span className={`text-[10px] px-2 py-1 rounded-full ${video.status === "published" ? "bg-primary/10 text-primary" : "bg-muted text-muted-foreground"}`}>{video.status === "published" ? "已发布" : "草稿"}</span></div><Button variant="ghost" size="sm" className="text-destructive mt-3 px-0" onClick={() => void removeVideo(video)}><Trash2 className="size-4 mr-1" />删除</Button></div></article>; })}</div>}
         </section>
       </main>
     </div>

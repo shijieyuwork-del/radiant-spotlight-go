@@ -51,27 +51,27 @@ const Cities = () => {
       {/* Grid */}
       <section className="container pb-16 md:pb-20">
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {CITIES.map((c) => {
+          {CITIES.map((city) => {
             return (
               <Link
-                key={c.slug}
-                to={`/cities/${c.slug}`}
+                key={city.slug}
+                to={`/cities/${city.slug}`}
                 className="group rounded-3xl bg-card shadow-soft hover:shadow-pop transition-all hover:-translate-y-1 overflow-hidden flex flex-col"
               >
                 <div className="relative h-44 overflow-hidden">
                   <img
-                    src={c.img}
-                    alt={c.en}
+                    src={city.img}
+                    alt={city.en}
                     className="size-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   <div className="absolute bottom-3 left-4 right-4 flex items-end justify-between text-background">
                     <div>
                       <p className="font-display text-3xl font-semibold leading-none">
-                        {lang === "zh" ? c.zh : c.en}
+                        {lang === "zh" ? city.zh : city.en}
                       </p>
                       <p className="text-xs opacity-80 mt-1">
-                        {lang === "zh" ? c.en : c.zh}
+                        {lang === "zh" ? city.en : city.zh}
                       </p>
                     </div>
                     <span className="pill bg-background/95 text-foreground text-[10px]"><Wallet className="size-3 text-primary" />{c("Travel guide", "行程指南", "Путеводитель")}</span>
@@ -80,7 +80,7 @@ const Cities = () => {
 
                 <div className="p-5 flex-1 flex flex-col gap-3">
                   <p className="text-sm text-foreground/80 leading-snug">
-                    {lang === "zh" ? c.taglineZh : c.taglineEn}
+                    {lang === "zh" ? city.taglineZh : city.taglineEn}
                   </p>
 
                   <div className="grid grid-cols-2 gap-2 text-center">
@@ -97,7 +97,7 @@ const Cities = () => {
                   </div>
 
                   <div className="flex flex-wrap gap-1 pt-1">
-                    {(lang === "zh" ? c.hotZh : c.hotEn).slice(0, 4).map((h) => (
+                    {(lang === "zh" ? city.hotZh : city.hotEn).slice(0, 4).map((h) => (
                       <span
                         key={h}
                         className="text-[10px] px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground"

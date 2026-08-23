@@ -35,12 +35,13 @@ const labels = {
 };
 
 const TikTokCard = ({
-  item, lang, fmtPrice, caseHrefBase = "/cases/", autoPlayEligible = true, discovery = false,
-}: { item: TikTokItem; lang: "en" | "zh" | "ru"; fmtPrice: (n: number) => string; caseHrefBase?: string; autoPlayEligible?: boolean; discovery?: boolean }) => {
+  item, lang, fmtPrice, caseHrefBase = "/cases/", autoPlayEligible = true, discovery = false, eager = false, beforeNavigate,
+}: { item: TikTokItem; lang: "en" | "zh" | "ru"; fmtPrice: (n: number) => string; caseHrefBase?: string; autoPlayEligible?: boolean; discovery?: boolean; eager?: boolean; beforeNavigate?: () => boolean }) => {
   const ref = useRef<HTMLVideoElement>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
   const [muted, setMuted] = useState(true);
   const [playing, setPlaying] = useState(false);
+  const [near, setNear] = useState(eager);
   const navigate = useNavigate();
   const caseUrl = `${caseHrefBase}${item.id}`;
   const { saved, toggleSaved, signedIn } = useSavedCase(item.id);
@@ -54,6 +55,23 @@ const TikTokCard = ({
     if (lang === "ru") return `${value} ${unit === "day" ? "дн." : unit === "week" ? "нед." : "мес."}`;
     return `${unit[0].toUpperCase()}${unit.slice(1)} ${value}`;
   })();
+
+  // Start fetching the video slightly before it scrolls into view
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el || near) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setNear(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: "400px" }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [near]);
 
   // Autoplay when visible; pause when off-screen
   useEffect(() => {
@@ -97,7 +115,7 @@ const TikTokCard = ({
     <div
       ref={wrapRef}
       className="group relative aspect-[9/16] cursor-pointer overflow-hidden rounded-3xl bg-card shadow-pop [backface-visibility:hidden] [transform:translateZ(0)]"
-      onClick={() => navigate(caseUrl)}
+      onClick={() => { if (beforeNavigate && !beforeNavigate()) return; navigate(caseUrl); }}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") navigate(caseUrl);
       }}
@@ -112,7 +130,7 @@ const TikTokCard = ({
         muted={muted}
         loop
         playsInline
-        preload="metadata"
+        preload={eager ? "auto" : near ? "metadata" : "none"}
         className="absolute inset-0 size-full object-cover [backface-visibility:hidden] [transform:translateZ(0)]"
       />
 
@@ -211,6 +229,9 @@ const TikTokCard = ({
 const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase }: TikTokWallProps) => {
   const [active, setActive] = useState(0);
   const [settledActive, setSettledActive] = useState<number | null>(0);
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
+  const swipeMoved = useRef(false);
+  const suppressClick = useRef(false);
 
   useEffect(() => {
     if (variant !== "preview") return;
@@ -228,9 +249,33 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase }
       return distance;
     };
 
+    const allowClick = () => !suppressClick.current;
+
     return (
       <div
-        className="relative touch-pan-x overflow-hidden overscroll-x-contain rounded-[1.75rem] border border-primary/15 bg-[radial-gradient(ellipse_at_50%_100%,hsl(var(--primary)/.22),transparent_62%)] px-2 pb-5 pt-3 shadow-pop sm:rounded-[2.25rem] sm:px-6 sm:pb-6 sm:pt-4 md:pt-6"
+        className="relative touch-pan-y select-none overflow-hidden overscroll-x-contain rounded-[1.75rem] border border-primary/15 bg-[radial-gradient(ellipse_at_50%_100%,hsl(var(--primary)/.22),transparent_62%)] px-2 pb-5 pt-3 shadow-pop sm:rounded-[2.25rem] sm:px-6 sm:pb-6 sm:pt-4 md:pt-6"
+        onTouchStart={(e) => {
+          touchStart.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+          swipeMoved.current = false;
+        }}
+        onTouchMove={(e) => {
+          const start = touchStart.current;
+          if (!start || swipeMoved.current) return;
+          const dx = e.touches[0].clientX - start.x;
+          const dy = e.touches[0].clientY - start.y;
+          if (Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy)) swipeMoved.current = true;
+        }}
+        onTouchEnd={(e) => {
+          const start = touchStart.current;
+          touchStart.current = null;
+          if (!start || !swipeMoved.current) return;
+          const dx = e.changedTouches[0].clientX - start.x;
+          if (Math.abs(dx) > 40) {
+            suppressClick.current = true;
+            move(dx < 0 ? 1 : -1);
+            window.setTimeout(() => { suppressClick.current = false; }, 400);
+          }
+        }}
       >
         <div className="relative mx-auto h-[500px] max-w-[90rem] sm:h-[540px] md:h-[590px]">
           {items.map((it, index) => {
@@ -253,12 +298,12 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase }
                   transform: `translate3d(${offset}, 0, 0)`,
                 }}
               >
-                <TikTokCard item={it} lang={lang} fmtPrice={fmtPrice} caseHrefBase={caseHrefBase} autoPlayEligible={distance === 0 && settledActive === active} />
+                <TikTokCard item={it} lang={lang} fmtPrice={fmtPrice} caseHrefBase={caseHrefBase} autoPlayEligible={distance === 0 && settledActive === active} eager={index === 0} beforeNavigate={allowClick} />
                 {distance !== 0 && (
                   <button
                     type="button"
                     className="absolute inset-0 z-50 rounded-3xl"
-                    onClick={() => setActive(index)}
+                    onClick={() => { if (!allowClick()) return; setActive(index); }}
                     aria-label={`${labels[lang].view}: ${it.caption[lang]}`}
                   />
                 )}
@@ -286,10 +331,10 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase }
 
   if (variant === "cases") {
     return (
-      <div className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-4 scrollbar-hide sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3">
-        {items.map((it) => (
+      <div className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth overscroll-x-contain px-4 pb-4 scrollbar-hide sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3">
+        {items.map((it, index) => (
           <div key={it.id} className="w-[82vw] max-w-[22rem] shrink-0 snap-center sm:mx-auto sm:w-full sm:max-w-[25rem]">
-            <TikTokCard item={it} lang={lang} fmtPrice={fmtPrice} caseHrefBase={caseHrefBase} discovery />
+            <TikTokCard item={it} lang={lang} fmtPrice={fmtPrice} caseHrefBase={caseHrefBase} discovery eager={index < 3} />
           </div>
         ))}
       </div>
@@ -297,10 +342,10 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase }
   }
 
   return (
-    <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide -mx-4 px-4 pb-3 sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-      {items.map((it) => (
+    <div className="flex gap-4 overflow-x-auto scroll-smooth overscroll-x-contain snap-x snap-mandatory scrollbar-hide -mx-4 px-4 pb-3 sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+      {items.map((it, index) => (
         <div key={it.id} className="min-w-[78vw] sm:min-w-0 snap-center">
-          <TikTokCard item={it} lang={lang} fmtPrice={fmtPrice} caseHrefBase={caseHrefBase} />
+          <TikTokCard item={it} lang={lang} fmtPrice={fmtPrice} caseHrefBase={caseHrefBase} eager={index < 4} />
         </div>
       ))}
     </div>
