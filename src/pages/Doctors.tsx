@@ -15,6 +15,7 @@ import { useQuote } from "@/components/QuoteRequest";
 import { DEMO_CHINA_DOCTORS } from "@/data/demoChinaDoctors";
 import { CITIES } from "@/data/cities";
 import { asiaCopy } from "@/lib/asia-copy";
+import QuoteCtaButton from "@/components/QuoteCtaButton";
 import { Highlight } from "@/components/HighlightText";
 import { Pagination, SortChips } from "@/components/ListControls";
 import { cityCoordsOf, haversineKm, useUserLocation } from "@/lib/geo";
@@ -260,9 +261,7 @@ const Experts = () => {
                       <Link to={d.demo ? "/doctors" : `/doctors/profile/${d.id}`} className="flex min-h-12 items-center justify-center rounded-xl border border-primary/30 px-3 py-3 text-center text-xs font-semibold text-primary hover:bg-primary/10">
                         {c("Expert & cases", "专家与案例", "Эксперт и истории пациентов")}
                       </Link>
-                      <button type="button" onClick={() => open({ doctorName: d.name, city: d.city })} className="cta-primary flex min-h-12 items-center justify-center gap-1.5 rounded-xl px-3 py-3 text-center text-[13px] font-semibold leading-tight">
-                        {c("Get a free quote", "获取免费报价", "Получить бесплатную оценку")}<ArrowRight className="size-4" />
-                      </button>
+                      <QuoteCtaButton quoteCtx={{ doctorName: d.name, city: d.city }} className="min-h-12 rounded-xl px-3 py-3 text-center text-[13px] leading-tight" />
                     </div>
                   </article>
                 );
