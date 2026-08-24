@@ -1,22 +1,22 @@
 /**
  * "Get a free quote" 按钮 i18n 回归测试。
  *
- * 该按钮是首页 Hero、/packages、/doctors 的核心转化 CTA，同一文案维护在多个位置：
- *   1. lib/asia-i18n.tsx 字典键 hero.cta（en/zh/ru 三个语言块）
- *   2. pages/AsiaIndex.tsx Hero copy.contact 的三个语言分支
- *   3. pages/Packages.tsx / pages/Doctors.tsx 的内联 c(en, zh, ru) 调用
- *   4. pages/AsiaIndex.tsx "How it works" 第一步标题（en/zh/ru 数组）
+ * 架构约定（防止再次出现多位置文案 drift）：
+ *   - 按钮组件唯一实现：components/QuoteCtaButton.tsx
+ *   - 文案唯一来源：lib/asia-i18n.tsx 字典键 hero.cta（en/zh/ru）
+ *   - 各页面/组件一律渲染 <QuoteCtaButton>，不得内联维护三语文案；
+ *     悬浮咨询入口 FloatingQuoteCTA 的标签同样取自 hero.cta。
  *
  * 这些用例确保：
- *   - 三个语言都不会漏改（所有位置的 zh/ru 与规范文案逐字一致）；
+ *   - 三个语言都不会漏改（字典值与规范文案逐字一致、键集合齐全）；
  *   - 英文语法不会回退（必须是 "Get a free quote"，带冠词 a；
  *     "Get free quote" 语法错误，全站禁止）；
- *   - 字典键在 en/zh/ru 三个语言块中齐全（配合 AsiaDictKey = keyof typeof dict.en
- *     的类型约束，缺键会在构建/typecheck 阶段直接失败）。
+ *   - 字典键受 AsiaDictKey = keyof typeof dict.en 类型约束，
+ *     缺键会在构建/typecheck 阶段直接失败。
  */
 import { describe, it, expect } from "vitest";
 import { readFileSync, readdirSync } from "node:fs";
-import { join } from "node:path";
+import { join, relative } from "node:path";
 
 const SRC = join(__dirname, "..");
 const read = (rel: string) => readFileSync(join(SRC, rel), "utf-8");
@@ -27,6 +27,25 @@ const CANONICAL = {
   zh: "获取免费报价",
   ru: "Получить бесплатную оценку",
 } as const;
+
+/** 渲染该按钮的页面/组件（必须走 QuoteCtaButton，不得内联文案） */
+const BUTTON_CONSUMERS = [
+  "pages/AsiaIndex.tsx",
+  "pages/Packages.tsx",
+  "pages/Doctors.tsx",
+  "components/DoctorProfile.tsx",
+];
+
+/* ---------------- 源码遍历辅助 ---------------- */
+const walk = (dir: string): string[] =>
+  readdirSync(dir, { withFileTypes: true }).flatMap((e) =>
+    e.isDirectory()
+      ? walk(join(dir, e.name))
+      : /\.tsx?$/.test(e.name) && !e.name.includes(".test.")
+        ? [join(dir, e.name)]
+        : [],
+  );
+const sourceFiles = ["pages", "components", "lib", "data"].flatMap((d) => walk(join(SRC, d)));
 
 /* ---------------- 字典解析辅助 ---------------- */
 const dictSrc = read("lib/asia-i18n.tsx");
@@ -46,20 +65,8 @@ const dictValue = (block: string, key: string): string | null =>
 const dictKeys = (block: string): string[] =>
   [...block.matchAll(/^\s*"([^"]+)":\s*"/gm)].map((m) => m[1]).sort();
 
-/* ---------------- 内联 c(en, zh, ru) 解析 ---------------- */
-interface Triple {
-  file: string;
-  en: string;
-  zh: string;
-  ru: string;
-}
-const quoteTriples = (file: string): Triple[] =>
-  [...read(file).matchAll(/\bc\(\s*"([^"]+)"\s*,\s*"([^"]+)"\s*,\s*"([^"]+)"\s*\)/g)]
-    .map((m) => ({ file, en: m[1], zh: m[2], ru: m[3] }))
-    .filter((t) => /free quote/i.test(t.en));
-
-/* ---------------- 1. 字典键 hero.cta ---------------- */
-describe("quote CTA i18n — 字典键 hero.cta", () => {
+/* ---------------- 1. 字典键 hero.cta（唯一文案来源） ---------------- */
+describe("quote CTA i18n — 字典键 hero.cta（唯一文案来源）", () => {
   it("en/zh/ru 三个语言块都存在 hero.cta（不漏翻译）", () => {
     for (const lang of ["en", "zh", "ru"] as const) {
       expect(dictValue(langBlock(lang), "hero.cta"), `hero.cta 缺少 ${lang} 翻译`).not.toBeNull();
@@ -70,14 +77,16 @@ describe("quote CTA i18n — 字典键 hero.cta", () => {
     expect(dictValue(langBlock("en"), "hero.cta")).toBe(CANONICAL.en);
   });
 
-  it("中文包含“免费报价”语义", () => {
+  it("中文与规范文案逐字一致且包含“免费报价”语义", () => {
     const zh = dictValue(langBlock("zh"), "hero.cta") ?? "";
+    expect(zh).toBe(CANONICAL.zh);
     expect(zh).toContain("免费");
     expect(zh).toContain("报价");
   });
 
-  it("俄文包含“免费”与“报价/估算”语义（бесплатн + оценка/расчёт/смета）", () => {
+  it("俄文与规范文案逐字一致且包含“免费”与“报价/估算”语义", () => {
     const ru = dictValue(langBlock("ru"), "hero.cta") ?? "";
+    expect(ru).toBe(CANONICAL.ru);
     expect(ru).toMatch(/бесплатн/);
     expect(ru).toMatch(/оценк|расчёт|смет/i);
   });
@@ -90,41 +99,42 @@ describe("quote CTA i18n — 字典键 hero.cta", () => {
   });
 });
 
-/* ---------------- 2. 内联 c() 调用（Packages / Doctors） ---------------- */
-describe("quote CTA i18n — 内联 c(en, zh, ru) 调用", () => {
-  const files = ["pages/Packages.tsx", "pages/Doctors.tsx"];
-  const triples = files.flatMap(quoteTriples);
+/* ---------------- 2. 统一组件 QuoteCtaButton ---------------- */
+describe("quote CTA — 统一组件 QuoteCtaButton", () => {
+  it("组件存在且文案取自字典 hero.cta（不内联三语文案）", () => {
+    const src = read("components/QuoteCtaButton.tsx");
+    expect(src).toContain('t("hero.cta")');
+    expect(src).not.toMatch(/获取免费报价|Получить бесплатную/);
+  });
 
-  it("每个按钮位置都提供完整的三语文案", () => {
-    expect(triples.length).toBeGreaterThanOrEqual(3); // Packages ×2 + Doctors ×1
-    for (const t of triples) {
-      expect(t.zh.trim(), `${t.file} 的 quote 按钮缺少中文`).not.toBe("");
-      expect(t.ru.trim(), `${t.file} 的 quote 按钮缺少俄文`).not.toBe("");
+  it("各页面/组件通过 QuoteCtaButton 渲染该按钮", () => {
+    for (const f of BUTTON_CONSUMERS) {
+      expect(read(f), `${f} 未使用 QuoteCtaButton`).toContain("<QuoteCtaButton");
     }
   });
 
-  it("所有内联文案与规范文案逐字一致（防漏改 / 防 drift）", () => {
-    for (const t of triples) {
-      expect(t.en, `${t.file} 英文应为 "${CANONICAL.en}"`).toBe(CANONICAL.en);
-      expect(t.zh, `${t.file} 中文应为 "${CANONICAL.zh}"`).toBe(CANONICAL.zh);
-      expect(t.ru, `${t.file} 俄文应为 "${CANONICAL.ru}"`).toBe(CANONICAL.ru);
+  it("全站不再残留内联的 quote 三语文案（c("...free quote...)）", () => {
+    const offenders: string[] = [];
+    for (const file of sourceFiles) {
+      const content = readFileSync(file, "utf-8");
+      for (const m of content.matchAll(/\bc\(\s*"[^"]*free quote[^"]*"/gi)) {
+        offenders.push(`${relative(SRC, file)}: ${m[0].slice(0, 80)}`);
+      }
     }
+    expect(offenders).toEqual([]);
+  });
+
+  it("悬浮咨询入口 FloatingQuoteCTA 的标签同样来自字典 hero.cta", () => {
+    const src = read("components/QuoteRequest.tsx");
+    expect(src).toContain('t("hero.cta")');
+    expect(src).not.toContain("Get a Free Quote");
   });
 });
 
-/* ---------------- 3. 首页 Hero 与流程步骤 ---------------- */
-describe("quote CTA i18n — 首页 Hero 与 How-it-works 步骤", () => {
-  const asia = read("pages/AsiaIndex.tsx");
-
-  it("Hero contact 按钮三个语言分支齐全且与规范文案一致", () => {
-    const contacts = [...asia.matchAll(/contact:\s*"([^"]+)"/g)].map((m) => m[1]);
-    expect(contacts.length).toBe(3);
-    expect(contacts).toContain(CANONICAL.en);
-    expect(contacts).toContain(CANONICAL.zh);
-    expect(contacts).toContain(CANONICAL.ru);
-  });
-
-  it("“How it works” 第一步标题三语同步（en 为 quote 时 zh/ru 不得仍是“咨询”旧文案）", () => {
+/* ---------------- 3. 首页 How-it-works 步骤标题 ---------------- */
+describe("quote CTA i18n — 首页 How-it-works 步骤", () => {
+  it("第一步标题三语同步（en 为 quote 时 zh/ru 不得仍是“咨询”旧文案）", () => {
+    const asia = read("pages/AsiaIndex.tsx");
     const m = asia.match(
       /en:\s*\["Get a free quote"[\s\S]{0,400}?zh:\s*\["([^"]+)"[\s\S]{0,400}?ru:\s*\["([^"]+)"/,
     );
@@ -136,16 +146,6 @@ describe("quote CTA i18n — 首页 Hero 与 How-it-works 步骤", () => {
 
 /* ---------------- 4. 英文语法守卫（全站扫描） ---------------- */
 describe("quote CTA i18n — 英文语法守卫", () => {
-  const walk = (dir: string): string[] =>
-    readdirSync(dir, { withFileTypes: true }).flatMap((e) =>
-      e.isDirectory()
-        ? walk(join(dir, e.name))
-        : /\.tsx?$/.test(e.name) && !e.name.includes(".test.")
-          ? [join(dir, e.name)]
-          : [],
-    );
-  const sourceFiles = ["pages", "components", "lib", "data"].flatMap((d) => walk(join(SRC, d)));
-
   it("全站不得出现缺少冠词的 “Get free quote”（语法错误）", () => {
     const bad: string[] = [];
     for (const file of sourceFiles) {
@@ -153,7 +153,7 @@ describe("quote CTA i18n — 英文语法守卫", () => {
         .split("\n")
         .forEach((line, i) => {
           if (/\bget free quote\b/i.test(line)) {
-            bad.push(`${file}:${i + 1} ${line.trim().slice(0, 100)}`);
+            bad.push(`${relative(SRC, file)}:${i + 1} ${line.trim().slice(0, 100)}`);
           }
         });
     }
@@ -165,7 +165,7 @@ describe("quote CTA i18n — 英文语法守卫", () => {
     for (const file of sourceFiles) {
       for (const m of readFileSync(file, "utf-8").matchAll(/["']([^"']*get[^"']*free quote[^"']*)["']/gi)) {
         if (!/\bget (a|your) free quote\b/i.test(m[1])) {
-          bad.push(`${file}: "${m[1]}"`);
+          bad.push(`${relative(SRC, file)}: "${m[1]}"`);
         }
       }
     }
