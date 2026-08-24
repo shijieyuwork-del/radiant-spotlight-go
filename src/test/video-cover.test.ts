@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { formatDuration } from "@/lib/video-cover";
+import { formatDuration, scoreLumaPlane } from "@/lib/video-cover";
 
 describe("formatDuration", () => {
   it("formats whole minutes and seconds", () => {
