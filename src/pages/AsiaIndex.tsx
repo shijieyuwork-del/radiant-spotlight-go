@@ -162,7 +162,7 @@ const Hero = () => {
           subtitle: "Understand procedures, review published doctor profiles and explore patient recovery diaries before you travel.",
           cases: "Watch patient recovery videos",
           consultation: "Online consultation",
-          consultationDetail: "Meet your doctor online before you travel",
+          consultationDetail: "Meet your expert online before you travel (not providing medical advice)",
           english: "English in-clinic translation",
           englishDetail: "Communication support during clinic visits",
           travel: "Airport pickup & drop-off",
@@ -272,9 +272,9 @@ const TravelBar = () => {
     {
       icon: Stethoscope,
       image: journeyOnline,
-      en: ["Meet your doctor online", "Review options, expected results, risks and recovery"],
-      zh: ["线上会见医生", "了解治疗选择、预期效果、风险与恢复过程"],
-      ru: ["Встретьтесь с врачом онлайн", "Обсудите варианты, ожидаемые результаты, риски и восстановление"],
+      en: ["Meet your expert online", "Expert review of options, expected results, risks and recovery (not providing medical advice)"],
+      zh: ["线上会见专家", "专家解读治疗选择、预期效果、风险与恢复过程（不提供医疗建议）"],
+      ru: ["Встретьтесь с экспертом онлайн", "Эксперт разберёт варианты, ожидаемые результаты, риски и восстановление (медицинские советы не предоставляются)"],
     },
     {
       icon: Plane,
