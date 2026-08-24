@@ -18,8 +18,8 @@ const data: Record<RegionCode, RegionContent> = {
       { name: "Dental Veneers in Mexico", slug: "veneers-mexico", usd: 3500, emoji: "🦷", tag: "Border-friendly" },
     ],
     experts: [
-      { name: "Dr. Park Min-jun", city: "Seoul", flag: "🇰🇷", rating: 4.9, cases: "3.2K" },
-      { name: "Dr. Elif Demir", city: "Istanbul", flag: "🇹🇷", rating: 4.95, cases: "5.1K" },
+      { name: "Park Min-jun", city: "Seoul", flag: "🇰🇷", rating: 4.9, cases: "3.2K" },
+      { name: "Elif Demir", city: "Istanbul", flag: "🇹🇷", rating: 4.95, cases: "5.1K" },
     ],
   },
   GB: {
@@ -30,8 +30,8 @@ const data: Record<RegionCode, RegionContent> = {
       { name: "Liposuction in Korea", slug: "liposuction-korea", usd: 3500, emoji: "✨", tag: "Top rated" },
     ],
     experts: [
-      { name: "Dr. Elif Demir", city: "Istanbul", flag: "🇹🇷", rating: 4.95, cases: "5.1K" },
-      { name: "Dr. Park Min-jun", city: "Seoul", flag: "🇰🇷", rating: 4.9, cases: "3.2K" },
+      { name: "Elif Demir", city: "Istanbul", flag: "🇹🇷", rating: 4.95, cases: "5.1K" },
+      { name: "Park Min-jun", city: "Seoul", flag: "🇰🇷", rating: 4.9, cases: "3.2K" },
     ],
   },
   AE: {
@@ -42,8 +42,8 @@ const data: Record<RegionCode, RegionContent> = {
       { name: "Facelift in Thailand", slug: "facelift-thailand", usd: 5800, emoji: "🪞", tag: "Recovery resort" },
     ],
     experts: [
-      { name: "Dr. Suchada Pong", city: "Bangkok", flag: "🇹🇭", rating: 4.92, cases: "4.4K" },
-      { name: "Dr. Elif Demir", city: "Istanbul", flag: "🇹🇷", rating: 4.95, cases: "5.1K" },
+      { name: "Suchada Pong", city: "Bangkok", flag: "🇹🇭", rating: 4.92, cases: "4.4K" },
+      { name: "Elif Demir", city: "Istanbul", flag: "🇹🇷", rating: 4.95, cases: "5.1K" },
     ],
   },
   KR: {
@@ -54,8 +54,8 @@ const data: Record<RegionCode, RegionContent> = {
       { name: "Rhinoplasty in Seoul", slug: "rhinoplasty-korea", usd: 4200, emoji: "👃", tag: "Top rated" },
     ],
     experts: [
-      { name: "Dr. Park Min-jun", city: "Seoul", flag: "🇰🇷", rating: 4.9, cases: "3.2K" },
-      { name: "Dr. Aoba Saito", city: "Tokyo", flag: "🇯🇵", rating: 4.93, cases: "2.4K" },
+      { name: "Park Min-jun", city: "Seoul", flag: "🇰🇷", rating: 4.9, cases: "3.2K" },
+      { name: "Aoba Saito", city: "Tokyo", flag: "🇯🇵", rating: 4.93, cases: "2.4K" },
     ],
   },
   TH: {
@@ -66,8 +66,8 @@ const data: Record<RegionCode, RegionContent> = {
       { name: "Rhinoplasty in Bangkok", slug: "rhinoplasty-thailand", usd: 3200, emoji: "👃", tag: "Trending" },
     ],
     experts: [
-      { name: "Dr. Suchada Pong", city: "Bangkok", flag: "🇹🇭", rating: 4.92, cases: "4.4K" },
-      { name: "Dr. Park Min-jun", city: "Seoul", flag: "🇰🇷", rating: 4.9, cases: "3.2K" },
+      { name: "Suchada Pong", city: "Bangkok", flag: "🇹🇭", rating: 4.92, cases: "4.4K" },
+      { name: "Park Min-jun", city: "Seoul", flag: "🇰🇷", rating: 4.9, cases: "3.2K" },
     ],
   },
   CN: {
@@ -78,8 +78,8 @@ const data: Record<RegionCode, RegionContent> = {
       { name: "V-Line in Korea", slug: "v-line-korea", usd: 6800, emoji: "💎", tag: "Gangnam clinics" },
     ],
     experts: [
-      { name: "Dr. Park Min-jun", city: "Seoul", flag: "🇰🇷", rating: 4.9, cases: "3.2K" },
-      { name: "Dr. Aoba Saito", city: "Tokyo", flag: "🇯🇵", rating: 4.93, cases: "2.4K" },
+      { name: "Park Min-jun", city: "Seoul", flag: "🇰🇷", rating: 4.9, cases: "3.2K" },
+      { name: "Aoba Saito", city: "Tokyo", flag: "🇯🇵", rating: 4.93, cases: "2.4K" },
     ],
   },
   FR: {
@@ -90,8 +90,8 @@ const data: Record<RegionCode, RegionContent> = {
       { name: "Liposuction in Spain", slug: "liposuction-spain", usd: 3700, emoji: "✨", tag: "Mediterranean" },
     ],
     experts: [
-      { name: "Dr. Camille Laurent", city: "Paris", flag: "🇫🇷", rating: 4.91, cases: "2.9K" },
-      { name: "Dr. Elif Demir", city: "Istanbul", flag: "🇹🇷", rating: 4.95, cases: "5.1K" },
+      { name: "Camille Laurent", city: "Paris", flag: "🇫🇷", rating: 4.91, cases: "2.9K" },
+      { name: "Elif Demir", city: "Istanbul", flag: "🇹🇷", rating: 4.95, cases: "5.1K" },
     ],
   },
 };

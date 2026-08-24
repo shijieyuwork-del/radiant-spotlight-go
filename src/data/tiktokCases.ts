@@ -10,7 +10,7 @@ const DIARY_PREVIEWS: TikTokItem[] = [
     caption: { en: "Rhinoplasty 6-month reveal — bridge & tip refinement", zh: "鼻综合术后6个月对比，鼻背鼻头精修" },
     treatment: { en: "Rhinoplasty", zh: "鼻综合" },
     city: { en: "Beijing", zh: "北京" },
-    clinic: { en: "ID Hospital Seoul · Dr. Kim Min-soo", zh: "首尔 ID 整形医院 · 金珉秀院长" },
+    clinic: { en: "ID Hospital Seoul · Kim Min-soo", zh: "首尔 ID 整形医院 · 金珉秀院长" },
     likes: "56k", comments: "1.2k", priceCny: 22800,
   },
   {
@@ -22,7 +22,7 @@ const DIARY_PREVIEWS: TikTokItem[] = [
     caption: { en: "SMAS facelift · 90-day reveal, jawline & neck", zh: "SMAS拉皮提升术后90天，下颌线与颈部对比" },
     treatment: { en: "Facelift", zh: "面部拉皮" },
     city: { en: "Hangzhou", zh: "杭州" },
-    clinic: { en: "BK Plastic Surgery Seoul · Dr. Park Soo-young", zh: "首尔 BK 整形医院 · 朴秀荣院长" },
+    clinic: { en: "BK Plastic Surgery Seoul · Park Soo-young", zh: "首尔 BK 整形医院 · 朴秀荣院长" },
     likes: "18k", comments: "624", priceCny: 88000,
   },
   {
@@ -34,7 +34,7 @@ const DIARY_PREVIEWS: TikTokItem[] = [
     caption: { en: "Neck lift + platysmaplasty · 8-week side profile vlog", zh: "颈部提升 + 颈阔肌成形 · 8周侧颈对比" },
     treatment: { en: "Neck Lift", zh: "颈部提升" },
     city: { en: "Shanghai", zh: "上海" },
-    clinic: { en: "Shanghai Huamei Hospital · Dr. Li Wenzhi", zh: "上海华美医院 · 李文志主任" },
+    clinic: { en: "Shanghai Huamei Hospital · Li Wenzhi", zh: "上海华美医院 · 李文志主任" },
     likes: "14k", comments: "402", priceCny: 68000,
   },
   {
@@ -46,7 +46,7 @@ const DIARY_PREVIEWS: TikTokItem[] = [
     caption: { en: "Upper + lower blepharoplasty · 30-day swelling timeline", zh: "上睑双眼皮 + 下睑眼袋 · 30天消肿日记" },
     treatment: { en: "Blepharoplasty", zh: "双眼皮 / 眼袋" },
     city: { en: "Shanghai", zh: "上海" },
-    clinic: { en: "Takasu Clinic Tokyo · Dr. Tanaka Yuki", zh: "东京高须诊所 · 田中由纪院长" },
+    clinic: { en: "Takasu Clinic Tokyo · Tanaka Yuki", zh: "东京高须诊所 · 田中由纪院长" },
     likes: "24k", comments: "812", priceCny: 12800,
   },
   {
@@ -58,7 +58,7 @@ const DIARY_PREVIEWS: TikTokItem[] = [
     caption: { en: "Facial fat grafting · 90-day vlog with nurse follow-up", zh: "全面部脂肪填充 90天 vlog，含护士回访" },
     treatment: { en: "Facial Fat Grafting", zh: "面部脂肪填充" },
     city: { en: "Guangzhou", zh: "广州" },
-    clinic: { en: "BK Plastic Surgery Seoul · Dr. Park Soo-young", zh: "首尔 BK 整形医院 · 朴秀荣院长" },
+    clinic: { en: "BK Plastic Surgery Seoul · Park Soo-young", zh: "首尔 BK 整形医院 · 朴秀荣院长" },
     likes: "9.8k", comments: "412", priceCny: 26800,
   },
   {
@@ -70,7 +70,7 @@ const DIARY_PREVIEWS: TikTokItem[] = [
     caption: { en: "Waist & abdomen liposuction · 6-week recovery diary", zh: "腰腹吸脂塑形 · 6周恢复日记" },
     treatment: { en: "Liposuction", zh: "吸脂塑形" },
     city: { en: "Guangzhou", zh: "广州" },
-    clinic: { en: "Bumrungrad International Hospital Bangkok · Dr. Somchai Viriya", zh: "曼谷康民国际医院 · 宋猜主任" },
+    clinic: { en: "Bumrungrad International Hospital Bangkok · Somchai Viriya", zh: "曼谷康民国际医院 · 宋猜主任" },
     likes: "11k", comments: "388", priceCny: 32000,
   },
   {
@@ -82,7 +82,7 @@ const DIARY_PREVIEWS: TikTokItem[] = [
     caption: { en: "Mommy makeover — full tummy tuck · 12-week reveal", zh: "产后腹壁整形（Tummy Tuck） · 12周恢复" },
     treatment: { en: "Tummy Tuck", zh: "腹壁整形" },
     city: { en: "Hainan", zh: "海南" },
-    clinic: { en: "Bumrungrad International Hospital Bangkok · Dr. Somchai Viriya", zh: "曼谷康民国际医院 · 宋猜主任" },
+    clinic: { en: "Bumrungrad International Hospital Bangkok · Somchai Viriya", zh: "曼谷康民国际医院 · 宋猜主任" },
     likes: "21k", comments: "734", priceCny: 78000,
   },
   {
@@ -92,7 +92,7 @@ const DIARY_PREVIEWS: TikTokItem[] = [
     poster: "/videos/v6-poster.webp",
     user: { en: "@Mia.K", zh: "@Mia.K" },
     caption: { en: "BBL — Brazilian Butt Lift · 10-week shape update", zh: "巴西提臀（BBL） · 10周身形对比" },
-    clinic: { en: "Mount Elizabeth Orchard Hospital Singapore · Dr. Lim Wei Jie", zh: "新加坡伊丽莎白乌节医院 · 林伟杰专家" },
+    clinic: { en: "Mount Elizabeth Orchard Hospital Singapore · Lim Wei Jie", zh: "新加坡伊丽莎白乌节医院 · 林伟杰专家" },
     treatment: { en: "BBL", zh: "巴西提臀" },
     city: { en: "Shanghai", zh: "上海" },
     likes: "42k", comments: "1.1k", priceCny: 96000,
@@ -106,7 +106,7 @@ const DIARY_PREVIEWS: TikTokItem[] = [
     caption: { en: "Breast augmentation (Motiva) · 8-week post-op", zh: "Motiva 假体隆胸 · 8周术后" },
     treatment: { en: "Breast Augmentation", zh: "隆胸" },
     city: { en: "Guangzhou", zh: "广州" },
-    clinic: { en: "Bumrungrad International Hospital Bangkok · Dr. Somchai Viriya", zh: "曼谷康民国际医院 · 宋猜主任" },
+    clinic: { en: "Bumrungrad International Hospital Bangkok · Somchai Viriya", zh: "曼谷康民国际医院 · 宋猜主任" },
     likes: "33k", comments: "918", priceCny: 88000,
   },
   {
@@ -118,7 +118,7 @@ const DIARY_PREVIEWS: TikTokItem[] = [
     caption: { en: "Breast lift (mastopexy) · 6-week scar update", zh: "提胸（Mastopexy） · 6周疤痕恢复" },
     treatment: { en: "Breast Lift", zh: "提胸" },
     city: { en: "Hainan", zh: "海南" },
-    clinic: { en: "Mount Elizabeth Orchard Hospital Singapore · Dr. Lim Wei Jie", zh: "新加坡伊丽莎白乌节医院 · 林伟杰专家" },
+    clinic: { en: "Mount Elizabeth Orchard Hospital Singapore · Lim Wei Jie", zh: "新加坡伊丽莎白乌节医院 · 林伟杰专家" },
     likes: "15k", comments: "486", priceCny: 72000,
   },
   {
@@ -130,7 +130,7 @@ const DIARY_PREVIEWS: TikTokItem[] = [
     caption: { en: "Full body contouring — 360° lipo + arm lift, 14-week", zh: "全身体形雕塑 · 360°吸脂 + 上臂提升 14周" },
     treatment: { en: "Body Contouring", zh: "全身体形雕塑" },
     city: { en: "Hangzhou", zh: "杭州" },
-    clinic: { en: "Bumrungrad International Hospital Bangkok · Dr. Somchai Viriya", zh: "曼谷康民国际医院 · 宋猜主任" },
+    clinic: { en: "Bumrungrad International Hospital Bangkok · Somchai Viriya", zh: "曼谷康民国际医院 · 宋猜主任" },
     likes: "19k", comments: "612", priceCny: 128000,
   },
 ];

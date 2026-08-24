@@ -37,7 +37,7 @@ const AppPromoSection = () => (
               </div>
               <div className="p-3">
                 <div className="flex items-center justify-between"><p className="font-display text-base font-semibold">Available surgeons</p><span className="text-[9px] font-semibold text-primary">See all</span></div>
-                {["Dr. Li · Rhinoplasty", "Dr. Chen · Facelift"].map((name, index) => (
+                {["Li · Rhinoplasty", "Chen · Facelift"].map((name, index) => (
                   <div key={name} className="mt-2.5 rounded-xl border border-border bg-white p-2.5 shadow-soft">
                     <div className="flex items-center gap-2">
                       <div className={`grid size-10 shrink-0 place-items-center rounded-full ${index ? "bg-[#f7d5e1]" : "bg-primary/20"}`}><span className="font-display text-sm">Dr</span></div>
