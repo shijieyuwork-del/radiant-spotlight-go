@@ -222,6 +222,71 @@ describe("RLS: upload-media 上传权限校验", () => {
   });
 });
 
+/**
+ * request-file-access 分桶与拒绝一致性。
+ *
+ * 行为断言在本文件；这些探针会以 `rls-test/` 前缀写入 audit_logs，
+ * 日志字段的完整性与一致性断言在 supabase/tests/rls_tests.sql
+ * （客户端按设计读不到 audit_logs，需在数据库侧校验）。
+ * 因此顺序：先跑本文件，再跑 rls_tests.sql。
+ */
+describe("RLS: request-file-access 分桶与未发布拒绝", () => {
+  const invoke = (body: unknown) =>
+    newAnonClient().functions.invoke("request-file-access", { body: body as Record<string, unknown> });
+
+  it("doctor-photos 桶：未发布关联的路径被拒绝", { timeout: 20000 }, async () => {
+    const { data } = await invoke({ bucket: "doctor-photos", paths: ["rls-test/unpublished.jpg"] });
+    expect(data?.urls ?? {}).toEqual({});
+  });
+
+  it("short-videos 桶：未发布关联的路径被拒绝", { timeout: 20000 }, async () => {
+    const { data } = await invoke({ bucket: "short-videos", paths: ["rls-test/unpublished.mp4"] });
+    expect(data?.urls ?? {}).toEqual({});
+  });
+
+  it("批量路径：同一桶内多个未发布路径全部被拒、不部分放行", { timeout: 20000 }, async () => {
+    const paths = ["rls-test/batch-a.jpg", "rls-test/batch-b.jpg", "rls-test/batch-c.jpg"];
+    const { data } = await invoke({ bucket: "doctor-photos", paths });
+    expect(data?.urls ?? {}).toEqual({});
+  });
+
+  it("非法桶名被拒绝（400）", { timeout: 20000 }, async () => {
+    const { data, error } = await invoke({ bucket: "secrets", paths: ["rls-test/x.jpg"] });
+    expect(data?.urls).toBeUndefined();
+    expect(error).not.toBeNull();
+  });
+
+  it("路径穿越（..）被拒绝（400）", { timeout: 20000 }, async () => {
+    const { data, error } = await invoke({ bucket: "doctor-photos", paths: ["../secret.jpg"] });
+    expect(data?.urls).toBeUndefined();
+    expect(error).not.toBeNull();
+  });
+
+  it("绝对路径（/ 开头）被拒绝（400）", { timeout: 20000 }, async () => {
+    const { data, error } = await invoke({ bucket: "doctor-photos", paths: ["/rls-test/x.jpg"] });
+    expect(data?.urls).toBeUndefined();
+    expect(error).not.toBeNull();
+  });
+
+  it("超过 50 条路径的批量请求被拒绝（400）", { timeout: 20000 }, async () => {
+    const paths = Array.from({ length: 51 }, (_, i) => `rls-test/many-${i}.jpg`);
+    const { data, error } = await invoke({ bucket: "doctor-photos", paths });
+    expect(data?.urls).toBeUndefined();
+    expect(error).not.toBeNull();
+  });
+
+  it("一致性：同一请求重复调用，两个桶的拒绝结果保持稳定", { timeout: 30000 }, async () => {
+    for (const bucket of ["doctor-photos", "short-videos"] as const) {
+      const ext = bucket === "doctor-photos" ? "jpg" : "mp4";
+      const body = { bucket, paths: [`rls-test/consistency.${ext}`] };
+      const first = await invoke(body);
+      const second = await invoke(body);
+      expect(first.data?.urls ?? {}).toEqual({});
+      expect(second.data?.urls ?? {}).toEqual(first.data?.urls ?? {});
+    }
+  });
+});
+
 describeAuth("RLS: upload-media 非管理员登录用户", () => {
   it("非管理员调用上传函数被拒绝（403）", async () => {
     const client = newAnonClient();
