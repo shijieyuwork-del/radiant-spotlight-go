@@ -87,6 +87,8 @@ const dict: Record<AsiaLang, Dict> = {
     "case.back": "Back",
     "case.related": "Related cases",
     "case.book": "Book this treatment",
+    "disclaimer.text": "Glowy Asia is an information and travel-coordination platform, not a medical provider. We do not offer medical advice, diagnosis, or treatment. All medical decisions are made directly between you and the licensed institutions.",
+    "disclaimer.short": "Not medical advice — Glowy Asia provides information and coordination only. All medical decisions are made between you and the licensed institutions.",
   },
   zh: {
     "brand.suffix": "亚洲医美",
@@ -163,6 +165,8 @@ const dict: Record<AsiaLang, Dict> = {
     "case.back": "返回",
     "case.related": "相关案例",
     "case.book": "预约此项目",
+    "disclaimer.text": "本平台仅提供信息展示与行程协调服务，不是医疗机构，不提供任何医疗建议、诊断或治疗方案。所有医疗决策均由您与持证医疗机构直接作出。",
+    "disclaimer.short": "本平台不提供医疗建议，仅提供信息与协调服务。所有医疗决策均由您与持证医疗机构直接作出。",
   },
   ru: {
     "brand.suffix": "Азия",
@@ -239,6 +243,8 @@ const dict: Record<AsiaLang, Dict> = {
     "case.back": "Назад",
     "case.related": "Похожие кейсы",
     "case.book": "Записаться на эту процедуру",
+    "disclaimer.text": "Glowy Asia — информационная и координационная платформа, а не медицинское учреждение. Мы не предоставляем медицинских советов, диагностики или лечения. Все медицинские решения принимаются напрямую между вами и лицензированными учреждениями.",
+    "disclaimer.short": "Не является медицинской консультацией — Glowy Asia предоставляет только информацию и координацию. Все медицинские решения принимаются между вами и лицензированными учреждениями.",
   },
 };
 
