@@ -4,6 +4,7 @@ import { Search, X, MapPin, MessageCircle } from "lucide-react";
 import { CITIES, COUNTRY_BY_CITY, COUNTRY_META, type City } from "@/data/cities";
 import { useAsia } from "@/lib/asia-i18n";
 import { asiaCopy } from "@/lib/asia-copy";
+import { Highlight } from "@/components/HighlightText";
 
 export interface CityFilter {
   query: string;
@@ -117,8 +118,8 @@ export const CitySearchBar = ({ filter }: { filter: CityFilter }) => {
   );
 };
 
-/** 搜索结果：紧凑城市卡，附「城市详情 / 案例 / 医生」快捷入口 */
-export const CityQuickResults = ({ results }: { results: City[] }) => {
+/** 搜索结果：紧凑城市卡，附「城市详情 / 案例 / 医生」快捷入口；query 用于高亮命中词 */
+export const CityQuickResults = ({ results, query }: { results: City[]; query?: string }) => {
   const { lang } = useAsia();
   const c = <T,>(en: T, zh: T, ru: T) => asiaCopy(lang, { en, zh, ru });
 
@@ -160,13 +161,13 @@ export const CityQuickResults = ({ results }: { results: City[] }) => {
               />
               <div className="min-w-0 flex-1">
                 <p className="font-display text-lg font-semibold leading-tight truncate">
-                  {lang === "zh" ? city.zh : city.en}
+                  <Highlight text={lang === "zh" ? city.zh : city.en} query={query} />
                 </p>
                 <p className="mt-0.5 flex items-center gap-1 text-xs text-muted-foreground truncate">
                   <MapPin className="size-3 shrink-0" />
                   {meta ? `${meta.flag} ${c(meta.en, meta.zh, meta.ru)}` : ""}
                   {" · "}
-                  {lang === "zh" ? city.en : city.zh}
+                  <Highlight text={lang === "zh" ? city.en : city.zh} query={query} />
                 </p>
               </div>
             </div>

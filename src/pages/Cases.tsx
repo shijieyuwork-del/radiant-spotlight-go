@@ -1,14 +1,27 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { ArrowRight, Heart, MessageCircle, Search, SlidersHorizontal } from "lucide-react";
+import { ArrowRight, Heart, MessageCircle, Navigation, Search, SlidersHorizontal } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
-import TikTokWall from "@/components/TikTokWall";
+import TikTokWall, { type TikTokItem } from "@/components/TikTokWall";
+import { Pagination, SortChips } from "@/components/ListControls";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
 import { DOCTORS } from "@/data/doctors";
+import { CITIES } from "@/data/cities";
 import { useAsia } from "@/lib/asia-i18n";
 import { asiaCopy } from "@/lib/asia-copy";
+import { cityCoordsOf, haversineKm, useUserLocation } from "@/lib/geo";
+
+const PAGE_SIZE = 9;
+
+/** "56k" -> 56000；"1.2k" -> 1200；空串 -> 0 */
+const parseLikes = (s: string) => {
+  const m = String(s ?? "").trim().toLowerCase().match(/^([\d.]+)k?$/);
+  if (!m) return 0;
+  const n = parseFloat(m[1]);
+  return s.toLowerCase().includes("k") ? Math.round(n * 1000) : Math.round(n);
+};
 
 const Cases = () => {
   const { t, lang, fmt } = useAsia();
@@ -83,14 +96,62 @@ const Cases = () => {
     });
   }, [q, activeTreatment, activeCity, activeStage, caseCity]);
 
+  // —— 排序：推荐 / 热度 / 最新 / 距离 ——
+  const [sort, setSort] = useState("recommended");
+  const { coords, status: locStatus, request: requestLocation } = useUserLocation();
+
+  // 选中「距离」时才请求浏览器定位
+  useEffect(() => {
+    if (sort === "distance" && locStatus === "idle") requestLocation();
+  }, [sort, locStatus, requestLocation]);
+
+  const sortedItems = useMemo(() => {
+    const arr = [...items];
+    if (sort === "hot") {
+      arr.sort((a, b) => parseLikes(b.likes) - parseLikes(a.likes));
+    } else if (sort === "latest") {
+      arr.sort((a, b) => (b.postedAt ?? "").localeCompare(a.postedAt ?? ""));
+    } else if (sort === "distance" && coords) {
+      const dist = (item: TikTokItem) => {
+        const city = caseCity.get(item.id);
+        const cc = cityCoordsOf(city?.en) ?? cityCoordsOf(city?.zh);
+        return cc ? haversineKm(coords, cc) : Number.POSITIVE_INFINITY;
+      };
+      arr.sort((a, b) => dist(a) - dist(b));
+    }
+    return arr;
+  }, [items, sort, coords, caseCity]);
+
+  // —— 分页 ——
+  const [page, setPage] = useState(1);
+  useEffect(() => {
+    setPage(1);
+  }, [q, activeTreatment, activeCity, activeStage, sort]);
+  const totalPages = Math.max(1, Math.ceil(sortedItems.length / PAGE_SIZE));
+  const safePage = Math.min(page, totalPages);
+  const pagedItems = useMemo(
+    () => sortedItems.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE),
+    [sortedItems, safePage],
+  );
+
   const hasFilters = Boolean(activeTreatment || activeCity || activeStage || q);
+
+  // —— 按城市动态生成 SEO meta（?city=Seoul 分享时标题/摘要/图都对应该城市）——
+  const activeCityMeta = useMemo(
+    () => CITIES.find((x) => x.en.toLowerCase() === activeCity.toLowerCase() || x.zh === activeCity),
+    [activeCity],
+  );
+  const cityLabel = activeCityMeta ? (lang === "zh" ? activeCityMeta.zh : activeCityMeta.en) : activeCity;
 
   return (
     <>
       <PageMeta
-        title="Real Patient Recovery Diaries"
-        description="Watch real before-and-after recovery diaries by procedure and city across Asia — timelines, prices, surgeon info and verified results."
-        path="/cases"
+        title={activeCity ? `${cityLabel} Cosmetic Surgery — Real Patient Recovery Diaries` : "Real Patient Recovery Diaries"}
+        description={activeCity
+          ? `Watch real before-and-after recovery diaries from ${cityLabel}: procedure timelines, prices, surgeon info and verified results from patients who had surgery in ${cityLabel}.`
+          : "Watch real before-and-after recovery diaries by procedure and city across Asia — timelines, prices, surgeon info and verified results."}
+        path={activeCity ? `/cases?city=${encodeURIComponent(activeCity)}` : "/cases"}
+        image={activeCityMeta?.img}
       />
       <div className="min-h-screen bg-background">
         <AsiaNavbar />
@@ -121,10 +182,34 @@ const Cases = () => {
           <FilterSelect value={activeCity} onChange={setActiveCity} label={c("All cities", "全部城市", "Все города")} options={cityOptions} />
         </div>
 
+        <div className="mb-3 md:mb-4">
+          <SortChips
+            label={c("Sort", "排序", "Сортировка")}
+            value={sort}
+            onChange={setSort}
+            options={[
+              { key: "recommended", label: c("Recommended", "推荐", "Рекомендуемые") },
+              { key: "hot", label: c("Most liked", "热度最高", "Популярные") },
+              { key: "latest", label: c("Latest", "最新更新", "Новые") },
+              { key: "distance", label: c("Nearest", "距离最近", "Ближайшие") },
+            ]}
+          />
+          {sort === "distance" && (
+            <p className="mt-2 flex items-center justify-center gap-1 text-[11px] text-muted-foreground">
+              <Navigation className="size-3" />
+              {locStatus === "locating"
+                ? c("Locating…", "正在获取定位…", "Определяем местоположение…")
+                : locStatus === "denied"
+                  ? c("Location unavailable — showing default order.", "无法获取定位，已按默认顺序展示。", "Геолокация недоступна — показан обычный порядок.")
+                  : c("Sorted by distance from you.", "已按与你的距离排序。", "Отсортировано по расстоянию от вас.")}
+            </p>
+          )}
+        </div>
+
         <div className="mb-7 flex items-center justify-center gap-3 text-xs text-muted-foreground md:mb-10">
           <SlidersHorizontal className="size-3" />
           <span>
-            {lang === "zh" ? `共 ${items.length} 个案例` : lang === "ru" ? `${items.length} историй` : `${items.length} case${items.length === 1 ? "" : "s"}`}
+            {lang === "zh" ? `共 ${sortedItems.length} 个案例` : lang === "ru" ? `${sortedItems.length} историй` : `${sortedItems.length} case${sortedItems.length === 1 ? "" : "s"}`}
           </span>
           {hasFilters && (
             <button
@@ -145,7 +230,8 @@ const Cases = () => {
         ) : (
           <div>
             <div className="mb-4 flex items-end justify-between gap-4 md:mb-5"><div><span className="pill bg-accent text-accent-foreground">{c("Latest recovery updates", "最新更新", "Последние обновления")}</span><h2 className="mt-3 font-display text-[1.75rem] font-medium leading-tight md:text-3xl">{c("Choose a journey to continue", "选择一个历程继续观看", "Выберите историю и продолжайте просмотр")}</h2></div><span className="hidden items-center gap-1 text-sm font-semibold text-primary sm:inline-flex">{c("Open a card for the full timeline", "点击卡片查看完整时间线", "Откройте карточку, чтобы увидеть весь путь")}<ArrowRight className="size-4" /></span></div>
-            <TikTokWall items={items} lang={lang} fmtPrice={fmt} variant="cases" />
+            <TikTokWall items={pagedItems} lang={lang} fmtPrice={fmt} variant="cases" highlight={q} />
+            <Pagination page={safePage} totalPages={totalPages} onChange={setPage} />
           </div>
         )}
 

@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Heart, MessageCircle, Share2, Volume2, VolumeX, Play, ArrowRight, BadgeCheck, MapPin, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSavedCase } from "@/lib/saved-cases";
+import { Highlight } from "@/components/HighlightText";
 
 export type TikTokItem = {
   id: string;                 // for case detail route
@@ -17,6 +18,8 @@ export type TikTokItem = {
   likes: string;
   comments: string;
   priceCny: number;
+  /** 日记发布日期（ISO），用于「最新」排序 */
+  postedAt?: string;
 };
 
 export type TikTokWallProps = {
@@ -26,6 +29,8 @@ export type TikTokWallProps = {
   /** 'preview' = small grid, 'wall' = larger immersive wall */
   variant?: "preview" | "wall" | "cases";
   caseHrefBase?: string;       // default "/cases/"
+  /** 搜索关键词，命中片段在卡片文字里高亮 */
+  highlight?: string;
 };
 
 const labels = {
@@ -34,9 +39,11 @@ const labels = {
   ru: { play: "Нажмите для просмотра", view: "Открыть дневник", verified: "Предпросмотр дневника" },
 };
 
+const MARK_CLASS = "rounded bg-primary/70 px-0.5 text-primary-foreground";
+
 const TikTokCard = ({
-  item, lang, fmtPrice, caseHrefBase = "/cases/", autoPlayEligible = true, discovery = false, eager = false, beforeNavigate,
-}: { item: TikTokItem; lang: "en" | "zh" | "ru"; fmtPrice: (n: number) => string; caseHrefBase?: string; autoPlayEligible?: boolean; discovery?: boolean; eager?: boolean; beforeNavigate?: () => boolean }) => {
+  item, lang, fmtPrice, caseHrefBase = "/cases/", autoPlayEligible = true, discovery = false, eager = false, beforeNavigate, highlight,
+}: { item: TikTokItem; lang: "en" | "zh" | "ru"; fmtPrice: (n: number) => string; caseHrefBase?: string; autoPlayEligible?: boolean; discovery?: boolean; eager?: boolean; beforeNavigate?: () => boolean; highlight?: string }) => {
   const ref = useRef<HTMLVideoElement>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
   const [muted, setMuted] = useState(true);
@@ -141,7 +148,7 @@ const TikTokCard = ({
       {/* top: treatment chip + verified */}
       <div className="absolute top-3 left-3 right-3 flex items-start justify-between gap-2">
         <span className="pill bg-white/90 backdrop-blur text-foreground text-[10px] font-semibold">
-          {item.treatment[lang]}
+          <Highlight text={item.treatment[lang]} query={highlight} className={MARK_CLASS} />
         </span>
         <span className="pill bg-primary/90 text-primary-foreground text-[10px] font-semibold">
           {discovery ? recoveryStage : labels[lang].verified}
@@ -203,12 +210,12 @@ const TikTokCard = ({
 
       {/* bottom info */}
       <div className="absolute left-3 right-16 bottom-3 text-white">
-        <p className="text-xs font-semibold opacity-95">{item.user[lang]}</p>
-        <p className="text-[12px] mt-1 leading-snug line-clamp-2">{item.caption[lang]}</p>
-        {!discovery && <p className="text-[11px] opacity-80 mt-1">{item.clinic[lang]}</p>}
+        <p className="text-xs font-semibold opacity-95"><Highlight text={item.user[lang]} query={highlight} className={MARK_CLASS} /></p>
+        <p className="text-[12px] mt-1 leading-snug line-clamp-2"><Highlight text={item.caption[lang]} query={highlight} className={MARK_CLASS} /></p>
+        {!discovery && <p className="text-[11px] opacity-80 mt-1"><Highlight text={item.clinic[lang]} query={highlight} className={MARK_CLASS} /></p>}
         {item.city && (
           <p className="mt-1 flex items-center gap-1 text-[11px] font-medium text-white/90">
-            <MapPin className="size-3" /> {item.city[lang]}
+            <MapPin className="size-3" /> <Highlight text={item.city[lang]} query={highlight} className={MARK_CLASS} />
           </p>
         )}
         <div className="mt-2 flex items-center justify-between gap-2">
@@ -226,7 +233,7 @@ const TikTokCard = ({
   );
 };
 
-const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase }: TikTokWallProps) => {
+const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase, highlight }: TikTokWallProps) => {
   const [active, setActive] = useState(0);
   const [settledActive, setSettledActive] = useState<number | null>(0);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
@@ -298,7 +305,7 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase }
                   transform: `translate3d(${offset}, 0, 0)`,
                 }}
               >
-                <TikTokCard item={it} lang={lang} fmtPrice={fmtPrice} caseHrefBase={caseHrefBase} autoPlayEligible={distance === 0 && settledActive === active} eager={index === 0} beforeNavigate={allowClick} />
+                <TikTokCard item={it} lang={lang} fmtPrice={fmtPrice} caseHrefBase={caseHrefBase} autoPlayEligible={distance === 0 && settledActive === active} eager={index === 0} beforeNavigate={allowClick} highlight={highlight} />
                 {distance !== 0 && (
                   <button
                     type="button"
@@ -334,7 +341,7 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase }
       <div className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth overscroll-x-contain px-4 pb-4 scrollbar-hide sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3">
         {items.map((it, index) => (
           <div key={it.id} className="w-[82vw] max-w-[22rem] shrink-0 snap-center sm:mx-auto sm:w-full sm:max-w-[25rem]">
-            <TikTokCard item={it} lang={lang} fmtPrice={fmtPrice} caseHrefBase={caseHrefBase} discovery eager={index < 3} />
+            <TikTokCard item={it} lang={lang} fmtPrice={fmtPrice} caseHrefBase={caseHrefBase} discovery eager={index < 3} highlight={highlight} />
           </div>
         ))}
       </div>
@@ -345,7 +352,7 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase }
     <div className="flex gap-4 overflow-x-auto scroll-smooth overscroll-x-contain snap-x snap-mandatory scrollbar-hide -mx-4 px-4 pb-3 sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
       {items.map((it, index) => (
         <div key={it.id} className="min-w-[78vw] sm:min-w-0 snap-center">
-          <TikTokCard item={it} lang={lang} fmtPrice={fmtPrice} caseHrefBase={caseHrefBase} eager={index < 4} />
+          <TikTokCard item={it} lang={lang} fmtPrice={fmtPrice} caseHrefBase={caseHrefBase} eager={index < 4} highlight={highlight} />
         </div>
       ))}
     </div>

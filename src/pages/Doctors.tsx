@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import {
-  Search, Filter, Stethoscope, BadgeCheck, Building2, FileCheck2, Star, ArrowRight, MapPin, MessageCircle,
+  Search, Filter, Stethoscope, BadgeCheck, Building2, FileCheck2, Star, ArrowRight, MapPin, MessageCircle, Navigation,
 } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
@@ -15,8 +15,14 @@ import { useQuote } from "@/components/QuoteRequest";
 import { DEMO_CHINA_DOCTORS } from "@/data/demoChinaDoctors";
 import { CITIES } from "@/data/cities";
 import { asiaCopy } from "@/lib/asia-copy";
+import { Highlight } from "@/components/HighlightText";
+import { Pagination, SortChips } from "@/components/ListControls";
+import { cityCoordsOf, haversineKm, useUserLocation } from "@/lib/geo";
 
-type ManagedDoctor = { id:string; name:string; title:string; hospital:string; city:string; specialties:string[]; bio:string; photo_path:string|null; photo?:string };
+const PAGE_SIZE = 9;
+
+type ManagedDoctor = { id:string; name:string; title:string; hospital:string; city:string; specialties:string[]; bio:string; photo_path:string|null; photo?:string; created_at?:string };
+type DirectoryDoctor = ManagedDoctor & { demo?: boolean };
 
 const Doctors = () => {
   const { t, lang } = useAsia();
@@ -28,7 +34,7 @@ const Doctors = () => {
   const [spec, setSpec] = useState<string>("all");
   const [managedDoctors, setManagedDoctors] = useState<ManagedDoctor[]>([]);
   const { open } = useQuote();
-  useEffect(()=>{supabase.from("doctors").select("id,name,title,hospital,city,specialties,bio,photo_path").eq("status","published").order("created_at",{ascending:false}).then(async ({data})=>{
+  useEffect(()=>{supabase.from("doctors").select("id,name,title,hospital,city,specialties,bio,photo_path,created_at").eq("status","published").order("created_at",{ascending:false}).then(async ({data})=>{
     const chinaCities = ["shanghai", "beijing", "guangzhou", "hangzhou", "hainan", "上海", "北京", "广州", "杭州", "海南"];
     const rows = ((data??[]) as ManagedDoctor[]).filter((doctor)=>chinaCities.some((cityName)=>doctor.city?.toLowerCase().includes(cityName)));
     const photos = await signedUrls("doctor-photos", rows.map((doctor)=>doctor.photo_path));
@@ -36,9 +42,9 @@ const Doctors = () => {
   })},[]);
 
   const publicDoctors = useMemo(() => DOCTORS.filter(() => false), []);
-  const directoryDoctors = managedDoctors.length > 0
-    ? managedDoctors.map((doctor) => ({ ...doctor, demo: false as const, photo: doctor.photo ?? "" }))
-    : DEMO_CHINA_DOCTORS.map((doctor) => ({ ...doctor, photo_path: null, credentials: null }));
+  const directoryDoctors: DirectoryDoctor[] = managedDoctors.length > 0
+    ? managedDoctors.map((doctor) => ({ ...doctor, demo: false, photo: doctor.photo ?? "" }))
+    : DEMO_CHINA_DOCTORS.map((doctor) => ({ ...doctor, photo_path: null, credentials: null }) as DirectoryDoctor);
   const cities = useMemo(() => {
     const set = new Map<string, string>();
     publicDoctors.forEach((d) => set.set(d.cityEn, d[lang === "zh" ? "cityZh" : "cityEn"]));
@@ -67,6 +73,51 @@ const Doctors = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [directoryDoctors, city, q]);
 
+  // —— 排序：推荐 / 热度 / 最新入驻 / 距离 ——
+  const [sort, setSort] = useState("recommended");
+  const { coords, status: locStatus, request: requestLocation } = useUserLocation();
+
+  // 选中「距离」时才请求浏览器定位
+  useEffect(() => {
+    if (sort === "distance" && locStatus === "idle") requestLocation();
+  }, [sort, locStatus, requestLocation]);
+
+  const sortedDoctors = useMemo(() => {
+    const arr = [...visibleDirectoryDoctors];
+    if (sort === "hot") {
+      // 已发布的真实医生排在示例资料前
+      arr.sort((a, b) => Number(!b.demo) - Number(!a.demo));
+    } else if (sort === "latest") {
+      arr.sort((a, b) => (b.created_at ?? "").localeCompare(a.created_at ?? ""));
+    } else if (sort === "distance" && coords) {
+      const dist = (d: DirectoryDoctor) => {
+        const cc = cityCoordsOf(d.city);
+        return cc ? haversineKm(coords, cc) : Number.POSITIVE_INFINITY;
+      };
+      arr.sort((a, b) => dist(a) - dist(b));
+    }
+    return arr;
+  }, [visibleDirectoryDoctors, sort, coords]);
+
+  // —— 分页 ——
+  const [page, setPage] = useState(1);
+  useEffect(() => {
+    setPage(1);
+  }, [q, city, spec, sort]);
+  const totalPages = Math.max(1, Math.ceil(sortedDoctors.length / PAGE_SIZE));
+  const safePage = Math.min(page, totalPages);
+  const pagedDoctors = useMemo(
+    () => sortedDoctors.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE),
+    [sortedDoctors, safePage],
+  );
+
+  // —— 按城市动态生成 SEO meta（?city=Seoul 分享时标题/摘要/图都对应该城市）——
+  const activeCityMeta = useMemo(
+    () => (city === "all" ? undefined : CITIES.find((x) => x.en.toLowerCase() === city.toLowerCase() || x.zh === city)),
+    [city],
+  );
+  const cityLabel = activeCityMeta ? (lang === "zh" ? activeCityMeta.zh : activeCityMeta.en) : city;
+
   const specialties = useMemo(() => {
     const set = new Map<string, string>();
     publicDoctors.forEach((d) =>
@@ -88,9 +139,12 @@ const Doctors = () => {
   return (
     <>
       <PageMeta
-        title="Verified Cosmetic Surgeons in Asia"
-        description="Review verified surgeon profiles across Asia, compare specialties and credentials, and book a free consultation with English-language coordination."
-        path="/doctors"
+        title={city !== "all" ? `${cityLabel} Cosmetic Surgeons — Verified Profiles` : "Verified Cosmetic Surgeons in Asia"}
+        description={city !== "all"
+          ? `Review verified cosmetic surgeons in ${cityLabel}: compare specialties, credentials and patient reviews, and book a free consultation with English-language coordination.`
+          : "Review verified surgeon profiles across Asia, compare specialties and credentials, and book a free consultation with English-language coordination."}
+        path={city !== "all" ? `/doctors?city=${encodeURIComponent(city)}` : "/doctors"}
+        image={activeCityMeta?.img}
       />
       <div className="min-h-screen bg-background">
         <AsiaNavbar />
@@ -154,14 +208,37 @@ const Doctors = () => {
 
         {directoryDoctors.length > 0 && (
           <div className="mb-10">
-            <h2 className="mb-5 font-display text-2xl">{managedDoctors.length > 0 ? c("Published doctors", "已发布医生", "Опубликованные врачи") : c("Sample doctor profiles", "医生展示样例", "Примеры профилей врачей")}</h2>
+            <h2 className="mb-4 font-display text-2xl">{managedDoctors.length > 0 ? c("Published doctors", "已发布医生", "Опубликованные врачи") : c("Sample doctor profiles", "医生展示样例", "Примеры профилей врачей")}</h2>
+            <div className="mb-5">
+              <SortChips
+                label={c("Sort", "排序", "Сортировка")}
+                value={sort}
+                onChange={setSort}
+                options={[
+                  { key: "recommended", label: c("Recommended", "推荐", "Рекомендуемые") },
+                  { key: "hot", label: c("Most popular", "热度最高", "Популярные") },
+                  { key: "latest", label: c("Newest", "最新入驻", "Новые") },
+                  { key: "distance", label: c("Nearest", "距离最近", "Ближайшие") },
+                ]}
+              />
+              {sort === "distance" && (
+                <p className="mt-2 flex items-center justify-center gap-1 text-[11px] text-muted-foreground">
+                  <Navigation className="size-3" />
+                  {locStatus === "locating"
+                    ? c("Locating…", "正在获取定位…", "Определяем местоположение…")
+                    : locStatus === "denied"
+                      ? c("Location unavailable — showing default order.", "无法获取定位，已按默认顺序展示。", "Геолокация недоступна — показан обычный порядок.")
+                      : c("Sorted by distance from you.", "已按与你的距离排序。", "Отсортировано по расстоянию от вас.")}
+                </p>
+              )}
+            </div>
             {visibleDirectoryDoctors.length === 0 ? (
               <p className="rounded-3xl border border-dashed border-border bg-card/60 px-6 py-8 text-center text-sm text-muted-foreground">
                 {c("No doctors in this city yet — try another city or ask us for a match.", "该城市暂无医生资料 —— 换个城市试试，或让我们帮你匹配。", "В этом городе пока нет врачей — попробуйте другой город или напишите нам.")}
               </p>
             ) : (
             <div className="grid gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
-              {visibleDirectoryDoctors.map((d) => {
+              {pagedDoctors.map((d) => {
                 const photo = d.photo;
                 return (
                   <article key={d.id} className="flex min-h-0 flex-col rounded-3xl bg-card p-5 shadow-pop transition hover:shadow-glow md:min-h-[25rem] md:p-6">
@@ -170,15 +247,15 @@ const Doctors = () => {
                         ? <img src={photo} alt={d.name} className="size-28 shrink-0 rounded-full border-2 border-primary/15 object-cover md:size-24" />
                         : <div className="grid size-28 shrink-0 place-items-center rounded-full bg-muted md:size-24"><Stethoscope /></div>}
                       <div className="min-w-0">
-                        <h3 className="font-display text-xl font-semibold leading-tight">{d.name}</h3>
-                        <p className="mt-1 text-xs text-muted-foreground">{d.title}</p>
-                        <p className="mt-2 text-xs text-muted-foreground"><MapPin className="mr-1 inline size-3" />{d.city}</p>
+                        <h3 className="font-display text-xl font-semibold leading-tight"><Highlight text={d.name} query={q} /></h3>
+                        <p className="mt-1 text-xs text-muted-foreground"><Highlight text={d.title} query={q} /></p>
+                        <p className="mt-2 text-xs text-muted-foreground"><MapPin className="mr-1 inline size-3" /><Highlight text={d.city} query={q} /></p>
                         {d.demo && <span className="mt-2 inline-flex rounded-full bg-accent px-2.5 py-1 text-[10px] font-semibold text-accent-foreground">{c("Sample profile", "示例资料", "Демо-профиль")}</span>}
                       </div>
                     </div>
-                    <p className="mt-5 text-sm text-muted-foreground"><Building2 className="mr-1 inline size-4 text-primary" />{d.hospital}</p>
-                    {d.bio && <p className="mt-4 line-clamp-2 text-sm leading-relaxed text-muted-foreground">{d.bio}</p>}
-                    <div className="mt-4 flex flex-wrap gap-1.5">{d.specialties.map((s) => <span key={s} className="rounded-full bg-accent px-2.5 py-1 text-[11px]">{s}</span>)}</div>
+                    <p className="mt-5 text-sm text-muted-foreground"><Building2 className="mr-1 inline size-4 text-primary" /><Highlight text={d.hospital} query={q} /></p>
+                    {d.bio && <p className="mt-4 line-clamp-2 text-sm leading-relaxed text-muted-foreground"><Highlight text={d.bio} query={q} /></p>}
+                    <div className="mt-4 flex flex-wrap gap-1.5">{d.specialties.map((s) => <span key={s} className="rounded-full bg-accent px-2.5 py-1 text-[11px]"><Highlight text={s} query={q} /></span>)}</div>
                     <div className="mt-auto grid gap-2 pt-6 min-[430px]:grid-cols-[0.9fr_1.1fr]">
                       <Link to={d.demo ? "/doctors" : `/doctors/profile/${d.id}`} className="flex min-h-12 items-center justify-center rounded-xl border border-primary/30 px-3 py-3 text-center text-xs font-semibold text-primary hover:bg-primary/10">
                         {c("Doctor & cases", "医生与案例", "Врач и истории пациентов")}
@@ -191,6 +268,9 @@ const Doctors = () => {
                 );
               })}
             </div>
+            )}
+            {visibleDirectoryDoctors.length > 0 && (
+              <Pagination page={safePage} totalPages={totalPages} onChange={setPage} />
             )}
           </div>
         )}

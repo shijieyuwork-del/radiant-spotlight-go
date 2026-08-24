@@ -448,7 +448,7 @@ const CitiesSection = () => {
       </div>
       <div className="mb-6 md:mb-8">
         <CitySearchBar filter={cityFilter} />
-        {cityFilter.active && <CityQuickResults results={cityFilter.results} />}
+        {cityFilter.active && <CityQuickResults results={cityFilter.results} query={cityFilter.query} />}
       </div>
       <div
         ref={cityRailRef}
