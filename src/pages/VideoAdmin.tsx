@@ -200,6 +200,7 @@ const VideoAdmin = () => {
       toast.success(coverPath ? "短视频与封面上传成功" : "短视频上传成功（无封面）");
       setFile(null); setTitle(""); setCaption(""); setProcedure(""); setStatus("published"); setDoctorId("none");
       clearCovers();
+      setDuration(null);
       setErrors({});
       await loadVideos();
     } catch (error) {
@@ -292,7 +293,34 @@ const VideoAdmin = () => {
               />
               {errors.file && <FieldError message={errors.file} />}
             </div>
-            {previewUrl && <video src={previewUrl} controls muted className="w-full aspect-[9/16] max-h-72 object-contain rounded-2xl bg-black" />}
+            {previewUrl && file && (
+              <div className="rounded-2xl border bg-muted/30 p-3 space-y-3" data-testid="video-preview-card">
+                <div className="flex items-center gap-3">
+                  {covers[coverIndex] ? (
+                    <img src={covers[coverIndex].url} alt="当前封面预览" className="w-12 aspect-[9/16] rounded-lg object-cover border shrink-0" />
+                  ) : (
+                    <div className="w-12 aspect-[9/16] rounded-lg bg-muted grid place-items-center shrink-0"><Film className="size-4 text-muted-foreground" /></div>
+                  )}
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm font-medium truncate" title={file.name}>{file.name}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {duration !== null ? `时长 ${formatDuration(duration)} · ` : ""}{(file.size / 1024 / 1024).toFixed(1)} MB
+                    </p>
+                  </div>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="shrink-0 text-muted-foreground hover:text-destructive"
+                    onClick={() => handleFile(null)}
+                    aria-label="取消选择该视频"
+                  >
+                    <X className="size-4 mr-1" />取消选择
+                  </Button>
+                </div>
+                <video src={previewUrl} controls muted className="w-full aspect-[9/16] max-h-72 object-contain rounded-xl bg-black" />
+              </div>
+            )}
             {(coverBusy || covers.length > 0) && (
               <div>
                 <Label className="flex items-center gap-1.5"><ImageIcon className="size-3.5" />封面（信息流预览图，9:16）</Label>
