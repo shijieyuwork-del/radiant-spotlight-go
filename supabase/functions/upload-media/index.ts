@@ -18,6 +18,14 @@ const BUCKETS = {
 
 type BucketName = keyof typeof BUCKETS
 
+// Which table/column a bucket's media belongs to (used by replace mode)
+const TABLE_FOR_BUCKET: Record<BucketName, { table: 'doctors' | 'videos'; column: 'photo_path' | 'storage_path' }> = {
+  'doctor-photos': { table: 'doctors', column: 'photo_path' },
+  'short-videos': { table: 'videos', column: 'storage_path' },
+}
+
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
 const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), {
     status,
@@ -36,44 +44,46 @@ Deno.serve(async (req) => {
   const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? null
   const userAgent = req.headers.get('user-agent') ?? null
 
-  // Audit helper — every upload attempt (allowed or denied) is logged
+  // Audit helper — every upload/replace attempt (allowed or denied) is logged
   const audit = (entry: {
+    action: 'storage_upload' | 'storage_replace'
     actor_id: string | null
     actor_email: string | null
     bucket: string | null
     target: string
     denied: boolean
     reason?: string
+    extra?: Record<string, unknown>
   }) =>
     service.from('audit_logs').insert({
-      action: 'storage_upload',
+      action: entry.action,
       actor_id: entry.actor_id,
       actor_email: entry.actor_email,
       bucket: entry.bucket,
       target: entry.target,
       ip,
       user_agent: userAgent,
-      metadata: { denied: entry.denied, ...(entry.reason ? { reason: entry.reason } : {}) },
+      metadata: { denied: entry.denied, ...(entry.reason ? { reason: entry.reason } : {}), ...(entry.extra ?? {}) },
     })
 
   try {
     // 1. Authentication — a valid user JWT is mandatory
     const token = req.headers.get('Authorization')?.replace(/^Bearer\s+/i, '')
     if (!token) {
-      await audit({ actor_id: null, actor_email: null, bucket: null, target: '(no token)', denied: true, reason: 'missing token' })
+      await audit({ action: 'storage_upload', actor_id: null, actor_email: null, bucket: null, target: '(no token)', denied: true, reason: 'missing token' })
       return json({ error: 'authentication required' }, 401)
     }
     const { data: userData } = await service.auth.getUser(token)
     const user = userData.user
     if (!user) {
-      await audit({ actor_id: null, actor_email: null, bucket: null, target: '(bad token)', denied: true, reason: 'invalid token' })
+      await audit({ action: 'storage_upload', actor_id: null, actor_email: null, bucket: null, target: '(bad token)', denied: true, reason: 'invalid token' })
       return json({ error: 'invalid session' }, 401)
     }
 
     // 2. Authorization — only the admin may upload
     const email = user.email?.toLowerCase() ?? ''
     if (email !== ADMIN_EMAIL) {
-      await audit({ actor_id: user.id, actor_email: user.email ?? null, bucket: null, target: '(non-admin)', denied: true, reason: 'not admin' })
+      await audit({ action: 'storage_upload', actor_id: user.id, actor_email: user.email ?? null, bucket: null, target: '(non-admin)', denied: true, reason: 'not admin' })
       return json({ error: 'forbidden: admin only' }, 403)
     }
 
@@ -81,25 +91,53 @@ Deno.serve(async (req) => {
     const form = await req.formData()
     const bucket = form.get('bucket')
     const file = form.get('file')
+    const mode = form.get('mode')
+    const recordId = form.get('recordId')
     if (typeof bucket !== 'string' || !(bucket in BUCKETS)) {
       return json({ error: 'bucket must be doctor-photos or short-videos' }, 400)
     }
     if (!(file instanceof File) || file.size === 0) {
       return json({ error: 'file is required' }, 400)
     }
+    const isReplace = mode === 'replace'
+    if (mode !== null && !isReplace) {
+      return json({ error: 'mode must be "replace" when provided' }, 400)
+    }
+    if (isReplace && (typeof recordId !== 'string' || !UUID_RE.test(recordId))) {
+      return json({ error: 'recordId (uuid) is required for replace mode' }, 400)
+    }
 
     const rules = BUCKETS[bucket as BucketName]
     const ext = (file.name.split('.').pop() ?? '').toLowerCase()
+    const auditBase = { actor_id: user.id, actor_email: user.email ?? null, bucket }
+    const action = isReplace ? 'storage_replace' as const : 'storage_upload' as const
     if (!(rules.exts as readonly string[]).includes(ext) || !(rules.types as readonly string[]).includes(file.type)) {
-      await audit({ actor_id: user.id, actor_email: user.email ?? null, bucket, target: file.name, denied: true, reason: `bad type ${file.type}/${ext}` })
+      await audit({ action, ...auditBase, target: file.name, denied: true, reason: `bad type ${file.type}/${ext}` })
       return json({ error: `invalid file type: allowed ${rules.exts.join(', ')}` }, 400)
     }
     if (file.size > rules.maxBytes) {
-      await audit({ actor_id: user.id, actor_email: user.email ?? null, bucket, target: file.name, denied: true, reason: `too large ${file.size}` })
+      await audit({ action, ...auditBase, target: file.name, denied: true, reason: `too large ${file.size}` })
       return json({ error: `file too large: max ${Math.round(rules.maxBytes / 1024 / 1024)}MB` }, 400)
     }
 
-    // 4. Upload via service role under a server-generated safe path
+    // 4a. Replace mode — verify the target record exists and capture its current path
+    let oldPath: string | null = null
+    let tableInfo: { table: 'doctors' | 'videos'; column: 'photo_path' | 'storage_path' } | null = null
+    if (isReplace) {
+      tableInfo = TABLE_FOR_BUCKET[bucket as BucketName]
+      const { data: record, error: fetchError } = await service
+        .from(tableInfo.table)
+        .select(`id, ${tableInfo.column}`)
+        .eq('id', recordId as string)
+        .maybeSingle()
+      if (fetchError || !record) {
+        await audit({ action, ...auditBase, target: recordId as string, denied: true, reason: 'record not found' })
+        return json({ error: 'record not found' }, 404)
+      }
+      oldPath = (record as Record<string, unknown>)[tableInfo.column] as string | null
+    }
+
+    // 4b. Upload via service role under a server-generated safe path
     const path = `${user.id}/${Date.now()}-${crypto.randomUUID()}.${ext}`
     const { error: uploadError } = await service.storage.from(bucket).upload(path, file, {
       contentType: file.type,
@@ -107,11 +145,36 @@ Deno.serve(async (req) => {
       upsert: false,
     })
     if (uploadError) {
-      await audit({ actor_id: user.id, actor_email: user.email ?? null, bucket, target: path, denied: true, reason: uploadError.message })
+      await audit({ action, ...auditBase, target: path, denied: true, reason: uploadError.message })
       return json({ error: uploadError.message }, 500)
     }
 
-    await audit({ actor_id: user.id, actor_email: user.email ?? null, bucket, target: path, denied: false })
+    // 5. Replace mode — point the record at the new object, then remove the old one
+    if (isReplace && tableInfo) {
+      const { error: updateError } = await service
+        .from(tableInfo.table)
+        .update({ [tableInfo.column]: path })
+        .eq('id', recordId as string)
+      if (updateError) {
+        // Roll back the freshly uploaded object so storage stays consistent
+        await service.storage.from(bucket).remove([path])
+        await audit({ action, ...auditBase, target: path, denied: true, reason: updateError.message, extra: { record_id: recordId } })
+        return json({ error: updateError.message }, 500)
+      }
+      if (oldPath && oldPath !== path) {
+        await service.storage.from(bucket).remove([oldPath])
+      }
+      await audit({
+        action,
+        ...auditBase,
+        target: path,
+        denied: false,
+        extra: { record_id: recordId, table: tableInfo.table, replaced_path: oldPath },
+      })
+      return json({ path, replaced: oldPath })
+    }
+
+    await audit({ action, ...auditBase, target: path, denied: false })
     return json({ path })
   } catch (e) {
     return json({ error: e instanceof Error ? e.message : 'internal error' }, 500)

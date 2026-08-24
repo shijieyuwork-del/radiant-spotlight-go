@@ -220,6 +220,16 @@ describe("RLS: upload-media 上传权限校验", () => {
     });
     expect(data?.urls ?? {}).toEqual({});
   });
+
+  it("anon: 匿名调用 replace 模式被拒绝（401）", { timeout: 20000 }, async () => {
+    const anon = newAnonClient();
+    const form = newForm();
+    form.append("mode", "replace");
+    form.append("recordId", crypto.randomUUID());
+    const { data, error } = await anon.functions.invoke("upload-media", { body: form });
+    expect(data?.path).toBeUndefined();
+    expect(error).not.toBeNull();
+  });
 });
 
 /**
@@ -298,6 +308,24 @@ describeAuth("RLS: upload-media 非管理员登录用户", () => {
     const form = new FormData();
     form.append("bucket", "short-videos");
     form.append("file", new File(["x"], "rls-probe.mp4", { type: "video/mp4" }));
+    const { data, error } = await client.functions.invoke("upload-media", { body: form });
+    expect(data?.path).toBeUndefined();
+    expect(error).not.toBeNull();
+    await client.auth.signOut();
+  });
+
+  it("非管理员调用 replace 模式被拒绝（403）", async () => {
+    const client = newAnonClient();
+    const { error: signInError } = await client.auth.signInWithPassword({
+      email: TEST_EMAIL!,
+      password: TEST_PASSWORD!,
+    });
+    if (signInError) throw signInError;
+    const form = new FormData();
+    form.append("bucket", "doctor-photos");
+    form.append("file", new File(["x"], "rls-probe.jpg", { type: "image/jpeg" }));
+    form.append("mode", "replace");
+    form.append("recordId", crypto.randomUUID());
     const { data, error } = await client.functions.invoke("upload-media", { body: form });
     expect(data?.path).toBeUndefined();
     expect(error).not.toBeNull();
