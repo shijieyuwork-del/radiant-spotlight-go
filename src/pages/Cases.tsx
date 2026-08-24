@@ -96,7 +96,52 @@ const Cases = () => {
     });
   }, [q, activeTreatment, activeCity, activeStage, caseCity]);
 
+  // —— 排序：推荐 / 热度 / 最新 / 距离 ——
+  const [sort, setSort] = useState("recommended");
+  const { coords, status: locStatus, request: requestLocation } = useUserLocation();
+
+  // 选中「距离」时才请求浏览器定位
+  useEffect(() => {
+    if (sort === "distance" && locStatus === "idle") requestLocation();
+  }, [sort, locStatus, requestLocation]);
+
+  const sortedItems = useMemo(() => {
+    const arr = [...items];
+    if (sort === "hot") {
+      arr.sort((a, b) => parseLikes(b.likes) - parseLikes(a.likes));
+    } else if (sort === "latest") {
+      arr.sort((a, b) => (b.postedAt ?? "").localeCompare(a.postedAt ?? ""));
+    } else if (sort === "distance" && coords) {
+      const dist = (item: TikTokItem) => {
+        const city = caseCity.get(item.id);
+        const cc = cityCoordsOf(city?.en) ?? cityCoordsOf(city?.zh);
+        return cc ? haversineKm(coords, cc) : Number.POSITIVE_INFINITY;
+      };
+      arr.sort((a, b) => dist(a) - dist(b));
+    }
+    return arr;
+  }, [items, sort, coords, caseCity]);
+
+  // —— 分页 ——
+  const [page, setPage] = useState(1);
+  useEffect(() => {
+    setPage(1);
+  }, [q, activeTreatment, activeCity, activeStage, sort]);
+  const totalPages = Math.max(1, Math.ceil(sortedItems.length / PAGE_SIZE));
+  const safePage = Math.min(page, totalPages);
+  const pagedItems = useMemo(
+    () => sortedItems.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE),
+    [sortedItems, safePage],
+  );
+
   const hasFilters = Boolean(activeTreatment || activeCity || activeStage || q);
+
+  // —— 按城市动态生成 SEO meta（?city=Seoul 分享时标题/摘要/图都对应该城市）——
+  const activeCityMeta = useMemo(
+    () => CITIES.find((x) => x.en.toLowerCase() === activeCity.toLowerCase() || x.zh === activeCity),
+    [activeCity],
+  );
+  const cityLabel = activeCityMeta ? (lang === "zh" ? activeCityMeta.zh : activeCityMeta.en) : activeCity;
 
   return (
     <>
