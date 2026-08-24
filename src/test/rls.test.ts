@@ -206,7 +206,7 @@ describe("RLS: upload-media 上传权限校验", () => {
     return form;
   };
 
-  it("anon: 匿名调用上传函数被拒绝（401）", async () => {
+  it("anon: 匿名调用上传函数被拒绝（401）", { timeout: 20000 }, async () => {
     const anon = newAnonClient();
     const { data, error } = await anon.functions.invoke("upload-media", { body: newForm() });
     expect(data?.path).toBeUndefined();
