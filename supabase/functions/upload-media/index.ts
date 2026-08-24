@@ -26,6 +26,16 @@ const TABLE_FOR_BUCKET: Record<BucketName, { table: 'doctors' | 'videos'; column
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
+// ── Abuse controls (env-overridable) ────────────────────────────────────────
+// NOTE: ad-hoc DB-count based rate limiting — no standard rate-limit primitive
+// exists on this backend; acceptable for a single-admin console, not bulletproof
+// under extreme concurrency.
+const RATE_LIMIT_PER_HOUR = Number(Deno.env.get('UPLOAD_RATE_LIMIT_PER_HOUR') ?? 30)
+const RATE_LIMIT_PER_DAY = Number(Deno.env.get('UPLOAD_RATE_LIMIT_PER_DAY') ?? 100)
+const STORAGE_QUOTA_BYTES = Number(Deno.env.get('STORAGE_QUOTA_BYTES') ?? 2 * 1024 * 1024 * 1024) // 2GB per bucket
+
+const fmtMB = (bytes: number) => (bytes / 1024 / 1024).toFixed(1)
+
 const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), {
     status,
