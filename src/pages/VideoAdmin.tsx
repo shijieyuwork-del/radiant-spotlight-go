@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { ArrowLeft, Film, ImageIcon, Loader2, LogOut, RefreshCw, Stethoscope, Trash2, UploadCloud } from "lucide-react";
 import { toast } from "sonner";
@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { signedUrls } from "@/lib/storage-urls";
 import { replaceMedia, uploadMedia } from "@/lib/upload-media";
 import { VIDEO_RULES, fieldForUploadError, validateMediaFile } from "@/lib/media-validation";
+import { scrollToFirstError } from "@/lib/scroll-to-error";
 import { coverBlobToFile, extractCoverCandidates, type CoverCandidate } from "@/lib/video-cover";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,6 +15,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Progress } from "@/components/ui/progress";
+import FileDropZone from "@/components/FileDropZone";
+import FieldError from "@/components/FieldError";
 
 const ADMIN_EMAIL = "shijieyuwork@gmail.com";
 const BUCKET = "short-videos";
@@ -60,6 +63,7 @@ const VideoAdmin = () => {
   const [covers, setCovers] = useState<CoverCandidate[]>([]);
   const [coverIndex, setCoverIndex] = useState(2);
   const [coverBusy, setCoverBusy] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
 
   const clearCovers = () => {
     setCovers((prev) => { prev.forEach((c) => URL.revokeObjectURL(c.url)); return []; });
@@ -152,6 +156,7 @@ const VideoAdmin = () => {
     setErrors(next);
     if (Object.keys(next).length > 0) {
       toast.error(`表单有 ${Object.keys(next).length} 处需要修正，请查看标红字段`);
+      scrollToFirstError(formRef.current);
       return;
     }
     setUploading(true);
@@ -194,7 +199,10 @@ const VideoAdmin = () => {
     } catch (error) {
       const message = error instanceof Error ? error.message : "上传失败";
       // 服务端的类型/大小/限流/配额错误归因到文件字段并标红
-      if (fieldForUploadError(message)) setErrors((prev) => ({ ...prev, file: message }));
+      if (fieldForUploadError(message)) {
+        setErrors((prev) => ({ ...prev, file: message }));
+        scrollToFirstError(formRef.current);
+      }
       toast.error(message);
     } finally {
       setUploading(false);
@@ -266,20 +274,20 @@ const VideoAdmin = () => {
       <main className="container py-8 grid lg:grid-cols-[420px_1fr] gap-8">
         <section className="rounded-3xl bg-card shadow-pop p-6 h-fit">
           <div className="flex items-center gap-3 mb-6"><div className="size-10 rounded-2xl bg-primary/10 grid place-items-center"><UploadCloud className="size-5 text-primary" /></div><div><h1 className="font-display text-2xl font-semibold">上传短视频</h1><p className="text-xs text-muted-foreground">MP4 / MOV / WebM，最大 100MB</p></div></div>
-          <form onSubmit={upload} className="space-y-4">
+          <form onSubmit={upload} className="space-y-4" ref={formRef}>
             <div>
               <Label htmlFor="video-file">视频文件 *</Label>
-              <Input
+              <FileDropZone
                 id="video-file"
-                type="file"
                 accept={VIDEO_ACCEPT}
-                aria-invalid={!!errors.file}
-                className={`mt-1.5 ${errors.file ? errorInputClass : ""}`}
-                onChange={(e) => handleFile(e.target.files?.[0] ?? null)}
+                rules={VIDEO_RULES}
+                invalid={!!errors.file}
+                disabled={uploading}
+                fileName={file?.name}
+                onFile={(f) => handleFile(f)}
+                onInvalid={(msg) => { setFile(null); setErrors((prev) => ({ ...prev, file: msg })); toast.error(msg); }}
               />
-              {errors.file
-                ? <p className="text-xs text-destructive mt-1">{errors.file}</p>
-                : <p className="text-xs text-muted-foreground mt-1">{VIDEO_RULES.formatLabel}，最大 100MB</p>}
+              {errors.file && <FieldError message={errors.file} />}
             </div>
             {previewUrl && <video src={previewUrl} controls muted className="w-full aspect-[9/16] max-h-72 object-contain rounded-2xl bg-black" />}
             {(coverBusy || covers.length > 0) && (
@@ -316,7 +324,7 @@ const VideoAdmin = () => {
                 className={`mt-1.5 ${errors.title ? errorInputClass : ""}`}
                 placeholder="例如：术后第 30 天恢复记录"
               />
-              {errors.title && <p className="text-xs text-destructive mt-1">{errors.title}</p>}
+              {errors.title && <FieldError message={errors.title} />}
             </div>
             <div><Label htmlFor="video-caption">说明</Label><Textarea id="video-caption" value={caption} onChange={(e) => setCaption(e.target.value)} className="mt-1.5" placeholder="视频介绍（可选）" /></div>
             <div className="grid grid-cols-2 gap-3">
