@@ -213,19 +213,20 @@ const Packages = () => {
               <div>
                 <span className="pill bg-white/85 text-foreground shadow-soft backdrop-blur">
                   <ShieldCheck className="size-3.5 text-primary" />
-                  {c("Clear support before, during and after your trip", "从出发前到回国后的清晰支持", "Понятная поддержка до, во время и после поездки")}
+                  {c("Complete care journey", "全程协调支持", "Полная координация")}
                 </span>
-                <h1 className="mt-5 max-w-3xl font-display text-[2.7rem] font-medium leading-[.98] tracking-tight sm:text-5xl md:text-6xl lg:text-[4.6rem]">
-                  {c("Your care in China, ", "你的中国就医之旅，", "Ваша поездка на лечение в Китай — ")}
+                <h1 className="mt-5 max-w-2xl font-display text-4xl font-medium leading-[1.06] tracking-tight sm:text-5xl lg:text-6xl">
+                  {c("Seamless care", "中国就医，", "Лечение в Китае —")}
+                  <br />
                   <em className="not-italic text-primary">
-                    {c("coordinated from first question to follow-up", "从第一次咨询到术后随访都有人协调", "с координацией от первого вопроса до наблюдения")}
+                    {c("in China", "全程协调无忧", "под ключ")}
                   </em>
                 </h1>
-                <p className="mt-6 max-w-2xl text-base leading-relaxed text-foreground/70 sm:text-lg">
+                <p className="mt-5 max-w-md text-base leading-relaxed text-foreground/70 sm:text-lg">
                   {c(
-                    "Understand your options, reserve your appointment and get practical help with arrival, communication and follow-up. You will always know what happens next.",
-                    "了解选择、保留预约，并获得抵达、沟通和随访方面的实际协助，无需猜测下一步会发生什么。",
-                    "Разберитесь в вариантах, закрепите запись и получите практическую помощь с прибытием, общением и наблюдением — без неопределённости."
+                    "Professional coordination for your medical trip, from arrival to recovery.",
+                    "从抵达到恢复，专业团队全程协调你的就医行程。",
+                    "Профессиональная координация поездки — от прибытия до восстановления."
                   )}
                 </p>
                 <div className="mt-7 flex flex-col gap-3 sm:flex-row">
@@ -235,23 +236,28 @@ const Packages = () => {
                     <ChevronRight className="size-4" />
                   </a>
                 </div>
-                
+
               </div>
 
               <div className="relative mx-auto w-full max-w-2xl pb-5 lg:max-w-none">
                 <div className="overflow-hidden rounded-[2.25rem] border-4 border-white/80 bg-card shadow-pop">
                   <img src={serviceClinicTranslation} alt={c("International patient receiving bilingual support in a clinic", "国际患者在诊所接受双语沟通协助", "Международный пациент получает языковую поддержку в клинике")} className="aspect-[4/3] w-full object-cover" />
                 </div>
-                <div className="absolute -bottom-1 left-4 right-4 rounded-3xl border border-white/80 bg-white/90 p-4 shadow-pop backdrop-blur-md sm:left-8 sm:right-auto sm:w-[22rem] sm:p-5">
-                  <p className="text-[10px] font-bold uppercase tracking-[.16em] text-primary">{c("Your coordinated support", "你的协调支持", "Ваша координационная поддержка")}</p>
-                  <div className="mt-3 grid grid-cols-3 gap-2 text-center text-[10px] font-semibold text-foreground/75 sm:text-xs">
+                <div className="absolute -bottom-1 left-4 right-4 rounded-2xl border border-white/80 bg-white/90 p-3 shadow-pop backdrop-blur-md sm:left-6 sm:right-auto sm:p-4">
+                  <p className="text-[10px] font-bold uppercase tracking-[.16em] text-foreground/40">{c("Coordinated support", "协调支持", "Координация")}</p>
+                  <div className="mt-2 flex gap-2">
                     {[
-                      [Plane, c("Airport pickup", "机场接送", "Трансфер")],
-                      [Languages, c("Translation", "院内翻译", "Перевод")],
-                      [MessageCircle, c("Follow-up", "随访协调", "Наблюдение")],
+                      [Plane, c("Pickup", "接送", "Трансфер")],
+                      [Languages, c("Translate", "翻译", "Перевод")],
+                      [MessageCircle, c("Follow-up", "随访", "Наблюдение")],
                     ].map(([Icon, label]) => {
                       const SupportIcon = Icon as typeof Plane;
-                      return <span key={String(label)} className="flex flex-col items-center gap-1.5 rounded-2xl bg-secondary/60 px-2 py-3"><SupportIcon className="size-4 text-primary" />{label as string}</span>;
+                      return (
+                        <span key={String(label)} className="flex min-w-14 flex-col items-center gap-1 rounded-xl bg-secondary/60 px-2 py-2 text-[9px] font-bold text-foreground/75">
+                          <SupportIcon className="size-4 text-primary" />
+                          {label as string}
+                        </span>
+                      );
                     })}
                   </div>
                 </div>
@@ -259,40 +265,22 @@ const Packages = () => {
             </div>
           </section>
 
-          <section className="container py-12 md:py-16">
-            <div className="grid overflow-hidden rounded-[2rem] border border-primary/15 bg-card shadow-pop lg:grid-cols-2">
-              <article className="p-6 sm:p-8 lg:p-10">
-                <div className="flex items-start gap-4">
-                  <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-primary text-primary-foreground shadow-soft"><Wallet className="size-5" /></span>
-                  <div>
-                    <p className="text-xs font-bold uppercase tracking-[.15em] text-primary">{c("Before departure", "出发前", "До вылета")}</p>
-                    <h2 className="mt-1 font-display text-3xl font-semibold tracking-tight">{c("$400 coordination deposit", "400 美元协调押金", "Координационный депозит $400")}</h2>
-                  </div>
+          <section className="container py-8 md:py-10">
+            <div className="flex flex-col gap-4 md:flex-row md:gap-6">
+              <div className="flex flex-1 items-center gap-4 rounded-2xl border border-primary/10 bg-card p-5 shadow-soft">
+                <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-secondary text-primary"><Wallet className="size-5" /></span>
+                <div>
+                  <h2 className="font-display text-sm font-semibold tracking-tight">{c("$400 coordination deposit", "400 美元协调押金", "Депозит $400")}</h2>
+                  <p className="mt-1 text-xs uppercase tracking-tight text-foreground/50">{c("Reserves your date & support package", "保留预约与协调服务", "Бронирует дату и поддержку")}</p>
                 </div>
-                <p className="mt-5 text-sm leading-relaxed text-foreground/70 sm:text-base">
-                  {c(
-                    "Reserves your procedure appointment and lets us coordinate airport pickup and in-clinic translation. It remains valid for 12 months and is refunded when you pay the clinic for treatment.",
-                    "用于保留手术预约，并让我们协调机场接送和院内翻译。押金在 12 个月内有效，并在你向诊所支付治疗费用时退还。",
-                    "Закрепляет время процедуры и позволяет организовать трансфер и перевод в клинике. Действует 12 месяцев и возвращается после оплаты лечения в клинике."
-                  )}
-                </p>
-              </article>
-              <article className="border-t border-primary/10 bg-gradient-to-br from-[hsl(158,58%,92%)] to-[hsl(50,80%,93%)] p-6 sm:p-8 lg:border-l lg:border-t-0 lg:p-10">
-                <div className="flex items-start gap-4">
-                  <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-foreground text-background shadow-soft"><Building2 className="size-5" /></span>
-                  <div>
-                    <p className="text-xs font-bold uppercase tracking-[.15em] text-foreground/60">{c("Medical treatment", "医疗费用", "Медицинские услуги")}</p>
-                    <h2 className="mt-1 font-display text-3xl font-semibold tracking-tight">{c("Pay the clinic directly", "直接支付给诊所", "Оплачивайте напрямую клинике")}</h2>
-                  </div>
+              </div>
+              <div className="flex flex-1 items-center gap-4 rounded-2xl bg-foreground p-5 text-background shadow-soft">
+                <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-primary text-foreground"><Building2 className="size-5" /></span>
+                <div>
+                  <h2 className="font-display text-sm font-semibold tracking-tight">{c("Pay the clinic directly", "直接支付给诊所", "Оплата напрямую клинике")}</h2>
+                  <p className="mt-1 text-xs uppercase tracking-tight text-background/50">{c("Medical fees go straight to the facility", "医疗费用由诊所直接收取", "Медицинские сборы — напрямую в клинику")}</p>
                 </div>
-                <p className="mt-5 text-sm leading-relaxed text-foreground/70 sm:text-base">
-                  {c(
-                    "Surgery, examination, anesthesia and other medical fees are charged by the treating clinic or hospital. Cosmetics Asia does not collect your medical payment.",
-                    "手术、检查、麻醉和其他医疗费用由接诊诊所或医院直接收取，Cosmetics Asia 不代收医疗费用。",
-                    "Операция, обследования, анестезия и другие медицинские услуги оплачиваются лечащей клинике или больнице напрямую."
-                  )}
-                </p>
-              </article>
+              </div>
             </div>
           </section>
 
