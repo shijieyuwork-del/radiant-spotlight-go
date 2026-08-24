@@ -54,6 +54,8 @@ export const PageMeta = ({
   const url = `${SITE_URL}${path}`;
   const fullTitle = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
   const ld = structuredData ? JSON.stringify(structuredData) : null;
+  // og:image 必须是绝对 URL，相对路径（如城市图 /assets/xx.jpg）补全域名
+  const imageAbs = image.startsWith("/") ? `${SITE_URL}${image}` : image;
 
   useEffect(() => {
     document.title = fullTitle;
@@ -66,14 +68,14 @@ export const PageMeta = ({
     setMeta("property", "og:description", description);
     setMeta("property", "og:type", type);
     setMeta("property", "og:url", url);
-    setMeta("property", "og:image", image);
+    setMeta("property", "og:image", imageAbs);
     setMeta("property", "og:site_name", SITE_NAME);
 
     setMeta("name", "twitter:card", "summary_large_image");
     setMeta("name", "twitter:site", TWITTER_HANDLE);
     setMeta("name", "twitter:title", fullTitle);
     setMeta("name", "twitter:description", description);
-    setMeta("name", "twitter:image", image);
+    setMeta("name", "twitter:image", imageAbs);
 
     // 结构化数据：每页只保留一个，换页时替换或移除
     const existing = document.getElementById(JSONLD_ID);
