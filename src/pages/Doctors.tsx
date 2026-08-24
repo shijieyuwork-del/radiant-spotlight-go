@@ -238,7 +238,7 @@ const Doctors = () => {
               </p>
             ) : (
             <div className="grid gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
-              {visibleDirectoryDoctors.map((d) => {
+              {pagedDoctors.map((d) => {
                 const photo = d.photo;
                 return (
                   <article key={d.id} className="flex min-h-0 flex-col rounded-3xl bg-card p-5 shadow-pop transition hover:shadow-glow md:min-h-[25rem] md:p-6">
@@ -247,15 +247,15 @@ const Doctors = () => {
                         ? <img src={photo} alt={d.name} className="size-28 shrink-0 rounded-full border-2 border-primary/15 object-cover md:size-24" />
                         : <div className="grid size-28 shrink-0 place-items-center rounded-full bg-muted md:size-24"><Stethoscope /></div>}
                       <div className="min-w-0">
-                        <h3 className="font-display text-xl font-semibold leading-tight">{d.name}</h3>
-                        <p className="mt-1 text-xs text-muted-foreground">{d.title}</p>
-                        <p className="mt-2 text-xs text-muted-foreground"><MapPin className="mr-1 inline size-3" />{d.city}</p>
+                        <h3 className="font-display text-xl font-semibold leading-tight"><Highlight text={d.name} query={q} /></h3>
+                        <p className="mt-1 text-xs text-muted-foreground"><Highlight text={d.title} query={q} /></p>
+                        <p className="mt-2 text-xs text-muted-foreground"><MapPin className="mr-1 inline size-3" /><Highlight text={d.city} query={q} /></p>
                         {d.demo && <span className="mt-2 inline-flex rounded-full bg-accent px-2.5 py-1 text-[10px] font-semibold text-accent-foreground">{c("Sample profile", "示例资料", "Демо-профиль")}</span>}
                       </div>
                     </div>
-                    <p className="mt-5 text-sm text-muted-foreground"><Building2 className="mr-1 inline size-4 text-primary" />{d.hospital}</p>
-                    {d.bio && <p className="mt-4 line-clamp-2 text-sm leading-relaxed text-muted-foreground">{d.bio}</p>}
-                    <div className="mt-4 flex flex-wrap gap-1.5">{d.specialties.map((s) => <span key={s} className="rounded-full bg-accent px-2.5 py-1 text-[11px]">{s}</span>)}</div>
+                    <p className="mt-5 text-sm text-muted-foreground"><Building2 className="mr-1 inline size-4 text-primary" /><Highlight text={d.hospital} query={q} /></p>
+                    {d.bio && <p className="mt-4 line-clamp-2 text-sm leading-relaxed text-muted-foreground"><Highlight text={d.bio} query={q} /></p>}
+                    <div className="mt-4 flex flex-wrap gap-1.5">{d.specialties.map((s) => <span key={s} className="rounded-full bg-accent px-2.5 py-1 text-[11px]"><Highlight text={s} query={q} /></span>)}</div>
                     <div className="mt-auto grid gap-2 pt-6 min-[430px]:grid-cols-[0.9fr_1.1fr]">
                       <Link to={d.demo ? "/doctors" : `/doctors/profile/${d.id}`} className="flex min-h-12 items-center justify-center rounded-xl border border-primary/30 px-3 py-3 text-center text-xs font-semibold text-primary hover:bg-primary/10">
                         {c("Doctor & cases", "医生与案例", "Врач и истории пациентов")}
