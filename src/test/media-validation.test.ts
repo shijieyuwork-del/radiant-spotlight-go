@@ -1,12 +1,15 @@
 import { describe, expect, it } from "vitest";
 import {
+  COMPRESSION_GUIDES,
   PHOTO_RULES,
   VIDEO_RULES,
   UPLOAD_ERROR_ADVICE,
   classifyUploadError,
+  compressionGuideFor,
   fieldForUploadError,
   uploadErrorAdvice,
   validateMediaFile,
+  validateMediaFiles,
 } from "@/lib/media-validation";
 
 const makeFile = (name: string, type: string, size: number): File =>
