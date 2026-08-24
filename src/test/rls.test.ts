@@ -372,8 +372,10 @@ describe("RLS: upload-media 限流与配额的检查顺序", () => {
       form.append("recordId", crypto.randomUUID());
       return form;
     };
-    const first = await anon.functions.invoke("upload-media", { body: makeReplace() });
-    const second = await anon.functions.invoke("upload-media", { body: makeReplace() });
+    const [first, second] = await Promise.all([
+      anon.functions.invoke("upload-media", { body: makeReplace() }),
+      anon.functions.invoke("upload-media", { body: makeReplace() }),
+    ]);
     expect(first.data?.path).toBeUndefined();
     expect(second.data?.path).toBeUndefined();
     expect(first.error).not.toBeNull();
