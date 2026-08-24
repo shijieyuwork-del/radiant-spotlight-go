@@ -97,6 +97,37 @@ Deno.serve(async (req) => {
       return json({ error: 'forbidden: admin only' }, 403)
     }
 
+    // 2.5 Per-admin rate limit — count successful uploads/replaces in the
+    // rolling hour and day. Runs before form parsing to save bandwidth.
+    const uploadCountSince = async (since: string) => {
+      const { count } = await service
+        .from('audit_logs')
+        .select('id', { count: 'exact', head: true })
+        .eq('actor_id', user.id)
+        .in('action', ['storage_upload', 'storage_replace'])
+        .filter('metadata->>denied', 'eq', 'false')
+        .gte('created_at', since)
+      return count ?? 0
+    }
+    const hourlyCount = await uploadCountSince(new Date(Date.now() - 3600_000).toISOString())
+    if (hourlyCount >= RATE_LIMIT_PER_HOUR) {
+      await audit({
+        action: 'storage_upload', actor_id: user.id, actor_email: user.email ?? null,
+        bucket: null, target: '(rate limited)', denied: true, reason: 'rate limited (hourly)',
+        extra: { hourly_count: hourlyCount, hourly_limit: RATE_LIMIT_PER_HOUR },
+      })
+      return json({ error: `rate limit exceeded: max ${RATE_LIMIT_PER_HOUR} uploads per hour (used ${hourlyCount})` }, 429)
+    }
+    const dailyCount = await uploadCountSince(new Date(Date.now() - 86400_000).toISOString())
+    if (dailyCount >= RATE_LIMIT_PER_DAY) {
+      await audit({
+        action: 'storage_upload', actor_id: user.id, actor_email: user.email ?? null,
+        bucket: null, target: '(rate limited)', denied: true, reason: 'rate limited (daily)',
+        extra: { daily_count: dailyCount, daily_limit: RATE_LIMIT_PER_DAY },
+      })
+      return json({ error: `rate limit exceeded: max ${RATE_LIMIT_PER_DAY} uploads per day (used ${dailyCount})` }, 429)
+    }
+
     // 3. Input validation — bucket + file from multipart form
     const form = await req.formData()
     const bucket = form.get('bucket')
