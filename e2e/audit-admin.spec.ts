@@ -75,6 +75,8 @@ test("结果状态筛选：仅拒绝 / 仅成功", async ({ page }) => {
 });
 
 test("时间范围 × 结果状态组合筛选", async ({ page }) => {
+  await scopeToSeed(page);
+
   // 最近 24 小时：3 天前的旧记录不可见
   await page.getByTestId("filter-time").selectOption("24h");
   await applyAndWait(page);
@@ -85,11 +87,11 @@ test("时间范围 × 结果状态组合筛选", async ({ page }) => {
   await applyAndWait(page);
   await expect(page.locator("tbody td", { hasText: "seed/old-cover.webp" })).toHaveCount(1);
 
-  // 组合：最近 24 小时 + 仅拒绝 → 仅剩近期拒绝记录
+  // 组合：最近 24 小时 + 仅拒绝 → 仅剩 3 条近期拒绝记录
   await page.getByTestId("filter-time").selectOption("24h");
   await page.getByTestId("filter-outcome").selectOption("denied");
   await applyAndWait(page);
-  expect(await page.locator("tbody tr").count()).toBeGreaterThanOrEqual(3);
+  expect(await page.locator("tbody tr").count()).toBe(3);
   await expect(page.locator("tbody td", { hasText: "允许" })).toHaveCount(0);
 });
 
@@ -118,9 +120,11 @@ test("详情弹窗：展示请求参数与拒绝原因，支持复制", async ({
 });
 
 test("CSV 导出使用当前筛选条件与排序", async ({ page }) => {
+  await page.getByTestId("filter-keyword").fill("seed/");
   await page.getByTestId("filter-outcome").selectOption("denied");
   await applyAndWait(page);
   const tableCount = await page.locator("tbody tr").count();
+  expect(tableCount).toBe(3);
 
   const downloadPromise = page.waitForEvent("download");
   await page.getByTestId("export-csv").click();
@@ -142,6 +146,7 @@ test("CSV 导出使用当前筛选条件与排序", async ({ page }) => {
 });
 
 test("异常告警规则：阈值生效、徽标与触发原因文案", async ({ page }) => {
+  await scopeToSeed(page);
   // 默认阈值 20：22 次 IP 触发「IP 高频」徽标 + 横幅
   const badges = page.getByTestId("anomaly-badge");
   await expect(badges.first()).toBeVisible();
