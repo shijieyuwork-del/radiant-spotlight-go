@@ -82,17 +82,18 @@ describe("RLS: anon 匿名角色", () => {
     expect(error).not.toBeNull();
   });
 
-  it("storage: 匿名不能向 doctor-photos 上传", async () => {
+  // 网络请求较慢，给足超时；用 string body 避免 jsdom Blob 与 undici 的兼容问题
+  it("storage: 匿名不能向 doctor-photos 上传", { timeout: 20000 }, async () => {
     const { error } = await anon.storage
       .from("doctor-photos")
-      .upload(`rls-test/${crypto.randomUUID()}.txt`, new Blob(["x"]));
+      .upload(`rls-test/${crypto.randomUUID()}.txt`, "x", { contentType: "text/plain" });
     expect(error).not.toBeNull();
   });
 
-  it("storage: 匿名不能向 short-videos 上传", async () => {
+  it("storage: 匿名不能向 short-videos 上传", { timeout: 20000 }, async () => {
     const { error } = await anon.storage
       .from("short-videos")
-      .upload(`rls-test/${crypto.randomUUID()}.txt`, new Blob(["x"]));
+      .upload(`rls-test/${crypto.randomUUID()}.txt`, "x", { contentType: "text/plain" });
     expect(error).not.toBeNull();
   });
 
@@ -166,10 +167,10 @@ describeAuth("RLS: authenticated 普通登录用户", () => {
     expect(v.error).not.toBeNull();
   });
 
-  it("storage: 非管理员不能上传文件", async () => {
+  it("storage: 非管理员不能上传文件", { timeout: 20000 }, async () => {
     const { error } = await client.storage
       .from("doctor-photos")
-      .upload(`rls-test/${crypto.randomUUID()}.txt`, new Blob(["x"]));
+      .upload(`rls-test/${crypto.randomUUID()}.txt`, "x", { contentType: "text/plain" });
     expect(error).not.toBeNull();
   });
 });
