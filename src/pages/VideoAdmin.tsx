@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
-import { ArrowLeft, Film, ImageIcon, Loader2, LogOut, RefreshCw, Stethoscope, Trash2, UploadCloud, X } from "lucide-react";
+import { ArrowLeft, Film, ImageIcon, Loader2, LogOut, RefreshCw, Sparkles, Stethoscope, Trash2, UploadCloud, X } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
@@ -8,7 +8,7 @@ import { signedUrls } from "@/lib/storage-urls";
 import { replaceMedia, uploadMedia } from "@/lib/upload-media";
 import { VIDEO_RULES, fieldForUploadError, validateMediaFile } from "@/lib/media-validation";
 import { scrollToFirstError } from "@/lib/scroll-to-error";
-import { coverBlobToFile, extractCoverCandidates, formatDuration, readVideoDuration, type CoverCandidate } from "@/lib/video-cover";
+import { coverBlobToFile, extractCoverCandidates, formatDuration, pickBestCoverIndex, readVideoDuration, type CoverCandidate } from "@/lib/video-cover";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,6 +17,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Progress } from "@/components/ui/progress";
 import FileDropZone from "@/components/FileDropZone";
 import FieldError from "@/components/FieldError";
+import CoverVideo from "@/components/CoverVideo";
 
 const ADMIN_EMAIL = "shijieyuwork@gmail.com";
 const BUCKET = "short-videos";
@@ -67,14 +68,38 @@ const VideoAdmin = () => {
   const formRef = useRef<HTMLFormElement>(null);
   const [replacingId, setReplacingId] = useState<string | null>(null);
   const [replaceProgress, setReplaceProgress] = useState(0);
+  const [replaceStage, setReplaceStage] = useState<"video" | "extract" | "cover" | null>(null);
+  // 上传流程阶段：视频上传中 → 上传封面中 → 保存记录中
+  const [stage, setStage] = useState<"video" | "cover" | "saving" | null>(null);
+  const [recommending, setRecommending] = useState(false);
+  const [recommendedIndex, setRecommendedIndex] = useState<number | null>(null);
 
   const clearCovers = () => {
     setCovers((prev) => { prev.forEach((c) => URL.revokeObjectURL(c.url)); return []; });
     setCoverIndex(2);
+    setRecommendedIndex(null);
   };
 
   const clearError = (key: FieldKey) =>
     setErrors((prev) => (prev[key] ? { ...prev, [key]: undefined } : prev));
+
+  // 自动推荐：按清晰度/亮度综合打分，一键选出最佳候选帧
+  const recommendCover = async () => {
+    if (covers.length === 0 || recommending) return;
+    setRecommending(true);
+    try {
+      const best = await pickBestCoverIndex(covers);
+      if (best >= 0) {
+        setCoverIndex(best);
+        setRecommendedIndex(best);
+        toast.success(`已自动选择第 ${best + 1} 帧作为封面（清晰度与亮度综合最优）`);
+      }
+    } catch {
+      toast.error("自动推荐失败，请手动选择封面帧");
+    } finally {
+      setRecommending(false);
+    }
+  };
 
   const isAdmin = user?.email?.toLowerCase() === ADMIN_EMAIL;
 
@@ -167,6 +192,7 @@ const VideoAdmin = () => {
     }
     setUploading(true);
     setProgress(0);
+    setStage("video");
     let storagePath = "";
     let coverPath: string | null = null;
     try {
@@ -178,8 +204,10 @@ const VideoAdmin = () => {
       // 上传选中的封面帧（若已生成）
       const selected = covers[coverIndex];
       if (selected) {
+        setStage("cover");
         coverPath = await uploadMedia(COVER_BUCKET, coverBlobToFile(selected.blob, file.name));
       }
+      setStage("saving");
 
       const { error: dbError } = await supabase.from("videos").insert({
         title: title.trim(),
@@ -197,7 +225,7 @@ const VideoAdmin = () => {
         throw dbError;
       }
 
-      toast.success(coverPath ? "短视频与封面上传成功" : "短视频上传成功（无封面）");
+      toast.success(coverPath ? "短视频与封面上传成功" : "短视频上传成功（无封面，信息流将显示默认海报）");
       setFile(null); setTitle(""); setCaption(""); setProcedure(""); setStatus("published"); setDoctorId("none");
       clearCovers();
       setDuration(null);
@@ -214,6 +242,7 @@ const VideoAdmin = () => {
     } finally {
       setUploading(false);
       setProgress(null);
+      setStage(null);
     }
   };
 
@@ -223,6 +252,7 @@ const VideoAdmin = () => {
     if (invalid) return toast.error(invalid);
     setReplacingId(video.id);
     setReplaceProgress(0);
+    setReplaceStage("video");
     try {
       await replaceMedia(BUCKET, video.id, next, {
         onProgress: setReplaceProgress,
@@ -230,8 +260,10 @@ const VideoAdmin = () => {
       });
       // 用新视频重新生成封面（取中间帧），保持信息流预览一致
       let coverNote = "";
+      setReplaceStage("extract");
       try {
         const candidates = await extractCoverCandidates(next);
+        setReplaceStage("cover");
         const pick = candidates[Math.min(2, candidates.length - 1)];
         const newCoverPath = await uploadMedia(COVER_BUCKET, coverBlobToFile(pick.blob, next.name));
         candidates.forEach((c) => URL.revokeObjectURL(c.url));
@@ -239,7 +271,7 @@ const VideoAdmin = () => {
         if (coverError) throw coverError;
         if (video.cover_path) await supabase.storage.from(COVER_BUCKET).remove([video.cover_path]);
       } catch {
-        coverNote = "（封面更新失败，可在下次更换时重试）";
+        coverNote = "（封面生成失败，已保留原封面或默认海报）";
       }
       toast.success(`“${video.title}”的视频已更换${coverNote}`);
       await loadVideos();
@@ -248,6 +280,7 @@ const VideoAdmin = () => {
     } finally {
       setReplacingId(null);
       setReplaceProgress(0);
+      setReplaceStage(null);
     }
   };
 
@@ -323,9 +356,17 @@ const VideoAdmin = () => {
             )}
             {(coverBusy || covers.length > 0) && (
               <div>
-                <Label className="flex items-center gap-1.5"><ImageIcon className="size-3.5" />封面（信息流预览图，9:16）</Label>
+                <div className="flex items-center justify-between gap-2">
+                  <Label className="flex items-center gap-1.5"><ImageIcon className="size-3.5" />封面（信息流预览图，9:16）</Label>
+                  {!coverBusy && covers.length > 0 && (
+                    <Button type="button" variant="outline" size="sm" className="h-7 rounded-full px-2.5 text-xs" disabled={recommending} onClick={() => void recommendCover()}>
+                      {recommending ? <Loader2 className="size-3.5 mr-1 animate-spin" /> : <Sparkles className="size-3.5 mr-1" />}
+                      {recommending ? "正在分析候选帧…" : "自动推荐最佳封面"}
+                    </Button>
+                  )}
+                </div>
                 {coverBusy ? (
-                  <p className="text-xs text-muted-foreground mt-1.5 flex items-center gap-2"><Loader2 className="size-3.5 animate-spin" />正在从视频中提取候选封面…</p>
+                  <p className="text-xs text-muted-foreground mt-1.5 flex items-center gap-2"><Loader2 className="size-3.5 animate-spin" />生成封面中：正在提取候选帧…</p>
                 ) : (
                   <div className="grid grid-cols-5 gap-2 mt-1.5">
                     {covers.map((c, i) => (
@@ -338,6 +379,7 @@ const VideoAdmin = () => {
                         className={`relative aspect-[9/16] overflow-hidden rounded-lg border-2 transition-all ${i === coverIndex ? "border-primary ring-2 ring-primary/30" : "border-transparent opacity-70 hover:opacity-100"}`}
                       >
                         <img src={c.url} alt={`候选封面 ${i + 1}`} className="absolute inset-0 size-full object-cover" />
+                        {i === recommendedIndex && <span className="absolute left-1 top-1 rounded-full bg-primary px-1.5 py-0.5 text-[9px] font-bold leading-none text-primary-foreground shadow-soft">推荐</span>}
                       </button>
                     ))}
                   </div>
@@ -364,13 +406,22 @@ const VideoAdmin = () => {
             </div>
             <div><Label>对应专家</Label><Select value={doctorId} onValueChange={setDoctorId}><SelectTrigger className="mt-1.5"><SelectValue placeholder="选择专家"/></SelectTrigger><SelectContent><SelectItem value="none">暂不关联</SelectItem>{doctors.map(d=><SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>)}</SelectContent></Select></div>
             <div><Label>状态</Label><Select value={status} onValueChange={setStatus}><SelectTrigger className="mt-1.5"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="published">立即发布</SelectItem><SelectItem value="draft">保存草稿</SelectItem></SelectContent></Select></div>
-            {uploading && progress !== null && (
-              <div className="space-y-1.5">
-                <Progress value={progress} className="h-2" />
-                <p className="text-xs text-center text-muted-foreground">{progress < 100 ? `上传中 ${progress}%` : "服务器处理中…"}</p>
+            {uploading && (
+              <div className="space-y-1.5" aria-live="polite">
+                {stage === "video" && progress !== null && <Progress value={progress} className="h-2" />}
+                <p className="text-xs text-center text-muted-foreground flex items-center justify-center gap-1.5">
+                  {stage !== "video" && <Loader2 className="size-3 animate-spin" />}
+                  {stage === "cover"
+                    ? "上传封面中…"
+                    : stage === "saving"
+                      ? "保存记录中…"
+                      : progress !== null
+                        ? progress < 100 ? `上传视频中 ${progress}%` : "服务器处理中…"
+                        : "准备上传…"}
+                </p>
               </div>
             )}
-            <Button type="submit" disabled={uploading || !file} className="w-full rounded-full h-11">{uploading ? <><Loader2 className="size-4 mr-2 animate-spin" />正在上传…</> : <><UploadCloud className="size-4 mr-2" />上传视频</>}</Button>
+            <Button type="submit" disabled={uploading || !file} className="w-full rounded-full h-11">{uploading ? <><Loader2 className="size-4 mr-2 animate-spin" />{stage === "cover" ? "上传封面中…" : stage === "saving" ? "保存记录中…" : "正在上传…"}</> : <><UploadCloud className="size-4 mr-2" />上传视频</>}</Button>
           </form>
         </section>
 

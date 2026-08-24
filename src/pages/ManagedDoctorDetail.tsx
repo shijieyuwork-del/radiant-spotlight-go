@@ -7,6 +7,7 @@ import PageMeta from "@/components/PageMeta";
 import { supabase } from "@/integrations/supabase/client";
 import { signedUrl, signedUrls } from "@/lib/storage-urls";
 import { formatCityTime, getCityTimezone } from "@/lib/timezones";
+import CoverVideo from "@/components/CoverVideo";
 
 type Doctor = { id:string; name:string; title:string; hospital:string; city:string; specialties:string[]; bio:string; credentials:string|null; languages:string|null; photo_path:string|null };
 type Video = { id:string; title:string; caption:string|null; storage_path:string; cover_path:string|null; url?:string; coverUrl?:string };

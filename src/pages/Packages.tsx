@@ -237,17 +237,7 @@ const Packages = () => {
                     <ChevronRight className="size-4" />
                   </a>
                 </div>
-                <div className="mt-7 flex flex-wrap gap-2.5 text-xs font-semibold text-foreground/70 sm:text-sm">
-                  {[
-                    c("Free initial consultation", "首次咨询免费", "Бесплатная первичная консультация"),
-                    c("Medical fees paid to the clinic", "医疗费用直接支付给诊所", "Медицинские услуги оплачиваются клинике"),
-                    c("English-language support", "英语沟通支持", "Поддержка на английском"),
-                  ].map((item) => (
-                    <span key={item} className="inline-flex items-center gap-1.5 rounded-full bg-white/75 px-3 py-2 shadow-soft backdrop-blur">
-                      <Check className="size-3.5 text-primary" />{item}
-                    </span>
-                  ))}
-                </div>
+                
               </div>
 
               <div className="relative mx-auto w-full max-w-2xl pb-5 lg:max-w-none">
@@ -445,7 +435,7 @@ const Packages = () => {
                   <a href={WHATSAPP_START} target="_blank" rel="noreferrer" className="inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-full bg-primary px-8 text-sm font-semibold text-primary-foreground shadow-glow transition hover:-translate-y-1 hover:bg-primary/90 sm:text-base lg:w-auto">
                     {c("Get a free quote", "获取免费报价", "Получить бесплатную оценку")}<ArrowRight className="size-4" />
                   </a>
-                  <p className="mt-3 text-center text-xs text-background/55">{c("Prefer email? hello@cosmetics-asia.com", "更喜欢邮件？hello@cosmetics-asia.com", "Предпочитаете email? hello@cosmetics-asia.com")}</p>
+                  
                 </div>
               </div>
             </div>

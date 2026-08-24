@@ -4,6 +4,7 @@ import { Heart, MessageCircle, Share2, Volume2, VolumeX, Play, MapPin, ChevronLe
 import { Button } from "@/components/ui/button";
 import { useSavedCase } from "@/lib/saved-cases";
 import { Highlight } from "@/components/HighlightText";
+import { DEFAULT_VIDEO_POSTER } from "@/lib/cover-fallback";
 
 export type TikTokItem = {
   id: string;                 // for case detail route
@@ -133,7 +134,7 @@ const TikTokCard = ({
       <video
         ref={ref}
         src={item.src}
-        poster={item.poster}
+        poster={item.poster || DEFAULT_VIDEO_POSTER}
         muted={muted}
         loop
         playsInline
