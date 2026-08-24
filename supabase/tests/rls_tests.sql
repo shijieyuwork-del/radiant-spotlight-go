@@ -124,6 +124,52 @@ SELECT pg_temp.assert_rls(
   '管理员能读两个桶的全部对象');
 
 RESET ROLE;
+
+-- ═══════ request-file-access 审计日志：字段完整性与一致性 ═══════
+-- 前置条件：先运行 bunx vitest run src/test/rls.test.ts。
+-- 探针请求（rls-test/ 前缀）由边缘函数以 service role 写入 audit_logs，
+-- 是事务外的真实提交行，此处只读校验。客户端按设计读不到 audit_logs，
+-- 所以日志断言只能放在数据库侧。
+
+-- 两个桶都必须有探针审计记录（证明 vitest 探针已覆盖不同桶）
+SELECT pg_temp.assert_rls(
+  (SELECT count(*) FROM public.audit_logs
+    WHERE action = 'storage_read' AND bucket = 'doctor-photos' AND target LIKE 'rls-test/%') > 0,
+  '存在 doctor-photos 桶的探针审计记录');
+SELECT pg_temp.assert_rls(
+  (SELECT count(*) FROM public.audit_logs
+    WHERE action = 'storage_read' AND bucket = 'short-videos' AND target LIKE 'rls-test/%') > 0,
+  '存在 short-videos 桶的探针审计记录');
+
+-- 字段完整性：每条探针日志的 bucket / target / metadata.denied 必须齐全且合法
+SELECT pg_temp.assert_rls(
+  (SELECT count(*) FROM public.audit_logs
+    WHERE action = 'storage_read' AND target LIKE 'rls-test/%'
+      AND (bucket IS NULL OR bucket NOT IN ('doctor-photos', 'short-videos')
+           OR length(target) = 0
+           OR metadata IS NULL
+           OR NOT (metadata ? 'denied')
+           OR metadata ->> 'denied' !~ '^(true|false)$')) = 0,
+  '探针审计记录字段完整（bucket 合法、target 非空、metadata.denied 存在）');
+
+-- 未发布关联的探针必须全部标记 denied=true
+SELECT pg_temp.assert_rls(
+  (SELECT count(*) FROM public.audit_logs
+    WHERE action = 'storage_read' AND target LIKE 'rls-test/%'
+      AND (metadata ->> 'denied')::boolean IS NOT TRUE) = 0,
+  '未发布关联的探针全部标记 denied=true');
+
+-- 一致性：同一 (bucket, target) 被多次探测时，denied 标记必须一致
+SELECT pg_temp.assert_rls(
+  (SELECT count(*) FROM (
+      SELECT bucket, target
+      FROM public.audit_logs
+      WHERE action = 'storage_read' AND target LIKE 'rls-test/%'
+      GROUP BY bucket, target
+      HAVING count(DISTINCT metadata ->> 'denied') > 1
+   ) inconsistent) = 0,
+  '同一 (bucket,target) 多次探测的 denied 标记一致');
+
 ROLLBACK;
 
 -- 全部通过时 psql 正常退出（0）；任一断言失败则非零退出。
