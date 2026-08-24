@@ -188,7 +188,7 @@ Deno.serve(async (req) => {
     }
 
     // 3.5 Storage quota — total media size per bucket must stay under the cap
-    const usedBytes = await bucketUsageBytes(bucket as BucketName)
+    const usedBytes = await bucketUsageBytes(service, bucket as BucketName)
     if (usedBytes + file.size > STORAGE_QUOTA_BYTES) {
       await audit({
         action, ...auditBase, target: file.name, denied: true, reason: 'quota exceeded',
