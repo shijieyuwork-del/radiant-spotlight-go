@@ -341,6 +341,7 @@ export default function AuditAdmin() {
             <label className="inline-flex items-center gap-2">
               同一 IP 请求 ≥
               <Input
+                data-testid="ip-threshold"
                 type="number" min={1} value={ipThreshold}
                 onChange={(e) => setIpThreshold(Math.max(1, Number(e.target.value) || 1))}
                 className="w-20 h-8"
@@ -350,6 +351,7 @@ export default function AuditAdmin() {
             <label className="inline-flex items-center gap-2">
               同一用户请求 ≥
               <Input
+                data-testid="user-threshold"
                 type="number" min={1} value={userThreshold}
                 onChange={(e) => setUserThreshold(Math.max(1, Number(e.target.value) || 1))}
                 className="w-20 h-8"
@@ -482,7 +484,7 @@ export default function AuditAdmin() {
 
       {/* 记录详情弹窗 */}
       <Dialog open={detail !== null} onOpenChange={(open) => !open && setDetail(null)}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="max-w-2xl" data-testid="audit-detail-dialog">
           <DialogHeader>
             <DialogTitle>审计记录详情</DialogTitle>
             <DialogDescription>请求参数、来源与拒绝原因，可逐项复制。</DialogDescription>
