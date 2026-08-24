@@ -4,7 +4,7 @@ import v4 from "@/assets/video4.jpg";
 import v5 from "@/assets/video5.jpg";
 import v6 from "@/assets/video6.jpg";
 
-export type Expert = {
+export type Doctor = {
   id: string;
   zh: string; en: string;
   titleZh: string; titleEn: string;
