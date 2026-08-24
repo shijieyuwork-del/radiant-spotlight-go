@@ -1,12 +1,15 @@
 import { describe, expect, it } from "vitest";
 import {
+  COMPRESSION_GUIDES,
   PHOTO_RULES,
   VIDEO_RULES,
   UPLOAD_ERROR_ADVICE,
   classifyUploadError,
+  compressionGuideFor,
   fieldForUploadError,
   uploadErrorAdvice,
   validateMediaFile,
+  validateMediaFiles,
 } from "@/lib/media-validation";
 
 const makeFile = (name: string, type: string, size: number): File =>
@@ -84,5 +87,52 @@ describe("fieldForUploadError", () => {
     expect(fieldForUploadError("quota exceeded")).toBe("file");
     expect(fieldForUploadError("已触发上传限制")).toBe("file");
     expect(fieldForUploadError("unauthorized")).toBeNull();
+  });
+});
+
+describe("validateMediaFiles — 批量预校验", () => {
+  it("为每个文件独立给出结果，顺序与输入一致", () => {
+    const files = [
+      makeFile("ok1.jpg", "image/jpeg", 1024),
+      makeFile("bad.gif", "image/gif", 1024),
+      makeFile("ok2.png", "image/png", 2048),
+      makeFile("big.jpg", "image/jpeg", 11 * 1024 * 1024),
+    ];
+    const verdicts = validateMediaFiles(files, PHOTO_RULES);
+    expect(verdicts).toHaveLength(4);
+    expect(verdicts.map((v) => v.file.name)).toEqual(["ok1.jpg", "bad.gif", "ok2.png", "big.jpg"]);
+    expect(verdicts[0].error).toBeNull();
+    expect(verdicts[1].error).toContain("类型不支持");
+    expect(verdicts[2].error).toBeNull();
+    expect(verdicts[3].error).toContain("超过");
+  });
+
+  it("空数组返回空结果", () => {
+    expect(validateMediaFiles([], VIDEO_RULES)).toEqual([]);
+  });
+});
+
+describe("compressionGuideFor — 前置压缩/转码方案", () => {
+  it("视频规则返回视频方案（含 ffmpeg 命令与码率参数）", () => {
+    const guide = compressionGuideFor(VIDEO_RULES);
+    expect(guide).toBe(COMPRESSION_GUIDES.video);
+    expect(guide.command).toContain("ffmpeg");
+    expect(guide.command).toContain("{input}");
+    expect(guide.params.join(" ")).toContain("H.264");
+    expect(guide.params.join(" ")).toContain("100.0MB");
+    expect(guide.tools.length).toBeGreaterThan(0);
+  });
+
+  it("图片规则返回图片方案（含 ImageMagick 命令与尺寸参数）", () => {
+    const guide = compressionGuideFor(PHOTO_RULES);
+    expect(guide).toBe(COMPRESSION_GUIDES.image);
+    expect(guide.command).toContain("magick");
+    expect(guide.params.join(" ")).toContain("WebP");
+    expect(guide.params.join(" ")).toContain("10.0MB");
+  });
+
+  it("大小超限错误可归类为 size（用于触发压缩方案展示）", () => {
+    const msg = validateMediaFile(makeFile("big.mp4", "video/mp4", 101 * 1024 * 1024), VIDEO_RULES)!;
+    expect(classifyUploadError(msg)).toBe("size");
   });
 });

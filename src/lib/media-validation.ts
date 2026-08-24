@@ -94,3 +94,61 @@ export const uploadErrorAdvice = (message: string): string | null => {
   const kind = classifyUploadError(message);
   return kind ? UPLOAD_ERROR_ADVICE[kind] : null;
 };
+
+/** 批量预校验结果：每个文件独立给出通过/失败与具体错误信息 */
+export interface FileVerdict {
+  file: File;
+  error: string | null;
+}
+
+/**
+ * 一次校验多个文件（多选/批量拖入场景）。
+ * 返回与输入等长的结果数组，顺序一致；调用方据此分流合法与非法文件。
+ */
+export const validateMediaFiles = (files: readonly File[], rules: MediaRules): FileVerdict[] =>
+  files.map((file) => ({ file, error: validateMediaFile(file, rules) }));
+
+/** 大小超限时的前置压缩/转码方案（引导用户使用本地工具处理后再上传） */
+export interface CompressionGuide {
+  /** 推荐的本地/在线工具 */
+  tools: string[];
+  /** 建议参数 */
+  params: string[];
+  /** 可复制的命令行模板，{input}/{output} 为占位符 */
+  command?: string;
+  commandLabel?: string;
+}
+
+export const COMPRESSION_GUIDES: Record<"image" | "video", CompressionGuide> = {
+  image: {
+    tools: [
+      "Squoosh（squoosh.app）：浏览器内免费压缩，无需安装",
+      "美图秀秀 / Photoshop：导出时选择 WebP 格式",
+    ],
+    params: [
+      "格式：WebP（质量 80）或 JPG（质量 82）",
+      "尺寸：长边缩放到 2000px 以内",
+      `目标体积：≤ ${formatMB(PHOTO_RULES.maxBytes)}MB`,
+    ],
+    command: 'magick "{input}" -resize "2000x2000>" -quality 80 "{output}.webp"',
+    commandLabel: "ImageMagick 命令（本机安装后可用）",
+  },
+  video: {
+    tools: [
+      "剪映 / CapCut：导出时选 1080p · 30fps · 码率 8Mbps",
+      "HandBrake：使用预设 “Fast 1080p30” 转码",
+    ],
+    params: [
+      "编码：H.264（libx264），CRF 28",
+      "分辨率：≤ 1080p，帧率 ≤ 30fps",
+      "音频：AAC 128kbps",
+      `目标体积：≤ ${formatMB(VIDEO_RULES.maxBytes)}MB`,
+    ],
+    command: 'ffmpeg -i "{input}" -c:v libx264 -preset slow -crf 28 -c:a aac -b:a 128k "{output}.mp4"',
+    commandLabel: "FFmpeg 命令（本机安装后可用）",
+  },
+};
+
+/** 按校验规则返回对应的压缩/转码方案（视频规则 → 视频方案，其余 → 图片方案） */
+export const compressionGuideFor = (rules: MediaRules): CompressionGuide =>
+  rules === VIDEO_RULES || rules.label === "视频" ? COMPRESSION_GUIDES.video : COMPRESSION_GUIDES.image;
