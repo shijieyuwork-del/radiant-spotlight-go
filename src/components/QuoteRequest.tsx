@@ -7,6 +7,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { getCityTimezone, useCityTime } from "@/lib/timezones";
+import { useAuth } from "@/lib/auth";
+import { supabase } from "@/integrations/supabase/client";
 
 export interface QuoteContext {
   doctorName?: string;
@@ -137,6 +139,17 @@ const QuoteDialog = ({
   const [notes, setNotes] = useState("");
   const [slot, setSlot] = useState<string>("");
   const [loading, setLoading] = useState(false);
+  const { user } = useAuth();
+
+  // 登录用户打开表单时，通过带审计的 read_profile RPC 预填姓名/邮箱（每次读取都会写入审计日志）
+  useEffect(() => {
+    if (!isOpen || !user) return;
+    void supabase.rpc("read_profile", { p_id: user.id }).then(({ data }) => {
+      const row = Array.isArray(data) ? data[0] : null;
+      if (row?.display_name) setName((n) => n || row.display_name);
+    });
+    if (user.email) setEmail((e) => e || user.email!);
+  }, [isOpen, user]);
 
   useEffect(() => {
     if (isOpen) {
