@@ -56,6 +56,15 @@ const VideoAdmin = () => {
   const [doctorId, setDoctorId] = useState("none");
   const [doctors, setDoctors] = useState<DoctorOption[]>([]);
   const [errors, setErrors] = useState<FieldErrors>({});
+  // 封面：从视频中抽取的候选帧 + 选中的帧索引
+  const [covers, setCovers] = useState<CoverCandidate[]>([]);
+  const [coverIndex, setCoverIndex] = useState(2);
+  const [coverBusy, setCoverBusy] = useState(false);
+
+  const clearCovers = () => {
+    setCovers((prev) => { prev.forEach((c) => URL.revokeObjectURL(c.url)); return []; });
+    setCoverIndex(2);
+  };
 
   const clearError = (key: FieldKey) =>
     setErrors((prev) => (prev[key] ? { ...prev, [key]: undefined } : prev));
@@ -71,8 +80,11 @@ const VideoAdmin = () => {
     if (error) toast.error(error.message);
     else {
       const rows = (data ?? []) as VideoRow[];
-      const urls = await signedUrls(BUCKET, rows.map((row) => row.storage_path));
-      setVideos(rows.map((row, index) => ({ ...row, url: urls[index] })));
+      const [urls, coverUrls] = await Promise.all([
+        signedUrls(BUCKET, rows.map((row) => row.storage_path)),
+        signedUrls(COVER_BUCKET, rows.map((row) => row.cover_path)),
+      ]);
+      setVideos(rows.map((row, index) => ({ ...row, url: urls[index], coverUrl: coverUrls[index] })));
     }
     if (!doctorResult.error) setDoctors((doctorResult.data ?? []) as DoctorOption[]);
     setLoading(false);
