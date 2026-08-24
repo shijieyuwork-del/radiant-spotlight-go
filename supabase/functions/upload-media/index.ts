@@ -42,6 +42,32 @@ const json = (body: unknown, status = 200) =>
     headers: { ...corsHeaders, 'Content-Type': 'application/json' },
   })
 
+/** Sums the sizes of all objects in a bucket via the Storage API (paginated, up to 3 folder levels). */
+const bucketUsageBytes = async (
+  service: ReturnType<typeof createClient>,
+  bucket: string,
+  prefix = '',
+  depth = 3,
+): Promise<number> => {
+  let total = 0
+  let offset = 0
+  for (;;) {
+    const { data, error } = await service.storage.from(bucket).list(prefix, { limit: 1000, offset })
+    if (error || !data || data.length === 0) break
+    for (const entry of data) {
+      const size = (entry.metadata as { size?: number } | null)?.size
+      if (typeof size === 'number') {
+        total += size
+      } else if (depth > 0) {
+        total += await bucketUsageBytes(service, bucket, prefix ? `${prefix}/${entry.name}` : entry.name, depth - 1)
+      }
+    }
+    if (data.length < 1000) break
+    offset += 1000
+  }
+  return total
+}
+
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders })
   if (req.method !== 'POST') return json({ error: 'method not allowed' }, 405)
@@ -159,6 +185,18 @@ Deno.serve(async (req) => {
     if (file.size > rules.maxBytes) {
       await audit({ action, ...auditBase, target: file.name, denied: true, reason: `too large ${file.size}` })
       return json({ error: `file too large: max ${Math.round(rules.maxBytes / 1024 / 1024)}MB` }, 400)
+    }
+
+    // 3.5 Storage quota — total media size per bucket must stay under the cap
+    const usedBytes = await bucketUsageBytes(bucket as BucketName)
+    if (usedBytes + file.size > STORAGE_QUOTA_BYTES) {
+      await audit({
+        action, ...auditBase, target: file.name, denied: true, reason: 'quota exceeded',
+        extra: { quota_used_bytes: usedBytes, quota_limit_bytes: STORAGE_QUOTA_BYTES, incoming_bytes: file.size },
+      })
+      return json({
+        error: `storage quota exceeded: bucket limit ${fmtMB(STORAGE_QUOTA_BYTES)}MB, currently used ${fmtMB(usedBytes)}MB`,
+      }, 429)
     }
 
     // 4a. Replace mode — verify the target record exists and capture its current path
