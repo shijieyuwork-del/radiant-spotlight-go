@@ -722,9 +722,7 @@ const HowItWorks = () => {
             <Button size="lg" onClick={() => open()} className="cta-primary min-h-14 w-full rounded-full px-9 text-base shadow-glow ring-4 ring-primary/15 transition hover:-translate-y-1 md:w-fit">
               {copy.cta}<ArrowRight className="ml-2 size-4" />
             </Button>
-            <p className="mt-3 text-xs font-semibold text-foreground/55">
-              {lang === "zh" ? "免费 · 无需承诺" : lang === "ru" ? "Бесплатно · Без обязательств" : "Free · No obligation"}
-            </p>
+            
           </div>
         </div>
         <MedicalDisclaimer variant="banner" className="relative mt-6 bg-background/60" />

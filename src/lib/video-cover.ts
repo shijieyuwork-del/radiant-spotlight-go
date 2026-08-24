@@ -105,3 +105,71 @@ export const formatDuration = (seconds: number): string => {
   const s = total % 60;
   return `${m}:${String(s).padStart(2, "0")}`;
 };
+
+// ============= 封面自动推荐打分 =============
+
+/**
+ * Score a decoded luma plane: gradient energy (sharpness) weighted by a
+ * brightness penalty that favours well-lit frames over too dark/bright ones.
+ * Pure function so it can be unit-tested without a DOM.
+ */
+export const scoreLumaPlane = (luma: ArrayLike<number>, width: number, height: number): number => {
+  const total = width * height;
+  if (total === 0) return 0;
+  let energy = 0;
+  let sum = 0;
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const i = y * width + x;
+      const v = luma[i];
+      sum += v;
+      if (x + 1 < width) energy += Math.abs(v - luma[i + 1]);
+      if (y + 1 < height) energy += Math.abs(v - luma[i + width]);
+    }
+  }
+  const sharpness = energy / total;
+  const mean = sum / total;
+  const brightnessScore = Math.max(0, 1 - Math.abs(mean - 120) / 120);
+  return sharpness * (0.35 + 0.65 * brightnessScore);
+};
+
+const SCORE_W = 72;
+const SCORE_H = 128;
+
+const scoreCandidate = async (blob: Blob): Promise<number> => {
+  const bitmap = await createImageBitmap(blob);
+  try {
+    const canvas = document.createElement("canvas");
+    canvas.width = SCORE_W;
+    canvas.height = SCORE_H;
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
+    if (!ctx) return 0;
+    ctx.drawImage(bitmap, 0, 0, SCORE_W, SCORE_H);
+    const { data } = ctx.getImageData(0, 0, SCORE_W, SCORE_H);
+    const luma = new Float32Array(SCORE_W * SCORE_H);
+    for (let i = 0, j = 0; i < data.length; i += 4, j++) {
+      luma[j] = 0.2126 * data[i] + 0.7152 * data[i + 1] + 0.0722 * data[i + 2];
+    }
+    return scoreLumaPlane(luma, SCORE_W, SCORE_H);
+  } finally {
+    bitmap.close();
+  }
+};
+
+/**
+ * Pick the index of the "best" cover candidate (sharpest, well-lit).
+ * Returns -1 for an empty list. Browser-only (uses createImageBitmap).
+ */
+export const pickBestCoverIndex = async (candidates: CoverCandidate[]): Promise<number> => {
+  if (candidates.length === 0) return -1;
+  let best = 0;
+  let bestScore = -Infinity;
+  for (let i = 0; i < candidates.length; i++) {
+    const score = await scoreCandidate(candidates[i].blob);
+    if (score > bestScore) {
+      bestScore = score;
+      best = i;
+    }
+  }
+  return best;
+};
