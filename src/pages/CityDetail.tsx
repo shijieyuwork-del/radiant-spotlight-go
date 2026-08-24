@@ -227,7 +227,7 @@ const CityDetail = () => {
 
       {/* Travel essentials */}
       <section className="container py-10">
-        <div className="rounded-3xl bg-gradient-to-r from-[hsl(190,70%,92%)] via-[hsl(155,60%,90%)] to-[hsl(50,80%,92%)] p-6 md:p-8 shadow-soft">
+        <div className="rounded-3xl bg-gradient-to-r from-[hsl(155,55%,92%)] via-[hsl(150,48%,91%)] to-[hsl(50,78%,92%)] p-6 md:p-8 shadow-soft">
           <h2 className="font-display text-2xl md:text-3xl font-semibold mb-5">
             {c("Travel essentials", "出行配套", "Всё необходимое для поездки")}
           </h2>

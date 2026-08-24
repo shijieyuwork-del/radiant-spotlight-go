@@ -4,8 +4,8 @@ import {
   Sparkles, ArrowRight, Star, MapPin, ShieldCheck,
   Stethoscope, Building2,
   Flame, Gift, Wallet, Users, Plane,
-  ChevronLeft, ChevronRight, Eye,
-  Scale, HelpCircle, HeartPulse, MessageCircle, Video,
+  Eye,
+  Scale, HelpCircle, HeartPulse, MessageCircle, Video, Map,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -21,11 +21,11 @@ import { ORGANIZATION_SCHEMA } from "@/lib/seo-config";
 import { useQuote } from "@/components/QuoteRequest";
 import heroBg from "@/assets/hero-bg.jpg";
 import journeyConsultation from "@/assets/journey-real-consultation.webp";
-import journeyOnline from "@/assets/journey-real-online.webp";
 import journeyArrival from "@/assets/journey-real-arrival.webp";
 import journeySupport from "@/assets/journey-real-support.webp";
 import journeyRecovery from "@/assets/journey-real-recovery.webp";
 import journeyFollowUp from "@/assets/journey-real-follow-up.webp";
+import cityHangzhou from "@/assets/city-hangzhou.jpg";
 import AppPromoSection from "@/components/AppPromoSection";
 import { supabase } from "@/integrations/supabase/client";
 import { signedUrls } from "@/lib/storage-urls";
@@ -130,6 +130,7 @@ const Hero = () => {
         emphasis: "找到适合你的方案",
         subtitle: "先了解项目、查看已发布的医生资料与患者恢复日记，再决定是否出发。翻译、行程和术后支持由我们协调。",
         cases: "观看患者短视频",
+        contact: "预约免费咨询",
         consultation: "在线面诊",
         consultationDetail: "出发前与医生进行一对一线上沟通",
         english: "英文院内翻译",
@@ -146,6 +147,7 @@ const Hero = () => {
           emphasis: "на одной платформе",
           subtitle: "Сравните реальные случаи, квалификацию врачей и прозрачные цены до поездки. Мы организуем перевод, поездку и последующий уход.",
           cases: "Смотреть видео пациентов",
+          contact: "Записаться бесплатно",
           consultation: "Онлайн-консультация",
           consultationDetail: "Встреча с врачом онлайн до поездки",
           english: "Переводчик в клинике",
@@ -161,6 +163,7 @@ const Hero = () => {
           emphasis: "then choose with confidence",
           subtitle: "Understand procedures, review published doctor profiles and explore patient recovery diaries before you travel.",
           cases: "Watch patient recovery videos",
+          contact: "Book your free consultation",
           consultation: "Online consultation",
           consultationDetail: "Meet your expert online before you travel (not providing medical advice)",
           english: "English in-clinic translation",
@@ -201,9 +204,22 @@ const Hero = () => {
             </h1>
             <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground sm:mt-5 sm:text-[15px] md:text-lg">{copy.subtitle}</p>
 
-            <div className="mx-auto mt-6 flex max-w-lg justify-center sm:mt-7">
+            <div className="mx-auto mt-6 flex max-w-lg flex-col justify-center gap-3 sm:mt-7 sm:flex-row">
               <Button asChild size="lg" className="h-[3.25rem] w-full rounded-2xl px-8 text-[15px] font-semibold shadow-pop sm:h-12 sm:w-auto sm:min-w-72 sm:rounded-full">
                 <Link to="/cases">{copy.cases}<ArrowRight className="ml-1.5 size-4" /></Link>
+              </Button>
+              <Button
+                asChild
+                size="lg"
+                className="h-[3.25rem] w-full rounded-2xl border border-foreground bg-foreground px-7 text-[15px] font-semibold text-background shadow-pop hover:bg-foreground/90 sm:h-12 sm:w-auto sm:rounded-full"
+              >
+                <a
+                  href="https://wa.me/14708613825?text=Hi%20Cosmetics%20Asia%2C%20I%20would%20like%20to%20ask%20about%20your%20services."
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {copy.contact}<ArrowRight className="ml-1.5 size-4" />
+                </a>
               </Button>
             </div>
 
@@ -238,7 +254,7 @@ const Hero = () => {
               </div>
               <Link
                 to="/cases"
-                className="inline-flex min-h-11 w-full shrink-0 items-center justify-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground shadow-soft transition-all hover:-translate-y-0.5 hover:shadow-pop sm:w-auto sm:text-xs"
+                className="cta-primary inline-flex min-h-11 w-full shrink-0 items-center justify-center gap-1.5 rounded-full px-5 py-2.5 text-sm font-bold shadow-soft transition-all sm:w-auto sm:text-xs"
               >
                 {lang === "zh" ? "浏览全部日记" : lang === "ru" ? "Все дневники" : "Explore all diaries"} <ArrowRight className="size-3.5" />
               </Link>
@@ -257,52 +273,52 @@ const TravelBar = () => {
   const railRef = useRef<HTMLDivElement>(null);
   const pausedRef = useRef(false);
   const journeyCopy = lang === "zh"
-    ? { eyebrow: "服务流程", title: "你的中国", emphasis: "医疗之旅", cta: "查看完整流程", step: "步骤", previous: "上一步", next: "下一步" }
+    ? { eyebrow: "服务流程", title: "六步开启你的", emphasis: "中国医疗之旅", step: "步骤" }
     : lang === "ru"
-      ? { eyebrow: "Как это работает", title: "Ваш путь к", emphasis: "лечению в Китае", cta: "Посмотреть весь путь", step: "Шаг", previous: "Предыдущий шаг", next: "Следующий шаг" }
-      : { eyebrow: "How it works", title: "Your journey to", emphasis: "care in China", cta: "See full journey", step: "Step", previous: "Previous step", next: "Next step" };
+      ? { eyebrow: "Как это работает", title: "6 шагов к", emphasis: "лечению в Китае", step: "Шаг" }
+      : { eyebrow: "How it works", title: "6 steps to your", emphasis: "care in China", step: "Step" };
   const localizedSteps = [
     {
-      icon: Users,
+      icon: Video,
       image: journeyConsultation,
-      en: ["Book your consultation", "Choose a doctor—or let us recommend suitable specialists"],
-      zh: ["预约咨询", "选择心仪医生，或让我们为你推荐合适的专家"],
-      ru: ["Запишитесь на консультацию", "Выберите врача или позвольте нам подобрать подходящего специалиста"],
-    },
-    {
-      icon: Stethoscope,
-      image: journeyOnline,
-      en: ["Meet your expert online", "Expert review of options, expected results, risks and recovery (not providing medical advice)"],
-      zh: ["线上会见专家", "专家解读治疗选择、预期效果、风险与恢复过程（不提供医疗建议）"],
-      ru: ["Встретьтесь с экспертом онлайн", "Эксперт разберёт варианты, ожидаемые результаты, риски и восстановление (медицинские советы не предоставляются)"],
+      en: ["Book your free consultation", "Tell us your goals and questions so we can help identify suitable specialists"],
+      zh: ["预约免费咨询", "告诉我们你的目标和疑问，我们会协助匹配合适的专家"],
+      ru: ["Запишитесь на бесплатную консультацию", "Расскажите о целях и вопросах, чтобы мы помогли подобрать специалистов"],
     },
     {
       icon: Plane,
       image: journeyArrival,
-      en: ["Arrange travel & visa", "Confirm flights, documents, pickup and accommodation"],
-      zh: ["安排行程与签证", "确认航班、文件、接机与住宿安排"],
-      ru: ["Организуйте поездку и визу", "Подтвердите перелёт, документы, трансфер и проживание"],
+      en: ["Arrange your travel & visa", "Confirm appointments, flights, travel documents and arrival details"],
+      zh: ["安排行程与签证", "确认预约、航班、旅行文件和抵达信息"],
+      ru: ["Организуйте поездку и визу", "Подтвердите запись, перелёт, документы и детали прибытия"],
     },
     {
       icon: MapPin,
-      image: journeySupport,
-      en: ["Receive on-ground support", "Get coordinated arrival, translation and clinic assistance"],
-      zh: ["获得落地支持", "协调抵达、院内翻译与就诊协助"],
-      ru: ["Получите поддержку на месте", "Помощь по прибытии, перевод и сопровождение в клинике"],
+      image: journeyRecovery,
+      en: ["Choose your on-ground support", "Select pickup, accommodation guidance, translation and coordination"],
+      zh: ["选择落地支持服务", "按需选择接机、住宿建议、翻译与行程协调"],
+      ru: ["Выберите поддержку на месте", "Выберите трансфер, помощь с проживанием, перевод и координацию"],
     },
     {
       icon: HeartPulse,
-      image: journeyRecovery,
-      en: ["Treatment & recovery", "Recover with practical support around your care plan"],
-      zh: ["治疗与恢复", "根据你的治疗计划获得实用的恢复支持"],
-      ru: ["Лечение и восстановление", "Получайте практическую поддержку по вашему плану лечения"],
+      image: journeySupport,
+      en: ["Receive coordinated treatment support", "Get practical communication and scheduling help during clinic visits"],
+      zh: ["获得治疗协调支持", "就诊期间获得沟通、翻译与日程协调协助"],
+      ru: ["Получите поддержку во время лечения", "Получайте помощь с общением и расписанием во время визитов"],
+    },
+    {
+      icon: Map,
+      image: cityHangzhou,
+      en: ["Recover—and explore when ready", "Follow your clinician’s advice, with optional travel when you are cleared"],
+      zh: ["安心恢复，适合时再探索", "遵循医生的恢复建议，获得许可后可自愿安排旅行"],
+      ru: ["Восстанавливайтесь и путешествуйте, когда будете готовы", "Следуйте рекомендациям врача и путешествуйте только после разрешения"],
     },
     {
       icon: MessageCircle,
       image: journeyFollowUp,
-      en: ["Follow up from home", "Stay connected and coordinate remote follow-up when needed"],
-      zh: ["回国后随访", "保持联系，并在需要时协调远程复诊"],
-      ru: ["Наблюдение после возвращения", "Оставайтесь на связи и при необходимости организуйте онлайн-приём"],
+      en: ["Stay connected after you return", "Coordinate remote follow-up and translation when your doctor recommends it"],
+      zh: ["回国后保持联系", "医生建议复诊时，我们协助协调远程随访与翻译"],
+      ru: ["Оставайтесь на связи после возвращения", "Мы поможем организовать онлайн-наблюдение и перевод по рекомендации врача"],
     },
   ];
   const steps = localizedSteps.map((item) => {
@@ -350,9 +366,6 @@ const TravelBar = () => {
             {journeyCopy.title} <em className="not-italic text-primary">{journeyCopy.emphasis}</em>
           </h2>
         </div>
-        <Link to="/travel-packages" className="hidden min-h-11 shrink-0 items-center justify-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-xs font-bold text-primary-foreground shadow-soft transition-all hover:-translate-y-0.5 hover:shadow-pop sm:inline-flex">
-          {journeyCopy.cta} <ArrowRight className="size-4" />
-        </Link>
       </div>
       <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-r from-[hsl(158,58%,90%)] via-[hsl(145,48%,91%)] to-[hsl(50,80%,91%)] py-5 shadow-pop md:py-7">
         <div className="pointer-events-none absolute left-[8%] right-[8%] top-[7.65rem] hidden h-px bg-primary/30 md:block" aria-hidden="true" />
@@ -395,18 +408,13 @@ const TravelBar = () => {
           ))}
         </div>
         <div className="mt-1 flex items-center justify-center gap-3 px-5">
-          <button type="button" onClick={() => showStep(activeStep - 1)} className="grid size-10 place-items-center rounded-full border border-primary/20 bg-card/80 text-foreground backdrop-blur-md transition hover:border-primary hover:text-primary" aria-label={journeyCopy.previous}><ChevronLeft className="size-5" /></button>
           <div className="flex items-center gap-1.5" aria-label={`Step ${activeStep + 1} of ${steps.length}`}>
             {steps.map((step, index) => (
               <button key={step.t} type="button" onClick={() => showStep(index)} className={`h-2 rounded-full transition-all ${activeStep === index ? "w-8 bg-primary" : "w-2 bg-card/80 hover:bg-primary/40"}`} aria-label={`Show step ${index + 1}`} />
             ))}
           </div>
-          <button type="button" onClick={() => showStep(activeStep + 1)} className="grid size-10 place-items-center rounded-full bg-primary text-primary-foreground shadow-soft transition hover:bg-primary/90" aria-label={journeyCopy.next}><ChevronRight className="size-5" /></button>
         </div>
       </div>
-      <Link to="/travel-packages" className="mt-4 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground sm:hidden">
-        {journeyCopy.cta} <ArrowRight className="size-4" />
-      </Link>
     </section>
   );
 };
@@ -416,11 +424,6 @@ const CitiesSection = () => {
   const cityFilter = useCityFilter();
   const cityRailRef = useRef<HTMLDivElement>(null);
   const cityRailPausedRef = useRef(false);
-  const moveCities = (direction: -1 | 1) => {
-    const rail = cityRailRef.current;
-    if (!rail) return;
-    rail.scrollBy({ left: direction * Math.min(rail.clientWidth * 0.86, 1080), behavior: "smooth" });
-  };
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const timer = window.setInterval(() => {
@@ -440,11 +443,7 @@ const CitiesSection = () => {
             {t("cities.title1")} <em className="text-primary not-italic">{t("cities.titleEm")}</em>
           </h2>
         </div>
-        <div className="flex items-center gap-2">
-          <button type="button" onClick={() => moveCities(-1)} className="grid size-10 place-items-center rounded-full border border-border bg-card text-foreground shadow-soft transition hover:border-primary hover:text-primary" aria-label={lang === "zh" ? "上一组城市" : lang === "ru" ? "Предыдущие города" : "Previous cities"}><ChevronLeft className="size-5" /></button>
-          <button type="button" onClick={() => moveCities(1)} className="grid size-10 place-items-center rounded-full bg-primary text-primary-foreground shadow-soft transition hover:bg-primary/90" aria-label={lang === "zh" ? "下一组城市" : lang === "ru" ? "Следующие города" : "More cities"}><ChevronRight className="size-5" /></button>
-          <Link to="/cities" className="pill ml-1 hidden bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90 sm:inline-flex">{lang === "zh" ? "全部城市" : lang === "ru" ? "Все города" : "All cities"}<ArrowRight className="size-4" /></Link>
-        </div>
+        <Link to="/cities" className="pill hidden bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90 sm:inline-flex">{lang === "zh" ? "全部城市" : lang === "ru" ? "Все города" : "All cities"}<ArrowRight className="size-4" /></Link>
       </div>
       <div className="mb-6 md:mb-8">
         <CitySearchBar filter={cityFilter} />
@@ -458,11 +457,11 @@ const CitiesSection = () => {
         onPointerUp={() => { cityRailPausedRef.current = false; }}
         onFocusCapture={() => { cityRailPausedRef.current = true; }}
         onBlurCapture={() => { cityRailPausedRef.current = false; }}
-        className="-mx-4 flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain scroll-smooth px-4 pb-4 scrollbar-hide md:-mx-6 md:gap-6 md:px-6"
+        className="flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain scroll-smooth rounded-[2rem] bg-gradient-to-r from-[hsl(158,58%,90%)] via-[hsl(145,48%,91%)] to-[hsl(50,80%,91%)] px-4 py-5 shadow-pop scrollbar-hide md:gap-6 md:px-6 md:py-7"
       >
         {cities.map((c) => (
           <Link key={c.slug} to={`/cities/${c.slug}`} className="group block min-w-[82vw] snap-center sm:min-w-[62vw] md:min-w-[calc((100%_-_3rem)/3)] md:max-w-[calc((100%_-_3rem)/3)]">
-            <article className="flex h-[390px] flex-col rounded-3xl border border-border bg-card p-5 shadow-soft transition duration-300 group-hover:-translate-y-1 group-hover:border-primary/35 group-hover:shadow-pop md:h-[410px] md:p-6">
+            <article className="flex min-h-[270px] flex-col rounded-3xl border border-border bg-card p-5 shadow-soft transition duration-300 group-hover:-translate-y-1 group-hover:border-primary/35 group-hover:shadow-pop md:min-h-[290px] md:p-6">
               <div className="flex min-w-0 items-center gap-4">
                 <img src={c.img} alt={`${c.en} city`} className="size-24 shrink-0 rounded-full border-2 border-primary/15 object-cover transition-transform duration-500 group-hover:scale-105 md:size-28" />
                 <div className="min-w-0">
@@ -472,15 +471,8 @@ const CitiesSection = () => {
                 </div>
               </div>
               <p className="mt-5 line-clamp-2 text-sm leading-relaxed text-muted-foreground">{lang === "zh" ? c.introZh : c.introEn}</p>
-              <div className="mt-4 grid grid-cols-2 gap-2 text-center">
-                <div className="rounded-xl bg-secondary px-2 py-2.5"><p className="font-display text-base font-semibold">{lang === "zh" ? "医生资料" : lang === "ru" ? "Профили врачей" : "Doctor profiles"}</p><p className="text-[10px] text-muted-foreground">{lang === "zh" ? "审核后发布" : lang === "ru" ? "после проверки" : "published after review"}</p></div>
-                <div className="rounded-xl bg-secondary px-2 py-2.5"><p className="font-display text-base font-semibold text-primary">{lang === "zh" ? "行程指南" : lang === "ru" ? "Гид по поездке" : "Travel guide"}</p><p className="text-[10px] text-muted-foreground">{lang === "zh" ? "交通与住宿" : lang === "ru" ? "транспорт и проживание" : "logistics & stays"}</p></div>
-              </div>
               <div className="mt-4 flex max-h-[50px] flex-wrap gap-1.5 overflow-hidden">
                 {(lang === "zh" ? c.hotZh : c.hotEn).slice(0, 3).map((h) => <span key={h} className="rounded-full bg-accent px-2.5 py-1 text-[10px] text-accent-foreground">{h}</span>)}
-              </div>
-              <div className="mt-auto flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3.5 text-sm font-semibold text-primary-foreground transition group-hover:bg-primary/90">
-                {lang === "zh" ? "查看城市与医生" : lang === "ru" ? "Город и врачи" : "Explore city & doctors"}<ArrowRight className="size-4" />
               </div>
             </article>
           </Link>
@@ -521,11 +513,6 @@ const TreatmentsSection = () => {
   ];
   const treatmentCloudRailRef = useRef<HTMLDivElement>(null);
   const treatmentCloudPausedRef = useRef(false);
-  const moveTreatmentClouds = (direction: -1 | 1) => {
-    const rail = treatmentCloudRailRef.current;
-    if (!rail) return;
-    rail.scrollBy({ left: direction * Math.min(rail.clientWidth * 0.88, 1050), behavior: "smooth" });
-  };
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     let frame = 0;
@@ -534,7 +521,7 @@ const TreatmentsSection = () => {
       const rail = treatmentCloudRailRef.current;
       if (rail && !treatmentCloudPausedRef.current && !document.hidden) {
         const elapsed = previousTime ? time - previousTime : 0;
-        rail.scrollLeft += elapsed * 0.045;
+        rail.scrollLeft += elapsed * 0.06;
         const loopPoint = rail.scrollWidth / 2;
         if (rail.scrollLeft >= loopPoint) rail.scrollLeft -= loopPoint;
       }
@@ -553,43 +540,28 @@ const TreatmentsSection = () => {
             {t("tx.title1")} <em className="text-primary not-italic">{t("tx.titleEm")}</em>
           </h2>
         </div>
-        <div className="flex items-center gap-2">
-          <button type="button" onClick={() => moveTreatmentClouds(-1)} className="grid size-10 place-items-center rounded-full border border-border bg-card text-foreground shadow-soft transition hover:border-primary hover:text-primary" aria-label={lang === "zh" ? "上一组手术类型" : lang === "ru" ? "Предыдущие группы процедур" : "Previous procedure groups"}>
-            <ChevronLeft className="size-5" />
-          </button>
-          <button type="button" onClick={() => moveTreatmentClouds(1)} className="grid size-10 place-items-center rounded-full bg-primary text-primary-foreground shadow-soft transition hover:bg-primary/90" aria-label={lang === "zh" ? "下一组手术类型" : lang === "ru" ? "Следующие группы процедур" : "Next procedure groups"}>
-            <ChevronRight className="size-5" />
-          </button>
-          <Link to="/treatments" className="pill hidden bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90 sm:inline-flex">
-            {lang === "zh" ? "全部项目" : lang === "ru" ? "Все процедуры" : "All procedures"}<ArrowRight className="size-4" />
-          </Link>
-        </div>
       </div>
       <div
         ref={treatmentCloudRailRef}
-        onMouseEnter={() => { treatmentCloudPausedRef.current = true; }}
-        onMouseLeave={() => { treatmentCloudPausedRef.current = false; }}
         onTouchStart={() => { treatmentCloudPausedRef.current = true; }}
         onTouchEnd={() => { treatmentCloudPausedRef.current = false; }}
-        onFocusCapture={() => { treatmentCloudPausedRef.current = true; }}
-        onBlurCapture={() => { treatmentCloudPausedRef.current = false; }}
-        className="-mx-4 flex touch-pan-x items-stretch gap-8 overflow-x-auto overscroll-x-contain px-4 py-6 scrollbar-hide sm:gap-9 md:-mx-6 md:gap-10 md:px-6 lg:[mask-image:linear-gradient(to_right,transparent,black_3%,black_97%,transparent)]"
+        className="flex touch-pan-x items-stretch gap-8 overflow-x-auto overscroll-x-contain rounded-[2rem] bg-gradient-to-r from-[hsl(158,58%,90%)] via-[hsl(145,48%,91%)] to-[hsl(50,80%,91%)] px-4 py-4 shadow-pop scrollbar-hide sm:gap-9 md:gap-10 md:px-6 md:py-5"
       >
         {[...procedureClouds, ...procedureClouds].map((cloud, repeatedIndex) => {
           const cloudIndex = repeatedIndex % procedureClouds.length;
           const duplicate = repeatedIndex >= procedureClouds.length;
           const CloudIcon = cloud.icon;
           return (
-          <article key={`${cloud.en}-${duplicate ? "loop" : "primary"}`} aria-hidden={duplicate || undefined} className="group relative flex min-h-[310px] w-[82vw] min-w-[82vw] shrink-0 flex-col justify-center px-3 py-5 transition duration-500 hover:-translate-y-1 sm:w-[56vw] sm:min-w-[56vw] md:w-[calc((100%_-_5rem)/3)] md:min-w-[calc((100%_-_5rem)/3)] lg:w-[calc((100%_-_7.5rem)/4)] lg:min-w-[calc((100%_-_7.5rem)/4)]">
+          <article key={`${cloud.en}-${duplicate ? "loop" : "primary"}`} aria-hidden={duplicate || undefined} className="group relative flex min-h-[250px] w-[82vw] min-w-[82vw] shrink-0 flex-col justify-center px-3 py-3 transition duration-500 hover:-translate-y-1 sm:w-[56vw] sm:min-w-[56vw] md:min-h-[235px] md:w-[calc((100%_-_5rem)/3)] md:min-w-[calc((100%_-_5rem)/3)] lg:w-[calc((100%_-_7.5rem)/4)] lg:min-w-[calc((100%_-_7.5rem)/4)]">
             <span className="absolute right-0 top-2 font-display text-6xl font-semibold leading-none text-foreground/[0.04]">0{cloudIndex + 1}</span>
-            <div className="mb-5 flex justify-center" aria-hidden="true">
-              <CloudIcon strokeWidth={1.35} className="size-14 text-primary transition duration-500 group-hover:scale-110 md:size-16" />
+            <div className="mb-2 flex justify-center" aria-hidden="true">
+              <CloudIcon strokeWidth={1.35} className="size-12 text-primary transition duration-500 group-hover:scale-110 md:size-14" />
             </div>
             <div className="relative flex items-center justify-between gap-3">
               <h3 className="text-xs font-bold uppercase tracking-[0.16em] text-primary">{lang === "zh" ? cloud.zh : cloud.en}</h3>
               <ArrowRight className="size-4 text-primary transition-transform group-hover:translate-x-1" />
             </div>
-            <div className="relative mt-7 flex flex-wrap content-center items-baseline justify-center gap-x-3.5 gap-y-2 text-center">
+            <div className="relative mt-4 flex flex-wrap content-center items-baseline justify-center gap-x-3.5 gap-y-1.5 text-center">
               {cloud.items.map(([en, zh], itemIndex) => (
                 <Link
                   key={en}
@@ -612,7 +584,6 @@ const TreatmentsSection = () => {
 
 const DoctorsSection = () => {
   const { t, lang } = useAsia();
-  const { open } = useQuote();
   const [publishedDoctors, setPublishedDoctors] = useState<Array<{
     id: string; name: string; title: string; hospital: string; city: string;
     specialties: string[]; bio: string; photo_path: string | null; photo?: string;
@@ -635,11 +606,6 @@ const DoctorsSection = () => {
         setPublishedDoctors(rows.map((doctor, index) => ({ ...doctor, photo: photos[index] })) as typeof publishedDoctors);
       });
   }, []);
-  const moveDoctors = (direction: -1 | 1) => {
-    const rail = doctorRailRef.current;
-    if (!rail) return;
-    rail.scrollBy({ left: direction * Math.min(rail.clientWidth * 0.86, 1080), behavior: "smooth" });
-  };
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const timer = window.setInterval(() => {
@@ -659,30 +625,6 @@ const DoctorsSection = () => {
             {t("doctors.title1")} <em className="text-primary not-italic">{t("doctors.titleEm")}</em>
           </h2>
         </div>
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={() => moveDoctors(-1)}
-            className="grid size-10 place-items-center rounded-full border border-border bg-card text-foreground shadow-soft transition hover:border-primary hover:text-primary"
-            aria-label={lang === "zh" ? "查看上一组医生" : lang === "ru" ? "Предыдущие врачи" : "Previous surgeons"}
-          >
-            <ChevronLeft className="size-5" />
-          </button>
-          <button
-            type="button"
-            onClick={() => moveDoctors(1)}
-            className="grid size-10 place-items-center rounded-full bg-primary text-primary-foreground shadow-soft transition hover:bg-primary/90"
-            aria-label={lang === "zh" ? "查看更多医生" : lang === "ru" ? "Следующие врачи" : "More surgeons"}
-          >
-            <ChevronRight className="size-5" />
-          </button>
-          <Link
-            to="/doctors"
-            className="pill ml-1 hidden bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90 sm:inline-flex"
-          >
-            {lang === "zh" ? "全部医师" : lang === "ru" ? "Все врачи" : "All surgeons"} <ArrowRight className="size-4" />
-          </Link>
-        </div>
       </div>
       <div
         ref={doctorRailRef}
@@ -692,7 +634,7 @@ const DoctorsSection = () => {
         onPointerUp={() => { doctorRailPausedRef.current = false; }}
         onFocusCapture={() => { doctorRailPausedRef.current = true; }}
         onBlurCapture={() => { doctorRailPausedRef.current = false; }}
-        className="-mx-4 flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain scroll-smooth px-4 pb-4 scrollbar-hide md:-mx-6 md:gap-6 md:px-6"
+        className="flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain scroll-smooth rounded-[2rem] bg-gradient-to-r from-[hsl(158,58%,90%)] via-[hsl(145,48%,91%)] to-[hsl(50,80%,91%)] px-4 py-5 shadow-pop scrollbar-hide md:gap-6 md:px-6 md:py-7"
       >
         {displayedDoctors.map((d) => {
           const photo = d.photo;
@@ -701,7 +643,7 @@ const DoctorsSection = () => {
             key={d.id}
             className="group block min-w-[82vw] snap-center sm:min-w-[62vw] md:min-w-[calc((100%_-_3rem)/3)] md:max-w-[calc((100%_-_3rem)/3)]"
           >
-            <div className="flex h-[395px] flex-col rounded-3xl border border-border bg-card p-5 shadow-soft transition duration-300 group-hover:-translate-y-1 group-hover:border-primary/35 group-hover:shadow-pop md:h-[410px] md:p-6">
+            <div className="flex min-h-[315px] flex-col rounded-3xl border border-border bg-card p-5 shadow-soft transition duration-300 group-hover:-translate-y-1 group-hover:border-primary/35 group-hover:shadow-pop md:min-h-[335px] md:p-6">
               <div className="flex min-w-0 items-center gap-4">
                 {photo ? <img src={photo} alt={d.name} className="size-24 shrink-0 rounded-full border-2 border-primary/15 object-cover transition-transform duration-500 group-hover:scale-105 md:size-28" /> : <div className="grid size-24 shrink-0 place-items-center rounded-full bg-primary/10 text-primary md:size-28"><Stethoscope className="size-10" /></div>}
                 <div className="min-w-0">
@@ -719,29 +661,9 @@ const DoctorsSection = () => {
                 ))}
               </div>
 
-              <div className="mt-auto grid grid-cols-[0.9fr_1.1fr] gap-2">
-                <Link
-                  to={d.demo ? "/doctors" : `/doctors/profile/${d.id}`}
-                  className="flex min-h-12 items-center justify-center rounded-xl border border-primary/30 bg-card px-3 py-3 text-center text-xs font-semibold text-primary transition hover:bg-primary/10"
-                >
-                  {lang === "zh" ? "医生与案例" : lang === "ru" ? "Врач и случаи" : "Doctor & cases"}
-                </Link>
-                <button
-                  type="button"
-                  onClick={() => open({ doctorName: d.name, city: d.city })}
-                  className="flex min-h-12 items-center justify-center gap-1.5 rounded-xl bg-primary px-3 py-3 text-center text-[13px] font-semibold leading-tight text-primary-foreground transition hover:bg-primary/90"
-                >
-                  {lang === "zh" ? "预约免费视频咨询" : lang === "ru" ? "Бесплатная видеоконсультация" : "Book a Free Video Consultation"}<ArrowRight className="size-4" />
-                </button>
-              </div>
             </div>
           </article>
         )})}
-      </div>
-      <div className="mt-2 flex justify-center sm:hidden">
-        <Link to="/doctors" className="inline-flex items-center gap-1 text-sm font-semibold text-primary">
-          {lang === "zh" ? "查看全部医师" : lang === "ru" ? "Все врачи" : "Browse all surgeons"}<ArrowRight className="size-4" />
-        </Link>
       </div>
     </section>
   );
@@ -753,43 +675,56 @@ const HowItWorks = () => {
   const copy = lang === "zh"
     ? {
         eyebrow: "免费线上咨询",
-        title: "不知道从哪里开始？",
-        emphasis: "先和我们在线聊聊",
+        title: "准备好开始了吗？",
+        emphasis: "今天迈出第一步",
         text: "告诉我们你关注的项目、预算和希望前往的城市。我们会帮你梳理需求，并协助你找到合适的中国医生。",
-        cta: "预约免费线上咨询",
+        cta: "开始免费线上咨询",
       }
     : lang === "ru"
       ? {
           eyebrow: "Бесплатная онлайн-консультация",
-          title: "Не знаете, с чего начать?",
-          emphasis: "Поговорите с нами онлайн",
+          title: "Готовы начать?",
+          emphasis: "Сделайте первый шаг сегодня",
           text: "Расскажите о процедуре, бюджете и желаемом городе. Мы поможем уточнить ваши потребности и подобрать подходящего врача в Китае.",
-          cta: "Записаться бесплатно",
+          cta: "Начать бесплатную консультацию",
         }
       : {
           eyebrow: "Free online consultation",
-          title: "Not sure where to start?",
-          emphasis: "Meet with us online",
+          title: "Ready to get started?",
+          emphasis: "Take the first step today",
           text: "Tell us the procedure, budget and city you have in mind. We’ll help clarify your needs and connect you with a suitable doctor in China.",
-          cta: "Book a free online consultation",
+          cta: "Start your free consultation",
         };
 
   return (
     <section className="container py-12 md:py-16">
-      <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-r from-[hsl(190,70%,92%)] via-[hsl(var(--primary)/.20)] to-[hsl(50,80%,92%)] px-5 py-9 text-foreground shadow-pop md:px-10 md:py-12">
+      <div className="relative overflow-hidden rounded-[2rem] border-2 border-primary/35 bg-card px-5 py-10 text-foreground shadow-glow ring-1 ring-primary/10 md:min-h-[340px] md:px-14 md:py-16">
+        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary via-emerald-300 to-amber-200" aria-hidden="true" />
         <div className="pointer-events-none absolute -right-24 -top-32 size-80 rounded-full bg-white/25" />
         <div className="pointer-events-none absolute -bottom-32 -left-20 size-72 rounded-full bg-primary/10" />
         <div className="relative flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between md:gap-10">
-          <div className="max-w-3xl">
-            <span className="pill mb-3 bg-white/85 text-foreground"><MessageCircle className="size-3.5 text-primary" /> {copy.eyebrow}</span>
-            <h2 className="font-display text-3xl font-medium leading-tight tracking-tight sm:text-4xl md:text-5xl">
-              {copy.title} <em className="text-primary not-italic">{copy.emphasis}</em>
+          <div className="max-w-4xl">
+            <span className="pill mb-3 bg-primary px-4 py-2 font-bold text-primary-foreground shadow-soft"><MessageCircle className="size-3.5" /> {copy.eyebrow}</span>
+            <h2 className="font-display text-4xl font-medium leading-[1.02] tracking-tight sm:text-5xl md:text-6xl">
+              {copy.title}{" "}<em className="box-decoration-clone rounded-[0.28em] bg-primary/10 px-[0.12em] py-[0.04em] text-primary not-italic">{copy.emphasis}</em>
             </h2>
-            <p className="mt-4 max-w-2xl text-base leading-relaxed text-foreground/70 md:text-lg">{copy.text}</p>
+            <p className="mt-4 max-w-2xl text-base leading-relaxed text-foreground/70 md:text-lg">
+              {lang === "en" ? (
+                <>
+                  Don’t want to talk? That’s okay — email us at <strong className="font-semibold text-foreground">hello@cosmetics-asia.com</strong> or WhatsApp us at{" "}
+                  <a href="https://wa.me/14708613825" target="_blank" rel="noreferrer" className="font-semibold text-foreground underline decoration-primary/45 underline-offset-2 transition hover:text-primary">+1 470 861 3825</a>.
+                </>
+              ) : copy.text}
+            </p>
           </div>
-          <Button size="lg" onClick={() => open()} className="min-h-12 w-full shrink-0 rounded-full bg-primary px-7 text-primary-foreground shadow-pop hover:bg-primary/90 md:w-fit">
-            {copy.cta}<ArrowRight className="ml-2 size-4" />
-          </Button>
+          <div className="w-full shrink-0 text-center md:w-auto">
+            <Button size="lg" onClick={() => open()} className="cta-primary min-h-14 w-full rounded-full px-9 text-base shadow-glow ring-4 ring-primary/15 transition hover:-translate-y-1 md:w-fit">
+              {copy.cta}<ArrowRight className="ml-2 size-4" />
+            </Button>
+            <p className="mt-3 text-xs font-semibold text-foreground/55">
+              {lang === "zh" ? "免费 · 无需承诺" : lang === "ru" ? "Бесплатно · Без обязательств" : "Free · No obligation"}
+            </p>
+          </div>
         </div>
       </div>
     </section>
@@ -804,27 +739,15 @@ const HomeFaq = () => {
   const questions = [
     {
       q: c("Do I need to pay Cosmetics Asia?", "我需要向 Cosmetics Asia 支付费用吗？", "Нужно ли платить Cosmetics Asia?"),
-      a: c("Medical fees are paid directly to the treating clinic or hospital; Cosmetics Asia does not collect them. Before you depart, we collect a $400 coordination deposit to confirm and coordinate your airport pickup and secure your procedure appointment slot. The $400 deposit is refunded when you pay the clinic for your procedure.", "医疗费用全部由诊所或医院直接收取，Cosmetics Asia 不代收。在你出发前，我们会收取 400 美元协调押金，用于确认并协调机场接送，以及确认并保留你的手术预约名额。当你在诊所支付手术费用时，这笔 400 美元押金将退还给你。", "Медицинские услуги оплачиваются напрямую клинике или больнице; Cosmetics Asia их не принимает. До вашего вылета мы взимаем координационный депозит в размере 400 долларов, чтобы подтвердить и организовать трансфер из аэропорта, а также закрепить за вами время проведения процедуры. Депозит возвращается, когда вы оплачиваете процедуру в клинике."),
+      a: c("Medical fees are paid directly to the treating clinic or hospital; Cosmetics Asia does not collect them. We collect a $400 coordination deposit to reserve your procedure appointment and coordinate airport pickup and in-clinic translation. It remains valid for 12 months and is refunded when you pay the clinic for treatment.", "医疗费用全部由诊所或医院直接收取，Cosmetics Asia 不代收。我们收取 400 美元协调押金，用于保留手术预约，并协调机场接送和院内翻译。押金在 12 个月内有效，并在你向诊所支付治疗费用时退还。", "Медицинские услуги оплачиваются напрямую клинике или больнице; Cosmetics Asia их не принимает. Мы взимаем координационный депозит $400, чтобы закрепить время процедуры и организовать трансфер и перевод в клинике. Он действует 12 месяцев и возвращается после оплаты лечения в клинике."),
     },
     {
       q: c("What is the $400 deposit for?", "400 美元押金是做什么用的？", "Для чего нужен депозит $400?"),
-      a: c("The $400 deposit is collected before departure so our team can confirm and coordinate your airport pickup and secure your procedure appointment slot. It is not an additional medical charge. We refund it when you pay the clinic for your procedure.", "这笔 400 美元押金会在你出发前收取，用于确认并协调机场接送，以及确认并保留你的手术预约名额。它不是额外的医疗费用；当你在诊所支付手术费用时，我们会将押金退还给你。", "Депозит в размере 400 долларов взимается до вылета, чтобы наша команда могла подтвердить и организовать трансфер из аэропорта, а также закрепить за вами время проведения процедуры. Это не дополнительная медицинская плата. Мы возвращаем депозит, когда вы оплачиваете процедуру в клинике."),
+      a: c("The $400 deposit reserves your procedure appointment and helps us coordinate airport pickup and in-clinic translation. It is not an additional medical charge, remains valid for 12 months and is refunded when you pay the clinic for treatment.", "这笔 400 美元押金用于保留手术预约，并帮助我们协调机场接送和院内翻译。它不是额外的医疗费用，可保留 12 个月，并在你向诊所支付治疗费用时退还。", "Депозит $400 закрепляет время процедуры и помогает организовать трансфер и перевод в клинике. Это не дополнительная медицинская плата; депозит действует 12 месяцев и возвращается после оплаты лечения в клинике."),
     },
     {
       q: c("Who receives my medical payment?", "手术和治疗费用支付给谁？", "Кому оплачиваются медицинские услуги?"),
       a: c("All surgery, examination, anesthesia and other medical fees are charged directly by the clinic or hospital. Cosmetics Asia does not collect your medical payment.", "全部手术、检查、麻醉及其他医疗费用均由诊所或医院直接收取。Cosmetics Asia 不代收医疗费用。", "Операция, обследования, анестезия и другие медицинские услуги оплачиваются напрямую клинике или больнице. Cosmetics Asia не принимает медицинские платежи."),
-    },
-    {
-      q: c("What travel-support services can I request?", "可以选择哪些行程协助服务？", "Какую помощь в поездке можно заказать?"),
-      a: c("We can help coordinate airport pickup, clinic translation, accommodation guidance and recovery support around your confirmed care plan. The exact scope is confirmed with you before travel.", "我们可以根据已确认的就医计划，协助安排机场接送、诊所翻译、住宿建议与恢复期支持。实际包含内容会在出发前与你逐项确认。", "Мы можем помочь с трансфером из аэропорта, переводом в клинике, подбором проживания и поддержкой во время восстановления. Точный объём согласуется до поездки."),
-    },
-    {
-      q: c("How do you review surgeon credentials?", "你们如何审核医生资料？", "Как проверяются данные врачей?"),
-      a: c("We request licensing, hospital affiliation and specialty information from the doctor or clinic and review it before publication. Incomplete profiles are not labeled verified. You should also confirm credentials with the treating facility and relevant local authority.", "我们要求医生或机构提交执业、任职与专业资料，并在公开展示前进行资料审核。未完成审核的资料不会标记为已核验。最终请同时向接诊机构和当地主管部门确认。", "Мы запрашиваем сведения о лицензии, месте работы и специализации и проверяем их до публикации. Неполные профили не получают отметку о проверке. Также подтвердите данные в клинике и у местного регулятора."),
-    },
-    {
-      q: c("What if I have a concern after returning home?", "回国后出现问题怎么办？", "Что делать, если после возвращения возникли вопросы?"),
-      a: c("We can help organize your information and contact the treating clinic, but we do not replace emergency or local medical care. Seek urgent help from local emergency services or a licensed clinician if symptoms are concerning.", "我们可以协助你整理情况并联系原诊所，但不能替代急诊或本地医生。出现紧急症状时，应立即联系当地急救服务或持证医生。", "Мы поможем собрать информацию и связаться с клиникой, но не заменяем экстренную или местную медицинскую помощь. При тревожных симптомах немедленно обратитесь в местную экстренную службу или к лицензированному врачу."),
     },
     {
       q: c("Can my consultation be conducted in English?", "线上咨询可以使用英语吗？", "Можно ли провести консультацию на английском?"),
@@ -838,29 +761,60 @@ const HomeFaq = () => {
 
   return (
     <section className="container py-12 md:py-16" aria-labelledby="home-faq-title">
-      <div className="grid gap-7 rounded-[2rem] border border-primary/15 bg-card p-5 shadow-soft md:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] md:p-10">
-        <div className="md:pr-8">
-          <span className="pill mb-3 bg-accent text-accent-foreground"><HelpCircle className="size-3.5" /> {c("Payment FAQ", "费用常见问题", "Вопросы об оплате")}</span>
+      <div className="rounded-[2rem] border border-primary/15 bg-gradient-to-r from-[hsl(158,58%,90%)] via-[hsl(145,48%,91%)] to-[hsl(50,80%,91%)] p-5 shadow-soft md:p-10">
+        <div className="max-w-3xl">
+          <span className="pill mb-3 bg-accent text-accent-foreground"><HelpCircle className="size-3.5" /> {c("Payment, made simple", "付款方式，一眼看懂", "Оплата — всё просто")}</span>
           <h2 id="home-faq-title" className="font-display text-3xl font-medium tracking-tight sm:text-4xl md:text-5xl">
-            {c("Who gets paid, ", "费用由谁收取，", "Кто получает оплату — ")}<em className="not-italic text-primary">{c("made clear before you travel", "出发前先说清楚", "разберитесь до поездки")}</em>
+            {c("Simple, transparent payments. ", "付款简单透明，", "Простая и прозрачная оплата. ")}<em className="not-italic text-primary">{c("Know exactly where your money goes.", "每一笔都清楚去向。", "Вы точно знаете, куда идут ваши деньги.")}</em>
           </h2>
-          <Link to="/travel-packages" className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary/80">
-            {zh ? "查看行程支持" : "Explore travel support"}<ArrowRight className="size-4" />
-          </Link>
         </div>
 
-        <Accordion type="single" collapsible defaultValue="payment" className="overflow-hidden rounded-2xl border border-border/80 bg-background/60 px-4 sm:px-5">
-          {questions.map((item, index) => (
-            <AccordionItem key={item.q} value={index === 0 ? "payment" : `faq-${index}`} className="border-border/70">
-              <AccordionTrigger className="gap-4 py-5 text-left text-sm font-semibold hover:no-underline sm:text-base">
-                <span className="flex items-start gap-3"><span className="mt-0.5 font-mono text-[10px] text-primary">0{index + 1}</span>{item.q}</span>
-              </AccordionTrigger>
-              <AccordionContent className="pl-8 pr-2 text-sm leading-relaxed text-muted-foreground sm:text-[15px]">
-                {item.a}
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
+        <div className="mt-7 grid gap-4 md:grid-cols-2">
+          <article className="rounded-[1.5rem] border border-primary/15 bg-primary/[0.06] p-5 sm:p-6">
+            <div className="flex items-center gap-3">
+              <span className="grid size-11 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground"><Building2 className="size-5" /></span>
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary">{c("Medical treatment", "手术与医疗费用", "Медицинские услуги")}</p>
+                <h3 className="mt-1 font-display text-2xl font-medium text-foreground">{c("Pay the clinic directly", "直接支付给诊所或医院", "Оплачивайте напрямую клинике")}</h3>
+              </div>
+            </div>
+            <p className="mt-4 text-base leading-relaxed text-foreground/75">{c("Your clinic or hospital collects all surgery, examination and anesthesia fees. Cosmetics Asia does not collect your medical payment.", "手术、检查和麻醉等医疗费用均由诊所或医院直接收取，Cosmetics Asia 不代收。", "Операция, обследования и анестезия оплачиваются напрямую клинике или больнице. Cosmetics Asia не принимает медицинские платежи.")}</p>
+          </article>
+
+          <article className="rounded-[1.5rem] border border-amber-200/80 bg-amber-50/70 p-5 sm:p-6">
+            <div className="flex items-center gap-3">
+              <span className="grid size-11 shrink-0 place-items-center rounded-full bg-amber-100 text-amber-800"><Wallet className="size-5" /></span>
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.14em] text-amber-800">{c("Before departure", "出发前", "До вылета")}</p>
+                <h3 className="mt-1 font-display text-2xl font-medium text-foreground">{c("$400 coordination deposit", "支付 $400 协调押金", "Координационный депозит $400")}</h3>
+              </div>
+            </div>
+            <p className="mt-4 text-base leading-relaxed text-foreground/75">{c("It reserves your procedure appointment and coordinates airport pickup and in-clinic translation. It remains valid for 12 months and is refunded when you pay the clinic for treatment.", "用于保留手术预约，并协调机场接送和院内翻译。押金在 12 个月内有效，并在你向诊所支付治疗费用时退还。", "Он закрепляет время процедуры и помогает организовать трансфер и перевод в клинике. Депозит действует 12 месяцев и возвращается после оплаты лечения в клинике.")}</p>
+          </article>
+        </div>
+
+        <div className="mt-6 grid gap-5 border-t border-border/70 pt-6 md:grid-cols-[0.56fr_1.44fr] md:items-start">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary">{c("Need more detail?", "还想了解更多？", "Нужны подробности?")}</p>
+            <h3 className="mt-2 font-display text-2xl font-medium">{c("Common questions", "常见问题", "Частые вопросы")}</h3>
+            <Link to="/travel-packages" className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary/80">
+              {c("Explore travel support", "查看行程支持", "Подробнее о поддержке в поездке")}<ArrowRight className="size-4" />
+            </Link>
+          </div>
+
+          <Accordion type="single" collapsible className="overflow-hidden rounded-2xl border border-border/80 bg-background/60 px-4 sm:px-5">
+            {questions.slice(2).map((item, index) => (
+              <AccordionItem key={item.q} value={`faq-${index + 2}`} className="border-border/70">
+                <AccordionTrigger className="gap-4 py-4 text-left text-sm font-semibold hover:no-underline sm:text-base">
+                  <span className="flex items-start gap-3"><span className="mt-0.5 font-mono text-[10px] text-primary">0{index + 1}</span>{item.q}</span>
+                </AccordionTrigger>
+                <AccordionContent className="pl-8 pr-2 text-sm leading-relaxed text-muted-foreground sm:text-[15px]">
+                  {item.a}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
       </div>
     </section>
   );
@@ -870,13 +824,13 @@ const PromoBar = () => {
   const { t } = useAsia();
   return (
     <section className="container py-6 md:py-10">
-      <div className="grid items-center gap-5 rounded-3xl bg-gradient-to-r from-[hsl(340,85%,90%)] via-[hsl(50,80%,90%)] to-[hsl(var(--primary)/.28)] p-5 shadow-pop md:grid-cols-3 md:gap-6 md:p-10">
+      <div className="grid items-center gap-5 rounded-3xl bg-gradient-to-r from-[hsl(155,55%,91%)] via-[hsl(50,78%,93%)] to-[hsl(var(--primary)/.24)] p-5 shadow-pop md:grid-cols-3 md:gap-6 md:p-10">
         <div className="md:col-span-2">
           <span className="pill bg-card/80 backdrop-blur shadow-soft mb-3"><Gift className="size-3.5 text-primary" /> {t("promo.kicker")}</span>
           <h3 className="font-display text-3xl md:text-4xl font-medium tracking-tight">{t("promo.title")}</h3>
           <p className="text-sm text-foreground/70 mt-2">{t("promo.note")}</p>
         </div>
-        <Button size="lg" className="h-12 w-full justify-self-start rounded-full bg-primary px-6 text-primary-foreground hover:bg-primary/90 md:w-auto md:justify-self-end">
+        <Button size="lg" className="cta-primary h-12 w-full justify-self-start rounded-full px-6 md:w-auto md:justify-self-end">
           {t("promo.cta")} <ArrowRight className="ml-1 size-4" />
         </Button>
       </div>

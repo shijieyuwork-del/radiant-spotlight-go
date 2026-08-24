@@ -256,7 +256,7 @@ const Cases = () => {
             href="https://wa.me/14708613825?text=Hi%20Cosmetics%20Asia%2C%20I%20would%20like%20help%20choosing%20a%20doctor."
             target="_blank"
             rel="noreferrer"
-            className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl bg-primary px-6 py-3 text-sm font-bold text-primary-foreground shadow-pop transition hover:-translate-y-0.5 hover:bg-primary/90 md:mt-0 md:w-auto md:min-w-44 md:rounded-full"
+            className="cta-primary mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl px-6 py-3 text-sm font-bold transition md:mt-0 md:w-auto md:min-w-44 md:rounded-full"
           >
             {lang === "zh" ? "联系我们" : lang === "ru" ? "Связаться с нами" : "Contact us"}
             <ArrowRight className="size-4" />

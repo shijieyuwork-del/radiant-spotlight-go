@@ -64,7 +64,7 @@ const Destination = () => {
               ))}
             </div>
             <div className="flex flex-wrap gap-3 pt-2">
-              <Button size="lg" className="rounded-full">Find verified doctors <ArrowRight className="ml-1 size-4" /></Button>
+              <Button size="lg" className="cta-primary rounded-full">Find verified doctors <ArrowRight className="ml-1 size-4" /></Button>
               <Button size="lg" variant="outline" className="rounded-full">Free consultation</Button>
             </div>
           </div>

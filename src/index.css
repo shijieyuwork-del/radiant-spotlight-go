@@ -26,8 +26,8 @@
     --primary-soft: 155 60% 88%;
     --primary-glow: 158 70% 75%;
 
-    --secondary: 24 55% 91%;           /* restrained warm peach */
-    --secondary-foreground: 160 25% 15%;
+    --secondary: 150 34% 93%;          /* pale sage surface */
+    --secondary-foreground: 162 40% 18%;
 
     --accent: 342 58% 91%;             /* quiet blush, labels only */
     --accent-foreground: 160 25% 15%;
@@ -50,9 +50,9 @@
     --radius: 1.25rem;
 
     /* Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(155 55% 93%) 0%, hsl(50 55% 97%) 58%, hsl(342 45% 96%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(155 55% 93%) 0%, hsl(50 55% 97%) 58%, hsl(48 68% 94%) 100%);
     --gradient-mint: linear-gradient(135deg, hsl(var(--primary) / 0.38), hsl(var(--primary) / 0.12));
-    --gradient-peach: linear-gradient(135deg, hsl(18 90% 88%), hsl(340 85% 92%));
+    --gradient-peach: linear-gradient(135deg, hsl(155 48% 91%), hsl(48 68% 94%));
     --gradient-card: linear-gradient(180deg, hsl(48 60% 99%) 0%, hsl(50 40% 96%) 100%);
 
     /* Shadows */
@@ -78,11 +78,31 @@
     isolation: isolate;
     overflow: hidden;
     background:
-      radial-gradient(circle at -8% 12%, hsl(340 82% 90% / 0.28), transparent 28%),
-      radial-gradient(circle at 108% 39%, hsl(var(--primary) / 0.18), transparent 30%),
-      radial-gradient(circle at 4% 68%, hsl(50 82% 88% / 0.24), transparent 27%),
-      radial-gradient(circle at 96% 91%, hsl(340 82% 90% / 0.18), transparent 26%),
+      radial-gradient(circle at -8% 12%, hsl(155 70% 88% / 0.20), transparent 28%),
+      radial-gradient(circle at 108% 39%, hsl(var(--primary) / 0.10), transparent 30%),
+      radial-gradient(circle at 4% 68%, hsl(50 82% 88% / 0.15), transparent 27%),
+      radial-gradient(circle at 96% 91%, hsl(48 82% 88% / 0.13), transparent 26%),
       hsl(var(--background));
+  }
+
+  /* Conversion actions use one unmistakable, high-contrast treatment. */
+  .cta-primary {
+    background: #102c24 !important;
+    border-color: #102c24 !important;
+    color: #fff !important;
+    box-shadow: 0 16px 34px -18px rgb(16 44 36 / 0.78) !important;
+    transition: transform 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
+  }
+
+  .cta-primary:hover {
+    background: #1a4035 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 20px 38px -18px rgb(16 44 36 / 0.9) !important;
+  }
+
+  .cta-primary:focus-visible {
+    outline: 3px solid hsl(var(--primary) / 0.4);
+    outline-offset: 3px;
   }
 
   .home-content-flow > section {
@@ -97,7 +117,7 @@
     left: clamp(1rem, 5vw, 5rem);
     right: clamp(1rem, 5vw, 5rem);
     height: 1px;
-    background: linear-gradient(90deg, transparent, hsl(var(--primary) / 0.16), hsl(340 70% 72% / 0.13), transparent);
+    background: linear-gradient(90deg, transparent, hsl(var(--primary) / 0.18), hsl(48 70% 72% / 0.14), transparent);
   }
 
   .dark {

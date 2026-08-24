@@ -189,7 +189,7 @@ const Cities = () => {
 
       {/* City request callout */}
       <section className="container pb-20">
-        <div className="rounded-3xl border border-primary/15 bg-gradient-to-r from-[hsl(190,70%,92%)] via-[hsl(155,60%,90%)] to-[hsl(50,80%,92%)] p-6 md:p-9 grid md:grid-cols-3 gap-5 items-center shadow-soft">
+        <div className="rounded-3xl border border-primary/15 bg-gradient-to-r from-[hsl(155,55%,92%)] via-[hsl(150,48%,91%)] to-[hsl(50,78%,92%)] p-6 md:p-9 grid md:grid-cols-3 gap-5 items-center shadow-soft">
           <div className="md:col-span-2">
             <span className="pill mb-3 bg-background/80 text-foreground">
               <MapPin className="size-3.5 text-primary" />
@@ -221,7 +221,7 @@ const Cities = () => {
               )}`}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex min-h-12 w-full md:w-auto items-center justify-center gap-2 rounded-full bg-primary px-7 py-3 text-sm font-semibold text-primary-foreground shadow-soft transition hover:-translate-y-0.5 hover:bg-primary/90"
+              className="cta-primary inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full px-7 py-3 text-sm font-semibold transition md:w-auto"
             >
               <MessageCircle className="size-4" />
               {lang === "zh" ? "告诉我们" : lang === "ru" ? "Написать нам" : "Tell us"}

@@ -253,7 +253,7 @@ const CaseDetail = () => {
                 <Link to={`/doctors/demo/${caseDoctor.id}`} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-primary/30 px-4 text-sm font-semibold text-primary transition hover:bg-primary/10">
                   {lang === "zh" ? "查看这位医生" : lang === "ru" ? "Подробнее о враче" : "Browse this doctor"}<ArrowRight className="size-4" />
                 </Link>
-                <a href={`https://wa.me/14708613825?text=${encodeURIComponent(`Hi Cosmetics Asia, I’d like to ask about ${caseDoctor.name} and this ${item.treatment.en} case: https://cosmetics-asia.com/cases/${item.id}`)}`} target="_blank" rel="noreferrer" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-primary px-4 text-sm font-bold text-primary-foreground transition hover:bg-primary/90">
+                <a href={`https://wa.me/14708613825?text=${encodeURIComponent(`Hi Cosmetics Asia, I’d like to ask about ${caseDoctor.name} and this ${item.treatment.en} case: https://cosmetics-asia.com/cases/${item.id}`)}`} target="_blank" rel="noreferrer" className="cta-primary inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-4 text-sm font-bold transition">
                   {lang === "zh" ? "咨询这位医生" : lang === "ru" ? "Связаться по поводу врача" : "Contact us about this doctor"}<MessageCircle className="size-4" />
                 </a>
               </div>
@@ -298,7 +298,7 @@ const CaseDetail = () => {
                 href={`https://wa.me/14708613825?text=${encodeURIComponent(`Hi Cosmetics Asia, I’m interested in this ${item.treatment.en} case: https://cosmetics-asia.com/cases/${item.id}`)}`}
                 target="_blank"
                 rel="noreferrer"
-                className="mt-5 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl bg-primary px-6 py-3 text-sm font-bold text-primary-foreground shadow-pop transition hover:-translate-y-0.5 hover:bg-primary/90 sm:w-auto sm:rounded-full"
+                className="cta-primary mt-5 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl px-6 py-3 text-sm font-bold transition sm:w-auto sm:rounded-full"
               >
                 {lang === "zh" ? "联系我们" : lang === "ru" ? "Связаться с нами" : "Contact us about this case"}
                 <ArrowRight className="size-4" />

@@ -260,7 +260,7 @@ const Doctors = () => {
                       <Link to={d.demo ? "/doctors" : `/doctors/profile/${d.id}`} className="flex min-h-12 items-center justify-center rounded-xl border border-primary/30 px-3 py-3 text-center text-xs font-semibold text-primary hover:bg-primary/10">
                         {c("Doctor & cases", "医生与案例", "Врач и истории пациентов")}
                       </Link>
-                      <button type="button" onClick={() => open({ doctorName: d.name, city: d.city })} className="flex min-h-12 items-center justify-center gap-1.5 rounded-xl bg-primary px-3 py-3 text-center text-[13px] font-semibold leading-tight text-primary-foreground hover:bg-primary/90">
+                      <button type="button" onClick={() => open({ doctorName: d.name, city: d.city })} className="cta-primary flex min-h-12 items-center justify-center gap-1.5 rounded-xl px-3 py-3 text-center text-[13px] font-semibold leading-tight">
                         {c("Book free consultation", "预约免费视频咨询", "Записаться на бесплатную консультацию")}<ArrowRight className="size-4" />
                       </button>
                     </div>
@@ -365,7 +365,7 @@ const Doctors = () => {
                   <button
                     type="button"
                     onClick={() => open({ doctorName: lang === "zh" ? d.zh : d.en, city: lang === "zh" ? d.cityZh : d.cityEn })}
-                    className="flex min-h-12 items-center justify-center gap-1.5 rounded-xl bg-primary px-3 py-3 text-center text-[13px] font-semibold leading-tight text-primary-foreground transition hover:bg-primary/90"
+                    className="cta-primary flex min-h-12 items-center justify-center gap-1.5 rounded-xl px-3 py-3 text-center text-[13px] font-semibold leading-tight transition"
                   >
                     {c("Book a Free Video Consultation", "预约免费视频咨询", "Записаться на бесплатную видеоконсультацию")}<ArrowRight className="size-4" />
                   </button>
@@ -396,7 +396,7 @@ const Doctors = () => {
             href="https://wa.me/14708613825?text=Hi%20Cosmetics%20Asia%2C%20I%20would%20like%20help%20choosing%20a%20doctor."
             target="_blank"
             rel="noreferrer"
-            className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl bg-primary px-6 py-3 text-sm font-bold text-primary-foreground shadow-pop transition hover:-translate-y-0.5 hover:bg-primary/90 md:mt-0 md:w-auto md:min-w-44 md:rounded-full"
+            className="cta-primary mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl px-6 py-3 text-sm font-bold transition md:mt-0 md:w-auto md:min-w-44 md:rounded-full"
           >
             {lang === "zh" ? "联系我们" : lang === "ru" ? "Связаться с нами" : "Contact us"}
             <ArrowRight className="size-4" />

@@ -1,8 +1,26 @@
-import { Link } from "react-router-dom";
-import { Check, Sparkles, Crown, Gem, ArrowRight, ShieldCheck, Plane, Hotel, Languages, Files, Headphones, FileText, Video, Route, HeartPulse, Map, MessageCircle } from "lucide-react";
+import {
+  ArrowRight,
+  Building2,
+  Check,
+  ChevronRight,
+  CircleDollarSign,
+  Files,
+  Headphones,
+  HeartPulse,
+  Hotel,
+  Languages,
+  Map,
+  MessageCircle,
+  Plane,
+  Route,
+  ShieldCheck,
+  Video,
+  Wallet,
+} from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useAsia } from "@/lib/asia-i18n";
 import { asiaCopy } from "@/lib/asia-copy";
 import serviceAirportPickup from "@/assets/service-airport-pickup.jpg";
@@ -12,582 +30,426 @@ import serviceMedicalRecords from "@/assets/service-medical-records.jpg";
 import serviceOnlineConcierge from "@/assets/service-online-concierge.jpg";
 import cityHangzhou from "@/assets/city-hangzhou.jpg";
 
-type Pkg = {
-  id: string;
-  nameEn: string; nameZh: string;
-  price: number;
-  originalPrice?: number;
-  taglineEn: string; taglineZh: string;
-  icon: React.ComponentType<{ className?: string }>;
-  grad: string;
-  highlight?: boolean;
-  includesEn?: string;
-  includesZh?: string;
-  features: { en: string; zh: string; noteEn?: string; noteZh?: string; bold?: boolean }[];
-};
-
-const PACKAGES: Pkg[] = [
-  {
-    id: "basic",
-    nameEn: "Free Package", nameZh: "免费套餐",
-    price: 0,
-    taglineEn: "Essential travel support at no service fee",
-    taglineZh: "基础旅行协助 · 免服务费",
-    icon: Sparkles,
-    grad: "from-[hsl(158,34%,93%)] to-[hsl(48,45%,97%)]",
-    features: [
-      { en: "$400 Coordination Deposit — Confirms Airport Pickup & Secures Your Procedure Appointment; Refunded When You Pay the Clinic", zh: "400 美元协调押金 — 用于确认机场接送并保留手术预约名额；在诊所支付手术费用时退还", bold: true },
-      { en: "1-on-1 In-Hospital Accompaniment (1 Day)", zh: "1 对 1 院内陪同（1 天）", bold: true },
-      { en: "Airport Pickup & Drop-off", zh: "机场接送" },
-      { en: "Hotel Near the Clinic", zh: "诊所附近酒店" },
-      { en: "In-Clinic Translation Service", zh: "诊所内翻译服务" },
-      { en: "Professional Medical Records Translation & Organization", zh: "专业病历翻译与整理" },
-      { en: "Daily Online Concierge Support (10:00 AM – 10:00 PM Beijing Time, 7 Days · WeChat / WhatsApp / Message)", zh: "每日在线管家支持（北京时间 10:00–22:00 · 7 天 · 微信 / WhatsApp / 短信）" },
-    ],
-  },
-  {
-    id: "gold",
-    nameEn: "Gold Package", nameZh: "金牌套餐",
-    price: 699,
-    originalPrice: 1099,
-    taglineEn: "Most popular · stay + accompaniment included",
-    taglineZh: "人气之选 · 含住宿与陪同",
-    icon: Crown,
-    grad: "from-[hsl(340,48%,94%)] to-[hsl(48,45%,97%)]",
-    highlight: true,
-    includesEn: "Everything in the Free Package, plus:",
-    includesZh: "包含免费套餐的全部服务，另加：",
-    features: [
-      { en: "1-on-1 In-Hospital Accompaniment (4 Days)", zh: "1 对 1 院内陪同（4 天）", bold: true },
-      { en: "7-Night Stay in a Comfortable 3-Star Hotel — Included", zh: "舒适三星级酒店 7 晚住宿 — 已含", bold: true },
-      { en: "Extra Nights Available (+$50 / night · Up to 20 Days Total)", zh: "可额外加住（+50 美元/晚 · 最长 20 天）" },
-    ],
-  },
-  {
-    id: "diamond",
-    nameEn: "Diamond VIP Package", nameZh: "钻石尊享套餐",
-    price: 1999,
-    originalPrice: 2799,
-    taglineEn: "End-to-end VIP · 5-star stay & private guide",
-    taglineZh: "尊享一站式 · 五星酒店 + 私人导游",
-    icon: Gem,
-    grad: "from-[hsl(158,30%,94%)] to-[hsl(340,45%,95%)]",
-    includesEn: "Everything in Gold, with the following services upgraded:",
-    includesZh: "包含金牌套餐的全部服务，以下项目升级为：",
-    features: [
-      { en: "Unlimited 1-on-1 In-Hospital Accompaniment — Replaces the 4-Day Limit", zh: "不限天数的 1 对 1 院内陪同 — 替代原 4 天限制", bold: true },
-      { en: "1-on-1 Private Tour Guide in China with a Customized Itinerary (Up to 5 Days)", zh: "中国境内 1 对 1 私人导游及定制行程（最多 5 天）", bold: true },
-      { en: "7-Night 5-Star Hotel Stay — Upgrade from the 3-Star Hotel", zh: "五星级酒店 7 晚住宿 — 由三星级酒店升级", bold: true },
-      { en: "Additional Nights: $100 / Night (Up to 20 Days Total)", zh: "额外住宿：100 美元/晚（总行程最长 20 天）" },
-    ],
-  },
-];
-
-const PACKAGE_SNAPSHOTS = [
-  {
-    en: "1 day of in-hospital accompaniment",
-    zh: "1 天院内陪同",
-    detailEn: "Core travel support · no service fee",
-    detailZh: "基础旅行支持 · 免服务费",
-  },
-  {
-    en: "4 days of accompaniment + hotel",
-    zh: "4 天院内陪同 + 酒店",
-    detailEn: "Best for a standard recovery trip",
-    detailZh: "适合常规恢复行程",
-  },
-  {
-    en: "Unlimited accompaniment + VIP stay",
-    zh: "不限天数陪同 + 尊享住宿",
-    detailEn: "5-star hotel and private tour guide",
-    detailZh: "五星酒店及私人导游",
-  },
-] as const;
-
-const SERVICE_DETAILS = [
-  {
-    titleEn: "Airport Pickup & Drop-off",
-    titleZh: "机场接送",
-    descriptionEn: "We coordinate your arrival details in advance and arrange a direct transfer between the airport and your confirmed hotel or clinic. If your flight time changes, message your coordinator so the pickup can be adjusted.",
-    descriptionZh: "我们会提前确认抵达信息，并安排机场与已确认酒店或诊所之间的点对点接送。如航班时间发生变化，可联系协调员调整接机安排。",
-    noteEn: "Arrival details confirmed before travel",
-    noteZh: "出发前确认抵达信息",
-    image: serviceAirportPickup,
-    icon: Plane,
-  },
-  {
-    titleEn: "Hotel Near the Clinic",
-    titleZh: "酒店预订协助",
-    descriptionEn: "Tell us your dates, budget and recovery needs. We help shortlist suitable hotels, check practical details and coordinate the reservation. Hotel charges are separate unless your selected package specifically includes accommodation.",
-    descriptionZh: "告知我们日期、预算和恢复需求，我们会协助筛选合适酒店、确认实用细节并协调预订。除非所选套餐明确包含住宿，酒店费用需另行支付。",
-    noteEn: "Options matched to your itinerary and budget",
-    noteZh: "根据行程和预算匹配选项",
-    image: serviceHotelBooking,
-    icon: Hotel,
-  },
-  {
-    titleEn: "In-Clinic Translation Service",
-    titleZh: "诊所内翻译服务",
-    descriptionEn: "A bilingual coordinator helps you communicate during scheduled clinic visits, including consultation questions, care instructions and practical next steps. Medical decisions and advice remain the responsibility of the treating clinician.",
-    descriptionZh: "双语协调员会在预约的诊所行程中协助沟通，包括面诊问题、护理说明及后续安排。医疗决定与建议仍由接诊医生负责。",
-    noteEn: "Clearer communication during clinic visits",
-    noteZh: "让诊所内沟通更清楚",
-    image: serviceClinicTranslation,
-    icon: Languages,
-  },
-  {
-    titleEn: "Professional Medical Records Translation & Organization",
-    titleZh: "专业病历翻译与整理",
-    descriptionEn: "We organize the records you provide and translate relevant information into a clear review file for the clinic. Personal documents are handled only for care coordination; certified or legal translation is not included unless separately agreed.",
-    descriptionZh: "我们会整理你提供的病历，并将相关信息翻译成便于诊所审核的文件。个人资料仅用于医疗协调；认证或法律用途翻译需另行确认。",
-    noteEn: "Structured files prepared for clinical review",
-    noteZh: "为诊所审核准备结构化文件",
-    image: serviceMedicalRecords,
-    icon: Files,
-  },
-  {
-    titleEn: "Daily Online Concierge Support",
-    titleZh: "每日在线管家支持",
-    descriptionEn: "For seven days, contact your coordinator by WeChat, WhatsApp or message from 10:00 AM to 10:00 PM Beijing Time for itinerary, booking and service questions. This is not an emergency or 24-hour medical line.",
-    descriptionZh: "连续 7 天可在北京时间 10:00–22:00 通过微信、WhatsApp 或短信联系协调员，咨询行程、预订及服务问题。本服务不是急救或 24 小时医疗热线。",
-    noteEn: "10:00 AM–10:00 PM Beijing Time · 7 days",
-    noteZh: "北京时间 10:00–22:00 · 7 天",
-    image: serviceOnlineConcierge,
-    icon: Headphones,
-  },
-] as const;
+const WHATSAPP_START =
+  "https://wa.me/14708613825?text=Hi%20Cosmetics%20Asia%2C%20I%20would%20like%20to%20book%20a%20free%20consultation%20and%20plan%20my%20care%20journey%20to%20China.";
 
 const JOURNEY_STEPS = [
   {
-    number: "01",
-    eyebrowEn: "Consultation · $99–$699",
-    eyebrowZh: "在线咨询",
-    titleEn: "Book your medical consultation",
-    titleZh: "预约医疗咨询",
-    descriptionEn: "Choose a doctor or hospital in China, or let us recommend suitable specialists after reviewing the records you provide. Your consultation plan may include a pre-meeting, a recorded 40-minute one-on-one video consultation, professional translation and a written summary.",
-    descriptionZh: "选择你心仪的中国医生或医院，也可以提交病历，由我们协助匹配合适的专家。咨询方案可包含会前病历梳理、40 分钟一对一视频面诊、专业翻译及书面总结。",
-    noteEn: "Dental and cosmetic consultations may start at $99; complex multidisciplinary cases may range from $399–$699. The final fee is confirmed before booking.",
-    noteZh: "",
     icon: Video,
     image: serviceMedicalRecords,
+    eyebrow: ["Free consultation", "免费咨询", "Бесплатная консультация"],
+    title: ["Tell us what you are considering", "告诉我们你正在考虑什么", "Расскажите, что вы рассматриваете"],
+    text: [
+      "Share the procedure, city, timing and questions you have. We help you organize the next steps and identify suitable specialists.",
+      "告诉我们关注的项目、城市、时间和疑问。我们会协助梳理下一步，并匹配合适的专家。",
+      "Расскажите о процедуре, городе, сроках и вопросах. Мы поможем определить следующие шаги и подходящих специалистов.",
+    ],
   },
   {
-    number: "02",
-    eyebrowEn: "Flights & documents",
-    eyebrowZh: "航班与签证材料",
-    titleEn: "Arrange your travel & visa",
-    titleZh: "安排行程与签证",
-    descriptionEn: "Once your appointment is confirmed, we help organize arrival details and the documents needed for your trip. Eligible partner-hospital bookings may include airport pickup and assistance getting connected after arrival.",
-    descriptionZh: "面诊确认后，我们协助梳理抵达信息和行程所需文件。符合条件的合作医院预约可包含机场接送，以及抵达后的通信设置协助。",
-    noteEn: "If a visa is required, we can help arrange a Medical Invitation Letter. Share confirmed flight details at least five days before arrival.",
-    noteZh: "如需签证，我们可协助准备医疗邀请函。请至少提前 5 天提供已确认的航班信息。",
     icon: Plane,
     image: serviceAirportPickup,
+    eyebrow: ["Appointment & documents", "预约与文件", "Запись и документы"],
+    title: ["Confirm your care and travel plan", "确认就医与出行计划", "Подтвердите план лечения и поездки"],
+    text: [
+      "Once your appointment is confirmed, we help organize arrival details, travel documents and any required medical invitation letter.",
+      "预约确认后，我们协助整理抵达信息、旅行文件及需要的医疗邀请函。",
+      "После подтверждения записи мы поможем подготовить детали прибытия, документы и медицинское приглашение при необходимости.",
+    ],
   },
   {
-    number: "03",
-    eyebrowEn: "Before departure",
-    eyebrowZh: "出发前准备",
-    titleEn: "Choose your on-ground support",
-    titleZh: "选择落地支持方案",
-    descriptionEn: "Confirm the support services that match your needs. Before departure, receive your itinerary, pickup details, accommodation information and practical arrival guidance in one place.",
-    descriptionZh: "根据需求确认所需的协助服务。出发前，你会收到行程、接机安排、住宿信息及实用抵达指南。",
-    noteEn: "Your coordinator confirms what is included, what is optional and any separately payable costs before you travel.",
-    noteZh: "出发前，协调员会说明包含服务、可选服务及需要另行支付的费用。",
     icon: Route,
     image: serviceHotelBooking,
+    eyebrow: ["Before departure", "出发前", "До вылета"],
+    title: ["Know the details before you fly", "出发前掌握所有细节", "Знайте все детали до вылета"],
+    text: [
+      "Receive your confirmed appointment, pickup details, accommodation guidance and a clear list of included and optional support.",
+      "获得已确认的预约、接机信息、住宿建议，以及包含和可选服务的清晰说明。",
+      "Получите подтверждение записи, детали трансфера, рекомендации по проживанию и ясный список включённых и дополнительных услуг.",
+    ],
   },
   {
-    number: "04",
-    eyebrowEn: "Clinic & recovery",
-    eyebrowZh: "就诊与恢复",
-    titleEn: "Treatment with coordinated support",
-    titleZh: "就诊及恢复期协调",
-    descriptionEn: "For included clinic visits, a bilingual coordinator can support communication between you and the treating team. We also help coordinate practical next steps during your scheduled support period.",
-    descriptionZh: "在套餐包含的诊所行程中，双语协调员可协助你与医疗团队沟通，并在约定的服务时段内协调实际后续安排。",
-    noteEn: "Medical decisions remain with your licensed treating clinician. Concierge support is available during the hours shown in your selected package.",
-    noteZh: "医疗决定由持证接诊医生负责；在线管家支持时间以所选套餐说明为准。",
     icon: HeartPulse,
     image: serviceClinicTranslation,
+    eyebrow: ["Clinic visits", "院内就诊", "Визиты в клинику"],
+    title: ["Communicate with confidence", "更安心地完成院内沟通", "Общайтесь уверенно"],
+    text: [
+      "A bilingual coordinator supports practical communication and scheduling during included clinic visits. Medical decisions stay with your treating clinician.",
+      "在包含的诊所行程中，双语协调员协助实际沟通与安排；医疗决定由接诊医生负责。",
+      "Двуязычный координатор помогает с общением и расписанием во время включённых визитов. Медицинские решения принимает лечащий врач.",
+    ],
   },
   {
-    number: "05",
-    eyebrowEn: "Optional China itinerary",
-    eyebrowZh: "可选中国行程",
-    titleEn: "Recover—and explore when ready",
-    titleZh: "安心恢复，状态允许时探索中国",
-    descriptionEn: "If your clinician agrees that you are ready to travel, we can connect you with trusted travel providers or help shape a personalized itinerary around your recovery needs.",
-    descriptionZh: "如医生确认身体状态适合出行，我们可以为你对接可信赖的旅行服务商，或根据恢复需求协助规划个性化行程。",
-    noteEn: "Touring is optional and should never replace clinical recovery instructions.",
-    noteZh: "旅游完全自愿，并应始终以医生的恢复指导为优先。",
     icon: Map,
     image: cityHangzhou,
+    eyebrow: ["Recovery", "恢复期", "Восстановление"],
+    title: ["Recover first, explore when ready", "安心恢复，适合时再探索", "Сначала восстановитесь, затем путешествуйте"],
+    text: [
+      "Follow your clinician’s recovery advice. If you are cleared to travel, we can help shape an optional itinerary around your needs.",
+      "始终遵循医生的恢复建议；获得许可后，我们可按你的需求协助规划自愿行程。",
+      "Следуйте рекомендациям врача. После разрешения на поездки мы можем помочь составить дополнительный маршрут.",
+    ],
   },
   {
-    number: "06",
-    eyebrowEn: "After you return home",
-    eyebrowZh: "回国后的联系",
-    titleEn: "Post-treatment follow-up",
-    titleZh: "术后随访协调",
-    descriptionEn: "Stay connected through WhatsApp, WeChat or email after returning home. When your doctor recommends a follow-up, we help coordinate the remote appointment and translation.",
-    descriptionZh: "回国后可继续通过 WhatsApp、微信或电子邮件保持联系。如医生建议复诊，我们会协助协调远程随访及翻译。",
-    noteEn: "Know someone planning care in China? Ask our team whether a current referral benefit is available.",
-    noteZh: "身边有人计划来中国就医？可以联系我们了解当前是否有推荐奖励。",
     icon: MessageCircle,
     image: serviceOnlineConcierge,
+    eyebrow: ["After you return", "回国后", "После возвращения"],
+    title: ["Stay connected after you go home", "回国后继续保持联系", "Оставайтесь на связи дома"],
+    text: [
+      "When your doctor recommends follow-up, we help coordinate the remote appointment, communication and translation.",
+      "医生建议复诊时，我们协助协调远程预约、沟通与翻译。",
+      "Если врач рекомендует наблюдение, мы поможем организовать дистанционный приём, общение и перевод.",
+    ],
   },
 ] as const;
 
-// Keep the sales section easy to restore after the temporary pause.
-const SHOW_PACKAGE_SALES = false;
-
-const JOURNEY_RU = [
-  ["Онлайн-консультация", "Запишитесь на медицинскую консультацию", "Выберите врача или клинику в Китае либо отправьте медицинские документы, чтобы мы помогли подобрать подходящего специалиста. План может включать предварительный разбор документов, 40-минутную видеоконсультацию, перевод и письменное резюме.", ""],
-  ["Перелёт и документы", "Организуйте поездку и визу", "После подтверждения приёма мы поможем подготовить детали прибытия и необходимые документы. Для подходящих записей в партнёрские клиники может быть доступен трансфер из аэропорта и помощь после прилёта.", "Если требуется виза, мы можем помочь оформить медицинское приглашение. Сообщите подтверждённые данные рейса минимум за пять дней до прибытия."],
-  ["До вылета", "Выберите поддержку на месте", "Выберите объём сопровождения в соответствии с вашими потребностями. До вылета вы получите подтверждённый маршрут, данные трансфера, информацию об отеле и практические инструкции.", "Координатор заранее подтвердит, что включено, что доступно дополнительно и какие расходы оплачиваются отдельно."],
-  ["Клиника и восстановление", "Лечение с координационной поддержкой", "Во время включённых визитов двуязычный координатор помогает общаться с лечащей командой и организовать практические следующие шаги.", "Медицинские решения принимает лицензированный лечащий врач. Поддержка доступна в часы, указанные в выбранном плане."],
-  ["Дополнительная поездка", "Восстанавливайтесь и путешествуйте, когда будете готовы", "Если врач разрешит поездки, мы можем познакомить вас с проверенными туристическими партнёрами или помочь составить маршрут с учётом восстановления.", "Экскурсии необязательны и не заменяют рекомендации врача по восстановлению."],
-  ["После возвращения", "Последующее сопровождение", "После возвращения домой оставайтесь на связи через WhatsApp, WeChat или электронную почту. При необходимости мы поможем организовать дистанционную консультацию и перевод.", "Знаете человека, который планирует лечение в Китае? Спросите нашу команду о действующей реферальной программе."],
-] as const;
-
-const SERVICES_RU = [
-  ["Трансфер из аэропорта", "Мы заранее уточняем данные прибытия и организуем прямой трансфер между аэропортом и подтверждённым отелем или клиникой.", "Данные прибытия подтверждаются до поездки"],
-  ["Отель рядом с клиникой", "Сообщите даты, бюджет и требования к восстановлению. Мы предложим подходящие варианты и поможем согласовать бронирование.", "Варианты подбираются под маршрут и бюджет"],
-  ["Перевод в клинике", "Двуязычный координатор помогает общаться во время запланированных визитов, включая вопросы врачу, инструкции по уходу и следующие шаги.", "Понятное общение во время визитов"],
-  ["Перевод и подготовка медицинских документов", "Мы систематизируем предоставленные документы и переводим важную информацию в удобный для клиники файл.", "Документы подготовлены для медицинского рассмотрения"],
-  ["Ежедневная онлайн-поддержка", "В течение семи дней можно связаться с координатором через WeChat, WhatsApp или сообщения с 10:00 до 22:00 по пекинскому времени.", "10:00–22:00 по пекинскому времени · 7 дней"],
+const SUPPORT_SERVICES = [
+  {
+    icon: Plane,
+    image: serviceAirportPickup,
+    title: ["Airport pickup & drop-off", "机场接送", "Трансфер из аэропорта"],
+    text: [
+      "Direct transfer between the airport and your confirmed hotel or clinic, coordinated around your arrival details.",
+      "根据抵达信息，协调机场与已确认酒店或诊所之间的点对点接送。",
+      "Прямой трансфер между аэропортом и подтверждённым отелем или клиникой с учётом деталей прибытия.",
+    ],
+  },
+  {
+    icon: Languages,
+    image: serviceClinicTranslation,
+    title: ["In-clinic translation", "院内翻译", "Перевод в клинике"],
+    text: [
+      "Bilingual communication support for questions, care instructions and practical next steps during included visits.",
+      "在包含的诊所行程中，协助问题沟通、护理说明和实际后续安排。",
+      "Двуязычная помощь при вопросах, инструкциях по уходу и дальнейших шагах во время включённых визитов.",
+    ],
+  },
+  {
+    icon: Hotel,
+    image: serviceHotelBooking,
+    title: ["Accommodation guidance", "住宿建议", "Помощь с проживанием"],
+    text: [
+      "Hotel options shortlisted around your clinic, dates, budget and recovery needs. Hotel charges are paid separately.",
+      "根据诊所位置、日期、预算和恢复需求筛选酒店；住宿费用需另行支付。",
+      "Подбор отелей рядом с клиникой с учётом дат, бюджета и восстановления. Проживание оплачивается отдельно.",
+    ],
+  },
+  {
+    icon: Files,
+    image: serviceMedicalRecords,
+    title: ["Records organization", "病历整理", "Подготовка документов"],
+    text: [
+      "The records you provide are organized into a clearer review file; relevant information can be translated for care coordination.",
+      "将你提供的病历整理成便于审核的文件，并可为就医协调翻译相关信息。",
+      "Предоставленные документы систематизируются в понятный файл; важная информация может быть переведена для координации лечения.",
+    ],
+  },
+  {
+    icon: Headphones,
+    image: serviceOnlineConcierge,
+    title: ["Online concierge support", "在线管家支持", "Онлайн-поддержка"],
+    text: [
+      "Message your coordinator for itinerary, booking and service questions during the confirmed support period.",
+      "在已确认的支持时段内，可联系协调员咨询行程、预订和服务问题。",
+      "Связывайтесь с координатором по вопросам маршрута, бронирования и услуг в подтверждённый период поддержки.",
+    ],
+  },
 ] as const;
 
 const Packages = () => {
   const { lang } = useAsia();
   const c = <T,>(en: T, zh: T, ru: T) => asiaCopy(lang, { en, zh, ru });
+  const pick = (values: readonly [string, string, string]) => c(values[0], values[1], values[2]);
+
+  const faqs = [
+    {
+      q: c("What does the $400 deposit cover?", "400 美元押金用于什么？", "Для чего нужен депозит $400?"),
+      a: c(
+        "It reserves your procedure appointment and lets us coordinate airport pickup and in-clinic translation. It remains valid for 12 months and is refunded when you pay the clinic for treatment.",
+        "用于保留手术预约，并让我们协调机场接送和院内翻译。押金在 12 个月内有效，并在你向诊所支付治疗费用时退还。",
+        "Он закрепляет время процедуры и позволяет организовать трансфер и перевод в клинике. Депозит действует 12 месяцев и возвращается после оплаты лечения в клинике."
+      ),
+    },
+    {
+      q: c("Who receives my medical payment?", "医疗费用支付给谁？", "Кому оплачиваются медицинские услуги?"),
+      a: c(
+        "All surgery, examination, anesthesia and other medical fees are charged directly by the clinic or hospital. Cosmetics Asia does not collect your medical payment.",
+        "手术、检查、麻醉和其他医疗费用均由诊所或医院直接收取，Cosmetics Asia 不代收医疗费用。",
+        "Операция, обследования, анестезия и другие медицинские услуги оплачиваются напрямую клинике или больнице."
+      ),
+    },
+    {
+      q: c("Is the consultation really free?", "咨询真的免费吗？", "Консультация действительно бесплатная?"),
+      a: c(
+        "Your initial conversation with our coordination team is free and carries no obligation. If a doctor or hospital charges for a medical consultation, we confirm that cost before you book.",
+        "与我们协调团队的首次沟通免费且无需承诺。如医生或医院收取医疗咨询费，我们会在预约前确认。",
+        "Первичная беседа с нашей командой бесплатна и ни к чему не обязывает. Если врач или клиника взимает плату за медицинскую консультацию, мы сообщим об этом до записи."
+      ),
+    },
+    {
+      q: c("What if my travel date changes?", "如果行程日期改变怎么办？", "Что делать, если дата поездки изменится?"),
+      a: c(
+        "Tell your coordinator as early as possible. Your $400 deposit remains valid for 12 months, and we will help update eligible appointment and support arrangements.",
+        "请尽早告知协调员。400 美元押金在 12 个月内有效，我们会协助更新符合条件的预约和支持安排。",
+        "Сообщите координатору как можно раньше. Депозит $400 действует 12 месяцев, и мы поможем обновить доступные записи и услуги."
+      ),
+    },
+  ];
+
   return (
     <>
       <PageMeta
-        title="Medical Travel Packages"
-        description="Compare concierge packages for your Asia surgery trip — airport pickup, in-clinic translation, hotel help, and coordinated aftercare."
+        title="China Medical Travel Support | Cosmetics Asia"
+        description="Plan cosmetic care in China with clear payment terms, airport pickup, in-clinic translation, accommodation guidance and coordinated follow-up."
         path="/travel-packages"
       />
       <div className="min-h-screen bg-background">
         <AsiaNavbar />
-
-      {/* Hero */}
-      <section className="container py-9 text-center md:py-16">
-        <span className="pill bg-accent text-accent-foreground mb-3">
-          <Sparkles className="size-3.5" />
-          {c("Medical travel support", "中国医疗行程支持", "Поддержка медицинской поездки")}
-        </span>
-        <h1 className="mx-auto max-w-3xl font-display text-[2.15rem] font-medium leading-[1.04] tracking-tight sm:text-4xl md:text-5xl">
-          {lang === "zh" ? (
-            <>安心安排你的<em className="text-primary not-italic">中国就医之旅</em></>
-          ) : lang === "ru" ? (
-            <>Поддержка вашей <em className="text-primary not-italic">поездки на лечение в Китай</em></>
-          ) : (
-            <>Support for your <em className="text-primary not-italic">care journey in China</em></>
-          )}
-        </h1>
-      </section>
-
-      {/* Packages grid */}
-      <section className="container pb-16 md:pb-20">
-        {SHOW_PACKAGE_SALES && (
-          <>
-        <div className="mb-3 flex items-center justify-between gap-3">
-          <p className="text-sm font-semibold text-foreground">{lang === "zh" ? "三档套餐，一眼看懂区别" : "Compare the three options at a glance"}</p>
-          <span className="hidden text-xs text-muted-foreground sm:inline">{lang === "zh" ? "点击可跳转到套餐" : "Select to jump to details"}</span>
-        </div>
-        <nav className="-mx-4 mb-7 flex snap-x gap-3 overflow-x-auto px-4 pb-3 scrollbar-hide md:mx-0 md:grid md:grid-cols-3 md:px-0" aria-label={lang === "zh" ? "套餐快捷入口" : "Package shortcuts"}>
-          {PACKAGES.map((p, index) => (
-            <a key={p.id} href={`#package-${p.id}`} className={`min-w-[82vw] snap-start rounded-2xl bg-gradient-to-br ${p.grad} p-[1px] shadow-soft transition hover:-translate-y-1 hover:shadow-pop sm:min-w-[17rem] md:min-w-0`}>
-              <span className="flex h-full min-h-[7.5rem] flex-col rounded-[15px] bg-card/90 px-5 py-4 backdrop-blur">
-                <span className="flex items-center justify-between gap-3">
-                  <span className="text-sm font-semibold">{lang === "zh" ? p.nameZh : p.nameEn}</span>
-                  <span className="font-display text-2xl font-semibold text-primary">${p.price.toLocaleString()}</span>
+        <main>
+          <section className="relative overflow-hidden border-b border-primary/10">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_15%,hsl(158_58%_88%/.85),transparent_34%),radial-gradient(circle_at_88%_18%,hsl(48_80%_89%/.8),transparent_32%),linear-gradient(135deg,hsl(45_30%_98%),hsl(150_28%_97%))]" />
+            <div className="container relative grid items-center gap-10 py-12 md:py-16 lg:grid-cols-[1.02fr_.98fr] lg:gap-14 lg:py-20">
+              <div>
+                <span className="pill bg-white/85 text-foreground shadow-soft backdrop-blur">
+                  <ShieldCheck className="size-3.5 text-primary" />
+                  {c("Clear support before, during and after your trip", "从出发前到回国后的清晰支持", "Понятная поддержка до, во время и после поездки")}
                 </span>
-                <strong className="mt-3 text-base leading-snug text-foreground">{lang === "zh" ? PACKAGE_SNAPSHOTS[index].zh : PACKAGE_SNAPSHOTS[index].en}</strong>
-                <span className="mt-1 text-xs text-muted-foreground">{lang === "zh" ? PACKAGE_SNAPSHOTS[index].detailZh : PACKAGE_SNAPSHOTS[index].detailEn}</span>
-              </span>
-            </a>
-          ))}
-        </nav>
-        <div className="mx-auto mb-10 flex max-w-4xl items-start gap-3 rounded-2xl border border-border/70 bg-secondary/45 px-5 py-4 shadow-soft">
-          <div className="grid size-9 shrink-0 place-items-center rounded-xl bg-card text-primary shadow-soft"><FileText className="size-4" /></div>
-          <div>
-            <p className="text-sm font-semibold text-foreground">
-              {lang === "zh" ? "需要签证函？我们可以协助办理" : "Need a visa letter? We can help"}
-            </p>
-            <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground sm:text-sm">
-            {lang === "zh"
-              ? "医疗邀请函为可选服务；如你的签证申请需要，我们可以协助准备。"
-              : "A Medical Invitation Letter is optional. If your visa application requires one, we can help arrange it."}
-            </p>
-          </div>
-        </div>
-        <div className="grid items-stretch gap-4 md:grid-cols-3 md:gap-6">
-          {PACKAGES.map((p) => {
-            const Icon = p.icon;
-            return (
-              <div
-                id={`package-${p.id}`}
-                key={p.id}
-                className={`relative scroll-mt-20 rounded-3xl bg-gradient-to-br ${p.grad} p-1 ${
-                  p.highlight ? "shadow-pop md:-translate-y-3" : "shadow-soft"
-                }`}
-              >
-                {p.highlight && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 text-[11px] px-3 py-1 rounded-full bg-foreground text-background font-semibold uppercase tracking-wider whitespace-nowrap">
-                    {lang === "zh" ? "最受欢迎" : "Most popular"}
-                  </span>
-                )}
-                <div className="flex h-full flex-col rounded-[22px] bg-card p-5 md:p-7">
-                  <div className="-mx-2 -mt-2 rounded-2xl border border-border/40 bg-secondary/45 p-4">
-                  <div className="flex items-center gap-3">
-                    <div className="size-11 rounded-2xl bg-accent grid place-items-center">
-                      <Icon className="size-5 text-primary" />
-                    </div>
-                    <div>
-                      <p className="font-display text-xl font-medium leading-tight tracking-tight">
-                        {lang === "zh" ? p.nameZh : p.nameEn}
-                      </p>
-                      <p className="text-xs leading-relaxed text-muted-foreground mt-0.5">
-                        {lang === "zh" ? p.taglineZh : p.taglineEn}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="mt-5">
-                    {p.originalPrice && (
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="text-sm text-muted-foreground line-through">
-                          ${p.originalPrice.toLocaleString()}
-                        </span>
-                        <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-primary text-primary-foreground">
-                          {lang === "zh" ? `立省 $${(p.originalPrice - p.price).toLocaleString()}` : `Save $${(p.originalPrice - p.price).toLocaleString()}`}
-                        </span>
-                      </div>
-                    )}
-                    <div className="flex items-baseline gap-2">
-                      <span className="font-display text-5xl font-medium tracking-tight">
-                        ${p.price.toLocaleString()}
-                      </span>
-                      <span className="text-xs text-muted-foreground">
-                        {lang === "zh" ? "/ 次行程 · 美元" : "/ trip · USD"}
-                      </span>
-                    </div>
-                  </div>
-                  </div>
-
-                  <div className="mt-6 flex-1">
-                    {p.includesEn && (
-                      <p className="mb-4 rounded-2xl border border-border/40 bg-accent/55 px-4 py-3 text-sm font-semibold text-foreground">
-                        {lang === "zh" ? p.includesZh : p.includesEn}
-                      </p>
-                    )}
-                    <ul className="space-y-3">
-                    {p.features.map((f) => (
-                      <li key={f.en} className="flex items-start gap-2.5 text-sm leading-relaxed md:text-[15px]">
-                        <span
-                          className={`mt-0.5 size-4 rounded-full grid place-items-center shrink-0 ${
-                            f.bold ? "bg-primary text-primary-foreground" : "bg-accent text-primary"
-                          }`}
-                        >
-                          <Check className="size-2.5" strokeWidth={3} />
-                        </span>
-                        <span>
-                          <span className={f.bold ? "font-semibold text-foreground" : "text-foreground/80"}>
-                            {lang === "zh" ? f.zh : f.en}
-                          </span>
-                          {(lang === "zh" ? f.noteZh : f.noteEn) && (
-                            <span className="mt-1 block text-[13px] leading-relaxed text-muted-foreground">
-                              {lang === "zh" ? f.noteZh : f.noteEn}
-                            </span>
-                          )}
-                        </span>
-                      </li>
-                    ))}
-                    </ul>
-                  </div>
-
-                  <Link
-                    to="/doctors"
-                    className={`mt-7 inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl px-5 py-3 text-center text-sm font-semibold transition sm:rounded-full ${
-                      p.highlight
-                        ? "bg-foreground text-background hover:bg-foreground/90"
-                        : "bg-accent text-foreground hover:bg-accent/80"
-                    }`}
-                  >
-                    {p.price === 0
-                      ? (lang === "zh" ? "选择免费支持套餐" : "Choose the Free Support Package")
-                      : (lang === "zh" ? "联系行程支持" : "Request travel support")}
+                <h1 className="mt-5 max-w-3xl font-display text-[2.7rem] font-medium leading-[.98] tracking-tight sm:text-5xl md:text-6xl lg:text-[4.6rem]">
+                  {c("Your care in China, ", "你的中国就医之旅，", "Ваша поездка на лечение в Китай — ")}
+                  <em className="not-italic text-primary">
+                    {c("coordinated from first question to follow-up", "从第一次咨询到术后随访都有人协调", "с координацией от первого вопроса до наблюдения")}
+                  </em>
+                </h1>
+                <p className="mt-6 max-w-2xl text-base leading-relaxed text-foreground/70 sm:text-lg">
+                  {c(
+                    "Understand your options, reserve your appointment and get practical help with arrival, communication and follow-up—without guessing what happens next.",
+                    "了解选择、保留预约，并获得抵达、沟通和随访方面的实际协助，无需猜测下一步会发生什么。",
+                    "Разберитесь в вариантах, закрепите запись и получите практическую помощь с прибытием, общением и наблюдением — без неопределённости."
+                  )}
+                </p>
+                <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+                  <a href={WHATSAPP_START} target="_blank" rel="noreferrer" className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-foreground px-7 text-sm font-semibold text-background shadow-pop transition hover:-translate-y-1 hover:bg-foreground/90 sm:text-base">
+                    {c("Book your free consultation", "预约免费咨询", "Записаться бесплатно")}
                     <ArrowRight className="size-4" />
-                  </Link>
+                  </a>
+                  <a href="#journey" className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full border border-primary/25 bg-white/75 px-7 text-sm font-semibold text-foreground shadow-soft backdrop-blur transition hover:-translate-y-1 hover:border-primary sm:text-base">
+                    {c("See how the journey works", "查看六步流程", "Посмотреть этапы")}
+                    <ChevronRight className="size-4" />
+                  </a>
+                </div>
+                <div className="mt-7 flex flex-wrap gap-2.5 text-xs font-semibold text-foreground/70 sm:text-sm">
+                  {[
+                    c("Free initial consultation", "首次咨询免费", "Бесплатная первичная консультация"),
+                    c("Medical fees paid to the clinic", "医疗费用直接支付给诊所", "Медицинские услуги оплачиваются клинике"),
+                    c("English-language support", "英语沟通支持", "Поддержка на английском"),
+                  ].map((item) => (
+                    <span key={item} className="inline-flex items-center gap-1.5 rounded-full bg-white/75 px-3 py-2 shadow-soft backdrop-blur">
+                      <Check className="size-3.5 text-primary" />{item}
+                    </span>
+                  ))}
                 </div>
               </div>
-            );
-          })}
-        </div>
 
-        {/* Notes */}
-        <div className="mt-10 grid gap-3 md:grid-cols-3">
-          {[
-            {
-              titleEn: "Clear hospital pricing",
-              titleZh: "医院收费透明",
-              en: "Surgery fees not included — paid directly to the hospital with full price transparency.",
-              zh: "手术费另计，直接支付给医院，价格全透明。",
-            },
-            {
-              titleEn: "Plans can be customized",
-              titleZh: "套餐支持定制",
-              en: "Custom packages available — extend stay, add family travel, or upgrade hotel anytime.",
-              zh: "支持自定义套餐：延长住宿 / 家属同行 / 升级酒店均可定制。",
-            },
-            {
-              titleEn: "Flexible cancellation",
-              titleZh: "灵活取消与延期",
-              en: "Free cancellation when requested at least 20 days before your scheduled arrival. If your trip is postponed, your package and deposit remain valid for 18 months. The deposit is refunded when you pay the clinic for your procedure.",
-              zh: "在计划抵达日前至少 20 天提出申请可免费取消。如行程延期，已购买的套餐和押金均可保留 18 个月；在诊所支付手术费用时退还押金。",
-            },
-          ].map((n) => (
-            <div key={n.en} className="rounded-2xl border border-border/70 bg-card p-4 shadow-soft">
-              <div className="flex items-center gap-2">
-                <ShieldCheck className="size-4 text-primary shrink-0" />
-                <p className="text-sm font-semibold text-foreground">{lang === "zh" ? n.titleZh : n.titleEn}</p>
+              <div className="relative mx-auto w-full max-w-2xl pb-5 lg:max-w-none">
+                <div className="overflow-hidden rounded-[2.25rem] border-4 border-white/80 bg-card shadow-pop">
+                  <img src={serviceClinicTranslation} alt={c("International patient receiving bilingual support in a clinic", "国际患者在诊所接受双语沟通协助", "Международный пациент получает языковую поддержку в клинике")} className="aspect-[4/3] w-full object-cover" />
+                </div>
+                <div className="absolute -bottom-1 left-4 right-4 rounded-3xl border border-white/80 bg-white/90 p-4 shadow-pop backdrop-blur-md sm:left-8 sm:right-auto sm:w-[22rem] sm:p-5">
+                  <p className="text-[10px] font-bold uppercase tracking-[.16em] text-primary">{c("Your coordinated support", "你的协调支持", "Ваша координационная поддержка")}</p>
+                  <div className="mt-3 grid grid-cols-3 gap-2 text-center text-[10px] font-semibold text-foreground/75 sm:text-xs">
+                    {[
+                      [Plane, c("Airport pickup", "机场接送", "Трансфер")],
+                      [Languages, c("Translation", "院内翻译", "Перевод")],
+                      [MessageCircle, c("Follow-up", "随访协调", "Наблюдение")],
+                    ].map(([Icon, label]) => {
+                      const SupportIcon = Icon as typeof Plane;
+                      return <span key={String(label)} className="flex flex-col items-center gap-1.5 rounded-2xl bg-secondary/60 px-2 py-3"><SupportIcon className="size-4 text-primary" />{label as string}</span>;
+                    })}
+                  </div>
+                </div>
               </div>
-              <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{lang === "zh" ? n.zh : n.en}</p>
             </div>
-          ))}
-        </div>
-          </>
-        )}
+          </section>
 
-        <section className="mt-16 md:mt-24" aria-labelledby="medical-journey-title">
-          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-            <div>
-              <span className="pill mb-3 bg-accent text-accent-foreground">
-                <Route className="size-3.5" />
-                {c("Your journey, step by step", "从咨询到回国随访", "Ваш путь — шаг за шагом")}
-              </span>
-              <h2 id="medical-journey-title" className="max-w-3xl font-display text-3xl font-medium leading-tight tracking-tight md:text-5xl">
-                {lang === "zh" ? (
-                  <>六个步骤，<em className="not-italic text-primary">安心完成中国医疗行程</em></>
-                ) : lang === "ru" ? (
-                  <>Шесть понятных этапов, <em className="not-italic text-primary">одна согласованная поездка</em></>
-                ) : (
-                  <>Six clear steps, <em className="not-italic text-primary">one coordinated journey</em></>
-                )}
-              </h2>
-            </div>
-            <a href="https://wa.me/14708613825?text=Hi%20Cosmetics%20Asia%2C%20I%20would%20like%20help%20planning%20my%20medical%20journey%20to%20China." target="_blank" rel="noreferrer" className="inline-flex min-h-12 shrink-0 items-center justify-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground shadow-soft transition hover:-translate-y-0.5 hover:bg-primary/90">
-              {c("Start planning your journey", "开始规划行程", "Начать планирование")}
-              <ArrowRight className="size-4" />
-            </a>
-          </div>
-
-          <div className="relative mt-9 grid gap-4 md:grid-cols-2 md:gap-6">
-            <div className="absolute bottom-10 left-1/2 top-10 hidden w-px -translate-x-1/2 bg-primary/15 md:block" aria-hidden="true" />
-            {JOURNEY_STEPS.map((step, index) => {
-              const Icon = step.icon;
-              return (
-                <article key={step.number} className="group relative overflow-hidden rounded-[1.75rem] border border-border/70 bg-card p-5 shadow-soft transition hover:-translate-y-1 hover:shadow-pop sm:p-6 md:p-7">
-                  <div className="relative -mx-5 -mt-5 mb-5 aspect-[16/6] overflow-hidden bg-muted sm:-mx-6 sm:-mt-6 md:-mx-7 md:-mt-7">
-                    <img
-                      src={step.image}
-                      alt={lang === "zh" ? step.titleZh : lang === "ru" ? JOURNEY_RU[index][1] : step.titleEn}
-                      loading="lazy"
-                      className="absolute inset-0 size-full object-cover transition-transform duration-700 group-hover:scale-[1.035]"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-foreground/35 via-transparent to-transparent" />
-                    <span className="absolute bottom-3 left-4 rounded-full border border-white/50 bg-white/85 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-foreground shadow-soft backdrop-blur-md sm:left-5">
-                      {c(`Step ${index + 1}`, `第 ${index + 1} 步`, `Этап ${index + 1}`)}
-                    </span>
+          <section className="container py-12 md:py-16">
+            <div className="grid overflow-hidden rounded-[2rem] border border-primary/15 bg-card shadow-pop lg:grid-cols-2">
+              <article className="p-6 sm:p-8 lg:p-10">
+                <div className="flex items-start gap-4">
+                  <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-primary text-primary-foreground shadow-soft"><Wallet className="size-5" /></span>
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-[.15em] text-primary">{c("Before departure", "出发前", "До вылета")}</p>
+                    <h2 className="mt-1 font-display text-3xl font-semibold tracking-tight">{c("$400 coordination deposit", "400 美元协调押金", "Координационный депозит $400")}</h2>
                   </div>
-                  <div className="pointer-events-none absolute -right-5 -top-8 font-display text-[7rem] font-semibold leading-none text-primary/[0.055] transition group-hover:text-primary/[0.09]" aria-hidden="true">
-                    {step.number}
-                  </div>
-                  <div className="relative flex items-start gap-4">
-                    <div className="grid size-12 shrink-0 place-items-center rounded-2xl bg-[linear-gradient(135deg,hsl(158_55%_91%),hsl(340_65%_94%))] text-primary shadow-soft">
-                      <Icon className="size-5" />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-primary">
-                          {c(`Step ${index + 1}`, `第 ${index + 1} 步`, `Этап ${index + 1}`)}
-                        </span>
-                        <span className="rounded-full bg-accent px-2.5 py-1 text-[10px] font-semibold text-foreground/75">
-                          {lang === "zh" ? step.eyebrowZh : lang === "ru" ? JOURNEY_RU[index][0] : step.eyebrowEn}
-                        </span>
-                      </div>
-                      <h3 className="mt-2 font-display text-xl font-semibold leading-tight tracking-tight sm:text-2xl">
-                        {lang === "zh" ? step.titleZh : lang === "ru" ? JOURNEY_RU[index][1] : step.titleEn}
-                      </h3>
-                    </div>
-                  </div>
-                  <p className="relative mt-4 text-sm leading-7 text-foreground/75">
-                    {lang === "zh" ? step.descriptionZh : lang === "ru" ? JOURNEY_RU[index][2] : step.descriptionEn}
-                  </p>
-                  {(lang === "zh" ? step.noteZh : lang === "ru" ? JOURNEY_RU[index][3] : step.noteEn) && (
-                    <div className="relative mt-4 flex items-start gap-2 rounded-2xl bg-secondary/55 px-4 py-3 text-xs leading-relaxed text-muted-foreground">
-                      <Check className="mt-0.5 size-3.5 shrink-0 text-primary" />
-                      <span>{lang === "zh" ? step.noteZh : lang === "ru" ? JOURNEY_RU[index][3] : step.noteEn}</span>
-                    </div>
+                </div>
+                <p className="mt-5 text-sm leading-relaxed text-foreground/70 sm:text-base">
+                  {c(
+                    "Reserves your procedure appointment and lets us coordinate airport pickup and in-clinic translation. It remains valid for 12 months and is refunded when you pay the clinic for treatment.",
+                    "用于保留手术预约，并让我们协调机场接送和院内翻译。押金在 12 个月内有效，并在你向诊所支付治疗费用时退还。",
+                    "Закрепляет время процедуры и позволяет организовать трансфер и перевод в клинике. Действует 12 месяцев и возвращается после оплаты лечения в клинике."
                   )}
-                </article>
-              );
-            })}
-          </div>
-        </section>
-
-        <section className="mt-16 overflow-hidden rounded-[2rem] border border-primary/15 bg-card shadow-pop md:mt-20" aria-labelledby="included-services-title">
-          <div className="bg-[linear-gradient(120deg,hsl(190_75%_91%),hsl(155_52%_89%)_55%,hsl(48_85%_92%))] px-6 pb-20 pt-8 md:px-10 md:pb-24 md:pt-10">
-            <span className="pill mb-3 bg-white/80 text-foreground shadow-soft backdrop-blur">
-              <ShieldCheck className="size-3.5 text-primary" />
-              {c("Our support services", "我们的协助服务", "Наша помощь")}
-            </span>
-            <h2 id="included-services-title" className="max-w-2xl font-display text-3xl font-medium tracking-tight md:text-4xl">
-              {c("Practical support for", "抵达中国以后，", "Практическая поддержка")}{" "}
-              <em className="not-italic text-primary">{c("your time in China", "我们提供这些协助服务", "во время поездки в Китай")}</em>
-            </h2>
-          </div>
-
-          <div className="relative -mt-12 grid gap-x-8 gap-y-1 rounded-t-[2rem] bg-card px-4 pb-5 pt-4 sm:px-6 md:mx-8 md:grid-cols-2 md:px-5 md:pb-7 md:pt-5">
-            {SERVICE_DETAILS.map((service, index) => {
-              const Icon = service.icon;
-              return (
-                <article
-                  key={service.titleEn}
-                    className={`group grid grid-cols-1 gap-3 border-b border-border/70 py-5 min-[430px]:grid-cols-[8rem_minmax(0,1fr)] min-[430px]:gap-4 sm:grid-cols-[9rem_minmax(0,1fr)] ${index === SERVICE_DETAILS.length - 1 ? "md:col-span-2 md:mx-auto md:w-[calc(50%-1rem)]" : ""}`}
-                >
-                  <div className="relative aspect-[16/8] overflow-hidden rounded-2xl bg-muted min-[430px]:aspect-[4/3]">
-                    <img
-                      src={service.image}
-                      alt={lang === "zh" ? service.titleZh : lang === "ru" ? SERVICES_RU[index][0] : service.titleEn}
-                      loading="lazy"
-                      className="absolute inset-0 size-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-                    />
-                    <span className="absolute left-2 top-2 grid size-8 place-items-center rounded-xl bg-white/90 text-primary shadow-soft backdrop-blur">
-                      <Icon className="size-4" />
-                    </span>
+                </p>
+              </article>
+              <article className="border-t border-primary/10 bg-gradient-to-br from-[hsl(158,58%,92%)] to-[hsl(50,80%,93%)] p-6 sm:p-8 lg:border-l lg:border-t-0 lg:p-10">
+                <div className="flex items-start gap-4">
+                  <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-foreground text-background shadow-soft"><Building2 className="size-5" /></span>
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-[.15em] text-foreground/60">{c("Medical treatment", "医疗费用", "Медицинские услуги")}</p>
+                    <h2 className="mt-1 font-display text-3xl font-semibold tracking-tight">{c("Pay the clinic directly", "直接支付给诊所", "Оплачивайте напрямую клинике")}</h2>
                   </div>
-                  <div className="min-w-0 py-0.5">
-                    <h3 className="font-display text-lg font-semibold leading-tight tracking-tight md:text-xl">
-                      {lang === "zh" ? service.titleZh : lang === "ru" ? SERVICES_RU[index][0] : service.titleEn}
-                    </h3>
-                    <p className="mt-2 text-xs leading-relaxed text-muted-foreground md:text-[13px]">
-                      {lang === "zh" ? service.descriptionZh : lang === "ru" ? SERVICES_RU[index][1] : service.descriptionEn}
-                    </p>
-                    <div className="mt-2.5 flex items-center gap-1.5 text-[11px] font-semibold leading-snug text-foreground/75">
-                      <Check className="size-3.5 shrink-0 text-primary" />
-                      {lang === "zh" ? service.noteZh : lang === "ru" ? SERVICES_RU[index][2] : service.noteEn}
+                </div>
+                <p className="mt-5 text-sm leading-relaxed text-foreground/70 sm:text-base">
+                  {c(
+                    "Surgery, examination, anesthesia and other medical fees are charged by the treating clinic or hospital. Cosmetics Asia does not collect your medical payment.",
+                    "手术、检查、麻醉和其他医疗费用由接诊诊所或医院直接收取，Cosmetics Asia 不代收医疗费用。",
+                    "Операция, обследования, анестезия и другие медицинские услуги оплачиваются лечащей клинике или больнице напрямую."
+                  )}
+                </p>
+              </article>
+            </div>
+          </section>
+
+          <section id="journey" className="container scroll-mt-24 py-12 md:py-20">
+            <div className="mx-auto max-w-3xl text-center">
+              <span className="pill bg-accent text-accent-foreground"><Route className="size-3.5" />{c("A clear path from home to follow-up", "从家中咨询到术后随访", "Понятный путь от дома до наблюдения")}</span>
+              <h2 className="mt-4 font-display text-4xl font-medium leading-tight tracking-tight md:text-6xl">
+                {c("Six steps. ", "六个步骤，", "Шесть этапов. ")}<em className="not-italic text-primary">{c("No guessing what comes next.", "每一步都清楚。", "Вы всегда знаете, что дальше.")}</em>
+              </h2>
+              <p className="mt-4 text-base leading-relaxed text-foreground/65 md:text-lg">{c("Each stage answers the question patients ask most: what happens next, who helps and what should I prepare?", "每个阶段都会回答患者最关心的问题：下一步是什么、谁来协助、需要准备什么？", "Каждый этап отвечает на главные вопросы: что дальше, кто поможет и что подготовить?")}</p>
+            </div>
+
+            <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+              {JOURNEY_STEPS.map((step, index) => {
+                const Icon = step.icon;
+                return (
+                  <article key={step.eyebrow[0]} className={`group overflow-hidden rounded-[1.75rem] border bg-card shadow-soft transition hover:-translate-y-1 hover:shadow-pop ${index === 0 ? "border-primary/45 ring-4 ring-primary/5" : "border-border/70"}`}>
+                    <div className="relative aspect-[16/8] overflow-hidden bg-muted">
+                      <img src={step.image} alt={pick(step.title)} loading="lazy" className="size-full object-cover transition duration-700 group-hover:scale-[1.035]" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-foreground/35 via-transparent to-transparent" />
+                      <span className="absolute bottom-3 left-3 rounded-full bg-white/90 px-3 py-1 text-[10px] font-bold uppercase tracking-[.14em] text-foreground shadow-soft backdrop-blur">{c(`Step ${index + 1}`, `第 ${index + 1} 步`, `Этап ${index + 1}`)}</span>
                     </div>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
-        </section>
-      </section>
+                    <div className="p-5 sm:p-6">
+                      <div className="flex items-center gap-3">
+                        <span className="grid size-10 shrink-0 place-items-center rounded-2xl bg-primary/10 text-primary"><Icon className="size-4" /></span>
+                        <p className="text-[10px] font-bold uppercase tracking-[.15em] text-primary">{pick(step.eyebrow)}</p>
+                      </div>
+                      <h3 className="mt-4 font-display text-2xl font-semibold leading-tight tracking-tight">{pick(step.title)}</h3>
+                      <p className="mt-3 text-sm leading-relaxed text-foreground/65">{pick(step.text)}</p>
+                      {index === 0 && (
+                        <a href={WHATSAPP_START} target="_blank" rel="noreferrer" className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary/80">
+                          {c("Start here", "从这里开始", "Начать здесь")}<ArrowRight className="size-4" />
+                        </a>
+                      )}
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          </section>
 
+          <section id="support" className="container scroll-mt-24 py-12 md:py-20">
+            <div className="overflow-hidden rounded-[2.5rem] border border-primary/15 bg-gradient-to-br from-[hsl(158,58%,90%)] via-[hsl(145,48%,92%)] to-[hsl(50,80%,91%)] shadow-pop">
+              <div className="grid gap-8 px-6 py-9 sm:px-9 md:px-12 md:py-12 lg:grid-cols-[.85fr_1.15fr] lg:items-end">
+                <div>
+                  <span className="pill bg-white/80 text-foreground shadow-soft"><ShieldCheck className="size-3.5 text-primary" />{c("Free coordination support", "免费协调支持", "Бесплатная координационная поддержка")}</span>
+                  <h2 className="mt-4 font-display text-4xl font-medium leading-tight tracking-tight md:text-5xl">{c("The practical details are handled with you—not left to you.", "实际细节有人和你一起处理，而不是让你独自面对。", "Практические детали решаются вместе с вами — не остаются только на вас.")}</h2>
+                </div>
+                <p className="max-w-2xl text-base leading-relaxed text-foreground/65 md:text-lg">{c("Support is confirmed around your actual appointment and itinerary. Before you travel, you receive a clear summary of what is included, optional or paid separately.", "支持内容会根据实际预约和行程确认。出发前，你会收到清晰说明，了解哪些已包含、哪些可选、哪些需另行支付。", "Поддержка подтверждается с учётом вашей записи и маршрута. До поездки вы получите ясное описание включённых, дополнительных и отдельно оплачиваемых услуг.")}</p>
+              </div>
+              <div className="grid gap-4 bg-white/60 p-4 sm:p-6 md:grid-cols-2 lg:grid-cols-6 lg:p-8">
+                {SUPPORT_SERVICES.map((service, index) => {
+                  const Icon = service.icon;
+                  const wide = index < 2 ? "lg:col-span-3" : "lg:col-span-2";
+                  return (
+                    <article key={service.title[0]} className={`group overflow-hidden rounded-3xl border border-white/90 bg-card shadow-soft ${wide}`}>
+                      <div className="grid min-h-full sm:grid-cols-[10rem_1fr]">
+                        <div className="relative min-h-40 overflow-hidden bg-muted sm:min-h-full">
+                          <img src={service.image} alt={pick(service.title)} loading="lazy" className="absolute inset-0 size-full object-cover transition duration-700 group-hover:scale-105" />
+                          <span className="absolute left-3 top-3 grid size-9 place-items-center rounded-xl bg-white/90 text-primary shadow-soft backdrop-blur"><Icon className="size-4" /></span>
+                        </div>
+                        <div className="p-5">
+                          <h3 className="font-display text-xl font-semibold leading-tight tracking-tight">{pick(service.title)}</h3>
+                          <p className="mt-3 text-sm leading-relaxed text-foreground/65">{pick(service.text)}</p>
+                        </div>
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+
+          <section className="container py-12 md:py-20">
+            <div className="grid gap-8 lg:grid-cols-[.82fr_1.18fr] lg:gap-14">
+              <div>
+                <span className="pill bg-accent text-accent-foreground"><CircleDollarSign className="size-3.5" />{c("Clarity before commitment", "确认前先讲清楚", "Ясность до обязательств")}</span>
+                <h2 className="mt-4 font-display text-4xl font-medium leading-tight tracking-tight md:text-5xl">{c("Know what is included—and what is not.", "清楚知道哪些包含，哪些不包含。", "Знайте, что включено, а что нет.")}</h2>
+                <p className="mt-4 text-base leading-relaxed text-foreground/65">{c("We confirm the scope in writing before travel so you can make decisions with fewer surprises.", "出发前，我们会以书面形式确认服务范围，帮助你减少意外情况。", "До поездки мы письменно подтверждаем объём услуг, чтобы уменьшить неожиданности.")}</p>
+              </div>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <article className="rounded-3xl border border-primary/20 bg-primary/[.06] p-6">
+                  <p className="text-xs font-bold uppercase tracking-[.15em] text-primary">{c("Coordination support", "协调支持", "Координационная поддержка")}</p>
+                  <ul className="mt-4 space-y-3 text-sm leading-relaxed text-foreground/75">
+                    {[
+                      c("Airport pickup coordination", "机场接送协调", "Организация трансфера"),
+                      c("In-clinic translation for included visits", "包含行程中的院内翻译", "Перевод во время включённых визитов"),
+                      c("Records organization and practical planning", "病历整理与实际行程规划", "Подготовка документов и планирование"),
+                    ].map((item) => <li key={item} className="flex gap-2"><Check className="mt-0.5 size-4 shrink-0 text-primary" />{item}</li>)}
+                  </ul>
+                </article>
+                <article className="rounded-3xl border border-amber-200/80 bg-amber-50/70 p-6">
+                  <p className="text-xs font-bold uppercase tracking-[.15em] text-amber-800">{c("Paid separately", "需另行支付", "Оплачивается отдельно")}</p>
+                  <ul className="mt-4 space-y-3 text-sm leading-relaxed text-foreground/75">
+                    {[
+                      c("All clinic and hospital medical fees", "全部诊所和医院医疗费用", "Все медицинские услуги клиники"),
+                      c("Hotel charges unless specifically included", "未明确包含的酒店费用", "Проживание, если оно не включено"),
+                      c("Optional touring and personal expenses", "自愿旅行及个人费用", "Дополнительные поездки и личные расходы"),
+                    ].map((item) => <li key={item} className="flex gap-2"><ChevronRight className="mt-0.5 size-4 shrink-0 text-amber-700" />{item}</li>)}
+                  </ul>
+                </article>
+              </div>
+            </div>
+          </section>
+
+          <section className="container py-12 md:py-20">
+            <div className="rounded-[2.25rem] border border-primary/15 bg-card p-6 shadow-soft sm:p-8 md:p-10">
+              <div className="grid gap-8 lg:grid-cols-[.7fr_1.3fr] lg:gap-14">
+                <div>
+                  <span className="pill bg-accent text-accent-foreground"><MessageCircle className="size-3.5" />{c("Questions patients ask first", "患者最先问的问题", "Первые вопросы пациентов")}</span>
+                  <h2 className="mt-4 font-display text-4xl font-medium tracking-tight md:text-5xl">{c("Clear answers before you decide.", "决定前，先获得清晰答案。", "Ясные ответы до решения.")}</h2>
+                </div>
+                <Accordion type="single" collapsible className="overflow-hidden rounded-2xl border border-border/70 bg-background/70 px-4 sm:px-5">
+                  {faqs.map((faq, index) => (
+                    <AccordionItem key={faq.q} value={`faq-${index}`} className="border-border/70">
+                      <AccordionTrigger className="gap-4 py-5 text-left text-sm font-semibold hover:no-underline sm:text-base">
+                        <span className="flex items-start gap-3"><span className="mt-0.5 font-mono text-[10px] text-primary">0{index + 1}</span>{faq.q}</span>
+                      </AccordionTrigger>
+                      <AccordionContent className="pl-8 pr-2 text-sm leading-relaxed text-muted-foreground sm:text-[15px]">{faq.a}</AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+              </div>
+            </div>
+          </section>
+
+          <section className="container pb-16 pt-12 md:pb-24 md:pt-16">
+            <div className="relative overflow-hidden rounded-[2.5rem] bg-foreground px-6 py-10 text-background shadow-pop sm:px-9 md:px-12 md:py-14">
+              <div className="absolute -right-24 -top-24 size-72 rounded-full bg-primary/25 blur-2xl" />
+              <div className="absolute -bottom-32 left-1/3 size-80 rounded-full bg-amber-200/10 blur-3xl" />
+              <div className="relative flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-center">
+                <div className="max-w-3xl">
+                  <p className="text-xs font-bold uppercase tracking-[.16em] text-primary">{c("Start with one conversation", "从一次沟通开始", "Начните с одного разговора")}</p>
+                  <h2 className="mt-3 font-display text-4xl font-medium leading-tight tracking-tight md:text-6xl">{c("You do not need every answer before you begin.", "开始之前，你不需要先知道所有答案。", "Необязательно знать все ответы, чтобы начать.")}</h2>
+                  <p className="mt-4 max-w-2xl text-sm leading-relaxed text-background/65 sm:text-base">{c("Tell us what you are considering. We will help you turn questions into a clear next step—free and with no obligation.", "告诉我们你正在考虑什么。我们会帮你把疑问变成清晰的下一步，免费且无需承诺。", "Расскажите, что вы рассматриваете. Мы поможем превратить вопросы в понятный следующий шаг — бесплатно и без обязательств.")}</p>
+                </div>
+                <div className="w-full shrink-0 lg:w-auto">
+                  <a href={WHATSAPP_START} target="_blank" rel="noreferrer" className="inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-full bg-primary px-8 text-sm font-semibold text-primary-foreground shadow-glow transition hover:-translate-y-1 hover:bg-primary/90 sm:text-base lg:w-auto">
+                    {c("Book your free consultation", "预约免费咨询", "Записаться бесплатно")}<ArrowRight className="size-4" />
+                  </a>
+                  <p className="mt-3 text-center text-xs text-background/55">{c("Prefer email? hello@cosmetics-asia.com", "更喜欢邮件？hello@cosmetics-asia.com", "Предпочитаете email? hello@cosmetics-asia.com")}</p>
+                </div>
+              </div>
+            </div>
+          </section>
+        </main>
         <Footer />
       </div>
     </>

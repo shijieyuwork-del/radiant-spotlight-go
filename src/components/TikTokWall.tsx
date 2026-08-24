@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Heart, MessageCircle, Share2, Volume2, VolumeX, Play, ArrowRight, BadgeCheck, MapPin, ChevronLeft, ChevronRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Heart, MessageCircle, Share2, Volume2, VolumeX, Play, MapPin, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSavedCase } from "@/lib/saved-cases";
 import { Highlight } from "@/components/HighlightText";
@@ -34,9 +34,9 @@ export type TikTokWallProps = {
 };
 
 const labels = {
-  en: { play: "Tap to play", view: "View diary", verified: "Diary preview" },
-  zh: { play: "点击播放", view: "查看日记", verified: "日记预览" },
-  ru: { play: "Нажмите для просмотра", view: "Открыть дневник", verified: "Предпросмотр дневника" },
+  en: { play: "Tap to play", verified: "Diary preview" },
+  zh: { play: "点击播放", verified: "日记预览" },
+  ru: { play: "Нажмите для просмотра", verified: "Предпросмотр дневника" },
 };
 
 const MARK_CLASS = "rounded bg-primary/70 px-0.5 text-primary-foreground";
@@ -128,7 +128,7 @@ const TikTokCard = ({
       }}
       role="link"
       tabIndex={0}
-      aria-label={`${labels[lang].view}: ${item.caption[lang]}`}
+      aria-label={item.caption[lang]}
     >
       <video
         ref={ref}
@@ -218,16 +218,7 @@ const TikTokCard = ({
             <MapPin className="size-3" /> <Highlight text={item.city[lang]} query={highlight} className={MARK_CLASS} />
           </p>
         )}
-        <div className="mt-2 flex items-center justify-between gap-2">
-          {item.priceCny > 0 && <span className="text-sm font-semibold">{fmtPrice(item.priceCny)}</span>}
-          <Link
-            to={caseUrl}
-            onClick={(e) => e.stopPropagation()}
-            className="text-[11px] font-semibold pill bg-white text-foreground hover:bg-white/90"
-          >
-            {discovery ? (lang === "zh" ? "查看完整历程" : lang === "ru" ? "Посмотреть весь путь" : "View full journey") : labels[lang].view} <ArrowRight className="size-3" />
-          </Link>
-        </div>
+        {item.priceCny > 0 && <p className="mt-2 text-sm font-semibold">{fmtPrice(item.priceCny)}</p>}
       </div>
     </div>
   );
@@ -311,7 +302,7 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase, 
                     type="button"
                     className="absolute inset-0 z-50 rounded-3xl"
                     onClick={() => { if (!allowClick()) return; setActive(index); }}
-                    aria-label={`${labels[lang].view}: ${it.caption[lang]}`}
+                    aria-label={it.caption[lang]}
                   />
                 )}
               </div>

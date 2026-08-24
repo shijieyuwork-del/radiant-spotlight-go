@@ -1,0 +1,4 @@
+/* The homepage city cards are the navigation; the duplicate index CTA is hidden. */
+main a[href="/cities"] {
+  display: none !important;
+}

@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import { ArrowLeft, ArrowRight, BadgeCheck, CircleHelp, CircleSlash, Clock, DollarSign, FileCheck2, HeartPulse, Pill, ShieldAlert, Sparkles, Stethoscope } from "lucide-react";
+import { ArrowLeft, ArrowRight, BadgeCheck, ChevronDown, CircleHelp, CircleSlash, Clock, DollarSign, FileCheck2, HeartPulse, Pill, ShieldAlert, Sparkles, Stethoscope } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
@@ -356,12 +356,6 @@ const CatalogProcedureDetail = ({ procedure, lang }: { procedure: { en: string; 
             <p className="mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground">{zh ? intro.zh : intro.en}</p>
           </section>
 
-          <section className="mt-8 grid gap-4 md:grid-cols-3">
-            <InfoCard icon={<FileCheck2 />} title={c("Clarify your goal", "先确认目标", "Определите цель")} text={c("Describe the concern, previous treatment, medical history and current medication.", "说明希望改善的问题、既往治疗、病史和用药情况。", "Опишите ваши пожелания, предыдущее лечение, заболевания и лекарства.")} />
-            <InfoCard icon={<BadgeCheck />} title={c("Verify experience", "核验医生经验", "Проверьте опыт")} text={c("Check licensing and request genuine cases relevant to your anatomy and goals.", "查看执业信息，并要求与自身情况相近的真实案例。", "Проверьте лицензию и запросите реальные похожие случаи.")} />
-            <InfoCard icon={<ShieldAlert />} title={c("Discuss risk & recovery", "了解风险与恢复", "Обсудите риски и восстановление")} text={c("Confirm technique, anesthesia, recovery, complication management and total cost.", "确认术式、麻醉、恢复安排、并发症处理及完整费用。", "Уточните методику, анестезию, восстановление, осложнения и полную стоимость.")} />
-          </section>
-
           <section className="mt-8 rounded-[2rem] border border-border/70 bg-card p-5 shadow-soft md:p-8">
             <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
               <div>
@@ -376,24 +370,29 @@ const CatalogProcedureDetail = ({ procedure, lang }: { procedure: { en: string; 
               <QuickFact icon={<Sparkles />} label={c("Result settles", "结果逐步稳定", "Окончательный результат")} value={zh ? education.finalZh : education.finalEn} />
               <QuickFact icon={<Stethoscope />} label={c("Common anesthesia", "常见麻醉", "Обычная анестезия")} value={zh ? education.anesthesiaZh : education.anesthesiaEn} />
             </div>
+            <div className="mt-6 flex flex-col gap-3 rounded-2xl bg-primary/[0.07] p-4 sm:flex-row sm:items-center sm:justify-between">
+              <p className="text-sm font-medium text-foreground">{c("Not sure what applies to you? Review it with a coordinator online.", "不确定哪些信息适合你？可以先和协调员在线聊一聊。", "Не уверены, что относится к вам? Обсудите это с координатором онлайн.")}</p>
+              <Button asChild className="shrink-0 rounded-full px-5"><a href="https://wa.me/14708613825" target="_blank" rel="noreferrer">{c("Free online consultation", "免费在线咨询", "Бесплатная онлайн-консультация")}<ArrowRight className="ml-2 size-4" /></a></Button>
+            </div>
           </section>
 
-          <div className="mt-8 grid gap-5 md:grid-cols-2">
-            <section className="rounded-3xl border border-destructive/20 bg-destructive/[0.035] p-6">
-              <h2 className="flex items-center gap-2 font-display text-2xl font-medium tracking-tight"><ShieldAlert className="size-5 text-destructive/75" />{c("Risks to understand", "需要认真了解的风险", "Важные риски")}</h2>
+          <section className="mt-8 overflow-hidden rounded-[2rem] border border-border/70 bg-card shadow-soft">
+            <div className="border-b border-border/60 px-5 py-5 md:px-7">
+              <span className="pill bg-accent text-accent-foreground"><FileCheck2 className="size-3.5" />{c("Only open what you need", "按需查看", "Откройте нужный раздел")}</span>
+              <h2 className="mt-3 font-display text-2xl font-medium tracking-tight md:text-3xl">{c("What to review before you decide", "决定前，重点看这三项", "Что проверить перед решением")}</h2>
+            </div>
+
+            <ExpandablePanel icon={<ShieldAlert className="size-5 text-destructive/75" />} title={c("Risks to understand", "可能有哪些风险？", "Важные риски")} summary={c("See the main complications to discuss with your surgeon.", "查看需要与医生重点确认的主要并发症。", "Основные осложнения, которые стоит обсудить с хирургом.")}>
               <div className="mt-4"><Bullets items={zh ? education.risksZh : education.risksEn} /></div>
               <p className="mt-4 text-xs leading-relaxed text-muted-foreground">{zh ? "这不是完整风险清单。风险会随具体术式、麻醉方式、治疗范围和个人健康状况改变。" : "This is not a complete risk list. Risk changes with technique, anesthesia, treatment extent and your health."}</p>
-            </section>
+            </ExpandablePanel>
 
-            <section className="rounded-3xl border border-primary/20 bg-primary/[0.045] p-6">
-              <h2 className="flex items-center gap-2 font-display text-2xl font-medium tracking-tight"><HeartPulse className="size-5 text-primary" />{c("Tell the clinician before treatment", "这些疾病和情况要提前说", "Что сообщить врачу заранее")}</h2>
+            <ExpandablePanel icon={<HeartPulse className="size-5 text-primary" />} title={c("What should I tell the clinician?", "哪些情况必须提前告诉医生？", "Что сообщить врачу заранее?")} summary={c("Medical conditions, medication and previous treatment can change your plan.", "疾病、用药和既往治疗都可能影响方案。", "Заболевания, лекарства и прошлое лечение могут изменить план.")}>
               <div className="mt-4"><Bullets items={zh ? education.discloseZh : education.discloseEn} /></div>
               <p className="mt-4 flex gap-2 text-xs font-medium leading-relaxed text-foreground"><Pill className="mt-0.5 size-4 shrink-0 text-primary" />{zh ? "不要自行停药。是否暂停或调整药物，必须由开药医生、手术医生或麻醉医生决定。" : "Do not stop medication on your own. Any change must be directed by the prescribing clinician, surgeon or anesthesiologist."}</p>
-            </section>
-          </div>
+            </ExpandablePanel>
 
-          <section className="mt-8 rounded-3xl border border-border/70 bg-secondary/30 p-6 md:p-8">
-            <h2 className="flex items-center gap-2 font-display text-2xl font-medium tracking-tight"><CircleHelp className="size-5 text-primary" />{c("Questions to ask at consultation", "面诊时一定要问", "Вопросы для консультации")}</h2>
+            <ExpandablePanel icon={<CircleHelp className="size-5 text-primary" />} title={c("Questions for your consultation", "面诊时问什么？", "Вопросы для консультации")} summary={c("Save six practical questions for your doctor.", "准备好 6 个实用问题，避免面诊时遗漏。", "Сохраните шесть практических вопросов врачу.")}>
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
               {(zh ? [
                 `您做过多少例与我的情况相似的 ${procedure.zh}？`,
@@ -415,6 +414,7 @@ const CatalogProcedureDetail = ({ procedure, lang }: { procedure: { en: string; 
                 </div>
               ))}
             </div>
+            </ExpandablePanel>
           </section>
 
           <ProcedureVideoRow procedure={`${procedure.en} ${procedure.categoryEn}`} lang={lang} fmt={fmt} />
@@ -442,6 +442,32 @@ const QuickFact = ({ icon, label, value }: { icon: React.ReactNode; label: strin
     <p className="mt-3 text-[11px] font-bold uppercase tracking-[0.12em] text-muted-foreground">{label}</p>
     <p className="mt-1 text-sm font-semibold leading-snug text-foreground md:text-base">{value}</p>
   </div>
+);
+
+const ExpandablePanel = ({
+  icon,
+  title,
+  summary,
+  children,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  summary: string;
+  children: React.ReactNode;
+}) => (
+  <details className="group border-b border-border/60 last:border-b-0">
+    <summary className="flex cursor-pointer list-none items-start gap-4 px-5 py-5 transition-colors hover:bg-muted/35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 md:items-center md:px-7 [&::-webkit-details-marker]:hidden">
+      <span className="mt-0.5 grid size-10 shrink-0 place-items-center rounded-2xl bg-primary/[0.08] md:mt-0">
+        {icon}
+      </span>
+      <span className="min-w-0 flex-1">
+        <span className="block font-display text-xl font-medium tracking-tight">{title}</span>
+        <span className="mt-1 block text-sm leading-relaxed text-muted-foreground">{summary}</span>
+      </span>
+      <ChevronDown className="mt-2 size-5 shrink-0 text-muted-foreground transition-transform duration-200 group-open:rotate-180 md:mt-0" />
+    </summary>
+    <div className="px-5 pb-6 md:px-7 md:pl-[5.5rem]">{children}</div>
+  </details>
 );
 
 const relatedCaseTerms: Record<string, string[]> = {
