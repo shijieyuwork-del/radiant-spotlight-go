@@ -164,7 +164,7 @@ const Hero = () => {
           emphasis: "then choose with confidence",
           subtitle: "Understand procedures, review published expert profiles and explore patient recovery diaries before you travel.",
           cases: "Watch patient recovery videos",
-          contact: "Book your free consultation",
+          contact: "Get a free quote",
           consultation: "Online consultation",
           consultationDetail: "Meet your expert online before you travel (not providing medical advice)",
           english: "English in-clinic translation",
@@ -282,7 +282,7 @@ const TravelBar = () => {
     {
       icon: Video,
       image: journeyConsultation,
-      en: ["Book your free consultation", "Tell us your goals and questions so we can help identify suitable specialists"],
+      en: ["Get a free quote", "Tell us your goals and questions so we can help identify suitable specialists"],
       zh: ["预约免费咨询", "告诉我们你的目标和疑问，我们会协助匹配合适的专家"],
       ru: ["Запишитесь на бесплатную консультацию", "Расскажите о целях и вопросах, чтобы мы помогли подобрать специалистов"],
     },
