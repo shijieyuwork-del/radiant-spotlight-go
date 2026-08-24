@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
+import ImageCropDialog from "@/components/ImageCropDialog";
 
 type Doctor = {
   id: string; name: string; title: string; hospital: string; city: string;
@@ -43,6 +44,37 @@ export default function DoctorAdmin() {
   const [replacingId, setReplacingId] = useState<string | null>(null);
   const [progress, setProgress] = useState<number | null>(null);
   const [replaceProgress, setReplaceProgress] = useState(0);
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  // 裁剪流程：待裁剪的原图 + 裁剪结果用途（新建表单 / 更换某医生照片）
+  const [cropSource, setCropSource] = useState<File | null>(null);
+  const [cropTarget, setCropTarget] = useState<"create" | Doctor | null>(null);
+
+  const openCrop = (file: File | null, target: "create" | Doctor) => {
+    if (!file) return;
+    const invalid = validateMediaFile(file, PHOTO_RULES);
+    if (invalid) {
+      if (target === "create") setErrors((prev) => ({ ...prev, photo: invalid }));
+      toast.error(invalid);
+      return;
+    }
+    setCropSource(file);
+    setCropTarget(target);
+  };
+
+  const onCropped = (cropped: File) => {
+    if (cropTarget === "create") {
+      setPhoto(cropped);
+      setPhotoPreview((prev) => {
+        if (prev) URL.revokeObjectURL(prev);
+        return URL.createObjectURL(cropped);
+      });
+      clearError("photo");
+    } else if (cropTarget) {
+      void replacePhoto(cropTarget, cropped);
+    }
+    setCropSource(null);
+    setCropTarget(null);
+  };
 
   const clearError = (key: FieldKey) =>
     setErrors((prev) => (prev[key] ? { ...prev, [key]: undefined } : prev));
@@ -103,6 +135,7 @@ export default function DoctorAdmin() {
       if (error) throw error;
       toast.success("医生资料已发布");
       setName(""); setTitle(""); setHospital(""); setSpecialties(""); setBio(""); setCredentials(""); setPhoto(null);
+      setPhotoPreview((prev) => { if (prev) URL.revokeObjectURL(prev); return null; });
       setErrors({});
       await load();
     } catch (error) {
@@ -169,11 +202,17 @@ export default function DoctorAdmin() {
                 accept="image/jpeg,image/png,image/webp"
                 aria-invalid={!!errors.photo}
                 className={errors.photo ? errorInputClass : undefined}
-                onChange={(e) => { setPhoto(e.target.files?.[0] ?? null); clearError("photo"); }}
+                onChange={(e) => { openCrop(e.target.files?.[0] ?? null, "create"); e.target.value = ""; }}
               />
+              {photoPreview && (
+                <div className="mt-2 flex items-center gap-3">
+                  <img src={photoPreview} alt="已裁剪照片预览" className="size-16 rounded-xl object-cover border" />
+                  <p className="text-xs text-muted-foreground">已裁剪为 1:1（800×800 WebP），可重新选择图片调整</p>
+                </div>
+              )}
               {errors.photo
                 ? <p className="text-xs text-destructive mt-1">{errors.photo}</p>
-                : <p className="text-xs text-muted-foreground mt-1">{PHOTO_RULES.formatLabel}，最大 10MB</p>}
+                : <p className="text-xs text-muted-foreground mt-1">{PHOTO_RULES.formatLabel}，最大 10MB · 选择后可裁剪为统一正方形</p>}
             </div>
             <Field label="医生姓名 *" value={name} error={errors.name} set={(v) => { setName(v); clearError("name"); }} />
             <Field label="职称 *" value={title} error={errors.title} set={(v) => { setTitle(v); clearError("title"); }} />
@@ -226,7 +265,7 @@ export default function DoctorAdmin() {
                           accept="image/jpeg,image/png,image/webp"
                           className="hidden"
                           disabled={replacingId === d.id}
-                          onChange={(e) => { void replacePhoto(d, e.target.files?.[0] ?? null); e.target.value = ""; }}
+                          onChange={(e) => { openCrop(e.target.files?.[0] ?? null, d); e.target.value = ""; }}
                         />
                         <span className={`inline-flex items-center text-sm font-medium text-primary hover:underline cursor-pointer ${replacingId === d.id ? "opacity-50 pointer-events-none" : ""}`}>
                           {replacingId === d.id ? <Loader2 className="size-4 mr-1 animate-spin" /> : <ImagePlus className="size-4 mr-1" />}更换照片
@@ -249,6 +288,11 @@ export default function DoctorAdmin() {
           </div>
         </section>
       </main>
+      <ImageCropDialog
+        file={cropSource}
+        onCancel={() => { setCropSource(null); setCropTarget(null); }}
+        onConfirm={onCropped}
+      />
     </div>
   );
 }

@@ -5,8 +5,14 @@ import { z } from 'npm:zod@3'
 const ADMIN_EMAIL = 'shijieyuwork@gmail.com'
 const SEVEN_DAYS = 60 * 60 * 24 * 7
 
+const BUCKET_TARGETS: Record<string, { table: string; column: string }> = {
+  'doctor-photos': { table: 'doctors', column: 'photo_path' },
+  'short-videos': { table: 'videos', column: 'storage_path' },
+  'video-covers': { table: 'videos', column: 'cover_path' },
+}
+
 const BodySchema = z.object({
-  bucket: z.enum(['doctor-photos', 'short-videos']),
+  bucket: z.enum(['doctor-photos', 'short-videos', 'video-covers']),
   paths: z
     .array(
       z
@@ -56,8 +62,7 @@ Deno.serve(async (req) => {
     if (isAdmin) {
       allowed = uniquePaths
     } else {
-      const table = bucket === 'doctor-photos' ? 'doctors' : 'videos'
-      const column = bucket === 'doctor-photos' ? 'photo_path' : 'storage_path'
+      const { table, column } = BUCKET_TARGETS[bucket]
       const { data: rows } = await service
         .from(table)
         .select(column)

@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
-import { ArrowLeft, Film, Loader2, LogOut, RefreshCw, Stethoscope, Trash2, UploadCloud } from "lucide-react";
+import { ArrowLeft, Film, ImageIcon, Loader2, LogOut, RefreshCw, Stethoscope, Trash2, UploadCloud } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 import { signedUrls } from "@/lib/storage-urls";
 import { replaceMedia, uploadMedia } from "@/lib/upload-media";
 import { VIDEO_RULES, fieldForUploadError, validateMediaFile } from "@/lib/media-validation";
+import { coverBlobToFile, extractCoverCandidates, type CoverCandidate } from "@/lib/video-cover";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -16,6 +17,7 @@ import { Progress } from "@/components/ui/progress";
 
 const ADMIN_EMAIL = "shijieyuwork@gmail.com";
 const BUCKET = "short-videos";
+const COVER_BUCKET = "video-covers";
 const VIDEO_ACCEPT = "video/mp4,video/quicktime,video/webm";
 
 type FieldKey = "file" | "title";
@@ -30,10 +32,12 @@ type VideoRow = {
   city: string | null;
   procedure: string | null;
   storage_path: string;
+  cover_path: string | null;
   status: string;
   created_at: string;
   doctor_id: string | null;
   url?: string;
+  coverUrl?: string;
 };
 type DoctorOption = { id: string; name: string };
 
@@ -52,6 +56,15 @@ const VideoAdmin = () => {
   const [doctorId, setDoctorId] = useState("none");
   const [doctors, setDoctors] = useState<DoctorOption[]>([]);
   const [errors, setErrors] = useState<FieldErrors>({});
+  // 封面：从视频中抽取的候选帧 + 选中的帧索引
+  const [covers, setCovers] = useState<CoverCandidate[]>([]);
+  const [coverIndex, setCoverIndex] = useState(2);
+  const [coverBusy, setCoverBusy] = useState(false);
+
+  const clearCovers = () => {
+    setCovers((prev) => { prev.forEach((c) => URL.revokeObjectURL(c.url)); return []; });
+    setCoverIndex(2);
+  };
 
   const clearError = (key: FieldKey) =>
     setErrors((prev) => (prev[key] ? { ...prev, [key]: undefined } : prev));
@@ -67,8 +80,11 @@ const VideoAdmin = () => {
     if (error) toast.error(error.message);
     else {
       const rows = (data ?? []) as VideoRow[];
-      const urls = await signedUrls(BUCKET, rows.map((row) => row.storage_path));
-      setVideos(rows.map((row, index) => ({ ...row, url: urls[index] })));
+      const [urls, coverUrls] = await Promise.all([
+        signedUrls(BUCKET, rows.map((row) => row.storage_path)),
+        signedUrls(COVER_BUCKET, rows.map((row) => row.cover_path)),
+      ]);
+      setVideos(rows.map((row, index) => ({ ...row, url: urls[index], coverUrl: coverUrls[index] })));
     }
     if (!doctorResult.error) setDoctors((doctorResult.data ?? []) as DoctorOption[]);
     setLoading(false);
@@ -96,6 +112,7 @@ const VideoAdmin = () => {
   }
 
   const handleFile = (next: File | null) => {
+    clearCovers();
     if (!next) {
       setFile(null);
       clearError("file");
@@ -111,6 +128,15 @@ const VideoAdmin = () => {
     clearError("file");
     setFile(next);
     if (!title) setTitle(next.name.replace(/\.[^.]+$/, ""));
+    // 自动抽取候选封面帧（9:16，720×1280 WebP）
+    setCoverBusy(true);
+    extractCoverCandidates(next)
+      .then((candidates) => {
+        setCovers(candidates);
+        setCoverIndex(Math.min(2, candidates.length - 1));
+      })
+      .catch(() => toast.warning("无法从该视频提取封面，可继续上传（信息流将无封面预览）"))
+      .finally(() => setCoverBusy(false));
   };
 
   const upload = async (event: React.FormEvent) => {
@@ -131,11 +157,18 @@ const VideoAdmin = () => {
     setUploading(true);
     setProgress(0);
     let storagePath = "";
+    let coverPath: string | null = null;
     try {
       storagePath = await uploadMedia(BUCKET, file, {
         onProgress: setProgress,
         onRetry: (attempt, max) => toast.info(`连接中断，自动重试中（${attempt}/${max}）…`),
       });
+
+      // 上传选中的封面帧（若已生成）
+      const selected = covers[coverIndex];
+      if (selected) {
+        coverPath = await uploadMedia(COVER_BUCKET, coverBlobToFile(selected.blob, file.name));
+      }
 
       const { error: dbError } = await supabase.from("videos").insert({
         title: title.trim(),
@@ -143,16 +176,19 @@ const VideoAdmin = () => {
         city,
         procedure: procedure.trim() || null,
         storage_path: storagePath,
+        cover_path: coverPath,
         status,
         doctor_id: doctorId === "none" ? null : doctorId,
       });
       if (dbError) {
         await supabase.storage.from(BUCKET).remove([storagePath]);
+        if (coverPath) await supabase.storage.from(COVER_BUCKET).remove([coverPath]);
         throw dbError;
       }
 
-      toast.success("短视频上传成功");
+      toast.success(coverPath ? "短视频与封面上传成功" : "短视频上传成功（无封面）");
       setFile(null); setTitle(""); setCaption(""); setProcedure(""); setStatus("published"); setDoctorId("none");
+      clearCovers();
       setErrors({});
       await loadVideos();
     } catch (error) {
@@ -180,7 +216,20 @@ const VideoAdmin = () => {
         onProgress: setReplaceProgress,
         onRetry: (attempt, max) => toast.info(`连接中断，自动重试中（${attempt}/${max}）…`),
       });
-      toast.success(`“${video.title}”的视频已更换`);
+      // 用新视频重新生成封面（取中间帧），保持信息流预览一致
+      let coverNote = "";
+      try {
+        const candidates = await extractCoverCandidates(next);
+        const pick = candidates[Math.min(2, candidates.length - 1)];
+        const newCoverPath = await uploadMedia(COVER_BUCKET, coverBlobToFile(pick.blob, next.name));
+        candidates.forEach((c) => URL.revokeObjectURL(c.url));
+        const { error: coverError } = await supabase.from("videos").update({ cover_path: newCoverPath }).eq("id", video.id);
+        if (coverError) throw coverError;
+        if (video.cover_path) await supabase.storage.from(COVER_BUCKET).remove([video.cover_path]);
+      } catch {
+        coverNote = "（封面更新失败，可在下次更换时重试）";
+      }
+      toast.success(`“${video.title}”的视频已更换${coverNote}`);
       await loadVideos();
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "更换失败");
@@ -194,6 +243,7 @@ const VideoAdmin = () => {
     if (!window.confirm(`确定删除“${video.title}”吗？此操作无法恢复。`)) return;
     const { error: storageError } = await supabase.storage.from(BUCKET).remove([video.storage_path]);
     if (storageError) return toast.error(storageError.message);
+    if (video.cover_path) await supabase.storage.from(COVER_BUCKET).remove([video.cover_path]);
     const { error } = await supabase.from("videos").delete().eq("id", video.id);
     if (error) return toast.error(error.message);
     setVideos((current) => current.filter((item) => item.id !== video.id));
@@ -232,6 +282,30 @@ const VideoAdmin = () => {
                 : <p className="text-xs text-muted-foreground mt-1">{VIDEO_RULES.formatLabel}，最大 100MB</p>}
             </div>
             {previewUrl && <video src={previewUrl} controls muted className="w-full aspect-[9/16] max-h-72 object-contain rounded-2xl bg-black" />}
+            {(coverBusy || covers.length > 0) && (
+              <div>
+                <Label className="flex items-center gap-1.5"><ImageIcon className="size-3.5" />封面（信息流预览图，9:16）</Label>
+                {coverBusy ? (
+                  <p className="text-xs text-muted-foreground mt-1.5 flex items-center gap-2"><Loader2 className="size-3.5 animate-spin" />正在从视频中提取候选封面…</p>
+                ) : (
+                  <div className="grid grid-cols-5 gap-2 mt-1.5">
+                    {covers.map((c, i) => (
+                      <button
+                        key={c.time}
+                        type="button"
+                        onClick={() => setCoverIndex(i)}
+                        aria-label={`选择第 ${i + 1} 帧作为封面`}
+                        aria-pressed={i === coverIndex}
+                        className={`relative aspect-[9/16] overflow-hidden rounded-lg border-2 transition-all ${i === coverIndex ? "border-primary ring-2 ring-primary/30" : "border-transparent opacity-70 hover:opacity-100"}`}
+                      >
+                        <img src={c.url} alt={`候选封面 ${i + 1}`} className="absolute inset-0 size-full object-cover" />
+                      </button>
+                    ))}
+                  </div>
+                )}
+                {!coverBusy && covers.length > 0 && <p className="text-xs text-muted-foreground mt-1">点击选择一帧作为封面，将统一裁剪为 720×1280 WebP</p>}
+              </div>
+            )}
             <div>
               <Label htmlFor="video-title">标题 *</Label>
               <Input
@@ -263,7 +337,7 @@ const VideoAdmin = () => {
 
         <section>
           <div className="flex items-end justify-between mb-4"><div><h2 className="font-display text-2xl font-semibold">视频管理</h2><p className="text-sm text-muted-foreground">共 {videos.length} 条</p></div></div>
-          {loading ? <LoadingScreen compact /> : videos.length === 0 ? <div className="rounded-3xl border border-dashed bg-card p-12 text-center text-muted-foreground"><Film className="size-10 mx-auto mb-3 opacity-40" /><p>还没有上传视频</p></div> : <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-5">{videos.map((video) => { const url = video.url ?? ""; return <article key={video.id} className="rounded-3xl bg-card shadow-soft overflow-hidden"><video src={url} controls preload="metadata" className="w-full aspect-[9/16] max-h-80 object-cover bg-black" /><div className="p-4"><div className="flex items-start justify-between gap-2"><div><h3 className="font-semibold line-clamp-2">{video.title}</h3><p className="text-xs text-muted-foreground mt-1">{video.city || "未设置城市"}{video.procedure ? ` · ${video.procedure}` : ""}</p></div><span className={`text-[10px] px-2 py-1 rounded-full ${video.status === "published" ? "bg-primary/10 text-primary" : "bg-muted text-muted-foreground"}`}>{video.status === "published" ? "已发布" : "草稿"}</span></div><div className="flex items-center gap-3 mt-3"><label className="inline-flex"><input type="file" accept="video/mp4,video/quicktime,video/webm" className="hidden" disabled={replacingId === video.id} onChange={(e) => { void replaceVideo(video, e.target.files?.[0] ?? null); e.target.value = ""; }} /><span className={`inline-flex items-center text-sm font-medium text-primary hover:underline cursor-pointer ${replacingId === video.id ? "opacity-50 pointer-events-none" : ""}`}>{replacingId === video.id ? <Loader2 className="size-4 mr-1 animate-spin" /> : <RefreshCw className="size-4 mr-1" />}更换视频</span></label>{replacingId === video.id && <div className="flex-1 max-w-32 space-y-1"><Progress value={replaceProgress} className="h-1.5" /><p className="text-[10px] text-muted-foreground">{replaceProgress < 100 ? `${replaceProgress}%` : "处理中…"}</p></div>}<Button variant="ghost" size="sm" className="text-destructive px-0" onClick={() => void removeVideo(video)}><Trash2 className="size-4 mr-1" />删除</Button></div></div></article>; })}</div>}
+          {loading ? <LoadingScreen compact /> : videos.length === 0 ? <div className="rounded-3xl border border-dashed bg-card p-12 text-center text-muted-foreground"><Film className="size-10 mx-auto mb-3 opacity-40" /><p>还没有上传视频</p></div> : <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-5">{videos.map((video) => { const url = video.url ?? ""; return <article key={video.id} className="rounded-3xl bg-card shadow-soft overflow-hidden"><video src={url} poster={video.coverUrl || undefined} controls preload="metadata" className="w-full aspect-[9/16] max-h-80 object-cover bg-black" /><div className="p-4"><div className="flex items-start justify-between gap-2"><div><h3 className="font-semibold line-clamp-2">{video.title}</h3><p className="text-xs text-muted-foreground mt-1">{video.city || "未设置城市"}{video.procedure ? ` · ${video.procedure}` : ""}</p></div><span className={`text-[10px] px-2 py-1 rounded-full ${video.status === "published" ? "bg-primary/10 text-primary" : "bg-muted text-muted-foreground"}`}>{video.status === "published" ? "已发布" : "草稿"}</span></div><div className="flex items-center gap-3 mt-3"><label className="inline-flex"><input type="file" accept="video/mp4,video/quicktime,video/webm" className="hidden" disabled={replacingId === video.id} onChange={(e) => { void replaceVideo(video, e.target.files?.[0] ?? null); e.target.value = ""; }} /><span className={`inline-flex items-center text-sm font-medium text-primary hover:underline cursor-pointer ${replacingId === video.id ? "opacity-50 pointer-events-none" : ""}`}>{replacingId === video.id ? <Loader2 className="size-4 mr-1 animate-spin" /> : <RefreshCw className="size-4 mr-1" />}更换视频</span></label>{replacingId === video.id && <div className="flex-1 max-w-32 space-y-1"><Progress value={replaceProgress} className="h-1.5" /><p className="text-[10px] text-muted-foreground">{replaceProgress < 100 ? `${replaceProgress}%` : "处理中…"}</p></div>}<Button variant="ghost" size="sm" className="text-destructive px-0" onClick={() => void removeVideo(video)}><Trash2 className="size-4 mr-1" />删除</Button></div></div></article>; })}</div>}
         </section>
       </main>
     </div>

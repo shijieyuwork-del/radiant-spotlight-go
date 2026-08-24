@@ -1,6 +1,6 @@
 import { supabase } from "@/integrations/supabase/client";
 
-export type MediaBucket = "doctor-photos" | "short-videos";
+export type MediaBucket = "doctor-photos" | "short-videos" | "video-covers";
 
 export interface UploadOptions {
   /** Called with 0-100 as the request body streams to the server. */

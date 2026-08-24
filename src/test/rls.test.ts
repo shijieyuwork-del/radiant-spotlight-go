@@ -97,6 +97,13 @@ describe("RLS: anon 匿名角色", () => {
     expect(error).not.toBeNull();
   });
 
+  it("storage: 匿名不能向 video-covers 上传", { timeout: 20000 }, async () => {
+    const { error } = await anon.storage
+      .from("video-covers")
+      .upload(`rls-test/${crypto.randomUUID()}.txt`, "x", { contentType: "text/plain" });
+    expect(error).not.toBeNull();
+  });
+
   it("storage: 匿名列表只能看到与 published 记录关联的文件（当前应为空）", async () => {
     const photos = await anon.storage.from("doctor-photos").list();
     const videos = await anon.storage.from("short-videos").list();
@@ -254,6 +261,11 @@ describe("RLS: request-file-access 分桶与未发布拒绝", () => {
     expect(data?.urls ?? {}).toEqual({});
   });
 
+  it("video-covers 桶：未发布关联的封面路径被拒绝", { timeout: 20000 }, async () => {
+    const { data } = await invoke({ bucket: "video-covers", paths: ["rls-test/unpublished-cover.webp"] });
+    expect(data?.urls ?? {}).toEqual({});
+  });
+
   it("批量路径：同一桶内多个未发布路径全部被拒、不部分放行", { timeout: 20000 }, async () => {
     const paths = ["rls-test/batch-a.jpg", "rls-test/batch-b.jpg", "rls-test/batch-c.jpg"];
     const { data } = await invoke({ bucket: "doctor-photos", paths });
@@ -285,9 +297,9 @@ describe("RLS: request-file-access 分桶与未发布拒绝", () => {
     expect(error).not.toBeNull();
   });
 
-  it("一致性：同一请求重复调用，两个桶的拒绝结果保持稳定", { timeout: 30000 }, async () => {
-    for (const bucket of ["doctor-photos", "short-videos"] as const) {
-      const ext = bucket === "doctor-photos" ? "jpg" : "mp4";
+  it("一致性：同一请求重复调用，三个桶的拒绝结果保持稳定", { timeout: 30000 }, async () => {
+    for (const bucket of ["doctor-photos", "short-videos", "video-covers"] as const) {
+      const ext = bucket === "short-videos" ? "mp4" : bucket === "video-covers" ? "webp" : "jpg";
       const body = { bucket, paths: [`rls-test/consistency.${ext}`] };
       const first = await invoke(body);
       const second = await invoke(body);
