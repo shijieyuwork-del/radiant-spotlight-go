@@ -61,3 +61,36 @@ export const fieldForUploadError = (message: string): "file" | null => {
   if (/invalid file type|file too large|rate limit|quota|已触发上传限制/i.test(message)) return "file";
   return null;
 };
+
+/** 上传验证失败的类别（客户端与服务端错误统一归类） */
+export type UploadErrorKind = "type" | "size" | "empty" | "rate_limit" | "quota";
+
+/**
+ * 把一条错误信息（客户端校验或服务端返回）归类为验证失败类别。
+ * 无法归类时返回 null。
+ */
+export const classifyUploadError = (message: string): UploadErrorKind | null => {
+  if (/类型不支持|invalid file type/i.test(message)) return "type";
+  if (/内容为空|0 字节/.test(message)) return "empty";
+  if (/超过.*上限|file too large/i.test(message)) return "size";
+  if (/rate limit|已触发上传限制|上传过于频繁/i.test(message)) return "rate_limit";
+  if (/quota|存储空间|空间已满/i.test(message)) return "quota";
+  return null;
+};
+
+/**
+ * 每种验证失败对应的可操作解决建议（简短说明，展示在错误旁边）。
+ */
+export const UPLOAD_ERROR_ADVICE: Record<UploadErrorKind, string> = {
+  type: "解决建议：用剪映 / 格式工厂等工具把文件转换为受支持的格式（视频转 MP4 H.264，图片转 JPG/PNG/WebP）后重试。",
+  size: "解决建议：压缩文件后再上传——视频可用剪映导出 1080p / 30fps，图片可导出为 WebP（质量 80）以减小体积。",
+  empty: "解决建议：该文件内容为空，请重新导出或换一个文件。",
+  rate_limit: "解决建议：上传频率已达上限（每小时 30 次 / 每天 100 次），请稍等片刻再试，或分批上传。",
+  quota: "解决建议：存储空间已满，请先在下方列表删除不再需要的旧文件，或联系平台管理员扩容。",
+};
+
+/** 返回错误信息对应的解决建议；无法归类时返回 null。 */
+export const uploadErrorAdvice = (message: string): string | null => {
+  const kind = classifyUploadError(message);
+  return kind ? UPLOAD_ERROR_ADVICE[kind] : null;
+};
