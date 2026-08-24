@@ -226,17 +226,14 @@ const Hero = () => {
 
             <div className="-mx-4 mt-6 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 scrollbar-hide sm:mx-0 sm:mt-8 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4">
               {[
-                { icon: Video, title: copy.consultation, detail: copy.consultationDetail },
-                { icon: MapPin, title: copy.travel, detail: copy.travelDetail },
-                { icon: Users, title: copy.english, detail: copy.englishDetail },
-                { icon: ShieldCheck, title: copy.pricing, detail: copy.pricingDetail },
+                { icon: Video, title: copy.consultation },
+                { icon: MapPin, title: copy.travel },
+                { icon: Users, title: copy.english },
+                { icon: ShieldCheck, title: copy.pricing },
               ].map((item) => (
                 <span key={item.title} className="flex min-h-[4.5rem] min-w-[76vw] snap-center items-center gap-3 rounded-2xl border border-white/60 bg-white/45 px-4 py-3 text-left shadow-[0_12px_32px_rgba(18,55,45,0.09)] backdrop-blur-xl sm:min-h-16 sm:min-w-0">
                   <span className="grid size-9 shrink-0 place-items-center rounded-full border border-white/60 bg-white/55 backdrop-blur-md"><item.icon className="size-4 text-primary" /></span>
-                  <span className="min-w-0">
-                    <strong className="block font-display text-sm font-semibold leading-tight">{item.title}</strong>
-                    <small className="mt-1 block text-[11px] leading-snug text-muted-foreground">{item.detail}</small>
-                  </span>
+                  <strong className="min-w-0 font-display text-sm font-semibold leading-tight">{item.title}</strong>
                 </span>
               ))}
             </div>
