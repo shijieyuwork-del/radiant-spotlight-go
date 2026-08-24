@@ -95,7 +95,7 @@ const TrendingByCountry = () => (
         </ul>
 
         <Button variant="outline" className="rounded-full mt-5 w-full">
-          View doctors in {c.name} <ArrowRight className="ml-1 size-4" />
+          View experts in {c.name} <ArrowRight className="ml-1 size-4" />
         </Button>
       </article>
     ))}

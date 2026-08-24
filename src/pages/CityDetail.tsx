@@ -42,7 +42,7 @@ const CityDetail = () => {
     <>
       <PageMeta
         title={`${cityTitle} | Medical Aesthetics, Cosmetic Surgeons & Prices`}
-        description={`Plan cosmetic medical travel in ${cityTitle}, China. Explore local logistics, commonly requested procedures and published doctor profiles.`}
+        description={`Plan cosmetic medical travel in ${cityTitle}, China. Explore local logistics, commonly requested procedures and published expert profiles.`}
         path={`/cities/${slug}`}
         structuredData={citySchema}
       />
@@ -80,7 +80,7 @@ const CityDetail = () => {
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl pt-2">
               <HeroStat icon={<Building2 className="size-4" />} value={c("Local", "当地", "Местные")} label={c("provider information", "机构信息", "данные клиник")} />
-              <HeroStat icon={<Stethoscope className="size-4" />} value={c("Review", "审核", "Проверка")} label={c("doctor profiles", "医生资料", "профилей врачей")} />
+              <HeroStat icon={<Stethoscope className="size-4" />} value={c("Review", "审核", "Проверка")} label={c("expert profiles", "专家资料", "профилей экспертов")} />
               <HeroStat icon={<Sparkles className="size-4" />} value={c("Care", "项目", "Услуги")} label={c("popular procedures", "热门项目", "популярные процедуры")} />
               <HeroStat icon={<Wallet className="size-4" />} value={c("Itemized", "明细", "Подробно")} label={c("pricing guidance", "报价说明", "ориентиры по ценам")} />
             </div>
@@ -128,23 +128,23 @@ const CityDetail = () => {
           <div>
             <span className="pill bg-accent text-accent-foreground mb-2">
               <Stethoscope className="size-3.5" />
-              {c("Doctor profiles", "医生资料", "Профили врачей")}
+              {c("Expert profiles", "专家资料", "Профили экспертов")}
             </span>
             <h2 className="font-display text-3xl md:text-4xl font-semibold">
-              {c(`Surgeons in ${city.en}`, `${city.zh}医生资料`, `Врачи в городе ${city.en}`)}
+              {c(`Surgeons in ${city.en}`, `${city.zh}专家资料`, `Эксперты в городе ${city.en}`)}
             </h2>
           </div>
           <Link
             to="/doctors"
             className="hidden md:inline-flex items-center gap-1 text-sm font-semibold text-primary hover:translate-x-0.5 transition"
           >
-            {c("All surgeons", "全部医生", "Все врачи")} <ArrowRight className="size-4" />
+            {c("All surgeons", "全部专家", "Все эксперты")} <ArrowRight className="size-4" />
           </Link>
         </div>
 
         {cityDoctors.length === 0 ? (
           <p className="text-sm text-muted-foreground">
-            {c("No Cosmetics Asia-listed surgeons yet for this city — request a match below.", "本城市暂无平台主推医师，可在下方提交匹配申请。", "В этом городе пока нет опубликованных врачей Cosmetics Asia — отправьте запрос на подбор ниже.")}
+            {c("No Cosmetics Asia-listed surgeons yet for this city — request a match below.", "本城市暂无平台主推专家，可在下方提交匹配申请。", "В этом городе пока нет опубликованных экспертов Cosmetics Asia — отправьте запрос на подбор ниже.")}
           </p>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -248,14 +248,14 @@ const CityDetail = () => {
               {c(`Plan your ${city.en} trip with Cosmetics Asia`, `让 Cosmetics Asia 为你规划 ${city.zh} 行程`, `Спланируйте поездку в ${city.en} с Cosmetics Asia`)}
             </h2>
             <p className="text-sm text-background/80 mt-2 max-w-xl">
-              {c("Surgeon shortlist, price quote, hospital booking and recovery hotel — handled by an English-speaking coordinator.", "主刀候选 / 报价 / 机构预约 / 恢复酒店，全程中英文专属顾问对接。", "Подбор врачей, смета, запись в клинику и отель для восстановления — с поддержкой англоязычного координатора.")}
+              {c("Surgeon shortlist, price quote, hospital booking and recovery hotel — handled by an English-speaking coordinator.", "主刀候选 / 报价 / 机构预约 / 恢复酒店，全程中英文专属顾问对接。", "Подбор экспертов, смета, запись в клинику и отель для восстановления — с поддержкой англоязычного координатора.")}
             </p>
           </div>
           <Link
             to="/doctors"
             className="inline-flex items-center gap-2 rounded-full bg-background text-foreground px-6 py-3 text-sm font-semibold hover:opacity-90 transition shrink-0"
           >
-            {c("Get matched", "立即匹配主刀", "Подобрать врача")} <ArrowRight className="size-4" />
+            {c("Get matched", "立即匹配主刀", "Подобрать эксперта")} <ArrowRight className="size-4" />
           </Link>
         </div>
       </section>

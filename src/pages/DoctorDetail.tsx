@@ -33,18 +33,18 @@ const DoctorDetail = () => {
     return (
       <>
         <PageMeta
-          title="Doctor Not Found"
-          description="The doctor profile you're looking for doesn't exist."
+          title="Expert Not Found"
+          description="The expert profile you're looking for doesn't exist."
           path={`/doctors/${id}`}
         />
         <div className="min-h-screen bg-background">
           <AsiaNavbar homeLinks={false} />
           <div className="container py-24 text-center">
             <p className="text-muted-foreground">
-              {c("Doctor profile not found.", "医师档案不存在。", "Профиль врача не найден.")}
+              {c("Expert profile not found.", "专家档案不存在。", "Профиль эксперта не найден.")}
             </p>
             <Link to="/doctors" className="text-primary underline mt-4 inline-block">
-              {c("Back to all doctors", "返回医师列表", "Вернуться ко всем врачам")}
+              {c("Back to all experts", "返回专家列表", "Вернуться ко всем экспертам")}
             </Link>
           </div>
           <Footer />
@@ -62,10 +62,10 @@ const DoctorDetail = () => {
     "@type": "Physician",
     name: doctorName,
     jobTitle: doctorTitle,
-    image: doctor.img,
+    image: expert.img,
     workLocation: {
       "@type": "Place",
-      name: lang === "zh" ? doctor.clinicZh : doctor.clinicEn,
+      name: lang === "zh" ? expert.clinicZh : expert.clinicEn,
       address: {
         "@type": "PostalAddress",
         addressCountry: countryOf(doctor.cityEn),
@@ -76,7 +76,7 @@ const DoctorDetail = () => {
     agentInteractionStatistic: {
       "@type": "InteractionCounter",
       interactionType: "http://schema.org/ReviewAction",
-      userInteractionCount: doctor.reviews,
+      userInteractionCount: expert.reviews,
     },
   };
 
@@ -86,7 +86,7 @@ const DoctorDetail = () => {
         title={`${doctorName} - ${doctorTitle} in ${doctorCity}`}
         description={`Consult ${doctorName}, a board-certified surgeon in ${doctorCity} with ${doctor.years}+ years experience and ${doctor.reviews}+ verified patient reviews. Specializes in ${(lang === "zh" ? doctor.specZh : doctor.specEn).slice(0, 2).join(", ")}.`}
         path={`/doctors/${id}`}
-        image={doctor.img}
+        image={expert.img}
         structuredData={doctorSchema}
       />
       <div className="min-h-screen bg-background">
@@ -94,15 +94,15 @@ const DoctorDetail = () => {
 
       <section className="container py-8 md:py-12">
         <Link to="/doctors" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-6">
-          <ArrowLeft className="size-4" /> {c("All doctors", "全部医师", "Все врачи")}
+          <ArrowLeft className="size-4" /> {c("All experts", "全部专家", "Все эксперты")}
         </Link>
 
         {/* Header card */}
         <div className="rounded-3xl bg-card shadow-pop p-6 md:p-8 grid md:grid-cols-12 gap-6 items-start">
           <div className="md:col-span-3">
             <img
-              src={doctor.img}
-              alt={lang === "zh" ? doctor.zh : doctor.en}
+              src={expert.img}
+              alt={lang === "zh" ? expert.zh : expert.en}
               className="w-full aspect-square rounded-3xl object-cover shadow-soft"
             />
           </div>
@@ -111,14 +111,14 @@ const DoctorDetail = () => {
               <BadgeCheck className="size-3.5 text-primary" /> {t("doc.cert")}
             </span>
             <h1 className="font-display text-3xl md:text-4xl font-medium tracking-tight leading-tight">
-              {lang === "zh" ? doctor.zh : doctor.en}
+              {lang === "zh" ? expert.zh : expert.en}
             </h1>
             <p className="text-sm text-muted-foreground">
               {lang === "zh" ? doctor.titleZh : doctor.titleEn}
             </p>
             <p className="text-sm flex items-center gap-1.5">
               <Building2 className="size-4 text-primary" />
-              {lang === "zh" ? doctor.clinicZh : doctor.clinicEn}
+              {lang === "zh" ? expert.clinicZh : expert.clinicEn}
             </p>
             <p className="text-sm flex items-center gap-1.5 text-muted-foreground">
               <MapPin className="size-4 text-primary" />
@@ -126,7 +126,7 @@ const DoctorDetail = () => {
             </p>
 
             <div className="flex flex-wrap gap-1 pt-1">
-              {(lang === "zh" ? doctor.specZh : doctor.specEn).map((s) => (
+              {(lang === "zh" ? expert.specZh : expert.specEn).map((s) => (
                 <span key={s} className="text-xs px-2.5 py-1 rounded-full bg-accent text-accent-foreground">{s}</span>
               ))}
             </div>
@@ -134,18 +134,18 @@ const DoctorDetail = () => {
 
           <div className="md:col-span-3 grid grid-cols-3 md:grid-cols-1 gap-2">
             <div className="rounded-2xl bg-secondary p-3 text-center">
-              <p className="font-display text-xl font-semibold">{doctor.years}{lang === "zh" ? "年" : ""}</p>
+              <p className="font-display text-xl font-semibold">{expert.years}{lang === "zh" ? "年" : ""}</p>
               <p className="text-[10px] text-muted-foreground">{t("doctors.exp")}</p>
             </div>
             <div className="rounded-2xl bg-secondary p-3 text-center">
-              <p className="font-display text-xl font-semibold">{doctor.surgeries}</p>
+              <p className="font-display text-xl font-semibold">{expert.surgeries}</p>
               <p className="text-[10px] text-muted-foreground">{t("doctors.cases")}</p>
             </div>
             <div className="rounded-2xl bg-secondary p-3 text-center">
               <p className="font-display text-xl font-semibold inline-flex items-center gap-0.5">
-                <Star className="size-4 fill-primary text-primary" /> {doctor.rating}
+                <Star className="size-4 fill-primary text-primary" /> {expert.rating}
               </p>
-              <p className="text-[10px] text-muted-foreground">{doctor.reviews.toLocaleString()} {t("cl.reviews")}</p>
+              <p className="text-[10px] text-muted-foreground">{expert.reviews.toLocaleString()} {t("cl.reviews")}</p>
             </div>
           </div>
         </div>
@@ -156,12 +156,12 @@ const DoctorDetail = () => {
             <FileCheck2 className="size-4 text-primary mt-0.5 shrink-0" />
             <div className="text-sm">
               <p className="font-semibold">{t("doctors.lic")}</p>
-              <p className="font-mono text-foreground/80 text-xs mt-0.5 break-all">{doctor.license}</p>
+              <p className="font-mono text-foreground/80 text-xs mt-0.5 break-all">{expert.license}</p>
             </div>
           </div>
           <div className="rounded-2xl bg-muted/40 p-4 flex items-start gap-3">
             <ShieldCheck className="size-4 text-primary mt-0.5 shrink-0" />
-            <p className="text-sm">{lang === "zh" ? doctor.qualZh : doctor.qualEn}</p>
+            <p className="text-sm">{lang === "zh" ? expert.qualZh : expert.qualEn}</p>
           </div>
         </div>
 
@@ -172,7 +172,7 @@ const DoctorDetail = () => {
             <div>
               <h2 className="font-display text-2xl font-medium tracking-tight flex items-center gap-2 mb-3">
                 <Stethoscope className="size-5 text-primary" />
-                {c("About the surgeon", "医师简介", "О враче")}
+                {c("About the surgeon", "专家简介", "О эксперте")}
               </h2>
               <p className="text-muted-foreground leading-relaxed">
                 {lang === "zh" ? doctor.bioZh : doctor.bioEn}
@@ -187,7 +187,7 @@ const DoctorDetail = () => {
                   {c("Education & training", "教育与研修", "Образование и подготовка")}
                 </h3>
                 <ul className="space-y-2 text-sm text-muted-foreground">
-                  {(lang === "zh" ? doctor.eduZh : doctor.eduEn).map((line) => (
+                  {(lang === "zh" ? expert.eduZh : expert.eduEn).map((line) => (
                     <li key={line} className="flex gap-2">
                       <span className="text-primary mt-1">•</span>
                       <span>{line}</span>
@@ -201,7 +201,7 @@ const DoctorDetail = () => {
                   {c("Awards & memberships", "荣誉与学会", "Награды и профессиональные сообщества")}
                 </h3>
                 <ul className="space-y-2 text-sm text-muted-foreground">
-                  {(lang === "zh" ? doctor.awardsZh : doctor.awardsEn).map((line) => (
+                  {(lang === "zh" ? expert.awardsZh : expert.awardsEn).map((line) => (
                     <li key={line} className="flex gap-2">
                       <span className="text-primary mt-1">•</span>
                       <span>{line}</span>
@@ -214,7 +214,7 @@ const DoctorDetail = () => {
             {/* Cases */}
             <div>
               <h2 className="font-display text-2xl font-medium tracking-tight mb-4">
-                {c(`Verified cases by this surgeon (${cases.length})`, `本医师真实案例（${cases.length}）`, `Проверенные случаи этого врача (${cases.length})`)}
+                {c(`Verified cases by this surgeon (${cases.length})`, `本专家真实案例（${cases.length}）`, `Проверенные случаи этого эксперта (${cases.length})`)}
               </h2>
               {cases.length === 0 ? (
                 <p className="text-sm text-muted-foreground">
@@ -229,7 +229,7 @@ const DoctorDetail = () => {
           {/* Sidebar */}
           <aside className="lg:col-span-4 space-y-6">
             <div className="rounded-3xl bg-gradient-to-br from-[hsl(155,60%,90%)] to-[hsl(50,80%,92%)] p-5 shadow-soft">
-              <p className="text-xs text-foreground/60">{c("Book with this surgeon", "预约本医师", "Запись к этому врачу")}</p>
+              <p className="text-xs text-foreground/60">{c("Book with this surgeon", "预约本专家", "Запись к этому эксперту")}</p>
               <p className="font-display text-xl font-semibold mt-1 leading-tight">
                 {c("Free 1-on-1 consult", "免费 1 对 1 面诊", "Бесплатная индивидуальная консультация")}
               </p>
@@ -246,7 +246,7 @@ const DoctorDetail = () => {
                 {c("Reference price list", "参考价目表", "Ориентировочные цены")}
               </h3>
               <ul className="divide-y divide-border">
-                {doctor.priceList.map((p) => (
+                {expert.priceList.map((p) => (
                   <li key={p.en} className="py-2.5 flex items-center justify-between gap-3 text-sm">
                     <span className="truncate">{lang === "zh" ? p.zh : p.en}</span>
                     <span className="font-semibold shrink-0">{lang === "zh" ? "" : "from "}{fmt(p.from)}{lang === "zh" ? " 起" : ""}</span>
@@ -269,10 +269,10 @@ const DoctorDetail = () => {
           </aside>
         </div>
 
-        {/* Other doctors */}
+        {/* Other experts */}
         <div className="mt-16">
           <h2 className="font-display text-2xl md:text-3xl font-medium tracking-tight mb-6">
-            {c("Other verified surgeons", "其他持证医师", "Другие проверенные врачи")}
+            {c("Other verified surgeons", "其他持证专家", "Другие проверенные эксперты")}
           </h2>
           <div className="grid md:grid-cols-3 gap-6">
             {otherDoctors.map((d) => (

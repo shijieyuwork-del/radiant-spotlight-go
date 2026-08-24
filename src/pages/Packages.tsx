@@ -73,9 +73,9 @@ const JOURNEY_STEPS = [
     eyebrow: ["Clinic visits", "院内就诊", "Визиты в клинику"],
     title: ["Communicate with confidence", "更安心地完成院内沟通", "Общайтесь уверенно"],
     text: [
-      "A bilingual coordinator supports practical communication and scheduling during included clinic visits. Medical decisions stay with your treating clinician.",
-      "在包含的诊所行程中，双语协调员协助实际沟通与安排；医疗决定由接诊医生负责。",
-      "Двуязычный координатор помогает с общением и расписанием во время включённых визитов. Медицинские решения принимает лечащий врач.",
+      "A bilingual coordinator supports practical communication and scheduling during included clinic visits. Medical decisions stay with your treating expert.",
+      "在包含的诊所行程中，双语协调员协助实际沟通与安排；医疗决定由接诊专家负责。",
+      "Двуязычный координатор помогает с общением и расписанием во время включённых визитов. Медицинские решения принимает лечащий эксперт.",
     ],
   },
   {
@@ -84,9 +84,9 @@ const JOURNEY_STEPS = [
     eyebrow: ["Recovery", "恢复期", "Восстановление"],
     title: ["Recover first, explore when ready", "安心恢复，适合时再探索", "Сначала восстановитесь, затем путешествуйте"],
     text: [
-      "Follow your clinician’s recovery advice. If you are cleared to travel, we can help shape an optional itinerary around your needs.",
-      "始终遵循医生的恢复建议；获得许可后，我们可按你的需求协助规划自愿行程。",
-      "Следуйте рекомендациям врача. После разрешения на поездки мы можем помочь составить дополнительный маршрут.",
+      "Follow your expert’s recovery advice. If you are cleared to travel, we can help shape an optional itinerary around your needs.",
+      "始终遵循专家的恢复建议；获得许可后，我们可按你的需求协助规划自愿行程。",
+      "Следуйте рекомендациям эксперта. После разрешения на поездки мы можем помочь составить дополнительный маршрут.",
     ],
   },
   {
@@ -95,9 +95,9 @@ const JOURNEY_STEPS = [
     eyebrow: ["After you return", "回国后", "После возвращения"],
     title: ["Stay connected after you go home", "回国后继续保持联系", "Оставайтесь на связи дома"],
     text: [
-      "When your doctor recommends follow-up, we help coordinate the remote appointment, communication and translation.",
-      "医生建议复诊时，我们协助协调远程预约、沟通与翻译。",
-      "Если врач рекомендует наблюдение, мы поможем организовать дистанционный приём, общение и перевод.",
+      "When your expert recommends follow-up, we help coordinate the remote appointment, communication and translation.",
+      "专家建议复诊时，我们协助协调远程预约、沟通与翻译。",
+      "Если эксперт рекомендует наблюдение, мы поможем организовать дистанционный приём, общение и перевод.",
     ],
   },
 ] as const;
@@ -180,9 +180,9 @@ const Packages = () => {
     {
       q: c("Is the consultation really free?", "咨询真的免费吗？", "Консультация действительно бесплатная?"),
       a: c(
-        "Your initial conversation with our coordination team is free and carries no obligation. If a doctor or hospital charges for a medical consultation, we confirm that cost before you book.",
-        "与我们协调团队的首次沟通免费且无需承诺。如医生或医院收取医疗咨询费，我们会在预约前确认。",
-        "Первичная беседа с нашей командой бесплатна и ни к чему не обязывает. Если врач или клиника взимает плату за медицинскую консультацию, мы сообщим об этом до записи."
+        "Your initial conversation with our coordination team is free and carries no obligation. If a expert or hospital charges for a medical consultation, we confirm that cost before you book.",
+        "与我们协调团队的首次沟通免费且无需承诺。如专家或医院收取医疗咨询费，我们会在预约前确认。",
+        "Первичная беседа с нашей командой бесплатна и ни к чему не обязывает. Если эксперт или клиника взимает плату за медицинскую консультацию, мы сообщим об этом до записи."
       ),
     },
     {

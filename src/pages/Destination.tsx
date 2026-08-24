@@ -64,7 +64,7 @@ const Destination = () => {
               ))}
             </div>
             <div className="flex flex-wrap gap-3 pt-2">
-              <Button size="lg" className="cta-primary rounded-full">Find verified doctors <ArrowRight className="ml-1 size-4" /></Button>
+              <Button size="lg" className="cta-primary rounded-full">Find verified experts <ArrowRight className="ml-1 size-4" /></Button>
               <Button size="lg" variant="outline" className="rounded-full">Free consultation</Button>
             </div>
           </div>
@@ -162,12 +162,12 @@ const Destination = () => {
               <ShieldCheck className="size-3.5 text-primary" /> Verified
             </span>
             <h2 className="font-display text-3xl md:text-5xl font-medium tracking-tight max-w-2xl">
-              Top 5 {d.procedure.toLowerCase()} doctors in <em className="text-primary not-italic">{d.city}</em>
+              Top 5 {d.procedure.toLowerCase()} experts in <em className="text-primary not-italic">{d.city}</em>
             </h2>
           </div>
         </div>
         <div className="grid md:grid-cols-2 gap-4">
-          {d.doctors.map((doc, i) => (
+          {d.experts.map((doc, i) => (
             <div key={doc.name} className="rounded-3xl border border-border bg-card p-5 flex gap-4">
               <div className="font-display text-3xl font-semibold text-primary/40 w-8 leading-none pt-1">
                 {String(i + 1).padStart(2, "0")}

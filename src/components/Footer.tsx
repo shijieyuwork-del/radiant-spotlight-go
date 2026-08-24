@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="container py-10 md:py-16 grid grid-cols-2 gap-8 md:grid-cols-4">
         <div className="space-y-4 col-span-2 md:col-span-1">
           <BrandLogo />
-          <p className="text-sm text-muted-foreground max-w-xs">China's trusted cosmetic medical travel platform. Verified doctors. Coordinated care. Travel made simple.</p>
+          <p className="text-sm text-muted-foreground max-w-xs">China's trusted cosmetic medical travel platform. Verified experts. Coordinated care. Travel made simple.</p>
         </div>
         {[
           { title: "Explore", items: [{ label: "Patient Diaries", to: "/cases" }, { label: "Doctors in China", to: "/doctors" }, { label: "Procedure Academy", to: "/treatments" }, { label: "China Destinations", to: "/cities" }] },

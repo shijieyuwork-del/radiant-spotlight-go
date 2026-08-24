@@ -17,7 +17,7 @@ const steps = [
     n: "03",
     icon: ShieldCheck,
     title: "Case audit",
-    desc: "Real surgical case volume & malpractice history reviewed before the doctor goes live.",
+    desc: "Real surgical case volume & malpractice history reviewed before the expert goes live.",
   },
 ];
 
@@ -38,7 +38,7 @@ const WhyTrustGlowy = () => {
           Verified, end-to-end. <em className="text-primary not-italic">No exceptions.</em>
         </h2>
         <p className="text-muted-foreground mt-4">
-          Every doctor on Cosmetics Asia passes a 3-step verification. Every patient is protected by policy — not promises.
+          Every expert on Cosmetics Asia passes a 3-step verification. Every patient is protected by policy — not promises.
         </p>
       </div>
 

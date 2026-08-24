@@ -33,7 +33,7 @@ const Cases = () => {
   const [activeCity, setActiveCity] = useState(() => searchParams.get("city") ?? "");
   const [activeStage, setActiveStage] = useState("");
 
-  // Use the case's own China destination; fall back to doctor data for legacy entries.
+  // Use the case's own China destination; fall back to expert data for legacy entries.
   const caseCity = useMemo(() => {
     const map = new Map<string, { en: string; zh: string }>();
     TIKTOK_CASES.forEach((c) => {
@@ -242,7 +242,7 @@ const Cases = () => {
               {lang === "zh" ? "免费匹配建议" : lang === "ru" ? "Бесплатная помощь с выбором" : "Free matching guidance"}
             </span>
             <h2 className="mt-4 font-display text-[1.9rem] font-medium leading-[1.05] tracking-tight sm:text-4xl">
-              {lang === "zh" ? "不确定哪位医生更适合你？" : lang === "ru" ? "Не уверены, какой врач вам подходит?" : "Not sure which doctor is right for you?"}
+              {lang === "zh" ? "不确定哪位专家更适合你？" : lang === "ru" ? "Не уверены, какой эксперт вам подходит?" : "Not sure which expert is right for you?"}
             </h2>
             <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
               {lang === "zh"

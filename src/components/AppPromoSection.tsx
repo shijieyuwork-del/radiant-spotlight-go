@@ -18,7 +18,7 @@ const AppPromoSection = () => (
             Compare surgeons, watch real patient diaries, book consultations and keep your China medical trip in one place.
           </p>
           <div className="mt-6 flex flex-wrap gap-2 text-xs font-semibold sm:text-sm">
-            <span className="rounded-full bg-white/65 px-4 py-2">China-focused doctor directory</span>
+            <span className="rounded-full bg-white/65 px-4 py-2">China-focused expert directory</span>
             <span className="rounded-full bg-white/65 px-4 py-2">10K+ diaries</span>
             <span className="rounded-full bg-white/65 px-4 py-2">iOS + Android</span>
           </div>
@@ -33,7 +33,7 @@ const AppPromoSection = () => (
             <div className="h-[430px] w-[225px] overflow-hidden rounded-[2.15rem] bg-[#fbfaf5] sm:h-[480px] sm:w-[250px]">
               <div className="bg-primary px-4 pb-4 pt-10 text-primary-foreground">
                 <div className="flex items-center justify-between text-xs font-semibold"><span className="font-display text-lg">Cosmetics Asia</span><span>•••</span></div>
-                <div className="mt-4 flex items-center gap-2 rounded-full bg-white px-3 py-2.5 text-[10px] text-foreground"><Search className="size-3.5 text-primary" /> Search doctors</div>
+                <div className="mt-4 flex items-center gap-2 rounded-full bg-white px-3 py-2.5 text-[10px] text-foreground"><Search className="size-3.5 text-primary" /> Search experts</div>
               </div>
               <div className="p-3">
                 <div className="flex items-center justify-between"><p className="font-display text-base font-semibold">Available surgeons</p><span className="text-[9px] font-semibold text-primary">See all</span></div>

@@ -6,7 +6,7 @@
  * 2. 风险栏必须写真实风险，包括不好听的那些 —— 隐去风险的科普没有价值，
  *    而且对医美这类决策来说是有害的
  * 3. 价格是公开市场的大致区间，不是报价；口径（是否含麻醉/住院/复诊）必须写清
- * 4. 不出现具体医生、诊所、执照号 —— 那属于 doctors.ts，且需真实授权
+ * 4. 不出现具体专家、诊所、执照号 —— 那属于 experts.ts，且需真实授权
  */
 
 export interface RecoveryStage {
@@ -39,7 +39,7 @@ export interface Treatment {
   /** 真实风险，不粉饰 */
   risksEn: string[];
   risksZh: string[];
-  /** 面诊时该问医生什么 */
+  /** 面诊时该问专家什么 */
   askEn: string[];
   askZh: string[];
   /** 亚洲主要城市的公开市场区间（美元），仅供量级参考 */

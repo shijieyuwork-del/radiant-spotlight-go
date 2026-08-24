@@ -173,7 +173,7 @@ const QuoteDialog = ({
 
   const subline = ctx.doctorName
     ? `${ctx.city ?? "Verified surgeon"} · usually replies within 24h`
-    : "Verified doctors will send you tailored pricing — no obligation.";
+    : "Verified experts will send you tailored pricing — no obligation.";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -223,7 +223,7 @@ const QuoteDialog = ({
                   ? subline
                   : intent === "consultation"
                   ? "Pick a time that works — confirmed within 24h."
-                  : "A few details and verified doctors will reply with tailored pricing."}
+                  : "A few details and verified experts will reply with tailored pricing."}
               </DialogDescription>
               <div className="flex items-center gap-1.5 mt-4">
                 <span className="h-1.5 rounded-full w-8 bg-foreground" />
@@ -280,11 +280,11 @@ const QuoteDialog = ({
                   </Field>
                 )}
 
-                <Field label={intent === "consultation" ? "Anything you'd like the doctor to know?" : "Any questions or specific concerns?"}>
+                <Field label={intent === "consultation" ? "Anything you'd like the expert to know?" : "Any questions or specific concerns?"}>
                   <Textarea
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
-                    placeholder="Tell the doctor about your goals, timeline, or anything you'd like them to know..."
+                    placeholder="Tell the expert about your goals, timeline, or anything you'd like them to know..."
                     className="rounded-xl min-h-[88px] resize-none"
                   />
                 </Field>
@@ -299,7 +299,7 @@ const QuoteDialog = ({
 
                 <p className="text-xs text-muted-foreground text-center flex items-center justify-center gap-1.5 pt-1">
                   <Lock className="size-3 text-primary" />
-                  Your info is only shared with this doctor. No spam.
+                  Your info is only shared with this expert. No spam.
                 </p>
               </form>
             )}
@@ -320,7 +320,7 @@ const IntentStep = ({ onPick, doctorName }: { onPick: (i: Intent) => void; docto
       title: "Get a price quote",
       desc: doctorName
         ? `Receive tailored pricing from Dr. ${doctorName} by email.`
-        : "Receive tailored pricing from verified doctors by email.",
+        : "Receive tailored pricing from verified experts by email.",
       meta: "Reply within 24h",
     },
     {
@@ -360,7 +360,7 @@ const IntentStep = ({ onPick, doctorName }: { onPick: (i: Intent) => void; docto
 
       <p className="text-xs text-muted-foreground text-center flex items-center justify-center gap-1.5 pt-2">
         <Lock className="size-3 text-primary" />
-        Your info is only shared with this doctor. No spam.
+        Your info is only shared with this expert. No spam.
       </p>
     </div>
   );
@@ -472,7 +472,7 @@ const SuccessState = ({
           ? `${doctorName ? `Dr. ${doctorName}` : "The doctor"} will confirm your consultation${prettySlot ? ` for ${prettySlot}` : ""} within 24 hours by email.`
           : doctorName
           ? `Dr. ${doctorName} usually replies within 24 hours. We'll email you as soon as they do.`
-          : "Most doctors reply within 24 hours. We'll email you as soon as quotes start arriving."}
+          : "Most experts reply within 24 hours. We'll email you as soon as quotes start arriving."}
       </p>
       <Button onClick={onClose} className="mt-6 rounded-full px-8 bg-foreground text-background hover:bg-foreground/90">
         Got it
@@ -481,7 +481,7 @@ const SuccessState = ({
   );
 };
 
-/* ---------- Compact Contact button for doctor cards ---------- */
+/* ---------- Compact Contact button for expert cards ---------- */
 
 export const DoctorContactButton = ({ doctorName, city, procedure }: QuoteContext) => {
   const { open } = useQuote();

@@ -31,7 +31,7 @@ const CaseDetail = () => {
   }, [item]);
   const doctorCases = useMemo(
     () => doctor
-      ? TIKTOK_CASES.filter((c) => c.id !== id && doctor.caseIds.includes(c.id))
+      ? TIKTOK_CASES.filter((c) => c.id !== id && expert.caseIds.includes(c.id))
       : [],
     [doctor, id],
   );
@@ -91,7 +91,7 @@ const CaseDetail = () => {
     image: `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==`,
     creator: doctor ? {
       "@type": "Person",
-      name: lang === "zh" ? doctor.zh : doctor.en,
+      name: lang === "zh" ? expert.zh : expert.en,
     } : undefined,
   };
 
@@ -230,7 +230,7 @@ const CaseDetail = () => {
             <div className="rounded-3xl border border-border/70 bg-card p-5 shadow-soft sm:p-6">
               <div className="mb-4 flex items-center justify-between gap-3">
                 <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                  {lang === "zh" ? "相关专科医生" : lang === "ru" ? "Врач по данному направлению" : "Doctor for this specialty"}
+                  {lang === "zh" ? "相关专科专家" : lang === "ru" ? "Эксперт по данному направлению" : "Expert for this specialty"}
                 </p>
                 <span className="rounded-full bg-accent px-2.5 py-1 text-[10px] font-semibold text-accent-foreground">
                   {lang === "zh" ? "示例资料" : lang === "ru" ? "Демо-профиль" : "Sample profile"}
@@ -251,10 +251,10 @@ const CaseDetail = () => {
               </div>
               <div className="mt-5 grid gap-2 min-[430px]:grid-cols-2">
                 <Link to={`/doctors/demo/${caseDoctor.id}`} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-primary/30 px-4 text-sm font-semibold text-primary transition hover:bg-primary/10">
-                  {lang === "zh" ? "查看这位医生" : lang === "ru" ? "Подробнее о враче" : "Browse this doctor"}<ArrowRight className="size-4" />
+                  {lang === "zh" ? "查看这位专家" : lang === "ru" ? "Подробнее о эксперте" : "Browse this expert"}<ArrowRight className="size-4" />
                 </Link>
                 <a href={`https://wa.me/14708613825?text=${encodeURIComponent(`Hi Cosmetics Asia, I’d like to ask about ${caseDoctor.name} and this ${item.treatment.en} case: https://cosmetics-asia.com/cases/${item.id}`)}`} target="_blank" rel="noreferrer" className="cta-primary inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-4 text-sm font-bold transition">
-                  {lang === "zh" ? "咨询这位医生" : lang === "ru" ? "Связаться по поводу врача" : "Contact us about this doctor"}<MessageCircle className="size-4" />
+                  {lang === "zh" ? "咨询这位专家" : lang === "ru" ? "Связаться по поводу эксперта" : "Contact us about this expert"}<MessageCircle className="size-4" />
                 </a>
               </div>
             </div>
@@ -289,10 +289,10 @@ const CaseDetail = () => {
               </h2>
               <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-[15px]">
                 {lang === "zh"
-                  ? "把这个案例发给我们，并告诉我们你的目标。我们可以协助你匹配医生、了解预估费用和恢复安排。"
+                  ? "把这个案例发给我们，并告诉我们你的目标。我们可以协助你匹配专家、了解预估费用和恢复安排。"
                   : lang === "ru"
-                    ? "Отправьте нам этот пример и расскажите о своей цели. Мы поможем подобрать врача и разобраться в стоимости и восстановлении."
-                    : "Send us this case and tell us your goals. We can help you compare doctors and understand estimated pricing and recovery planning."}
+                    ? "Отправьте нам этот пример и расскажите о своей цели. Мы поможем подобрать эксперта и разобраться в стоимости и восстановлении."
+                    : "Send us this case and tell us your goals. We can help you compare experts and understand estimated pricing and recovery planning."}
               </p>
               <a
                 href={`https://wa.me/14708613825?text=${encodeURIComponent(`Hi Cosmetics Asia, I’m interested in this ${item.treatment.en} case: https://cosmetics-asia.com/cases/${item.id}`)}`}
@@ -312,16 +312,16 @@ const CaseDetail = () => {
             <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-6">
               <div>
                 <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary mb-2">
-                  <Images className="size-4" /> {lang === "zh" ? "同一位医生" : "Same surgeon"}
+                  <Images className="size-4" /> {lang === "zh" ? "同一位专家" : "Same surgeon"}
                 </span>
                 <h2 className="font-display text-2xl md:text-3xl font-medium tracking-tight">
                   {lang === "zh"
-                    ? `${doctor.zh} 的其他真实案例`
-                    : `More cases by ${doctor.en}`}
+                    ? `${expert.zh} 的其他真实案例`
+                    : `More cases by ${expert.en}`}
                 </h2>
               </div>
               <Link to={`/doctors/${doctor.id}`} className="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline">
-                {lang === "zh" ? "查看医生全部案例" : "See surgeon's full profile"} <ArrowRight className="size-4" />
+                {lang === "zh" ? "查看专家全部案例" : "See surgeon's full profile"} <ArrowRight className="size-4" />
               </Link>
             </div>
             <TikTokWall items={doctorCases} lang={lang} fmtPrice={fmt} variant="wall" />
