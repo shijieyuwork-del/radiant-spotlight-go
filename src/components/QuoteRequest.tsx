@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { getCityTimezone, useCityTime } from "@/lib/timezones";
+import { MedicalDisclaimer } from "@/components/MedicalDisclaimer";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -301,6 +302,8 @@ const QuoteDialog = ({
                   <Lock className="size-3 text-primary" />
                   Your info is only shared with this expert. No spam.
                 </p>
+
+                <MedicalDisclaimer variant="inline" className="rounded-xl bg-muted/50 px-3 py-2" />
               </form>
             )}
           </>
@@ -362,6 +365,8 @@ const IntentStep = ({ onPick, doctorName }: { onPick: (i: Intent) => void; docto
         <Lock className="size-3 text-primary" />
         Your info is only shared with this expert. No spam.
       </p>
+
+      <MedicalDisclaimer variant="inline" className="rounded-xl bg-muted/50 px-3 py-2" />
     </div>
   );
 };
