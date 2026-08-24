@@ -157,11 +157,18 @@ const VideoAdmin = () => {
     setUploading(true);
     setProgress(0);
     let storagePath = "";
+    let coverPath: string | null = null;
     try {
       storagePath = await uploadMedia(BUCKET, file, {
         onProgress: setProgress,
         onRetry: (attempt, max) => toast.info(`连接中断，自动重试中（${attempt}/${max}）…`),
       });
+
+      // 上传选中的封面帧（若已生成）
+      const selected = covers[coverIndex];
+      if (selected) {
+        coverPath = await uploadMedia(COVER_BUCKET, coverBlobToFile(selected.blob, file.name));
+      }
 
       const { error: dbError } = await supabase.from("videos").insert({
         title: title.trim(),
@@ -169,16 +176,19 @@ const VideoAdmin = () => {
         city,
         procedure: procedure.trim() || null,
         storage_path: storagePath,
+        cover_path: coverPath,
         status,
         doctor_id: doctorId === "none" ? null : doctorId,
       });
       if (dbError) {
         await supabase.storage.from(BUCKET).remove([storagePath]);
+        if (coverPath) await supabase.storage.from(COVER_BUCKET).remove([coverPath]);
         throw dbError;
       }
 
-      toast.success("短视频上传成功");
+      toast.success(coverPath ? "短视频与封面上传成功" : "短视频上传成功（无封面）");
       setFile(null); setTitle(""); setCaption(""); setProcedure(""); setStatus("published"); setDoctorId("none");
+      clearCovers();
       setErrors({});
       await loadVideos();
     } catch (error) {
