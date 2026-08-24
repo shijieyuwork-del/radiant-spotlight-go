@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { ArrowLeft, ImagePlus, Loader2, Stethoscope, Trash2, UploadCloud } from "lucide-react";
 import { toast } from "sonner";
@@ -7,12 +7,15 @@ import { supabase } from "@/integrations/supabase/client";
 import { signedUrls } from "@/lib/storage-urls";
 import { replaceMedia, uploadMedia } from "@/lib/upload-media";
 import { PHOTO_RULES, fieldForUploadError, validateMediaFile } from "@/lib/media-validation";
+import { scrollToFirstError } from "@/lib/scroll-to-error";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
 import ImageCropDialog from "@/components/ImageCropDialog";
+import FileDropZone from "@/components/FileDropZone";
+import FieldError from "@/components/FieldError";
 
 type Expert = {
   id: string; name: string; title: string; hospital: string; city: string;
@@ -48,6 +51,7 @@ export default function DoctorAdmin() {
   // 裁剪流程：待裁剪的原图 + 裁剪结果用途（新建表单 / 更换某专家照片）
   const [cropSource, setCropSource] = useState<File | null>(null);
   const [cropTarget, setCropTarget] = useState<"create" | Expert | null>(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
   const openCrop = (file: File | null, target: "create" | Expert) => {
     if (!file) return;
@@ -113,6 +117,7 @@ export default function DoctorAdmin() {
     setErrors(next);
     if (Object.keys(next).length > 0) {
       toast.error(`表单有 ${Object.keys(next).length} 处需要修正，请查看标红字段`);
+      scrollToFirstError(formRef.current);
       return;
     }
 
@@ -142,7 +147,10 @@ export default function DoctorAdmin() {
       if (photoPath) await supabase.storage.from("doctor-photos").remove([photoPath]);
       const message = error instanceof Error ? error.message : "发布失败";
       // 服务端的类型/大小/限流/配额错误归因到照片字段并标红
-      if (fieldForUploadError(message)) setErrors((prev) => ({ ...prev, photo: message }));
+      if (fieldForUploadError(message)) {
+        setErrors((prev) => ({ ...prev, photo: message }));
+        scrollToFirstError(formRef.current);
+      }
       toast.error(message);
     } finally {
       setBusy(false);
@@ -193,16 +201,17 @@ export default function DoctorAdmin() {
       <main className="container py-8 grid lg:grid-cols-[420px_1fr] gap-8">
         <section className="rounded-3xl bg-card shadow-pop p-6 h-fit">
           <div className="flex gap-3 items-center mb-6"><Stethoscope className="text-primary" /><h1 className="font-display text-2xl">添加专家资料</h1></div>
-          <form onSubmit={submit} className="space-y-4" noValidate>
+          <form onSubmit={submit} className="space-y-4" noValidate ref={formRef}>
             <div>
               <Label htmlFor="expert-photo">专家照片</Label>
-              <Input
+              <FileDropZone
                 id="expert-photo"
-                type="file"
                 accept="image/jpeg,image/png,image/webp"
-                aria-invalid={!!errors.photo}
-                className={errors.photo ? errorInputClass : undefined}
-                onChange={(e) => { openCrop(e.target.files?.[0] ?? null, "create"); e.target.value = ""; }}
+                rules={PHOTO_RULES}
+                invalid={!!errors.photo}
+                fileName={photo?.name}
+                onFile={(f) => openCrop(f, "create")}
+                onInvalid={(msg) => { setErrors((prev) => ({ ...prev, photo: msg })); toast.error(msg); }}
               />
               {photoPreview && (
                 <div className="mt-2 flex items-center gap-3">
@@ -211,8 +220,8 @@ export default function DoctorAdmin() {
                 </div>
               )}
               {errors.photo
-                ? <p className="text-xs text-destructive mt-1">{errors.photo}</p>
-                : <p className="text-xs text-muted-foreground mt-1">{PHOTO_RULES.formatLabel}，最大 10MB · 选择后可裁剪为统一正方形</p>}
+                ? <FieldError message={errors.photo} />
+                : <p className="text-xs text-muted-foreground mt-1">选择后可裁剪为统一正方形</p>}
             </div>
             <Field label="专家姓名 *" value={name} error={errors.name} set={(v) => { setName(v); clearError("name"); }} />
             <Field label="职称 *" value={title} error={errors.title} set={(v) => { setTitle(v); clearError("title"); }} />
@@ -230,7 +239,7 @@ export default function DoctorAdmin() {
                 className={errors.bio ? errorInputClass : undefined}
                 onChange={(e) => { setBio(e.target.value); clearError("bio"); }}
               />
-              {errors.bio && <p className="text-xs text-destructive mt-1">{errors.bio}</p>}
+              {errors.bio && <FieldError message={errors.bio} />}
             </div>
             <div>
               <Label htmlFor="expert-credentials">资质与认证</Label>
@@ -306,6 +315,6 @@ const Field = ({ label, value, set, error }: { label: string; value: string; set
       className={error ? errorInputClass : undefined}
       onChange={(e) => set(e.target.value)}
     />
-    {error && <p className="text-xs text-destructive mt-1">{error}</p>}
+    {error && <FieldError message={error} />}
   </div>
 );
