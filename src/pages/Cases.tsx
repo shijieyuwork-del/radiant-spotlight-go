@@ -230,7 +230,8 @@ const Cases = () => {
         ) : (
           <div>
             <div className="mb-4 flex items-end justify-between gap-4 md:mb-5"><div><span className="pill bg-accent text-accent-foreground">{c("Latest recovery updates", "最新更新", "Последние обновления")}</span><h2 className="mt-3 font-display text-[1.75rem] font-medium leading-tight md:text-3xl">{c("Choose a journey to continue", "选择一个历程继续观看", "Выберите историю и продолжайте просмотр")}</h2></div><span className="hidden items-center gap-1 text-sm font-semibold text-primary sm:inline-flex">{c("Open a card for the full timeline", "点击卡片查看完整时间线", "Откройте карточку, чтобы увидеть весь путь")}<ArrowRight className="size-4" /></span></div>
-            <TikTokWall items={items} lang={lang} fmtPrice={fmt} variant="cases" />
+            <TikTokWall items={pagedItems} lang={lang} fmtPrice={fmt} variant="cases" highlight={q} />
+            <Pagination page={safePage} totalPages={totalPages} onChange={setPage} />
           </div>
         )}
 
