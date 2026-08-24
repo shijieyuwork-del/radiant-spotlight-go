@@ -11,11 +11,14 @@ import { MedicalDisclaimer } from "@/components/MedicalDisclaimer";
 import { useAuth } from "@/lib/auth";
 import { useAsia } from "@/lib/asia-i18n";
 import { supabase } from "@/integrations/supabase/client";
+import { trackEvent } from "@/lib/analytics";
 
 export interface QuoteContext {
   doctorName?: string;
   procedure?: string;
   city?: string;
+  /** Non-sensitive placement label for aggregate funnel measurement. */
+  source?: string;
 }
 
 interface QuoteCtxValue {
@@ -48,6 +51,7 @@ export const QuoteProvider = ({ children }: { children: ReactNode }) => {
     setCtx(c ?? {});
     setSubmitted(false);
     setIsOpen(true);
+    trackEvent("start_quote", { source: c?.source || "site_cta" });
   }, []);
   const close = useCallback(() => setIsOpen(false), []);
 
@@ -166,6 +170,8 @@ const QuoteDialog = ({
   const pickIntent = (v: Intent) => {
     setIntent(v);
     setStep(2);
+    trackEvent("quote_option_selected", { source: ctx.source || "site_cta", option: v });
+    trackEvent("quote_step_completed", { source: ctx.source || "site_cta", step: 1 });
   };
 
   const expertLabel = ctx.doctorName ?? "";
@@ -199,6 +205,8 @@ const QuoteDialog = ({
       notes ? `Questions or goals: ${notes}` : "",
     ].filter(Boolean).join("\n");
     const whatsappUrl = `https://wa.me/14708613825?text=${encodeURIComponent(message)}`;
+    trackEvent("generate_lead", { source: ctx.source || "site_cta", option: intent || "unknown" });
+    trackEvent("whatsapp_handoff", { source: ctx.source || "site_cta", option: intent || "unknown" });
     const opened = window.open(whatsappUrl, "_blank", "noopener,noreferrer");
     setLoading(false);
     if (!opened) {

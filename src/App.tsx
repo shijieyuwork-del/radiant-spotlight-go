@@ -26,6 +26,10 @@ import VideoAdmin from "./pages/VideoAdmin.tsx";
 import AuditAdmin from "./pages/AuditAdmin.tsx";
 import WhyChina from "./pages/WhyChina.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import Privacy from "./pages/Privacy.tsx";
+import TreatmentLandingPage from "./pages/TreatmentLandingPage.tsx";
+import AnalyticsRouteTracker from "@/components/AnalyticsRouteTracker";
+import ConsentBanner from "@/components/ConsentBanner";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +43,8 @@ const App = () => (
                 <TooltipProvider>
                   <Toaster />
                   <Sonner />
+                  <AnalyticsRouteTracker />
+                  <ConsentBanner />
                   <FloatingLiveChat />
                   <Routes>
                     <Route path="/" element={<AsiaIndex />} />
@@ -55,6 +61,10 @@ const App = () => (
                     <Route path="/travel-packages" element={<Packages />} />
                     <Route path="/packages" element={<Navigate to="/travel-packages" replace />} />
                     <Route path="/why-china" element={<WhyChina />} />
+                    <Route path="/privacy" element={<Privacy />} />
+                    <Route path="/lp/rhinoplasty-china" element={<TreatmentLandingPage kind="rhinoplasty" />} />
+                    <Route path="/lp/blepharoplasty-china" element={<TreatmentLandingPage kind="blepharoplasty" />} />
+                    <Route path="/lp/facelift-china" element={<TreatmentLandingPage kind="facelift" />} />
                     <Route path="/auth" element={<Auth />} />
                     <Route path="/admin/videos" element={<VideoAdmin />} />
 <Route path="/admin/doctors" element={<DoctorAdmin />} />

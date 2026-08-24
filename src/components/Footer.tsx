@@ -2,6 +2,7 @@ import { Instagram, Youtube } from "lucide-react";
 import { Link } from "react-router-dom";
 import BrandLogo from "@/components/BrandLogo";
 import { MedicalDisclaimer } from "@/components/MedicalDisclaimer";
+import { analyticsConfigured, openPrivacyChoices } from "@/lib/analytics";
 
 const Footer = () => {
   return (
@@ -9,7 +10,7 @@ const Footer = () => {
       <div className="container py-10 md:py-16 grid grid-cols-2 gap-8 md:grid-cols-4">
         <div className="space-y-4 col-span-2 md:col-span-1">
           <BrandLogo />
-          <p className="text-sm text-muted-foreground max-w-xs">China's trusted cosmetic medical travel platform. Verified experts. Coordinated care. Travel made simple.</p>
+          <p className="text-sm text-muted-foreground max-w-xs">China-focused cosmetic medical travel guidance. Published provider information. Coordinated care and practical travel support.</p>
         </div>
         {[
           { title: "Explore", items: [{ label: "Patient Diaries", to: "/cases" }, { label: "Experts in China", to: "/doctors" }, { label: "Procedure Academy", to: "/treatments" }, { label: "China Destinations", to: "/cities" }] },
@@ -33,7 +34,9 @@ const Footer = () => {
       </div>
       <div className="container pb-10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
         <p>© {new Date().getFullYear()} Cosmetics Asia. Focused on medical travel in China.</p>
-        <div className="flex gap-3">
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          <Link to="/privacy" className="hover:text-foreground">Privacy notice</Link>
+          {analyticsConfigured() && <button type="button" onClick={openPrivacyChoices} className="hover:text-foreground">Privacy choices</button>}
           <Instagram className="size-4 hover:text-foreground cursor-pointer" />
           <Youtube className="size-4 hover:text-foreground cursor-pointer" />
         </div>

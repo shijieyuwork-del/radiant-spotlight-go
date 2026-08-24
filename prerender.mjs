@@ -130,6 +130,26 @@ function buildRoutes(d) {
       title: "Why Choose Asia for Surgery",
       description: "Evidence-based reasons to consider cosmetic medical travel in Asia, plus a practical safety checklist and original sources.",
     },
+    {
+      path: "/privacy",
+      title: "Privacy Notice",
+      description: "How Cosmetics Asia uses essential storage, optional analytics, and the information you choose to share.",
+    },
+    {
+      path: "/lp/rhinoplasty-china",
+      title: "Rhinoplasty in China | Cost, Recovery & Free Consultation",
+      description: "Considering rhinoplasty in China? Review realistic cost and recovery ranges, understand travel support, and start with a free, no-obligation consultation.",
+    },
+    {
+      path: "/lp/blepharoplasty-china",
+      title: "Blepharoplasty in China | Cost, Recovery & Free Consultation",
+      description: "Explore blepharoplasty in China with realistic pricing, recovery guidance, travel coordination, and a free, no-obligation initial consultation.",
+    },
+    {
+      path: "/lp/facelift-china",
+      title: "Facelift in China | Cost, Recovery & Free Consultation",
+      description: "Considering a facelift in China? Compare realistic cost and recovery ranges, understand travel planning, and begin with a free consultation.",
+    },
   ];
 
   routes.push({

@@ -87,8 +87,8 @@ const dict: Record<AsiaLang, Dict> = {
     "case.back": "Back",
     "case.related": "Related cases",
     "case.book": "Book this treatment",
-    "disclaimer.text": "Glowy Asia is an information and travel-coordination platform, not a medical provider. We do not offer medical advice, diagnosis, or treatment. All medical decisions are made directly between you and the licensed institutions.",
-    "disclaimer.short": "Not medical advice — Glowy Asia provides information and coordination only. All medical decisions are made between you and the licensed institutions.",
+    "disclaimer.text": "Cosmetics Asia is an information and travel-coordination platform, not a medical provider. We do not offer medical advice, diagnosis, or treatment. All medical decisions are made directly between you and licensed medical institutions.",
+    "disclaimer.short": "Not medical advice — Cosmetics Asia provides information and coordination only. All medical decisions are made between you and licensed medical institutions.",
   },
   zh: {
     "brand.suffix": "亚洲医美",
@@ -243,8 +243,8 @@ const dict: Record<AsiaLang, Dict> = {
     "case.back": "Назад",
     "case.related": "Похожие кейсы",
     "case.book": "Записаться на эту процедуру",
-    "disclaimer.text": "Glowy Asia — информационная и координационная платформа, а не медицинское учреждение. Мы не предоставляем медицинских советов, диагностики или лечения. Все медицинские решения принимаются напрямую между вами и лицензированными учреждениями.",
-    "disclaimer.short": "Не является медицинской консультацией — Glowy Asia предоставляет только информацию и координацию. Все медицинские решения принимаются между вами и лицензированными учреждениями.",
+    "disclaimer.text": "Cosmetics Asia — информационная и координационная платформа, а не медицинское учреждение. Мы не предоставляем медицинских советов, диагностики или лечения. Все медицинские решения принимаются напрямую между вами и лицензированными медицинскими учреждениями.",
+    "disclaimer.short": "Не является медицинской консультацией — Cosmetics Asia предоставляет только информацию и координацию. Все медицинские решения принимаются между вами и лицензированными медицинскими учреждениями.",
   },
 };
 

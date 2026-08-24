@@ -2,6 +2,7 @@ import { ArrowRight, MessageCircle } from "lucide-react";
 import { useAsia } from "@/lib/asia-i18n";
 import { useQuote, type QuoteContext } from "@/components/QuoteRequest";
 import { cn } from "@/lib/utils";
+import { trackEvent } from "@/lib/analytics";
 
 /**
  * 全站统一的 “Get a free quote” CTA 按钮。
@@ -56,7 +57,7 @@ const QuoteCtaButton = ({
 
   if (quoteCtx) {
     return (
-      <button type="button" onClick={() => open(quoteCtx)} className={cls}>
+      <button type="button" onClick={() => { trackEvent("select_cta", { source: quoteCtx.source || "quote_button" }); open(quoteCtx); }} className={cls}>
         {icon === "chat" && <Icon className="size-4" />}
         {label}
         {icon === "arrow" && <Icon className="size-4" />}
@@ -64,7 +65,7 @@ const QuoteCtaButton = ({
     );
   }
   return (
-    <a href={href} target="_blank" rel="noreferrer" className={cls}>
+    <a href={href} target="_blank" rel="noreferrer" onClick={() => trackEvent("whatsapp_handoff", { source: "quote_button" })} className={cls}>
       {label}
       <Icon className="size-4" />
     </a>
