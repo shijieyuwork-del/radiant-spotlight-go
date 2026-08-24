@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
 import { COUNTRY_BY_CITY, COUNTRY_META } from "@/data/cities";
 import { CitySearchBar, useCityFilter } from "@/components/CitySearch";
+import { Highlight } from "@/components/HighlightText";
 import { useAsia } from "@/lib/asia-i18n";
 import { asiaCopy } from "@/lib/asia-copy";
 
@@ -114,11 +115,11 @@ const Cities = () => {
                   <div className="absolute bottom-3 left-4 right-4 flex items-end justify-between text-background">
                     <div>
                       <p className="font-display text-3xl font-semibold leading-none">
-                        {lang === "zh" ? city.zh : city.en}
+                        <Highlight text={lang === "zh" ? city.zh : city.en} query={filter.query} className="rounded bg-primary/80 px-0.5 text-primary-foreground" />
                       </p>
                       <p className="text-xs opacity-80 mt-1">
                         {meta ? `${meta.flag} ${c(meta.en, meta.zh, meta.ru)} · ` : ""}
-                        {lang === "zh" ? city.en : city.zh}
+                        <Highlight text={lang === "zh" ? city.en : city.zh} query={filter.query} className="rounded bg-primary/80 px-0.5 text-primary-foreground" />
                       </p>
                     </div>
                     <span className="pill bg-background/95 text-foreground text-[10px]"><Wallet className="size-3 text-primary" />{c("Travel guide", "行程指南", "Путеводитель")}</span>
@@ -127,7 +128,7 @@ const Cities = () => {
 
                 <div className="p-5 flex-1 flex flex-col gap-3">
                   <p className="text-sm text-foreground/80 leading-snug">
-                    {lang === "zh" ? city.taglineZh : city.taglineEn}
+                    <Highlight text={lang === "zh" ? city.taglineZh : city.taglineEn} query={filter.query} />
                   </p>
 
                   <div className="grid grid-cols-2 gap-2 text-center">
@@ -149,7 +150,7 @@ const Cities = () => {
                         key={h}
                         className="text-[10px] px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground"
                       >
-                        {h}
+                        <Highlight text={h} query={filter.query} />
                       </span>
                     ))}
                   </div>
