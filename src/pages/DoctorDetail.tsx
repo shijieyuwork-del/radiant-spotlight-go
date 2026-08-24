@@ -63,10 +63,10 @@ const DoctorDetail = () => {
     "@type": "Physician",
     name: doctorName,
     jobTitle: doctorTitle,
-    image: expert.img,
+    image: doctor.img,
     workLocation: {
       "@type": "Place",
-      name: lang === "zh" ? expert.clinicZh : expert.clinicEn,
+      name: lang === "zh" ? doctor.clinicZh : doctor.clinicEn,
       address: {
         "@type": "PostalAddress",
         addressCountry: countryOf(doctor.cityEn),
@@ -77,7 +77,7 @@ const DoctorDetail = () => {
     agentInteractionStatistic: {
       "@type": "InteractionCounter",
       interactionType: "http://schema.org/ReviewAction",
-      userInteractionCount: expert.reviews,
+      userInteractionCount: doctor.reviews,
     },
   };
 
@@ -87,7 +87,7 @@ const DoctorDetail = () => {
         title={`${doctorName} - ${doctorTitle} in ${doctorCity}`}
         description={`Consult ${doctorName}, a board-certified surgeon in ${doctorCity} with ${doctor.years}+ years experience and ${doctor.reviews}+ verified patient reviews. Specializes in ${(lang === "zh" ? doctor.specZh : doctor.specEn).slice(0, 2).join(", ")}.`}
         path={`/doctors/${id}`}
-        image={expert.img}
+        image={doctor.img}
         structuredData={doctorSchema}
       />
       <div className="min-h-screen bg-background">
@@ -102,8 +102,8 @@ const DoctorDetail = () => {
         <div className="rounded-3xl bg-card shadow-pop p-6 md:p-8 grid md:grid-cols-12 gap-6 items-start">
           <div className="md:col-span-3">
             <img
-              src={expert.img}
-              alt={lang === "zh" ? expert.zh : expert.en}
+              src={doctor.img}
+              alt={lang === "zh" ? doctor.zh : doctor.en}
               className="w-full aspect-square rounded-3xl object-cover shadow-soft"
             />
           </div>
@@ -112,14 +112,14 @@ const DoctorDetail = () => {
               <BadgeCheck className="size-3.5 text-primary" /> {t("doc.cert")}
             </span>
             <h1 className="font-display text-3xl md:text-4xl font-medium tracking-tight leading-tight">
-              {lang === "zh" ? expert.zh : expert.en}
+              {lang === "zh" ? doctor.zh : doctor.en}
             </h1>
             <p className="text-sm text-muted-foreground">
               {lang === "zh" ? doctor.titleZh : doctor.titleEn}
             </p>
             <p className="text-sm flex items-center gap-1.5">
               <Building2 className="size-4 text-primary" />
-              {lang === "zh" ? expert.clinicZh : expert.clinicEn}
+              {lang === "zh" ? doctor.clinicZh : doctor.clinicEn}
             </p>
             <p className="text-sm flex items-center gap-1.5 text-muted-foreground">
               <MapPin className="size-4 text-primary" />
@@ -127,7 +127,7 @@ const DoctorDetail = () => {
             </p>
 
             <div className="flex flex-wrap gap-1 pt-1">
-              {(lang === "zh" ? expert.specZh : expert.specEn).map((s) => (
+              {(lang === "zh" ? doctor.specZh : doctor.specEn).map((s) => (
                 <span key={s} className="text-xs px-2.5 py-1 rounded-full bg-accent text-accent-foreground">{s}</span>
               ))}
             </div>
@@ -135,18 +135,18 @@ const DoctorDetail = () => {
 
           <div className="md:col-span-3 grid grid-cols-3 md:grid-cols-1 gap-2">
             <div className="rounded-2xl bg-secondary p-3 text-center">
-              <p className="font-display text-xl font-semibold">{expert.years}{lang === "zh" ? "年" : ""}</p>
+              <p className="font-display text-xl font-semibold">{doctor.years}{lang === "zh" ? "年" : ""}</p>
               <p className="text-[10px] text-muted-foreground">{t("doctors.exp")}</p>
             </div>
             <div className="rounded-2xl bg-secondary p-3 text-center">
-              <p className="font-display text-xl font-semibold">{expert.surgeries}</p>
+              <p className="font-display text-xl font-semibold">{doctor.surgeries}</p>
               <p className="text-[10px] text-muted-foreground">{t("doctors.cases")}</p>
             </div>
             <div className="rounded-2xl bg-secondary p-3 text-center">
               <p className="font-display text-xl font-semibold inline-flex items-center gap-0.5">
-                <Star className="size-4 fill-primary text-primary" /> {expert.rating}
+                <Star className="size-4 fill-primary text-primary" /> {doctor.rating}
               </p>
-              <p className="text-[10px] text-muted-foreground">{expert.reviews.toLocaleString()} {t("cl.reviews")}</p>
+              <p className="text-[10px] text-muted-foreground">{doctor.reviews.toLocaleString()} {t("cl.reviews")}</p>
             </div>
           </div>
         </div>
@@ -157,12 +157,12 @@ const DoctorDetail = () => {
             <FileCheck2 className="size-4 text-primary mt-0.5 shrink-0" />
             <div className="text-sm">
               <p className="font-semibold">{t("doctors.lic")}</p>
-              <p className="font-mono text-foreground/80 text-xs mt-0.5 break-all">{expert.license}</p>
+              <p className="font-mono text-foreground/80 text-xs mt-0.5 break-all">{doctor.license}</p>
             </div>
           </div>
           <div className="rounded-2xl bg-muted/40 p-4 flex items-start gap-3">
             <ShieldCheck className="size-4 text-primary mt-0.5 shrink-0" />
-            <p className="text-sm">{lang === "zh" ? expert.qualZh : expert.qualEn}</p>
+            <p className="text-sm">{lang === "zh" ? doctor.qualZh : doctor.qualEn}</p>
           </div>
         </div>
 
@@ -188,7 +188,7 @@ const DoctorDetail = () => {
                   {c("Education & training", "教育与研修", "Образование и подготовка")}
                 </h3>
                 <ul className="space-y-2 text-sm text-muted-foreground">
-                  {(lang === "zh" ? expert.eduZh : expert.eduEn).map((line) => (
+                  {(lang === "zh" ? doctor.eduZh : doctor.eduEn).map((line) => (
                     <li key={line} className="flex gap-2">
                       <span className="text-primary mt-1">•</span>
                       <span>{line}</span>
@@ -202,7 +202,7 @@ const DoctorDetail = () => {
                   {c("Awards & memberships", "荣誉与学会", "Награды и профессиональные сообщества")}
                 </h3>
                 <ul className="space-y-2 text-sm text-muted-foreground">
-                  {(lang === "zh" ? expert.awardsZh : expert.awardsEn).map((line) => (
+                  {(lang === "zh" ? doctor.awardsZh : doctor.awardsEn).map((line) => (
                     <li key={line} className="flex gap-2">
                       <span className="text-primary mt-1">•</span>
                       <span>{line}</span>
@@ -248,7 +248,7 @@ const DoctorDetail = () => {
                 {c("Reference price list", "参考价目表", "Ориентировочные цены")}
               </h3>
               <ul className="divide-y divide-border">
-                {expert.priceList.map((p) => (
+                {doctor.priceList.map((p) => (
                   <li key={p.en} className="py-2.5 flex items-center justify-between gap-3 text-sm">
                     <span className="truncate">{lang === "zh" ? p.zh : p.en}</span>
                     <span className="font-semibold shrink-0">{lang === "zh" ? "" : "from "}{fmt(p.from)}{lang === "zh" ? " 起" : ""}</span>
