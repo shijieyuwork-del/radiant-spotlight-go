@@ -148,7 +148,7 @@ const TikTokCard = ({
       {/* top: treatment chip + verified */}
       <div className="absolute top-3 left-3 right-3 flex items-start justify-between gap-2">
         <span className="pill bg-white/90 backdrop-blur text-foreground text-[10px] font-semibold">
-          {item.treatment[lang]}
+          <Highlight text={item.treatment[lang]} query={highlight} className={MARK_CLASS} />
         </span>
         <span className="pill bg-primary/90 text-primary-foreground text-[10px] font-semibold">
           {discovery ? recoveryStage : labels[lang].verified}
@@ -210,12 +210,12 @@ const TikTokCard = ({
 
       {/* bottom info */}
       <div className="absolute left-3 right-16 bottom-3 text-white">
-        <p className="text-xs font-semibold opacity-95">{item.user[lang]}</p>
-        <p className="text-[12px] mt-1 leading-snug line-clamp-2">{item.caption[lang]}</p>
-        {!discovery && <p className="text-[11px] opacity-80 mt-1">{item.clinic[lang]}</p>}
+        <p className="text-xs font-semibold opacity-95"><Highlight text={item.user[lang]} query={highlight} className={MARK_CLASS} /></p>
+        <p className="text-[12px] mt-1 leading-snug line-clamp-2"><Highlight text={item.caption[lang]} query={highlight} className={MARK_CLASS} /></p>
+        {!discovery && <p className="text-[11px] opacity-80 mt-1"><Highlight text={item.clinic[lang]} query={highlight} className={MARK_CLASS} /></p>}
         {item.city && (
           <p className="mt-1 flex items-center gap-1 text-[11px] font-medium text-white/90">
-            <MapPin className="size-3" /> {item.city[lang]}
+            <MapPin className="size-3" /> <Highlight text={item.city[lang]} query={highlight} className={MARK_CLASS} />
           </p>
         )}
         <div className="mt-2 flex items-center justify-between gap-2">
