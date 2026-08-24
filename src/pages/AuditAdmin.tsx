@@ -94,12 +94,12 @@ export default function AuditAdmin() {
     return query;
   }, [action, bucket, sort, from, to, keyword, actor]);
 
-  const load = useCallback(async (pageIndex: number) => {
+  const load = useCallback(async (pageIndex: number, actorOverride?: string) => {
     setLoading(true);
-    const { data, error } = await buildQuery({
-      from: pageIndex * PAGE_SIZE,
-      to: pageIndex * PAGE_SIZE + PAGE_SIZE,
-    });
+    const { data, error } = await buildQuery(
+      { from: pageIndex * PAGE_SIZE, to: pageIndex * PAGE_SIZE + PAGE_SIZE },
+      actorOverride,
+    );
     if (error) {
       toast.error(error.message);
       setRows([]);
@@ -170,15 +170,13 @@ export default function AuditAdmin() {
     void load(next);
   };
 
-  /** 点击表格中的操作者 → 快速筛选该操作者 */
+  /** 点击表格中的操作者 → 快速筛选该操作者（显式传入，避免状态未刷新） */
   const filterByActor = (r: AuditRow) => {
     const v = r.actor_email ?? r.actor_id;
     if (!v) return;
     setActor(v);
-    setTimeout(() => {
-      setPage(0);
-      void load(0);
-    }, 0);
+    setPage(0);
+    void load(0, v);
   };
 
   const copy = async (text: string, label: string) => {
