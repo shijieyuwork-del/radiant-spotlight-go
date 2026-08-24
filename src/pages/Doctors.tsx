@@ -73,6 +73,51 @@ const Doctors = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [directoryDoctors, city, q]);
 
+  // —— 排序：推荐 / 热度 / 最新入驻 / 距离 ——
+  const [sort, setSort] = useState("recommended");
+  const { coords, status: locStatus, request: requestLocation } = useUserLocation();
+
+  // 选中「距离」时才请求浏览器定位
+  useEffect(() => {
+    if (sort === "distance" && locStatus === "idle") requestLocation();
+  }, [sort, locStatus, requestLocation]);
+
+  const sortedDoctors = useMemo(() => {
+    const arr = [...visibleDirectoryDoctors];
+    if (sort === "hot") {
+      // 已发布的真实医生排在示例资料前
+      arr.sort((a, b) => Number(!b.demo) - Number(!a.demo));
+    } else if (sort === "latest") {
+      arr.sort((a, b) => (b.created_at ?? "").localeCompare(a.created_at ?? ""));
+    } else if (sort === "distance" && coords) {
+      const dist = (d: DirectoryDoctor) => {
+        const cc = cityCoordsOf(d.city);
+        return cc ? haversineKm(coords, cc) : Number.POSITIVE_INFINITY;
+      };
+      arr.sort((a, b) => dist(a) - dist(b));
+    }
+    return arr;
+  }, [visibleDirectoryDoctors, sort, coords]);
+
+  // —— 分页 ——
+  const [page, setPage] = useState(1);
+  useEffect(() => {
+    setPage(1);
+  }, [q, city, spec, sort]);
+  const totalPages = Math.max(1, Math.ceil(sortedDoctors.length / PAGE_SIZE));
+  const safePage = Math.min(page, totalPages);
+  const pagedDoctors = useMemo(
+    () => sortedDoctors.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE),
+    [sortedDoctors, safePage],
+  );
+
+  // —— 按城市动态生成 SEO meta（?city=Seoul 分享时标题/摘要/图都对应该城市）——
+  const activeCityMeta = useMemo(
+    () => (city === "all" ? undefined : CITIES.find((x) => x.en.toLowerCase() === city.toLowerCase() || x.zh === city)),
+    [city],
+  );
+  const cityLabel = activeCityMeta ? (lang === "zh" ? activeCityMeta.zh : activeCityMeta.en) : city;
+
   const specialties = useMemo(() => {
     const set = new Map<string, string>();
     publicDoctors.forEach((d) =>
