@@ -197,3 +197,45 @@ describe("RLS: audit_logs 审计日志", () => {
     expect(error).not.toBeNull();
   });
 });
+
+describe("RLS: upload-media 上传权限校验", () => {
+  const newForm = () => {
+    const form = new FormData();
+    form.append("bucket", "doctor-photos");
+    form.append("file", new File(["x"], "rls-probe.jpg", { type: "image/jpeg" }));
+    return form;
+  };
+
+  it("anon: 匿名调用上传函数被拒绝（401）", { timeout: 20000 }, async () => {
+    const anon = newAnonClient();
+    const { data, error } = await anon.functions.invoke("upload-media", { body: newForm() });
+    expect(data?.path).toBeUndefined();
+    expect(error).not.toBeNull();
+  });
+
+  it("anon: 匿名调用请求读取函数时，未发布文件不返回签名 URL", async () => {
+    const anon = newAnonClient();
+    const { data } = await anon.functions.invoke("request-file-access", {
+      body: { bucket: "doctor-photos", paths: ["rls-test/unpublished.jpg"] },
+    });
+    expect(data?.urls ?? {}).toEqual({});
+  });
+});
+
+describeAuth("RLS: upload-media 非管理员登录用户", () => {
+  it("非管理员调用上传函数被拒绝（403）", async () => {
+    const client = newAnonClient();
+    const { error: signInError } = await client.auth.signInWithPassword({
+      email: TEST_EMAIL!,
+      password: TEST_PASSWORD!,
+    });
+    if (signInError) throw signInError;
+    const form = new FormData();
+    form.append("bucket", "short-videos");
+    form.append("file", new File(["x"], "rls-probe.mp4", { type: "video/mp4" }));
+    const { data, error } = await client.functions.invoke("upload-media", { body: form });
+    expect(data?.path).toBeUndefined();
+    expect(error).not.toBeNull();
+    await client.auth.signOut();
+  });
+});

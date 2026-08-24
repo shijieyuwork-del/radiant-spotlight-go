@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 import { signedUrls } from "@/lib/storage-urls";
+import { uploadMedia } from "@/lib/upload-media";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -95,15 +96,9 @@ const VideoAdmin = () => {
     event.preventDefault();
     if (!file || !title.trim()) return toast.error("请选择视频并填写标题");
     setUploading(true);
-    const ext = file.name.split(".").pop()?.toLowerCase() || "mp4";
-    const storagePath = `${user.id}/${Date.now()}-${crypto.randomUUID()}.${ext}`;
+    let storagePath = "";
     try {
-      const { error: storageError } = await supabase.storage.from(BUCKET).upload(storagePath, file, {
-        cacheControl: "3600",
-        contentType: file.type,
-        upsert: false,
-      });
-      if (storageError) throw storageError;
+      storagePath = await uploadMedia(BUCKET, file);
 
       const { error: dbError } = await supabase.from("videos").insert({
         title: title.trim(),
