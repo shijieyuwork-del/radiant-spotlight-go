@@ -113,7 +113,7 @@ describe("quote CTA — 统一组件 QuoteCtaButton", () => {
     }
   });
 
-  it("全站不再残留内联的 quote 三语文案（c("...free quote...)）", () => {
+  it("全站不再残留内联的 quote 三语文案（c('...free quote...') 形式）", () => {
     const offenders: string[] = [];
     for (const file of sourceFiles) {
       const content = readFileSync(file, "utf-8");
