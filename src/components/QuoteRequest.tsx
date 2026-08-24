@@ -166,13 +166,13 @@ const QuoteDialog = ({
   };
 
   const headline = ctx.doctorName
-    ? `Connect with Dr. ${ctx.doctorName}`
+    ? `Connect with ${ctx.doctorName}`
     : ctx.procedure
     ? `Get pricing for ${ctx.procedure}`
     : "Send us an email or WhatsApp message";
 
   const subline = ctx.doctorName
-    ? `${ctx.city ?? "Verified surgeon"} · usually replies within 24h`
+    ? `${ctx.city ?? "Verified expert"} · usually replies within 24h`
     : "Verified experts will send you tailored pricing — no obligation.";
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -319,7 +319,7 @@ const IntentStep = ({ onPick, doctorName }: { onPick: (i: Intent) => void; docto
       icon: DollarSign,
       title: "Get a price quote",
       desc: doctorName
-        ? `Receive tailored pricing from Dr. ${doctorName} by email.`
+        ? `Receive tailored pricing from ${doctorName} by email.`
         : "Receive tailored pricing from verified experts by email.",
       meta: "Reply within 24h",
     },
@@ -469,9 +469,9 @@ const SuccessState = ({
       </h3>
       <p className="text-sm text-muted-foreground mt-2 max-w-xs mx-auto">
         {isConsult
-          ? `${doctorName ? `Dr. ${doctorName}` : "The doctor"} will confirm your consultation${prettySlot ? ` for ${prettySlot}` : ""} within 24 hours by email.`
+          ? `${doctorName ?? "The expert"} will confirm your consultation${prettySlot ? ` for ${prettySlot}` : ""} within 24 hours by email.`
           : doctorName
-          ? `Dr. ${doctorName} usually replies within 24 hours. We'll email you as soon as they do.`
+          ? `${doctorName} usually replies within 24 hours. We'll email you as soon as they do.`
           : "Most experts reply within 24 hours. We'll email you as soon as quotes start arriving."}
       </p>
       <Button onClick={onClose} className="mt-6 rounded-full px-8 bg-foreground text-background hover:bg-foreground/90">
