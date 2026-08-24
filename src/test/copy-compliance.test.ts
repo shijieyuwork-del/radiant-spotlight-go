@@ -86,17 +86,26 @@ describe("copy compliance — 不再出现 doctor 医疗建议相关表述", () 
   }
 
   it("i18n 字典的文案值中无禁用表述", () => {
-    const lines = read("lib/asia-i18n.tsx").split("\n");
-    const bad: string[] = [];
-    lines.forEach((line, i) => {
-      // 只检查字典值（"key": "value" 形式），键名是内部标识符
-      const m = line.match(/^\s*"[^"]+":\s*"(.*)"\s*,?\s*$/);
-      if (!m) return;
-      for (const b of BANNED) {
-        if (b.re.test(m[1])) bad.push(`asia-i18n.tsx:${i + 1} [${b.label}] ${m[1].slice(0, 80)}`);
-      }
-    });
-    expect(bad).toEqual([]);
+    const EXTRA_BANNED = [
+      ...BANNED,
+      { re: /의사/, label: "의사" },
+      { re: /หมอ/, label: "หมอ" },
+      { re: /الطبيب/, label: "الطبيب" },
+    ];
+    for (const dictFile of ["lib/asia-i18n.tsx", "lib/translations.ts"]) {
+      const bad: string[] = [];
+      read(dictFile)
+        .split("\n")
+        .forEach((line, i) => {
+          // 只检查字典值（"key": "value" 形式），键名是内部标识符
+          const m = line.match(/^\s*"[^"]+":\s*"(.*)"\s*,?\s*$/);
+          if (!m) return;
+          for (const b of EXTRA_BANNED) {
+            if (b.re.test(m[1])) bad.push(`${dictFile}:${i + 1} [${b.label}] ${m[1].slice(0, 80)}`);
+          }
+        });
+      expect(bad).toEqual([]);
+    }
   });
 });
 
