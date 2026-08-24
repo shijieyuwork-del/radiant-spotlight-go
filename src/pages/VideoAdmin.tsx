@@ -127,10 +127,12 @@ const VideoAdmin = () => {
       toast.error(error instanceof Error ? error.message : "上传失败");
     } finally {
       setUploading(false);
+      setProgress(null);
     }
   };
 
   const [replacingId, setReplacingId] = useState<string | null>(null);
+  const [replaceProgress, setReplaceProgress] = useState(0);
 
   const replaceVideo = async (video: VideoRow, next: File | null) => {
     if (!next) return;
