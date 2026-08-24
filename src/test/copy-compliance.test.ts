@@ -20,6 +20,7 @@ const ALLOWLIST = [
   /DoctorContactButton|DoctorProfile|VerifiedDoctorBadge|DoctorsSection|DoctorDetail|DoctorAdmin/,
   /publishedDoctors|managedDoctors|demoChinaDoctors|DEMO_CHINA_DOCTORS|\bDOCTORS\b|setPublishedDoctors/,
   /doctor\.[a-z]|\bdoctor\s*[=:,)}\]]|const doctor|!doctor|\(doctor\)|doctor\?:/,
+  /\btype Doctor\b|\bDoctorOption\b/, // 内部类型标识符
   /doctor-photos/, // 存储桶名
   /Dr\.\s*(Fournier|Coleman)/, // 认证课程专有名词
   /sat with me/, // 患者评价原文引用（UGC）
