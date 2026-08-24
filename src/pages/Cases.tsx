@@ -182,10 +182,34 @@ const Cases = () => {
           <FilterSelect value={activeCity} onChange={setActiveCity} label={c("All cities", "全部城市", "Все города")} options={cityOptions} />
         </div>
 
+        <div className="mb-3 md:mb-4">
+          <SortChips
+            label={c("Sort", "排序", "Сортировка")}
+            value={sort}
+            onChange={setSort}
+            options={[
+              { key: "recommended", label: c("Recommended", "推荐", "Рекомендуемые") },
+              { key: "hot", label: c("Most liked", "热度最高", "Популярные") },
+              { key: "latest", label: c("Latest", "最新更新", "Новые") },
+              { key: "distance", label: c("Nearest", "距离最近", "Ближайшие") },
+            ]}
+          />
+          {sort === "distance" && (
+            <p className="mt-2 flex items-center justify-center gap-1 text-[11px] text-muted-foreground">
+              <Navigation className="size-3" />
+              {locStatus === "locating"
+                ? c("Locating…", "正在获取定位…", "Определяем местоположение…")
+                : locStatus === "denied"
+                  ? c("Location unavailable — showing default order.", "无法获取定位，已按默认顺序展示。", "Геолокация недоступна — показан обычный порядок.")
+                  : c("Sorted by distance from you.", "已按与你的距离排序。", "Отсортировано по расстоянию от вас.")}
+            </p>
+          )}
+        </div>
+
         <div className="mb-7 flex items-center justify-center gap-3 text-xs text-muted-foreground md:mb-10">
           <SlidersHorizontal className="size-3" />
           <span>
-            {lang === "zh" ? `共 ${items.length} 个案例` : lang === "ru" ? `${items.length} историй` : `${items.length} case${items.length === 1 ? "" : "s"}`}
+            {lang === "zh" ? `共 ${sortedItems.length} 个案例` : lang === "ru" ? `${sortedItems.length} историй` : `${sortedItems.length} case${sortedItems.length === 1 ? "" : "s"}`}
           </span>
           {hasFilters && (
             <button
