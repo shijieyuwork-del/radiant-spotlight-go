@@ -60,7 +60,7 @@ const DemoDoctorDetail = () => {
           <section className="mt-12 md:mt-16">
             <span className="text-xs font-bold uppercase tracking-[0.14em] text-primary">{lang === "zh" ? "相关案例" : lang === "ru" ? "Похожие случаи" : "Related patient diaries"}</span>
             <h2 className="mt-2 font-display text-3xl font-medium tracking-tight md:text-4xl">{lang === "zh" ? "查看该专科的其他案例" : lang === "ru" ? "Другие случаи по этой специализации" : "Explore more cases in this specialty"}</h2>
-            <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">{lang === "zh" ? "这些案例按专科匹配，并不代表由该虚构示例专家完成。真实专家发布后，其本人案例将在这里单独展示。" : lang === "ru" ? "Эти дневники подобраны по специализации и не относятся к вымышленному эксперту. Случаи конкретных экспертов появятся после публикации реальных профилей." : "These diaries are matched by specialty and are not attributed to this fictional sample doctor. Expert-linked cases will appear here after real profiles are published."}</p>
+            <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">{lang === "zh" ? "这些案例按专科匹配，并不代表由该虚构示例专家完成。真实专家发布后，其本人案例将在这里单独展示。" : lang === "ru" ? "Эти дневники подобраны по специализации и не относятся к вымышленному эксперту. Случаи конкретных экспертов появятся после публикации реальных профилей." : "These diaries are matched by specialty and are not attributed to this fictional sample expert. Expert-linked cases will appear here after real profiles are published."}</p>
             {cases.length > 0 && <div className="mt-7"><TikTokWall items={cases} lang={lang} fmtPrice={fmt} variant="preview" /></div>}
           </section>
         </main>

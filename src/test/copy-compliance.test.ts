@@ -42,6 +42,7 @@ const KEY_FILES = [
   "pages/Doctors.tsx",
   "pages/DoctorDetail.tsx",
   "pages/ManagedDoctorDetail.tsx",
+  "pages/DemoDoctorDetail.tsx",
   "pages/Packages.tsx",
   "pages/Cities.tsx",
   "pages/CityDetail.tsx",
