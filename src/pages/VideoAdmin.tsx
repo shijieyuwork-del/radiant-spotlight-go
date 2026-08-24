@@ -217,9 +217,33 @@ const VideoAdmin = () => {
         <section className="rounded-3xl bg-card shadow-pop p-6 h-fit">
           <div className="flex items-center gap-3 mb-6"><div className="size-10 rounded-2xl bg-primary/10 grid place-items-center"><UploadCloud className="size-5 text-primary" /></div><div><h1 className="font-display text-2xl font-semibold">上传短视频</h1><p className="text-xs text-muted-foreground">MP4 / MOV / WebM，最大 100MB</p></div></div>
           <form onSubmit={upload} className="space-y-4">
-            <div><Label htmlFor="video-file">视频文件</Label><Input id="video-file" type="file" accept="video/mp4,video/quicktime,video/webm" className="mt-1.5" onChange={(e) => handleFile(e.target.files?.[0] ?? null)} /></div>
+            <div>
+              <Label htmlFor="video-file">视频文件 *</Label>
+              <Input
+                id="video-file"
+                type="file"
+                accept={VIDEO_ACCEPT}
+                aria-invalid={!!errors.file}
+                className={`mt-1.5 ${errors.file ? errorInputClass : ""}`}
+                onChange={(e) => handleFile(e.target.files?.[0] ?? null)}
+              />
+              {errors.file
+                ? <p className="text-xs text-destructive mt-1">{errors.file}</p>
+                : <p className="text-xs text-muted-foreground mt-1">{VIDEO_RULES.formatLabel}，最大 100MB</p>}
+            </div>
             {previewUrl && <video src={previewUrl} controls muted className="w-full aspect-[9/16] max-h-72 object-contain rounded-2xl bg-black" />}
-            <div><Label htmlFor="video-title">标题</Label><Input id="video-title" value={title} onChange={(e) => setTitle(e.target.value)} className="mt-1.5" placeholder="例如：术后第 30 天恢复记录" /></div>
+            <div>
+              <Label htmlFor="video-title">标题 *</Label>
+              <Input
+                id="video-title"
+                value={title}
+                aria-invalid={!!errors.title}
+                onChange={(e) => { setTitle(e.target.value); clearError("title"); }}
+                className={`mt-1.5 ${errors.title ? errorInputClass : ""}`}
+                placeholder="例如：术后第 30 天恢复记录"
+              />
+              {errors.title && <p className="text-xs text-destructive mt-1">{errors.title}</p>}
+            </div>
             <div><Label htmlFor="video-caption">说明</Label><Textarea id="video-caption" value={caption} onChange={(e) => setCaption(e.target.value)} className="mt-1.5" placeholder="视频介绍（可选）" /></div>
             <div className="grid grid-cols-2 gap-3">
               <div><Label>城市</Label><Select value={city} onValueChange={setCity}><SelectTrigger className="mt-1.5"><SelectValue /></SelectTrigger><SelectContent>{["上海", "广州", "北京", "海南", "杭州"].map((item) => <SelectItem value={item} key={item}>{item}</SelectItem>)}</SelectContent></Select></div>
