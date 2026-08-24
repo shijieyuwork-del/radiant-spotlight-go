@@ -269,6 +269,9 @@ const Doctors = () => {
               })}
             </div>
             )}
+            {visibleDirectoryDoctors.length > 0 && (
+              <Pagination page={safePage} totalPages={totalPages} onChange={setPage} />
+            )}
           </div>
         )}
 
