@@ -233,7 +233,7 @@ const TikTokCard = ({
   );
 };
 
-const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase }: TikTokWallProps) => {
+const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase, highlight }: TikTokWallProps) => {
   const [active, setActive] = useState(0);
   const [settledActive, setSettledActive] = useState<number | null>(0);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
@@ -305,7 +305,7 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase }
                   transform: `translate3d(${offset}, 0, 0)`,
                 }}
               >
-                <TikTokCard item={it} lang={lang} fmtPrice={fmtPrice} caseHrefBase={caseHrefBase} autoPlayEligible={distance === 0 && settledActive === active} eager={index === 0} beforeNavigate={allowClick} />
+                <TikTokCard item={it} lang={lang} fmtPrice={fmtPrice} caseHrefBase={caseHrefBase} autoPlayEligible={distance === 0 && settledActive === active} eager={index === 0} beforeNavigate={allowClick} highlight={highlight} />
                 {distance !== 0 && (
                   <button
                     type="button"
@@ -341,7 +341,7 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase }
       <div className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth overscroll-x-contain px-4 pb-4 scrollbar-hide sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3">
         {items.map((it, index) => (
           <div key={it.id} className="w-[82vw] max-w-[22rem] shrink-0 snap-center sm:mx-auto sm:w-full sm:max-w-[25rem]">
-            <TikTokCard item={it} lang={lang} fmtPrice={fmtPrice} caseHrefBase={caseHrefBase} discovery eager={index < 3} />
+            <TikTokCard item={it} lang={lang} fmtPrice={fmtPrice} caseHrefBase={caseHrefBase} discovery eager={index < 3} highlight={highlight} />
           </div>
         ))}
       </div>
@@ -352,7 +352,7 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase }
     <div className="flex gap-4 overflow-x-auto scroll-smooth overscroll-x-contain snap-x snap-mandatory scrollbar-hide -mx-4 px-4 pb-3 sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
       {items.map((it, index) => (
         <div key={it.id} className="min-w-[78vw] sm:min-w-0 snap-center">
-          <TikTokCard item={it} lang={lang} fmtPrice={fmtPrice} caseHrefBase={caseHrefBase} eager={index < 4} />
+          <TikTokCard item={it} lang={lang} fmtPrice={fmtPrice} caseHrefBase={caseHrefBase} eager={index < 4} highlight={highlight} />
         </div>
       ))}
     </div>
