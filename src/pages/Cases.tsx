@@ -146,9 +146,12 @@ const Cases = () => {
   return (
     <>
       <PageMeta
-        title="Real Patient Recovery Diaries"
-        description="Watch real before-and-after recovery diaries by procedure and city across Asia — timelines, prices, surgeon info and verified results."
-        path="/cases"
+        title={activeCity ? `${cityLabel} Cosmetic Surgery — Real Patient Recovery Diaries` : "Real Patient Recovery Diaries"}
+        description={activeCity
+          ? `Watch real before-and-after recovery diaries from ${cityLabel}: procedure timelines, prices, surgeon info and verified results from patients who had surgery in ${cityLabel}.`
+          : "Watch real before-and-after recovery diaries by procedure and city across Asia — timelines, prices, surgeon info and verified results."}
+        path={activeCity ? `/cases?city=${encodeURIComponent(activeCity)}` : "/cases"}
+        image={activeCityMeta?.img}
       />
       <div className="min-h-screen bg-background">
         <AsiaNavbar />
