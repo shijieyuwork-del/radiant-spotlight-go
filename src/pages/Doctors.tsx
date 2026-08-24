@@ -139,9 +139,12 @@ const Doctors = () => {
   return (
     <>
       <PageMeta
-        title="Verified Cosmetic Surgeons in Asia"
-        description="Review verified surgeon profiles across Asia, compare specialties and credentials, and book a free consultation with English-language coordination."
-        path="/doctors"
+        title={city !== "all" ? `${cityLabel} Cosmetic Surgeons — Verified Profiles` : "Verified Cosmetic Surgeons in Asia"}
+        description={city !== "all"
+          ? `Review verified cosmetic surgeons in ${cityLabel}: compare specialties, credentials and patient reviews, and book a free consultation with English-language coordination.`
+          : "Review verified surgeon profiles across Asia, compare specialties and credentials, and book a free consultation with English-language coordination."}
+        path={city !== "all" ? `/doctors?city=${encodeURIComponent(city)}` : "/doctors"}
+        image={activeCityMeta?.img}
       />
       <div className="min-h-screen bg-background">
         <AsiaNavbar />
@@ -205,7 +208,30 @@ const Doctors = () => {
 
         {directoryDoctors.length > 0 && (
           <div className="mb-10">
-            <h2 className="mb-5 font-display text-2xl">{managedDoctors.length > 0 ? c("Published doctors", "已发布医生", "Опубликованные врачи") : c("Sample doctor profiles", "医生展示样例", "Примеры профилей врачей")}</h2>
+            <h2 className="mb-4 font-display text-2xl">{managedDoctors.length > 0 ? c("Published doctors", "已发布医生", "Опубликованные врачи") : c("Sample doctor profiles", "医生展示样例", "Примеры профилей врачей")}</h2>
+            <div className="mb-5">
+              <SortChips
+                label={c("Sort", "排序", "Сортировка")}
+                value={sort}
+                onChange={setSort}
+                options={[
+                  { key: "recommended", label: c("Recommended", "推荐", "Рекомендуемые") },
+                  { key: "hot", label: c("Most popular", "热度最高", "Популярные") },
+                  { key: "latest", label: c("Newest", "最新入驻", "Новые") },
+                  { key: "distance", label: c("Nearest", "距离最近", "Ближайшие") },
+                ]}
+              />
+              {sort === "distance" && (
+                <p className="mt-2 flex items-center justify-center gap-1 text-[11px] text-muted-foreground">
+                  <Navigation className="size-3" />
+                  {locStatus === "locating"
+                    ? c("Locating…", "正在获取定位…", "Определяем местоположение…")
+                    : locStatus === "denied"
+                      ? c("Location unavailable — showing default order.", "无法获取定位，已按默认顺序展示。", "Геолокация недоступна — показан обычный порядок.")
+                      : c("Sorted by distance from you.", "已按与你的距离排序。", "Отсортировано по расстоянию от вас.")}
+                </p>
+              )}
+            </div>
             {visibleDirectoryDoctors.length === 0 ? (
               <p className="rounded-3xl border border-dashed border-border bg-card/60 px-6 py-8 text-center text-sm text-muted-foreground">
                 {c("No doctors in this city yet — try another city or ask us for a match.", "该城市暂无医生资料 —— 换个城市试试，或让我们帮你匹配。", "В этом городе пока нет врачей — попробуйте другой город или напишите нам.")}
