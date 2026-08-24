@@ -192,6 +192,12 @@ const VideoAdmin = () => {
             </div>
             <div><Label>对应医生</Label><Select value={doctorId} onValueChange={setDoctorId}><SelectTrigger className="mt-1.5"><SelectValue placeholder="选择医生"/></SelectTrigger><SelectContent><SelectItem value="none">暂不关联</SelectItem>{doctors.map(d=><SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>)}</SelectContent></Select></div>
             <div><Label>状态</Label><Select value={status} onValueChange={setStatus}><SelectTrigger className="mt-1.5"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="published">立即发布</SelectItem><SelectItem value="draft">保存草稿</SelectItem></SelectContent></Select></div>
+            {uploading && progress !== null && (
+              <div className="space-y-1.5">
+                <Progress value={progress} className="h-2" />
+                <p className="text-xs text-center text-muted-foreground">{progress < 100 ? `上传中 ${progress}%` : "服务器处理中…"}</p>
+              </div>
+            )}
             <Button type="submit" disabled={uploading || !file} className="w-full rounded-full h-11">{uploading ? <><Loader2 className="size-4 mr-2 animate-spin" />正在上传…</> : <><UploadCloud className="size-4 mr-2" />上传视频</>}</Button>
           </form>
         </section>
