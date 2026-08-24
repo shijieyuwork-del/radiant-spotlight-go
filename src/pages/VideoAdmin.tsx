@@ -153,9 +153,13 @@ const VideoAdmin = () => {
 
       toast.success("短视频上传成功");
       setFile(null); setTitle(""); setCaption(""); setProcedure(""); setStatus("published"); setDoctorId("none");
+      setErrors({});
       await loadVideos();
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "上传失败");
+      const message = error instanceof Error ? error.message : "上传失败";
+      // 服务端的类型/大小/限流/配额错误归因到文件字段并标红
+      if (fieldForUploadError(message)) setErrors((prev) => ({ ...prev, file: message }));
+      toast.error(message);
     } finally {
       setUploading(false);
       setProgress(null);
@@ -167,8 +171,8 @@ const VideoAdmin = () => {
 
   const replaceVideo = async (video: VideoRow, next: File | null) => {
     if (!next) return;
-    if (!VIDEO_TYPES.includes(next.type)) return toast.error("仅支持 MP4、MOV 或 WebM 视频");
-    if (next.size > MAX_BYTES) return toast.error("视频不能超过 100MB");
+    const invalid = validateMediaFile(next, VIDEO_RULES);
+    if (invalid) return toast.error(invalid);
     setReplacingId(video.id);
     setReplaceProgress(0);
     try {
