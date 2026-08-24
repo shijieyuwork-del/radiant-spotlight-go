@@ -97,6 +97,13 @@ describe("RLS: anon 匿名角色", () => {
     expect(error).not.toBeNull();
   });
 
+  it("storage: 匿名不能向 video-covers 上传", { timeout: 20000 }, async () => {
+    const { error } = await anon.storage
+      .from("video-covers")
+      .upload(`rls-test/${crypto.randomUUID()}.txt`, "x", { contentType: "text/plain" });
+    expect(error).not.toBeNull();
+  });
+
   it("storage: 匿名列表只能看到与 published 记录关联的文件（当前应为空）", async () => {
     const photos = await anon.storage.from("doctor-photos").list();
     const videos = await anon.storage.from("short-videos").list();
