@@ -139,14 +139,19 @@ const VideoAdmin = () => {
     if (!VIDEO_TYPES.includes(next.type)) return toast.error("仅支持 MP4、MOV 或 WebM 视频");
     if (next.size > MAX_BYTES) return toast.error("视频不能超过 100MB");
     setReplacingId(video.id);
+    setReplaceProgress(0);
     try {
-      await replaceMedia(BUCKET, video.id, next);
+      await replaceMedia(BUCKET, video.id, next, {
+        onProgress: setReplaceProgress,
+        onRetry: (attempt, max) => toast.info(`连接中断，自动重试中（${attempt}/${max}）…`),
+      });
       toast.success(`“${video.title}”的视频已更换`);
       await loadVideos();
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "更换失败");
     } finally {
       setReplacingId(null);
+      setReplaceProgress(0);
     }
   };
 
