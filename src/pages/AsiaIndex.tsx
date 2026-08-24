@@ -654,7 +654,7 @@ const DoctorsSection = () => {
 };
 
 const HowItWorks = () => {
-  const { lang } = useAsia();
+  const { lang, t } = useAsia();
   const { open } = useQuote();
   const copy = lang === "zh"
     ? {
@@ -662,7 +662,6 @@ const HowItWorks = () => {
         title: "准备好开始了吗？",
         emphasis: "今天迈出第一步",
         text: "告诉我们你关注的项目、预算和希望前往的城市。我们会帮你梳理需求，并协助你找到合适的中国专家。",
-        cta: "开始免费线上咨询",
       }
     : lang === "ru"
       ? {
@@ -670,14 +669,12 @@ const HowItWorks = () => {
           title: "Готовы начать?",
           emphasis: "Сделайте первый шаг сегодня",
           text: "Расскажите о процедуре, бюджете и желаемом городе. Мы поможем уточнить ваши потребности и подобрать подходящего эксперта в Китае.",
-          cta: "Начать бесплатную консультацию",
         }
       : {
           eyebrow: "Free online consultation",
           title: "Ready to get started?",
           emphasis: "Take the first step today",
           text: "Tell us the procedure, budget and city you have in mind. We’ll help clarify your needs and connect you with a suitable expert in China.",
-          cta: "Start your free consultation",
         };
 
   return (
@@ -703,7 +700,7 @@ const HowItWorks = () => {
           </div>
           <div className="w-full shrink-0 text-center md:w-auto">
             <Button size="lg" onClick={() => open()} className="cta-primary min-h-14 w-full rounded-full px-9 text-base shadow-glow ring-4 ring-primary/15 transition hover:-translate-y-1 md:w-fit">
-              {copy.cta}<ArrowRight className="ml-2 size-4" />
+              {t("hero.cta")}<ArrowRight className="ml-2 size-4" />
             </Button>
             
           </div>

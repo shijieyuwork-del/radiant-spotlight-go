@@ -238,7 +238,7 @@ const DoctorDetail = () => {
                 {c("English-speaking coordinator · medical visa and airport pickup support.", "全程中英双语助理 · 提供医疗签证与机场接送协助。", "Англоязычный координатор · помощь с медицинской визой и трансфером из аэропорта.")}
               </p>
               <Button className="mt-4 w-full rounded-2xl bg-foreground text-background hover:bg-foreground/90">
-                <MessageCircle className="size-4" /> {t("cl.cta")}
+                <MessageCircle className="size-4" /> {t("hero.cta")}
               </Button>
               <MedicalDisclaimer variant="inline" className="mt-3" />
             </div>

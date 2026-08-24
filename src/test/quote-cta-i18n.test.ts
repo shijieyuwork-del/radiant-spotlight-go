@@ -12,7 +12,9 @@
  *   - 英文语法不会回退（必须是 "Get a free quote"，带冠词 a；
  *     "Get free quote" 语法错误，全站禁止）；
  *   - 字典键受 AsiaDictKey = keyof typeof dict.en 类型约束，
- *     缺键会在构建/typecheck 阶段直接失败。
+ *     缺键会在构建/typecheck 阶段直接失败；
+ *   - 不使用 QuoteCtaButton 的按钮（Treatments / DoctorDetail / 弹窗标题）
+ *     也必须从字典 hero.cta 取文案；旧的 consultation 按钮文案全站禁止。
  */
 import { describe, it, expect } from "vitest";
 import { readFileSync, readdirSync } from "node:fs";
@@ -170,5 +172,41 @@ describe("quote CTA i18n — 英文语法守卫", () => {
       }
     }
     expect(bad).toEqual([]);
+  });
+});
+
+/* ---------------- 5. 遗留变体守卫（不用 QuoteCtaButton 的入口也必须取字典文案） ---------------- */
+describe("quote CTA — 无遗留 consultation/quote 变体", () => {
+  it("Treatments / DoctorDetail / QuoteRequest 的按钮与弹窗标题也从 hero.cta 取文案", () => {
+    for (const f of ["pages/Treatments.tsx", "pages/DoctorDetail.tsx", "components/QuoteRequest.tsx"]) {
+      expect(read(f), `${f} 未使用 t("hero.cta")`).toContain('t("hero.cta")');
+    }
+  });
+
+  it("全站不得残留旧的 consultation 按钮文案（完整字符串字面量匹配）", () => {
+    const LEGACY = [
+      "Book a Free Video Consultation",
+      "Start your free consultation",
+      "预约免费视频咨询",
+      "开始免费线上咨询",
+      "Начать бесплатную консультацию",
+      "Записаться на бесплатную видеоконсультацию",
+    ];
+    const bad: string[] = [];
+    for (const file of sourceFiles) {
+      const content = readFileSync(file, "utf-8");
+      // 只匹配完整字符串字面量，避免误伤正文里包含相同短语的句子
+      for (const m of content.matchAll(/[(\[,]\s*"([^"]+)"/g)) {
+        if (LEGACY.includes(m[1])) bad.push(`${relative(SRC, file)}: "${m[1]}"`);
+      }
+    }
+    expect(bad).toEqual([]);
+  });
+
+  it("已删除的遗留字典键 cl.cta / tx.book 不再被引用", () => {
+    for (const file of sourceFiles) {
+      const content = readFileSync(file, "utf-8");
+      expect(content, relative(SRC, file)).not.toMatch(/t\("(cl\.cta|tx\.book)"\)/);
+    }
   });
 });

@@ -143,6 +143,7 @@ const QuoteDialog = ({
   const [slot, setSlot] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
+  const { t } = useAsia();
 
   // 登录用户打开表单时，通过带审计的 read_profile RPC 预填姓名/邮箱（每次读取都会写入审计日志）
   useEffect(() => {
@@ -219,7 +220,7 @@ const QuoteDialog = ({
                 </span>
               </div>
               <DialogTitle className="font-display text-2xl md:text-[26px] font-semibold tracking-tight mt-3 leading-tight">
-                {step === 1 ? headline : intent === "consultation" ? "Book your consultation" : "Get your free quote"}
+                {step === 1 ? headline : intent === "consultation" ? "Book your consultation" : t("hero.cta")}
               </DialogTitle>
               <DialogDescription className="text-sm text-foreground/70 mt-1.5">
                 {step === 1
