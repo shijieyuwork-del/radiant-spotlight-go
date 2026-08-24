@@ -32,7 +32,7 @@ const CaseDetail = () => {
   }, [item]);
   const doctorCases = useMemo(
     () => doctor
-      ? TIKTOK_CASES.filter((c) => c.id !== id && expert.caseIds.includes(c.id))
+      ? TIKTOK_CASES.filter((c) => c.id !== id && doctor.caseIds.includes(c.id))
       : [],
     [doctor, id],
   );
@@ -92,7 +92,7 @@ const CaseDetail = () => {
     image: `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==`,
     creator: doctor ? {
       "@type": "Person",
-      name: lang === "zh" ? expert.zh : expert.en,
+      name: lang === "zh" ? doctor.zh : doctor.en,
     } : undefined,
   };
 
@@ -317,8 +317,8 @@ const CaseDetail = () => {
                 </span>
                 <h2 className="font-display text-2xl md:text-3xl font-medium tracking-tight">
                   {lang === "zh"
-                    ? `${expert.zh} 的其他真实案例`
-                    : `More cases by ${expert.en}`}
+                    ? `${doctor.zh} 的其他真实案例`
+                    : `More cases by ${doctor.en}`}
                 </h2>
               </div>
               <Link to={`/doctors/${doctor.id}`} className="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline">

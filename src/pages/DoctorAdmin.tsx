@@ -84,7 +84,7 @@ export default function DoctorAdmin() {
     if (error) toast.error(error.message);
     else {
       const rows = (data ?? []) as Expert[];
-      const urls = await signedUrls("expert-photos", rows.map((d) => d.photo_path));
+      const urls = await signedUrls("doctor-photos", rows.map((d) => d.photo_path));
       setDoctors(rows.map((d, i) => ({ ...d, photoUrl: urls[i] })));
     }
   };
@@ -121,7 +121,7 @@ export default function DoctorAdmin() {
     try {
       if (photo) {
         setProgress(0);
-        photoPath = await uploadMedia("expert-photos", photo, {
+        photoPath = await uploadMedia("doctor-photos", photo, {
           onProgress: setProgress,
           onRetry: (a, m) => toast.info(`连接中断，自动重试中（${a}/${m}）…`),
         });
@@ -139,7 +139,7 @@ export default function DoctorAdmin() {
       setErrors({});
       await load();
     } catch (error) {
-      if (photoPath) await supabase.storage.from("expert-photos").remove([photoPath]);
+      if (photoPath) await supabase.storage.from("doctor-photos").remove([photoPath]);
       const message = error instanceof Error ? error.message : "发布失败";
       // 服务端的类型/大小/限流/配额错误归因到照片字段并标红
       if (fieldForUploadError(message)) setErrors((prev) => ({ ...prev, photo: message }));
@@ -154,7 +154,7 @@ export default function DoctorAdmin() {
     if (!confirm(`确定删除 ${d.name}？`)) return;
     const { error } = await supabase.from("doctors").delete().eq("id", d.id);
     if (error) return toast.error(error.message);
-    if (d.photo_path) await supabase.storage.from("expert-photos").remove([d.photo_path]);
+    if (d.photo_path) await supabase.storage.from("doctor-photos").remove([d.photo_path]);
     setDoctors((x) => x.filter((i) => i.id !== d.id));
   };
 
@@ -165,7 +165,7 @@ export default function DoctorAdmin() {
     setReplacingId(d.id);
     setReplaceProgress(0);
     try {
-      await replaceMedia("expert-photos", d.id, file, {
+      await replaceMedia("doctor-photos", d.id, file, {
         onProgress: setReplaceProgress,
         onRetry: (a, m) => toast.info(`连接中断，自动重试中（${a}/${m}）…`),
       });
