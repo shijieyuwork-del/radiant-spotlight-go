@@ -49,7 +49,7 @@ const QuoteCtaButton = ({
   const Icon = ICONS[icon];
   const label = t("hero.cta");
   const cls = cn(
-    "inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-7 text-sm font-semibold transition hover:-translate-y-1",
+    "inline-flex min-h-12 items-center justify-center gap-2 whitespace-nowrap rounded-full px-7 text-sm font-semibold transition hover:-translate-y-1",
     VARIANTS[variant],
     className,
   );
