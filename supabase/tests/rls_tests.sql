@@ -108,11 +108,15 @@ SELECT pg_temp.assert_rls(
 
 -- 管理员可以更新 draft 医生
 UPDATE public.doctors SET bio = 'admin edit' WHERE id = '22222222-2222-2222-2222-222222222222';
-SELECT pg_temp.assert_rls(FOUND, '管理员可以更新 draft 医生');
+SELECT pg_temp.assert_rls(
+  (SELECT bio FROM public.doctors WHERE id = '22222222-2222-2222-2222-222222222222') = 'admin edit',
+  '管理员可以更新 draft 医生');
 
 -- 管理员可以删除视频
 DELETE FROM public.videos WHERE id = '44444444-4444-4444-4444-444444444444';
-SELECT pg_temp.assert_rls(FOUND, '管理员可以删除 draft 视频');
+SELECT pg_temp.assert_rls(
+  (SELECT count(*) FROM public.videos WHERE id = '44444444-4444-4444-4444-444444444444') = 0,
+  '管理员可以删除 draft 视频');
 
 -- 管理员可以读 storage 全部对象（含 draft 关联）
 SELECT pg_temp.assert_rls(
