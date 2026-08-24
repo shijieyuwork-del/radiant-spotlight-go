@@ -21,6 +21,7 @@ import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { MedicalDisclaimer } from "@/components/MedicalDisclaimer";
 import { useAsia } from "@/lib/asia-i18n";
 import { asiaCopy } from "@/lib/asia-copy";
 import serviceAirportPickup from "@/assets/service-airport-pickup.jpg";
@@ -450,6 +451,9 @@ const Packages = () => {
             </div>
           </section>
         </main>
+        <div className="pb-10">
+          <MedicalDisclaimer variant="banner" />
+        </div>
         <Footer />
       </div>
     </>

@@ -8,6 +8,7 @@ import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
 import TikTokWall from "@/components/TikTokWall";
+import { MedicalDisclaimer } from "@/components/MedicalDisclaimer";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
@@ -354,6 +355,9 @@ const CaseDetail = () => {
         </DialogContent>
       </Dialog>
 
+      <div className="container pb-10">
+        <MedicalDisclaimer variant="banner" />
+      </div>
       <Footer />
       </div>
     </>
