@@ -332,3 +332,51 @@ describeAuth("RLS: upload-media 非管理员登录用户", () => {
     await client.auth.signOut();
   });
 });
+
+/**
+ * upload-media 限流与配额（429）。
+ *
+ * 真实的 30/小时、100/天、2GB 阈值无法用匿名探针触发（限流在鉴权之后，
+ * 匿名请求在 401 处就被拒绝、不消耗配额），这里验证的是检查顺序：
+ * 限流/配额绝不能先于鉴权执行，也不能向匿名调用者泄露计数信息。
+ * 限流/配额拒绝日志的字段完整性断言在 supabase/tests/rls_tests.sql。
+ */
+describe("RLS: upload-media 限流与配额的检查顺序", () => {
+  const newForm = () => {
+    const form = new FormData();
+    form.append("bucket", "doctor-photos");
+    form.append("file", new File(["x"], "rls-probe.jpg", { type: "image/jpeg" }));
+    return form;
+  };
+
+  it("anon: 连续快速请求仍全部 401（限流不先于鉴权、不泄露计数）", { timeout: 30000 }, async () => {
+    const anon = newAnonClient();
+    const results = await Promise.all([
+      anon.functions.invoke("upload-media", { body: newForm() }),
+      anon.functions.invoke("upload-media", { body: newForm() }),
+      anon.functions.invoke("upload-media", { body: newForm() }),
+    ]);
+    for (const { data, error } of results) {
+      expect(data?.path).toBeUndefined();
+      expect(error).not.toBeNull();
+      // 鉴权失败信息，而非限流/配额信息
+      expect(String(error)).not.toMatch(/rate limit|quota/i);
+    }
+  });
+
+  it("anon: replace 模式快速重复调用同样只得到 401", { timeout: 30000 }, async () => {
+    const anon = newAnonClient();
+    const makeReplace = () => {
+      const form = newForm();
+      form.append("mode", "replace");
+      form.append("recordId", crypto.randomUUID());
+      return form;
+    };
+    const first = await anon.functions.invoke("upload-media", { body: makeReplace() });
+    const second = await anon.functions.invoke("upload-media", { body: makeReplace() });
+    expect(first.data?.path).toBeUndefined();
+    expect(second.data?.path).toBeUndefined();
+    expect(first.error).not.toBeNull();
+    expect(second.error).not.toBeNull();
+  });
+});

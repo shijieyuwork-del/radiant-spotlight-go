@@ -170,6 +170,40 @@ SELECT pg_temp.assert_rls(
    ) inconsistent) = 0,
   '同一 (bucket,target) 多次探测的 denied 标记一致');
 
+-- ═══════ upload-media 限流/配额拒绝日志：字段完整性 ═══════
+-- 限流（rate limited）与配额（quota exceeded）的拒绝日志由 upload-media
+-- 边缘函数写入。阈值较高、探针无法真实触发，以下为条件式断言：
+-- 一旦存在此类日志，必须字段完整（无此类日志时断言空集通过）。
+
+-- 限流/配额拒绝必须标记 denied=true 且携带 actor_id
+SELECT pg_temp.assert_rls(
+  (SELECT count(*) FROM public.audit_logs
+    WHERE action IN ('storage_upload', 'storage_replace')
+      AND metadata ->> 'reason' IN ('rate limited (hourly)', 'rate limited (daily)', 'quota exceeded')
+      AND ((metadata ->> 'denied') IS DISTINCT FROM 'true'
+           OR actor_id IS NULL)) = 0,
+  '限流/配额拒绝日志均标记 denied=true 且含 actor_id');
+
+-- 限流日志必须带计数上下文字段
+SELECT pg_temp.assert_rls(
+  (SELECT count(*) FROM public.audit_logs
+    WHERE metadata ->> 'reason' = 'rate limited (hourly)'
+      AND NOT (metadata ? 'hourly_count' AND metadata ? 'hourly_limit')) = 0,
+  '小时限流日志含 hourly_count / hourly_limit 字段');
+SELECT pg_temp.assert_rls(
+  (SELECT count(*) FROM public.audit_logs
+    WHERE metadata ->> 'reason' = 'rate limited (daily)'
+      AND NOT (metadata ? 'daily_count' AND metadata ? 'daily_limit')) = 0,
+  '天限流日志含 daily_count / daily_limit 字段');
+
+-- 配额拒绝日志必须带配额上下文字段，且 bucket 合法
+SELECT pg_temp.assert_rls(
+  (SELECT count(*) FROM public.audit_logs
+    WHERE metadata ->> 'reason' = 'quota exceeded'
+      AND (NOT (metadata ? 'quota_used_bytes' AND metadata ? 'quota_limit_bytes' AND metadata ? 'incoming_bytes')
+           OR bucket NOT IN ('doctor-photos', 'short-videos'))) = 0,
+  '配额拒绝日志含 quota_used_bytes / quota_limit_bytes / incoming_bytes 且 bucket 合法');
+
 ROLLBACK;
 
 -- 全部通过时 psql 正常退出（0）；任一断言失败则非零退出。
