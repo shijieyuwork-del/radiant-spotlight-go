@@ -64,6 +64,8 @@ const VideoAdmin = () => {
   const [coverIndex, setCoverIndex] = useState(2);
   const [coverBusy, setCoverBusy] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
+  const [replacingId, setReplacingId] = useState<string | null>(null);
+  const [replaceProgress, setReplaceProgress] = useState(0);
 
   const clearCovers = () => {
     setCovers((prev) => { prev.forEach((c) => URL.revokeObjectURL(c.url)); return []; });
@@ -209,9 +211,6 @@ const VideoAdmin = () => {
       setProgress(null);
     }
   };
-
-  const [replacingId, setReplacingId] = useState<string | null>(null);
-  const [replaceProgress, setReplaceProgress] = useState(0);
 
   const replaceVideo = async (video: VideoRow, next: File | null) => {
     if (!next) return;
