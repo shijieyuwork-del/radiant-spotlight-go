@@ -216,7 +216,20 @@ const VideoAdmin = () => {
         onProgress: setReplaceProgress,
         onRetry: (attempt, max) => toast.info(`连接中断，自动重试中（${attempt}/${max}）…`),
       });
-      toast.success(`“${video.title}”的视频已更换`);
+      // 用新视频重新生成封面（取中间帧），保持信息流预览一致
+      let coverNote = "";
+      try {
+        const candidates = await extractCoverCandidates(next);
+        const pick = candidates[Math.min(2, candidates.length - 1)];
+        const newCoverPath = await uploadMedia(COVER_BUCKET, coverBlobToFile(pick.blob, next.name));
+        candidates.forEach((c) => URL.revokeObjectURL(c.url));
+        const { error: coverError } = await supabase.from("videos").update({ cover_path: newCoverPath }).eq("id", video.id);
+        if (coverError) throw coverError;
+        if (video.cover_path) await supabase.storage.from(COVER_BUCKET).remove([video.cover_path]);
+      } catch {
+        coverNote = "（封面更新失败，可在下次更换时重试）";
+      }
+      toast.success(`“${video.title}”的视频已更换${coverNote}`);
       await loadVideos();
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "更换失败");
@@ -230,6 +243,7 @@ const VideoAdmin = () => {
     if (!window.confirm(`确定删除“${video.title}”吗？此操作无法恢复。`)) return;
     const { error: storageError } = await supabase.storage.from(BUCKET).remove([video.storage_path]);
     if (storageError) return toast.error(storageError.message);
+    if (video.cover_path) await supabase.storage.from(COVER_BUCKET).remove([video.cover_path]);
     const { error } = await supabase.from("videos").delete().eq("id", video.id);
     if (error) return toast.error(error.message);
     setVideos((current) => current.filter((item) => item.id !== video.id));
