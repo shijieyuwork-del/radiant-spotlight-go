@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
-import { ArrowLeft, Film, Loader2, LogOut, Stethoscope, Trash2, UploadCloud } from "lucide-react";
+import { ArrowLeft, Film, Loader2, LogOut, RefreshCw, Stethoscope, Trash2, UploadCloud } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 import { signedUrls } from "@/lib/storage-urls";
-import { uploadMedia } from "@/lib/upload-media";
+import { replaceMedia, uploadMedia } from "@/lib/upload-media";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
