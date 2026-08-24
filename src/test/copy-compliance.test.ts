@@ -106,9 +106,10 @@ describe("copy compliance — 多语言免责声明", () => {
   it("disclaimer.text / disclaimer.short 在 en/zh/ru 三个语言块中都存在", () => {
     // 每个语言块以 `en: {` / `zh: {` / `ru: {` 开始
     for (const lang of ["en", "zh", "ru"]) {
-      const blockStart = dict.indexOf(`\n  ${lang}: {`);
+      // 字典块以 `en: {` 独占一行开始（区别于顶部 LANGUAGES 元信息的单行定义）
+      const blockStart = dict.indexOf(`\n  ${lang}: {\n`);
       expect(blockStart, `缺少 ${lang} 语言块`).toBeGreaterThan(-1);
-      const nextBlock = dict.slice(blockStart + 1).search(/\n  (en|zh|ru): \{/);
+      const nextBlock = dict.slice(blockStart + 1).search(/\n  (en|zh|ru): \{\n/);
       const block = nextBlock === -1 ? dict.slice(blockStart) : dict.slice(blockStart, blockStart + 1 + nextBlock);
       expect(block, `${lang} 缺少 disclaimer.text`).toContain('"disclaimer.text"');
       expect(block, `${lang} 缺少 disclaimer.short`).toContain('"disclaimer.short"');
@@ -119,9 +120,9 @@ describe("copy compliance — 多语言免责声明", () => {
     const values = [...dict.matchAll(/"disclaimer\.text":\s*"([^"]+)"/g)].map((m) => m[1]);
     expect(values.length).toBeGreaterThanOrEqual(3);
     const [en, zh, ru] = values;
-    expect(en.toLowerCase()).toContain("not provide medical advice");
-    expect(zh).toContain("不提供医疗建议");
-    expect(ru).toMatch(/не (является|предоставляет)/);
+    expect(en.toLowerCase()).toMatch(/do not (offer|provide) medical advice/);
+    expect(zh).toContain("不提供任何医疗建议");
+    expect(ru).toMatch(/не предоставляем медицинских советов/);
   });
 
   it("关键页面与咨询入口挂载了 MedicalDisclaimer 组件", () => {
