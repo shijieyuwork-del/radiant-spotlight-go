@@ -9,6 +9,7 @@ import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
 import TikTokWall from "@/components/TikTokWall";
 import { Button } from "@/components/ui/button";
+import { MedicalDisclaimer } from "@/components/MedicalDisclaimer";
 import { countryOf } from "@/data/cities";
 import { DOCTORS, findDoctor } from "@/data/doctors";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
@@ -239,6 +240,7 @@ const DoctorDetail = () => {
               <Button className="mt-4 w-full rounded-2xl bg-foreground text-background hover:bg-foreground/90">
                 <MessageCircle className="size-4" /> {t("cl.cta")}
               </Button>
+              <MedicalDisclaimer variant="inline" className="mt-3" />
             </div>
 
             <div className="rounded-3xl bg-card shadow-soft p-5">

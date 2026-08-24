@@ -19,6 +19,7 @@ import { CitySearchBar, CityQuickResults, useCityFilter } from "@/components/Cit
 import { useAsia } from "@/lib/asia-i18n";
 import { ORGANIZATION_SCHEMA } from "@/lib/seo-config";
 import { useQuote } from "@/components/QuoteRequest";
+import { MedicalDisclaimer } from "@/components/MedicalDisclaimer";
 import heroBg from "@/assets/hero-bg.jpg";
 import journeyConsultation from "@/assets/journey-real-consultation.webp";
 import journeyArrival from "@/assets/journey-real-arrival.webp";
@@ -726,6 +727,7 @@ const HowItWorks = () => {
             </p>
           </div>
         </div>
+        <MedicalDisclaimer variant="banner" className="relative mt-6 bg-background/60" />
       </div>
     </section>
   );
