@@ -23,6 +23,7 @@ import Treatments from "./pages/Treatments.tsx";
 import TreatmentDetail from "./pages/TreatmentDetail.tsx";
 import Auth from "./pages/Auth.tsx";
 import VideoAdmin from "./pages/VideoAdmin.tsx";
+import AuditAdmin from "./pages/AuditAdmin.tsx";
 import WhyChina from "./pages/WhyChina.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
@@ -56,7 +57,8 @@ const App = () => (
                     <Route path="/why-china" element={<WhyChina />} />
                     <Route path="/auth" element={<Auth />} />
                     <Route path="/admin/videos" element={<VideoAdmin />} />
-                    <Route path="/admin/doctors" element={<DoctorAdmin />} />
+<Route path="/admin/doctors" element={<DoctorAdmin />} />
+                    <Route path="/admin/audit" element={<AuditAdmin />} />
                     <Route path="/upload" element={<VideoAdmin />} />
                     <Route path="/cn" element={<Navigate to="/" replace />} />
                     <Route path="/:lang/*" element={<Navigate to="/" replace />} />

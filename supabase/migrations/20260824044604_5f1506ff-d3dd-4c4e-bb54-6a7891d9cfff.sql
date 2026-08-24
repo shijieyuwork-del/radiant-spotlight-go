@@ -1,0 +1,1 @@
+REVOKE EXECUTE ON FUNCTION public.read_profile(uuid) FROM anon;

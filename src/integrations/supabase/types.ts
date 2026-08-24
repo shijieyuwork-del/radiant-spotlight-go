@@ -14,6 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      audit_logs: {
+        Row: {
+          action: string
+          actor_email: string | null
+          actor_id: string | null
+          bucket: string | null
+          created_at: string
+          id: string
+          ip: string | null
+          metadata: Json
+          target: string
+          user_agent: string | null
+        }
+        Insert: {
+          action: string
+          actor_email?: string | null
+          actor_id?: string | null
+          bucket?: string | null
+          created_at?: string
+          id?: string
+          ip?: string | null
+          metadata?: Json
+          target: string
+          user_agent?: string | null
+        }
+        Update: {
+          action?: string
+          actor_email?: string | null
+          actor_id?: string | null
+          bucket?: string | null
+          created_at?: string
+          id?: string
+          ip?: string | null
+          metadata?: Json
+          target?: string
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       doctors: {
         Row: {
           bio: string
@@ -132,7 +171,22 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      read_profile: {
+        Args: { p_id: string }
+        Returns: {
+          avatar_url: string | null
+          created_at: string
+          display_name: string | null
+          id: string
+          updated_at: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "profiles"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
     }
     Enums: {
       [_ in never]: never
