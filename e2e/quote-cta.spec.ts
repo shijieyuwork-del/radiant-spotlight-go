@@ -75,11 +75,12 @@ test.describe("专家页 /doctors CTA 回归", () => {
   for (const lang of LANGS) {
     test(`专家卡片按钮为「${CTA[lang]}」（${lang}），dark 变体匹配基线`, async ({ page }) => {
       await gotoWithLang(page, "/doctors", lang);
-      await expect(page.getByText(lang === "zh" ? "精选专家" : lang === "ru" ? "Рекомендуемые эксперты" : "Featured experts")).toBeVisible();
 
-      const cardCta = page.getByRole("link", { name: CTA[lang], exact: true }).first();
-      await expect(cardCta, "每张专家卡片必须提供 canonical CTA").toBeVisible();
-      await expect(cardCta).toHaveScreenshot(`doctors-card-cta-${lang}.png`, { maxDiffPixelRatio: 0.02 });
+      // 卡片 CTA 带 quoteCtx → 渲染为 <button>（打开咨询弹窗）；卡片数量随数据变化，只锁定至少 1 个
+      const cardCtas = page.getByRole("button", { name: CTA[lang], exact: true });
+      await expect(cardCtas.first(), "每张专家卡片必须提供 canonical CTA").toBeVisible();
+      await expect(cardCtas.first()).toHaveCSS("white-space", "nowrap");
+      await expect(cardCtas.first()).toHaveScreenshot(`doctors-card-cta-${lang}.png`, { maxDiffPixelRatio: 0.02 });
 
       await expectNoLegacyCopy(page);
     });
@@ -88,17 +89,17 @@ test.describe("专家页 /doctors CTA 回归", () => {
 
 test.describe("套餐页 /packages CTA 回归", () => {
   for (const lang of LANGS) {
-    test(`三个套餐按钮均为「${CTA[lang]}」（${lang}），primary 变体匹配基线`, async ({ page }) => {
+    test(`hero 与底部按钮均为「${CTA[lang]}」（${lang}），两变体匹配基线`, async ({ page }) => {
       await gotoWithLang(page, "/packages", lang);
-      await expect(
-        page.getByText(lang === "zh" ? "选择您的管家服务级别" : lang === "ru" ? "Выберите уровень консьерж-сервиса" : "Choose Your Concierge Level"),
-      ).toBeVisible();
 
+      // hero（dark 深绿）+ 底部转化区（primary 薄荷绿），均无 quoteCtx → 渲染为 <a>
       const ctas = page.getByRole("link", { name: CTA[lang], exact: true });
-      await expect(ctas, "Basic / Gold / Diamond 三档各一个 CTA").toHaveCount(3);
+      await expect(ctas, "套餐页 hero 与底部各一个 CTA").toHaveCount(2);
 
-      // Gold 档（primary 薄荷绿变体）居中，锁定其外观
-      await expect(ctas.nth(1)).toHaveScreenshot(`packages-gold-cta-${lang}.png`, { maxDiffPixelRatio: 0.02 });
+      await expect(ctas.first()).toBeVisible();
+      await expect(ctas.first()).toHaveScreenshot(`packages-hero-cta-${lang}.png`, { maxDiffPixelRatio: 0.02 });
+      await ctas.nth(1).scrollIntoViewIfNeeded();
+      await expect(ctas.nth(1)).toHaveScreenshot(`packages-bottom-cta-${lang}.png`, { maxDiffPixelRatio: 0.02 });
 
       await expectNoLegacyCopy(page);
     });
