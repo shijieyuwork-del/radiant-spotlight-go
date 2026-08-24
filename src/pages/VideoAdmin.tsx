@@ -98,9 +98,13 @@ const VideoAdmin = () => {
     event.preventDefault();
     if (!file || !title.trim()) return toast.error("请选择视频并填写标题");
     setUploading(true);
+    setProgress(0);
     let storagePath = "";
     try {
-      storagePath = await uploadMedia(BUCKET, file);
+      storagePath = await uploadMedia(BUCKET, file, {
+        onProgress: setProgress,
+        onRetry: (attempt, max) => toast.info(`连接中断，自动重试中（${attempt}/${max}）…`),
+      });
 
       const { error: dbError } = await supabase.from("videos").insert({
         title: title.trim(),
