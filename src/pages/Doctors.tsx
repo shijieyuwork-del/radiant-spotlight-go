@@ -11,7 +11,7 @@ import { DOCTORS } from "@/data/doctors";
 import { useAsia } from "@/lib/asia-i18n";
 import { supabase } from "@/integrations/supabase/client";
 import { signedUrls } from "@/lib/storage-urls";
-import { useQuote } from "@/components/QuoteRequest";
+
 import { DEMO_CHINA_DOCTORS } from "@/data/demoChinaDoctors";
 import { CITIES } from "@/data/cities";
 import { asiaCopy } from "@/lib/asia-copy";
@@ -34,7 +34,7 @@ const Experts = () => {
   const [city, setCity] = useState<string>(() => searchParams.get("city") || "all");
   const [spec, setSpec] = useState<string>("all");
   const [managedDoctors, setManagedDoctors] = useState<ManagedDoctor[]>([]);
-  const { open } = useQuote();
+  
   useEffect(()=>{supabase.from("doctors").select("id,name,title,hospital,city,specialties,bio,photo_path,created_at").eq("status","published").order("created_at",{ascending:false}).then(async ({data})=>{
     const chinaCities = ["shanghai", "beijing", "guangzhou", "hangzhou", "hainan", "上海", "北京", "广州", "杭州", "海南"];
     const rows = ((data??[]) as ManagedDoctor[]).filter((doctor)=>chinaCities.some((cityName)=>doctor.city?.toLowerCase().includes(cityName)));
@@ -361,13 +361,10 @@ const Experts = () => {
                   <Link to={`/doctors/${d.id}`} className="flex min-h-12 items-center justify-center rounded-xl border border-primary/30 bg-card px-3 py-3 text-center text-xs font-semibold text-primary transition hover:bg-primary/10">
                     {c("Expert & cases", "专家与案例", "Эксперт и истории пациентов")}
                   </Link>
-                  <button
-                    type="button"
-                    onClick={() => open({ doctorName: lang === "zh" ? d.zh : d.en, city: lang === "zh" ? d.cityZh : d.cityEn })}
-                    className="cta-primary flex min-h-12 items-center justify-center gap-1.5 rounded-xl px-3 py-3 text-center text-[13px] font-semibold leading-tight transition"
-                  >
-                    {c("Book a Free Video Consultation", "预约免费视频咨询", "Записаться на бесплатную видеоконсультацию")}<ArrowRight className="size-4" />
-                  </button>
+                  <QuoteCtaButton
+                    quoteCtx={{ doctorName: lang === "zh" ? d.zh : d.en, city: lang === "zh" ? d.cityZh : d.cityEn }}
+                    className="min-h-12 w-full rounded-xl px-3 py-3 text-[13px] leading-tight"
+                  />
                 </div>
               </article>
             ))}

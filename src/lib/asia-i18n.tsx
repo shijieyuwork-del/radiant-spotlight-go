@@ -52,7 +52,7 @@ const dict: Record<AsiaLang, Dict> = {
     "tx.note": "Indicative pricing for planning · your final treatment plan and itemized quote are confirmed after clinical review",
     "tx.from": "Indicative from",
     "tx.group": "Coordinated price",
-    "tx.book": "Request a quote",
+    
     "cl.kicker": "Verified clinics",
     "cl.title1": "Licensed & legitimate ·",
     "cl.titleEm": "every clinic on record",
@@ -63,7 +63,7 @@ const dict: Record<AsiaLang, Dict> = {
     "cl.beian": "Medical board filing:",
     "cl.spec": "Specialty",
     "cl.reviews": "reviews",
-    "cl.cta": "Free consultation",
+    
     "doctors.kicker": "Attending surgeons",
     "doctors.title1": "Review surgeon credentials",
     "doctors.titleEm": "before you choose",
@@ -130,7 +130,7 @@ const dict: Record<AsiaLang, Dict> = {
     "tx.note": "价格仅供行程规划参考 · 最终治疗方案与明细报价将在专家评估后确认",
     "tx.from": "参考起价",
     "tx.group": "协调服务价",
-    "tx.book": "获取个性化报价",
+    
     "cl.kicker": "正规机构",
     "cl.title1": "持证经营 ·",
     "cl.titleEm": "每家都可查",
@@ -141,7 +141,7 @@ const dict: Record<AsiaLang, Dict> = {
     "cl.beian": "医疗资质备案：",
     "cl.spec": "擅长",
     "cl.reviews": "评价",
-    "cl.cta": "在线咨询 · 免费面诊",
+    
     "doctors.kicker": "主诊专家",
     "doctors.title1": "选择专家前，",
     "doctors.titleEm": "先了解资质",
@@ -208,7 +208,7 @@ const dict: Record<AsiaLang, Dict> = {
     "tx.note": "Ориентировочные цены для планирования · окончательный план и смета подтверждаются после консультации эксперта",
     "tx.from": "Ориентировочно от",
     "tx.group": "Координированная цена",
-    "tx.book": "Запросить расчёт",
+    
     "cl.kicker": "Проверенные клиники",
     "cl.title1": "Лицензия и легальность ·",
     "cl.titleEm": "каждая клиника в реестре",
@@ -219,7 +219,7 @@ const dict: Record<AsiaLang, Dict> = {
     "cl.beian": "Регистрация медицинского совета:",
     "cl.spec": "Специализация",
     "cl.reviews": "отзывов",
-    "cl.cta": "Бесплатная консультация",
+    
     "doctors.kicker": "Оперирующие хирурги",
     "doctors.title1": "Каждый хирург ·",
     "doctors.titleEm": "лицензия на руках",

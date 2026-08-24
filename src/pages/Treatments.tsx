@@ -289,7 +289,7 @@ const RU_CATEGORY_DESCRIPTIONS = [
 ] as const;
 
 const Treatments = () => {
-  const { lang, fmt } = useAsia();
+  const { lang, fmt, t } = useAsia();
   const { open } = useQuote();
   const zh = lang === "zh";
   const ru = lang === "ru";
@@ -515,7 +515,7 @@ const Treatments = () => {
                 </div>
                 <div className="w-full shrink-0 text-center md:w-auto">
                   <Button size="lg" onClick={() => open()} className="cta-primary min-h-14 w-full rounded-full px-9 text-base shadow-glow ring-4 ring-primary/15 transition hover:-translate-y-1 md:w-fit">
-                    {copy("Start your free consultation", "开始免费线上咨询", "Начать бесплатную консультацию")}<ArrowRight className="ml-2 size-4" />
+                    {t("hero.cta")}<ArrowRight className="ml-2 size-4" />
                   </Button>
                   <p className="mt-3 text-xs font-semibold text-foreground/55">
                     {copy("Free · No obligation", "免费 · 无需承诺", "Бесплатно · Без обязательств")}
