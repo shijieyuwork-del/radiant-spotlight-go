@@ -6,6 +6,7 @@ import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 import { signedUrls } from "@/lib/storage-urls";
 import { replaceMedia, uploadMedia } from "@/lib/upload-media";
+import { VIDEO_RULES, fieldForUploadError, validateMediaFile } from "@/lib/media-validation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -15,8 +16,12 @@ import { Progress } from "@/components/ui/progress";
 
 const ADMIN_EMAIL = "shijieyuwork@gmail.com";
 const BUCKET = "short-videos";
-const MAX_BYTES = 100 * 1024 * 1024;
-const VIDEO_TYPES = ["video/mp4", "video/quicktime", "video/webm"];
+const VIDEO_ACCEPT = "video/mp4,video/quicktime,video/webm";
+
+type FieldKey = "file" | "title";
+type FieldErrors = Partial<Record<FieldKey, string>>;
+
+const errorInputClass = "border-destructive focus-visible:ring-destructive";
 
 type VideoRow = {
   id: string;
@@ -46,6 +51,10 @@ const VideoAdmin = () => {
   const [status, setStatus] = useState("published");
   const [doctorId, setDoctorId] = useState("none");
   const [doctors, setDoctors] = useState<DoctorOption[]>([]);
+  const [errors, setErrors] = useState<FieldErrors>({});
+
+  const clearError = (key: FieldKey) =>
+    setErrors((prev) => (prev[key] ? { ...prev, [key]: undefined } : prev));
 
   const isAdmin = user?.email?.toLowerCase() === ADMIN_EMAIL;
 
@@ -87,16 +96,38 @@ const VideoAdmin = () => {
   }
 
   const handleFile = (next: File | null) => {
-    if (!next) return setFile(null);
-    if (!VIDEO_TYPES.includes(next.type)) return toast.error("仅支持 MP4、MOV 或 WebM 视频");
-    if (next.size > MAX_BYTES) return toast.error("视频不能超过 100MB");
+    if (!next) {
+      setFile(null);
+      clearError("file");
+      return;
+    }
+    const invalid = validateMediaFile(next, VIDEO_RULES);
+    if (invalid) {
+      setFile(null);
+      setErrors((prev) => ({ ...prev, file: invalid }));
+      toast.error(invalid);
+      return;
+    }
+    clearError("file");
     setFile(next);
     if (!title) setTitle(next.name.replace(/\.[^.]+$/, ""));
   };
 
   const upload = async (event: React.FormEvent) => {
     event.preventDefault();
-    if (!file || !title.trim()) return toast.error("请选择视频并填写标题");
+    // 逐字段校验，标出所有问题字段
+    const next: FieldErrors = {};
+    if (!file) next.file = "请选择要上传的视频文件";
+    else {
+      const fileError = validateMediaFile(file, VIDEO_RULES);
+      if (fileError) next.file = fileError;
+    }
+    if (!title.trim()) next.title = "请填写视频标题";
+    setErrors(next);
+    if (Object.keys(next).length > 0) {
+      toast.error(`表单有 ${Object.keys(next).length} 处需要修正，请查看标红字段`);
+      return;
+    }
     setUploading(true);
     setProgress(0);
     let storagePath = "";
@@ -122,9 +153,13 @@ const VideoAdmin = () => {
 
       toast.success("短视频上传成功");
       setFile(null); setTitle(""); setCaption(""); setProcedure(""); setStatus("published"); setDoctorId("none");
+      setErrors({});
       await loadVideos();
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "上传失败");
+      const message = error instanceof Error ? error.message : "上传失败";
+      // 服务端的类型/大小/限流/配额错误归因到文件字段并标红
+      if (fieldForUploadError(message)) setErrors((prev) => ({ ...prev, file: message }));
+      toast.error(message);
     } finally {
       setUploading(false);
       setProgress(null);
@@ -136,8 +171,8 @@ const VideoAdmin = () => {
 
   const replaceVideo = async (video: VideoRow, next: File | null) => {
     if (!next) return;
-    if (!VIDEO_TYPES.includes(next.type)) return toast.error("仅支持 MP4、MOV 或 WebM 视频");
-    if (next.size > MAX_BYTES) return toast.error("视频不能超过 100MB");
+    const invalid = validateMediaFile(next, VIDEO_RULES);
+    if (invalid) return toast.error(invalid);
     setReplacingId(video.id);
     setReplaceProgress(0);
     try {
@@ -182,9 +217,33 @@ const VideoAdmin = () => {
         <section className="rounded-3xl bg-card shadow-pop p-6 h-fit">
           <div className="flex items-center gap-3 mb-6"><div className="size-10 rounded-2xl bg-primary/10 grid place-items-center"><UploadCloud className="size-5 text-primary" /></div><div><h1 className="font-display text-2xl font-semibold">上传短视频</h1><p className="text-xs text-muted-foreground">MP4 / MOV / WebM，最大 100MB</p></div></div>
           <form onSubmit={upload} className="space-y-4">
-            <div><Label htmlFor="video-file">视频文件</Label><Input id="video-file" type="file" accept="video/mp4,video/quicktime,video/webm" className="mt-1.5" onChange={(e) => handleFile(e.target.files?.[0] ?? null)} /></div>
+            <div>
+              <Label htmlFor="video-file">视频文件 *</Label>
+              <Input
+                id="video-file"
+                type="file"
+                accept={VIDEO_ACCEPT}
+                aria-invalid={!!errors.file}
+                className={`mt-1.5 ${errors.file ? errorInputClass : ""}`}
+                onChange={(e) => handleFile(e.target.files?.[0] ?? null)}
+              />
+              {errors.file
+                ? <p className="text-xs text-destructive mt-1">{errors.file}</p>
+                : <p className="text-xs text-muted-foreground mt-1">{VIDEO_RULES.formatLabel}，最大 100MB</p>}
+            </div>
             {previewUrl && <video src={previewUrl} controls muted className="w-full aspect-[9/16] max-h-72 object-contain rounded-2xl bg-black" />}
-            <div><Label htmlFor="video-title">标题</Label><Input id="video-title" value={title} onChange={(e) => setTitle(e.target.value)} className="mt-1.5" placeholder="例如：术后第 30 天恢复记录" /></div>
+            <div>
+              <Label htmlFor="video-title">标题 *</Label>
+              <Input
+                id="video-title"
+                value={title}
+                aria-invalid={!!errors.title}
+                onChange={(e) => { setTitle(e.target.value); clearError("title"); }}
+                className={`mt-1.5 ${errors.title ? errorInputClass : ""}`}
+                placeholder="例如：术后第 30 天恢复记录"
+              />
+              {errors.title && <p className="text-xs text-destructive mt-1">{errors.title}</p>}
+            </div>
             <div><Label htmlFor="video-caption">说明</Label><Textarea id="video-caption" value={caption} onChange={(e) => setCaption(e.target.value)} className="mt-1.5" placeholder="视频介绍（可选）" /></div>
             <div className="grid grid-cols-2 gap-3">
               <div><Label>城市</Label><Select value={city} onValueChange={setCity}><SelectTrigger className="mt-1.5"><SelectValue /></SelectTrigger><SelectContent>{["上海", "广州", "北京", "海南", "杭州"].map((item) => <SelectItem value={item} key={item}>{item}</SelectItem>)}</SelectContent></Select></div>
