@@ -19,7 +19,7 @@ const CompressionGuide = ({ rules, fileName }: Props) => {
   const guide = compressionGuideFor(rules);
   const input = fileName || "input";
   const output = input.replace(/\.[^.]+$/, "") || "output";
-  const command = guide.command?.replaceAll("{input}", input).replaceAll("{output}", output);
+  const command = guide.command?.replace(/\{input\}/g, input).replace(/\{output\}/g, output);
 
   const copy = async () => {
     if (!command) return;
