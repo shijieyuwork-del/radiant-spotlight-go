@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import {
-  Search, Filter, Stethoscope, BadgeCheck, Building2, FileCheck2, Star, ArrowRight, MapPin, MessageCircle,
+  Search, Filter, Stethoscope, BadgeCheck, Building2, FileCheck2, Star, ArrowRight, MapPin, MessageCircle, Navigation,
 } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
@@ -15,8 +15,14 @@ import { useQuote } from "@/components/QuoteRequest";
 import { DEMO_CHINA_DOCTORS } from "@/data/demoChinaDoctors";
 import { CITIES } from "@/data/cities";
 import { asiaCopy } from "@/lib/asia-copy";
+import { Highlight } from "@/components/HighlightText";
+import { Pagination, SortChips } from "@/components/ListControls";
+import { cityCoordsOf, haversineKm, useUserLocation } from "@/lib/geo";
 
-type ManagedDoctor = { id:string; name:string; title:string; hospital:string; city:string; specialties:string[]; bio:string; photo_path:string|null; photo?:string };
+const PAGE_SIZE = 9;
+
+type ManagedDoctor = { id:string; name:string; title:string; hospital:string; city:string; specialties:string[]; bio:string; photo_path:string|null; photo?:string; created_at?:string };
+type DirectoryDoctor = ManagedDoctor & { demo?: boolean };
 
 const Doctors = () => {
   const { t, lang } = useAsia();
@@ -28,7 +34,7 @@ const Doctors = () => {
   const [spec, setSpec] = useState<string>("all");
   const [managedDoctors, setManagedDoctors] = useState<ManagedDoctor[]>([]);
   const { open } = useQuote();
-  useEffect(()=>{supabase.from("doctors").select("id,name,title,hospital,city,specialties,bio,photo_path").eq("status","published").order("created_at",{ascending:false}).then(async ({data})=>{
+  useEffect(()=>{supabase.from("doctors").select("id,name,title,hospital,city,specialties,bio,photo_path,created_at").eq("status","published").order("created_at",{ascending:false}).then(async ({data})=>{
     const chinaCities = ["shanghai", "beijing", "guangzhou", "hangzhou", "hainan", "上海", "北京", "广州", "杭州", "海南"];
     const rows = ((data??[]) as ManagedDoctor[]).filter((doctor)=>chinaCities.some((cityName)=>doctor.city?.toLowerCase().includes(cityName)));
     const photos = await signedUrls("doctor-photos", rows.map((doctor)=>doctor.photo_path));
@@ -36,9 +42,9 @@ const Doctors = () => {
   })},[]);
 
   const publicDoctors = useMemo(() => DOCTORS.filter(() => false), []);
-  const directoryDoctors = managedDoctors.length > 0
-    ? managedDoctors.map((doctor) => ({ ...doctor, demo: false as const, photo: doctor.photo ?? "" }))
-    : DEMO_CHINA_DOCTORS.map((doctor) => ({ ...doctor, photo_path: null, credentials: null }));
+  const directoryDoctors: DirectoryDoctor[] = managedDoctors.length > 0
+    ? managedDoctors.map((doctor) => ({ ...doctor, demo: false, photo: doctor.photo ?? "" }))
+    : DEMO_CHINA_DOCTORS.map((doctor) => ({ ...doctor, photo_path: null, credentials: null }) as DirectoryDoctor);
   const cities = useMemo(() => {
     const set = new Map<string, string>();
     publicDoctors.forEach((d) => set.set(d.cityEn, d[lang === "zh" ? "cityZh" : "cityEn"]));
