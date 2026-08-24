@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { getCityTimezone, useCityTime } from "@/lib/timezones";
 import { MedicalDisclaimer } from "@/components/MedicalDisclaimer";
 import { useAuth } from "@/lib/auth";
+import { useAsia } from "@/lib/asia-i18n";
 import { supabase } from "@/integrations/supabase/client";
 
 export interface QuoteContext {
@@ -74,6 +75,7 @@ export const useQuote = () => {
 
 export const FloatingQuoteCTA = ({ ctx }: { ctx?: QuoteContext }) => {
   const { open } = useQuote();
+  const { t } = useAsia();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -98,7 +100,7 @@ export const FloatingQuoteCTA = ({ ctx }: { ctx?: QuoteContext }) => {
           <span className="size-10 rounded-full bg-primary grid place-items-center text-foreground">
             <MessageCircle className="size-5" />
           </span>
-          <span className="text-sm font-semibold">Get a Free Quote</span>
+          <span className="text-sm font-semibold">{t("hero.cta")}</span>
           <ArrowRight className="size-4 -ml-1 transition-transform group-hover:translate-x-0.5" />
         </button>
       </div>
@@ -110,7 +112,7 @@ export const FloatingQuoteCTA = ({ ctx }: { ctx?: QuoteContext }) => {
           className="w-full flex items-center justify-center gap-2 rounded-2xl bg-foreground text-background px-5 py-4 shadow-pop active:scale-[0.98] transition-transform"
         >
           <MessageCircle className="size-5" />
-          <span className="text-sm font-semibold">Get a Free Quote</span>
+          <span className="text-sm font-semibold">{t("hero.cta")}</span>
           <ArrowRight className="size-4" />
         </button>
       </div>

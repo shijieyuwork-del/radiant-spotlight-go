@@ -24,6 +24,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { MedicalDisclaimer } from "@/components/MedicalDisclaimer";
 import { useAsia } from "@/lib/asia-i18n";
 import { asiaCopy } from "@/lib/asia-copy";
+import QuoteCtaButton, { QUOTE_WHATSAPP_URL } from "@/components/QuoteCtaButton";
 import serviceAirportPickup from "@/assets/service-airport-pickup.jpg";
 import serviceHotelBooking from "@/assets/service-hotel-booking.jpg";
 import serviceClinicTranslation from "@/assets/service-clinic-translation.jpg";
@@ -31,8 +32,8 @@ import serviceMedicalRecords from "@/assets/service-medical-records.jpg";
 import serviceOnlineConcierge from "@/assets/service-online-concierge.jpg";
 import cityHangzhou from "@/assets/city-hangzhou.jpg";
 
-const WHATSAPP_START =
-  "https://wa.me/14708613825?text=Hi%20Cosmetics%20Asia%2C%20I%20would%20like%20to%20book%20a%20free%20consultation%20and%20plan%20my%20care%20journey%20to%20China.";
+
+
 
 const JOURNEY_STEPS = [
   {
@@ -228,10 +229,7 @@ const Packages = () => {
                   )}
                 </p>
                 <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-                  <a href={WHATSAPP_START} target="_blank" rel="noreferrer" className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-foreground px-7 text-sm font-semibold text-background shadow-pop transition hover:-translate-y-1 hover:bg-foreground/90 sm:text-base">
-                    {c("Get a free quote", "获取免费报价", "Получить бесплатную оценку")}
-                    <ArrowRight className="size-4" />
-                  </a>
+                  <QuoteCtaButton className="min-h-14 sm:text-base" />
                   <a href="#journey" className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full border border-primary/25 bg-white/75 px-7 text-sm font-semibold text-foreground shadow-soft backdrop-blur transition hover:-translate-y-1 hover:border-primary sm:text-base">
                     {c("See how the journey works", "查看六步流程", "Посмотреть этапы")}
                     <ChevronRight className="size-4" />
@@ -325,7 +323,7 @@ const Packages = () => {
                       <h3 className="mt-4 font-display text-2xl font-semibold leading-tight tracking-tight">{pick(step.title)}</h3>
                       <p className="mt-3 text-sm leading-relaxed text-foreground/65">{pick(step.text)}</p>
                       {index === 0 && (
-                        <a href={WHATSAPP_START} target="_blank" rel="noreferrer" className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary/80">
+                        <a href={QUOTE_WHATSAPP_URL} target="_blank" rel="noreferrer" className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary/80">
                           {c("Start here", "从这里开始", "Начать здесь")}<ArrowRight className="size-4" />
                         </a>
                       )}
@@ -432,9 +430,7 @@ const Packages = () => {
                   <p className="mt-4 max-w-2xl text-sm leading-relaxed text-background/65 sm:text-base">{c("Tell us what you are considering. We will help you turn questions into a clear next step—free and with no obligation.", "告诉我们你正在考虑什么。我们会帮你把疑问变成清晰的下一步，免费且无需承诺。", "Расскажите, что вы рассматриваете. Мы поможем превратить вопросы в понятный следующий шаг — бесплатно и без обязательств.")}</p>
                 </div>
                 <div className="w-full shrink-0 lg:w-auto">
-                  <a href={WHATSAPP_START} target="_blank" rel="noreferrer" className="inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-full bg-primary px-8 text-sm font-semibold text-primary-foreground shadow-glow transition hover:-translate-y-1 hover:bg-primary/90 sm:text-base lg:w-auto">
-                    {c("Get a free quote", "获取免费报价", "Получить бесплатную оценку")}<ArrowRight className="size-4" />
-                  </a>
+                  <QuoteCtaButton variant="primary" className="min-h-14 w-full px-8 sm:text-base lg:w-auto" />
                   
                 </div>
               </div>

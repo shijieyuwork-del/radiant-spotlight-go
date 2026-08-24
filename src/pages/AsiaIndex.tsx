@@ -17,6 +17,7 @@ import { TIKTOK_CASES } from "@/data/tiktokCases";
 import { CITIES } from "@/data/cities";
 import { CitySearchBar, CityQuickResults, useCityFilter } from "@/components/CitySearch";
 import { useAsia } from "@/lib/asia-i18n";
+import QuoteCtaButton from "@/components/QuoteCtaButton";
 import { ORGANIZATION_SCHEMA } from "@/lib/seo-config";
 import { useQuote } from "@/components/QuoteRequest";
 import { MedicalDisclaimer } from "@/components/MedicalDisclaimer";
@@ -131,7 +132,6 @@ const Hero = () => {
         emphasis: "找到适合你的方案",
         subtitle: "先了解项目、查看已发布的专家资料与患者恢复日记，再决定是否出发。翻译、行程和术后支持由我们协调。",
         cases: "观看患者短视频",
-        contact: "获取免费报价",
         consultation: "在线面诊",
         consultationDetail: "出发前与专家进行一对一线上沟通",
         english: "英文院内翻译",
@@ -148,7 +148,6 @@ const Hero = () => {
           emphasis: "на одной платформе",
           subtitle: "Сравните реальные случаи, квалификацию экспертов и прозрачные цены до поездки. Мы организуем перевод, поездку и последующий уход.",
           cases: "Смотреть видео пациентов",
-          contact: "Получить бесплатную оценку",
           consultation: "Онлайн-консультация",
           consultationDetail: "Встреча с экспертом онлайн до поездки",
           english: "Переводчик в клинике",
@@ -164,7 +163,6 @@ const Hero = () => {
           emphasis: "then choose with confidence",
           subtitle: "Understand procedures, review published expert profiles and explore patient recovery diaries before you travel.",
           cases: "Watch patient recovery videos",
-          contact: "Get a free quote",
           consultation: "Online consultation",
           consultationDetail: "Meet your expert online before you travel (not providing medical advice)",
           english: "English in-clinic translation",
@@ -209,19 +207,7 @@ const Hero = () => {
               <Button asChild size="lg" className="h-[3.25rem] w-full rounded-2xl px-8 text-[15px] font-semibold shadow-pop sm:h-12 sm:w-auto sm:min-w-72 sm:rounded-full">
                 <Link to="/cases">{copy.cases}<ArrowRight className="ml-1.5 size-4" /></Link>
               </Button>
-              <Button
-                asChild
-                size="lg"
-                className="h-[3.25rem] w-full rounded-2xl border border-foreground bg-foreground px-7 text-[15px] font-semibold text-background shadow-pop hover:bg-foreground/90 sm:h-12 sm:w-auto sm:rounded-full"
-              >
-                <a
-                  href="https://wa.me/14708613825?text=Hi%20Cosmetics%20Asia%2C%20I%20would%20like%20to%20ask%20about%20your%20services."
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {copy.contact}<ArrowRight className="ml-1.5 size-4" />
-                </a>
-              </Button>
+              <QuoteCtaButton className="h-[3.25rem] w-full rounded-2xl border border-foreground px-7 text-[15px] sm:h-12 sm:w-auto sm:rounded-full" />
             </div>
 
             <div className="-mx-4 mt-6 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 scrollbar-hide sm:mx-0 sm:mt-8 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4">
