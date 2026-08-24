@@ -51,6 +51,10 @@ const VideoAdmin = () => {
   const [status, setStatus] = useState("published");
   const [doctorId, setDoctorId] = useState("none");
   const [doctors, setDoctors] = useState<DoctorOption[]>([]);
+  const [errors, setErrors] = useState<FieldErrors>({});
+
+  const clearError = (key: FieldKey) =>
+    setErrors((prev) => (prev[key] ? { ...prev, [key]: undefined } : prev));
 
   const isAdmin = user?.email?.toLowerCase() === ADMIN_EMAIL;
 
@@ -92,16 +96,38 @@ const VideoAdmin = () => {
   }
 
   const handleFile = (next: File | null) => {
-    if (!next) return setFile(null);
-    if (!VIDEO_TYPES.includes(next.type)) return toast.error("仅支持 MP4、MOV 或 WebM 视频");
-    if (next.size > MAX_BYTES) return toast.error("视频不能超过 100MB");
+    if (!next) {
+      setFile(null);
+      clearError("file");
+      return;
+    }
+    const invalid = validateMediaFile(next, VIDEO_RULES);
+    if (invalid) {
+      setFile(null);
+      setErrors((prev) => ({ ...prev, file: invalid }));
+      toast.error(invalid);
+      return;
+    }
+    clearError("file");
     setFile(next);
     if (!title) setTitle(next.name.replace(/\.[^.]+$/, ""));
   };
 
   const upload = async (event: React.FormEvent) => {
     event.preventDefault();
-    if (!file || !title.trim()) return toast.error("请选择视频并填写标题");
+    // 逐字段校验，标出所有问题字段
+    const next: FieldErrors = {};
+    if (!file) next.file = "请选择要上传的视频文件";
+    else {
+      const fileError = validateMediaFile(file, VIDEO_RULES);
+      if (fileError) next.file = fileError;
+    }
+    if (!title.trim()) next.title = "请填写视频标题";
+    setErrors(next);
+    if (Object.keys(next).length > 0) {
+      toast.error(`表单有 ${Object.keys(next).length} 处需要修正，请查看标红字段`);
+      return;
+    }
     setUploading(true);
     setProgress(0);
     let storagePath = "";
