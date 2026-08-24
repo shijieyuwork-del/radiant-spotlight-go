@@ -37,6 +37,12 @@ const applyAndWait = async (page: Page) => {
   await page.waitForTimeout(300);
 };
 
+/** 用目标关键词把断言范围锁定到 seed/ 测试数据，避免历史真实数据干扰 */
+const scopeToSeed = async (page: Page) => {
+  await page.getByTestId("filter-keyword").fill("seed/");
+  await applyAndWait(page);
+};
+
 test.beforeEach(async ({ page }) => {
   await login(page);
   await openAudit(page);

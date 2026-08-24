@@ -315,6 +315,7 @@ export default function AuditAdmin() {
             <div>
               <Label>目标关键词</Label>
               <Input
+                data-testid="filter-keyword"
                 placeholder="搜索目标（路径 / ID），可与操作者组合"
                 value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
