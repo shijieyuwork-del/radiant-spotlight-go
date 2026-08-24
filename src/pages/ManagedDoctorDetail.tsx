@@ -8,7 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { signedUrl, signedUrls } from "@/lib/storage-urls";
 import { formatCityTime, getCityTimezone } from "@/lib/timezones";
 
-type Expert = { id:string; name:string; title:string; hospital:string; city:string; specialties:string[]; bio:string; credentials:string|null; languages:string|null; photo_path:string|null };
+type Doctor = { id:string; name:string; title:string; hospital:string; city:string; specialties:string[]; bio:string; credentials:string|null; languages:string|null; photo_path:string|null };
 type Video = { id:string; title:string; caption:string|null; storage_path:string; cover_path:string|null; url?:string; coverUrl?:string };
 const ManagedDoctorDetail = () => {
   const { id="" } = useParams(); const [doctor,setDoctor]=useState<Doctor|null>(null); const [videos,setVideos]=useState<Video[]>([]); const [loading,setLoading]=useState(true); const [photo,setPhoto]=useState("");

@@ -54,7 +54,7 @@ const VideoAdmin = () => {
   const [procedure, setProcedure] = useState("");
   const [status, setStatus] = useState("published");
   const [doctorId, setDoctorId] = useState("none");
-  const [experts, setDoctors] = useState<DoctorOption[]>([]);
+  const [doctors, setDoctors] = useState<DoctorOption[]>([]);
   const [errors, setErrors] = useState<FieldErrors>({});
   // 封面：从视频中抽取的候选帧 + 选中的帧索引
   const [covers, setCovers] = useState<CoverCandidate[]>([]);
