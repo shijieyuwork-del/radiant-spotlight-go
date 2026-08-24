@@ -81,8 +81,8 @@ const WhyChina = () => {
               <ReasonCard
                 number="01"
                 icon={<Stethoscope />}
-                title={c("A large surgeon pool", "医生人才池大", "Большой выбор хирургов")}
-                text={c("ISAPS estimates 5,000 plastic surgeons in China—the world's third-largest national pool.", "ISAPS 估算中国有约 5,000 名整形外科医生，全球排名第三。", "По оценке ISAPS, в Китае около 5 000 пластических хирургов — третий по величине национальный пул в мире.")}
+                title={c("A large surgeon pool", "专家人才池大", "Большой выбор хирургов")}
+                text={c("ISAPS estimates 5,000 plastic surgeons in China—the world's third-largest national pool.", "ISAPS 估算中国有约 5,000 名整形外科专家，全球排名第三。", "По оценке ISAPS, в Китае около 5 000 пластических хирургов — третий по величине национальный пул в мире.")}
                 source="ISAPS 2024"
                 href={SOURCES.isapsPdf}
               />
@@ -90,7 +90,7 @@ const WhyChina = () => {
                 number="02"
                 icon={<Newspaper />}
                 title={c("International interest is growing", "海外关注正在增加", "Международный интерес растёт")}
-                text={c("China is gaining international attention for natural-looking aesthetics, experienced practitioners and competitive pricing—giving patients a compelling new option in Asia.", "CNA 报道指出，中国正凭借自然化审美、经验丰富的医生和具有竞争力的价格获得国际关注，为海外患者提供一个值得考虑的新选择。", "Китай привлекает международное внимание естественной эстетикой, опытом специалистов и конкурентными ценами, становясь заметным вариантом в Азии.")}
+                text={c("China is gaining international attention for natural-looking aesthetics, experienced practitioners and competitive pricing—giving patients a compelling new option in Asia.", "CNA 报道指出，中国正凭借自然化审美、经验丰富的专家和具有竞争力的价格获得国际关注，为海外患者提供一个值得考虑的新选择。", "Китай привлекает международное внимание естественной эстетикой, опытом специалистов и конкурентными ценами, становясь заметным вариантом в Азии.")}
                 source="CNA"
                 href={SOURCES.cna}
               />
@@ -114,14 +114,14 @@ const WhyChina = () => {
                   <ShieldCheck className="size-3.5" /> {c("Safety first", "安全核验", "Безопасность прежде всего")}
                 </span>
                 <h2 className="font-display text-3xl font-medium tracking-tight md:text-4xl">
-                  {c("Choose the surgeon—not just the country.", "国家只是起点。医生才是决定。", "Выбирайте хирурга, а не только страну.")}
+                  {c("Choose the surgeon—not just the country.", "国家只是起点。专家才是决定。", "Выбирайте хирурга, а не только страну.")}
                 </h2>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                  {c("Country-level data cannot prove an individual surgeon is safe. Confirm these four items before paying.", "国家数据不能证明某位医生安全。付款前，只确认下面四件事。", "Статистика страны не подтверждает безопасность конкретного хирурга. Проверьте эти четыре пункта до оплаты.")}
+                  {c("Country-level data cannot prove an individual surgeon is safe. Confirm these four items before paying.", "国家数据不能证明某位专家安全。付款前，只确认下面四件事。", "Статистика страны не подтверждает безопасность конкретного хирурга. Проверьте эти четыре пункта до оплаты.")}
                 </p>
               </div>
               <div className="grid gap-3 sm:grid-cols-2">
-                <CheckItem title={c("Surgeon license & specialty", "医生执照与专科背景", "Лицензия и специализация хирурга")} />
+                <CheckItem title={c("Surgeon license & specialty", "专家执照与专科背景", "Лицензия и специализация хирурга")} />
                 <CheckItem title={c("Operating facility license", "实际手术机构许可", "Лицензия медицинского учреждения")} />
                 <CheckItem title={c("Anesthesia & emergency plan", "麻醉与紧急转诊方案", "План анестезии и экстренной помощи")} />
                 <CheckItem title={c("Aftercare & follow-up owner", "术后联系人与回国随访", "Ответственный за послеоперационное наблюдение")} />
@@ -132,7 +132,7 @@ const WhyChina = () => {
                 {c("Help me verify a plan", "帮我核验方案", "Помогите проверить план")}<ArrowRight className="ml-2 size-4" />
               </Button>
               <Button size="lg" variant="outline" asChild className="rounded-full bg-background px-7">
-                <Link to="/doctors">{c("Explore doctors", "查看医生", "Смотреть врачей")}</Link>
+                <Link to="/doctors">{c("Explore doctors", "查看专家", "Смотреть экспертов")}</Link>
               </Button>
             </div>
           </div>
@@ -156,7 +156,7 @@ const WhyChina = () => {
                 {c("See the city. Then plan the recovery stay.", "先了解城市，再规划恢复行程。", "Познакомьтесь с городом и спланируйте восстановление.")}
               </h2>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                {c("Embedded through YouTube's official player; rights remain with the creator. Only plan activities after clinical clearance.", "视频通过 YouTube 官方播放器嵌入，版权归原作者。文化活动只能在医生允许后安排。", "Видео встроено через официальный плеер YouTube; права принадлежат автору. Планируйте активности только после разрешения врача.")}
+                {c("Embedded through YouTube's official player; rights remain with the creator. Only plan activities after clinical clearance.", "视频通过 YouTube 官方播放器嵌入，版权归原作者。文化活动只能在专家允许后安排。", "Видео встроено через официальный плеер YouTube; права принадлежат автору. Планируйте активности только после разрешения эксперта.")}
               </p>
               <a href={SOURCES.video} target="_blank" rel="noreferrer" className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline">
                 {c("Watch on YouTube", "在 YouTube 查看原视频", "Смотреть на YouTube")}<ExternalLink className="size-4" />
@@ -176,7 +176,7 @@ const WhyChina = () => {
                 <SourceLink label="ISAPS patient guidance" href={SOURCES.patients} />
               </div>
               <p className="mt-5 max-w-3xl text-xs leading-relaxed text-muted-foreground">
-                {c("Important: Cosmetic surgery involves risk and outcomes vary. Media coverage and national data do not replace individual verification of a surgeon, facility or treatment plan.", "重要提示：医美手术存在风险，效果因人而异。媒体报道和国家数据不能代替对具体医生、机构及治疗方案的独立核验。", "Важно: косметическая хирургия связана с рисками, а результаты индивидуальны. Публикации СМИ и национальная статистика не заменяют проверку конкретного хирурга, учреждения и плана лечения.")}
+                {c("Important: Cosmetic surgery involves risk and outcomes vary. Media coverage and national data do not replace individual verification of a surgeon, facility or treatment plan.", "重要提示：医美手术存在风险，效果因人而异。媒体报道和国家数据不能代替对具体专家、机构及治疗方案的独立核验。", "Важно: косметическая хирургия связана с рисками, а результаты индивидуальны. Публикации СМИ и национальная статистика не заменяют проверку конкретного хирурга, учреждения и плана лечения.")}
               </p>
             </div>
           </div>
