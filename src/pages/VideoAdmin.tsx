@@ -112,6 +112,7 @@ const VideoAdmin = () => {
   }
 
   const handleFile = (next: File | null) => {
+    clearCovers();
     if (!next) {
       setFile(null);
       clearError("file");
@@ -127,6 +128,15 @@ const VideoAdmin = () => {
     clearError("file");
     setFile(next);
     if (!title) setTitle(next.name.replace(/\.[^.]+$/, ""));
+    // 自动抽取候选封面帧（9:16，720×1280 WebP）
+    setCoverBusy(true);
+    extractCoverCandidates(next)
+      .then((candidates) => {
+        setCovers(candidates);
+        setCoverIndex(Math.min(2, candidates.length - 1));
+      })
+      .catch(() => toast.warning("无法从该视频提取封面，可继续上传（信息流将无封面预览）"))
+      .finally(() => setCoverBusy(false));
   };
 
   const upload = async (event: React.FormEvent) => {
