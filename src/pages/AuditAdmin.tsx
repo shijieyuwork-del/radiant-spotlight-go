@@ -71,7 +71,7 @@ export default function AuditAdmin() {
   const isAdmin = user?.email?.toLowerCase() === ADMIN;
 
   /** 应用当前全部筛选条件与排序的查询构造器（表格分页与 CSV 导出共用） */
-  const buildQuery = useCallback((range?: { from: number; to: number }) => {
+  const buildQuery = useCallback((range?: { from: number; to: number }, actorOverride?: string) => {
     let query = supabase
       .from("audit_logs")
       .select("*")
@@ -81,7 +81,7 @@ export default function AuditAdmin() {
     if (from) query = query.gte("created_at", new Date(from).toISOString());
     if (to) query = query.lte("created_at", new Date(`${to}T23:59:59`).toISOString());
     if (keyword.trim()) query = query.ilike("target", `%${keyword.trim()}%`);
-    const actorValue = actor.trim();
+    const actorValue = (actorOverride ?? actor).trim();
     if (actorValue) {
       if (UUID_RE.test(actorValue)) {
         // 完整 UUID：精确匹配用户 ID，同时保留邮箱模糊匹配
