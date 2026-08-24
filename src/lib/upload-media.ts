@@ -9,6 +9,8 @@ export interface UploadOptions {
   onRetry?: (attempt: number, maxRetries: number) => void;
   /** Number of automatic retries on network/5xx failures. Default 2 (3 attempts total). */
   maxRetries?: number;
+  /** 取消信号：abort 后立即中断请求，Promise 以 UploadCancelledError 拒绝（不会自动重试）。 */
+  signal?: AbortSignal;
 }
 
 interface UploadResult {
@@ -24,17 +26,43 @@ class UploadError extends Error {
   }
 }
 
+/** 用户主动取消上传时抛出的错误（区别于网络/服务端错误，不进入自动重试）。 */
+export class UploadCancelledError extends Error {
+  constructor() {
+    super("已取消上传");
+    this.name = "UploadCancelledError";
+  }
+}
+
+export const isUploadCancelled = (error: unknown): error is UploadCancelledError =>
+  error instanceof UploadCancelledError;
+
 const FUNCTION_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/upload-media`;
 const ANON_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
 /**
  * XHR-based upload (fetch cannot report upload progress). Resolves with the
- * stored path; rejects with UploadError carrying the HTTP status.
+ * stored path; rejects with UploadError carrying the HTTP status, or with
+ * UploadCancelledError when the AbortSignal fires.
  */
-const sendWithProgress = async (form: FormData, onProgress?: (percent: number) => void): Promise<UploadResult> => {
+const sendWithProgress = async (
+  form: FormData,
+  onProgress?: (percent: number) => void,
+  signal?: AbortSignal,
+): Promise<UploadResult> => {
   const { data: { session } } = await supabase.auth.getSession();
   return new Promise<UploadResult>((resolve, reject) => {
+    if (signal?.aborted) {
+      reject(new UploadCancelledError());
+      return;
+    }
     const xhr = new XMLHttpRequest();
+    const onAbort = () => {
+      xhr.abort();
+      reject(new UploadCancelledError());
+    };
+    const cleanup = () => signal?.removeEventListener("abort", onAbort);
+    signal?.addEventListener("abort", onAbort);
     xhr.open("POST", FUNCTION_URL);
     xhr.setRequestHeader("apikey", ANON_KEY);
     xhr.setRequestHeader("Authorization", `Bearer ${session?.access_token ?? ANON_KEY}`);
@@ -44,6 +72,7 @@ const sendWithProgress = async (form: FormData, onProgress?: (percent: number) =
       }
     };
     xhr.onload = () => {
+      cleanup();
       let body: { path?: string; replaced?: string | null; error?: string } = {};
       try {
         body = JSON.parse(xhr.responseText || "{}");
@@ -60,8 +89,8 @@ const sendWithProgress = async (form: FormData, onProgress?: (percent: number) =
         reject(new UploadError(body.error || `上传失败（HTTP ${xhr.status}）`, xhr.status));
       }
     };
-    xhr.onerror = () => reject(new UploadError("网络错误，请检查连接", 0));
-    xhr.ontimeout = () => reject(new UploadError("上传超时", 0));
+    xhr.onerror = () => { cleanup(); reject(new UploadError("网络错误，请检查连接", 0)); };
+    xhr.ontimeout = () => { cleanup(); reject(new UploadError("上传超时", 0)); };
     xhr.timeout = 10 * 60 * 1000; // 10 min for large videos
     xhr.send(form);
   });
@@ -69,17 +98,19 @@ const sendWithProgress = async (form: FormData, onProgress?: (percent: number) =
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-/** Retries network errors and 5xx responses with exponential backoff; 4xx fails immediately. */
+/** Retries network errors and 5xx responses with exponential backoff; 4xx and cancellations fail immediately. */
 const invokeUpload = async (form: FormData, options: UploadOptions = {}): Promise<UploadResult> => {
-  const { onProgress, onRetry, maxRetries = 2 } = options;
+  const { onProgress, onRetry, maxRetries = 2, signal } = options;
   let attempt = 0;
   for (;;) {
     try {
-      return await sendWithProgress(form, onProgress);
+      return await sendWithProgress(form, onProgress, signal);
     } catch (error) {
+      if (isUploadCancelled(error)) throw error; // 用户取消：绝不重试
       const status = error instanceof UploadError ? error.status : 0;
       const retryable = status === 0 || status >= 500;
       if (!retryable || attempt >= maxRetries) throw error;
+      if (signal?.aborted) throw new UploadCancelledError();
       attempt += 1;
       onRetry?.(attempt, maxRetries);
       onProgress?.(0);
