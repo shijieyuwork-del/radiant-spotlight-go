@@ -313,4 +313,22 @@ describeAuth("RLS: upload-media 非管理员登录用户", () => {
     expect(error).not.toBeNull();
     await client.auth.signOut();
   });
+
+  it("非管理员调用 replace 模式被拒绝（403）", async () => {
+    const client = newAnonClient();
+    const { error: signInError } = await client.auth.signInWithPassword({
+      email: TEST_EMAIL!,
+      password: TEST_PASSWORD!,
+    });
+    if (signInError) throw signInError;
+    const form = new FormData();
+    form.append("bucket", "doctor-photos");
+    form.append("file", new File(["x"], "rls-probe.jpg", { type: "image/jpeg" }));
+    form.append("mode", "replace");
+    form.append("recordId", crypto.randomUUID());
+    const { data, error } = await client.functions.invoke("upload-media", { body: form });
+    expect(data?.path).toBeUndefined();
+    expect(error).not.toBeNull();
+    await client.auth.signOut();
+  });
 });
