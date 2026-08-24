@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
-import { ArrowLeft, Film, ImageIcon, Loader2, LogOut, RefreshCw, Stethoscope, Trash2, UploadCloud } from "lucide-react";
+import { ArrowLeft, Film, ImageIcon, Loader2, LogOut, RefreshCw, Stethoscope, Trash2, UploadCloud, X } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
@@ -8,7 +8,7 @@ import { signedUrls } from "@/lib/storage-urls";
 import { replaceMedia, uploadMedia } from "@/lib/upload-media";
 import { VIDEO_RULES, fieldForUploadError, validateMediaFile } from "@/lib/media-validation";
 import { scrollToFirstError } from "@/lib/scroll-to-error";
-import { coverBlobToFile, extractCoverCandidates, type CoverCandidate } from "@/lib/video-cover";
+import { coverBlobToFile, extractCoverCandidates, formatDuration, readVideoDuration, type CoverCandidate } from "@/lib/video-cover";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -63,6 +63,7 @@ const VideoAdmin = () => {
   const [covers, setCovers] = useState<CoverCandidate[]>([]);
   const [coverIndex, setCoverIndex] = useState(2);
   const [coverBusy, setCoverBusy] = useState(false);
+  const [duration, setDuration] = useState<number | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const [replacingId, setReplacingId] = useState<string | null>(null);
   const [replaceProgress, setReplaceProgress] = useState(0);
@@ -119,6 +120,7 @@ const VideoAdmin = () => {
 
   const handleFile = (next: File | null) => {
     clearCovers();
+    setDuration(null);
     if (!next) {
       setFile(null);
       clearError("file");
@@ -134,6 +136,8 @@ const VideoAdmin = () => {
     clearError("file");
     setFile(next);
     if (!title) setTitle(next.name.replace(/\.[^.]+$/, ""));
+    // 读取时长用于预览展示
+    void readVideoDuration(next).then(setDuration);
     // 自动抽取候选封面帧（9:16，720×1280 WebP）
     setCoverBusy(true);
     extractCoverCandidates(next)
