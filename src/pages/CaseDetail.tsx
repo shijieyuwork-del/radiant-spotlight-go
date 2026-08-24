@@ -255,7 +255,7 @@ const CaseDetail = () => {
                   {lang === "zh" ? "查看这位专家" : lang === "ru" ? "Подробнее о эксперте" : "Browse this expert"}<ArrowRight className="size-4" />
                 </Link>
                 <a href={`https://wa.me/14708613825?text=${encodeURIComponent(`Hi Cosmetics Asia, I’d like to ask about ${caseDoctor.name} and this ${item.treatment.en} case: https://cosmetics-asia.com/cases/${item.id}`)}`} target="_blank" rel="noreferrer" className="cta-primary inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-4 text-sm font-bold transition">
-                  {lang === "zh" ? "咨询这位专家" : lang === "ru" ? "Связаться по поводу эксперта" : "Contact us about this expert"}<MessageCircle className="size-4" />
+                  {lang === "zh" ? "咨询这位专家" : lang === "ru" ? "Спросить об этом эксперте" : "Ask about this expert"}<MessageCircle className="size-4" />
                 </a>
               </div>
             </div>
@@ -301,7 +301,7 @@ const CaseDetail = () => {
                 rel="noreferrer"
                 className="cta-primary mt-5 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl px-6 py-3 text-sm font-bold transition sm:w-auto sm:rounded-full"
               >
-                {lang === "zh" ? "联系我们" : lang === "ru" ? "Связаться с нами" : "Contact us about this case"}
+                {lang === "zh" ? "咨询类似案例" : lang === "ru" ? "Обсудить похожий случай" : "Discuss a similar case"}
                 <ArrowRight className="size-4" />
               </a>
             </aside>

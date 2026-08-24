@@ -143,7 +143,6 @@ const QuoteDialog = ({
   const [slot, setSlot] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
-  const { t } = useAsia();
 
   // 登录用户打开表单时，通过带审计的 read_profile RPC 预填姓名/邮箱（每次读取都会写入审计日志）
   useEffect(() => {
@@ -169,33 +168,47 @@ const QuoteDialog = ({
     setStep(2);
   };
 
-  const headline = ctx.doctorName
-    ? `Connect with ${ctx.doctorName}`
+  const expertLabel = ctx.doctorName ?? "";
+  const headline = expertLabel
+    ? `Ask about ${expertLabel}`
     : ctx.procedure
-    ? `Get pricing for ${ctx.procedure}`
-    : "Send us an email or WhatsApp message";
+    ? `Ask about ${ctx.procedure}`
+    : "How can we help?";
 
-  const subline = ctx.doctorName
-    ? `${ctx.city ?? "Verified expert"} · usually replies within 24h`
-    : "Verified experts will send you tailored pricing — no obligation.";
+  const subline = "Start with your questions. Our coordination team will help you understand the next step.";
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !email || !country || !procedure) {
-      toast.error("Please complete the required fields.");
-      return;
-    }
+    if (!name) return void toast.error("Enter your name so we know how to address you.");
+    if (!email) return void toast.error("Enter your email so the coordinator can reply.");
+    if (!country) return void toast.error("Select the country you will travel from.");
+    if (!procedure) return void toast.error("Select a procedure, or choose ‘Other / Not sure yet.’");
     if (intent === "consultation" && !slot) {
-      toast.error("Please pick a consultation time that works for you.");
-      return;
+      return void toast.error("Choose a preferred consultation time before continuing.");
     }
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 700));
+    const message = [
+      "Hi Cosmetics Asia, I would like to request a free quote.",
+      expertLabel ? `Expert: ${expertLabel}` : "",
+      `Request: ${intent === "consultation" ? "Free consultation" : "Pricing guidance"}`,
+      `Name: ${name}`,
+      `Email: ${email}`,
+      `Traveling from: ${country}`,
+      `Procedure: ${procedure}`,
+      slot ? `Preferred time: ${slot} (${ctx.city ?? "Shanghai"} local time)` : "",
+      notes ? `Questions or goals: ${notes}` : "",
+    ].filter(Boolean).join("\n");
+    const whatsappUrl = `https://wa.me/14708613825?text=${encodeURIComponent(message)}`;
+    const opened = window.open(whatsappUrl, "_blank", "noopener,noreferrer");
     setLoading(false);
+    if (!opened) {
+      window.location.href = whatsappUrl;
+      return;
+    }
     onSubmitted();
   };
 
-  const ctaLabel = intent === "consultation" ? "Book Consultation" : "Send My Request";
+  const ctaLabel = "Continue on WhatsApp";
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
@@ -220,14 +233,14 @@ const QuoteDialog = ({
                 </span>
               </div>
               <DialogTitle className="font-display text-2xl md:text-[26px] font-semibold tracking-tight mt-3 leading-tight">
-                {step === 1 ? headline : intent === "consultation" ? "Book your consultation" : t("hero.cta")}
+                {step === 1 ? headline : "Tell us a little about you"}
               </DialogTitle>
               <DialogDescription className="text-sm text-foreground/70 mt-1.5">
                 {step === 1
                   ? subline
                   : intent === "consultation"
-                  ? "Pick a time that works — confirmed within 24h."
-                  : "A few details and verified experts will reply with tailored pricing."}
+                  ? "Choose a preferred time. We will confirm availability with you on WhatsApp."
+                  : "Share a few details so we can understand what pricing information you need."}
               </DialogDescription>
               <div className="flex items-center gap-1.5 mt-4">
                 <span className="h-1.5 rounded-full w-8 bg-foreground" />
@@ -279,16 +292,16 @@ const QuoteDialog = ({
                 </Field>
 
                 {intent === "consultation" && (
-                  <Field label="Pick a consultation time" required>
+                  <Field label="Preferred consultation time" required>
                     <SlotPicker value={slot} onChange={setSlot} city={ctx.city} />
                   </Field>
                 )}
 
-                <Field label={intent === "consultation" ? "Anything you'd like the expert to know?" : "Any questions or specific concerns?"}>
+                <Field label={intent === "consultation" ? "What would you like to discuss?" : "What would you like pricing to include?"}>
                   <Textarea
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
-                    placeholder="Tell the expert about your goals, timeline, or anything you'd like them to know..."
+                    placeholder="Share your goals, questions, timeline, or anything you are unsure about."
                     className="rounded-xl min-h-[88px] resize-none"
                   />
                 </Field>
@@ -298,12 +311,12 @@ const QuoteDialog = ({
                   disabled={loading}
                   className="w-full h-12 rounded-2xl bg-foreground text-background hover:bg-foreground/90 text-base font-semibold"
                 >
-                  {loading ? "Sending..." : (<>{ctaLabel} <ArrowRight className="ml-1.5 size-4" /></>)}
+                  {loading ? "Opening WhatsApp..." : (<>{ctaLabel} <ArrowRight className="ml-1.5 size-4" /></>)}
                 </Button>
 
                 <p className="text-xs text-muted-foreground text-center flex items-center justify-center gap-1.5 pt-1">
                   <Lock className="size-3 text-primary" />
-                  Your info is only shared with this expert. No spam.
+                  Used only for your quote and care coordination. No spam.
                 </p>
 
                 <MedicalDisclaimer variant="inline" className="rounded-xl bg-muted/50 px-3 py-2" />
@@ -323,18 +336,18 @@ const IntentStep = ({ onPick, doctorName }: { onPick: (i: Intent) => void; docto
     {
       id: "pricing",
       icon: DollarSign,
-      title: "Get a price quote",
+      title: "Ask about pricing",
       desc: doctorName
-        ? `Receive tailored pricing from ${doctorName} by email.`
-        : "Receive tailored pricing from verified experts by email.",
-      meta: "Reply within 24h",
+        ? `Tell us what you would like pricing to include for ${doctorName}.`
+        : "Tell us what you are considering and what you want the estimate to include.",
+      meta: "Free · No obligation",
     },
     {
       id: "consultation",
       icon: CalendarDays,
-      title: "Book a consultation",
-      desc: "Pick a time for a free 1:1 video consult — confirmed within 24h.",
-      meta: "Free · 20 min · Video call",
+      title: "Start a free consultation",
+      desc: "Share your goals and a preferred time. We will confirm the next step with you.",
+      meta: "Free initial conversation",
     },
   ];
 
@@ -366,7 +379,7 @@ const IntentStep = ({ onPick, doctorName }: { onPick: (i: Intent) => void; docto
 
       <p className="text-xs text-muted-foreground text-center flex items-center justify-center gap-1.5 pt-2">
         <Lock className="size-3 text-primary" />
-        Your info is only shared with this expert. No spam.
+        Used only for your quote and care coordination. No spam.
       </p>
 
       <MedicalDisclaimer variant="inline" className="rounded-xl bg-muted/50 px-3 py-2" />
@@ -473,17 +486,13 @@ const SuccessState = ({
         <CheckCircle2 className="size-8 text-foreground" />
       </div>
       <h3 className="font-display text-2xl font-semibold mt-5">
-        {isConsult ? "Consultation requested! 🎉" : "Request sent! 🎉"}
+        Your WhatsApp message is ready
       </h3>
       <p className="text-sm text-muted-foreground mt-2 max-w-xs mx-auto">
-        {isConsult
-          ? `${doctorName ?? "The expert"} will confirm your consultation${prettySlot ? ` for ${prettySlot}` : ""} within 24 hours by email.`
-          : doctorName
-          ? `${doctorName} usually replies within 24 hours. We'll email you as soon as they do.`
-          : "Most experts reply within 24 hours. We'll email you as soon as quotes start arriving."}
+        WhatsApp opened with your details. Send the prepared message there to complete your {isConsult ? "consultation request" : "quote request"}{prettySlot ? ` for your preferred time, ${prettySlot}` : ""}{doctorName ? ` about ${doctorName}` : ""}.
       </p>
       <Button onClick={onClose} className="mt-6 rounded-full px-8 bg-foreground text-background hover:bg-foreground/90">
-        Got it
+        Close
       </Button>
     </div>
   );
@@ -499,11 +508,11 @@ export const DoctorContactButton = ({ doctorName, city, procedure }: QuoteContex
         onClick={(e) => { e.preventDefault(); e.stopPropagation(); open({ doctorName, city, procedure }); }}
         className="inline-flex items-center gap-1.5 rounded-full bg-card border border-border px-3 py-1.5 text-xs font-semibold hover:bg-foreground hover:text-background hover:border-foreground transition-colors"
       >
-        <MessageCircle className="size-3.5" /> Contact
+        <MessageCircle className="size-3.5" /> Ask about this expert
       </button>
       <div className="hidden md:block absolute bottom-full right-0 mb-2 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity">
         <div className="rounded-2xl bg-foreground text-background text-[11px] py-2 px-3 shadow-pop whitespace-nowrap">
-          Get pricing · Ask a question · Book consultation
+          Ask a question · Discuss pricing · Get a free quote
         </div>
       </div>
     </div>

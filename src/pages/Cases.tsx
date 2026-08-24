@@ -258,7 +258,7 @@ const Cases = () => {
             rel="noreferrer"
             className="cta-primary mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl px-6 py-3 text-sm font-bold transition md:mt-0 md:w-auto md:min-w-44 md:rounded-full"
           >
-            {lang === "zh" ? "联系我们" : lang === "ru" ? "Связаться с нами" : "Contact us"}
+            {lang === "zh" ? "获取免费匹配建议" : lang === "ru" ? "Получить бесплатную помощь" : "Get free matching guidance"}
             <ArrowRight className="size-4" />
           </a>
         </aside>

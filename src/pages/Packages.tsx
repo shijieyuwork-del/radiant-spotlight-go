@@ -223,7 +223,7 @@ const Packages = () => {
                 </h1>
                 <p className="mt-6 max-w-2xl text-base leading-relaxed text-foreground/70 sm:text-lg">
                   {c(
-                    "Understand your options, reserve your appointment and get practical help with arrival, communication and follow-up—without guessing what happens next.",
+                    "Understand your options, reserve your appointment and get practical help with arrival, communication and follow-up. You will always know what happens next.",
                     "了解选择、保留预约，并获得抵达、沟通和随访方面的实际协助，无需猜测下一步会发生什么。",
                     "Разберитесь в вариантах, закрепите запись и получите практическую помощь с прибытием, общением и наблюдением — без неопределённости."
                   )}
@@ -339,7 +339,7 @@ const Packages = () => {
               <div className="grid gap-8 px-6 py-9 sm:px-9 md:px-12 md:py-12 lg:grid-cols-[.85fr_1.15fr] lg:items-end">
                 <div>
                   <span className="pill bg-white/80 text-foreground shadow-soft"><ShieldCheck className="size-3.5 text-primary" />{c("Free coordination support", "免费协调支持", "Бесплатная координационная поддержка")}</span>
-                  <h2 className="mt-4 font-display text-4xl font-medium leading-tight tracking-tight md:text-5xl">{c("The practical details are handled with you—not left to you.", "实际细节有人和你一起处理，而不是让你独自面对。", "Практические детали решаются вместе с вами — не остаются только на вас.")}</h2>
+                  <h2 className="mt-4 font-display text-4xl font-medium leading-tight tracking-tight md:text-5xl">{c("Practical details, handled with you.", "实际细节，有人和你一起处理。", "Практические детали решаются вместе с вами.")}</h2>
                 </div>
                 <p className="max-w-2xl text-base leading-relaxed text-foreground/65 md:text-lg">{c("Support is confirmed around your actual appointment and itinerary. Before you travel, you receive a clear summary of what is included, optional or paid separately.", "支持内容会根据实际预约和行程确认。出发前，你会收到清晰说明，了解哪些已包含、哪些可选、哪些需另行支付。", "Поддержка подтверждается с учётом вашей записи и маршрута. До поездки вы получите ясное описание включённых, дополнительных и отдельно оплачиваемых услуг.")}</p>
               </div>
@@ -370,7 +370,7 @@ const Packages = () => {
             <div className="grid gap-8 lg:grid-cols-[.82fr_1.18fr] lg:gap-14">
               <div>
                 <span className="pill bg-accent text-accent-foreground"><CircleDollarSign className="size-3.5" />{c("Clarity before commitment", "确认前先讲清楚", "Ясность до обязательств")}</span>
-                <h2 className="mt-4 font-display text-4xl font-medium leading-tight tracking-tight md:text-5xl">{c("Know what is included—and what is not.", "清楚知道哪些包含，哪些不包含。", "Знайте, что включено, а что нет.")}</h2>
+                <h2 className="mt-4 font-display text-4xl font-medium leading-tight tracking-tight md:text-5xl">{c("Know what is included and what is not.", "清楚知道哪些包含，哪些不包含。", "Знайте, что включено, а что нет.")}</h2>
                 <p className="mt-4 text-base leading-relaxed text-foreground/65">{c("We confirm the scope in writing before travel so you can make decisions with fewer surprises.", "出发前，我们会以书面形式确认服务范围，帮助你减少意外情况。", "До поездки мы письменно подтверждаем объём услуг, чтобы уменьшить неожиданности.")}</p>
               </div>
               <div className="grid gap-4 sm:grid-cols-2">
@@ -427,7 +427,7 @@ const Packages = () => {
                 <div className="max-w-3xl">
                   <p className="text-xs font-bold uppercase tracking-[.16em] text-primary">{c("Start with one conversation", "从一次沟通开始", "Начните с одного разговора")}</p>
                   <h2 className="mt-3 font-display text-4xl font-medium leading-tight tracking-tight md:text-6xl">{c("You do not need every answer before you begin.", "开始之前，你不需要先知道所有答案。", "Необязательно знать все ответы, чтобы начать.")}</h2>
-                  <p className="mt-4 max-w-2xl text-sm leading-relaxed text-background/65 sm:text-base">{c("Tell us what you are considering. We will help you turn questions into a clear next step—free and with no obligation.", "告诉我们你正在考虑什么。我们会帮你把疑问变成清晰的下一步，免费且无需承诺。", "Расскажите, что вы рассматриваете. Мы поможем превратить вопросы в понятный следующий шаг — бесплатно и без обязательств.")}</p>
+                  <p className="mt-4 max-w-2xl text-sm leading-relaxed text-background/65 sm:text-base">{c("Tell us what you are considering. We will help you turn your questions into a clear next step. It is free and carries no obligation.", "告诉我们你正在考虑什么。我们会帮你把疑问变成清晰的下一步，免费且无需承诺。", "Расскажите, что вы рассматриваете. Мы поможем превратить вопросы в понятный следующий шаг. Это бесплатно и без обязательств.")}</p>
                 </div>
                 <div className="w-full shrink-0 lg:w-auto">
                   <QuoteCtaButton variant="primary" className="min-h-14 w-full px-8 sm:text-base lg:w-auto" />

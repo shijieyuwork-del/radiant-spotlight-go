@@ -1,7 +1,6 @@
 import {
   ShieldCheck, Award, Languages, Hospital, MessageCircle, Clock, Scissors, MapPin, BadgeCheck, Stethoscope,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import SafetyIndicator from "./SafetyIndicator";
 import TypicalPricing, { type PricingRow } from "./TypicalPricing";
 import QuoteCtaButton from "@/components/QuoteCtaButton";
@@ -146,7 +145,6 @@ const DoctorProfile = ({ d }: { d: DoctorProfileData }) => {
 
       <div className="px-7 pb-7 flex flex-col sm:flex-row gap-3">
         <QuoteCtaButton quoteCtx={{ doctorName: d.name, city: d.city }} icon="chat" className="flex-1" />
-        <Button variant="outline" className="rounded-full flex-1">Book free consult</Button>
       </div>
     </article>
   );
