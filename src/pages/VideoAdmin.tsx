@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Progress } from "@/components/ui/progress";
 
 const ADMIN_EMAIL = "shijieyuwork@gmail.com";
 const BUCKET = "short-videos";
@@ -36,6 +37,7 @@ const VideoAdmin = () => {
   const [videos, setVideos] = useState<VideoRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
+  const [progress, setProgress] = useState<number | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const [title, setTitle] = useState("");
   const [caption, setCaption] = useState("");
@@ -96,9 +98,13 @@ const VideoAdmin = () => {
     event.preventDefault();
     if (!file || !title.trim()) return toast.error("请选择视频并填写标题");
     setUploading(true);
+    setProgress(0);
     let storagePath = "";
     try {
-      storagePath = await uploadMedia(BUCKET, file);
+      storagePath = await uploadMedia(BUCKET, file, {
+        onProgress: setProgress,
+        onRetry: (attempt, max) => toast.info(`连接中断，自动重试中（${attempt}/${max}）…`),
+      });
 
       const { error: dbError } = await supabase.from("videos").insert({
         title: title.trim(),
@@ -121,24 +127,31 @@ const VideoAdmin = () => {
       toast.error(error instanceof Error ? error.message : "上传失败");
     } finally {
       setUploading(false);
+      setProgress(null);
     }
   };
 
   const [replacingId, setReplacingId] = useState<string | null>(null);
+  const [replaceProgress, setReplaceProgress] = useState(0);
 
   const replaceVideo = async (video: VideoRow, next: File | null) => {
     if (!next) return;
     if (!VIDEO_TYPES.includes(next.type)) return toast.error("仅支持 MP4、MOV 或 WebM 视频");
     if (next.size > MAX_BYTES) return toast.error("视频不能超过 100MB");
     setReplacingId(video.id);
+    setReplaceProgress(0);
     try {
-      await replaceMedia(BUCKET, video.id, next);
+      await replaceMedia(BUCKET, video.id, next, {
+        onProgress: setReplaceProgress,
+        onRetry: (attempt, max) => toast.info(`连接中断，自动重试中（${attempt}/${max}）…`),
+      });
       toast.success(`“${video.title}”的视频已更换`);
       await loadVideos();
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "更换失败");
     } finally {
       setReplacingId(null);
+      setReplaceProgress(0);
     }
   };
 
@@ -179,13 +192,19 @@ const VideoAdmin = () => {
             </div>
             <div><Label>对应医生</Label><Select value={doctorId} onValueChange={setDoctorId}><SelectTrigger className="mt-1.5"><SelectValue placeholder="选择医生"/></SelectTrigger><SelectContent><SelectItem value="none">暂不关联</SelectItem>{doctors.map(d=><SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>)}</SelectContent></Select></div>
             <div><Label>状态</Label><Select value={status} onValueChange={setStatus}><SelectTrigger className="mt-1.5"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="published">立即发布</SelectItem><SelectItem value="draft">保存草稿</SelectItem></SelectContent></Select></div>
+            {uploading && progress !== null && (
+              <div className="space-y-1.5">
+                <Progress value={progress} className="h-2" />
+                <p className="text-xs text-center text-muted-foreground">{progress < 100 ? `上传中 ${progress}%` : "服务器处理中…"}</p>
+              </div>
+            )}
             <Button type="submit" disabled={uploading || !file} className="w-full rounded-full h-11">{uploading ? <><Loader2 className="size-4 mr-2 animate-spin" />正在上传…</> : <><UploadCloud className="size-4 mr-2" />上传视频</>}</Button>
           </form>
         </section>
 
         <section>
           <div className="flex items-end justify-between mb-4"><div><h2 className="font-display text-2xl font-semibold">视频管理</h2><p className="text-sm text-muted-foreground">共 {videos.length} 条</p></div></div>
-          {loading ? <LoadingScreen compact /> : videos.length === 0 ? <div className="rounded-3xl border border-dashed bg-card p-12 text-center text-muted-foreground"><Film className="size-10 mx-auto mb-3 opacity-40" /><p>还没有上传视频</p></div> : <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-5">{videos.map((video) => { const url = video.url ?? ""; return <article key={video.id} className="rounded-3xl bg-card shadow-soft overflow-hidden"><video src={url} controls preload="metadata" className="w-full aspect-[9/16] max-h-80 object-cover bg-black" /><div className="p-4"><div className="flex items-start justify-between gap-2"><div><h3 className="font-semibold line-clamp-2">{video.title}</h3><p className="text-xs text-muted-foreground mt-1">{video.city || "未设置城市"}{video.procedure ? ` · ${video.procedure}` : ""}</p></div><span className={`text-[10px] px-2 py-1 rounded-full ${video.status === "published" ? "bg-primary/10 text-primary" : "bg-muted text-muted-foreground"}`}>{video.status === "published" ? "已发布" : "草稿"}</span></div><div className="flex items-center gap-3 mt-3"><label className="inline-flex"><input type="file" accept="video/mp4,video/quicktime,video/webm" className="hidden" disabled={replacingId === video.id} onChange={(e) => { void replaceVideo(video, e.target.files?.[0] ?? null); e.target.value = ""; }} /><span className={`inline-flex items-center text-sm font-medium text-primary hover:underline cursor-pointer ${replacingId === video.id ? "opacity-50 pointer-events-none" : ""}`}>{replacingId === video.id ? <Loader2 className="size-4 mr-1 animate-spin" /> : <RefreshCw className="size-4 mr-1" />}更换视频</span></label><Button variant="ghost" size="sm" className="text-destructive px-0" onClick={() => void removeVideo(video)}><Trash2 className="size-4 mr-1" />删除</Button></div></div></article>; })}</div>}
+          {loading ? <LoadingScreen compact /> : videos.length === 0 ? <div className="rounded-3xl border border-dashed bg-card p-12 text-center text-muted-foreground"><Film className="size-10 mx-auto mb-3 opacity-40" /><p>还没有上传视频</p></div> : <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-5">{videos.map((video) => { const url = video.url ?? ""; return <article key={video.id} className="rounded-3xl bg-card shadow-soft overflow-hidden"><video src={url} controls preload="metadata" className="w-full aspect-[9/16] max-h-80 object-cover bg-black" /><div className="p-4"><div className="flex items-start justify-between gap-2"><div><h3 className="font-semibold line-clamp-2">{video.title}</h3><p className="text-xs text-muted-foreground mt-1">{video.city || "未设置城市"}{video.procedure ? ` · ${video.procedure}` : ""}</p></div><span className={`text-[10px] px-2 py-1 rounded-full ${video.status === "published" ? "bg-primary/10 text-primary" : "bg-muted text-muted-foreground"}`}>{video.status === "published" ? "已发布" : "草稿"}</span></div><div className="flex items-center gap-3 mt-3"><label className="inline-flex"><input type="file" accept="video/mp4,video/quicktime,video/webm" className="hidden" disabled={replacingId === video.id} onChange={(e) => { void replaceVideo(video, e.target.files?.[0] ?? null); e.target.value = ""; }} /><span className={`inline-flex items-center text-sm font-medium text-primary hover:underline cursor-pointer ${replacingId === video.id ? "opacity-50 pointer-events-none" : ""}`}>{replacingId === video.id ? <Loader2 className="size-4 mr-1 animate-spin" /> : <RefreshCw className="size-4 mr-1" />}更换视频</span></label>{replacingId === video.id && <div className="flex-1 max-w-32 space-y-1"><Progress value={replaceProgress} className="h-1.5" /><p className="text-[10px] text-muted-foreground">{replaceProgress < 100 ? `${replaceProgress}%` : "处理中…"}</p></div>}<Button variant="ghost" size="sm" className="text-destructive px-0" onClick={() => void removeVideo(video)}><Trash2 className="size-4 mr-1" />删除</Button></div></div></article>; })}</div>}
         </section>
       </main>
     </div>
