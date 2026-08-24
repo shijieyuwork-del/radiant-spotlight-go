@@ -81,3 +81,27 @@ export const coverBlobToFile = (blob: Blob, videoFileName: string): File => {
   const base = videoFileName.replace(/\.[^.]+$/, "") || "video";
   return new File([blob], `${base}-cover.webp`, { type: "image/webp" });
 };
+
+/** Read a video file's duration in seconds (null when unreadable). */
+export const readVideoDuration = (file: File): Promise<number | null> =>
+  new Promise((resolve) => {
+    const url = URL.createObjectURL(file);
+    const video = document.createElement("video");
+    video.preload = "metadata";
+    video.src = url;
+    const done = (value: number | null) => {
+      URL.revokeObjectURL(url);
+      resolve(value);
+    };
+    video.addEventListener("loadedmetadata", () =>
+      done(Number.isFinite(video.duration) && video.duration > 0 ? video.duration : null), { once: true });
+    video.addEventListener("error", () => done(null), { once: true });
+  });
+
+/** Format seconds as m:ss for compact preview labels. */
+export const formatDuration = (seconds: number): string => {
+  const total = Math.round(seconds);
+  const m = Math.floor(total / 60);
+  const s = total % 60;
+  return `${m}:${String(s).padStart(2, "0")}`;
+};

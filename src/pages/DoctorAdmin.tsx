@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
-import { ArrowLeft, ImagePlus, Loader2, Stethoscope, Trash2, UploadCloud } from "lucide-react";
+import { ArrowLeft, ImagePlus, Loader2, Stethoscope, Trash2, UploadCloud, X } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
@@ -213,10 +213,29 @@ export default function DoctorAdmin() {
                 onFile={(f) => openCrop(f, "create")}
                 onInvalid={(msg) => { setErrors((prev) => ({ ...prev, photo: msg })); toast.error(msg); }}
               />
-              {photoPreview && (
-                <div className="mt-2 flex items-center gap-3">
+              {photoPreview && photo && (
+                <div className="mt-2 flex items-center gap-3 rounded-xl border bg-muted/30 p-2.5" data-testid="photo-preview-card">
                   <img src={photoPreview} alt="已裁剪照片预览" className="size-16 rounded-xl object-cover border" />
-                  <p className="text-xs text-muted-foreground">已裁剪为 1:1（800×800 WebP），可重新选择图片调整</p>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm font-medium truncate" title={photo.name}>{photo.name}</p>
+                    <p className="text-xs text-muted-foreground">
+                      已裁剪为 1:1（800×800 WebP）· {(photo.size / 1024).toFixed(0)} KB，可重新选择图片调整
+                    </p>
+                  </div>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="shrink-0 text-muted-foreground hover:text-destructive"
+                    onClick={() => {
+                      setPhoto(null);
+                      setPhotoPreview((prev) => { if (prev) URL.revokeObjectURL(prev); return null; });
+                      clearError("photo");
+                    }}
+                    aria-label="取消选择该照片"
+                  >
+                    <X className="size-4 mr-1" />取消选择
+                  </Button>
                 </div>
               )}
               {errors.photo
