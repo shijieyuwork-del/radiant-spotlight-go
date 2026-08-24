@@ -135,6 +135,7 @@ export default function DoctorAdmin() {
       if (error) throw error;
       toast.success("医生资料已发布");
       setName(""); setTitle(""); setHospital(""); setSpecialties(""); setBio(""); setCredentials(""); setPhoto(null);
+      setPhotoPreview((prev) => { if (prev) URL.revokeObjectURL(prev); return null; });
       setErrors({});
       await load();
     } catch (error) {
@@ -287,6 +288,11 @@ export default function DoctorAdmin() {
           </div>
         </section>
       </main>
+      <ImageCropDialog
+        file={cropSource}
+        onCancel={() => { setCropSource(null); setCropTarget(null); }}
+        onConfirm={onCropped}
+      />
     </div>
   );
 }
