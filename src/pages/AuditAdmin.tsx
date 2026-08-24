@@ -63,8 +63,17 @@ export default function AuditAdmin() {
       .order("created_at", { ascending: sort === "asc" });
     if (action !== "all") query = query.eq("action", action);
     if (bucket !== "all") query = query.eq("bucket", bucket);
-    if (from) query = query.gte("created_at", new Date(from).toISOString());
-    if (to) query = query.lte("created_at", new Date(`${to}T23:59:59`).toISOString());
+    // 结果状态：拒绝 = metadata.denied 为 true；成功 = false 或无该标记
+    if (outcome === "denied") query = query.eq("metadata->>denied", "true");
+    if (outcome === "allowed") query = query.or("metadata->>denied.is.false,metadata->>denied.is.null");
+    // 时间范围：预设窗口或自定义日期（自定义仅在选择 custom 时生效）
+    if (timePreset === "24h" || timePreset === "7d" || timePreset === "30d") {
+      const hours = timePreset === "24h" ? 24 : timePreset === "7d" ? 24 * 7 : 24 * 30;
+      query = query.gte("created_at", new Date(Date.now() - hours * 3600_000).toISOString());
+    } else if (timePreset === "custom") {
+      if (from) query = query.gte("created_at", new Date(from).toISOString());
+      if (to) query = query.lte("created_at", new Date(`${to}T23:59:59`).toISOString());
+    }
     if (keyword.trim()) query = query.ilike("target", `%${keyword.trim()}%`);
     const actorValue = (actorOverride ?? actor).trim();
     if (actorValue) {
@@ -77,7 +86,7 @@ export default function AuditAdmin() {
     }
     if (range) query = query.range(range.from, range.to);
     return query;
-  }, [action, bucket, sort, from, to, keyword, actor]);
+  }, [action, bucket, sort, from, to, keyword, actor, outcome, timePreset]);
 
   const load = useCallback(async (pageIndex: number, actorOverride?: string) => {
     setLoading(true);
@@ -105,41 +114,25 @@ export default function AuditAdmin() {
   const stats = useMemo(() => {
     const actors = new Set(rows.map(actorKey).filter(Boolean));
     const ips = new Set(rows.map((r) => r.ip).filter(Boolean));
-    const denied = rows.filter((r) => r.metadata?.denied).length;
+    const denied = rows.filter(isDenied).length;
     return { total: rows.length, actors: actors.size, ips: ips.size, denied };
   }, [rows]);
 
-  /** 异常检测：按 IP 与按用户同时统计，达到各自阈值即触发 */
+  /** 异常检测：按 IP 与按用户同时统计（共享口径见 @/lib/audit-anomaly） */
   const anomalies = useMemo(() => {
-    const ipCounts = new Map<string, number>();
-    const userCounts = new Map<string, number>();
-    for (const r of rows) {
-      if (r.ip) ipCounts.set(r.ip, (ipCounts.get(r.ip) ?? 0) + 1);
-      const u = actorKey(r);
-      if (u) userCounts.set(u, (userCounts.get(u) ?? 0) + 1);
-    }
+    const counts = countByIpAndUser(rows);
     return {
-      ips: [...ipCounts.entries()].filter(([, n]) => n >= ipThreshold).sort((a, b) => b[1] - a[1]),
-      users: [...userCounts.entries()].filter(([, n]) => n >= userThreshold).sort((a, b) => b[1] - a[1]),
-      ipCounts,
-      userCounts,
+      counts,
+      ips: anomalousIps(counts, ipThreshold),
+      users: anomalousUsers(counts, userThreshold),
     };
   }, [rows, ipThreshold, userThreshold]);
 
   /** 一行的触发原因列表（用于行内徽标与详情弹窗） */
-  const triggerReasons = useCallback((r: AuditRow): string[] => {
-    const reasons: string[] = [];
-    if (r.ip) {
-      const n = anomalies.ipCounts.get(r.ip) ?? 0;
-      if (n >= ipThreshold) reasons.push(`IP 高频：${r.ip} 发起 ${n} 次 ≥ 阈值 ${ipThreshold}`);
-    }
-    const u = actorKey(r);
-    if (u) {
-      const n = anomalies.userCounts.get(u) ?? 0;
-      if (n >= userThreshold) reasons.push(`用户高频：${u} 发起 ${n} 次 ≥ 阈值 ${userThreshold}`);
-    }
-    return reasons;
-  }, [anomalies, ipThreshold, userThreshold]);
+  const triggerReasons = useCallback(
+    (r: AuditRow): string[] => rowTriggerReasons(r, anomalies.counts, { ipThreshold, userThreshold }),
+    [anomalies, ipThreshold, userThreshold],
+  );
 
   if (authLoading) return <div />;
   if (!user) return <Navigate to="/auth?next=/admin/audit" replace />;
@@ -187,22 +180,11 @@ export default function AuditAdmin() {
       toast.info("当前筛选条件下没有可导出的记录");
       return;
     }
-    // 在导出数据集上重新统计，保证触发原因与导出内容一致
-    const ipCounts = new Map<string, number>();
-    const userCounts = new Map<string, number>();
-    for (const r of list) {
-      if (r.ip) ipCounts.set(r.ip, (ipCounts.get(r.ip) ?? 0) + 1);
-      const u = actorKey(r);
-      if (u) userCounts.set(u, (userCounts.get(u) ?? 0) + 1);
-    }
+    // 在导出数据集上重新统计（与表格同一口径函数），保证触发原因与导出内容一致
+    const counts = countByIpAndUser(list);
     const reasonsOf = (r: AuditRow) => {
-      const reasons: string[] = [];
-      const ipN = r.ip ? ipCounts.get(r.ip) ?? 0 : 0;
-      if (r.ip && ipN >= ipThreshold) reasons.push(`IP 高频(${ipN}>=${ipThreshold})`);
-      const u = actorKey(r);
-      const uN = u ? userCounts.get(u) ?? 0 : 0;
-      if (u && uN >= userThreshold) reasons.push(`用户高频(${uN}>=${userThreshold})`);
-      if (r.metadata?.denied) reasons.push(`已拒绝:${deniedReason(r) ?? ""}`);
+      const reasons = rowTriggerReasons(r, counts, { ipThreshold, userThreshold }, { compact: true });
+      if (isDenied(r)) reasons.push(`已拒绝:${deniedReason(r) ?? ""}`);
       return reasons.join(" | ");
     };
     const header = ["时间", "操作", "存储桶", "操作者邮箱", "操作者ID", "目标", "IP", "User-Agent", "状态", "触发原因"];
