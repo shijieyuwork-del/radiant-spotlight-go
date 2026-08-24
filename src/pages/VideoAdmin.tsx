@@ -6,6 +6,7 @@ import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 import { signedUrls } from "@/lib/storage-urls";
 import { replaceMedia, uploadMedia } from "@/lib/upload-media";
+import { VIDEO_RULES, fieldForUploadError, validateMediaFile } from "@/lib/media-validation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -15,8 +16,12 @@ import { Progress } from "@/components/ui/progress";
 
 const ADMIN_EMAIL = "shijieyuwork@gmail.com";
 const BUCKET = "short-videos";
-const MAX_BYTES = 100 * 1024 * 1024;
-const VIDEO_TYPES = ["video/mp4", "video/quicktime", "video/webm"];
+const VIDEO_ACCEPT = "video/mp4,video/quicktime,video/webm";
+
+type FieldKey = "file" | "title";
+type FieldErrors = Partial<Record<FieldKey, string>>;
+
+const errorInputClass = "border-destructive focus-visible:ring-destructive";
 
 type VideoRow = {
   id: string;
