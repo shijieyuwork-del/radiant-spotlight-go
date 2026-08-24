@@ -229,7 +229,7 @@ const Packages = () => {
                 </p>
                 <div className="mt-7 flex flex-col gap-3 sm:flex-row">
                   <a href={WHATSAPP_START} target="_blank" rel="noreferrer" className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-foreground px-7 text-sm font-semibold text-background shadow-pop transition hover:-translate-y-1 hover:bg-foreground/90 sm:text-base">
-                    {c("Book your free consultation", "预约免费咨询", "Записаться бесплатно")}
+                    {c("Get a free quote", "获取免费报价", "Получить бесплатную оценку")}
                     <ArrowRight className="size-4" />
                   </a>
                   <a href="#journey" className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full border border-primary/25 bg-white/75 px-7 text-sm font-semibold text-foreground shadow-soft backdrop-blur transition hover:-translate-y-1 hover:border-primary sm:text-base">
@@ -443,7 +443,7 @@ const Packages = () => {
                 </div>
                 <div className="w-full shrink-0 lg:w-auto">
                   <a href={WHATSAPP_START} target="_blank" rel="noreferrer" className="inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-full bg-primary px-8 text-sm font-semibold text-primary-foreground shadow-glow transition hover:-translate-y-1 hover:bg-primary/90 sm:text-base lg:w-auto">
-                    {c("Book your free consultation", "预约免费咨询", "Записаться бесплатно")}<ArrowRight className="size-4" />
+                    {c("Get a free quote", "获取免费报价", "Получить бесплатную оценку")}<ArrowRight className="size-4" />
                   </a>
                   <p className="mt-3 text-center text-xs text-background/55">{c("Prefer email? hello@cosmetics-asia.com", "更喜欢邮件？hello@cosmetics-asia.com", "Предпочитаете email? hello@cosmetics-asia.com")}</p>
                 </div>

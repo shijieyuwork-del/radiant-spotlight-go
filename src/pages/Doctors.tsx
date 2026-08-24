@@ -261,7 +261,7 @@ const Experts = () => {
                         {c("Expert & cases", "专家与案例", "Эксперт и истории пациентов")}
                       </Link>
                       <button type="button" onClick={() => open({ doctorName: d.name, city: d.city })} className="cta-primary flex min-h-12 items-center justify-center gap-1.5 rounded-xl px-3 py-3 text-center text-[13px] font-semibold leading-tight">
-                        {c("Book free consultation", "预约免费视频咨询", "Записаться на бесплатную консультацию")}<ArrowRight className="size-4" />
+                        {c("Get a free quote", "获取免费报价", "Получить бесплатную оценку")}<ArrowRight className="size-4" />
                       </button>
                     </div>
                   </article>
