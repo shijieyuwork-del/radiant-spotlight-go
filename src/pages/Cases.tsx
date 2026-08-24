@@ -1,14 +1,27 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { ArrowRight, Heart, MessageCircle, Search, SlidersHorizontal } from "lucide-react";
+import { ArrowRight, Heart, MessageCircle, Navigation, Search, SlidersHorizontal } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
-import TikTokWall from "@/components/TikTokWall";
+import TikTokWall, { type TikTokItem } from "@/components/TikTokWall";
+import { Pagination, SortChips } from "@/components/ListControls";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
 import { DOCTORS } from "@/data/doctors";
+import { CITIES } from "@/data/cities";
 import { useAsia } from "@/lib/asia-i18n";
 import { asiaCopy } from "@/lib/asia-copy";
+import { cityCoordsOf, haversineKm, useUserLocation } from "@/lib/geo";
+
+const PAGE_SIZE = 9;
+
+/** "56k" -> 56000；"1.2k" -> 1200；空串 -> 0 */
+const parseLikes = (s: string) => {
+  const m = String(s ?? "").trim().toLowerCase().match(/^([\d.]+)k?$/);
+  if (!m) return 0;
+  const n = parseFloat(m[1]);
+  return s.toLowerCase().includes("k") ? Math.round(n * 1000) : Math.round(n);
+};
 
 const Cases = () => {
   const { t, lang, fmt } = useAsia();
