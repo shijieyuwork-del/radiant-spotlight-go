@@ -13,19 +13,11 @@ import { Label } from "@/components/ui/label";
 import {
   Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle,
 } from "@/components/ui/dialog";
-
-type AuditRow = {
-  id: string;
-  created_at: string;
-  action: string;
-  actor_id: string | null;
-  actor_email: string | null;
-  bucket: string | null;
-  target: string;
-  ip: string | null;
-  user_agent: string | null;
-  metadata: { denied?: boolean; reason?: string } | null;
-};
+import {
+  actorKey, anomalousIps, anomalousUsers, badgeLabel, bannerLine,
+  countByIpAndUser, deniedReason, isDenied,
+  triggerReasons as rowTriggerReasons, type AuditRow,
+} from "@/lib/audit-anomaly";
 
 const ADMIN = "shijieyuwork@gmail.com";
 const PAGE_SIZE = 50;
@@ -35,16 +27,6 @@ const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
 const ACTION_LABEL: Record<string, string> = {
   profile_read: "资料读取",
   storage_read: "文件访问",
-};
-
-const actorKey = (r: AuditRow) => r.actor_email ?? r.actor_id ?? null;
-
-const deniedReason = (r: AuditRow): string | null => {
-  if (!r.metadata?.denied) return null;
-  if (r.metadata.reason) return r.metadata.reason;
-  if (r.action === "storage_read") return "目标文件未关联任何已发布记录（或不存在），已按策略拒绝";
-  if (r.action === "profile_read") return "越权读取他人资料，已拒绝";
-  return "访问被策略拒绝";
 };
 
 const csvCell = (v: string | null | undefined) => `"${String(v ?? "").replace(/"/g, '""')}"`;
@@ -63,6 +45,9 @@ export default function AuditAdmin() {
   const [to, setTo] = useState("");
   const [keyword, setKeyword] = useState("");
   const [actor, setActor] = useState("");
+  // 结果状态（成功/拒绝）与时间范围预设，与自定义日期组合使用
+  const [outcome, setOutcome] = useState<"all" | "allowed" | "denied">("all");
+  const [timePreset, setTimePreset] = useState<"all" | "24h" | "7d" | "30d" | "custom">("all");
   // 可配置异常规则：同一 IP / 同一用户在当前窗口内请求次数达到阈值即标红告警
   const [ipThreshold, setIpThreshold] = useState(20);
   const [userThreshold, setUserThreshold] = useState(20);
@@ -78,8 +63,17 @@ export default function AuditAdmin() {
       .order("created_at", { ascending: sort === "asc" });
     if (action !== "all") query = query.eq("action", action);
     if (bucket !== "all") query = query.eq("bucket", bucket);
-    if (from) query = query.gte("created_at", new Date(from).toISOString());
-    if (to) query = query.lte("created_at", new Date(`${to}T23:59:59`).toISOString());
+    // 结果状态：拒绝 = metadata.denied 为 true；成功 = false 或无该标记
+    if (outcome === "denied") query = query.eq("metadata->>denied", "true");
+    if (outcome === "allowed") query = query.or("metadata->>denied.is.false,metadata->>denied.is.null");
+    // 时间范围：预设窗口或自定义日期（自定义仅在选择 custom 时生效）
+    if (timePreset === "24h" || timePreset === "7d" || timePreset === "30d") {
+      const hours = timePreset === "24h" ? 24 : timePreset === "7d" ? 24 * 7 : 24 * 30;
+      query = query.gte("created_at", new Date(Date.now() - hours * 3600_000).toISOString());
+    } else if (timePreset === "custom") {
+      if (from) query = query.gte("created_at", new Date(from).toISOString());
+      if (to) query = query.lte("created_at", new Date(`${to}T23:59:59`).toISOString());
+    }
     if (keyword.trim()) query = query.ilike("target", `%${keyword.trim()}%`);
     const actorValue = (actorOverride ?? actor).trim();
     if (actorValue) {
@@ -92,7 +86,7 @@ export default function AuditAdmin() {
     }
     if (range) query = query.range(range.from, range.to);
     return query;
-  }, [action, bucket, sort, from, to, keyword, actor]);
+  }, [action, bucket, sort, from, to, keyword, actor, outcome, timePreset]);
 
   const load = useCallback(async (pageIndex: number, actorOverride?: string) => {
     setLoading(true);
@@ -120,41 +114,25 @@ export default function AuditAdmin() {
   const stats = useMemo(() => {
     const actors = new Set(rows.map(actorKey).filter(Boolean));
     const ips = new Set(rows.map((r) => r.ip).filter(Boolean));
-    const denied = rows.filter((r) => r.metadata?.denied).length;
+    const denied = rows.filter(isDenied).length;
     return { total: rows.length, actors: actors.size, ips: ips.size, denied };
   }, [rows]);
 
-  /** 异常检测：按 IP 与按用户同时统计，达到各自阈值即触发 */
+  /** 异常检测：按 IP 与按用户同时统计（共享口径见 @/lib/audit-anomaly） */
   const anomalies = useMemo(() => {
-    const ipCounts = new Map<string, number>();
-    const userCounts = new Map<string, number>();
-    for (const r of rows) {
-      if (r.ip) ipCounts.set(r.ip, (ipCounts.get(r.ip) ?? 0) + 1);
-      const u = actorKey(r);
-      if (u) userCounts.set(u, (userCounts.get(u) ?? 0) + 1);
-    }
+    const counts = countByIpAndUser(rows);
     return {
-      ips: [...ipCounts.entries()].filter(([, n]) => n >= ipThreshold).sort((a, b) => b[1] - a[1]),
-      users: [...userCounts.entries()].filter(([, n]) => n >= userThreshold).sort((a, b) => b[1] - a[1]),
-      ipCounts,
-      userCounts,
+      counts,
+      ips: anomalousIps(counts, ipThreshold),
+      users: anomalousUsers(counts, userThreshold),
     };
   }, [rows, ipThreshold, userThreshold]);
 
   /** 一行的触发原因列表（用于行内徽标与详情弹窗） */
-  const triggerReasons = useCallback((r: AuditRow): string[] => {
-    const reasons: string[] = [];
-    if (r.ip) {
-      const n = anomalies.ipCounts.get(r.ip) ?? 0;
-      if (n >= ipThreshold) reasons.push(`IP 高频：${r.ip} 发起 ${n} 次 ≥ 阈值 ${ipThreshold}`);
-    }
-    const u = actorKey(r);
-    if (u) {
-      const n = anomalies.userCounts.get(u) ?? 0;
-      if (n >= userThreshold) reasons.push(`用户高频：${u} 发起 ${n} 次 ≥ 阈值 ${userThreshold}`);
-    }
-    return reasons;
-  }, [anomalies, ipThreshold, userThreshold]);
+  const triggerReasons = useCallback(
+    (r: AuditRow): string[] => rowTriggerReasons(r, anomalies.counts, { ipThreshold, userThreshold }),
+    [anomalies, ipThreshold, userThreshold],
+  );
 
   if (authLoading) return <div />;
   if (!user) return <Navigate to="/auth?next=/admin/audit" replace />;
@@ -202,22 +180,11 @@ export default function AuditAdmin() {
       toast.info("当前筛选条件下没有可导出的记录");
       return;
     }
-    // 在导出数据集上重新统计，保证触发原因与导出内容一致
-    const ipCounts = new Map<string, number>();
-    const userCounts = new Map<string, number>();
-    for (const r of list) {
-      if (r.ip) ipCounts.set(r.ip, (ipCounts.get(r.ip) ?? 0) + 1);
-      const u = actorKey(r);
-      if (u) userCounts.set(u, (userCounts.get(u) ?? 0) + 1);
-    }
+    // 在导出数据集上重新统计（与表格同一口径函数），保证触发原因与导出内容一致
+    const counts = countByIpAndUser(list);
     const reasonsOf = (r: AuditRow) => {
-      const reasons: string[] = [];
-      const ipN = r.ip ? ipCounts.get(r.ip) ?? 0 : 0;
-      if (r.ip && ipN >= ipThreshold) reasons.push(`IP 高频(${ipN}>=${ipThreshold})`);
-      const u = actorKey(r);
-      const uN = u ? userCounts.get(u) ?? 0 : 0;
-      if (u && uN >= userThreshold) reasons.push(`用户高频(${uN}>=${userThreshold})`);
-      if (r.metadata?.denied) reasons.push(`已拒绝:${deniedReason(r) ?? ""}`);
+      const reasons = rowTriggerReasons(r, counts, { ipThreshold, userThreshold }, { compact: true });
+      if (isDenied(r)) reasons.push(`已拒绝:${deniedReason(r) ?? ""}`);
       return reasons.join(" | ");
     };
     const header = ["时间", "操作", "存储桶", "操作者邮箱", "操作者ID", "目标", "IP", "User-Agent", "状态", "触发原因"];
@@ -274,6 +241,19 @@ export default function AuditAdmin() {
               </select>
             </div>
             <div>
+              <Label>结果状态</Label>
+              <select
+                data-testid="filter-outcome"
+                className="w-full h-10 rounded-md border bg-background px-3 text-sm"
+                value={outcome}
+                onChange={(e) => setOutcome(e.target.value as typeof outcome)}
+              >
+                <option value="all">全部</option>
+                <option value="allowed">仅成功（允许）</option>
+                <option value="denied">仅拒绝</option>
+              </select>
+            </div>
+            <div>
               <Label>存储桶</Label>
               <select
                 className="w-full h-10 rounded-md border bg-background px-3 text-sm"
@@ -306,16 +286,36 @@ export default function AuditAdmin() {
               />
             </div>
             <div>
-              <Label>开始日期</Label>
-              <Input type="date" value={from} onChange={(e) => setFrom(e.target.value)} />
+              <Label>时间范围</Label>
+              <select
+                data-testid="filter-time"
+                className="w-full h-10 rounded-md border bg-background px-3 text-sm"
+                value={timePreset}
+                onChange={(e) => setTimePreset(e.target.value as typeof timePreset)}
+              >
+                <option value="all">全部时间</option>
+                <option value="24h">最近 24 小时</option>
+                <option value="7d">最近 7 天</option>
+                <option value="30d">最近 30 天</option>
+                <option value="custom">自定义日期…</option>
+              </select>
             </div>
-            <div>
-              <Label>结束日期</Label>
-              <Input type="date" value={to} onChange={(e) => setTo(e.target.value)} />
-            </div>
+            {timePreset === "custom" && (
+              <>
+                <div>
+                  <Label>开始日期</Label>
+                  <Input data-testid="filter-from" type="date" value={from} onChange={(e) => setFrom(e.target.value)} />
+                </div>
+                <div>
+                  <Label>结束日期</Label>
+                  <Input data-testid="filter-to" type="date" value={to} onChange={(e) => setTo(e.target.value)} />
+                </div>
+              </>
+            )}
             <div>
               <Label>目标关键词</Label>
               <Input
+                data-testid="filter-keyword"
                 placeholder="搜索目标（路径 / ID），可与操作者组合"
                 value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
@@ -323,11 +323,11 @@ export default function AuditAdmin() {
               />
             </div>
             <div className="flex gap-2">
-              <Button onClick={applyFilters} disabled={loading} className="flex-1">
+              <Button data-testid="apply-filters" onClick={applyFilters} disabled={loading} className="flex-1">
                 {loading ? <Loader2 className="animate-spin" /> : <RefreshCw className="size-4" />}
                 查询
               </Button>
-              <Button variant="outline" onClick={exportCsv} disabled={exporting || loading}>
+              <Button data-testid="export-csv" variant="outline" onClick={exportCsv} disabled={exporting || loading}>
                 {exporting ? <Loader2 className="animate-spin" /> : <Download className="size-4" />}
                 导出 CSV
               </Button>
@@ -342,6 +342,7 @@ export default function AuditAdmin() {
             <label className="inline-flex items-center gap-2">
               同一 IP 请求 ≥
               <Input
+                data-testid="ip-threshold"
                 type="number" min={1} value={ipThreshold}
                 onChange={(e) => setIpThreshold(Math.max(1, Number(e.target.value) || 1))}
                 className="w-20 h-8"
@@ -351,6 +352,7 @@ export default function AuditAdmin() {
             <label className="inline-flex items-center gap-2">
               同一用户请求 ≥
               <Input
+                data-testid="user-threshold"
                 type="number" min={1} value={userThreshold}
                 onChange={(e) => setUserThreshold(Math.max(1, Number(e.target.value) || 1))}
                 className="w-20 h-8"
@@ -379,16 +381,10 @@ export default function AuditAdmin() {
               <p className="text-sm">当前窗口内有 {stats.denied} 次访问被拒绝（未发布内容或越权尝试），请核对下方标红记录。</p>
             )}
             {anomalies.ips.map(([ip, n]) => (
-              <p key={ip} className="text-sm">
-                <span className="font-medium">触发原因 — IP 高频：</span>
-                <code className="font-mono">{ip}</code> 在当前窗口内发起 {n} 次请求，达到阈值 {ipThreshold} 次。
-              </p>
+              <p key={ip} className="text-sm" data-testid="anomaly-banner-ip">{bannerLine("ip", ip, n, ipThreshold)}</p>
             ))}
             {anomalies.users.map(([u, n]) => (
-              <p key={u} className="text-sm">
-                <span className="font-medium">触发原因 — 用户高频：</span>
-                <code className="font-mono">{u}</code> 在当前窗口内发起 {n} 次请求，达到阈值 {userThreshold} 次。
-              </p>
+              <p key={u} className="text-sm" data-testid="anomaly-banner-user">{bannerLine("user", u, n, userThreshold)}</p>
             ))}
           </section>
         )}
@@ -449,9 +445,10 @@ export default function AuditAdmin() {
                             <span
                               key={reason}
                               title={reason}
+                              data-testid="anomaly-badge"
                               className="inline-flex rounded-full bg-amber-500/15 text-amber-700 dark:text-amber-400 px-2 py-0.5 text-xs font-medium"
                             >
-                              {reason.startsWith("IP") ? "IP 高频" : "用户高频"}
+                              {badgeLabel(reason)}
                             </span>
                           ))}
                         </div>
@@ -488,7 +485,7 @@ export default function AuditAdmin() {
 
       {/* 记录详情弹窗 */}
       <Dialog open={detail !== null} onOpenChange={(open) => !open && setDetail(null)}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="max-w-2xl" data-testid="audit-detail-dialog">
           <DialogHeader>
             <DialogTitle>审计记录详情</DialogTitle>
             <DialogDescription>请求参数、来源与拒绝原因，可逐项复制。</DialogDescription>
