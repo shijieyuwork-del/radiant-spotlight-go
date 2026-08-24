@@ -11,7 +11,7 @@ export interface DestinationData {
   intro: string;
   // Cost in USD (will be converted in UI)
   costs: { country: string; flag: string; low: number; high: number; isHome?: boolean }[];
-  doctors: {
+  experts: {
     name: string; clinic: string; rating: number; reviews: number; cases: string;
     languages: string[]; license: string;
   }[];
@@ -37,7 +37,7 @@ const koreaRhino: DestinationData = {
     { country: "United Kingdom", flag: "🇬🇧", low: 7800, high: 12000 },
     { country: "Mexico", flag: "🇲🇽", low: 3500, high: 5800 },
   ],
-  doctors: [
+  experts: [
     { name: "Dr. Park Min-jun", clinic: "Verde Surgical Center", rating: 4.9, reviews: 1284, cases: "3.2K", languages: ["KR", "EN", "ZH"], license: "KSPRS-4821" },
     { name: "Dr. Lee Soo-yeon", clinic: "Banobagi Plastic Surgery", rating: 4.92, reviews: 980, cases: "2.8K", languages: ["KR", "EN", "JA"], license: "KSPRS-3920" },
     { name: "Dr. Kim Joon-ho", clinic: "ID Hospital Seoul", rating: 4.88, reviews: 1502, cases: "4.1K", languages: ["KR", "EN"], license: "KSPRS-5102" },
@@ -52,8 +52,8 @@ const koreaRhino: DestinationData = {
     { stage: "Fly home", days: "Day 10–14", desc: "Cleared to fly. Weekly check-ins with surgeon for 6 months." },
   ],
   faq: [
-    { q: "Is rhinoplasty in Korea safe for international patients?", a: "Korean Society of Plastic & Reconstructive Surgeons (KSPRS) board certification is mandatory for every doctor on Cosmetics Asia. All clinics are JCI-accredited or Korean MOHW-licensed." },
-    { q: "Do surgeons speak English?", a: "Yes — every doctor we list speaks English, and most clinics provide Mandarin, Japanese, and Arabic interpreters at no extra cost." },
+    { q: "Is rhinoplasty in Korea safe for international patients?", a: "Korean Society of Plastic & Reconstructive Surgeons (KSPRS) board certification is mandatory for every expert on Cosmetics Asia. All clinics are JCI-accredited or Korean MOHW-licensed." },
+    { q: "Do surgeons speak English?", a: "Yes — every expert we list speaks English, and most clinics provide Mandarin, Japanese, and Arabic interpreters at no extra cost." },
     { q: "What's included in the price?", a: "Medical fees are confirmed and collected by the treating clinic. Airport pickup, accommodation guidance and other coordination services are explained separately before you travel." },
     { q: "What if I'm not happy with the result?", a: "Cosmetics Asia mediates revision policies. Most Seoul clinics offer free revision within 12 months if outcomes don't match the agreed simulation." },
     { q: "How long should I stay in Korea?", a: "Minimum 10 days. Cast removal is on day 7, and you'll want surgeon clearance before flying." },
@@ -79,7 +79,7 @@ const turkeyHair: DestinationData = {
     { country: "United Kingdom", flag: "🇬🇧", low: 6500, high: 14000 },
     { country: "Mexico", flag: "🇲🇽", low: 2400, high: 4500 },
   ],
-  doctors: [
+  experts: [
     { name: "Dr. Elif Demir", clinic: "Bosphorus Aesthetic", rating: 4.95, reviews: 2103, cases: "5.1K", languages: ["TR", "EN", "AR", "RU"], license: "ISAPS-9210" },
     { name: "Dr. Mehmet Yılmaz", clinic: "Asmed Hair Clinic", rating: 4.94, reviews: 3201, cases: "8.4K", languages: ["TR", "EN", "AR"], license: "TPCD-7812" },
     { name: "Dr. Selin Kaya", clinic: "Cosmedica Istanbul", rating: 4.91, reviews: 1854, cases: "6.2K", languages: ["TR", "EN", "DE"], license: "TPCD-6643" },
@@ -105,7 +105,7 @@ const thaiBreast: DestinationData = {
     { country: "United Kingdom", flag: "🇬🇧", low: 8200, high: 12500 },
     { country: "Mexico", flag: "🇲🇽", low: 4200, high: 6500 },
   ],
-  doctors: [
+  experts: [
     { name: "Dr. Suchada Pong", clinic: "Siam Plastic Surgery", rating: 4.92, reviews: 1820, cases: "4.4K", languages: ["TH", "EN", "ZH"], license: "TPRS-2207" },
     { name: "Dr. Apirag Chuangsuwanich", clinic: "Bangkok Hospital", rating: 4.94, reviews: 2105, cases: "5.8K", languages: ["TH", "EN"], license: "TPRS-3318" },
     { name: "Dr. Nantapat Sirisilp", clinic: "Yanhee Hospital", rating: 4.88, reviews: 2902, cases: "7.2K", languages: ["TH", "EN", "AR"], license: "TPRS-1144" },

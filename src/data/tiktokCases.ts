@@ -92,7 +92,7 @@ const DIARY_PREVIEWS: TikTokItem[] = [
     poster: "/videos/v6-poster.webp",
     user: { en: "@Mia.K", zh: "@Mia.K" },
     caption: { en: "BBL — Brazilian Butt Lift · 10-week shape update", zh: "巴西提臀（BBL） · 10周身形对比" },
-    clinic: { en: "Mount Elizabeth Orchard Hospital Singapore · Dr. Lim Wei Jie", zh: "新加坡伊丽莎白乌节医院 · 林伟杰医生" },
+    clinic: { en: "Mount Elizabeth Orchard Hospital Singapore · Dr. Lim Wei Jie", zh: "新加坡伊丽莎白乌节医院 · 林伟杰专家" },
     treatment: { en: "BBL", zh: "巴西提臀" },
     city: { en: "Shanghai", zh: "上海" },
     likes: "42k", comments: "1.1k", priceCny: 96000,
@@ -118,7 +118,7 @@ const DIARY_PREVIEWS: TikTokItem[] = [
     caption: { en: "Breast lift (mastopexy) · 6-week scar update", zh: "提胸（Mastopexy） · 6周疤痕恢复" },
     treatment: { en: "Breast Lift", zh: "提胸" },
     city: { en: "Hainan", zh: "海南" },
-    clinic: { en: "Mount Elizabeth Orchard Hospital Singapore · Dr. Lim Wei Jie", zh: "新加坡伊丽莎白乌节医院 · 林伟杰医生" },
+    clinic: { en: "Mount Elizabeth Orchard Hospital Singapore · Dr. Lim Wei Jie", zh: "新加坡伊丽莎白乌节医院 · 林伟杰专家" },
     likes: "15k", comments: "486", priceCny: 72000,
   },
   {
