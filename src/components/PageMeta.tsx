@@ -87,7 +87,7 @@ export const PageMeta = ({
       script.textContent = ld;
       document.head.appendChild(script);
     }
-  }, [fullTitle, description, url, image, type, ld]);
+  }, [fullTitle, description, url, imageAbs, type, ld]);
 
   return null;
 };
