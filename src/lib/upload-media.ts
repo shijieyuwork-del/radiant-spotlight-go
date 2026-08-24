@@ -53,6 +53,9 @@ const sendWithProgress = async (form: FormData, onProgress?: (percent: number) =
       if (xhr.status >= 200 && xhr.status < 300 && body.path) {
         onProgress?.(100);
         resolve({ path: body.path, replaced: body.replaced ?? null });
+      } else if (xhr.status === 429) {
+        // Rate limit / storage quota — never retried automatically
+        reject(new UploadError(`已触发上传限制：${body.error || "请稍后再试"}`, 429));
       } else {
         reject(new UploadError(body.error || `上传失败（HTTP ${xhr.status}）`, xhr.status));
       }
