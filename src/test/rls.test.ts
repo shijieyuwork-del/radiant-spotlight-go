@@ -220,6 +220,16 @@ describe("RLS: upload-media 上传权限校验", () => {
     });
     expect(data?.urls ?? {}).toEqual({});
   });
+
+  it("anon: 匿名调用 replace 模式被拒绝（401）", { timeout: 20000 }, async () => {
+    const anon = newAnonClient();
+    const form = newForm();
+    form.append("mode", "replace");
+    form.append("recordId", crypto.randomUUID());
+    const { data, error } = await anon.functions.invoke("upload-media", { body: form });
+    expect(data?.path).toBeUndefined();
+    expect(error).not.toBeNull();
+  });
 });
 
 /**
