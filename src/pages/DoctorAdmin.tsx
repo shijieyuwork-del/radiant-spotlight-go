@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
+import ImageCropDialog from "@/components/ImageCropDialog";
 
 type Doctor = {
   id: string; name: string; title: string; hospital: string; city: string;
@@ -43,6 +44,37 @@ export default function DoctorAdmin() {
   const [replacingId, setReplacingId] = useState<string | null>(null);
   const [progress, setProgress] = useState<number | null>(null);
   const [replaceProgress, setReplaceProgress] = useState(0);
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  // 裁剪流程：待裁剪的原图 + 裁剪结果用途（新建表单 / 更换某医生照片）
+  const [cropSource, setCropSource] = useState<File | null>(null);
+  const [cropTarget, setCropTarget] = useState<"create" | Doctor | null>(null);
+
+  const openCrop = (file: File | null, target: "create" | Doctor) => {
+    if (!file) return;
+    const invalid = validateMediaFile(file, PHOTO_RULES);
+    if (invalid) {
+      if (target === "create") setErrors((prev) => ({ ...prev, photo: invalid }));
+      toast.error(invalid);
+      return;
+    }
+    setCropSource(file);
+    setCropTarget(target);
+  };
+
+  const onCropped = (cropped: File) => {
+    if (cropTarget === "create") {
+      setPhoto(cropped);
+      setPhotoPreview((prev) => {
+        if (prev) URL.revokeObjectURL(prev);
+        return URL.createObjectURL(cropped);
+      });
+      clearError("photo");
+    } else if (cropTarget) {
+      void replacePhoto(cropTarget, cropped);
+    }
+    setCropSource(null);
+    setCropTarget(null);
+  };
 
   const clearError = (key: FieldKey) =>
     setErrors((prev) => (prev[key] ? { ...prev, [key]: undefined } : prev));
