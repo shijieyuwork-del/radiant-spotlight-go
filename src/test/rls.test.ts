@@ -174,3 +174,26 @@ describeAuth("RLS: authenticated 普通登录用户", () => {
     expect(error).not.toBeNull();
   });
 });
+
+describe("RLS: audit_logs 审计日志", () => {
+  const anon = newAnonClient();
+
+  it("anon: 无法读取审计日志", async () => {
+    const { data, error } = await anon.from("audit_logs").select("id");
+    // anon 无 GRANT：应直接报权限错误；即便放行也不允许返回任何行
+    if (!error) expect(data ?? []).toHaveLength(0);
+    else expect(error.message).toMatch(/permission|denied|row-level|not authorized/i);
+  });
+
+  it("anon: 无法写入审计日志", async () => {
+    const { error } = await anon
+      .from("audit_logs")
+      .insert({ action: "storage_read", target: "rls-probe" });
+    expect(error).not.toBeNull();
+  });
+
+  it("anon: 无法调用 read_profile 函数", async () => {
+    const { error } = await anon.rpc("read_profile", { p_id: crypto.randomUUID() });
+    expect(error).not.toBeNull();
+  });
+});
