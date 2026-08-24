@@ -3,6 +3,7 @@ import type { TikTokItem } from "@/components/TikTokWall";
 const DIARY_PREVIEWS: TikTokItem[] = [
   {
     id: "rhinoplasty-beijing",
+    postedAt: "2026-08-20",
     src: "/videos/v2.mp4",
     poster: "/videos/v2-poster.webp",
     user: { en: "@Rosie", zh: "@Rosie" },
@@ -14,6 +15,7 @@ const DIARY_PREVIEWS: TikTokItem[] = [
   },
   {
     id: "facelift-chengdu",
+    postedAt: "2026-08-14",
     src: "/videos/v3.mp4",
     poster: "/videos/v3-poster.webp",
     user: { en: "@JiaSeoul", zh: "@嘉嘉_Seoul" },
@@ -25,6 +27,7 @@ const DIARY_PREVIEWS: TikTokItem[] = [
   },
   {
     id: "necklift-shanghai",
+    postedAt: "2026-08-09",
     src: "/videos/v4.mp4",
     poster: "/videos/v4-poster.webp",
     user: { en: "@Karen.Y", zh: "@Karen.Y" },
@@ -36,6 +39,7 @@ const DIARY_PREVIEWS: TikTokItem[] = [
   },
   {
     id: "blepharoplasty-shanghai",
+    postedAt: "2026-08-02",
     src: "/videos/v4.mp4",
     poster: "/videos/v4-poster.webp",
     user: { en: "@MinTokyo", zh: "@小敏_东京" },
@@ -47,6 +51,7 @@ const DIARY_PREVIEWS: TikTokItem[] = [
   },
   {
     id: "fat-grafting-90d",
+    postedAt: "2026-07-27",
     src: "/videos/v6.mp4",
     poster: "/videos/v6-poster.webp",
     user: { en: "@Donutgirl", zh: "@甜甜圈" },
@@ -58,6 +63,7 @@ const DIARY_PREVIEWS: TikTokItem[] = [
   },
   {
     id: "liposuction-guangzhou",
+    postedAt: "2026-07-19",
     src: "/videos/v5.mp4",
     poster: "/videos/v5-poster.webp",
     user: { en: "@Lulu", zh: "@Lulu" },
@@ -69,6 +75,7 @@ const DIARY_PREVIEWS: TikTokItem[] = [
   },
   {
     id: "tummy-tuck-shenzhen",
+    postedAt: "2026-07-11",
     src: "/videos/v1.mp4",
     poster: "/videos/v1-poster.webp",
     user: { en: "@MamaMia", zh: "@MamaMia" },
@@ -80,6 +87,7 @@ const DIARY_PREVIEWS: TikTokItem[] = [
   },
   {
     id: "bbl-shanghai",
+    postedAt: "2026-07-03",
     src: "/videos/v6.mp4",
     poster: "/videos/v6-poster.webp",
     user: { en: "@Mia.K", zh: "@Mia.K" },
@@ -91,6 +99,7 @@ const DIARY_PREVIEWS: TikTokItem[] = [
   },
   {
     id: "breast-aug-guangzhou",
+    postedAt: "2026-06-24",
     src: "/videos/v5.mp4",
     poster: "/videos/v5-poster.webp",
     user: { en: "@Sophie", zh: "@Sophie" },
@@ -102,6 +111,7 @@ const DIARY_PREVIEWS: TikTokItem[] = [
   },
   {
     id: "breast-lift-singapore",
+    postedAt: "2026-06-15",
     src: "/videos/v2.mp4",
     poster: "/videos/v2-poster.webp",
     user: { en: "@Hannah", zh: "@Hannah" },
@@ -113,6 +123,7 @@ const DIARY_PREVIEWS: TikTokItem[] = [
   },
   {
     id: "body-contouring-bangkok",
+    postedAt: "2026-06-05",
     src: "/videos/v3.mp4",
     poster: "/videos/v3-poster.webp",
     user: { en: "@FitJia", zh: "@FitJia" },
