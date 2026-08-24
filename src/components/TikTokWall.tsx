@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Heart, MessageCircle, Share2, Volume2, VolumeX, Play, ArrowRight, BadgeCheck, MapPin, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSavedCase } from "@/lib/saved-cases";
+import { Highlight } from "@/components/HighlightText";
 
 export type TikTokItem = {
   id: string;                 // for case detail route
@@ -17,6 +18,8 @@ export type TikTokItem = {
   likes: string;
   comments: string;
   priceCny: number;
+  /** 日记发布日期（ISO），用于「最新」排序 */
+  postedAt?: string;
 };
 
 export type TikTokWallProps = {
@@ -26,6 +29,8 @@ export type TikTokWallProps = {
   /** 'preview' = small grid, 'wall' = larger immersive wall */
   variant?: "preview" | "wall" | "cases";
   caseHrefBase?: string;       // default "/cases/"
+  /** 搜索关键词，命中片段在卡片文字里高亮 */
+  highlight?: string;
 };
 
 const labels = {
@@ -34,9 +39,11 @@ const labels = {
   ru: { play: "Нажмите для просмотра", view: "Открыть дневник", verified: "Предпросмотр дневника" },
 };
 
+const MARK_CLASS = "rounded bg-primary/70 px-0.5 text-primary-foreground";
+
 const TikTokCard = ({
-  item, lang, fmtPrice, caseHrefBase = "/cases/", autoPlayEligible = true, discovery = false, eager = false, beforeNavigate,
-}: { item: TikTokItem; lang: "en" | "zh" | "ru"; fmtPrice: (n: number) => string; caseHrefBase?: string; autoPlayEligible?: boolean; discovery?: boolean; eager?: boolean; beforeNavigate?: () => boolean }) => {
+  item, lang, fmtPrice, caseHrefBase = "/cases/", autoPlayEligible = true, discovery = false, eager = false, beforeNavigate, highlight,
+}: { item: TikTokItem; lang: "en" | "zh" | "ru"; fmtPrice: (n: number) => string; caseHrefBase?: string; autoPlayEligible?: boolean; discovery?: boolean; eager?: boolean; beforeNavigate?: () => boolean; highlight?: string }) => {
   const ref = useRef<HTMLVideoElement>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
   const [muted, setMuted] = useState(true);
