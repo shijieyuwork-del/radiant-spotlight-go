@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
-import { ArrowLeft, Film, Loader2, LogOut, RefreshCw, Stethoscope, Trash2, UploadCloud } from "lucide-react";
+import { ArrowLeft, Film, ImageIcon, Loader2, LogOut, RefreshCw, Stethoscope, Trash2, UploadCloud } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 import { signedUrls } from "@/lib/storage-urls";
 import { replaceMedia, uploadMedia } from "@/lib/upload-media";
 import { VIDEO_RULES, fieldForUploadError, validateMediaFile } from "@/lib/media-validation";
+import { coverBlobToFile, extractCoverCandidates, type CoverCandidate } from "@/lib/video-cover";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -16,6 +17,7 @@ import { Progress } from "@/components/ui/progress";
 
 const ADMIN_EMAIL = "shijieyuwork@gmail.com";
 const BUCKET = "short-videos";
+const COVER_BUCKET = "video-covers";
 const VIDEO_ACCEPT = "video/mp4,video/quicktime,video/webm";
 
 type FieldKey = "file" | "title";
@@ -30,10 +32,12 @@ type VideoRow = {
   city: string | null;
   procedure: string | null;
   storage_path: string;
+  cover_path: string | null;
   status: string;
   created_at: string;
   doctor_id: string | null;
   url?: string;
+  coverUrl?: string;
 };
 type DoctorOption = { id: string; name: string };
 
