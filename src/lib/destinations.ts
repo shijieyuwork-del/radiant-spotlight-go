@@ -11,7 +11,7 @@ export interface DestinationData {
   intro: string;
   // Cost in USD (will be converted in UI)
   costs: { country: string; flag: string; low: number; high: number; isHome?: boolean }[];
-  doctors: {
+  experts: {
     name: string; clinic: string; rating: number; reviews: number; cases: string;
     languages: string[]; license: string;
   }[];
@@ -37,12 +37,12 @@ const koreaRhino: DestinationData = {
     { country: "United Kingdom", flag: "🇬🇧", low: 7800, high: 12000 },
     { country: "Mexico", flag: "🇲🇽", low: 3500, high: 5800 },
   ],
-  doctors: [
-    { name: "Dr. Park Min-jun", clinic: "Verde Surgical Center", rating: 4.9, reviews: 1284, cases: "3.2K", languages: ["KR", "EN", "ZH"], license: "KSPRS-4821" },
-    { name: "Dr. Lee Soo-yeon", clinic: "Banobagi Plastic Surgery", rating: 4.92, reviews: 980, cases: "2.8K", languages: ["KR", "EN", "JA"], license: "KSPRS-3920" },
-    { name: "Dr. Kim Joon-ho", clinic: "ID Hospital Seoul", rating: 4.88, reviews: 1502, cases: "4.1K", languages: ["KR", "EN"], license: "KSPRS-5102" },
-    { name: "Dr. Choi Hae-rin", clinic: "Cinderella Aesthetic", rating: 4.93, reviews: 740, cases: "2.4K", languages: ["KR", "EN", "ZH"], license: "KSPRS-6011" },
-    { name: "Dr. Yoon Tae-min", clinic: "Item Plastic Surgery", rating: 4.87, reviews: 612, cases: "1.9K", languages: ["KR", "EN"], license: "KSPRS-4477" },
+  experts: [
+    { name: "Park Min-jun", clinic: "Verde Surgical Center", rating: 4.9, reviews: 1284, cases: "3.2K", languages: ["KR", "EN", "ZH"], license: "KSPRS-4821" },
+    { name: "Lee Soo-yeon", clinic: "Banobagi Plastic Surgery", rating: 4.92, reviews: 980, cases: "2.8K", languages: ["KR", "EN", "JA"], license: "KSPRS-3920" },
+    { name: "Kim Joon-ho", clinic: "ID Hospital Seoul", rating: 4.88, reviews: 1502, cases: "4.1K", languages: ["KR", "EN"], license: "KSPRS-5102" },
+    { name: "Choi Hae-rin", clinic: "Cinderella Aesthetic", rating: 4.93, reviews: 740, cases: "2.4K", languages: ["KR", "EN", "ZH"], license: "KSPRS-6011" },
+    { name: "Yoon Tae-min", clinic: "Item Plastic Surgery", rating: 4.87, reviews: 612, cases: "1.9K", languages: ["KR", "EN"], license: "KSPRS-4477" },
   ],
   timeline: [
     { stage: "Online consultation", days: "Day 0", desc: "Free 30-min video consult with surgeon. 3D simulation review." },
@@ -52,8 +52,8 @@ const koreaRhino: DestinationData = {
     { stage: "Fly home", days: "Day 10–14", desc: "Cleared to fly. Weekly check-ins with surgeon for 6 months." },
   ],
   faq: [
-    { q: "Is rhinoplasty in Korea safe for international patients?", a: "Korean Society of Plastic & Reconstructive Surgeons (KSPRS) board certification is mandatory for every doctor on Cosmetics Asia. All clinics are JCI-accredited or Korean MOHW-licensed." },
-    { q: "Do surgeons speak English?", a: "Yes — every doctor we list speaks English, and most clinics provide Mandarin, Japanese, and Arabic interpreters at no extra cost." },
+    { q: "Is rhinoplasty in Korea safe for international patients?", a: "Korean Society of Plastic & Reconstructive Surgeons (KSPRS) board certification is mandatory for every expert on Cosmetics Asia. All clinics are JCI-accredited or Korean MOHW-licensed." },
+    { q: "Do surgeons speak English?", a: "Yes — every expert we list speaks English, and most clinics provide Mandarin, Japanese, and Arabic interpreters at no extra cost." },
     { q: "What's included in the price?", a: "Medical fees are confirmed and collected by the treating clinic. Airport pickup, accommodation guidance and other coordination services are explained separately before you travel." },
     { q: "What if I'm not happy with the result?", a: "Cosmetics Asia mediates revision policies. Most Seoul clinics offer free revision within 12 months if outcomes don't match the agreed simulation." },
     { q: "How long should I stay in Korea?", a: "Minimum 10 days. Cast removal is on day 7, and you'll want surgeon clearance before flying." },
@@ -79,12 +79,12 @@ const turkeyHair: DestinationData = {
     { country: "United Kingdom", flag: "🇬🇧", low: 6500, high: 14000 },
     { country: "Mexico", flag: "🇲🇽", low: 2400, high: 4500 },
   ],
-  doctors: [
-    { name: "Dr. Elif Demir", clinic: "Bosphorus Aesthetic", rating: 4.95, reviews: 2103, cases: "5.1K", languages: ["TR", "EN", "AR", "RU"], license: "ISAPS-9210" },
-    { name: "Dr. Mehmet Yılmaz", clinic: "Asmed Hair Clinic", rating: 4.94, reviews: 3201, cases: "8.4K", languages: ["TR", "EN", "AR"], license: "TPCD-7812" },
-    { name: "Dr. Selin Kaya", clinic: "Cosmedica Istanbul", rating: 4.91, reviews: 1854, cases: "6.2K", languages: ["TR", "EN", "DE"], license: "TPCD-6643" },
-    { name: "Dr. Can Özkan", clinic: "Smile Hair Clinic", rating: 4.89, reviews: 2410, cases: "7.1K", languages: ["TR", "EN", "AR"], license: "TPCD-5520" },
-    { name: "Dr. Aylin Şahin", clinic: "Istanbul Hair Center", rating: 4.92, reviews: 1633, cases: "4.8K", languages: ["TR", "EN", "RU"], license: "TPCD-4419" },
+  experts: [
+    { name: "Elif Demir", clinic: "Bosphorus Aesthetic", rating: 4.95, reviews: 2103, cases: "5.1K", languages: ["TR", "EN", "AR", "RU"], license: "ISAPS-9210" },
+    { name: "Mehmet Yılmaz", clinic: "Asmed Hair Clinic", rating: 4.94, reviews: 3201, cases: "8.4K", languages: ["TR", "EN", "AR"], license: "TPCD-7812" },
+    { name: "Selin Kaya", clinic: "Cosmedica Istanbul", rating: 4.91, reviews: 1854, cases: "6.2K", languages: ["TR", "EN", "DE"], license: "TPCD-6643" },
+    { name: "Can Özkan", clinic: "Smile Hair Clinic", rating: 4.89, reviews: 2410, cases: "7.1K", languages: ["TR", "EN", "AR"], license: "TPCD-5520" },
+    { name: "Aylin Şahin", clinic: "Istanbul Hair Center", rating: 4.92, reviews: 1633, cases: "4.8K", languages: ["TR", "EN", "RU"], license: "TPCD-4419" },
   ],
 };
 
@@ -105,12 +105,12 @@ const thaiBreast: DestinationData = {
     { country: "United Kingdom", flag: "🇬🇧", low: 8200, high: 12500 },
     { country: "Mexico", flag: "🇲🇽", low: 4200, high: 6500 },
   ],
-  doctors: [
-    { name: "Dr. Suchada Pong", clinic: "Siam Plastic Surgery", rating: 4.92, reviews: 1820, cases: "4.4K", languages: ["TH", "EN", "ZH"], license: "TPRS-2207" },
-    { name: "Dr. Apirag Chuangsuwanich", clinic: "Bangkok Hospital", rating: 4.94, reviews: 2105, cases: "5.8K", languages: ["TH", "EN"], license: "TPRS-3318" },
-    { name: "Dr. Nantapat Sirisilp", clinic: "Yanhee Hospital", rating: 4.88, reviews: 2902, cases: "7.2K", languages: ["TH", "EN", "AR"], license: "TPRS-1144" },
-    { name: "Dr. Kunchit Ruangjirachuporn", clinic: "Bumrungrad International", rating: 4.93, reviews: 1640, cases: "4.1K", languages: ["TH", "EN"], license: "TPRS-5520" },
-    { name: "Dr. Pichet Rodchareon", clinic: "Phuket Plastic Surgery", rating: 4.9, reviews: 1340, cases: "3.6K", languages: ["TH", "EN", "RU"], license: "TPRS-4407" },
+  experts: [
+    { name: "Suchada Pong", clinic: "Siam Plastic Surgery", rating: 4.92, reviews: 1820, cases: "4.4K", languages: ["TH", "EN", "ZH"], license: "TPRS-2207" },
+    { name: "Apirag Chuangsuwanich", clinic: "Bangkok Hospital", rating: 4.94, reviews: 2105, cases: "5.8K", languages: ["TH", "EN"], license: "TPRS-3318" },
+    { name: "Nantapat Sirisilp", clinic: "Yanhee Hospital", rating: 4.88, reviews: 2902, cases: "7.2K", languages: ["TH", "EN", "AR"], license: "TPRS-1144" },
+    { name: "Kunchit Ruangjirachuporn", clinic: "Bumrungrad International", rating: 4.93, reviews: 1640, cases: "4.1K", languages: ["TH", "EN"], license: "TPRS-5520" },
+    { name: "Pichet Rodchareon", clinic: "Phuket Plastic Surgery", rating: 4.9, reviews: 1340, cases: "3.6K", languages: ["TH", "EN", "RU"], license: "TPRS-4407" },
   ],
 };
 

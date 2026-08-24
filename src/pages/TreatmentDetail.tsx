@@ -161,12 +161,12 @@ const TreatmentDetail = () => {
             </div>
           </Section>
 
-          <Section icon={<HeartPulse className="size-5" />} title={c("Tell the clinician before surgery", "术前必须告知医生", "Что сообщить врачу до операции")}>
+          <Section icon={<HeartPulse className="size-5" />} title={c("Tell the expert before surgery", "术前必须告知专家", "Что сообщить эксперту до операции")}>
             <div className="rounded-2xl border border-primary/20 bg-primary/[0.045] p-5">
               <Bullets items={zh ? fullGuideEducation.discloseZh : fullGuideEducation.discloseEn} />
               <p className="mt-4 flex gap-2 text-xs font-medium leading-relaxed text-foreground">
                 <Pill className="mt-0.5 size-4 shrink-0 text-primary" />
-                {c("Do not stop medication on your own. Any change must be directed by the prescribing clinician, surgeon or anesthesiologist.", "不要自行停药。是否暂停或调整药物，必须由开药医生、手术医生或麻醉医生决定。", "Не прекращайте приём лекарств самостоятельно. Любые изменения должен назначить лечащий врач, хирург или анестезиолог.")}
+                {c("Do not stop medication on your own. Any change must be directed by the prescribing expert, surgeon or anesthesiologist.", "不要自行停药。是否暂停或调整药物，必须由开药专家、手术专家或麻醉专家决定。", "Не прекращайте приём лекарств самостоятельно. Любые изменения должен назначить лечащий эксперт, хирург или анестезиолог.")}
               </p>
             </div>
           </Section>
@@ -188,8 +188,8 @@ const TreatmentDetail = () => {
 
           <p className="mt-12 rounded-2xl bg-muted/50 p-5 text-xs text-muted-foreground leading-relaxed">
             {zh
-              ? "以上为一般性医学科普，不构成针对个人的诊疗建议。每个人的解剖条件、既往病史与用药情况不同，实际方案与风险应以面诊后执业医师的评估为准。"
-              : ru ? "Эта информация носит общий образовательный характер и не заменяет персональную медицинскую консультацию. План лечения и риски определяет лицензированный врач после оценки вашего состояния." : MEDICAL_DISCLAIMER}
+              ? "以上为一般性医学科普，不构成针对个人的诊疗建议。每个人的解剖条件、既往病史与用药情况不同，实际方案与风险应以面诊后执业专家的评估为准。"
+              : ru ? "Эта информация носит общий образовательный характер и не заменяет персональную медицинскую консультацию. План лечения и риски определяет лицензированный эксперт после оценки вашего состояния." : MEDICAL_DISCLAIMER}
           </p>
         </article>
 
@@ -233,8 +233,8 @@ const categoryCopy: Record<string, { en: string; zh: string }> = {
     zh: "牙齿美容应在改善外观的同时保护咬合功能和健康牙体。影像检查、牙龈健康与长期维护和颜色、形态同样重要。",
   },
   "Skin & Non-Surgical": {
-    en: "Skin and non-surgical treatments vary by device, product, depth and indication. A qualified clinician should confirm the diagnosis, product authenticity and realistic treatment limits.",
-    zh: "皮肤与非手术项目会因设备、产品、作用深度和适应症而不同。应由合格医生确认诊断、产品真伪及合理治疗边界。",
+    en: "Skin and non-surgical treatments vary by device, product, depth and indication. A qualified expert should confirm the diagnosis, product authenticity and realistic treatment limits.",
+    zh: "皮肤与非手术项目会因设备、产品、作用深度和适应症而不同。应由合格专家确认诊断、产品真伪及合理治疗边界。",
   },
 };
 
@@ -382,17 +382,17 @@ const CatalogProcedureDetail = ({ procedure, lang }: { procedure: { en: string; 
               <h2 className="mt-3 font-display text-2xl font-medium tracking-tight md:text-3xl">{c("What to review before you decide", "决定前，重点看这三项", "Что проверить перед решением")}</h2>
             </div>
 
-            <ExpandablePanel icon={<ShieldAlert className="size-5 text-destructive/75" />} title={c("Risks to understand", "可能有哪些风险？", "Важные риски")} summary={c("See the main complications to discuss with your surgeon.", "查看需要与医生重点确认的主要并发症。", "Основные осложнения, которые стоит обсудить с хирургом.")}>
+            <ExpandablePanel icon={<ShieldAlert className="size-5 text-destructive/75" />} title={c("Risks to understand", "可能有哪些风险？", "Важные риски")} summary={c("See the main complications to discuss with your surgeon.", "查看需要与专家重点确认的主要并发症。", "Основные осложнения, которые стоит обсудить с хирургом.")}>
               <div className="mt-4"><Bullets items={zh ? education.risksZh : education.risksEn} /></div>
               <p className="mt-4 text-xs leading-relaxed text-muted-foreground">{zh ? "这不是完整风险清单。风险会随具体术式、麻醉方式、治疗范围和个人健康状况改变。" : "This is not a complete risk list. Risk changes with technique, anesthesia, treatment extent and your health."}</p>
             </ExpandablePanel>
 
-            <ExpandablePanel icon={<HeartPulse className="size-5 text-primary" />} title={c("What should I tell the clinician?", "哪些情况必须提前告诉医生？", "Что сообщить врачу заранее?")} summary={c("Medical conditions, medication and previous treatment can change your plan.", "疾病、用药和既往治疗都可能影响方案。", "Заболевания, лекарства и прошлое лечение могут изменить план.")}>
+            <ExpandablePanel icon={<HeartPulse className="size-5 text-primary" />} title={c("What should I tell the expert?", "哪些情况必须提前告诉专家？", "Что сообщить эксперту заранее?")} summary={c("Medical conditions, medication and previous treatment can change your plan.", "疾病、用药和既往治疗都可能影响方案。", "Заболевания, лекарства и прошлое лечение могут изменить план.")}>
               <div className="mt-4"><Bullets items={zh ? education.discloseZh : education.discloseEn} /></div>
-              <p className="mt-4 flex gap-2 text-xs font-medium leading-relaxed text-foreground"><Pill className="mt-0.5 size-4 shrink-0 text-primary" />{zh ? "不要自行停药。是否暂停或调整药物，必须由开药医生、手术医生或麻醉医生决定。" : "Do not stop medication on your own. Any change must be directed by the prescribing clinician, surgeon or anesthesiologist."}</p>
+              <p className="mt-4 flex gap-2 text-xs font-medium leading-relaxed text-foreground"><Pill className="mt-0.5 size-4 shrink-0 text-primary" />{zh ? "不要自行停药。是否暂停或调整药物，必须由开药专家、手术专家或麻醉专家决定。" : "Do not stop medication on your own. Any change must be directed by the prescribing expert, surgeon or anesthesiologist."}</p>
             </ExpandablePanel>
 
-            <ExpandablePanel icon={<CircleHelp className="size-5 text-primary" />} title={c("Questions for your consultation", "面诊时问什么？", "Вопросы для консультации")} summary={c("Save six practical questions for your doctor.", "准备好 6 个实用问题，避免面诊时遗漏。", "Сохраните шесть практических вопросов врачу.")}>
+            <ExpandablePanel icon={<CircleHelp className="size-5 text-primary" />} title={c("Questions for your consultation", "面诊时问什么？", "Вопросы для консультации")} summary={c("Save six practical questions for your expert.", "准备好 6 个实用问题，避免面诊时遗漏。", "Сохраните шесть практических вопросов эксперту.")}>
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
               {(zh ? [
                 `您做过多少例与我的情况相似的 ${procedure.zh}？`,
@@ -422,10 +422,10 @@ const CatalogProcedureDetail = ({ procedure, lang }: { procedure: { en: string; 
           <section className="mt-8 rounded-3xl bg-muted/45 p-6 md:p-8">
             <h2 className="font-display text-2xl font-medium tracking-tight">{c("Next: get a plan built around you", "下一步：获取适合你的方案", "Следующий шаг: персональный план")}</h2>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-              {zh ? "这是一份一般性项目介绍，不构成医疗建议。具体方案、价格与恢复期只能在医生评估后确定。" : "This is a general overview, not medical advice. Technique, price and recovery can only be confirmed after a clinician evaluates you."}
+              {zh ? "这是一份一般性项目介绍，不构成医疗建议。具体方案、价格与恢复期只能在专家评估后确定。" : "This is a general overview, not medical advice. Technique, price and recovery can only be confirmed after a expert evaluates you."}
             </p>
             <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-              <Button asChild className="rounded-full px-6"><Link to="/doctors">{c("Explore doctors", "查看医生", "Смотреть врачей")}<ArrowRight className="ml-2 size-4" /></Link></Button>
+              <Button asChild className="rounded-full px-6"><Link to="/doctors">{c("Explore doctors", "查看专家", "Смотреть экспертов")}<ArrowRight className="ml-2 size-4" /></Link></Button>
               <Button asChild variant="outline" className="rounded-full px-6"><Link to="/travel-packages">{c("View travel support", "查看行程支持", "Поддержка поездки")}</Link></Button>
             </div>
           </section>

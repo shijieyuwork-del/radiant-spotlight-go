@@ -118,7 +118,7 @@ export const CitySearchBar = ({ filter }: { filter: CityFilter }) => {
   );
 };
 
-/** 搜索结果：紧凑城市卡，附「城市详情 / 案例 / 医生」快捷入口；query 用于高亮命中词 */
+/** 搜索结果：紧凑城市卡，附「城市详情 / 案例 / 专家」快捷入口；query 用于高亮命中词 */
 export const CityQuickResults = ({ results, query }: { results: City[]; query?: string }) => {
   const { lang } = useAsia();
   const c = <T,>(en: T, zh: T, ru: T) => asiaCopy(lang, { en, zh, ru });
@@ -188,7 +188,7 @@ export const CityQuickResults = ({ results, query }: { results: City[]; query?: 
                 to={`/doctors?city=${encodeURIComponent(city.en)}`}
                 className="rounded-lg bg-primary px-2 py-2 text-primary-foreground transition hover:bg-primary/90"
               >
-                {c("Doctors", "医生", "Врачи")}
+                {c("Experts", "专家", "Эксперты")}
               </Link>
             </div>
           </div>

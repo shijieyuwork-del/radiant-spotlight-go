@@ -187,7 +187,7 @@ const SmartSearch = ({ initialProcedure = null, initialPlace = null, onFiltersCh
           <div className="space-y-4">
             <div>
               <div className="flex items-baseline justify-between mb-2">
-                <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold">Min doctor rating</p>
+                <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold">Min expert rating</p>
                 <p className="text-xs font-semibold flex items-center gap-1">
                   <Star className="size-3 fill-primary text-primary" /> {minRating.toFixed(1)}+
                 </p>

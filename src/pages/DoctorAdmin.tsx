@@ -14,7 +14,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
 import ImageCropDialog from "@/components/ImageCropDialog";
 
-type Doctor = {
+type Expert = {
   id: string; name: string; title: string; hospital: string; city: string;
   specialties: string[]; bio: string; credentials: string | null;
   photo_path: string | null; status: string; photoUrl?: string;
@@ -29,7 +29,7 @@ const errorInputClass = "border-destructive focus-visible:ring-destructive";
 
 export default function DoctorAdmin() {
   const { user, loading: authLoading } = useAuth();
-  const [doctors, setDoctors] = useState<Doctor[]>([]);
+  const [experts, setDoctors] = useState<Expert[]>([]);
   const [busy, setBusy] = useState(false);
   const [photo, setPhoto] = useState<File | null>(null);
   const [name, setName] = useState("");
@@ -45,11 +45,11 @@ export default function DoctorAdmin() {
   const [progress, setProgress] = useState<number | null>(null);
   const [replaceProgress, setReplaceProgress] = useState(0);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
-  // 裁剪流程：待裁剪的原图 + 裁剪结果用途（新建表单 / 更换某医生照片）
+  // 裁剪流程：待裁剪的原图 + 裁剪结果用途（新建表单 / 更换某专家照片）
   const [cropSource, setCropSource] = useState<File | null>(null);
-  const [cropTarget, setCropTarget] = useState<"create" | Doctor | null>(null);
+  const [cropTarget, setCropTarget] = useState<"create" | Expert | null>(null);
 
-  const openCrop = (file: File | null, target: "create" | Doctor) => {
+  const openCrop = (file: File | null, target: "create" | Expert) => {
     if (!file) return;
     const invalid = validateMediaFile(file, PHOTO_RULES);
     if (invalid) {
@@ -83,7 +83,7 @@ export default function DoctorAdmin() {
     const { data, error } = await supabase.from("doctors").select("*").order("created_at", { ascending: false });
     if (error) toast.error(error.message);
     else {
-      const rows = (data ?? []) as Doctor[];
+      const rows = (data ?? []) as Expert[];
       const urls = await signedUrls("doctor-photos", rows.map((d) => d.photo_path));
       setDoctors(rows.map((d, i) => ({ ...d, photoUrl: urls[i] })));
     }
@@ -101,11 +101,11 @@ export default function DoctorAdmin() {
     e.preventDefault();
     // 逐字段校验，标出所有问题字段
     const next: FieldErrors = {};
-    if (!name.trim()) next.name = "请填写医生姓名";
-    if (!title.trim()) next.title = "请填写职称（如：主任医师）";
+    if (!name.trim()) next.name = "请填写专家姓名";
+    if (!title.trim()) next.title = "请填写职称（如：主任专家）";
     if (!hospital.trim()) next.hospital = "请填写医院/机构名称";
     if (!city.trim()) next.city = "请填写城市";
-    if (!bio.trim()) next.bio = "请填写医生介绍";
+    if (!bio.trim()) next.bio = "请填写专家介绍";
     if (photo) {
       const photoError = validateMediaFile(photo, PHOTO_RULES);
       if (photoError) next.photo = photoError;
@@ -133,7 +133,7 @@ export default function DoctorAdmin() {
         photo_path: photoPath, status: "published",
       });
       if (error) throw error;
-      toast.success("医生资料已发布");
+      toast.success("专家资料已发布");
       setName(""); setTitle(""); setHospital(""); setSpecialties(""); setBio(""); setCredentials(""); setPhoto(null);
       setPhotoPreview((prev) => { if (prev) URL.revokeObjectURL(prev); return null; });
       setErrors({});
@@ -150,7 +150,7 @@ export default function DoctorAdmin() {
     }
   };
 
-  const remove = async (d: Doctor) => {
+  const remove = async (d: Expert) => {
     if (!confirm(`确定删除 ${d.name}？`)) return;
     const { error } = await supabase.from("doctors").delete().eq("id", d.id);
     if (error) return toast.error(error.message);
@@ -158,7 +158,7 @@ export default function DoctorAdmin() {
     setDoctors((x) => x.filter((i) => i.id !== d.id));
   };
 
-  const replacePhoto = async (d: Doctor, file: File | null) => {
+  const replacePhoto = async (d: Expert, file: File | null) => {
     if (!file) return;
     const invalid = validateMediaFile(file, PHOTO_RULES);
     if (invalid) return toast.error(invalid);
@@ -186,18 +186,18 @@ export default function DoctorAdmin() {
           <Link to="/upload" className="inline-flex gap-2 text-sm font-semibold"><ArrowLeft className="size-4" />视频后台</Link>
           <div className="flex items-center gap-4">
             <Link to="/admin/audit" className="text-sm text-muted-foreground hover:text-primary">审计报表</Link>
-            <span className="font-semibold">医生管理</span>
+            <span className="font-semibold">专家管理</span>
           </div>
         </div>
       </header>
       <main className="container py-8 grid lg:grid-cols-[420px_1fr] gap-8">
         <section className="rounded-3xl bg-card shadow-pop p-6 h-fit">
-          <div className="flex gap-3 items-center mb-6"><Stethoscope className="text-primary" /><h1 className="font-display text-2xl">添加医生资料</h1></div>
+          <div className="flex gap-3 items-center mb-6"><Stethoscope className="text-primary" /><h1 className="font-display text-2xl">添加专家资料</h1></div>
           <form onSubmit={submit} className="space-y-4" noValidate>
             <div>
-              <Label htmlFor="doctor-photo">医生照片</Label>
+              <Label htmlFor="expert-photo">专家照片</Label>
               <Input
-                id="doctor-photo"
+                id="expert-photo"
                 type="file"
                 accept="image/jpeg,image/png,image/webp"
                 aria-invalid={!!errors.photo}
@@ -214,16 +214,16 @@ export default function DoctorAdmin() {
                 ? <p className="text-xs text-destructive mt-1">{errors.photo}</p>
                 : <p className="text-xs text-muted-foreground mt-1">{PHOTO_RULES.formatLabel}，最大 10MB · 选择后可裁剪为统一正方形</p>}
             </div>
-            <Field label="医生姓名 *" value={name} error={errors.name} set={(v) => { setName(v); clearError("name"); }} />
+            <Field label="专家姓名 *" value={name} error={errors.name} set={(v) => { setName(v); clearError("name"); }} />
             <Field label="职称 *" value={title} error={errors.title} set={(v) => { setTitle(v); clearError("title"); }} />
             <Field label="医院/机构 *" value={hospital} error={errors.hospital} set={(v) => { setHospital(v); clearError("hospital"); }} />
             <Field label="城市 *" value={city} error={errors.city} set={(v) => { setCity(v); clearError("city"); }} />
             <Field label="擅长项目（逗号分隔）" value={specialties} set={setSpecialties} />
             <Field label="语言" value={languages} set={setLanguages} />
             <div>
-              <Label htmlFor="doctor-bio">医生介绍 *</Label>
+              <Label htmlFor="expert-bio">专家介绍 *</Label>
               <Textarea
-                id="doctor-bio"
+                id="expert-bio"
                 value={bio}
                 rows={5}
                 aria-invalid={!!errors.bio}
@@ -233,8 +233,8 @@ export default function DoctorAdmin() {
               {errors.bio && <p className="text-xs text-destructive mt-1">{errors.bio}</p>}
             </div>
             <div>
-              <Label htmlFor="doctor-credentials">资质与认证</Label>
-              <Textarea id="doctor-credentials" value={credentials} onChange={(e) => setCredentials(e.target.value)} rows={3} />
+              <Label htmlFor="expert-credentials">资质与认证</Label>
+              <Textarea id="expert-credentials" value={credentials} onChange={(e) => setCredentials(e.target.value)} rows={3} />
             </div>
             {busy && progress !== null && (
               <div className="space-y-1.5">
@@ -243,14 +243,14 @@ export default function DoctorAdmin() {
               </div>
             )}
             <Button disabled={busy} className="w-full rounded-full">
-              {busy ? <Loader2 className="animate-spin" /> : <><UploadCloud className="size-4 mr-2" />发布医生</>}
+              {busy ? <Loader2 className="animate-spin" /> : <><UploadCloud className="size-4 mr-2" />发布专家</>}
             </Button>
           </form>
         </section>
         <section>
-          <h2 className="font-display text-2xl mb-4">已添加医生（{doctors.length}）</h2>
+          <h2 className="font-display text-2xl mb-4">已添加专家（{experts.length}）</h2>
           <div className="grid sm:grid-cols-2 gap-4">
-            {doctors.map((d) => {
+            {experts.map((d) => {
               const photoUrl = d.photoUrl ?? "";
               return (
                 <article key={d.id} className="rounded-2xl bg-card p-4 flex gap-4">

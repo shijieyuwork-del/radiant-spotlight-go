@@ -84,7 +84,7 @@ const BeforeAfterCard = ({
         <span className="pill bg-primary-soft text-foreground" style={{ background: "hsl(var(--primary-soft))" }}>
           <Sparkles className="size-3 text-primary" /> {procedure}
         </span>
-        <h4 className="font-display text-lg font-semibold leading-tight">Dr. {doctor}</h4>
+        <h4 className="font-display text-lg font-semibold leading-tight">{doctor}</h4>
         <p className="text-xs text-muted-foreground flex items-center gap-1">
           <MapPin className="size-3" /> {city}
         </p>

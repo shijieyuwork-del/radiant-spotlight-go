@@ -122,6 +122,69 @@ export type Database = {
         }
         Relationships: []
       }
+      security_alert_outbox: {
+        Row: {
+          body: string
+          created_at: string
+          finding_count: number
+          id: string
+          kind: string
+          sent_at: string | null
+          status: string
+          subject: string
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          finding_count?: number
+          id?: string
+          kind: string
+          sent_at?: string | null
+          status?: string
+          subject: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          finding_count?: number
+          id?: string
+          kind?: string
+          sent_at?: string | null
+          status?: string
+          subject?: string
+        }
+        Relationships: []
+      }
+      security_watchdog_findings: {
+        Row: {
+          check_key: string
+          created_at: string
+          detail: string
+          id: string
+          object_name: string
+          run_id: string
+          severity: string
+        }
+        Insert: {
+          check_key: string
+          created_at?: string
+          detail: string
+          id?: string
+          object_name: string
+          run_id: string
+          severity: string
+        }
+        Update: {
+          check_key?: string
+          created_at?: string
+          detail?: string
+          id?: string
+          object_name?: string
+          run_id?: string
+          severity?: string
+        }
+        Relationships: []
+      }
       videos: {
         Row: {
           caption: string | null
@@ -174,6 +237,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      enqueue_weekly_security_summary: { Args: never; Returns: undefined }
       read_profile: {
         Args: { p_id: string }
         Returns: {
@@ -190,6 +254,7 @@ export type Database = {
           isSetofReturn: true
         }
       }
+      run_security_watchdog: { Args: never; Returns: string }
     }
     Enums: {
       [_ in never]: never

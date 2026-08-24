@@ -55,7 +55,7 @@ const clinics: { name: string; city: string; rating: number; reviews: number; im
 ];
 
 const featuredDoctor: DoctorProfileData = {
-  name: "Dr. Park Min-jun",
+  name: "Park Min-jun",
   title: "Plastic & Reconstructive Surgeon · 14 yrs",
   city: "Seoul, Korea",
   flag: "🇰🇷",

@@ -24,7 +24,7 @@ const PAGE_SIZE = 9;
 type ManagedDoctor = { id:string; name:string; title:string; hospital:string; city:string; specialties:string[]; bio:string; photo_path:string|null; photo?:string; created_at?:string };
 type DirectoryDoctor = ManagedDoctor & { demo?: boolean };
 
-const Doctors = () => {
+const Experts = () => {
   const { t, lang } = useAsia();
   const c = <T,>(en: T, zh: T, ru: T) => asiaCopy(lang, { en, zh, ru });
   const [searchParams] = useSearchParams();
@@ -52,7 +52,7 @@ const Doctors = () => {
     return Array.from(set, ([key, label]) => ({ key, label }));
   }, [lang, publicDoctors, directoryDoctors]);
 
-  /** 医生资料里的城市是自由文本，匹配时同时认英文名与中文名 */
+  /** 专家资料里的城市是自由文本，匹配时同时认英文名与中文名 */
   const matchesCity = (docCity: string | undefined, filter: string) => {
     if (!docCity) return false;
     const f = filter.trim().toLowerCase();
@@ -85,7 +85,7 @@ const Doctors = () => {
   const sortedDoctors = useMemo(() => {
     const arr = [...visibleDirectoryDoctors];
     if (sort === "hot") {
-      // 已发布的真实医生排在示例资料前
+      // 已发布的真实专家排在示例资料前
       arr.sort((a, b) => Number(!b.demo) - Number(!a.demo));
     } else if (sort === "latest") {
       arr.sort((a, b) => (b.created_at ?? "").localeCompare(a.created_at ?? ""));
@@ -166,7 +166,7 @@ const Doctors = () => {
               value={q}
               onChange={(e) => setQ(e.target.value)}
               className="w-full bg-transparent outline-none text-sm font-medium"
-              placeholder={c("Search by name, clinic or specialty…", "搜索医生、机构或擅长项目…", "Поиск по имени, клинике или специализации…")}
+              placeholder={c("Search by name, clinic or specialty…", "搜索专家、机构或擅长项目…", "Поиск по имени, клинике или специализации…")}
             />
           </div>
         </div>
@@ -208,7 +208,7 @@ const Doctors = () => {
 
         {directoryDoctors.length > 0 && (
           <div className="mb-10">
-            <h2 className="mb-4 font-display text-2xl">{managedDoctors.length > 0 ? c("Published doctors", "已发布医生", "Опубликованные врачи") : c("Sample doctor profiles", "医生展示样例", "Примеры профилей врачей")}</h2>
+            <h2 className="mb-4 font-display text-2xl">{managedDoctors.length > 0 ? c("Published doctors", "已发布专家", "Опубликованные эксперты") : c("Sample doctor profiles", "专家展示样例", "Примеры профилей экспертов")}</h2>
             <div className="mb-5">
               <SortChips
                 label={c("Sort", "排序", "Сортировка")}
@@ -234,7 +234,7 @@ const Doctors = () => {
             </div>
             {visibleDirectoryDoctors.length === 0 ? (
               <p className="rounded-3xl border border-dashed border-border bg-card/60 px-6 py-8 text-center text-sm text-muted-foreground">
-                {c("No doctors in this city yet — try another city or ask us for a match.", "该城市暂无医生资料 —— 换个城市试试，或让我们帮你匹配。", "В этом городе пока нет врачей — попробуйте другой город или напишите нам.")}
+                {c("No experts in this city yet — try another city or ask us for a match.", "该城市暂无专家资料 —— 换个城市试试，或让我们帮你匹配。", "В этом городе пока нет экспертов — попробуйте другой город или напишите нам.")}
               </p>
             ) : (
             <div className="grid gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
@@ -258,7 +258,7 @@ const Doctors = () => {
                     <div className="mt-4 flex flex-wrap gap-1.5">{d.specialties.map((s) => <span key={s} className="rounded-full bg-accent px-2.5 py-1 text-[11px]"><Highlight text={s} query={q} /></span>)}</div>
                     <div className="mt-auto grid gap-2 pt-6 min-[430px]:grid-cols-[0.9fr_1.1fr]">
                       <Link to={d.demo ? "/doctors" : `/doctors/profile/${d.id}`} className="flex min-h-12 items-center justify-center rounded-xl border border-primary/30 px-3 py-3 text-center text-xs font-semibold text-primary hover:bg-primary/10">
-                        {c("Doctor & cases", "医生与案例", "Врач и истории пациентов")}
+                        {c("Expert & cases", "专家与案例", "Эксперт и истории пациентов")}
                       </Link>
                       <button type="button" onClick={() => open({ doctorName: d.name, city: d.city })} className="cta-primary flex min-h-12 items-center justify-center gap-1.5 rounded-xl px-3 py-3 text-center text-[13px] font-semibold leading-tight">
                         {c("Book free consultation", "预约免费视频咨询", "Записаться на бесплатную консультацию")}<ArrowRight className="size-4" />
@@ -277,7 +277,7 @@ const Doctors = () => {
 
         {items.length === 0 ? (
           <p className="text-center text-muted-foreground py-12 text-sm">
-            {c("Doctor profiles are currently under review. You can still book a free video consultation and we will help identify suitable options.", "医生资料正在审核中。你仍可预约免费视频咨询，我们会根据需求协助匹配。", "Профили врачей проходят проверку. Вы можете записаться на бесплатную видеоконсультацию, а мы поможем подобрать подходящие варианты.")}
+            {c("Expert profiles are currently under review. You can still book a free video consultation and we will help identify suitable options.", "专家资料正在审核中。你仍可预约免费视频咨询，我们会根据需求协助匹配。", "Профили экспертов проходят проверку. Вы можете записаться на бесплатную видеоконсультацию, а мы поможем подобрать подходящие варианты.")}
           </p>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -360,7 +360,7 @@ const Doctors = () => {
 
                 <div className="mt-auto grid gap-2 pt-6 min-[430px]:grid-cols-[0.9fr_1.1fr]">
                   <Link to={`/doctors/${d.id}`} className="flex min-h-12 items-center justify-center rounded-xl border border-primary/30 bg-card px-3 py-3 text-center text-xs font-semibold text-primary transition hover:bg-primary/10">
-                    {c("Doctor & cases", "医生与案例", "Врач и истории пациентов")}
+                    {c("Expert & cases", "专家与案例", "Эксперт и истории пациентов")}
                   </Link>
                   <button
                     type="button"
@@ -382,7 +382,7 @@ const Doctors = () => {
               {lang === "zh" ? "免费匹配建议" : lang === "ru" ? "Бесплатная помощь с выбором" : "Free matching guidance"}
             </span>
             <h2 className="mt-4 font-display text-[1.9rem] font-medium leading-[1.05] tracking-tight sm:text-4xl">
-              {lang === "zh" ? "不确定哪位医生更适合你？" : lang === "ru" ? "Не уверены, какой врач вам подходит?" : "Not sure which doctor is right for you?"}
+              {lang === "zh" ? "不确定哪位专家更适合你？" : lang === "ru" ? "Не уверены, какой эксперт вам подходит?" : "Not sure which expert is right for you?"}
             </h2>
             <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
               {lang === "zh"
@@ -410,4 +410,4 @@ const Doctors = () => {
   );
 };
 
-export default Doctors;
+export default Experts;

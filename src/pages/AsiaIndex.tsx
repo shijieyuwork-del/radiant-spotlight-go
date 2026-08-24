@@ -19,6 +19,7 @@ import { CitySearchBar, CityQuickResults, useCityFilter } from "@/components/Cit
 import { useAsia } from "@/lib/asia-i18n";
 import { ORGANIZATION_SCHEMA } from "@/lib/seo-config";
 import { useQuote } from "@/components/QuoteRequest";
+import { MedicalDisclaimer } from "@/components/MedicalDisclaimer";
 import heroBg from "@/assets/hero-bg.jpg";
 import journeyConsultation from "@/assets/journey-real-consultation.webp";
 import journeyArrival from "@/assets/journey-real-arrival.webp";
@@ -126,13 +127,13 @@ const Hero = () => {
   const copy = lang === "zh"
     ? {
         badge: "专为国际患者打造的中国医美平台",
-        title: "比较中国医美医生，",
+        title: "比较中国医美专家，",
         emphasis: "找到适合你的方案",
-        subtitle: "先了解项目、查看已发布的医生资料与患者恢复日记，再决定是否出发。翻译、行程和术后支持由我们协调。",
+        subtitle: "先了解项目、查看已发布的专家资料与患者恢复日记，再决定是否出发。翻译、行程和术后支持由我们协调。",
         cases: "观看患者短视频",
         contact: "预约免费咨询",
         consultation: "在线面诊",
-        consultationDetail: "出发前与医生进行一对一线上沟通",
+        consultationDetail: "出发前与专家进行一对一线上沟通",
         english: "英文院内翻译",
         englishDetail: "协助就诊期间的现场沟通",
         travel: "机场接送",
@@ -145,11 +146,11 @@ const Hero = () => {
           badge: "Китайская платформа для международных пациентов",
           title: "Лучшие эстетические хирурги Китая —",
           emphasis: "на одной платформе",
-          subtitle: "Сравните реальные случаи, квалификацию врачей и прозрачные цены до поездки. Мы организуем перевод, поездку и последующий уход.",
+          subtitle: "Сравните реальные случаи, квалификацию экспертов и прозрачные цены до поездки. Мы организуем перевод, поездку и последующий уход.",
           cases: "Смотреть видео пациентов",
           contact: "Записаться бесплатно",
           consultation: "Онлайн-консультация",
-          consultationDetail: "Встреча с врачом онлайн до поездки",
+          consultationDetail: "Встреча с экспертом онлайн до поездки",
           english: "Переводчик в клинике",
           englishDetail: "Помощь в общении во время визита",
           travel: "Трансфер из аэропорта",
@@ -161,7 +162,7 @@ const Hero = () => {
           badge: "China's cosmetic care platform for international patients",
           title: "Compare cosmetic surgeons across China,",
           emphasis: "then choose with confidence",
-          subtitle: "Understand procedures, review published doctor profiles and explore patient recovery diaries before you travel.",
+          subtitle: "Understand procedures, review published expert profiles and explore patient recovery diaries before you travel.",
           cases: "Watch patient recovery videos",
           contact: "Book your free consultation",
           consultation: "Online consultation",
@@ -309,16 +310,16 @@ const TravelBar = () => {
     {
       icon: Map,
       image: cityHangzhou,
-      en: ["Recover—and explore when ready", "Follow your clinician’s advice, with optional travel when you are cleared"],
-      zh: ["安心恢复，适合时再探索", "遵循医生的恢复建议，获得许可后可自愿安排旅行"],
-      ru: ["Восстанавливайтесь и путешествуйте, когда будете готовы", "Следуйте рекомендациям врача и путешествуйте только после разрешения"],
+      en: ["Recover—and explore when ready", "Follow your expert’s advice, with optional travel when you are cleared"],
+      zh: ["安心恢复，适合时再探索", "遵循专家的恢复建议，获得许可后可自愿安排旅行"],
+      ru: ["Восстанавливайтесь и путешествуйте, когда будете готовы", "Следуйте рекомендациям эксперта и путешествуйте только после разрешения"],
     },
     {
       icon: MessageCircle,
       image: journeyFollowUp,
-      en: ["Stay connected after you return", "Coordinate remote follow-up and translation when your doctor recommends it"],
-      zh: ["回国后保持联系", "医生建议复诊时，我们协助协调远程随访与翻译"],
-      ru: ["Оставайтесь на связи после возвращения", "Мы поможем организовать онлайн-наблюдение и перевод по рекомендации врача"],
+      en: ["Stay connected after you return", "Coordinate remote follow-up and translation when your expert recommends it"],
+      zh: ["回国后保持联系", "专家建议复诊时，我们协助协调远程随访与翻译"],
+      ru: ["Оставайтесь на связи после возвращения", "Мы поможем организовать онлайн-наблюдение и перевод по рекомендации эксперта"],
     },
   ];
   const steps = localizedSteps.map((item) => {
@@ -580,7 +581,7 @@ const TreatmentsSection = () => {
   );
 };
 
-// ClinicsSection removed — patients only browse doctors.
+// ClinicsSection removed — patients only browse experts.
 
 const DoctorsSection = () => {
   const { t, lang } = useAsia();
@@ -677,7 +678,7 @@ const HowItWorks = () => {
         eyebrow: "免费线上咨询",
         title: "准备好开始了吗？",
         emphasis: "今天迈出第一步",
-        text: "告诉我们你关注的项目、预算和希望前往的城市。我们会帮你梳理需求，并协助你找到合适的中国医生。",
+        text: "告诉我们你关注的项目、预算和希望前往的城市。我们会帮你梳理需求，并协助你找到合适的中国专家。",
         cta: "开始免费线上咨询",
       }
     : lang === "ru"
@@ -685,14 +686,14 @@ const HowItWorks = () => {
           eyebrow: "Бесплатная онлайн-консультация",
           title: "Готовы начать?",
           emphasis: "Сделайте первый шаг сегодня",
-          text: "Расскажите о процедуре, бюджете и желаемом городе. Мы поможем уточнить ваши потребности и подобрать подходящего врача в Китае.",
+          text: "Расскажите о процедуре, бюджете и желаемом городе. Мы поможем уточнить ваши потребности и подобрать подходящего эксперта в Китае.",
           cta: "Начать бесплатную консультацию",
         }
       : {
           eyebrow: "Free online consultation",
           title: "Ready to get started?",
           emphasis: "Take the first step today",
-          text: "Tell us the procedure, budget and city you have in mind. We’ll help clarify your needs and connect you with a suitable doctor in China.",
+          text: "Tell us the procedure, budget and city you have in mind. We’ll help clarify your needs and connect you with a suitable expert in China.",
           cta: "Start your free consultation",
         };
 
@@ -726,6 +727,7 @@ const HowItWorks = () => {
             </p>
           </div>
         </div>
+        <MedicalDisclaimer variant="banner" className="relative mt-6 bg-background/60" />
       </div>
     </section>
   );
@@ -751,7 +753,7 @@ const HomeFaq = () => {
     },
     {
       q: c("Can my consultation be conducted in English?", "线上咨询可以使用英语吗？", "Можно ли провести консультацию на английском?"),
-      a: c("Yes. We arrange confirmed English-language support for the appointment, either with an English-speaking clinician or a bilingual coordinator, depending on availability.", "可以。我们会根据已确认的预约安排英语沟通支持；具体形式可能是英语医生或双语协调员陪同。", "Да. Для подтверждённой записи мы организуем поддержку на английском: англоговорящего врача или двуязычного координатора, в зависимости от доступности."),
+      a: c("Yes. We arrange confirmed English-language support for the appointment, either with an English-speaking expert or a bilingual coordinator, depending on availability.", "可以。我们会根据已确认的预约安排英语沟通支持；具体形式可能是英语专家或双语协调员陪同。", "Да. Для подтверждённой записи мы организуем поддержку на английском: англоговорящего эксперта или двуязычного координатора, в зависимости от доступности."),
     },
     {
       q: c("How is my medical information handled?", "我的医疗资料如何使用？", "Как используются мои медицинские данные?"),

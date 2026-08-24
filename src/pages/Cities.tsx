@@ -33,11 +33,11 @@ const Cities = () => {
         <h1 className="font-display text-4xl md:text-5xl font-medium tracking-tight max-w-3xl">
           {lang === "zh" ? (
             <>
-              选择城市，<em className="text-primary not-italic">找到主刀医生</em>
+              选择城市，<em className="text-primary not-italic">找到主刀专家</em>
             </>
           ) : lang === "ru" ? (
             <>
-              Выберите город — <em className="text-primary not-italic">найдите своего врача</em>
+              Выберите город — <em className="text-primary not-italic">найдите своего эксперта</em>
             </>
           ) : (
             <>
@@ -139,7 +139,7 @@ const Cities = () => {
                     />
                     <Stat
                       icon={<Stethoscope className="size-3.5" />}
-                      label={c("Doctor profiles", "医生资料", "Профили врачей")}
+                      label={c("Expert profiles", "专家资料", "Профили экспертов")}
                       value={c("Reviewed", "审核后发布", "Проверено")}
                     />
                   </div>
@@ -175,7 +175,7 @@ const Cities = () => {
                         className="inline-flex items-center gap-1 rounded-full bg-primary px-3 py-1.5 text-[11px] font-semibold text-primary-foreground transition hover:bg-primary/90"
                       >
                         <Stethoscope className="size-3" />
-                        {c("Doctors", "医生", "Врачи")}
+                        {c("Experts", "专家", "Эксперты")}
                       </button>
                     </div>
                   </div>
@@ -204,10 +204,10 @@ const Cities = () => {
             </h2>
             <p className="text-base text-foreground/75 mt-3 max-w-2xl leading-relaxed">
               {lang === "zh"
-                ? "告诉我们你希望前往的城市和想咨询的项目，我们会协助查找合适的医生与诊所选择。"
+                ? "告诉我们你希望前往的城市和想咨询的项目，我们会协助查找合适的专家与诊所选择。"
                 : lang === "ru"
-                  ? "Сообщите желаемый город и интересующую процедуру — мы поможем найти подходящих врачей и клиники."
-                  : "Share the city and procedure you’re considering, and we’ll help explore suitable doctor and clinic options."}
+                  ? "Сообщите желаемый город и интересующую процедуру — мы поможем найти подходящих экспертов и клиники."
+                  : "Share the city and procedure you’re considering, and we’ll help explore suitable expert and clinic options."}
             </p>
           </div>
           <div className="flex md:justify-end">

@@ -1,6 +1,7 @@
 import { Instagram, Youtube } from "lucide-react";
 import { Link } from "react-router-dom";
 import BrandLogo from "@/components/BrandLogo";
+import { MedicalDisclaimer } from "@/components/MedicalDisclaimer";
 
 const Footer = () => {
   return (
@@ -8,10 +9,10 @@ const Footer = () => {
       <div className="container py-10 md:py-16 grid grid-cols-2 gap-8 md:grid-cols-4">
         <div className="space-y-4 col-span-2 md:col-span-1">
           <BrandLogo />
-          <p className="text-sm text-muted-foreground max-w-xs">China's trusted cosmetic medical travel platform. Verified doctors. Coordinated care. Travel made simple.</p>
+          <p className="text-sm text-muted-foreground max-w-xs">China's trusted cosmetic medical travel platform. Verified experts. Coordinated care. Travel made simple.</p>
         </div>
         {[
-          { title: "Explore", items: [{ label: "Patient Diaries", to: "/cases" }, { label: "Doctors in China", to: "/doctors" }, { label: "Procedure Academy", to: "/treatments" }, { label: "China Destinations", to: "/cities" }] },
+          { title: "Explore", items: [{ label: "Patient Diaries", to: "/cases" }, { label: "Experts in China", to: "/doctors" }, { label: "Procedure Academy", to: "/treatments" }, { label: "China Destinations", to: "/cities" }] },
           { title: "Plan Your Trip", items: [{ label: "Travel Support", to: "/travel-packages" }, { label: "Why China", to: "/why-china" }, { label: "Shanghai", to: "/cities/shanghai" }, { label: "Beijing", to: "/cities/beijing" }] },
           { title: "Popular Guides", items: [{ label: "Rhinoplasty", to: "/treatments/rhinoplasty" }, { label: "Eyelid Surgery", to: "/treatments/blepharoplasty" }, { label: "Facelift", to: "/treatments/facelift" }, { label: "Liposuction", to: "/treatments/liposuction" }] },
         ].map((c) => (
@@ -26,6 +27,9 @@ const Footer = () => {
             </ul>
           </div>
         ))}
+      </div>
+      <div className="container pb-6">
+        <MedicalDisclaimer variant="inline" className="max-w-3xl" />
       </div>
       <div className="container pb-10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
         <p>© {new Date().getFullYear()} Cosmetics Asia. Focused on medical travel in China.</p>

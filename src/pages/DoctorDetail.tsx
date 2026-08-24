@@ -9,6 +9,7 @@ import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
 import TikTokWall from "@/components/TikTokWall";
 import { Button } from "@/components/ui/button";
+import { MedicalDisclaimer } from "@/components/MedicalDisclaimer";
 import { countryOf } from "@/data/cities";
 import { DOCTORS, findDoctor } from "@/data/doctors";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
@@ -33,18 +34,18 @@ const DoctorDetail = () => {
     return (
       <>
         <PageMeta
-          title="Doctor Not Found"
-          description="The doctor profile you're looking for doesn't exist."
+          title="Expert Not Found"
+          description="The expert profile you're looking for doesn't exist."
           path={`/doctors/${id}`}
         />
         <div className="min-h-screen bg-background">
           <AsiaNavbar homeLinks={false} />
           <div className="container py-24 text-center">
             <p className="text-muted-foreground">
-              {c("Doctor profile not found.", "医师档案不存在。", "Профиль врача не найден.")}
+              {c("Expert profile not found.", "专家档案不存在。", "Профиль эксперта не найден.")}
             </p>
             <Link to="/doctors" className="text-primary underline mt-4 inline-block">
-              {c("Back to all doctors", "返回医师列表", "Вернуться ко всем врачам")}
+              {c("Back to all experts", "返回专家列表", "Вернуться ко всем экспертам")}
             </Link>
           </div>
           <Footer />
@@ -94,7 +95,7 @@ const DoctorDetail = () => {
 
       <section className="container py-8 md:py-12">
         <Link to="/doctors" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-6">
-          <ArrowLeft className="size-4" /> {c("All doctors", "全部医师", "Все врачи")}
+          <ArrowLeft className="size-4" /> {c("All experts", "全部专家", "Все эксперты")}
         </Link>
 
         {/* Header card */}
@@ -172,7 +173,7 @@ const DoctorDetail = () => {
             <div>
               <h2 className="font-display text-2xl font-medium tracking-tight flex items-center gap-2 mb-3">
                 <Stethoscope className="size-5 text-primary" />
-                {c("About the surgeon", "医师简介", "О враче")}
+                {c("About the surgeon", "专家简介", "О эксперте")}
               </h2>
               <p className="text-muted-foreground leading-relaxed">
                 {lang === "zh" ? doctor.bioZh : doctor.bioEn}
@@ -214,7 +215,7 @@ const DoctorDetail = () => {
             {/* Cases */}
             <div>
               <h2 className="font-display text-2xl font-medium tracking-tight mb-4">
-                {c(`Verified cases by this surgeon (${cases.length})`, `本医师真实案例（${cases.length}）`, `Проверенные случаи этого врача (${cases.length})`)}
+                {c(`Verified cases by this surgeon (${cases.length})`, `本专家真实案例（${cases.length}）`, `Проверенные случаи этого эксперта (${cases.length})`)}
               </h2>
               {cases.length === 0 ? (
                 <p className="text-sm text-muted-foreground">
@@ -229,7 +230,7 @@ const DoctorDetail = () => {
           {/* Sidebar */}
           <aside className="lg:col-span-4 space-y-6">
             <div className="rounded-3xl bg-gradient-to-br from-[hsl(155,60%,90%)] to-[hsl(50,80%,92%)] p-5 shadow-soft">
-              <p className="text-xs text-foreground/60">{c("Book with this surgeon", "预约本医师", "Запись к этому врачу")}</p>
+              <p className="text-xs text-foreground/60">{c("Book with this surgeon", "预约本专家", "Запись к этому эксперту")}</p>
               <p className="font-display text-xl font-semibold mt-1 leading-tight">
                 {c("Free 1-on-1 consult", "免费 1 对 1 面诊", "Бесплатная индивидуальная консультация")}
               </p>
@@ -239,6 +240,7 @@ const DoctorDetail = () => {
               <Button className="mt-4 w-full rounded-2xl bg-foreground text-background hover:bg-foreground/90">
                 <MessageCircle className="size-4" /> {t("cl.cta")}
               </Button>
+              <MedicalDisclaimer variant="inline" className="mt-3" />
             </div>
 
             <div className="rounded-3xl bg-card shadow-soft p-5">
@@ -269,10 +271,10 @@ const DoctorDetail = () => {
           </aside>
         </div>
 
-        {/* Other doctors */}
+        {/* Other experts */}
         <div className="mt-16">
           <h2 className="font-display text-2xl md:text-3xl font-medium tracking-tight mb-6">
-            {c("Other verified surgeons", "其他持证医师", "Другие проверенные врачи")}
+            {c("Other verified surgeons", "其他持证专家", "Другие проверенные эксперты")}
           </h2>
           <div className="grid md:grid-cols-3 gap-6">
             {otherDoctors.map((d) => (

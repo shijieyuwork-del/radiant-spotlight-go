@@ -426,7 +426,7 @@ const Treatments = () => {
               <div className="max-w-3xl">
                 <span className="pill bg-card/80"><Clock3 className="size-3.5 text-primary" /> {copy("Recovery at a glance", "恢复时间速览", "Восстановление: краткий обзор")}</span>
                 <h2 className="mt-4 font-display text-3xl font-medium tracking-tight sm:text-4xl">{copy("Plan around the", "提前规划你的", "Планируйте с учётом")} <em className="not-italic text-primary">{copy("recovery window", "恢复期", "периода восстановления")}</em></h2>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{copy("These broad ranges are for trip planning only. Your procedure, health and clinician's advice determine your actual recovery.", "以下为大类项目的一般计划参考。具体恢复进度取决于术式、个人健康状况和医生建议。", "Эти сроки предназначены только для планирования поездки. Реальное восстановление зависит от процедуры, вашего здоровья и рекомендаций врача.")}</p>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{copy("These broad ranges are for trip planning only. Your procedure, health and expert's advice determine your actual recovery.", "以下为大类项目的一般计划参考。具体恢复进度取决于术式、个人健康状况和专家建议。", "Эти сроки предназначены только для планирования поездки. Реальное восстановление зависит от процедуры, вашего здоровья и рекомендаций эксперта.")}</p>
               </div>
               <Link to="/cases" className="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-full bg-primary px-5 text-sm font-bold text-primary-foreground shadow-soft">{copy("Watch recovery diaries", "观看真实恢复日记", "Смотреть дневники восстановления")}<ArrowRight className="size-4" /></Link>
             </div>
@@ -442,7 +442,7 @@ const Treatments = () => {
             <article className="rounded-[2rem] border border-border/70 bg-card p-6 shadow-soft sm:p-8">
               <span className="grid size-11 place-items-center rounded-2xl bg-primary/10 text-primary"><ShieldAlert className="size-5" /></span>
               <h2 className="mt-5 font-display text-3xl font-medium">{zh ? "治疗前需要主动沟通的情况" : "What to discuss before treatment"}</h2>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{zh ? "这些信息可能影响治疗选择、麻醉与恢复计划。请向执业医生完整说明。" : "These details may affect treatment, anesthesia and recovery planning. Discuss them fully with a licensed clinician."}</p>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{zh ? "这些信息可能影响治疗选择、麻醉与恢复计划。请向执业专家完整说明。" : "These details may affect treatment, anesthesia and recovery planning. Discuss them fully with a licensed expert."}</p>
               <ul className="mt-6 grid gap-3 sm:grid-cols-2">
                 {(zh ? ["正在服用的药物与补充剂", "既往手术或麻醉反应", "糖尿病或血压问题", "出血或凝血相关疾病", "吸烟及尼古丁使用", "妊娠、哺乳与过敏史"] : ["Current medications and supplements", "Previous surgery or anesthesia reactions", "Diabetes or blood-pressure conditions", "Bleeding or clotting disorders", "Smoking and nicotine use", "Pregnancy, breastfeeding and allergies"]).map((item) => <li key={item} className="flex gap-2 text-sm"><CheckCircle2 className="mt-0.5 size-4 shrink-0 text-primary" /><span>{item}</span></li>)}
               </ul>
@@ -453,7 +453,7 @@ const Treatments = () => {
               <h2 className="mt-5 font-display text-3xl font-medium">{zh ? "最终价格由什么决定？" : "What affects the final price?"}</h2>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{zh ? "网站价格只能用于初步规划；完整报价应清楚列出以下组成。" : "Website ranges are for early planning. A complete quote should clearly identify the following components."}</p>
               <ul className="mt-6 grid gap-3 sm:grid-cols-2">
-                {(zh ? ["医生经验与手术复杂度", "医院与麻醉费用", "假体或医疗材料", "检查、药物与住院时间", "联合项目与修复手术", "术后复查与支持范围"] : ["Surgeon experience and complexity", "Hospital and anesthesia fees", "Implants or medical materials", "Tests, medication and hospital stay", "Combined or revision procedures", "Follow-up and aftercare scope"]).map((item) => <li key={item} className="flex gap-2 text-sm"><CheckCircle2 className="mt-0.5 size-4 shrink-0 text-primary" /><span>{item}</span></li>)}
+                {(zh ? ["专家经验与手术复杂度", "医院与麻醉费用", "假体或医疗材料", "检查、药物与住院时间", "联合项目与修复手术", "术后复查与支持范围"] : ["Surgeon experience and complexity", "Hospital and anesthesia fees", "Implants or medical materials", "Tests, medication and hospital stay", "Combined or revision procedures", "Follow-up and aftercare scope"]).map((item) => <li key={item} className="flex gap-2 text-sm"><CheckCircle2 className="mt-0.5 size-4 shrink-0 text-primary" /><span>{item}</span></li>)}
               </ul>
             </article>
           </section>
@@ -474,14 +474,14 @@ const Treatments = () => {
             <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
               <div>
                 <span className="pill bg-card"><ClipboardCheck className="size-3.5 text-primary" /> {zh ? "面诊问题清单" : "Consultation checklist"}</span>
-                <h2 className="mt-4 font-display text-3xl font-medium tracking-tight sm:text-4xl">{zh ? "值得向医生确认的问题" : "Questions worth asking your surgeon"}</h2>
+                <h2 className="mt-4 font-display text-3xl font-medium tracking-tight sm:text-4xl">{zh ? "值得向专家确认的问题" : "Questions worth asking your surgeon"}</h2>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{zh ? "好的面诊不仅讨论你想要的结果，也会解释技术选择、风险、恢复和紧急联系安排。" : "A useful consultation should cover technique, risks, recovery and contact arrangements—not only the result you hope to achieve."}</p>
               </div>
               <ol className="grid gap-3 sm:grid-cols-2">
                 {(zh ? ["您多久做一次这项手术？", "为什么为我推荐这种技术？", "手术在哪里进行，由谁麻醉？", "最常见的并发症有哪些？", "总报价包含和不包含什么？", "回国后出现问题联系谁？"] : ["How often do you perform this procedure?", "Which technique do you recommend, and why?", "Where is treatment performed, and who provides anesthesia?", "Which complications do you see most often?", "What is included—and excluded—from the quote?", "Who should I contact after returning home?"]).map((item, index) => <li key={item} className="flex min-h-20 gap-3 rounded-2xl border border-border/70 bg-card p-4 text-sm font-semibold"><span className="font-mono text-xs font-bold text-primary">0{index + 1}</span><span>{item}</span></li>)}
               </ol>
             </div>
-            <p className="mt-7 border-t border-primary/10 pt-5 text-xs leading-relaxed text-muted-foreground">{zh ? "本页内容仅用于一般科普和行程规划，不构成医疗建议、诊断或个体化治疗方案。请由具备资质的医生完成评估。" : "This page provides general education and planning information only. It is not medical advice, diagnosis or a personalized treatment recommendation. A licensed clinician must evaluate your individual circumstances."}</p>
+            <p className="mt-7 border-t border-primary/10 pt-5 text-xs leading-relaxed text-muted-foreground">{zh ? "本页内容仅用于一般科普和行程规划，不构成医疗建议、诊断或个体化治疗方案。请由具备资质的专家完成评估。" : "This page provides general education and planning information only. It is not medical advice, diagnosis or a personalized treatment recommendation. A licensed expert must evaluate your individual circumstances."}</p>
           </section>
 
           <section className="mx-auto mt-16 max-w-6xl md:mt-24">
@@ -508,8 +508,8 @@ const Treatments = () => {
                       </>
                     ) : copy(
                       "Tell us the procedure, budget and city you have in mind.",
-                      "告诉我们你关注的项目、预算和希望前往的城市。我们会帮你梳理需求，并协助你找到合适的中国医生。",
-                      "Расскажите о процедуре, бюджете и желаемом городе. Мы поможем уточнить ваши потребности и подобрать подходящего врача в Китае."
+                      "告诉我们你关注的项目、预算和希望前往的城市。我们会帮你梳理需求，并协助你找到合适的中国专家。",
+                      "Расскажите о процедуре, бюджете и желаемом городе. Мы поможем уточнить ваши потребности и подобрать подходящего эксперта в Китае."
                     )}
                   </p>
                 </div>

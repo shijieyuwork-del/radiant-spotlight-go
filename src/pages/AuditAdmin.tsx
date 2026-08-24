@@ -251,7 +251,7 @@ export default function AuditAdmin() {
       <header className="border-b bg-background">
         <div className="container h-16 flex items-center justify-between">
           <Link to="/admin/doctors" className="inline-flex gap-2 text-sm font-semibold items-center">
-            <ArrowLeft className="size-4" />医生管理
+            <ArrowLeft className="size-4" />专家管理
           </Link>
           <span className="font-semibold">访问审计报表</span>
         </div>

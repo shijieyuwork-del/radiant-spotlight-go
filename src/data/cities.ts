@@ -47,7 +47,7 @@ const CITY_CATALOG: City[] = [
     taglineZh: "亚洲整形之都 · 眼鼻面综合",
     taglineEn: "Asia's plastic-surgery capital · eyes, nose & face",
     introZh:
-      "首尔是亚洲最具国际知名度的整形目的地，拥有大量专攻双眼皮、鼻综合与面部轮廓的资深医师，诊所普遍配备中文、英文、俄文协调员，术后管理细致。",
+      "首尔是亚洲最具国际知名度的整形目的地，拥有大量专攻双眼皮、鼻综合与面部轮廓的资深专家，诊所普遍配备中文、英文、俄文协调员，术后管理细致。",
     introEn:
       "Seoul is Asia's best-known aesthetic surgery destination, with deep expertise in double-eyelid, rhinoplasty and facial contouring. Most clinics provide Chinese, English and Russian coordinators and detailed post-op care.",
     img: heroBg,
@@ -129,7 +129,7 @@ const CITY_CATALOG: City[] = [
     taglineZh: "精密自然派 · 眼鼻 / 脂肪填充",
     taglineEn: "Precision natural aesthetics · eyes, nose & fat grafting",
     introZh:
-      "东京整形以精细化、自然风格见长，双眼皮与脂肪填充技术成熟，医生普遍注重长期安全与低侵入性方案，适合追求低调、持久效果的客户。",
+      "东京整形以精细化、自然风格见长，双眼皮与脂肪填充技术成熟，专家普遍注重长期安全与低侵入性方案，适合追求低调、持久效果的客户。",
     introEn:
       "Tokyo surgeons are known for refined, natural-looking results. Blepharoplasty and facial fat grafting are especially mature, with a strong focus on long-term safety and minimally invasive approaches.",
     img: c3,
@@ -138,7 +138,7 @@ const CITY_CATALOG: City[] = [
     hotEn: ["Blepharoplasty", "Facial Fat Grafting", "Rhinoplasty", "Neck Lift", "Facelift"],
     whyZh: [
       "成田 NRT / 羽田 HND 直飞欧美 / 澳洲",
-      "医生资质由日本厚生劳动省严格监管",
+      "专家资质由日本厚生劳动省严格监管",
       "术后可在箱根 / 轻井泽等温泉地静养",
     ],
     whyEn: [
@@ -170,7 +170,7 @@ const CITY_CATALOG: City[] = [
     taglineZh: "高端安全港 · 拉皮 / 隆胸",
     taglineEn: "Premium safety hub · facelift & breast surgery",
     introZh:
-      "新加坡以严苛的医疗监管和高端服务闻名，适合追求高安全标准、英语无障碍沟通的客户。拉皮、隆胸与体形雕塑由委员会认证整形外科医师主刀。",
+      "新加坡以严苛的医疗监管和高端服务闻名，适合追求高安全标准、英语无障碍沟通的客户。拉皮、隆胸与体形雕塑由委员会认证整形外科专家主刀。",
     introEn:
       "Singapore is known for strict medical regulation and premium service. It suits patients who prioritize safety and seamless English communication. Facelift, breast surgery and body contouring are performed by board-certified plastic surgeons.",
     img: c1,
@@ -179,7 +179,7 @@ const CITY_CATALOG: City[] = [
     hotEn: ["Facelift", "Breast Augmentation", "Liposuction", "Tummy Tuck", "Rhinoplasty"],
     whyZh: [
       "樟宜 SIN 全球最佳机场之一，转机便利",
-      "医疗监管亚洲最严，医师均需专科认证",
+      "医疗监管亚洲最严，专家均需专科认证",
       "全英文环境，术后护理标准高",
     ],
     whyEn: [
@@ -252,7 +252,7 @@ const CITY_CATALOG: City[] = [
     taglineZh: "学术派整形重镇 · 鼻修复 / 提胸",
     taglineEn: "Academic surgical hub · revision rhinoplasty & breast lift",
     introZh:
-      "北京汇集了协和、八大处等国家级整形外科教学中心，主刀医师学术背景深厚，特别适合鼻修复、二次手术与高难度乳房整形。",
+      "北京汇集了协和、八大处等国家级整形外科教学中心，主刀专家学术背景深厚，特别适合鼻修复、二次手术与高难度乳房整形。",
     introEn:
       "Beijing hosts flagship academic plastic-surgery centers. Choose Beijing for revision rhinoplasty, secondary procedures, and complex breast lift work led by faculty surgeons.",
     img: beijingImg,
@@ -368,7 +368,7 @@ export const findCity = (slug: string) =>
 /**
  * 城市 → ISO 3166-1 alpha-2 国家代码，用于 schema.org 的 addressCountry。
  * 之前所有城市都硬编码成 "CN"，等于告诉搜索引擎首尔在中国。
- * key 用小写英文城市名（与 slug 一致），医生页按 cityEn 查同一张表。
+ * key 用小写英文城市名（与 slug 一致），专家页按 cityEn 查同一张表。
  */
 export const COUNTRY_BY_CITY: Record<string, string> = {
   seoul: "KR",

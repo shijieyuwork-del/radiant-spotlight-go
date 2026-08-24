@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 interface RegionContent {
   intro: string;
   procedures: { name: string; slug: string; usd: number; emoji: string; tag: string }[];
-  doctors: { name: string; city: string; flag: string; rating: number; cases: string }[];
+  experts: { name: string; city: string; flag: string; rating: number; cases: string }[];
 }
 
 const data: Record<RegionCode, RegionContent> = {
@@ -17,9 +17,9 @@ const data: Record<RegionCode, RegionContent> = {
       { name: "Hair Transplant in Turkey", slug: "hair-transplant-turkey", usd: 2400, emoji: "💇", tag: "Top destination" },
       { name: "Dental Veneers in Mexico", slug: "veneers-mexico", usd: 3500, emoji: "🦷", tag: "Border-friendly" },
     ],
-    doctors: [
-      { name: "Dr. Park Min-jun", city: "Seoul", flag: "🇰🇷", rating: 4.9, cases: "3.2K" },
-      { name: "Dr. Elif Demir", city: "Istanbul", flag: "🇹🇷", rating: 4.95, cases: "5.1K" },
+    experts: [
+      { name: "Park Min-jun", city: "Seoul", flag: "🇰🇷", rating: 4.9, cases: "3.2K" },
+      { name: "Elif Demir", city: "Istanbul", flag: "🇹🇷", rating: 4.95, cases: "5.1K" },
     ],
   },
   GB: {
@@ -29,9 +29,9 @@ const data: Record<RegionCode, RegionContent> = {
       { name: "Breast Aug in Czech Republic", slug: "breast-aug-czech", usd: 4800, emoji: "🩷", tag: "EU-trusted" },
       { name: "Liposuction in Korea", slug: "liposuction-korea", usd: 3500, emoji: "✨", tag: "Top rated" },
     ],
-    doctors: [
-      { name: "Dr. Elif Demir", city: "Istanbul", flag: "🇹🇷", rating: 4.95, cases: "5.1K" },
-      { name: "Dr. Park Min-jun", city: "Seoul", flag: "🇰🇷", rating: 4.9, cases: "3.2K" },
+    experts: [
+      { name: "Elif Demir", city: "Istanbul", flag: "🇹🇷", rating: 4.95, cases: "5.1K" },
+      { name: "Park Min-jun", city: "Seoul", flag: "🇰🇷", rating: 4.9, cases: "3.2K" },
     ],
   },
   AE: {
@@ -41,9 +41,9 @@ const data: Record<RegionCode, RegionContent> = {
       { name: "Hair Transplant in Turkey", slug: "hair-transplant-turkey", usd: 2400, emoji: "💇", tag: "Short flight" },
       { name: "Facelift in Thailand", slug: "facelift-thailand", usd: 5800, emoji: "🪞", tag: "Recovery resort" },
     ],
-    doctors: [
-      { name: "Dr. Suchada Pong", city: "Bangkok", flag: "🇹🇭", rating: 4.92, cases: "4.4K" },
-      { name: "Dr. Elif Demir", city: "Istanbul", flag: "🇹🇷", rating: 4.95, cases: "5.1K" },
+    experts: [
+      { name: "Suchada Pong", city: "Bangkok", flag: "🇹🇭", rating: 4.92, cases: "4.4K" },
+      { name: "Elif Demir", city: "Istanbul", flag: "🇹🇷", rating: 4.95, cases: "5.1K" },
     ],
   },
   KR: {
@@ -53,9 +53,9 @@ const data: Record<RegionCode, RegionContent> = {
       { name: "V-Line Surgery in Seoul", slug: "v-line-korea", usd: 6800, emoji: "💎", tag: "Gangnam favorite" },
       { name: "Rhinoplasty in Seoul", slug: "rhinoplasty-korea", usd: 4200, emoji: "👃", tag: "Top rated" },
     ],
-    doctors: [
-      { name: "Dr. Park Min-jun", city: "Seoul", flag: "🇰🇷", rating: 4.9, cases: "3.2K" },
-      { name: "Dr. Aoba Saito", city: "Tokyo", flag: "🇯🇵", rating: 4.93, cases: "2.4K" },
+    experts: [
+      { name: "Park Min-jun", city: "Seoul", flag: "🇰🇷", rating: 4.9, cases: "3.2K" },
+      { name: "Aoba Saito", city: "Tokyo", flag: "🇯🇵", rating: 4.93, cases: "2.4K" },
     ],
   },
   TH: {
@@ -65,9 +65,9 @@ const data: Record<RegionCode, RegionContent> = {
       { name: "Facelift in Bangkok", slug: "facelift-thailand", usd: 5800, emoji: "🪞", tag: "Top rated" },
       { name: "Rhinoplasty in Bangkok", slug: "rhinoplasty-thailand", usd: 3200, emoji: "👃", tag: "Trending" },
     ],
-    doctors: [
-      { name: "Dr. Suchada Pong", city: "Bangkok", flag: "🇹🇭", rating: 4.92, cases: "4.4K" },
-      { name: "Dr. Park Min-jun", city: "Seoul", flag: "🇰🇷", rating: 4.9, cases: "3.2K" },
+    experts: [
+      { name: "Suchada Pong", city: "Bangkok", flag: "🇹🇭", rating: 4.92, cases: "4.4K" },
+      { name: "Park Min-jun", city: "Seoul", flag: "🇰🇷", rating: 4.9, cases: "3.2K" },
     ],
   },
   CN: {
@@ -77,9 +77,9 @@ const data: Record<RegionCode, RegionContent> = {
       { name: "Rhinoplasty in Korea", slug: "rhinoplasty-korea", usd: 4200, emoji: "👃", tag: "Mandarin care" },
       { name: "V-Line in Korea", slug: "v-line-korea", usd: 6800, emoji: "💎", tag: "Gangnam clinics" },
     ],
-    doctors: [
-      { name: "Dr. Park Min-jun", city: "Seoul", flag: "🇰🇷", rating: 4.9, cases: "3.2K" },
-      { name: "Dr. Aoba Saito", city: "Tokyo", flag: "🇯🇵", rating: 4.93, cases: "2.4K" },
+    experts: [
+      { name: "Park Min-jun", city: "Seoul", flag: "🇰🇷", rating: 4.9, cases: "3.2K" },
+      { name: "Aoba Saito", city: "Tokyo", flag: "🇯🇵", rating: 4.93, cases: "2.4K" },
     ],
   },
   FR: {
@@ -89,9 +89,9 @@ const data: Record<RegionCode, RegionContent> = {
       { name: "Facelift in Paris", slug: "facelift-france", usd: 8900, emoji: "🪞", tag: "Local prestige" },
       { name: "Liposuction in Spain", slug: "liposuction-spain", usd: 3700, emoji: "✨", tag: "Mediterranean" },
     ],
-    doctors: [
-      { name: "Dr. Camille Laurent", city: "Paris", flag: "🇫🇷", rating: 4.91, cases: "2.9K" },
-      { name: "Dr. Elif Demir", city: "Istanbul", flag: "🇹🇷", rating: 4.95, cases: "5.1K" },
+    experts: [
+      { name: "Camille Laurent", city: "Paris", flag: "🇫🇷", rating: 4.91, cases: "2.9K" },
+      { name: "Elif Demir", city: "Istanbul", flag: "🇹🇷", rating: 4.95, cases: "5.1K" },
     ],
   },
 };
@@ -138,11 +138,11 @@ const PopularInRegion = () => {
 
       <div className="mt-14">
         <div className="mb-5">
-          <h3 className="font-display text-2xl md:text-3xl font-semibold tracking-tight">Top-rated doctors for these procedures</h3>
+          <h3 className="font-display text-2xl md:text-3xl font-semibold tracking-tight">Top-rated experts for these procedures</h3>
           <p className="text-sm text-muted-foreground mt-1">Hand-picked surgeons popular with patients near you.</p>
         </div>
         <div className="grid md:grid-cols-2 gap-4">
-          {content.doctors.map((d) => (
+          {content.experts.map((d) => (
             <div key={d.name} className="flex items-center gap-4 rounded-2xl border border-border bg-card p-4">
               <div className="size-12 rounded-2xl bg-gradient-mint grid place-items-center font-display font-semibold shrink-0">
                 {d.name.split(" ")[1]?.[0] ?? d.name[0]}
