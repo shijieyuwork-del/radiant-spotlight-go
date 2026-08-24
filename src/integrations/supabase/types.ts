@@ -126,6 +126,7 @@ export type Database = {
         Row: {
           caption: string | null
           city: string | null
+          cover_path: string | null
           created_at: string
           doctor_id: string | null
           id: string
@@ -137,6 +138,7 @@ export type Database = {
         Insert: {
           caption?: string | null
           city?: string | null
+          cover_path?: string | null
           created_at?: string
           doctor_id?: string | null
           id?: string
@@ -148,6 +150,7 @@ export type Database = {
         Update: {
           caption?: string | null
           city?: string | null
+          cover_path?: string | null
           created_at?: string
           doctor_id?: string | null
           id?: string
