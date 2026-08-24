@@ -241,6 +241,19 @@ export default function AuditAdmin() {
               </select>
             </div>
             <div>
+              <Label>结果状态</Label>
+              <select
+                data-testid="filter-outcome"
+                className="w-full h-10 rounded-md border bg-background px-3 text-sm"
+                value={outcome}
+                onChange={(e) => setOutcome(e.target.value as typeof outcome)}
+              >
+                <option value="all">全部</option>
+                <option value="allowed">仅成功（允许）</option>
+                <option value="denied">仅拒绝</option>
+              </select>
+            </div>
+            <div>
               <Label>存储桶</Label>
               <select
                 className="w-full h-10 rounded-md border bg-background px-3 text-sm"
@@ -273,13 +286,32 @@ export default function AuditAdmin() {
               />
             </div>
             <div>
-              <Label>开始日期</Label>
-              <Input type="date" value={from} onChange={(e) => setFrom(e.target.value)} />
+              <Label>时间范围</Label>
+              <select
+                data-testid="filter-time"
+                className="w-full h-10 rounded-md border bg-background px-3 text-sm"
+                value={timePreset}
+                onChange={(e) => setTimePreset(e.target.value as typeof timePreset)}
+              >
+                <option value="all">全部时间</option>
+                <option value="24h">最近 24 小时</option>
+                <option value="7d">最近 7 天</option>
+                <option value="30d">最近 30 天</option>
+                <option value="custom">自定义日期…</option>
+              </select>
             </div>
-            <div>
-              <Label>结束日期</Label>
-              <Input type="date" value={to} onChange={(e) => setTo(e.target.value)} />
-            </div>
+            {timePreset === "custom" && (
+              <>
+                <div>
+                  <Label>开始日期</Label>
+                  <Input data-testid="filter-from" type="date" value={from} onChange={(e) => setFrom(e.target.value)} />
+                </div>
+                <div>
+                  <Label>结束日期</Label>
+                  <Input data-testid="filter-to" type="date" value={to} onChange={(e) => setTo(e.target.value)} />
+                </div>
+              </>
+            )}
             <div>
               <Label>目标关键词</Label>
               <Input
@@ -290,11 +322,11 @@ export default function AuditAdmin() {
               />
             </div>
             <div className="flex gap-2">
-              <Button onClick={applyFilters} disabled={loading} className="flex-1">
+              <Button data-testid="apply-filters" onClick={applyFilters} disabled={loading} className="flex-1">
                 {loading ? <Loader2 className="animate-spin" /> : <RefreshCw className="size-4" />}
                 查询
               </Button>
-              <Button variant="outline" onClick={exportCsv} disabled={exporting || loading}>
+              <Button data-testid="export-csv" variant="outline" onClick={exportCsv} disabled={exporting || loading}>
                 {exporting ? <Loader2 className="animate-spin" /> : <Download className="size-4" />}
                 导出 CSV
               </Button>
@@ -346,16 +378,10 @@ export default function AuditAdmin() {
               <p className="text-sm">当前窗口内有 {stats.denied} 次访问被拒绝（未发布内容或越权尝试），请核对下方标红记录。</p>
             )}
             {anomalies.ips.map(([ip, n]) => (
-              <p key={ip} className="text-sm">
-                <span className="font-medium">触发原因 — IP 高频：</span>
-                <code className="font-mono">{ip}</code> 在当前窗口内发起 {n} 次请求，达到阈值 {ipThreshold} 次。
-              </p>
+              <p key={ip} className="text-sm" data-testid="anomaly-banner-ip">{bannerLine("ip", ip, n, ipThreshold)}</p>
             ))}
             {anomalies.users.map(([u, n]) => (
-              <p key={u} className="text-sm">
-                <span className="font-medium">触发原因 — 用户高频：</span>
-                <code className="font-mono">{u}</code> 在当前窗口内发起 {n} 次请求，达到阈值 {userThreshold} 次。
-              </p>
+              <p key={u} className="text-sm" data-testid="anomaly-banner-user">{bannerLine("user", u, n, userThreshold)}</p>
             ))}
           </section>
         )}
@@ -416,9 +442,10 @@ export default function AuditAdmin() {
                             <span
                               key={reason}
                               title={reason}
+                              data-testid="anomaly-badge"
                               className="inline-flex rounded-full bg-amber-500/15 text-amber-700 dark:text-amber-400 px-2 py-0.5 text-xs font-medium"
                             >
-                              {reason.startsWith("IP") ? "IP 高频" : "用户高频"}
+                              {badgeLabel(reason)}
                             </span>
                           ))}
                         </div>
