@@ -13,19 +13,11 @@ import { Label } from "@/components/ui/label";
 import {
   Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle,
 } from "@/components/ui/dialog";
-
-type AuditRow = {
-  id: string;
-  created_at: string;
-  action: string;
-  actor_id: string | null;
-  actor_email: string | null;
-  bucket: string | null;
-  target: string;
-  ip: string | null;
-  user_agent: string | null;
-  metadata: { denied?: boolean; reason?: string } | null;
-};
+import {
+  actorKey, anomalousIps, anomalousUsers, badgeLabel, bannerLine,
+  countByIpAndUser, deniedReason, isDenied,
+  triggerReasons as rowTriggerReasons, type AuditRow,
+} from "@/lib/audit-anomaly";
 
 const ADMIN = "shijieyuwork@gmail.com";
 const PAGE_SIZE = 50;
@@ -35,16 +27,6 @@ const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
 const ACTION_LABEL: Record<string, string> = {
   profile_read: "资料读取",
   storage_read: "文件访问",
-};
-
-const actorKey = (r: AuditRow) => r.actor_email ?? r.actor_id ?? null;
-
-const deniedReason = (r: AuditRow): string | null => {
-  if (!r.metadata?.denied) return null;
-  if (r.metadata.reason) return r.metadata.reason;
-  if (r.action === "storage_read") return "目标文件未关联任何已发布记录（或不存在），已按策略拒绝";
-  if (r.action === "profile_read") return "越权读取他人资料，已拒绝";
-  return "访问被策略拒绝";
 };
 
 const csvCell = (v: string | null | undefined) => `"${String(v ?? "").replace(/"/g, '""')}"`;
@@ -63,6 +45,9 @@ export default function AuditAdmin() {
   const [to, setTo] = useState("");
   const [keyword, setKeyword] = useState("");
   const [actor, setActor] = useState("");
+  // 结果状态（成功/拒绝）与时间范围预设，与自定义日期组合使用
+  const [outcome, setOutcome] = useState<"all" | "allowed" | "denied">("all");
+  const [timePreset, setTimePreset] = useState<"all" | "24h" | "7d" | "30d" | "custom">("all");
   // 可配置异常规则：同一 IP / 同一用户在当前窗口内请求次数达到阈值即标红告警
   const [ipThreshold, setIpThreshold] = useState(20);
   const [userThreshold, setUserThreshold] = useState(20);
