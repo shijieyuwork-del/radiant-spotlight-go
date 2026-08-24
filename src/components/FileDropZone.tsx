@@ -40,6 +40,7 @@ const FileDropZone = ({ id, accept, rules, onFile, onInvalid, invalid, disabled,
       role="button"
       tabIndex={0}
       aria-disabled={disabled}
+      aria-invalid={invalid}
       data-testid={`dropzone-${id}`}
       onClick={() => !disabled && document.getElementById(id)?.click()}
       onKeyDown={(e) => {
@@ -83,7 +84,6 @@ const FileDropZone = ({ id, accept, rules, onFile, onInvalid, invalid, disabled,
         accept={accept}
         className="hidden"
         disabled={disabled}
-        aria-invalid={invalid}
         onChange={(e) => {
           acceptFile(e.target.files?.[0]);
           e.target.value = "";
