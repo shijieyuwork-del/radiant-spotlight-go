@@ -24,13 +24,18 @@ import { MedicalDisclaimer } from "@/components/MedicalDisclaimer";
 import { useAsia } from "@/lib/asia-i18n";
 import { asiaCopy } from "@/lib/asia-copy";
 import QuoteCtaButton, { QUOTE_WHATSAPP_URL } from "@/components/QuoteCtaButton";
-import serviceAirportPickup from "@/assets/service-real-airport-v2.jpg";
-import serviceHotelBooking from "@/assets/service-real-accommodation-v3.jpg";
-import serviceClinicTranslation from "@/assets/service-real-translation-v2.jpg";
-import serviceMedicalRecords from "@/assets/service-real-records-v2.jpg";
-import serviceOnlineConcierge from "@/assets/service-real-concierge-v2.jpg";
+import journeyConsultation from "@/assets/packages-bh-journey-consultation-v1.jpg";
+import journeyDocuments from "@/assets/packages-bh-journey-documents-v1.jpg";
+import journeyDeparture from "@/assets/packages-bh-journey-departure-v1.jpg";
+import journeyClinic from "@/assets/packages-bh-journey-clinic-v1.jpg";
+import journeyRecovery from "@/assets/packages-bh-journey-recovery-v1.jpg";
+import journeyFollowUp from "@/assets/packages-bh-journey-followup-v1.jpg";
+import supportAirport from "@/assets/packages-bh-support-airport-v1.jpg";
+import supportTranslation from "@/assets/packages-bh-support-translation-v1.jpg";
+import supportAccommodation from "@/assets/packages-bh-support-accommodation-v1.jpg";
+import supportRecords from "@/assets/packages-bh-support-records-v1.jpg";
+import supportConcierge from "@/assets/packages-bh-support-concierge-v1.jpg";
 import travelSupportCareTeam from "@/assets/travel-support-asian-care-team-v2.jpg";
-import cityHangzhou from "@/assets/city-hangzhou.jpg";
 
 
 
@@ -38,7 +43,7 @@ import cityHangzhou from "@/assets/city-hangzhou.jpg";
 const JOURNEY_STEPS = [
   {
     icon: Video,
-    image: serviceMedicalRecords,
+    image: journeyConsultation,
     eyebrow: ["Free consultation", "免费咨询", "Бесплатная консультация"],
     title: ["Tell us what you are considering", "告诉我们你正在考虑什么", "Расскажите, что вы рассматриваете"],
     text: [
@@ -49,7 +54,7 @@ const JOURNEY_STEPS = [
   },
   {
     icon: Plane,
-    image: serviceAirportPickup,
+    image: journeyDocuments,
     eyebrow: ["Appointment & documents", "预约与文件", "Запись и документы"],
     title: ["Confirm your care and travel plan", "确认就医与出行计划", "Подтвердите план лечения и поездки"],
     text: [
@@ -60,7 +65,7 @@ const JOURNEY_STEPS = [
   },
   {
     icon: Route,
-    image: serviceHotelBooking,
+    image: journeyDeparture,
     eyebrow: ["Before departure", "出发前", "До вылета"],
     title: ["Know the details before you fly", "出发前掌握所有细节", "Знайте все детали до вылета"],
     text: [
@@ -71,7 +76,7 @@ const JOURNEY_STEPS = [
   },
   {
     icon: HeartPulse,
-    image: serviceClinicTranslation,
+    image: journeyClinic,
     eyebrow: ["Clinic visits", "院内就诊", "Визиты в клинику"],
     title: ["Communicate with confidence", "更安心地完成院内沟通", "Общайтесь уверенно"],
     text: [
@@ -82,7 +87,7 @@ const JOURNEY_STEPS = [
   },
   {
     icon: Map,
-    image: cityHangzhou,
+    image: journeyRecovery,
     eyebrow: ["Recovery", "恢复期", "Восстановление"],
     title: ["Recover first, explore when ready", "安心恢复，适合时再探索", "Сначала восстановитесь, затем путешествуйте"],
     text: [
@@ -93,7 +98,7 @@ const JOURNEY_STEPS = [
   },
   {
     icon: MessageCircle,
-    image: serviceOnlineConcierge,
+    image: journeyFollowUp,
     eyebrow: ["After you return", "回国后", "После возвращения"],
     title: ["Stay connected after you go home", "回国后继续保持联系", "Оставайтесь на связи дома"],
     text: [
@@ -107,7 +112,7 @@ const JOURNEY_STEPS = [
 const SUPPORT_SERVICES = [
   {
     icon: Plane,
-    image: serviceAirportPickup,
+    image: supportAirport,
     title: ["Airport pickup & drop-off", "机场接送", "Трансфер из аэропорта"],
     text: [
       "Direct transfer between the airport and your confirmed hotel or clinic, coordinated around your arrival details.",
@@ -117,7 +122,7 @@ const SUPPORT_SERVICES = [
   },
   {
     icon: Languages,
-    image: serviceClinicTranslation,
+    image: supportTranslation,
     title: ["In-clinic translation", "院内翻译", "Перевод в клинике"],
     text: [
       "Bilingual communication support for questions, care instructions and practical next steps during included visits.",
@@ -127,7 +132,7 @@ const SUPPORT_SERVICES = [
   },
   {
     icon: Hotel,
-    image: serviceHotelBooking,
+    image: supportAccommodation,
     title: ["Accommodation guidance", "住宿建议", "Помощь с проживанием"],
     text: [
       "Hotel options shortlisted around your clinic, dates, budget and recovery needs. Hotel charges are paid separately.",
@@ -137,7 +142,7 @@ const SUPPORT_SERVICES = [
   },
   {
     icon: Files,
-    image: serviceMedicalRecords,
+    image: supportRecords,
     title: ["Records organization", "病历整理", "Подготовка документов"],
     text: [
       "The records you provide are organized into a clearer review file; relevant information can be translated for care coordination.",
@@ -147,7 +152,7 @@ const SUPPORT_SERVICES = [
   },
   {
     icon: Headphones,
-    image: serviceOnlineConcierge,
+    image: supportConcierge,
     title: ["Online concierge support", "在线管家支持", "Онлайн-поддержка"],
     text: [
       "Message your coordinator for itinerary, booking and service questions during the confirmed support period.",
