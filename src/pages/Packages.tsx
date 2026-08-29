@@ -10,6 +10,7 @@ import {
   Hotel,
   Languages,
   Map,
+  MapPin,
   MessageCircle,
   Plane,
   Route,
@@ -24,12 +25,12 @@ import { MedicalDisclaimer } from "@/components/MedicalDisclaimer";
 import { useAsia } from "@/lib/asia-i18n";
 import { asiaCopy } from "@/lib/asia-copy";
 import QuoteCtaButton, { QUOTE_WHATSAPP_URL } from "@/components/QuoteCtaButton";
-import journeyConsultation from "@/assets/packages-bh-journey-consultation-v1.jpg";
-import journeyDocuments from "@/assets/packages-bh-journey-documents-v1.jpg";
-import journeyDeparture from "@/assets/packages-bh-journey-departure-v1.jpg";
-import journeyClinic from "@/assets/packages-bh-journey-clinic-v1.jpg";
-import journeyRecovery from "@/assets/packages-bh-journey-recovery-v1.jpg";
-import journeyFollowUp from "@/assets/packages-bh-journey-followup-v1.jpg";
+import journeyConsultation from "@/assets/journey-premium-natural-consultation-v5.jpg";
+import journeyArrival from "@/assets/journey-premium-natural-arrival-v5.jpg";
+import journeyGroundSupport from "@/assets/journey-premium-natural-concierge-v5.jpg";
+import journeyTreatment from "@/assets/journey-premium-clinic-v6.jpg";
+import journeyRecovery from "@/assets/journey-premium-natural-recovery-v5.jpg";
+import journeyFollowUp from "@/assets/journey-premium-natural-followup-v5.jpg";
 import supportAirport from "@/assets/packages-bh-support-airport-v1.jpg";
 import supportTranslation from "@/assets/packages-bh-support-translation-v1.jpg";
 import supportAccommodation from "@/assets/packages-bh-support-accommodation-v1.jpg";
@@ -44,67 +45,67 @@ const JOURNEY_STEPS = [
   {
     icon: Video,
     image: journeyConsultation,
-    eyebrow: ["Free consultation", "免费咨询", "Бесплатная консультация"],
-    title: ["Tell us what you are considering", "告诉我们你正在考虑什么", "Расскажите, что вы рассматриваете"],
+    eyebrow: ["Getting started", "开始咨询", "Начало"],
+    title: ["Get a free quote", "获取免费报价", "Получить бесплатную оценку"],
     text: [
-      "Share the procedure, city, timing and questions you have. We help you organize the next steps and identify suitable specialists.",
-      "告诉我们关注的项目、城市、时间和疑问。我们会协助梳理下一步，并匹配合适的专家。",
-      "Расскажите о процедуре, городе, сроках и вопросах. Мы поможем определить следующие шаги и подходящих специалистов.",
+      "Tell us your goals and questions so we can help identify suitable specialists.",
+      "告诉我们你的目标和疑问，我们会协助匹配合适的专家。",
+      "Расскажите о целях и вопросах, чтобы мы помогли подобрать специалистов.",
     ],
   },
   {
     icon: Plane,
-    image: journeyDocuments,
-    eyebrow: ["Appointment & documents", "预约与文件", "Запись и документы"],
-    title: ["Confirm your care and travel plan", "确认就医与出行计划", "Подтвердите план лечения и поездки"],
+    image: journeyArrival,
+    eyebrow: ["Travel planning", "行程规划", "Планирование поездки"],
+    title: ["Arrange your travel & visa", "安排行程与签证", "Организуйте поездку и визу"],
     text: [
-      "Once your appointment is confirmed, we help organize arrival details, travel documents and any required medical invitation letter.",
-      "预约确认后，我们协助整理抵达信息、旅行文件及需要的医疗邀请函。",
-      "После подтверждения записи мы поможем подготовить детали прибытия, документы и медицинское приглашение при необходимости.",
+      "Confirm appointments, flights, travel documents and arrival details.",
+      "确认预约、航班、旅行文件和抵达信息。",
+      "Подтвердите запись, перелёт, документы и детали прибытия.",
     ],
   },
   {
-    icon: Route,
-    image: journeyDeparture,
-    eyebrow: ["Before departure", "出发前", "До вылета"],
-    title: ["Know the details before you fly", "出发前掌握所有细节", "Знайте все детали до вылета"],
+    icon: MapPin,
+    image: journeyGroundSupport,
+    eyebrow: ["On-ground support", "落地支持", "Поддержка на месте"],
+    title: ["Choose your on-ground support", "选择落地支持服务", "Выберите поддержку на месте"],
     text: [
-      "Receive your confirmed appointment, pickup details, accommodation guidance and a clear list of included and optional support.",
-      "获得已确认的预约、接机信息、住宿建议，以及包含和可选服务的清晰说明。",
-      "Получите подтверждение записи, детали трансфера, рекомендации по проживанию и ясный список включённых и дополнительных услуг.",
+      "Select pickup, accommodation guidance, translation and coordination.",
+      "按需选择接机、住宿建议、翻译与行程协调。",
+      "Выберите трансфер, помощь с проживанием, перевод и координацию.",
     ],
   },
   {
     icon: HeartPulse,
-    image: journeyClinic,
-    eyebrow: ["Clinic visits", "院内就诊", "Визиты в клинику"],
-    title: ["Communicate with confidence", "更安心地完成院内沟通", "Общайтесь уверенно"],
+    image: journeyTreatment,
+    eyebrow: ["Treatment support", "治疗支持", "Поддержка лечения"],
+    title: ["Receive coordinated treatment support", "获得治疗协调支持", "Получите поддержку во время лечения"],
     text: [
-      "A bilingual coordinator supports practical communication and scheduling during included clinic visits. Medical decisions stay with your treating expert.",
-      "在包含的诊所行程中，双语协调员协助实际沟通与安排；医疗决定由接诊专家负责。",
-      "Двуязычный координатор помогает с общением и расписанием во время включённых визитов. Медицинские решения принимает лечащий эксперт.",
+      "Get practical communication and scheduling help during clinic visits.",
+      "就诊期间获得沟通、翻译与日程协调协助。",
+      "Получайте помощь с общением и расписанием во время визитов.",
     ],
   },
   {
     icon: Map,
     image: journeyRecovery,
     eyebrow: ["Recovery", "恢复期", "Восстановление"],
-    title: ["Recover first, explore when ready", "安心恢复，适合时再探索", "Сначала восстановитесь, затем путешествуйте"],
+    title: ["Recover—and explore when ready", "安心恢复，适合时再探索", "Восстанавливайтесь и путешествуйте, когда будете готовы"],
     text: [
-      "Follow your expert’s recovery advice. If you are cleared to travel, we can help shape an optional itinerary around your needs.",
-      "始终遵循专家的恢复建议；获得许可后，我们可按你的需求协助规划自愿行程。",
-      "Следуйте рекомендациям эксперта. После разрешения на поездки мы можем помочь составить дополнительный маршрут.",
+      "Follow your expert’s advice, with optional travel when you are cleared.",
+      "遵循专家的恢复建议，获得许可后可自愿安排旅行。",
+      "Следуйте рекомендациям эксперта и путешествуйте только после разрешения.",
     ],
   },
   {
     icon: MessageCircle,
     image: journeyFollowUp,
-    eyebrow: ["After you return", "回国后", "После возвращения"],
-    title: ["Stay connected after you go home", "回国后继续保持联系", "Оставайтесь на связи дома"],
+    eyebrow: ["Follow-up", "后续随访", "Наблюдение"],
+    title: ["Stay connected after you return", "回国后保持联系", "Оставайтесь на связи после возвращения"],
     text: [
-      "When your expert recommends follow-up, we help coordinate the remote appointment, communication and translation.",
-      "专家建议复诊时，我们协助协调远程预约、沟通与翻译。",
-      "Если эксперт рекомендует наблюдение, мы поможем организовать дистанционный приём, общение и перевод.",
+      "Coordinate remote follow-up and translation when your expert recommends it.",
+      "专家建议复诊时，我们协助协调远程随访与翻译。",
+      "Мы поможем организовать онлайн-наблюдение и перевод по рекомендации эксперта.",
     ],
   },
 ] as const;
