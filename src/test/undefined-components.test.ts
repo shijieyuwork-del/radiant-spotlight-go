@@ -62,7 +62,7 @@ const collectAvailable = (src: string): Set<string> => {
     available.add(m[1]);
   }
   // 函数参数/解构中的大写组件（如 ({ Icon }) ），兜底放行
-  for (const m of src.matchAll(/[({,:]\s*(?:\.\.\.)?([A-Z][A-Za-z0-9]*)[,}):]/g)) {
+  for (const m of src.matchAll(/[({,:]\s*(?:\.\.\.)?([A-Z][A-Za-z0-9]*)\s*[,}):]/g)) {
     available.add(m[1]);
   }
   // 解构重命名：icon: Icon
