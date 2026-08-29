@@ -183,9 +183,8 @@ const Hero = () => {
           loop
           playsInline
           preload="metadata"
-          poster="/video/source/shanghai-consultation.webp"
         >
-          <source src="/video/cosmetics-asia-hero-stabilized.mp4?v=1" type="video/mp4" />
+          <source src="/video/cosmetics-asia-home-motion.mp4?v=1" type="video/mp4" />
         </video>
         <div className="hero-motion__veil absolute inset-0" />
       </div>
