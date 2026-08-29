@@ -24,7 +24,6 @@ import { MedicalDisclaimer } from "@/components/MedicalDisclaimer";
 import { useAsia } from "@/lib/asia-i18n";
 import { asiaCopy } from "@/lib/asia-copy";
 import QuoteCtaButton, { QUOTE_WHATSAPP_URL } from "@/components/QuoteCtaButton";
-import PaymentDetailsSection from "@/components/PaymentDetailsSection";
 import serviceAirportPickup from "@/assets/service-real-airport-v2.jpg";
 import serviceHotelBooking from "@/assets/service-real-accommodation-v3.jpg";
 import serviceClinicTranslation from "@/assets/service-real-translation-v2.jpg";
@@ -318,8 +317,6 @@ const Packages = () => {
               </div>
             </div>
           </section>
-
-          <PaymentDetailsSection />
 
           <section className="container py-12 md:py-20">
             <div className="grid gap-8 lg:grid-cols-[.82fr_1.18fr] lg:gap-14">
