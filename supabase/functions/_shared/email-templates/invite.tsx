@@ -55,36 +55,39 @@ export const InviteEmail = ({
 
 export default InviteEmail
 
-const main = { backgroundColor: '#ffffff', fontFamily: '-apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif' }
+const main = {
+  backgroundColor: '#ffffff',
+  fontFamily: 'Manrope, Arial, sans-serif',
+}
 const container = { padding: '20px 25px' }
 const h1 = {
   fontSize: '22px',
   fontWeight: 'bold' as const,
-  color: 'hsl(162, 44%, 16%)',
+  color: '#173B32',
   margin: '0 0 20px',
 }
 const text = {
   fontSize: '14px',
-  color: 'hsl(160, 15%, 34%)',
+  color: '#4A6158',
   lineHeight: '1.5',
   margin: '0 0 25px',
 }
-const link = { color: 'inherit', textDecoration: 'underline' }
+const link = { color: '#173B32', textDecoration: 'underline' }
 const button = {
-  backgroundColor: 'hsl(162, 44%, 16%)',
-  color: '#ffffff',
+  backgroundColor: '#173B32',
+  color: '#FDFDF9',
   fontSize: '14px',
-  border: '1px solid hsl(162, 44%, 16%)',
-  borderRadius: '9999px',
+  border: '1px solid #173B32',
+  borderRadius: '20px',
   padding: '12px 20px',
   textDecoration: 'none',
 }
-const footer = { fontSize: '12px', color: '#999999', margin: '30px 0 0' }
+const footer = { fontSize: '12px', color: '#7A8B82', margin: '30px 0 0' }
 // Rendered as a text child, which React may HTML-escape: keep this CSS free of >, &, and quotes.
 const darkModeCss = `
   @media (prefers-color-scheme: dark) {
-    .dm-btn { background-color: #8ed6b4 !important; color: #10261f !important; }
+    .dm-btn { background-color: #4FC9A0 !important; color: #173B32 !important; border-color: #4FC9A0 !important; }
   }
-  [data-ogsc] .dm-btn { background-color: #8ed6b4 !important; color: #10261f !important; }
-  [data-ogsb] .dm-btn { background-color: #8ed6b4 !important; color: #10261f !important; }
+  [data-ogsc] .dm-btn { background-color: #4FC9A0 !important; color: #173B32 !important; border-color: #4FC9A0 !important; }
+  [data-ogsb] .dm-btn { background-color: #4FC9A0 !important; color: #173B32 !important; border-color: #4FC9A0 !important; }
 `
