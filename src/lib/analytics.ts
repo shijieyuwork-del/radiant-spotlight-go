@@ -6,8 +6,10 @@ export type AnalyticsEventName =
   | "select_cta"
   | "start_quote"
   | "quote_option_selected"
+  | "quote_contact_method_selected"
   | "quote_step_completed"
   | "generate_lead"
+  | "email_handoff"
   | "whatsapp_handoff"
   | "view_pricing"
   | "expand_faq";

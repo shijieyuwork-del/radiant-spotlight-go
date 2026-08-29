@@ -11,7 +11,8 @@ import { trackEvent } from "@/lib/analytics";
  *   任何页面不得再内联维护该按钮的三语文案（由 quote-cta-i18n 回归测试守护）。
  * - 样式唯一来源：本组件的 VARIANTS；页面只能通过 className 调整布局
  *   （宽度、圆角、高度等），不得覆盖配色。
- * - 行为二选一：默认跳转 WhatsApp 起始对话；传入 quoteCtx 则打开咨询弹窗。
+ * - 默认打开报价流程，让用户选择通过 Email 或 WhatsApp 继续；
+ *   仅在显式传入 href 时直接打开外部链接。
  */
 
 /** 默认跳转：WhatsApp 起始对话（全站唯一来源） */
@@ -28,9 +29,9 @@ const VARIANTS = {
 const ICONS = { arrow: ArrowRight, chat: MessageCircle } as const;
 
 export interface QuoteCtaButtonProps {
-  /** 传入后点击打开咨询弹窗（携带上下文）；缺省为跳转 WhatsApp */
+  /** 点击打开报价弹窗时携带的上下文 */
   quoteCtx?: QuoteContext;
-  /** 自定义链接（仅在未传 quoteCtx 时生效），默认 QUOTE_WHATSAPP_URL */
+  /** 显式传入时直接打开该链接，不进入报价弹窗 */
   href?: string;
   variant?: keyof typeof VARIANTS;
   /** arrow：箭头在文案后（默认）；chat：对话图标在文案前 */
@@ -40,7 +41,7 @@ export interface QuoteCtaButtonProps {
 
 const QuoteCtaButton = ({
   quoteCtx,
-  href = QUOTE_WHATSAPP_URL,
+  href,
   variant = "dark",
   icon = "arrow",
   className,
@@ -55,9 +56,9 @@ const QuoteCtaButton = ({
     className,
   );
 
-  if (quoteCtx) {
+  if (!href) {
     return (
-      <button type="button" onClick={() => { trackEvent("select_cta", { source: quoteCtx.source || "quote_button" }); open(quoteCtx); }} className={cls}>
+      <button type="button" onClick={() => { trackEvent("select_cta", { source: quoteCtx?.source || "quote_button" }); open(quoteCtx); }} className={cls}>
         {icon === "chat" && <Icon className="size-4" />}
         {label}
         {icon === "arrow" && <Icon className="size-4" />}

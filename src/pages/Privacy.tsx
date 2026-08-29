@@ -31,7 +31,7 @@ const Privacy = () => (
           {[
             { icon: Cookie, title: "Essential storage", text: "Keeps language, privacy choices, and sign-in functions working. It cannot be switched off through the analytics control." },
             { icon: BarChart3, title: "Optional analytics", text: "Loads only after you choose Allow analytics. We group sensitive page paths and do not send form answers or contact details to Google." },
-            { icon: LockKeyhole, title: "Your enquiries", text: "Information you enter in the quote flow is used to prepare your WhatsApp message and coordinate your request. It is not added to analytics events." },
+            { icon: LockKeyhole, title: "Your enquiries", text: "Information you enter in the quote flow is used to prepare the Email or WhatsApp message you choose and coordinate your request. It is not added to analytics events." },
           ].map(({ icon: Icon, title, text }) => (
             <section key={title} className="rounded-3xl border border-border bg-card p-5 shadow-soft">
               <span className="grid size-11 place-items-center rounded-2xl bg-primary/12 text-primary"><Icon className="size-5" /></span>
@@ -45,7 +45,7 @@ const Privacy = () => (
           <section>
             <h2 className="font-display text-2xl font-semibold">What optional analytics measures</h2>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              With your permission, Google Analytics may receive a grouped page category, device and browser information, approximate location, and actions such as opening the quote flow or continuing to WhatsApp. Treatment names, provider names, case identifiers, search queries, form fields, email addresses, phone numbers, and notes are excluded from our analytics event parameters.
+              With your permission, Google Analytics may receive a grouped page category, device and browser information, approximate location, and actions such as opening the quote flow or choosing Email or WhatsApp. Treatment names, provider names, case identifiers, search queries, form fields, email addresses, phone numbers, and notes are excluded from our analytics event parameters.
             </p>
           </section>
           <section>

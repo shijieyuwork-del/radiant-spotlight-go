@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
-import { MessageCircle, Lock, ArrowRight, ArrowLeft, CheckCircle2, X, Sparkles, DollarSign, CalendarDays, Video, Clock } from "lucide-react";
+import { MessageCircle, Mail, Lock, ArrowRight, ArrowLeft, CheckCircle2, X, Sparkles, DollarSign, CalendarDays, Video, Clock } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -127,6 +127,7 @@ export const FloatingQuoteCTA = ({ ctx }: { ctx?: QuoteContext }) => {
 /* ---------- Dialog ---------- */
 
 type Intent = "pricing" | "consultation";
+type ContactMethod = "email" | "whatsapp";
 
 const QuoteDialog = ({
   isOpen, onOpenChange, ctx, submitted, onSubmitted,
@@ -139,6 +140,7 @@ const QuoteDialog = ({
 }) => {
   const [step, setStep] = useState<1 | 2>(1);
   const [intent, setIntent] = useState<Intent | null>(null);
+  const [contactMethod, setContactMethod] = useState<ContactMethod | null>(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [country, setCountry] = useState("");
@@ -162,6 +164,7 @@ const QuoteDialog = ({
     if (isOpen) {
       setStep(1);
       setIntent(null);
+      setContactMethod(null);
       setSlot("");
       setProcedure(ctx.procedure ?? "");
     }
@@ -186,7 +189,8 @@ const QuoteDialog = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!name) return void toast.error("Enter your name so we know how to address you.");
-    if (!email) return void toast.error("Enter your email so the coordinator can reply.");
+    if (!contactMethod) return void toast.error("Choose whether you prefer Email or WhatsApp.");
+    if (contactMethod === "email" && !email) return void toast.error("Enter the email address where you would like us to reply.");
     if (!country) return void toast.error("Select the country you will travel from.");
     if (!procedure) return void toast.error("Select a procedure, or choose ‘Other / Not sure yet.’");
     if (intent === "consultation" && !slot) {
@@ -198,14 +202,27 @@ const QuoteDialog = ({
       expertLabel ? `Expert: ${expertLabel}` : "",
       `Request: ${intent === "consultation" ? "Free consultation" : "Pricing guidance"}`,
       `Name: ${name}`,
-      `Email: ${email}`,
+      `Preferred contact: ${contactMethod === "email" ? "Email" : "WhatsApp"}`,
+      email ? `Email: ${email}` : "",
       `Traveling from: ${country}`,
       `Procedure: ${procedure}`,
       slot ? `Preferred time: ${slot} (${ctx.city ?? "Shanghai"} local time)` : "",
       notes ? `Questions or goals: ${notes}` : "",
     ].filter(Boolean).join("\n");
-    const whatsappUrl = `https://wa.me/14708613825?text=${encodeURIComponent(message)}`;
     trackEvent("generate_lead", { source: ctx.source || "site_cta", option: intent || "unknown" });
+    trackEvent("quote_contact_method_selected", { source: ctx.source || "site_cta", option: contactMethod });
+
+    if (contactMethod === "email") {
+      const subject = `Free quote request${procedure ? ` — ${procedure}` : ""}`;
+      const emailUrl = `mailto:hello@cosmetics-asia.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+      trackEvent("email_handoff", { source: ctx.source || "site_cta", option: intent || "unknown" });
+      setLoading(false);
+      onSubmitted();
+      window.location.href = emailUrl;
+      return;
+    }
+
+    const whatsappUrl = `https://wa.me/14708613825?text=${encodeURIComponent(message)}`;
     trackEvent("whatsapp_handoff", { source: ctx.source || "site_cta", option: intent || "unknown" });
     const opened = window.open(whatsappUrl, "_blank", "noopener,noreferrer");
     setLoading(false);
@@ -216,7 +233,7 @@ const QuoteDialog = ({
     onSubmitted();
   };
 
-  const ctaLabel = "Continue on WhatsApp";
+  const ctaLabel = contactMethod === "email" ? "Continue by email" : "Continue on WhatsApp";
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
@@ -228,6 +245,8 @@ const QuoteDialog = ({
             intent={intent}
             slot={slot}
             city={ctx.city}
+            contactMethod={contactMethod}
+            email={email}
           />
         ) : (
           <>
@@ -248,7 +267,7 @@ const QuoteDialog = ({
                 {step === 1
                   ? subline
                   : intent === "consultation"
-                  ? "Choose a preferred time. We will confirm availability with you on WhatsApp."
+                  ? "Choose a preferred time. We will confirm availability using your selected contact method."
                   : "Share a few details so we can understand what pricing information you need."}
               </DialogDescription>
               <div className="flex items-center gap-1.5 mt-4">
@@ -269,13 +288,17 @@ const QuoteDialog = ({
                   <ArrowLeft className="size-3" /> Change option
                 </button>
 
-                <div className="grid sm:grid-cols-2 gap-3">
+                <ContactMethodPicker value={contactMethod} onChange={setContactMethod} />
+
+                <div className={`grid gap-3 ${contactMethod === "email" ? "sm:grid-cols-2" : ""}`}>
                   <Field label="Your name" required>
                     <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Jane" className="h-12 rounded-xl" />
                   </Field>
-                  <Field label="Email" required>
-                    <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="jane@email.com" className="h-12 rounded-xl" />
-                  </Field>
+                  {contactMethod === "email" && (
+                    <Field label="Email address" required>
+                      <Input aria-label="Email address" type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="jane@email.com" className="h-12 rounded-xl" />
+                    </Field>
+                  )}
                 </div>
 
                 <Field label="Traveling from" required>
@@ -320,7 +343,7 @@ const QuoteDialog = ({
                   disabled={loading}
                   className="w-full h-12 rounded-2xl bg-foreground text-background hover:bg-foreground/90 text-base font-semibold"
                 >
-                  {loading ? "Opening WhatsApp..." : (<>{ctaLabel} <ArrowRight className="ml-1.5 size-4" /></>)}
+                  {loading ? (contactMethod === "email" ? "Preparing email..." : "Opening WhatsApp...") : (<>{ctaLabel} <ArrowRight className="ml-1.5 size-4" /></>)}
                 </Button>
 
                 <p className="text-xs text-muted-foreground text-center flex items-center justify-center gap-1.5 pt-1">
@@ -335,6 +358,65 @@ const QuoteDialog = ({
         )}
       </DialogContent>
     </Dialog>
+  );
+};
+
+/* ---------- Preferred contact method ---------- */
+
+const ContactMethodPicker = ({
+  value,
+  onChange,
+}: {
+  value: ContactMethod | null;
+  onChange: (method: ContactMethod) => void;
+}) => {
+  const options: { id: ContactMethod; icon: typeof Mail; title: string; desc: string }[] = [
+    {
+      id: "email",
+      icon: Mail,
+      title: "Reply by email",
+      desc: "We will reply to the email address you provide.",
+    },
+    {
+      id: "whatsapp",
+      icon: MessageCircle,
+      title: "Continue on WhatsApp",
+      desc: "Open WhatsApp and continue the conversation there.",
+    },
+  ];
+
+  return (
+    <fieldset className="space-y-2">
+      <legend className="text-xs font-semibold text-foreground/80">
+        How would you like us to contact you? <span className="text-primary">*</span>
+      </legend>
+      <div className="grid gap-2 sm:grid-cols-2">
+        {options.map((option) => {
+          const active = value === option.id;
+          return (
+            <button
+              key={option.id}
+              type="button"
+              aria-pressed={active}
+              onClick={() => onChange(option.id)}
+              className={`flex min-h-20 items-start gap-3 rounded-2xl border p-3 text-left transition-colors ${
+                active
+                  ? "border-foreground bg-accent/70 ring-2 ring-foreground"
+                  : "border-border bg-card hover:border-foreground/50 hover:bg-muted/40"
+              }`}
+            >
+              <span className={`grid size-10 shrink-0 place-items-center rounded-xl ${active ? "bg-foreground text-background" : "bg-gradient-mint text-foreground"}`}>
+                <option.icon className="size-4.5" />
+              </span>
+              <span className="min-w-0">
+                <span className="block text-sm font-semibold leading-tight">{option.title}</span>
+                <span className="mt-1 block text-xs leading-snug text-muted-foreground">{option.desc}</span>
+              </span>
+            </button>
+          );
+        })}
+      </div>
+    </fieldset>
   );
 };
 
@@ -478,15 +560,18 @@ const Field = ({ label, required, children }: { label: string; required?: boolea
 );
 
 const SuccessState = ({
-  onClose, doctorName, intent, slot, city,
+  onClose, doctorName, intent, slot, city, contactMethod, email,
 }: {
   onClose: () => void;
   doctorName?: string;
   intent: Intent | null;
   slot?: string;
   city?: string;
+  contactMethod: ContactMethod | null;
+  email?: string;
 }) => {
   const isConsult = intent === "consultation";
+  const byEmail = contactMethod === "email";
   const tz = getCityTimezone(city);
   const prettySlot = slot ? `${slot.replace(" ", " · ")} (${city ?? "Shanghai"} time, ${tz.offset})` : "";
   return (
@@ -495,10 +580,12 @@ const SuccessState = ({
         <CheckCircle2 className="size-8 text-foreground" />
       </div>
       <h3 className="font-display text-2xl font-semibold mt-5">
-        Your WhatsApp message is ready
+        {byEmail ? "Your email request is ready" : "Your WhatsApp message is ready"}
       </h3>
       <p className="text-sm text-muted-foreground mt-2 max-w-xs mx-auto">
-        WhatsApp opened with your details. Send the prepared message there to complete your {isConsult ? "consultation request" : "quote request"}{prettySlot ? ` for your preferred time, ${prettySlot}` : ""}{doctorName ? ` about ${doctorName}` : ""}.
+        {byEmail
+          ? `Your email app opened with the request details. Send the prepared message so our coordinator can reply${email ? ` to ${email}` : ""}.`
+          : `WhatsApp opened with your details. Send the prepared message there to complete your ${isConsult ? "consultation request" : "quote request"}${prettySlot ? ` for your preferred time, ${prettySlot}` : ""}${doctorName ? ` about ${doctorName}` : ""}.`}
       </p>
       <Button onClick={onClose} className="mt-6 rounded-full px-8 bg-foreground text-background hover:bg-foreground/90">
         Close
