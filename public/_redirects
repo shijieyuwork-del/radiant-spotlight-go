@@ -34,6 +34,3 @@
 /cases/:slug               /cases/:slug.html             200
 /cities/:slug              /cities/:slug.html            200
 /treatments/:slug          /treatments/:slug.html        200
-
-# Client-side routes that do not have a prerendered document.
-/*                          /index.html                    200
