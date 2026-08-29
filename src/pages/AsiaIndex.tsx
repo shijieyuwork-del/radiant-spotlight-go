@@ -34,6 +34,12 @@ import procedureFacelift from "@/assets/procedures/facelift.jpg";
 import procedureBody from "@/assets/procedures/liposuction.jpg";
 import procedureBreast from "@/assets/procedures/breast-augmentation.jpg";
 import procedureHair from "@/assets/procedures/fue-hair-transplant.jpg";
+import procedureJaw from "@/assets/procedures/jaw-contouring.jpg";
+import procedureDental from "@/assets/procedures/dental-implants.jpg";
+import procedureSkin from "@/assets/procedures/laser-skin-resurfacing.jpg";
+import procedureLips from "@/assets/procedures/lip-lift.jpg";
+import procedureWeightLoss from "@/assets/procedures/body-lift.jpg";
+import procedureMen from "@/assets/procedures/male-breast-reduction.jpg";
 import AppPromoSection from "@/components/AppPromoSection";
 import { supabase } from "@/integrations/supabase/client";
 import { signedUrls } from "@/lib/storage-urls";
@@ -702,6 +708,60 @@ const TreatmentsSection = () => {
       treatments: [["FUE Transplant", "FUE 植发"], ["Hairline", "发际线种植"], ["Crown", "头顶加密"]],
       href: "/treatments/fue-hair-transplant",
     },
+    {
+      key: "contour",
+      image: procedureJaw,
+      en: "Define facial contours",
+      zh: "精塑面部轮廓",
+      ru: "Скорректировать овал лица",
+      treatments: [["Jaw Contouring", "下颌角整形"], ["Chin Augmentation", "下巴塑形"], ["Genioplasty", "颏成形术"]],
+      href: "/treatments/jaw-contouring",
+    },
+    {
+      key: "dentistry",
+      image: procedureDental,
+      en: "Restore your smile",
+      zh: "焕新自然笑容",
+      ru: "Восстановить улыбку",
+      treatments: [["Dental Implants", "种植牙"], ["Porcelain Veneers", "瓷贴面"], ["Teeth Whitening", "牙齿美白"]],
+      href: "/treatments/dental-implants",
+    },
+    {
+      key: "skin",
+      image: procedureSkin,
+      en: "Renew your skin",
+      zh: "改善肌肤质感",
+      ru: "Обновить кожу",
+      treatments: [["Laser Resurfacing", "激光焕肤"], ["RF Microneedling", "射频微针"], ["Skin Tightening", "皮肤紧致"]],
+      href: "/treatments/laser-skin-resurfacing",
+    },
+    {
+      key: "lips",
+      image: procedureLips,
+      en: "Refine lips & smile",
+      zh: "精致唇形与笑容",
+      ru: "Подчеркнуть губы и улыбку",
+      treatments: [["Lip Lift", "唇部提升"], ["Lip Contouring", "唇形塑造"], ["Gummy Smile", "露龈笑改善"]],
+      href: "/treatments/lip-lift",
+    },
+    {
+      key: "transformation",
+      image: procedureWeightLoss,
+      en: "Complete your transformation",
+      zh: "完善整体身形",
+      ru: "Завершить преображение",
+      treatments: [["Body Lift", "身体提升"], ["Arm Lift", "手臂提升"], ["Thigh Lift", "大腿提升"]],
+      href: "/treatments/body-lift",
+    },
+    {
+      key: "men",
+      image: procedureMen,
+      en: "Care designed for men",
+      zh: "男士专属改善方案",
+      ru: "Процедуры для мужчин",
+      treatments: [["Male Breast Reduction", "男性乳房缩小"], ["Male Liposuction", "男士吸脂"], ["Hair Transplant", "植发"]],
+      href: "/treatments/male-breast-reduction",
+    },
   ];
   const labelFor = (goal: typeof procedureGoals[number]) => lang === "zh" ? goal.zh : lang === "ru" ? goal.ru : goal.en;
   return (
@@ -723,9 +783,9 @@ const TreatmentsSection = () => {
         </div>
       </div>
 
-      <div className="flex touch-pan-x snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain pb-2 scrollbar-hide md:gap-4 lg:grid lg:grid-cols-6 lg:overflow-visible lg:pb-0">
+      <div className="flex touch-pan-x snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain pb-2 scrollbar-hide md:gap-4" aria-label={lang === "zh" ? "12 个项目方向，可横向滑动浏览" : "12 procedure goals, scroll horizontally to explore"}>
         {procedureGoals.map((goal, index) => (
-          <Link key={goal.key} to={goal.href} className="group relative min-h-[300px] w-[76vw] min-w-[76vw] shrink-0 snap-center overflow-hidden rounded-[1.6rem] bg-foreground shadow-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:w-[44vw] sm:min-w-[44vw] lg:min-h-[340px] lg:w-auto lg:min-w-0">
+          <Link key={goal.key} to={goal.href} className="group relative min-h-[300px] w-[76vw] min-w-[76vw] shrink-0 snap-center overflow-hidden rounded-[1.6rem] bg-foreground shadow-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:w-[44vw] sm:min-w-[44vw] lg:min-h-[340px] lg:w-[calc((100%_-_5rem)/6)] lg:min-w-[calc((100%_-_5rem)/6)] lg:snap-start">
             <img src={goal.image} alt={labelFor(goal)} loading="lazy" className="absolute inset-0 size-full object-cover transition-transform duration-400 ease-out group-hover:scale-[1.035]" />
             <div className="absolute inset-0 bg-gradient-to-t from-foreground/95 via-foreground/20 to-transparent" />
             <div className="relative flex min-h-[300px] flex-col justify-end p-5 text-background lg:min-h-[340px]">
@@ -736,6 +796,10 @@ const TreatmentsSection = () => {
             </div>
           </Link>
         ))}
+      </div>
+      <div className="mt-3 flex items-center justify-end gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+        <span>{lang === "zh" ? "12 个方向 · 横向滑动浏览" : lang === "ru" ? "12 направлений · листайте вправо" : "12 specialties · scroll to explore"}</span>
+        <ArrowRight className="size-3.5 text-primary" />
       </div>
     </section>
   );
