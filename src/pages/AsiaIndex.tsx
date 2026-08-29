@@ -227,18 +227,33 @@ const Hero = () => {
             </div>
 
 
-            <div className="-mx-4 mt-6 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 scrollbar-hide sm:mx-0 sm:mt-8 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4">
+            <div
+              className="mx-auto mt-6 max-w-5xl overflow-hidden rounded-[1.35rem] border border-primary/10 bg-card/80 shadow-[0_16px_45px_rgba(18,55,45,0.07)] backdrop-blur-xl sm:mt-8"
+              role="list"
+              aria-label={lang === "zh" ? "协调服务" : lang === "ru" ? "Координационные услуги" : "Coordination services"}
+            >
+              <div className="grid grid-cols-2 lg:grid-cols-4">
               {[
                 { icon: Video, title: copy.consultation },
                 { icon: MapPin, title: copy.travel },
                 { icon: Users, title: copy.english },
                 { icon: ShieldCheck, title: copy.pricing },
-              ].map((item) => (
-                <span key={item.title} className="flex min-h-[4.5rem] min-w-[76vw] snap-center items-center gap-3 rounded-2xl border border-white/60 bg-white/45 px-4 py-3 text-left shadow-[0_12px_32px_rgba(18,55,45,0.09)] backdrop-blur-xl sm:min-h-16 sm:min-w-0">
-                  <span className="grid size-9 shrink-0 place-items-center rounded-full border border-white/60 bg-white/55 backdrop-blur-md"><item.icon className="size-4 text-primary" /></span>
-                  <strong className="min-w-0 font-display text-sm font-semibold leading-tight">{item.title}</strong>
-                </span>
+              ].map((item, index) => (
+                <div
+                  key={item.title}
+                  role="listitem"
+                  className="group relative flex min-h-[5.25rem] items-center gap-3 px-3.5 py-4 text-left transition-colors duration-300 hover:bg-primary/[0.045] sm:px-5 lg:min-h-[5.75rem] lg:border-l lg:border-primary/10 lg:first:border-l-0 [&:nth-child(2)]:border-l [&:nth-child(2)]:border-primary/10 [&:nth-child(n+3)]:border-t [&:nth-child(n+3)]:border-primary/10 lg:[&:nth-child(n+3)]:border-t-0"
+                >
+                  <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-primary/[0.09] text-primary ring-1 ring-inset ring-primary/10 transition-transform duration-300 group-hover:-translate-y-0.5">
+                    <item.icon className="size-[1.05rem]" strokeWidth={1.8} />
+                  </span>
+                  <div className="min-w-0">
+                    <span className="mb-1 block text-[9px] font-bold uppercase tracking-[0.16em] text-primary/55">0{index + 1}</span>
+                    <strong className="block text-[13px] font-semibold leading-[1.35] tracking-[-0.01em] text-foreground sm:text-sm">{item.title}</strong>
+                  </div>
+                </div>
               ))}
+              </div>
             </div>
           </div>
 
