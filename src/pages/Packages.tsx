@@ -25,11 +25,11 @@ import { MedicalDisclaimer } from "@/components/MedicalDisclaimer";
 import { useAsia } from "@/lib/asia-i18n";
 import { asiaCopy } from "@/lib/asia-copy";
 import QuoteCtaButton, { QUOTE_WHATSAPP_URL } from "@/components/QuoteCtaButton";
-import serviceAirportPickup from "@/assets/service-airport-pickup.jpg";
-import serviceHotelBooking from "@/assets/service-hotel-booking.jpg";
-import serviceClinicTranslation from "@/assets/service-clinic-translation.jpg";
-import serviceMedicalRecords from "@/assets/service-medical-records.jpg";
-import serviceOnlineConcierge from "@/assets/service-online-concierge.jpg";
+import serviceAirportPickup from "@/assets/service-real-airport-v2.jpg";
+import serviceHotelBooking from "@/assets/service-real-accommodation-v3.jpg";
+import serviceClinicTranslation from "@/assets/service-real-translation-v2.jpg";
+import serviceMedicalRecords from "@/assets/service-real-records-v2.jpg";
+import serviceOnlineConcierge from "@/assets/service-real-concierge-v2.jpg";
 import cityHangzhou from "@/assets/city-hangzhou.jpg";
 
 
