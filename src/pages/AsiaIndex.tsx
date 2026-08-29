@@ -552,44 +552,59 @@ const TreatmentsSection = () => {
           </h2>
         </div>
       </div>
-      <div
-        ref={treatmentCloudRailRef}
-        onMouseEnter={() => { treatmentCloudPausedRef.current = true; }}
-        onMouseLeave={() => { treatmentCloudPausedRef.current = false; }}
-        onTouchStart={() => { treatmentCloudPausedRef.current = true; }}
-        onTouchEnd={() => { treatmentCloudPausedRef.current = false; }}
-        onFocusCapture={() => { treatmentCloudPausedRef.current = true; }}
-        onBlurCapture={() => { treatmentCloudPausedRef.current = false; }}
-        className="flex touch-pan-x snap-x snap-mandatory items-stretch gap-8 overflow-x-auto overscroll-x-contain scroll-smooth rounded-[2rem] bg-gradient-to-r from-[hsl(158,58%,90%)] via-[hsl(145,48%,91%)] to-[hsl(50,80%,91%)] px-4 py-4 shadow-pop scrollbar-hide sm:gap-9 md:gap-10 md:px-6 md:py-5"
-      >
-        {[...procedureClouds, ...procedureClouds].map((cloud, repeatedIndex) => {
+      <div className="procedure-cloud-shell relative overflow-hidden rounded-[2rem] border border-primary/10 bg-gradient-to-br from-[hsl(158,58%,91%)] via-[hsl(145,45%,93%)] to-[hsl(50,72%,92%)] px-3 pb-3 pt-4 shadow-pop sm:px-4 md:rounded-[2.5rem] md:px-5 md:pb-4 md:pt-5">
+        <div className="procedure-cloud-glow pointer-events-none absolute -left-24 -top-32 size-80 rounded-full bg-primary/10 blur-3xl" aria-hidden="true" />
+        <div className="pointer-events-none absolute -bottom-36 right-0 size-80 rounded-full bg-[hsl(48,95%,75%)]/20 blur-3xl" aria-hidden="true" />
+        <div
+          ref={treatmentCloudRailRef}
+          onMouseEnter={() => { treatmentCloudPausedRef.current = true; }}
+          onMouseLeave={() => { treatmentCloudPausedRef.current = false; }}
+          onTouchStart={() => { treatmentCloudPausedRef.current = true; }}
+          onTouchEnd={() => { treatmentCloudPausedRef.current = false; }}
+          onFocusCapture={() => { treatmentCloudPausedRef.current = true; }}
+          onBlurCapture={() => { treatmentCloudPausedRef.current = false; }}
+          className="relative z-10 flex touch-pan-x snap-x snap-mandatory items-stretch gap-3 overflow-x-auto overscroll-x-contain scroll-smooth px-1 pb-3 scrollbar-hide sm:gap-4 md:gap-5 md:px-2 md:pb-4"
+        >
+          {[...procedureClouds, ...procedureClouds].map((cloud, repeatedIndex) => {
           const cloudIndex = repeatedIndex % procedureClouds.length;
           const duplicate = repeatedIndex >= procedureClouds.length;
           const CloudIcon = cloud.icon;
           return (
-          <article key={`${cloud.en}-${duplicate ? "loop" : "primary"}`} aria-hidden={duplicate || undefined} className="group relative flex min-h-[250px] w-[82vw] min-w-[82vw] shrink-0 snap-center flex-col justify-center px-3 py-3 transition duration-500 hover:-translate-y-1 sm:w-[56vw] sm:min-w-[56vw] md:min-h-[235px] md:w-[calc((100%_-_5rem)/3)] md:min-w-[calc((100%_-_5rem)/3)] lg:w-[calc((100%_-_7.5rem)/4)] lg:min-w-[calc((100%_-_7.5rem)/4)]">
-            <span className="absolute right-0 top-2 font-display text-6xl font-semibold leading-none text-foreground/[0.04]">0{cloudIndex + 1}</span>
-            <div className="mb-2 flex justify-center" aria-hidden="true">
-              <CloudIcon strokeWidth={1.35} className="size-12 text-primary transition duration-500 group-hover:scale-110 md:size-14" />
+          <article key={`${cloud.en}-${duplicate ? "loop" : "primary"}`} aria-hidden={duplicate || undefined} className="group relative flex min-h-[280px] w-[86vw] min-w-[86vw] shrink-0 snap-center flex-col justify-center overflow-hidden rounded-[1.65rem] border border-white/70 bg-white/45 px-6 py-7 shadow-[0_12px_40px_rgba(19,74,59,0.07)] backdrop-blur-sm transition-[transform,border-color,background-color,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:border-primary/25 hover:bg-white/65 hover:shadow-[0_18px_50px_rgba(19,74,59,0.12)] focus-within:border-primary/30 sm:w-[58vw] sm:min-w-[58vw] md:min-h-[300px] md:w-[calc((100%_-_1.25rem)/2)] md:min-w-[calc((100%_-_1.25rem)/2)] xl:w-[calc((100%_-_2.5rem)/3)] xl:min-w-[calc((100%_-_2.5rem)/3)]">
+            <span className="absolute right-5 top-4 font-display text-6xl font-semibold leading-none text-foreground/[0.045] transition-colors duration-300 group-hover:text-primary/[0.09]">{String(cloudIndex + 1).padStart(2, "0")}</span>
+            <div className="mb-4 flex justify-center" aria-hidden="true">
+              <span className="flex size-16 items-center justify-center rounded-full border border-primary/15 bg-white/55 shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] transition-transform duration-300 ease-out group-hover:scale-105">
+                <CloudIcon strokeWidth={1.3} className="size-9 text-primary md:size-10" />
+              </span>
             </div>
-            <div className="relative flex items-center justify-between gap-3">
-              <h3 className="text-xs font-bold uppercase tracking-[0.16em] text-primary">{lang === "zh" ? cloud.zh : cloud.en}</h3>
-              <ArrowRight className="size-4 text-primary transition-transform group-hover:translate-x-1" />
+            <div className="relative flex items-center justify-center gap-2 text-center">
+              <h3 className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary">{lang === "zh" ? cloud.zh : cloud.en}</h3>
+              <ArrowRight className="size-3.5 text-primary transition-transform duration-200 group-hover:translate-x-1" />
             </div>
-            <div className="relative mt-4 flex flex-wrap content-center items-baseline justify-center gap-x-3.5 gap-y-1.5 text-center">
+            <div className="relative mt-5 flex flex-wrap content-center items-baseline justify-center gap-x-3.5 gap-y-2 text-center">
               {cloud.items.map(([en, zh], itemIndex) => (
                 <Link
                   key={en}
                   to={`/treatments/${en.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")}`}
                   tabIndex={duplicate ? -1 : undefined}
-                  className={`px-0.5 font-display font-semibold leading-[0.95] tracking-[-0.035em] transition hover:scale-105 hover:text-primary ${itemStyles[itemIndex % itemStyles.length]}`}
+                  className={`rounded-sm px-0.5 font-display font-semibold leading-[0.98] tracking-[-0.035em] transition duration-150 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 ${itemStyles[itemIndex % itemStyles.length]}`}
                 >
                   {lang === "zh" ? zh : en}
                 </Link>
               ))}
             </div>
           </article>
-        );})}
+          );})}
+        </div>
+        <div className="relative z-10 flex items-center gap-4 rounded-full border border-white/65 bg-white/35 px-4 py-2.5 backdrop-blur-sm sm:px-5" aria-hidden="true">
+          <span className="shrink-0 text-[10px] font-bold uppercase tracking-[0.18em] text-foreground/55">
+            {lang === "zh" ? "滑动探索 12 类项目" : lang === "ru" ? "12 направлений · листайте" : "12 specialties · drag to explore"}
+          </span>
+          <span className="procedure-discovery-track relative h-px flex-1 overflow-visible bg-primary/15">
+            <span className="procedure-discovery-beam absolute -top-px h-[3px] w-20 rounded-full bg-gradient-to-r from-transparent via-primary to-transparent shadow-[0_0_12px_hsl(var(--primary)/0.45)]" />
+          </span>
+          <ArrowRight className="size-3.5 shrink-0 text-primary/70" />
+        </div>
       </div>
     </section>
   );
