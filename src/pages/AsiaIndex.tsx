@@ -24,7 +24,7 @@ import { MedicalDisclaimer } from "@/components/MedicalDisclaimer";
 import heroBg from "@/assets/hero-bg.jpg";
 import journeyConsultation from "@/assets/journey-real-consultation.webp";
 import journeyArrival from "@/assets/journey-real-arrival.webp";
-import journeySupport from "@/assets/journey-premium-support-asian.jpg";
+import journeySupport from "@/assets/journey-premium-coordination-support.jpg";
 import journeyRecovery from "@/assets/journey-real-recovery.webp";
 import journeyFollowUp from "@/assets/journey-premium-follow-up-asian.jpg";
 import journeyExploration from "@/assets/journey-premium-recovery-hangzhou.jpg";
