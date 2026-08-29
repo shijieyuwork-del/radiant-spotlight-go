@@ -27,7 +27,7 @@ import journeyArrival from "@/assets/journey-real-arrival.webp";
 import journeySupport from "@/assets/journey-premium-support-asian.jpg";
 import journeyRecovery from "@/assets/journey-real-recovery.webp";
 import journeyFollowUp from "@/assets/journey-premium-follow-up-asian.jpg";
-import cityHangzhou from "@/assets/city-hangzhou.jpg";
+import journeyExploration from "@/assets/journey-premium-recovery-hangzhou.jpg";
 import AppPromoSection from "@/components/AppPromoSection";
 import { supabase } from "@/integrations/supabase/client";
 import { signedUrls } from "@/lib/storage-urls";
@@ -291,7 +291,7 @@ const TravelBar = () => {
     },
     {
       icon: Map,
-      image: cityHangzhou,
+      image: journeyExploration,
       en: ["Recover—and explore when ready", "Follow your expert’s advice, with optional travel when you are cleared"],
       zh: ["安心恢复，适合时再探索", "遵循专家的恢复建议，获得许可后可自愿安排旅行"],
       ru: ["Восстанавливайтесь и путешествуйте, когда будете готовы", "Следуйте рекомендациям эксперта и путешествуйте только после разрешения"],
