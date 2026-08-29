@@ -31,11 +31,11 @@ import journeyGroundSupport from "@/assets/journey-premium-natural-concierge-v5.
 import journeyTreatment from "@/assets/journey-premium-clinic-v6.jpg";
 import journeyRecovery from "@/assets/journey-premium-natural-recovery-v5.jpg";
 import journeyFollowUp from "@/assets/journey-premium-natural-followup-v5.jpg";
-import supportAirport from "@/assets/packages-bh-support-airport-v1.jpg";
-import supportTranslation from "@/assets/packages-bh-support-translation-v1.jpg";
-import supportAccommodation from "@/assets/packages-bh-support-accommodation-v1.jpg";
-import supportRecords from "@/assets/packages-bh-support-records-v1.jpg";
-import supportConcierge from "@/assets/packages-bh-support-concierge-v1.jpg";
+import supportAirport from "@/assets/packages-quiet-luxury-support-airport-v3.jpg";
+import supportTranslation from "@/assets/packages-quiet-luxury-support-translation-v3.jpg";
+import supportAccommodation from "@/assets/packages-quiet-luxury-support-accommodation-v3.jpg";
+import supportRecords from "@/assets/packages-quiet-luxury-support-records-v3.jpg";
+import supportConcierge from "@/assets/packages-quiet-luxury-support-concierge-v3.jpg";
 import travelSupportCareTeam from "@/assets/travel-support-asian-care-team-v2.jpg";
 
 
