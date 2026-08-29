@@ -22,12 +22,12 @@ import { ORGANIZATION_SCHEMA } from "@/lib/seo-config";
 import { useQuote } from "@/components/QuoteRequest";
 import { MedicalDisclaimer } from "@/components/MedicalDisclaimer";
 import heroBg from "@/assets/hero-bg.jpg";
-import journeyConsultation from "@/assets/journey-premium-video-consultation.jpg";
-import journeyArrival from "@/assets/journey-premium-china-arrival.jpg";
-import journeySupport from "@/assets/journey-premium-coordination-support.jpg";
-import journeyRecovery from "@/assets/journey-premium-ground-support.jpg";
-import journeyFollowUp from "@/assets/journey-premium-doctor-follow-up.jpg";
-import journeyExploration from "@/assets/journey-premium-recovery-hangzhou.jpg";
+import journeyConsultation from "@/assets/journey-premium-natural-consultation-v5.jpg";
+import journeyArrival from "@/assets/journey-premium-natural-arrival-v5.jpg";
+import journeyGroundSupport from "@/assets/journey-premium-natural-concierge-v5.jpg";
+import journeyTreatment from "@/assets/journey-premium-natural-clinic-v5.jpg";
+import journeyRecovery from "@/assets/journey-premium-natural-recovery-v5.jpg";
+import journeyFollowUp from "@/assets/journey-premium-natural-followup-v5.jpg";
 import AppPromoSection from "@/components/AppPromoSection";
 import { supabase } from "@/integrations/supabase/client";
 import { signedUrls } from "@/lib/storage-urls";
@@ -277,21 +277,21 @@ const TravelBar = () => {
     },
     {
       icon: MapPin,
-      image: journeyRecovery,
+      image: journeyGroundSupport,
       en: ["Choose your on-ground support", "Select pickup, accommodation guidance, translation and coordination"],
       zh: ["选择落地支持服务", "按需选择接机、住宿建议、翻译与行程协调"],
       ru: ["Выберите поддержку на месте", "Выберите трансфер, помощь с проживанием, перевод и координацию"],
     },
     {
       icon: HeartPulse,
-      image: journeySupport,
+      image: journeyTreatment,
       en: ["Receive coordinated treatment support", "Get practical communication and scheduling help during clinic visits"],
       zh: ["获得治疗协调支持", "就诊期间获得沟通、翻译与日程协调协助"],
       ru: ["Получите поддержку во время лечения", "Получайте помощь с общением и расписанием во время визитов"],
     },
     {
       icon: Map,
-      image: journeyExploration,
+      image: journeyRecovery,
       en: ["Recover—and explore when ready", "Follow your expert’s advice, with optional travel when you are cleared"],
       zh: ["安心恢复，适合时再探索", "遵循专家的恢复建议，获得许可后可自愿安排旅行"],
       ru: ["Восстанавливайтесь и путешествуйте, когда будете готовы", "Следуйте рекомендациям эксперта и путешествуйте только после разрешения"],
