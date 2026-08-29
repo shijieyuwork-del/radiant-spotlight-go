@@ -25,7 +25,7 @@ import heroBg from "@/assets/hero-bg.jpg";
 import journeyConsultation from "@/assets/journey-real-consultation.webp";
 import journeyArrival from "@/assets/journey-premium-china-arrival.jpg";
 import journeySupport from "@/assets/journey-premium-coordination-support.jpg";
-import journeyRecovery from "@/assets/journey-real-recovery.webp";
+import journeyRecovery from "@/assets/journey-premium-ground-support.jpg";
 import journeyFollowUp from "@/assets/journey-premium-remote-follow-up.jpg";
 import journeyExploration from "@/assets/journey-premium-recovery-hangzhou.jpg";
 import AppPromoSection from "@/components/AppPromoSection";
