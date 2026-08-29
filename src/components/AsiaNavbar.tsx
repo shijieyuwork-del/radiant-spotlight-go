@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { DollarSign, Languages, Menu, ChevronRight, ChevronDown, Phone, Mail, UserRound } from "lucide-react";
+import { DollarSign, Languages, Menu, ChevronRight, ChevronDown, Phone, Mail, UserRound, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
@@ -8,8 +8,99 @@ import { useAsia, asiaLangLabel as langLabel, type AsiaLang as Lang } from "@/li
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import BrandLogo from "@/components/BrandLogo";
 import { asiaCopy } from "@/lib/asia-copy";
+import { DEMO_CHINA_DOCTORS } from "@/data/demoChinaDoctors";
 
 type Props = { homeLinks?: boolean };
+
+type MegaMenuGroup = {
+  title: string;
+  links: { label: string; to: string }[];
+};
+
+type MegaNavItemProps = {
+  active: boolean;
+  featuredDoctors?: {
+    city: string;
+    id: string;
+    name: string;
+    photo: string;
+    profileLabel: string;
+    sampleLabel: string;
+    title: string;
+  }[];
+  intro: string;
+  label: string;
+  groups: MegaMenuGroup[];
+  to: string;
+  viewAll: string;
+};
+
+const MegaNavItem = ({ active, featuredDoctors, intro, label, groups, to, viewAll }: MegaNavItemProps) => (
+  <div className="group/mega flex h-16 items-center">
+    <Link
+      to={to}
+      aria-current={active ? "page" : undefined}
+      className={`inline-flex items-center gap-1 whitespace-nowrap rounded-full px-2.5 py-1.5 text-[13px] font-medium transition-all xl:px-4 xl:text-sm ${
+        active
+          ? "bg-primary text-primary-foreground shadow-sm"
+          : "text-muted-foreground hover:bg-primary/10 hover:text-foreground"
+      }`}
+    >
+      {label}<ChevronDown className="size-3.5 transition-transform duration-200 group-hover/mega:rotate-180" />
+    </Link>
+
+    <div className="invisible fixed inset-x-0 top-16 z-[65] translate-y-1 border-t border-border bg-card text-foreground opacity-0 shadow-[0_24px_50px_rgba(16,42,36,0.10)] transition-[opacity,transform,visibility] duration-200 group-hover/mega:visible group-hover/mega:translate-y-0 group-hover/mega:opacity-100 group-focus-within/mega:visible group-focus-within/mega:translate-y-0 group-focus-within/mega:opacity-100">
+      <div className={`container grid min-h-[310px] py-8 ${featuredDoctors ? "grid-cols-[0.58fr_2.42fr]" : "grid-cols-[0.72fr_repeat(3,1fr)]"}`}>
+        <div className="flex flex-col border-r border-border pr-8">
+          <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary">{label}</span>
+          <p className="mt-4 max-w-[15rem] font-display text-3xl font-medium leading-tight text-foreground">{intro}</p>
+          <Link to={to} className="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-primary transition hover:gap-3">
+            {viewAll}<ArrowRight className="size-4" />
+          </Link>
+        </div>
+        {featuredDoctors ? (
+          <div className="pl-8">
+            <div className="mb-4 flex items-center justify-between gap-4">
+              <h3 className="text-sm font-semibold text-foreground">{label}</h3>
+              <Link to={to} className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.12em] text-primary hover:underline">
+                {viewAll}<ArrowRight className="size-3.5" />
+              </Link>
+            </div>
+            <div className="grid grid-cols-5 gap-3">
+              {featuredDoctors.map((doctor) => (
+                <Link key={doctor.id} to={`/doctors/demo/${doctor.id}`} className="group/doctor min-w-0 border border-border bg-background p-2.5 transition-[border-color,transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:border-primary/35 hover:shadow-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
+                  <div className="relative aspect-[4/3] overflow-hidden bg-muted">
+                    <img src={doctor.photo} alt={doctor.name} className="size-full object-cover transition-transform duration-300 group-hover/doctor:scale-[1.03]" />
+                    <span className="absolute bottom-2 left-2 rounded-full bg-card/90 px-2 py-1 text-[9px] font-bold uppercase tracking-[0.08em] text-foreground backdrop-blur-sm">{doctor.sampleLabel}</span>
+                  </div>
+                  <h4 className="mt-3 truncate font-display text-lg font-medium text-foreground">{doctor.name}</h4>
+                  <p className="mt-1 truncate text-xs text-muted-foreground">{doctor.title}</p>
+                  <p className="mt-1 text-[11px] text-muted-foreground/80">{doctor.city}</p>
+                  <span className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-primary">
+                    {doctor.profileLabel}<ArrowRight className="size-3 transition-transform group-hover/doctor:translate-x-0.5" />
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        ) : groups.slice(0, 3).map((group) => (
+          <div key={group.title} className="border-r border-border px-8 last:border-r-0">
+            <h3 className="border-b border-border pb-4 text-sm font-semibold text-foreground">{group.title}</h3>
+            <ul className="mt-2">
+              {group.links.map((item) => (
+                <li key={`${group.title}-${item.label}`} className="border-b border-border/70 last:border-0">
+                  <Link to={item.to} className="group/link flex min-h-12 items-center justify-between gap-3 text-sm text-muted-foreground transition-colors hover:text-primary focus-visible:text-primary focus-visible:outline-none">
+                    <span>{item.label}</span><ArrowRight className="size-3.5 -translate-x-1 opacity-0 transition-all group-hover/link:translate-x-0 group-hover/link:opacity-100" />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+);
 
 const AsiaNavbar = ({ homeLinks = true }: Props) => {
   const { t, lang, setLang, currency, setCurrency } = useAsia();
@@ -36,6 +127,102 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
   const moreLinks = homeLinks
     ? links.filter((link) => ["/cities", "/why-china"].includes(link.to))
     : [];
+  const featuredDoctors = DEMO_CHINA_DOCTORS.map((doctor) => ({
+    city: doctor.city,
+    id: doctor.id,
+    name: doctor.name,
+    photo: doctor.photo,
+    profileLabel: c("View profile", "查看资料", "Профиль"),
+    sampleLabel: c("Sample", "示例", "Пример"),
+    title: doctor.title,
+  }));
+  const megaMenus: Record<string, { featuredDoctors?: typeof featuredDoctors; intro: string; viewAll: string; groups: MegaMenuGroup[] }> = {
+    "/cases": {
+      intro: c("Real recovery, organized around your questions.", "按你的关注点，查看真实恢复历程。", "Реальное восстановление — по вашим вопросам."),
+      viewAll: c("View all diaries", "查看全部日记", "Все дневники"),
+      groups: [
+        { title: c("Face & eyes", "面部与眼部", "Лицо и глаза"), links: [
+          { label: c("Rhinoplasty", "鼻综合", "Ринопластика"), to: "/cases?treatment=Rhinoplasty" },
+          { label: c("Blepharoplasty", "眼睑整形", "Блефаропластика"), to: "/cases?treatment=Blepharoplasty" },
+          { label: c("Facelift", "面部提升", "Подтяжка лица"), to: "/cases?treatment=Facelift" },
+        ] },
+        { title: c("Body & breast", "身体与胸部", "Тело и грудь"), links: [
+          { label: c("Liposuction", "吸脂塑形", "Липосакция"), to: "/cases?treatment=Liposuction" },
+          { label: c("Tummy tuck", "腹壁整形", "Абдоминопластика"), to: "/cases?treatment=Tummy%20Tuck" },
+          { label: c("Breast augmentation", "隆胸", "Увеличение груди"), to: "/cases?treatment=Breast%20Augmentation" },
+        ] },
+        { title: c("Browse the journey", "按历程浏览", "Этапы восстановления"), links: [
+          { label: c("Consultation", "面诊阶段", "Консультация"), to: "/cases?stage=Consultation" },
+          { label: c("First month", "术后首月", "Первый месяц"), to: "/cases?stage=Month%201" },
+          { label: c("Final results", "最终效果", "Итоговый результат"), to: "/cases?stage=Final%20result" },
+        ] },
+      ],
+    },
+    "/doctors": {
+      featuredDoctors,
+      intro: c("Compare published expert information before you decide.", "决定之前，先比较公开的专家资料。", "Сравните опубликованные профили экспертов."),
+      viewAll: c("View all experts", "查看全部专家", "Все эксперты"),
+      groups: [
+        { title: c("China", "中国", "Китай"), links: [
+          { label: c("Shanghai experts", "上海专家", "Эксперты Шанхая"), to: "/doctors?city=Shanghai" },
+          { label: c("Beijing experts", "北京专家", "Эксперты Пекина"), to: "/doctors?city=Beijing" },
+          { label: c("Guangzhou experts", "广州专家", "Эксперты Гуанчжоу"), to: "/doctors?city=Guangzhou" },
+        ] },
+        { title: c("Popular specialties", "热门专长", "Популярные направления"), links: [
+          { label: c("Nose specialists", "鼻部专家", "Ринопластика"), to: "/doctors?q=Rhinoplasty" },
+          { label: c("Eye specialists", "眼部专家", "Пластика век"), to: "/doctors?q=Blepharoplasty" },
+          { label: c("Facelift specialists", "面部提升专家", "Подтяжка лица"), to: "/doctors?q=Facelift" },
+        ] },
+        { title: c("Before you choose", "选择之前", "Перед выбором"), links: [
+          { label: c("How profiles are reviewed", "专家资料审核方式", "Как проверяются профили"), to: "/why-china" },
+          { label: c("Patient recovery diaries", "患者恢复日记", "Дневники пациентов"), to: "/cases" },
+          { label: c("Get matching guidance", "获取匹配建议", "Помощь с подбором"), to: "/doctors" },
+        ] },
+      ],
+    },
+    "/treatments": {
+      intro: c("Explore procedures by the change you are considering.", "按你想改善的方向，了解相关项目。", "Изучите процедуры по желаемому результату."),
+      viewAll: c("View all procedures", "查看全部项目", "Все процедуры"),
+      groups: [
+        { title: c("Face & eyes", "面部与眼部", "Лицо и глаза"), links: [
+          { label: c("Rhinoplasty", "鼻综合", "Ринопластика"), to: "/treatments/rhinoplasty" },
+          { label: c("Double eyelid surgery", "双眼皮", "Пластика век"), to: "/treatments/double-eyelid-surgery" },
+          { label: c("Facelift", "面部提升", "Подтяжка лица"), to: "/treatments/facelift" },
+        ] },
+        { title: c("Body & breast", "身体与胸部", "Тело и грудь"), links: [
+          { label: c("Liposuction", "吸脂塑形", "Липосакция"), to: "/treatments/liposuction" },
+          { label: c("Tummy tuck", "腹壁整形", "Абдоминопластика"), to: "/treatments/tummy-tuck" },
+          { label: c("Breast augmentation", "隆胸", "Увеличение груди"), to: "/treatments/breast-augmentation" },
+        ] },
+        { title: c("Skin, hair & smile", "皮肤、毛发与牙齿", "Кожа, волосы и улыбка"), links: [
+          { label: c("Skin treatments", "皮肤治疗", "Процедуры для кожи"), to: "/treatments/laser-skin-resurfacing" },
+          { label: c("Hair transplant", "植发", "Пересадка волос"), to: "/treatments/fue-hair-transplant" },
+          { label: c("Dental veneers", "牙齿贴面", "Виниры"), to: "/treatments/porcelain-veneers" },
+        ] },
+      ],
+    },
+    "/travel-packages": {
+      intro: c("Plan the practical side of receiving care in China.", "把赴华就医中的实际安排提前规划清楚。", "Спланируйте практическую часть лечения в Китае."),
+      viewAll: c("View travel support", "查看行程支持", "Поддержка поездки"),
+      groups: [
+        { title: c("Before departure", "出发之前", "До поездки"), links: [
+          { label: c("Appointment coordination", "预约协调", "Координация записи"), to: "/travel-packages" },
+          { label: c("Travel & visa planning", "行程与签证规划", "Поездка и виза"), to: "/travel-packages" },
+          { label: c("Medical record translation", "病历翻译", "Перевод меддокументов"), to: "/travel-packages" },
+        ] },
+        { title: c("In China", "抵达中国后", "В Китае"), links: [
+          { label: c("Airport pickup", "机场接送", "Трансфер из аэропорта"), to: "/travel-packages" },
+          { label: c("In-clinic translation", "院内翻译", "Перевод в клинике"), to: "/travel-packages" },
+          { label: c("Accommodation guidance", "住宿建议", "Подбор проживания"), to: "/travel-packages" },
+        ] },
+        { title: c("Plan your destination", "选择目的地", "Выберите направление"), links: [
+          { label: c("Why China", "为什么选中国", "Почему Китай"), to: "/why-china" },
+          { label: c("Shanghai", "上海", "Шанхай"), to: "/cities/shanghai" },
+          { label: c("Beijing", "北京", "Пекин"), to: "/cities/beijing" },
+        ] },
+      ],
+    },
+  };
   return (
     <>
       <div className="fixed inset-x-0 top-0 z-[70]">
@@ -78,19 +265,24 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
           <BrandLogo markClassName="size-8 md:size-9" textClassName="text-lg md:text-xl" />
         </Link>
         <div className="hidden md:flex items-center gap-0.5 rounded-full bg-muted/60 p-1">
-          {desktopLinks.map((l) => (
+          {desktopLinks.map((l) => megaMenus[l.to] ? (
+            <MegaNavItem
+              key={l.to}
+              active={isActive(l.to)}
+              label={l.label}
+              to={l.to}
+              intro={megaMenus[l.to].intro}
+              viewAll={megaMenus[l.to].viewAll}
+              groups={megaMenus[l.to].groups}
+              featuredDoctors={megaMenus[l.to].featuredDoctors}
+            />
+          ) : (
             <Link
               key={l.to}
               to={l.to}
               aria-current={isActive(l.to) ? "page" : undefined}
-              className={`whitespace-nowrap rounded-full px-2.5 py-1.5 text-[13px] font-medium transition-all xl:px-4 xl:text-sm ${
-                isActive(l.to)
-                  ? "bg-primary text-primary-foreground shadow-sm"
-                  : "text-muted-foreground hover:bg-primary/10 hover:text-foreground"
-              }`}
-            >
-              {l.label}
-            </Link>
+              className={`whitespace-nowrap rounded-full px-2.5 py-1.5 text-[13px] font-medium transition-all xl:px-4 xl:text-sm ${isActive(l.to) ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:bg-primary/10 hover:text-foreground"}`}
+            >{l.label}</Link>
           ))}
           {moreLinks.length > 0 && (
             <DropdownMenu>

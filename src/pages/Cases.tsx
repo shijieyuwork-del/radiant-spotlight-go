@@ -28,10 +28,10 @@ const Cases = () => {
   const c = (en: string, zh: string, ru: string) => asiaCopy(lang, { en, zh, ru });
   const [searchParams] = useSearchParams();
   const [q, setQ] = useState("");
-  const [activeTreatment, setActiveTreatment] = useState("");
+  const [activeTreatment, setActiveTreatment] = useState(() => searchParams.get("treatment") ?? "");
   // 支持从城市搜索跳转进来时预选城市（/cases?city=Seoul）
   const [activeCity, setActiveCity] = useState(() => searchParams.get("city") ?? "");
-  const [activeStage, setActiveStage] = useState("");
+  const [activeStage, setActiveStage] = useState(() => searchParams.get("stage") ?? "");
 
   // Use the case's own China destination; fall back to expert data for legacy entries.
   const caseCity = useMemo(() => {

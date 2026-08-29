@@ -924,34 +924,32 @@ const HowItWorks = () => {
         };
 
   return (
-    <section className="container py-12 md:py-16">
-      <div className="relative overflow-hidden rounded-[2rem] border-2 border-primary/35 bg-card px-5 py-10 text-foreground shadow-glow ring-1 ring-primary/10 md:min-h-[340px] md:px-14 md:py-16">
-        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary via-emerald-300 to-amber-200" aria-hidden="true" />
-        <div className="pointer-events-none absolute -right-24 -top-32 size-80 rounded-full bg-white/25" />
-        <div className="pointer-events-none absolute -bottom-32 -left-20 size-72 rounded-full bg-primary/10" />
-        <div className="relative flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between md:gap-10">
-          <div className="max-w-4xl">
-            <span className="pill mb-3 bg-primary px-4 py-2 font-bold text-primary-foreground shadow-soft"><MessageCircle className="size-3.5" /> {copy.eyebrow}</span>
-            <h2 className="font-display text-4xl font-medium leading-[1.02] tracking-tight sm:text-5xl md:text-6xl">
-              {copy.title}{" "}<em className="box-decoration-clone rounded-[0.28em] bg-primary/10 px-[0.12em] py-[0.04em] text-primary not-italic">{copy.emphasis}</em>
+    <section id="consultation" className="container py-12 md:py-16" aria-labelledby="consultation-title">
+      <div className="rounded-[1.75rem] border border-border/80 bg-card px-5 py-8 text-foreground sm:px-8 md:px-12 md:py-12">
+        <div className="grid items-end gap-8 md:grid-cols-[minmax(0,1fr)_auto] md:gap-12">
+          <div className="max-w-3xl">
+            <span className="mb-4 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-primary">
+              <MessageCircle className="size-3.5" /> {copy.eyebrow}
+            </span>
+            <h2 id="consultation-title" className="font-display text-4xl font-medium leading-[1.02] tracking-tight sm:text-5xl md:text-[3.5rem]">
+              {copy.title}<br className="hidden sm:block" />{" "}<em className="text-primary not-italic">{copy.emphasis}</em>
             </h2>
-            <p className="mt-4 max-w-2xl text-base leading-relaxed text-foreground/70 md:text-lg">
+            <p className="mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
               {lang === "en" ? (
                 <>
-                  Don’t want to talk? That’s okay — email us at <strong className="font-semibold text-foreground">hello@cosmetics-asia.com</strong> or WhatsApp us at{" "}
-                  <a href="https://wa.me/14708613825" target="_blank" rel="noreferrer" className="font-semibold text-foreground underline decoration-primary/45 underline-offset-2 transition hover:text-primary">+1 470 861 3825</a>.
+                  Don’t want to talk? That’s okay — email us at <strong className="whitespace-nowrap font-semibold text-foreground">hello@cosmetics-asia.com</strong> or WhatsApp us at{" "}
+                  <a href="https://wa.me/14708613825" target="_blank" rel="noreferrer" className="whitespace-nowrap font-semibold text-foreground underline decoration-primary/45 underline-offset-2 transition hover:text-primary">+1 470 861 3825</a>.
                 </>
               ) : copy.text}
             </p>
           </div>
-          <div className="w-full shrink-0 text-center md:w-auto">
-            <Button size="lg" onClick={() => open()} className="cta-primary min-h-14 w-full rounded-full px-9 text-base shadow-glow ring-4 ring-primary/15 transition hover:-translate-y-1 md:w-fit">
+          <div className="w-full shrink-0 md:w-auto md:pb-1">
+            <Button size="lg" onClick={() => open()} className="cta-primary min-h-[52px] w-full rounded-full px-8 text-sm shadow-none transition-transform hover:-translate-y-0.5 md:w-fit">
               {t("hero.cta")}<ArrowRight className="ml-2 size-4" />
             </Button>
-            
           </div>
         </div>
-        <MedicalDisclaimer variant="banner" className="relative mt-6 bg-background/60" />
+        <MedicalDisclaimer variant="inline" className="mt-8 border-t border-border/70 pt-5 text-muted-foreground/90" />
       </div>
     </section>
   );

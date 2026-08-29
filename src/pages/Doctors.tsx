@@ -29,7 +29,7 @@ const Experts = () => {
   const { t, lang } = useAsia();
   const c = <T,>(en: T, zh: T, ru: T) => asiaCopy(lang, { en, zh, ru });
   const [searchParams] = useSearchParams();
-  const [q, setQ] = useState("");
+  const [q, setQ] = useState(() => searchParams.get("q") ?? "");
   // 支持从城市搜索跳转进来时预选城市（/doctors?city=Seoul）
   const [city, setCity] = useState<string>(() => searchParams.get("city") || "all");
   const [spec, setSpec] = useState<string>("all");
