@@ -792,54 +792,63 @@ const HomeFaq = () => {
 
   return (
     <section className="container py-12 md:py-16" aria-labelledby="home-faq-title">
-      <div className="rounded-[2rem] border border-primary/15 bg-gradient-to-r from-[hsl(158,58%,90%)] via-[hsl(145,48%,91%)] to-[hsl(50,80%,91%)] p-5 shadow-soft md:p-10">
-        <div className="max-w-3xl">
-          <span className="pill mb-3 bg-accent text-accent-foreground"><HelpCircle className="size-3.5" /> {c("Payment, made simple", "付款方式，一眼看懂", "Оплата — всё просто")}</span>
-          <h2 id="home-faq-title" className="font-display text-3xl font-medium tracking-tight sm:text-4xl md:text-5xl">
+      <div className="relative overflow-hidden rounded-[2.25rem] border border-primary/20 bg-card p-5 shadow-pop sm:p-7 md:p-10 lg:p-12">
+        <div className="pointer-events-none absolute -right-24 -top-28 size-72 rounded-full bg-[hsl(var(--primary)/.12)] blur-3xl" aria-hidden="true" />
+        <div className="pointer-events-none absolute -bottom-32 left-1/3 size-64 rounded-full bg-[hsl(48_86%_82%/.2)] blur-3xl" aria-hidden="true" />
+
+        <div className="relative max-w-4xl">
+          <span className="pill mb-4 border border-primary/15 bg-primary/10 text-foreground"><Wallet className="size-3.5 text-primary" /> {c("Payment, made simple", "付款方式，一眼看懂", "Оплата — всё просто")}</span>
+          <h2 id="home-faq-title" className="font-display text-3xl font-medium leading-[1.04] tracking-tight sm:text-4xl md:text-5xl">
             {c("Simple, transparent payments. ", "付款简单透明，", "Простая и прозрачная оплата. ")}<em className="not-italic text-primary">{c("Know exactly where your money goes.", "每一笔都清楚去向。", "Вы точно знаете, куда идут ваши деньги.")}</em>
           </h2>
         </div>
 
-        <div className="mt-7 grid gap-4 md:grid-cols-2">
-          <article className="rounded-[1.5rem] border border-primary/15 bg-primary/[0.06] p-5 sm:p-6">
-            <div className="flex items-center gap-3">
-              <span className="grid size-11 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground"><Building2 className="size-5" /></span>
-              <div>
+        <div className="relative mt-8 grid gap-4 lg:grid-cols-2 lg:gap-5">
+          <div className="pointer-events-none absolute left-1/2 top-1/2 z-10 hidden size-10 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border-4 border-card bg-foreground text-background shadow-soft lg:grid" aria-hidden="true">
+            <ArrowRight className="size-4" strokeWidth={2} />
+          </div>
+
+          <article className="group relative overflow-hidden rounded-[1.75rem] border border-primary/20 bg-[hsl(var(--primary)/.075)] p-5 shadow-soft transition-[transform,box-shadow,border-color] duration-150 hover:-translate-y-0.5 hover:border-primary/35 hover:shadow-pop sm:p-7">
+            <span className="absolute right-5 top-4 font-display text-5xl font-medium text-primary/10" aria-hidden="true">01</span>
+            <div className="relative flex items-start gap-4">
+              <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-primary text-primary-foreground shadow-[0_8px_22px_hsl(var(--primary)/.22)]"><Building2 className="size-5" strokeWidth={2} /></span>
+              <div className="min-w-0 pt-0.5">
                 <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary">{c("Medical treatment", "手术与医疗费用", "Медицинские услуги")}</p>
-                <h3 className="mt-1 font-display text-2xl font-medium text-foreground">{c("Pay the clinic directly", "直接支付给诊所或医院", "Оплачивайте напрямую клинике")}</h3>
+                <h3 className="mt-1 font-display text-xl font-medium leading-tight text-foreground sm:text-2xl">{c("Pay the clinic directly", "直接支付给诊所或医院", "Оплачивайте напрямую клинике")}</h3>
               </div>
             </div>
-            <p className="mt-4 text-base leading-relaxed text-foreground/75">{c("Your clinic or hospital collects all surgery, examination and anesthesia fees. Cosmetics Asia does not collect your medical payment.", "手术、检查和麻醉等医疗费用均由诊所或医院直接收取，Cosmetics Asia 不代收。", "Операция, обследования и анестезия оплачиваются напрямую клинике или больнице. Cosmetics Asia не принимает медицинские платежи.")}</p>
+            <p className="relative mt-5 max-w-xl text-[15px] leading-7 text-foreground/70 sm:text-base">{c("Your clinic or hospital collects all surgery, examination and anesthesia fees. Cosmetics Asia does not collect your medical payment.", "手术、检查和麻醉等医疗费用均由诊所或医院直接收取，Cosmetics Asia 不代收。", "Операция, обследования и анестезия оплачиваются напрямую клинике или больнице. Cosmetics Asia не принимает медицинские платежи.")}</p>
           </article>
 
-          <article className="rounded-[1.5rem] border border-amber-200/80 bg-amber-50/70 p-5 sm:p-6">
-            <div className="flex items-center gap-3">
-              <span className="grid size-11 shrink-0 place-items-center rounded-full bg-amber-100 text-amber-800"><Wallet className="size-5" /></span>
-              <div>
-                <p className="text-xs font-bold uppercase tracking-[0.14em] text-amber-800">{c("Before departure", "出发前", "До вылета")}</p>
-                <h3 className="mt-1 font-display text-2xl font-medium text-foreground">{c("$400 coordination deposit", "支付 $400 协调押金", "Координационный депозит $400")}</h3>
+          <article className="group relative overflow-hidden rounded-[1.75rem] border border-[hsl(43_70%_72%/.65)] bg-[hsl(48_82%_94%)] p-5 shadow-soft transition-[transform,box-shadow,border-color] duration-150 hover:-translate-y-0.5 hover:border-[hsl(43_70%_62%/.8)] hover:shadow-pop sm:p-7">
+            <span className="absolute right-5 top-4 font-display text-5xl font-medium text-[hsl(33_78%_38%/.09)]" aria-hidden="true">02</span>
+            <div className="relative flex items-start gap-4">
+              <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-[hsl(42_88%_86%)] text-[hsl(33_78%_33%)] shadow-[0_8px_22px_hsl(42_70%_55%/.16)]"><Wallet className="size-5" strokeWidth={2} /></span>
+              <div className="min-w-0 pt-0.5">
+                <p className="text-xs font-bold uppercase tracking-[0.14em] text-[hsl(33_72%_35%)]">{c("Before departure", "出发前", "До вылета")}</p>
+                <h3 className="mt-1 font-display text-xl font-medium leading-tight text-foreground sm:text-2xl">{c("$400 coordination deposit", "支付 $400 协调押金", "Координационный депозит $400")}</h3>
               </div>
             </div>
-            <p className="mt-4 text-base leading-relaxed text-foreground/75">{c("It reserves your procedure appointment and coordinates airport pickup and in-clinic translation. It remains valid for 12 months and is refunded when you pay the clinic for treatment.", "用于保留手术预约，并协调机场接送和院内翻译。押金在 12 个月内有效，并在你向诊所支付治疗费用时退还。", "Он закрепляет время процедуры и помогает организовать трансфер и перевод в клинике. Депозит действует 12 месяцев и возвращается после оплаты лечения в клинике.")}</p>
+            <p className="relative mt-5 max-w-xl text-[15px] leading-7 text-foreground/70 sm:text-base">{c("It reserves your procedure appointment and coordinates airport pickup and in-clinic translation. It remains valid for 12 months and is refunded when you pay the clinic for treatment.", "用于保留手术预约，并协调机场接送和院内翻译。押金在 12 个月内有效，并在你向诊所支付治疗费用时退还。", "Он закрепляет время процедуры и помогает организовать трансфер и перевод в клинике. Депозит действует 12 месяцев и возвращается после оплаты лечения в клинике.")}</p>
           </article>
         </div>
 
-        <div className="mt-6 grid gap-5 border-t border-border/70 pt-6 md:grid-cols-[0.56fr_1.44fr] md:items-start">
-          <div>
+        <div className="relative mt-5 grid gap-6 rounded-[1.75rem] border border-border/80 bg-background/65 p-5 sm:p-7 lg:grid-cols-[0.52fr_1.48fr] lg:items-start lg:gap-8">
+          <div className="lg:py-1">
             <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary">{c("Need more detail?", "还想了解更多？", "Нужны подробности?")}</p>
-            <h3 className="mt-2 font-display text-2xl font-medium">{c("Common questions", "常见问题", "Частые вопросы")}</h3>
-            <Link to="/travel-packages" className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary/80">
-              {c("Explore travel support", "查看行程支持", "Подробнее о поддержке в поездке")}<ArrowRight className="size-4" />
+            <h3 className="mt-2 font-display text-2xl font-medium leading-tight sm:text-3xl">{c("Common questions", "常见问题", "Частые вопросы")}</h3>
+            <Link to="/travel-packages" className="group/link mt-5 inline-flex min-h-11 items-center gap-2 rounded-full border border-primary/20 bg-card px-4 text-sm font-semibold text-foreground shadow-soft transition-[color,border-color,transform] duration-150 hover:-translate-y-0.5 hover:border-primary/40 hover:text-primary">
+              {c("Explore travel support", "查看行程支持", "Подробнее о поддержке в поездке")}<ArrowRight className="size-4 text-primary transition-transform duration-150 group-hover/link:translate-x-1" />
             </Link>
           </div>
 
-          <Accordion type="single" collapsible className="overflow-hidden rounded-2xl border border-border/80 bg-background/60 px-4 sm:px-5">
+          <Accordion type="single" collapsible className="overflow-hidden rounded-2xl border border-border/80 bg-card px-4 shadow-soft sm:px-5">
             {questions.slice(2).map((item, index) => (
-              <AccordionItem key={item.q} value={`faq-${index + 2}`} className="border-border/70">
-                <AccordionTrigger className="gap-4 py-4 text-left text-sm font-semibold hover:no-underline sm:text-base">
-                  <span className="flex items-start gap-3"><span className="mt-0.5 font-mono text-[10px] text-primary">0{index + 1}</span>{item.q}</span>
+              <AccordionItem key={item.q} value={`faq-${index + 2}`} className="border-border/65 last:border-0">
+                <AccordionTrigger className="group gap-4 rounded-xl px-1 py-4 text-left text-sm font-semibold transition-colors duration-150 hover:bg-primary/[0.045] hover:no-underline sm:text-base">
+                  <span className="flex items-start gap-3"><span className="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-primary/10 font-mono text-[10px] text-primary">0{index + 1}</span><span className="pt-0.5">{item.q}</span></span>
                 </AccordionTrigger>
-                <AccordionContent className="pl-8 pr-2 text-sm leading-relaxed text-muted-foreground sm:text-[15px]">
+                <AccordionContent className="pl-10 pr-3 text-sm leading-relaxed text-muted-foreground sm:pl-11 sm:text-[15px]">
                   {item.a}
                 </AccordionContent>
               </AccordionItem>
