@@ -128,8 +128,8 @@ const Hero = () => {
   const copy = lang === "zh"
     ? {
         badge: "专为国际患者打造的中国医美平台",
-        title: "比较中国医美专家，",
-        emphasis: "找到适合你的方案",
+        title: "1000+ 位患者的医美历程，",
+        emphasis: "让选择更清晰",
         subtitle: "先了解项目、查看已发布的专家资料与患者恢复日记，再决定是否出发。翻译、行程和术后支持由我们协调。",
         cases: "观看患者短视频",
         consultation: "在线面诊",
@@ -144,8 +144,8 @@ const Hero = () => {
     : lang === "ru"
       ? {
           badge: "Китайская платформа для международных пациентов",
-          title: "Лучшие эстетические хирурги Китая —",
-          emphasis: "на одной платформе",
+          title: "Более 1 000 историй пациентов.",
+          emphasis: "Больше ясности при выборе.",
           subtitle: "Сравните реальные случаи, квалификацию экспертов и прозрачные цены до поездки. Мы организуем перевод, поездку и последующий уход.",
           cases: "Смотреть видео пациентов",
           consultation: "Онлайн-консультация",
@@ -159,8 +159,8 @@ const Hero = () => {
         }
       : {
           badge: "China's cosmetic care platform for international patients",
-          title: "Compare cosmetic surgeons across China,",
-          emphasis: "then choose with confidence",
+          title: "1,000+ patient journeys.",
+          emphasis: "A clearer way to choose.",
           subtitle: "Understand procedures, review published expert profiles and explore patient recovery diaries before you travel.",
           cases: "Watch patient recovery videos",
           consultation: "Online consultation",
