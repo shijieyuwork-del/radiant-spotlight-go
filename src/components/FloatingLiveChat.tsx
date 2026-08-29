@@ -1,33 +1,30 @@
-import { MessageCircle } from "lucide-react";
+import { ArrowRight, MessageCircle } from "lucide-react";
 import { useAsia } from "@/lib/asia-i18n";
 import { useLocation } from "react-router-dom";
 import { trackEvent } from "@/lib/analytics";
-
-const WHATSAPP_URL =
-  "https://wa.me/14708613825?text=Hi%20Cosmetics%20Asia%2C%20I%20would%20like%20to%20ask%20about%20your%20services.";
+import { useQuote } from "@/components/QuoteRequest";
 
 const FloatingLiveChat = () => {
   const { lang } = useAsia();
   const { pathname } = useLocation();
-  const label = lang === "zh" ? "WhatsApp 联系" : lang === "ru" ? "Написать в WhatsApp" : "WhatsApp Us";
+  const { open } = useQuote();
+  const label = lang === "zh" ? "开始咨询" : lang === "ru" ? "Начать консультацию" : "Start a consultation";
 
   if (pathname.startsWith("/lp/") || pathname === "/privacy") return null;
 
   return (
-    <a
-      href={WHATSAPP_URL}
-      target="_blank"
-      rel="noreferrer"
-      aria-label={lang === "zh" ? "通过 WhatsApp 联系我们" : lang === "ru" ? "Связаться с нами в WhatsApp" : "Contact us on WhatsApp"}
-      onClick={() => trackEvent("whatsapp_handoff", { source: "floating_chat" })}
-      className="group fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 z-50 flex items-center gap-2 rounded-full bg-foreground p-2 text-background shadow-pop transition-all hover:-translate-y-0.5 hover:shadow-glow sm:bottom-6 sm:right-6 sm:pl-2 sm:pr-5"
+    <button
+      type="button"
+      aria-label={label}
+      onClick={() => { trackEvent("select_cta", { source: "floating_consultation" }); open({ source: "floating_consultation" }); }}
+      className="group fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 z-50 flex min-h-12 items-center gap-2 rounded-full border border-primary/20 bg-card/95 p-1.5 text-foreground shadow-pop backdrop-blur-xl transition-all hover:-translate-y-0.5 hover:border-primary/35 sm:bottom-6 sm:right-6 sm:pl-1.5 sm:pr-4"
     >
-      <span className="relative grid size-10 place-items-center rounded-full bg-primary text-foreground">
-        <MessageCircle className="size-5" />
-        <span className="absolute -right-0.5 -top-0.5 size-3 rounded-full bg-emerald-500 ring-2 ring-foreground" />
+      <span className="grid size-9 place-items-center rounded-full bg-primary text-primary-foreground">
+        <MessageCircle className="size-4" />
       </span>
       <span className="hidden whitespace-nowrap text-sm font-semibold sm:inline">{label}</span>
-    </a>
+      <ArrowRight className="hidden size-3.5 text-primary transition-transform group-hover:translate-x-0.5 sm:block" />
+    </button>
   );
 };
 

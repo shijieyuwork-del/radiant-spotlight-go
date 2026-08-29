@@ -65,7 +65,7 @@ const dict: Record<AsiaLang, Dict> = {
     "cl.reviews": "reviews",
     
     "doctors.kicker": "Attending surgeons",
-    "doctors.title1": "Internationally accredited",
+    "doctors.title1": "Internationally recognized",
     "doctors.titleEm": "surgeons",
     "doctors.lic": "Medical license:",
     "doctors.exp": "yrs experience",

@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { DollarSign, Languages, Menu, ChevronRight, ChevronDown, Phone, Mail, UserRound, ArrowRight } from "lucide-react";
+import { DollarSign, Languages, Menu, ChevronRight, ChevronDown, Phone, Mail, UserRound, ArrowRight, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
@@ -26,6 +26,7 @@ type MegaNavItemProps = {
     photo: string;
     profileLabel: string;
     sampleLabel: string;
+    specialties: string[];
     title: string;
   }[];
   intro: string;
@@ -75,7 +76,8 @@ const MegaNavItem = ({ active, featuredDoctors, intro, label, groups, to, viewAl
                   </div>
                   <h4 className="mt-3 truncate font-display text-lg font-medium text-foreground">{doctor.name}</h4>
                   <p className="mt-1 truncate text-xs text-muted-foreground">{doctor.title}</p>
-                  <p className="mt-1 text-[11px] text-muted-foreground/80">{doctor.city}</p>
+                  <p className="mt-1 flex items-center gap-1 text-[11px] text-muted-foreground/80"><MapPin className="size-3 text-primary" />{doctor.city}</p>
+                  <p className="mt-2 line-clamp-1 text-[10px] font-medium leading-relaxed text-foreground/70">{doctor.specialties.slice(0, 2).join(" · ")}</p>
                   <span className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-primary">
                     {doctor.profileLabel}<ArrowRight className="size-3 transition-transform group-hover/doctor:translate-x-0.5" />
                   </span>
@@ -134,6 +136,7 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
     photo: doctor.photo,
     profileLabel: c("View profile", "查看资料", "Профиль"),
     sampleLabel: c("Sample", "示例", "Пример"),
+    specialties: doctor.specialties,
     title: doctor.title,
   }));
   const megaMenus: Record<string, { featuredDoctors?: typeof featuredDoctors; intro: string; viewAll: string; groups: MegaMenuGroup[] }> = {

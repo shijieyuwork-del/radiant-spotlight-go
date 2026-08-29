@@ -49,13 +49,28 @@ const DemoDoctorDetail = () => {
               <h1 className="mt-4 font-display text-3xl font-semibold tracking-tight md:text-5xl">{doctor.name}</h1>
               <p className="mt-2 text-lg text-muted-foreground">{doctor.title}</p>
               <p className="mt-5 flex items-center gap-2 text-sm"><Building2 className="size-4 text-primary" />{doctor.hospital}</p>
-              <p className="mt-2 flex items-center gap-2 text-sm"><MapPin className="size-4 text-primary" />{doctor.city}, China</p>
+              <Link to={`/cities/${doctor.city.toLowerCase()}`} className="mt-2 flex items-center gap-2 text-sm transition hover:text-primary"><MapPin className="size-4 text-primary" />{doctor.city}, China</Link>
               <p className="mt-2 flex items-center gap-2 text-sm text-muted-foreground"><Clock className="size-4 text-primary" />{lang === "zh" ? `${doctor.city}当地时间 ${tz.offset}（${tz.label.zh}）· 现在约 ${cityNow}，咨询预约以此时区为准` : lang === "ru" ? `Местное время в г. ${doctor.city}: ${cityNow} (${tz.offset} · ${tz.label.ru}) — консультации назначаются по этому времени` : `Local time in ${doctor.city}: ${cityNow} (${tz.offset} · ${tz.label.en}) — consultations are booked in this timezone`}</p>
               <p className="mt-5 max-w-2xl leading-relaxed text-muted-foreground">{doctor.bio}</p>
               <div className="mt-5 flex flex-wrap gap-2">{doctor.specialties.map((specialty) => <span key={specialty} className="rounded-full bg-secondary px-3 py-1.5 text-xs font-semibold">{specialty}</span>)}</div>
               <a href={whatsapp} target="_blank" rel="noreferrer" className="cta-primary mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl px-6 text-sm font-bold sm:w-auto sm:rounded-full"><MessageCircle className="size-4" />{lang === "zh" ? "咨询这位专家" : lang === "ru" ? "Спросить об этом эксперте" : "Ask about this expert"}</a>
             </div>
           </section>
+
+          <nav className="mt-7 grid gap-3 sm:grid-cols-3" aria-label={lang === "zh" ? "相关内容" : lang === "ru" ? "Связанные материалы" : "Related doctor, case and city content"}>
+            <Link to={`/cases?city=${encodeURIComponent(doctor.city)}`} className="group rounded-2xl border border-border/70 bg-card p-4 shadow-soft transition hover:border-primary/30">
+              <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-primary">{lang === "zh" ? "恢复日记" : lang === "ru" ? "Дневники" : "Patient diaries"}</span>
+              <span className="mt-1 flex items-center justify-between text-sm font-semibold">{lang === "zh" ? `查看${doctor.city}案例` : lang === "ru" ? `Случаи: ${doctor.city}` : `Cases from ${doctor.city}`}<ArrowLeft className="size-4 rotate-180 text-primary transition-transform group-hover:translate-x-0.5" /></span>
+            </Link>
+            <Link to={`/cities/${doctor.city.toLowerCase()}`} className="group rounded-2xl border border-border/70 bg-card p-4 shadow-soft transition hover:border-primary/30">
+              <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-primary">{lang === "zh" ? "城市指南" : lang === "ru" ? "Гид по городу" : "City guide"}</span>
+              <span className="mt-1 flex items-center justify-between text-sm font-semibold">{lang === "zh" ? `了解${doctor.city}` : lang === "ru" ? `О городе ${doctor.city}` : `Explore ${doctor.city}`}<ArrowLeft className="size-4 rotate-180 text-primary transition-transform group-hover:translate-x-0.5" /></span>
+            </Link>
+            <Link to={`/doctors?city=${encodeURIComponent(doctor.city)}`} className="group rounded-2xl border border-border/70 bg-card p-4 shadow-soft transition hover:border-primary/30">
+              <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-primary">{lang === "zh" ? "同城专家" : lang === "ru" ? "Эксперты города" : "Nearby experts"}</span>
+              <span className="mt-1 flex items-center justify-between text-sm font-semibold">{lang === "zh" ? `比较${doctor.city}专家` : lang === "ru" ? `Эксперты: ${doctor.city}` : `Compare ${doctor.city} experts`}<ArrowLeft className="size-4 rotate-180 text-primary transition-transform group-hover:translate-x-0.5" /></span>
+            </Link>
+          </nav>
 
           <section className="mt-12 md:mt-16">
             <span className="text-xs font-bold uppercase tracking-[0.14em] text-primary">{lang === "zh" ? "相关案例" : lang === "ru" ? "Похожие случаи" : "Related patient diaries"}</span>

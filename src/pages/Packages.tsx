@@ -29,6 +29,7 @@ import serviceHotelBooking from "@/assets/service-real-accommodation-v3.jpg";
 import serviceClinicTranslation from "@/assets/service-real-translation-v2.jpg";
 import serviceMedicalRecords from "@/assets/service-real-records-v2.jpg";
 import serviceOnlineConcierge from "@/assets/service-real-concierge-v2.jpg";
+import travelSupportCareTeam from "@/assets/travel-support-asian-care-team-v1.jpg";
 import cityHangzhou from "@/assets/city-hangzhou.jpg";
 
 
@@ -205,7 +206,7 @@ const Packages = () => {
 
               <div className="relative mx-auto w-full max-w-2xl pb-5 lg:max-w-none">
                 <div className="overflow-hidden rounded-[2.25rem] border-4 border-white/80 bg-card shadow-pop">
-                  <img src={serviceClinicTranslation} alt={c("International patient receiving bilingual support in a clinic", "国际患者在诊所接受双语沟通协助", "Международный пациент получает языковую поддержку в клинике")} className="aspect-[4/3] w-full object-cover" />
+                  <img src={travelSupportCareTeam} alt={c("Asian medical and guest-services care team", "亚洲医疗与服务协调团队", "Азиатская медицинская и сервисная команда")} className="aspect-[4/3] w-full object-cover" />
                 </div>
                 <div className="absolute -bottom-1 left-4 right-4 rounded-2xl border border-white/80 bg-white/90 p-3 shadow-pop backdrop-blur-md sm:left-6 sm:right-auto sm:p-4">
                   <p className="text-[10px] font-bold uppercase tracking-[.16em] text-foreground/40">{c("Coordinated support", "协调支持", "Координация")}</p>

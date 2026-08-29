@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
-import { MessageCircle, Mail, Lock, ArrowRight, ArrowLeft, CheckCircle2, X, Sparkles, DollarSign, CalendarDays, Video, Clock } from "lucide-react";
+import { MessageCircle, Mail, Lock, ArrowRight, ArrowLeft, CheckCircle2, X, Sparkles, Clock } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -29,10 +29,28 @@ interface QuoteCtxValue {
 const QuoteCtx = createContext<QuoteCtxValue | null>(null);
 
 const COUNTRIES = [
-  "🇺🇸 United States", "🇨🇦 Canada", "🇬🇧 United Kingdom", "🇦🇺 Australia",
-  "🇷🇺 Russia", "🇰🇿 Kazakhstan", "🇺🇦 Ukraine", "🇩🇪 Germany", "🇫🇷 France",
-  "🇸🇬 Singapore", "🇦🇪 United Arab Emirates", "🇸🇦 Saudi Arabia", "🇰🇷 South Korea",
-  "🇯🇵 Japan", "🇨🇳 China", "🇹🇭 Thailand", "🇲🇾 Malaysia", "Other",
+  "United States 🇺🇸", "Canada 🇨🇦", "United Kingdom 🇬🇧", "Australia 🇦🇺",
+  "Russia 🇷🇺", "Kazakhstan 🇰🇿", "Ukraine 🇺🇦", "Germany 🇩🇪", "France 🇫🇷",
+  "Singapore 🇸🇬", "United Arab Emirates 🇦🇪", "Saudi Arabia 🇸🇦", "South Korea 🇰🇷",
+  "Japan 🇯🇵", "China 🇨🇳", "Thailand 🇹🇭", "Malaysia 🇲🇾", "Other",
+];
+
+const PHONE_CODES = [
+  { code: "+1", label: "US / CA +1" },
+  { code: "+44", label: "UK +44" },
+  { code: "+61", label: "AU +61" },
+  { code: "+7", label: "RU / KZ +7" },
+  { code: "+380", label: "UA +380" },
+  { code: "+49", label: "DE +49" },
+  { code: "+33", label: "FR +33" },
+  { code: "+65", label: "SG +65" },
+  { code: "+971", label: "UAE +971" },
+  { code: "+966", label: "SA +966" },
+  { code: "+82", label: "KR +82" },
+  { code: "+81", label: "JP +81" },
+  { code: "+86", label: "CN +86" },
+  { code: "+66", label: "TH +66" },
+  { code: "+60", label: "MY +60" },
 ];
 
 const PROCEDURES = [
@@ -143,6 +161,8 @@ const QuoteDialog = ({
   const [contactMethod, setContactMethod] = useState<ContactMethod | null>(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phonePrefix, setPhonePrefix] = useState("+1");
+  const [phone, setPhone] = useState("");
   const [country, setCountry] = useState("");
   const [procedure, setProcedure] = useState(ctx.procedure ?? "");
   const [notes, setNotes] = useState("");
@@ -170,10 +190,11 @@ const QuoteDialog = ({
     }
   }, [isOpen, ctx.procedure]);
 
-  const pickIntent = (v: Intent) => {
-    setIntent(v);
+  const pickContactMethod = (method: ContactMethod) => {
+    setContactMethod(method);
+    setIntent("consultation");
     setStep(2);
-    trackEvent("quote_option_selected", { source: ctx.source || "site_cta", option: v });
+    trackEvent("quote_contact_method_selected", { source: ctx.source || "site_cta", option: method });
     trackEvent("quote_step_completed", { source: ctx.source || "site_cta", step: 1 });
   };
 
@@ -182,28 +203,27 @@ const QuoteDialog = ({
     ? `Ask about ${expertLabel}`
     : ctx.procedure
     ? `Ask about ${ctx.procedure}`
-    : "How can we help?";
+    : "Choose how to contact us";
 
-  const subline = "Start with your questions. Our coordination team will help you understand the next step.";
+  const subline = "Choose email or WhatsApp. We’ll prepare your message in the next step.";
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!name) return void toast.error("Enter your name so we know how to address you.");
     if (!contactMethod) return void toast.error("Choose whether you prefer Email or WhatsApp.");
     if (contactMethod === "email" && !email) return void toast.error("Enter the email address where you would like us to reply.");
+    if (!phone) return void toast.error("Enter a phone number where we can reach you.");
     if (!country) return void toast.error("Select the country you will travel from.");
     if (!procedure) return void toast.error("Select a procedure, or choose ‘Other / Not sure yet.’");
-    if (intent === "consultation" && !slot) {
-      return void toast.error("Choose a preferred consultation time before continuing.");
-    }
     setLoading(true);
     const message = [
-      "Hi Cosmetics Asia, I would like to request a free quote.",
+      "Hi Cosmetics Asia, I would like to start a consultation.",
       expertLabel ? `Expert: ${expertLabel}` : "",
-      `Request: ${intent === "consultation" ? "Free consultation" : "Pricing guidance"}`,
+      "Request: Consultation",
       `Name: ${name}`,
       `Preferred contact: ${contactMethod === "email" ? "Email" : "WhatsApp"}`,
       email ? `Email: ${email}` : "",
+      `Phone: ${phonePrefix} ${phone}`,
       `Traveling from: ${country}`,
       `Procedure: ${procedure}`,
       slot ? `Preferred time: ${slot} (${ctx.city ?? "Shanghai"} local time)` : "",
@@ -266,9 +286,9 @@ const QuoteDialog = ({
               <DialogDescription className="text-sm text-foreground/70 mt-1.5">
                 {step === 1
                   ? subline
-                  : intent === "consultation"
-                  ? "Choose a preferred time. We will confirm availability using your selected contact method."
-                  : "Share a few details so we can understand what pricing information you need."}
+                  : contactMethod === "email"
+                  ? "Share a few details and we’ll prepare an email for you to send."
+                  : "Share a few details and we’ll prepare a WhatsApp message for you to send."}
               </DialogDescription>
               <div className="flex items-center gap-1.5 mt-4">
                 <span className="h-1.5 rounded-full w-8 bg-foreground" />
@@ -277,7 +297,7 @@ const QuoteDialog = ({
             </div>
 
             {step === 1 ? (
-              <IntentStep onPick={pickIntent} doctorName={ctx.doctorName} />
+              <ContactChannelStep onPick={pickContactMethod} doctorName={ctx.doctorName} />
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4 p-4 sm:p-6">
                 <button
@@ -285,10 +305,8 @@ const QuoteDialog = ({
                   onClick={() => setStep(1)}
                   className="-ml-3 -mt-1 mb-1 inline-flex min-h-12 items-center gap-1 rounded-xl px-3 text-xs text-muted-foreground hover:bg-muted hover:text-foreground"
                 >
-                  <ArrowLeft className="size-3" /> Change option
+                  <ArrowLeft className="size-3" /> Change contact method
                 </button>
-
-                <ContactMethodPicker value={contactMethod} onChange={setContactMethod} />
 
                 <div className={`grid gap-3 ${contactMethod === "email" ? "sm:grid-cols-2" : ""}`}>
                   <Field label="Your name" required>
@@ -299,6 +317,21 @@ const QuoteDialog = ({
                       <Input aria-label="Email address" type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="jane@email.com" className="h-12 rounded-xl" />
                     </Field>
                   )}
+                  <div className={contactMethod === "email" ? "sm:col-span-2" : ""}>
+                    <Field label="Phone number" required>
+                      <div className="grid grid-cols-[8.5rem_minmax(0,1fr)] gap-2">
+                        <select
+                          aria-label="Country calling code"
+                          value={phonePrefix}
+                          onChange={(e) => setPhonePrefix(e.target.value)}
+                          className="h-12 rounded-xl border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                        >
+                          {PHONE_CODES.map((item) => <option key={`${item.code}-${item.label}`} value={item.code}>{item.label}</option>)}
+                        </select>
+                        <Input aria-label="Phone number" type="tel" inputMode="tel" autoComplete="tel-national" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="470 555 0123" className="h-12 rounded-xl" />
+                      </div>
+                    </Field>
+                  </div>
                 </div>
 
                 <Field label="Traveling from" required>
@@ -323,13 +356,7 @@ const QuoteDialog = ({
                   </select>
                 </Field>
 
-                {intent === "consultation" && (
-                  <Field label="Preferred consultation time" required>
-                    <SlotPicker value={slot} onChange={setSlot} city={ctx.city} />
-                  </Field>
-                )}
-
-                <Field label={intent === "consultation" ? "What would you like to discuss?" : "What would you like pricing to include?"}>
+                <Field label="What would you like to discuss?">
                   <Textarea
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
@@ -361,91 +388,34 @@ const QuoteDialog = ({
   );
 };
 
-/* ---------- Preferred contact method ---------- */
+/* ---------- Step 1: Contact channel picker ---------- */
 
-const ContactMethodPicker = ({
-  value,
-  onChange,
-}: {
-  value: ContactMethod | null;
-  onChange: (method: ContactMethod) => void;
-}) => {
-  const options: { id: ContactMethod; icon: typeof Mail; title: string; desc: string }[] = [
+const ContactChannelStep = ({ onPick, doctorName }: { onPick: (method: ContactMethod) => void; doctorName?: string }) => {
+  const options: { id: ContactMethod; icon: typeof Mail; title: string; desc: string; meta: string }[] = [
     {
       id: "email",
       icon: Mail,
-      title: "Reply by email",
-      desc: "We will reply to the email address you provide.",
+      title: "Contact by email",
+      desc: doctorName
+        ? `Send your questions about ${doctorName} by email.`
+        : "Send your questions and receive a reply by email.",
+      meta: "hello@cosmetics-asia.com",
     },
     {
       id: "whatsapp",
       icon: MessageCircle,
-      title: "Continue on WhatsApp",
-      desc: "Open WhatsApp and continue the conversation there.",
-    },
-  ];
-
-  return (
-    <fieldset className="space-y-2">
-      <legend className="text-xs font-semibold text-foreground/80">
-        How would you like us to contact you? <span className="text-primary">*</span>
-      </legend>
-      <div className="grid gap-2 sm:grid-cols-2">
-        {options.map((option) => {
-          const active = value === option.id;
-          return (
-            <button
-              key={option.id}
-              type="button"
-              aria-pressed={active}
-              onClick={() => onChange(option.id)}
-              className={`flex min-h-20 items-start gap-3 rounded-2xl border p-3 text-left transition-colors ${
-                active
-                  ? "border-foreground bg-accent/70 ring-2 ring-foreground"
-                  : "border-border bg-card hover:border-foreground/50 hover:bg-muted/40"
-              }`}
-            >
-              <span className={`grid size-10 shrink-0 place-items-center rounded-xl ${active ? "bg-foreground text-background" : "bg-gradient-mint text-foreground"}`}>
-                <option.icon className="size-4.5" />
-              </span>
-              <span className="min-w-0">
-                <span className="block text-sm font-semibold leading-tight">{option.title}</span>
-                <span className="mt-1 block text-xs leading-snug text-muted-foreground">{option.desc}</span>
-              </span>
-            </button>
-          );
-        })}
-      </div>
-    </fieldset>
-  );
-};
-
-/* ---------- Step 1: Intent picker ---------- */
-
-const IntentStep = ({ onPick, doctorName }: { onPick: (i: Intent) => void; doctorName?: string }) => {
-  const options: { id: Intent; icon: typeof DollarSign; title: string; desc: string; meta: string }[] = [
-    {
-      id: "pricing",
-      icon: DollarSign,
-      title: "Ask about pricing",
+      title: "Contact on WhatsApp",
       desc: doctorName
-        ? `Tell us what you would like pricing to include for ${doctorName}.`
-        : "Tell us what you are considering and what you want the estimate to include.",
-      meta: "Free · No obligation",
-    },
-    {
-      id: "consultation",
-      icon: CalendarDays,
-      title: "Start a free consultation",
-      desc: "Share your goals and a preferred time. We will confirm the next step with you.",
-      meta: "Free initial conversation",
+        ? `Continue the conversation about ${doctorName} on WhatsApp.`
+        : "Send your questions and continue the conversation on WhatsApp.",
+      meta: "+1 470 861 3825",
     },
   ];
 
   return (
     <div className="space-y-3 p-4 pt-5 sm:p-6 sm:pt-5">
       <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-        What would you like to do?
+        How would you like to contact us?
       </p>
       {options.map((o) => (
         <button
@@ -460,7 +430,7 @@ const IntentStep = ({ onPick, doctorName }: { onPick: (i: Intent) => void; docto
             <p className="font-display text-base font-semibold leading-tight">{o.title}</p>
             <p className="text-sm text-muted-foreground mt-1 leading-snug">{o.desc}</p>
             <span className="inline-flex items-center gap-1 mt-2 text-[11px] font-semibold text-primary">
-              {o.id === "consultation" ? <Video className="size-3" /> : <MessageCircle className="size-3" />}
+              <o.icon className="size-3" />
               {o.meta}
             </span>
           </div>

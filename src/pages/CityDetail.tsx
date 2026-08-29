@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
 import { countryOf, findCity } from "@/data/cities";
 import { DOCTORS } from "@/data/doctors";
+import { DEMO_CHINA_DOCTORS } from "@/data/demoChinaDoctors";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
 import { useAsia } from "@/lib/asia-i18n";
 
@@ -20,8 +21,8 @@ const CityDetail = () => {
   if (!city) return <Navigate to="/cities" replace />;
 
   const cityDoctors = DOCTORS.filter(() => false);
-  const cityCaseIds = new Set(cityDoctors.flatMap((d) => d.caseIds));
-  const cityCases = TIKTOK_CASES.filter((c) => cityCaseIds.has(c.id));
+  const cityDemoDoctors = DEMO_CHINA_DOCTORS.filter((doctor) => doctor.city.toLowerCase() === city.en.toLowerCase());
+  const cityCases = TIKTOK_CASES.filter((item) => item.city?.en.toLowerCase() === city.en.toLowerCase());
   const travel = lang === "zh" ? city.travelZh : city.travelEn;
 
   const cityTitle = lang === "zh" ? city.zh : city.en;
@@ -135,17 +136,31 @@ const CityDetail = () => {
             </h2>
           </div>
           <Link
-            to="/doctors"
+            to={`/doctors?city=${encodeURIComponent(city.en)}`}
             className="hidden md:inline-flex items-center gap-1 text-sm font-semibold text-primary hover:translate-x-0.5 transition"
           >
             {c("All surgeons", "全部专家", "Все эксперты")} <ArrowRight className="size-4" />
           </Link>
         </div>
 
-        {cityDoctors.length === 0 ? (
+        {cityDoctors.length === 0 && cityDemoDoctors.length === 0 ? (
           <p className="text-sm text-muted-foreground">
             {c("No Cosmetics Asia-listed surgeons yet for this city — request a match below.", "本城市暂无平台主推专家，可在下方提交匹配申请。", "В этом городе пока нет опубликованных экспертов Cosmetics Asia — отправьте запрос на подбор ниже.")}
           </p>
+        ) : cityDemoDoctors.length > 0 ? (
+          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {cityDemoDoctors.map((doctor) => (
+              <Link key={doctor.id} to={`/doctors/demo/${doctor.id}`} className="group overflow-hidden rounded-3xl border border-border/70 bg-card shadow-soft transition hover:-translate-y-1 hover:border-primary/30 hover:shadow-pop">
+                <div className="aspect-[4/3] overflow-hidden bg-muted"><img src={doctor.photo} alt={doctor.name} className="size-full object-cover transition-transform duration-500 group-hover:scale-105" /></div>
+                <div className="p-5">
+                  <div className="flex items-start justify-between gap-3"><div><h3 className="font-display text-xl font-semibold">{doctor.name}</h3><p className="mt-1 text-xs text-muted-foreground">{doctor.title}</p></div><span className="rounded-full bg-accent px-2.5 py-1 text-[10px] font-semibold text-accent-foreground">{c("Sample", "示例", "Пример")}</span></div>
+                  <p className="mt-3 flex items-center gap-1.5 text-xs text-muted-foreground"><MapPin className="size-3.5 text-primary" />{doctor.city}</p>
+                  <div className="mt-4 flex flex-wrap gap-1.5">{doctor.specialties.slice(0, 3).map((specialty) => <span key={specialty} className="rounded-full bg-secondary px-2.5 py-1 text-[10px] font-medium">{specialty}</span>)}</div>
+                  <span className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-primary">{c("View expert and related cases", "查看专家与相关案例", "Профиль и связанные случаи")}<ArrowRight className="size-4" /></span>
+                </div>
+              </Link>
+            ))}
+          </div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {cityDoctors.map((d) => (
@@ -197,7 +212,7 @@ const CityDetail = () => {
             <h2 className="font-display text-3xl md:text-4xl font-semibold">
               {c(`Recovery diary previews from ${city.en}`, `${city.zh}恢复日记预览`, `Дневники восстановления из города ${city.en}`)}
             </h2>
-            <Link to="/cases" className="text-sm font-semibold text-primary hover:translate-x-0.5 transition inline-flex items-center gap-1">
+            <Link to={`/cases?city=${encodeURIComponent(city.en)}`} className="text-sm font-semibold text-primary hover:translate-x-0.5 transition inline-flex items-center gap-1">
               {c("All cases", "全部案例", "Все случаи")} <ArrowRight className="size-4" />
             </Link>
           </div>
@@ -252,7 +267,7 @@ const CityDetail = () => {
             </p>
           </div>
           <Link
-            to="/doctors"
+            to={`/doctors?city=${encodeURIComponent(city.en)}`}
             className="inline-flex items-center gap-2 rounded-full bg-background text-foreground px-6 py-3 text-sm font-semibold hover:opacity-90 transition shrink-0"
           >
             {c("Get matched", "立即匹配主刀", "Подобрать эксперта")} <ArrowRight className="size-4" />

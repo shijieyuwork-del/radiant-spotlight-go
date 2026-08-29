@@ -5,7 +5,7 @@ import {
   Stethoscope, Building2,
   Flame, Gift, Wallet, Users, Plane,
   Eye,
-  Scale, HelpCircle, HeartPulse, MessageCircle, Video, Map,
+  Scale, HelpCircle, HeartPulse, MessageCircle, Video, Map, Mail,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -900,7 +900,7 @@ const DoctorsSection = () => {
 };
 
 const HowItWorks = () => {
-  const { lang, t } = useAsia();
+  const { lang } = useAsia();
   const { open } = useQuote();
   const copy = lang === "zh"
     ? {
@@ -925,31 +925,40 @@ const HowItWorks = () => {
 
   return (
     <section id="consultation" className="container py-12 md:py-16" aria-labelledby="consultation-title">
-      <div className="rounded-[1.75rem] border border-border/80 bg-card px-5 py-8 text-foreground sm:px-8 md:px-12 md:py-12">
-        <div className="grid items-end gap-8 md:grid-cols-[minmax(0,1fr)_auto] md:gap-12">
-          <div className="max-w-3xl">
+      <div className="overflow-hidden rounded-[2rem] border border-primary/15 bg-card text-foreground shadow-[0_24px_65px_rgba(22,63,52,0.11),0_3px_10px_rgba(22,63,52,0.05)]">
+        <div className="grid md:grid-cols-[minmax(0,1.35fr)_minmax(20rem,0.65fr)]">
+          <div className="px-5 py-8 sm:px-8 md:px-10 md:py-11 lg:px-12">
             <span className="mb-4 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-primary">
               <MessageCircle className="size-3.5" /> {copy.eyebrow}
             </span>
-            <h2 id="consultation-title" className="font-display text-4xl font-medium leading-[1.02] tracking-tight sm:text-5xl md:text-[3.5rem]">
+            <h2 id="consultation-title" className="max-w-3xl font-display text-4xl font-medium leading-[1.02] tracking-tight sm:text-5xl md:text-[3.5rem]">
               {copy.title}<br className="hidden sm:block" />{" "}<em className="text-primary not-italic">{copy.emphasis}</em>
             </h2>
-            <p className="mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-              {lang === "en" ? (
-                <>
-                  Don’t want to talk? That’s okay — email us at <strong className="whitespace-nowrap font-semibold text-foreground">hello@cosmetics-asia.com</strong> or WhatsApp us at{" "}
-                  <a href="https://wa.me/14708613825" target="_blank" rel="noreferrer" className="whitespace-nowrap font-semibold text-foreground underline decoration-primary/45 underline-offset-2 transition hover:text-primary">+1 470 861 3825</a>.
-                </>
-              ) : copy.text}
+            <p className="mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">{copy.text}</p>
+          </div>
+
+          <div className="m-4 rounded-[1.5rem] border border-primary/25 bg-[hsl(156_48%_89%)] p-5 shadow-[0_16px_38px_rgba(22,63,52,0.12),0_2px_6px_rgba(22,63,52,0.06)] sm:m-5 sm:p-6 md:flex md:flex-col md:justify-center lg:m-6 lg:p-7">
+            <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-primary">
+              {lang === "zh" ? "选择联系方式" : lang === "ru" ? "Выберите способ связи" : "Choose how to connect"}
+            </p>
+            <h3 className="mt-2 font-display text-2xl font-medium leading-tight">
+              {lang === "zh" ? "邮件或 WhatsApp，由你决定。" : lang === "ru" ? "Email или WhatsApp — на ваш выбор." : "Email or WhatsApp—your choice."}
+            </h3>
+            <div className="mt-5 grid grid-cols-2 gap-2">
+              <span className="flex min-h-12 items-center gap-2 rounded-xl border border-border/80 bg-card px-3 text-xs font-semibold shadow-[0_4px_12px_rgba(22,63,52,0.05)]"><Mail className="size-4 text-primary" />Email</span>
+              <span className="flex min-h-12 items-center gap-2 rounded-xl border border-border/80 bg-card px-3 text-xs font-semibold shadow-[0_4px_12px_rgba(22,63,52,0.05)]"><MessageCircle className="size-4 text-primary" />WhatsApp</span>
+            </div>
+            <Button size="lg" onClick={() => open()} className="cta-primary mt-3 min-h-[52px] w-full rounded-xl px-7 text-sm shadow-[0_12px_24px_rgba(13,54,44,0.18)] transition-all hover:-translate-y-0.5 hover:shadow-[0_16px_30px_rgba(13,54,44,0.22)]">
+              {lang === "zh" ? "开始免费咨询" : lang === "ru" ? "Начать консультацию" : "Start a consultation"}<ArrowRight className="ml-2 size-4" />
+            </Button>
+            <p className="mt-3 text-center text-[11px] text-muted-foreground">
+              {lang === "zh" ? "免费 · 无义务 · 由协调团队回复" : lang === "ru" ? "Бесплатно · без обязательств" : "Free · No obligation · Coordinator reply"}
             </p>
           </div>
-          <div className="w-full shrink-0 md:w-auto md:pb-1">
-            <Button size="lg" onClick={() => open()} className="cta-primary min-h-[52px] w-full rounded-full px-8 text-sm shadow-none transition-transform hover:-translate-y-0.5 md:w-fit">
-              {t("hero.cta")}<ArrowRight className="ml-2 size-4" />
-            </Button>
-          </div>
         </div>
-        <MedicalDisclaimer variant="inline" className="mt-8 border-t border-border/70 pt-5 text-muted-foreground/90" />
+        <div className="border-t border-border/70 px-5 py-4 sm:px-8 md:px-10 lg:px-12">
+          <MedicalDisclaimer variant="inline" className="text-muted-foreground/90" />
+        </div>
       </div>
     </section>
   );

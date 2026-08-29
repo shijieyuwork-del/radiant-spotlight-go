@@ -36,10 +36,12 @@ const CaseDetail = () => {
       : [],
     [doctor, id],
   );
-  const related = useMemo(
-    () => TIKTOK_CASES.filter((c) => c.id !== id && !doctorCases.some((other) => other.id === c.id)).slice(0, 5),
-    [doctorCases, id],
-  );
+  const related = useMemo(() => {
+    const candidates = TIKTOK_CASES.filter((c) => c.id !== id && !doctorCases.some((other) => other.id === c.id));
+    const sameCity = candidates.filter((c) => c.city?.en === item?.city?.en);
+    const otherCities = candidates.filter((c) => c.city?.en !== item?.city?.en);
+    return [...sameCity, ...otherCities].slice(0, 5);
+  }, [doctorCases, id, item?.city?.en]);
 
   const ref = useRef<HTMLVideoElement>(null);
   const [muted, setMuted] = useState(false);
@@ -223,7 +225,7 @@ const CaseDetail = () => {
             <div className="rounded-3xl bg-card shadow-soft p-5 space-y-3">
               <p className="text-sm flex items-center gap-2"><Building2 className="size-4 text-primary" /> {item.clinic[lang]}</p>
               {item.city && (
-                <p className="text-sm flex items-center gap-2"><MapPin className="size-4 text-primary" /> {item.city[lang]}, China</p>
+                <Link to={`/cities/${item.city.en.toLowerCase()}`} className="flex items-center gap-2 text-sm transition hover:text-primary"><MapPin className="size-4 text-primary" /> {item.city[lang]}, China · {lang === "zh" ? "查看城市指南" : lang === "ru" ? "Гид по городу" : "View city guide"}</Link>
               )}
               <p className="text-sm flex items-center gap-2"><ShieldCheck className="size-4 text-primary" /> {lang === "zh" ? "日记预览 · 核验状态待更新" : lang === "ru" ? "Предпросмотр дневника · проверка ожидается" : "Diary preview · verification status pending"}</p>
             </div>
@@ -331,7 +333,9 @@ const CaseDetail = () => {
 
         <div className="mt-16">
           <h2 className="font-display text-2xl md:text-3xl font-medium tracking-tight mb-6">
-            {lang === "zh" ? "你可能也感兴趣" : "You may also like"}
+            {item.city
+              ? lang === "zh" ? `${item.city.zh}的更多恢复日记` : lang === "ru" ? `Другие дневники из города ${item.city.en}` : `More recovery diaries from ${item.city.en}`
+              : lang === "zh" ? "你可能也感兴趣" : lang === "ru" ? "Вам также может понравиться" : "You may also like"}
           </h2>
           <TikTokWall items={related} lang={lang} fmtPrice={fmt} variant="wall" />
         </div>

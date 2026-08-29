@@ -1,8 +1,8 @@
-import linPortrait from "@/assets/doctor-demo-lin.jpg";
-import zhouPortrait from "@/assets/doctor-demo-zhou.jpg";
-import chenPortrait from "@/assets/doctor-demo-chen.jpg";
-import xuPortrait from "@/assets/doctor-demo-xu.jpg";
-import guPortrait from "@/assets/doctor-demo-gu.jpg";
+import linPortrait from "@/assets/doctor-demo-lin-beverly-v2.jpg";
+import zhouPortrait from "@/assets/doctor-demo-zhou-beverly-v2.jpg";
+import chenPortrait from "@/assets/doctor-demo-chen-beverly-v2.jpg";
+import xuPortrait from "@/assets/doctor-demo-xu-beverly-v2.jpg";
+import guPortrait from "@/assets/doctor-demo-gu-beverly-v2.jpg";
 
 export type DemoChinaDoctor = {
   id: string;
