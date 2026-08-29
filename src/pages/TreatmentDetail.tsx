@@ -52,6 +52,16 @@ const TreatmentDetail = () => {
     category.items.map(([en, cn]) => ({ en, zh: cn, categoryEn: category.en, categoryZh: category.zh }))
   ).find((item) => procedureSlug(item.en) === slug);
 
+  if (t) {
+    const procedure = catalogMatch ?? {
+      en: t.en,
+      zh: t.zh,
+      categoryEn: "Skin & Non-Surgical",
+      categoryZh: "皮肤与非手术",
+    };
+    return <CatalogProcedureDetail procedure={procedure} lang={lang} treatment={t} />;
+  }
+
   if (!t) {
     if (catalogMatch) return <CatalogProcedureDetail procedure={catalogMatch} lang={lang} />;
     return (
@@ -326,7 +336,17 @@ const catalogEducation: Record<string, CatalogEducation> = {
   },
 };
 
-const CatalogProcedureDetail = ({ procedure, lang }: { procedure: { en: string; zh: string; categoryEn: string; categoryZh: string }; lang: "en" | "zh" | "ru" }) => {
+type RichTreatment = NonNullable<ReturnType<typeof findTreatment>>;
+
+const CatalogProcedureDetail = ({
+  procedure,
+  lang,
+  treatment,
+}: {
+  procedure: { en: string; zh: string; categoryEn: string; categoryZh: string };
+  lang: "en" | "zh" | "ru";
+  treatment?: RichTreatment;
+}) => {
   const { fmt } = useAsia();
   const zh = lang === "zh";
   const ru = lang === "ru";
@@ -335,12 +355,24 @@ const CatalogProcedureDetail = ({ procedure, lang }: { procedure: { en: string; 
   const intro = categoryCopy[procedure.categoryEn];
   const education = catalogEducation[procedure.categoryEn];
   const path = `/treatments/${procedureSlug(procedure.en)}`;
+  const description = treatment
+    ? (zh ? treatment.summaryZh : treatment.summaryEn)
+    : (zh ? intro.zh : intro.en);
+  const planningRange = treatment
+    ? `$${treatment.priceUsdLow.toLocaleString()}–$${treatment.priceUsdHigh.toLocaleString()}`
+    : education.price;
+  const risks = treatment
+    ? (zh ? treatment.risksZh : treatment.risksEn)
+    : (zh ? education.risksZh : education.risksEn);
+  const consultationQuestions = treatment
+    ? (zh ? treatment.askZh : treatment.askEn)
+    : null;
 
   return (
     <>
       <PageMeta
         title={`${procedure.en} in China | Procedure Overview`}
-        description={`Learn what to discuss when considering ${procedure.en} in China, including planning, provider checks, risks and next steps.`}
+        description={treatment?.summaryEn ?? `Learn what to discuss when considering ${procedure.en} in China, including planning, provider checks, risks and next steps.`}
         path={path}
       />
       <div className="min-h-screen bg-background">
@@ -353,7 +385,7 @@ const CatalogProcedureDetail = ({ procedure, lang }: { procedure: { en: string; 
           <section className="rounded-[2rem] border border-border/60 bg-card p-6 shadow-soft md:p-9">
             <span className="pill mb-3 bg-accent text-accent-foreground"><Stethoscope className="size-3.5" /> {zh ? procedure.categoryZh : procedure.categoryEn}</span>
             <h1 className="font-display text-4xl font-medium tracking-tight md:text-5xl">{name}</h1>
-            <p className="mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground">{zh ? intro.zh : intro.en}</p>
+            <p className="mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground">{description}</p>
           </section>
 
           <section className="mt-8 rounded-[2rem] border border-border/70 bg-card p-5 shadow-soft md:p-8">
@@ -365,7 +397,7 @@ const CatalogProcedureDetail = ({ procedure, lang }: { procedure: { en: string; 
               <p className="max-w-md text-xs leading-relaxed text-muted-foreground">{c("General planning ranges for China—not a hospital quote or a personal recovery promise.", "以下为中国市场的一般规划参考，不是医院报价或个人恢复承诺。", "Это общие ориентиры для Китая, а не предложение клиники или гарантия восстановления.")}</p>
             </div>
             <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4">
-              <QuickFact icon={<DollarSign />} label={c("Planning range", "参考价格", "Диапазон цен")} value={education.price} />
+              <QuickFact icon={<DollarSign />} label={c("Planning range", "参考价格", "Диапазон цен")} value={planningRange} />
               <QuickFact icon={<Clock />} label={c("Typical downtime", "初步恢复", "Первичное восстановление")} value={zh ? education.downtimeZh : education.downtimeEn} />
               <QuickFact icon={<Sparkles />} label={c("Result settles", "结果逐步稳定", "Окончательный результат")} value={zh ? education.finalZh : education.finalEn} />
               <QuickFact icon={<Stethoscope />} label={c("Common anesthesia", "常见麻醉", "Обычная анестезия")} value={zh ? education.anesthesiaZh : education.anesthesiaEn} />
@@ -382,8 +414,35 @@ const CatalogProcedureDetail = ({ procedure, lang }: { procedure: { en: string; 
               <h2 className="mt-3 font-display text-2xl font-medium tracking-tight md:text-3xl">{c("What to review before you decide", "决定前，重点看这三项", "Что проверить перед решением")}</h2>
             </div>
 
+            {treatment && (
+              <ExpandablePanel
+                icon={<Sparkles className="size-5 text-primary" />}
+                title={c("Procedure details & recovery", "项目方式与恢复过程", "Процедура и восстановление")}
+                summary={c("Understand what it involves, common approaches and the usual recovery stages.", "了解项目内容、常见方式和通常的恢复阶段。", "Что включает процедура, основные методы и этапы восстановления.")}
+              >
+                <div className="space-y-6 pt-1">
+                  <p className="text-sm leading-relaxed text-muted-foreground">{zh ? treatment.whatZh : treatment.whatEn}</p>
+                  <div>
+                    <h3 className="mb-3 font-display text-lg font-medium">{c("Common techniques", "常见方式", "Основные методы")}</h3>
+                    <Bullets items={zh ? treatment.techniquesZh : treatment.techniquesEn} />
+                  </div>
+                  <div>
+                    <h3 className="mb-3 font-display text-lg font-medium">{c("Typical recovery", "通常恢复过程", "Типичное восстановление")}</h3>
+                    <ol className="grid gap-3 sm:grid-cols-2">
+                      {treatment.recovery.map((item, index) => (
+                        <li key={index} className="rounded-2xl bg-secondary/45 p-4">
+                          <p className="text-xs font-bold uppercase tracking-[0.1em] text-primary">{zh ? item.whenZh : item.whenEn}</p>
+                          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{zh ? item.whatZh : item.whatEn}</p>
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
+                </div>
+              </ExpandablePanel>
+            )}
+
             <ExpandablePanel icon={<ShieldAlert className="size-5 text-destructive/75" />} title={c("Risks to understand", "可能有哪些风险？", "Важные риски")} summary={c("See the main complications to discuss with your surgeon.", "查看需要与专家重点确认的主要并发症。", "Основные осложнения, которые стоит обсудить с хирургом.")}>
-              <div className="mt-4"><Bullets items={zh ? education.risksZh : education.risksEn} /></div>
+              <div className="mt-4"><Bullets items={risks} /></div>
               <p className="mt-4 text-xs leading-relaxed text-muted-foreground">{zh ? "这不是完整风险清单。风险会随具体术式、麻醉方式、治疗范围和个人健康状况改变。" : "This is not a complete risk list. Risk changes with technique, anesthesia, treatment extent and your health."}</p>
             </ExpandablePanel>
 
@@ -394,7 +453,7 @@ const CatalogProcedureDetail = ({ procedure, lang }: { procedure: { en: string; 
 
             <ExpandablePanel icon={<CircleHelp className="size-5 text-primary" />} title={c("Questions for your consultation", "面诊时问什么？", "Вопросы для консультации")} summary={c("Save six practical questions for your expert.", "准备好 6 个实用问题，避免面诊时遗漏。", "Сохраните шесть практических вопросов эксперту.")}>
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
-              {(zh ? [
+              {(consultationQuestions ?? (zh ? [
                 `您做过多少例与我的情况相似的 ${procedure.zh}？`,
                 "推荐的具体术式是什么？为什么适合我？是否有替代方案？",
                 "完整费用包含什么？麻醉、检查、复诊和并发症处理是否另收费？",
@@ -408,7 +467,7 @@ const CatalogProcedureDetail = ({ procedure, lang }: { procedure: { en: string; 
                 "How long should I stay in China, and which symptoms require urgent care?",
                 "Who provides anesthesia and follow-up care, including after I return home?",
                 "May I review unfiltered, consented cases with anatomy similar to mine?",
-              ]).map((question, index) => (
+              ])).map((question, index) => (
                 <div key={question} className="flex gap-3 rounded-2xl border border-border/60 bg-card/80 p-4 text-sm leading-relaxed">
                   <span className="font-mono text-xs font-bold text-primary">{String(index + 1).padStart(2, "0")}</span><span>{question}</span>
                 </div>
