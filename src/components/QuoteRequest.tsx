@@ -207,7 +207,7 @@ const QuoteDialog = ({
 
   const subline = "Choose email or WhatsApp. We’ll prepare your message in the next step.";
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name) return void toast.error("Enter your name so we know how to address you.");
     if (!contactMethod) return void toast.error("Choose whether you prefer Email or WhatsApp.");
@@ -216,6 +216,29 @@ const QuoteDialog = ({
     if (!country) return void toast.error("Select the country you will travel from.");
     if (!procedure) return void toast.error("Select a procedure, or choose ‘Other / Not sure yet.’");
     setLoading(true);
+
+    // Persist the lead before any handoff so no request is lost.
+    const { error: saveError } = await supabase.from("quote_requests").insert({
+      user_id: user?.id ?? null,
+      name,
+      email: email || null,
+      phone_prefix: phonePrefix,
+      phone,
+      country,
+      procedure,
+      notes: notes || null,
+      contact_method: contactMethod,
+      expert_name: expertLabel || null,
+      city: ctx.city ?? null,
+      preferred_slot: slot || null,
+      source: ctx.source || "site_cta",
+    });
+    if (saveError) {
+      console.error("quote_requests insert failed:", saveError);
+      setLoading(false);
+      toast.error("Could not send your request. Please check your connection and try again.");
+      return;
+    }
     const message = [
       "Hi Cosmetics Asia, I would like to start a consultation.",
       expertLabel ? `Expert: ${expertLabel}` : "",
