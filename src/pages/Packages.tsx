@@ -29,7 +29,7 @@ import serviceHotelBooking from "@/assets/service-real-accommodation-v3.jpg";
 import serviceClinicTranslation from "@/assets/service-real-translation-v2.jpg";
 import serviceMedicalRecords from "@/assets/service-real-records-v2.jpg";
 import serviceOnlineConcierge from "@/assets/service-real-concierge-v2.jpg";
-import travelSupportCareTeam from "@/assets/travel-support-asian-care-team-v1.jpg";
+import travelSupportCareTeam from "@/assets/travel-support-asian-care-team-v2.jpg";
 import cityHangzhou from "@/assets/city-hangzhou.jpg";
 
 
