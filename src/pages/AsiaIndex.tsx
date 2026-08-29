@@ -12,6 +12,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import Footer from "@/components/Footer";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import TikTokWall from "@/components/TikTokWall";
+import HeroVideoGallery from "@/components/HeroVideoGallery";
 import PageMeta from "@/components/PageMeta";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
 import { CITIES } from "@/data/cities";
@@ -220,6 +221,11 @@ const Hero = () => {
               </Button>
               <QuoteCtaButton className="order-first h-[3.25rem] w-full rounded-2xl border border-foreground px-7 text-[15px] sm:order-none sm:h-12 sm:w-auto sm:rounded-full" />
             </div>
+
+            <div className="mt-6 sm:mt-8">
+              <HeroVideoGallery items={TIKTOK_CASES.slice(0, 10)} lang={lang} fmtPrice={fmt} />
+            </div>
+
 
             <div className="-mx-4 mt-6 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 scrollbar-hide sm:mx-0 sm:mt-8 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4">
               {[
