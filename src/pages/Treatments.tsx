@@ -9,19 +9,6 @@ import TikTokWall from "@/components/TikTokWall";
 import { Button } from "@/components/ui/button";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
 import { useAsia } from "@/lib/asia-i18n";
-import treatmentRhinoplasty from "@/assets/treatment-rhinoplasty.jpg";
-import treatmentEyelid from "@/assets/treatment-eyelid.jpg";
-import treatmentFatGrafting from "@/assets/treatment-fat-grafting.jpg";
-import treatmentFacelift from "@/assets/treatment-facelift.jpg";
-import treatmentNeckLift from "@/assets/treatment-neck-lift.jpg";
-import treatmentBreastAugmentation from "@/assets/treatment-breast-augmentation.jpg";
-import treatmentBreastLift from "@/assets/treatment-breast-lift.jpg";
-import treatmentLiposuction from "@/assets/treatment-liposuction.jpg";
-import treatmentTummyTuck from "@/assets/treatment-tummy-tuck.jpg";
-import treatmentBodyContouring from "@/assets/treatment-body-contouring.jpg";
-import clinicConsultation from "@/assets/clinic1.jpg";
-import clinicTreatment from "@/assets/clinic2.jpg";
-import clinicInterior from "@/assets/clinic3.jpg";
 
 export const PROCEDURE_CATEGORIES = [
   {
@@ -138,21 +125,16 @@ export const PROCEDURE_CATEGORIES = [
 
 export const procedureSlug = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 
-const PROCEDURE_IMAGES: Record<number, string[]> = {
-  0: [treatmentRhinoplasty],
-  1: [treatmentEyelid],
-  2: [treatmentFatGrafting, treatmentRhinoplasty],
-  3: [treatmentFacelift, treatmentNeckLift, treatmentFatGrafting],
-  4: [treatmentBreastAugmentation, treatmentBreastLift],
-  5: [treatmentLiposuction, treatmentTummyTuck, treatmentBodyContouring],
-  6: [clinicConsultation, clinicTreatment],
-  7: [clinicTreatment, clinicInterior],
-  8: [clinicConsultation, clinicInterior, treatmentFatGrafting],
-};
+const PROCEDURE_IMAGES = import.meta.glob("../assets/procedures/*.jpg", {
+  eager: true,
+  import: "default",
+  query: "?url",
+}) as Record<string, string>;
 
 const procedureImage = (categoryIndex: number, itemIndex: number) => {
-  const images = PROCEDURE_IMAGES[categoryIndex] ?? [clinicInterior];
-  return images[itemIndex % images.length];
+  const procedureName = PROCEDURE_CATEGORIES[categoryIndex]?.items[itemIndex]?.[0];
+  if (!procedureName) return "";
+  return PROCEDURE_IMAGES[`../assets/procedures/${procedureSlug(procedureName)}.jpg`] ?? "";
 };
 
 const CATEGORY_DESCRIPTIONS = [
