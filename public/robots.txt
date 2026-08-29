@@ -1,6 +1,9 @@
 # All bots welcome
 User-agent: *
 Allow: /
+Disallow: /admin/
+Disallow: /auth
+Disallow: /upload
 
 # Sitemap for search engines
 Sitemap: https://cosmetics-asia.com/sitemap.xml

@@ -140,10 +140,10 @@ const Experts = () => {
   return (
     <>
       <PageMeta
-        title={city !== "all" ? `${cityLabel} Cosmetic Surgeons — Verified Profiles` : "Verified Cosmetic Surgeons in Asia"}
+        title={city !== "all" ? `${cityLabel} Cosmetic Experts — Published Profiles` : "Cosmetic Expert Profiles in Asia"}
         description={city !== "all"
-          ? `Review verified cosmetic surgeons in ${cityLabel}: compare specialties, credentials and patient reviews, and book a free consultation with English-language coordination.`
-          : "Review verified surgeon profiles across Asia, compare specialties and credentials, and book a free consultation with English-language coordination."}
+          ? `Explore published cosmetic expert profiles in ${cityLabel}, compare listed specialties and credentials, and ask about English-language coordination.`
+          : "Explore published cosmetic expert profiles across Asia, compare listed specialties and credentials, and ask about English-language coordination."}
         path={city !== "all" ? `/doctors?city=${encodeURIComponent(city)}` : "/doctors"}
         image={activeCityMeta?.img}
       />

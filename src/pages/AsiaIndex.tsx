@@ -1167,7 +1167,7 @@ const AsiaIndex = () => (
   <>
     <PageMeta
       title="Cosmetic Surgery in Asia | Patient Diaries"
-      description="Compare verified cosmetic surgeons across Asia, watch real patient recovery diaries, get transparent prices, and plan travel and aftercare in English with Cosmetics Asia."
+      description="Explore published cosmetic expert profiles, patient journey previews, procedure guides, and practical travel and aftercare support for cosmetic care in China."
       path="/"
       structuredData={ORGANIZATION_SCHEMA}
     />

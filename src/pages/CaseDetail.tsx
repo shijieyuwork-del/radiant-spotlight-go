@@ -106,6 +106,7 @@ const CaseDetail = () => {
         path={`/cases/${id}`}
         type="article"
         structuredData={caseSchema}
+        robots="noindex, follow"
       />
       <div className="min-h-screen bg-background">
       <AsiaNavbar homeLinks={false} />

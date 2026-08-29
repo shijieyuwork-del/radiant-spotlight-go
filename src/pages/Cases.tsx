@@ -146,10 +146,10 @@ const Cases = () => {
   return (
     <>
       <PageMeta
-        title={activeCity ? `${cityLabel} Cosmetic Surgery — Real Patient Recovery Diaries` : "Real Patient Recovery Diaries"}
+        title={activeCity ? `${cityLabel} Cosmetic Surgery — Patient Journey Previews` : "Patient Recovery Journey Previews"}
         description={activeCity
-          ? `Watch real before-and-after recovery diaries from ${cityLabel}: procedure timelines, prices, surgeon info and verified results from patients who had surgery in ${cityLabel}.`
-          : "Watch real before-and-after recovery diaries by procedure and city across Asia — timelines, prices, surgeon info and verified results."}
+          ? `Explore cosmetic care journey previews from ${cityLabel}, including procedure and recovery-stage information where available.`
+          : "Explore cosmetic care journey previews by procedure and city across Asia, with recovery-stage information where available."}
         path={activeCity ? `/cases?city=${encodeURIComponent(activeCity)}` : "/cases"}
         image={activeCityMeta?.img}
       />

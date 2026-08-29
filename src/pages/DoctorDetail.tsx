@@ -89,6 +89,7 @@ const DoctorDetail = () => {
         path={`/doctors/${id}`}
         image={doctor.img}
         structuredData={doctorSchema}
+        robots="noindex, follow"
       />
       <div className="min-h-screen bg-background">
       <AsiaNavbar homeLinks={false} />

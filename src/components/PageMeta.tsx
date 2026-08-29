@@ -7,10 +7,44 @@ interface PageMetaProps {
   path?: string;
   image?: string;
   type?: "website" | "article";
-  structuredData?: Record<string, unknown>;
+  structuredData?: Record<string, unknown> | Record<string, unknown>[];
+  robots?: string;
 }
 
 const JSONLD_ID = "page-meta-jsonld";
+
+const SECTION_LABELS: Record<string, string> = {
+  cases: "Patient Diaries",
+  cities: "Destinations",
+  doctors: "Experts",
+  treatments: "Procedures",
+  "travel-packages": "Travel Support",
+  "why-china": "Why China",
+};
+
+function createBreadcrumbSchema(path: string, pageTitle: string) {
+  const pathname = path.split("?")[0];
+  const segments = pathname.split("/").filter(Boolean);
+  if (!segments.length) return null;
+
+  const items = [
+    { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+  ];
+  let current = "";
+  segments.forEach((segment, index) => {
+    current += `/${segment}`;
+    items.push({
+      "@type": "ListItem",
+      position: index + 2,
+      name: index === segments.length - 1
+        ? pageTitle.replace(` | ${SITE_NAME}`, "")
+        : SECTION_LABELS[segment] || segment.replace(/-/g, " "),
+      item: `${SITE_URL}${current}`,
+    });
+  });
+
+  return { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: items };
+}
 
 /** Update an existing <meta> in <head>, or create it if absent. */
 function setMeta(attr: "name" | "property", key: string, content: string) {
@@ -50,10 +84,16 @@ export const PageMeta = ({
   image = OG_IMAGE,
   type = "website",
   structuredData,
+  robots = "index, follow, max-image-preview:large",
 }: PageMetaProps) => {
   const url = `${SITE_URL}${path}`;
   const fullTitle = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
-  const ld = structuredData ? JSON.stringify(structuredData) : null;
+  const breadcrumb = createBreadcrumbSchema(path, fullTitle);
+  const schemas = [
+    ...(Array.isArray(structuredData) ? structuredData : structuredData ? [structuredData] : []),
+    ...(breadcrumb ? [breadcrumb] : []),
+  ];
+  const ld = schemas.length ? JSON.stringify(schemas) : null;
   // og:image 必须是绝对 URL，相对路径（如城市图 /assets/xx.jpg）补全域名
   const imageAbs = image.startsWith("/") ? `${SITE_URL}${image}` : image;
 
@@ -61,6 +101,7 @@ export const PageMeta = ({
     document.title = fullTitle;
 
     setMeta("name", "description", description);
+    setMeta("name", "robots", robots);
     setLink("canonical", url);
 
     // Open Graph 必须用 property，用 name 的话 Facebook/LinkedIn 会忽略
@@ -72,7 +113,7 @@ export const PageMeta = ({
     setMeta("property", "og:site_name", SITE_NAME);
 
     setMeta("name", "twitter:card", "summary_large_image");
-    setMeta("name", "twitter:site", TWITTER_HANDLE);
+    if (TWITTER_HANDLE) setMeta("name", "twitter:site", TWITTER_HANDLE);
     setMeta("name", "twitter:title", fullTitle);
     setMeta("name", "twitter:description", description);
     setMeta("name", "twitter:image", imageAbs);
@@ -87,7 +128,7 @@ export const PageMeta = ({
       script.textContent = ld;
       document.head.appendChild(script);
     }
-  }, [fullTitle, description, url, imageAbs, type, ld]);
+  }, [fullTitle, description, url, imageAbs, type, ld, robots]);
 
   return null;
 };

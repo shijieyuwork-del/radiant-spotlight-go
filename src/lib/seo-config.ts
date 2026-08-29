@@ -4,11 +4,11 @@
  */
 
 // 当前已发布域名；接入自定义域名后只需改这一处（或设置 VITE_SITE_URL）
-export const SITE_URL = import.meta.env.VITE_SITE_URL || "https://radiant-spotlight-go.lovable.app";
+export const SITE_URL = import.meta.env.VITE_SITE_URL || "https://cosmetics-asia.com";
 
 export const SITE_NAME = "Cosmetics Asia";
 export const SITE_DESCRIPTION =
-  "Cosmetics Asia helps international patients compare verified cosmetic surgeons across Asia, watch real patient recovery diaries, get transparent prices, and coordinate travel and aftercare in English.";
+  "Cosmetics Asia helps international patients explore published cosmetic expert profiles, patient journey previews, procedure guides, and practical travel and aftercare support in China.";
 export const SITE_AUTHOR = "Cosmetics Asia";
 
 // OG 分享卡片：public/og-image.jpg（1200×630），发布后可被社交平台抓取
@@ -16,7 +16,8 @@ export const OG_IMAGE = `${SITE_URL}/og-image.jpg`;
 
 // Twitter 账号
 // ⚠️ 这个账号目前还不存在，注册后确认句柄是否一致，否则 twitter:site 会指向空账号
-export const TWITTER_HANDLE = "@CosmeticsAsia";
+// Add a verified brand handle here after the account exists.
+export const TWITTER_HANDLE = "";
 
 // JSON-LD Organization Schema
 export const ORGANIZATION_SCHEMA = {

@@ -37,7 +37,7 @@ const DemoDoctorDetail = () => {
   const whatsapp = `https://wa.me/14708613825?text=${encodeURIComponent(`Hi Cosmetics Asia, I’d like to ask about ${doctor.name} and available consultation options.`)}`;
   return (
     <>
-      <PageMeta title={`${doctor.name} | Sample Doctor Profile`} description={`${doctor.name}, a sample ${doctor.title} profile in ${doctor.city}.`} path={`/doctors/demo/${doctor.id}`} />
+      <PageMeta title={`${doctor.name} | Sample Doctor Profile`} description={`${doctor.name}, a sample ${doctor.title} profile in ${doctor.city}.`} path={`/doctors/demo/${doctor.id}`} robots="noindex, nofollow" />
       <div className="min-h-screen bg-background">
         <AsiaNavbar homeLinks={false} />
         <main className="container py-8 md:py-12">

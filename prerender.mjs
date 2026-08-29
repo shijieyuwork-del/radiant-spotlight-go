@@ -57,7 +57,30 @@ const esc = (s) =>
     .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
 /** 生成一条路由的 <head> 片段。逻辑必须与 PageMeta.tsx 保持一致。 */
-function renderMeta({ title, description, path: p, image, type = "website", schema }, cfg) {
+function createBreadcrumbSchema(p, pageTitle, siteUrl) {
+  const sectionLabels = {
+    cases: "Patient Diaries", cities: "Destinations", doctors: "Experts",
+    treatments: "Procedures", "travel-packages": "Travel Support", "why-china": "Why China",
+  };
+  const segments = p.split("?")[0].split("/").filter(Boolean);
+  if (!segments.length) return null;
+  let current = "";
+  const itemListElement = [
+    { "@type": "ListItem", position: 1, name: "Home", item: `${siteUrl}/` },
+  ];
+  segments.forEach((segment, index) => {
+    current += `/${segment}`;
+    itemListElement.push({
+      "@type": "ListItem",
+      position: index + 2,
+      name: index === segments.length - 1 ? pageTitle : sectionLabels[segment] || segment.replace(/-/g, " "),
+      item: `${siteUrl}${current}`,
+    });
+  });
+  return { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement };
+}
+
+function renderMeta({ title, description, path: p, image, type = "website", schema, robots = "index, follow, max-image-preview:large" }, cfg) {
   const { SITE_URL, SITE_NAME, OG_IMAGE, TWITTER_HANDLE } = cfg;
   const url = `${SITE_URL}${p}`;
   const full = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
@@ -68,7 +91,7 @@ function renderMeta({ title, description, path: p, image, type = "website", sche
     `<meta name="description" content="${esc(description)}" />`,
     `<link rel="canonical" href="${esc(url)}" />`,
     `<meta name="author" content="${esc(SITE_NAME)}" />`,
-    `<meta name="robots" content="index, follow, max-image-preview:large" />`,
+    `<meta name="robots" content="${esc(robots)}" />`,
     `<meta property="og:type" content="${esc(type)}" />`,
     `<meta property="og:site_name" content="${esc(SITE_NAME)}" />`,
     `<meta property="og:url" content="${esc(url)}" />`,
@@ -77,14 +100,16 @@ function renderMeta({ title, description, path: p, image, type = "website", sche
     `<meta property="og:image" content="${esc(img)}" />`,
     `<meta property="og:locale" content="en_US" />`,
     `<meta name="twitter:card" content="summary_large_image" />`,
-    `<meta name="twitter:site" content="${esc(TWITTER_HANDLE)}" />`,
     `<meta name="twitter:title" content="${esc(full)}" />`,
     `<meta name="twitter:description" content="${esc(description)}" />`,
     `<meta name="twitter:image" content="${esc(img)}" />`,
   ];
-  if (schema) {
+  if (TWITTER_HANDLE) tags.push(`<meta name="twitter:site" content="${esc(TWITTER_HANDLE)}" />`);
+  const breadcrumb = createBreadcrumbSchema(p, title, SITE_URL);
+  const schemas = [...(Array.isArray(schema) ? schema : schema ? [schema] : []), ...(breadcrumb ? [breadcrumb] : [])];
+  if (schemas.length) {
     // </script> 会提前闭合标签，必须转义
-    const json = JSON.stringify(schema).replace(/</g, "\\u003c");
+    const json = JSON.stringify(schemas).replace(/</g, "\\u003c");
     // id 必须与 PageMeta.tsx 的 JSONLD_ID 一致：应用挂载后会按这个 id 找到并
     // 替换掉这份静态的，否则页面上会出现两份 JSON-LD。
     tags.push(`<script type="application/ld+json" id="page-meta-jsonld">${json}</script>`);
@@ -99,7 +124,7 @@ function buildRoutes(d) {
       path: "/",
       title: "Cosmetic Surgery in Asia | Patient Diaries",
       description:
-        "Compare verified cosmetic surgeons across Asia, watch real patient recovery diaries, get transparent prices, and plan travel and aftercare in English with Cosmetics Asia.",
+        "Explore published cosmetic expert profiles, patient journey previews, procedure guides, and practical travel and aftercare support for cosmetic care in China.",
       schema: d.ORGANIZATION_SCHEMA,
     },
     {
@@ -110,15 +135,15 @@ function buildRoutes(d) {
     },
     {
       path: "/doctors",
-      title: "Verified Cosmetic Surgeons in Asia",
+      title: "Cosmetic Expert Profiles in Asia",
       description:
-        "Review verified surgeon profiles across Asia, compare specialties and credentials, and book a free consultation with English-language coordination.",
+        "Explore published cosmetic expert profiles across Asia, compare listed specialties and credentials, and ask about English-language coordination.",
     },
     {
       path: "/cases",
-      title: "Real Patient Recovery Diaries",
+      title: "Patient Recovery Journey Previews",
       description:
-        "Watch real before-and-after recovery diaries by procedure and city across Asia — timelines, prices, surgeon info and verified results.",
+        "Explore cosmetic care journey previews by procedure and city across Asia, with recovery-stage information where available.",
     },
     {
       path: "/travel-packages",
@@ -184,7 +209,7 @@ function buildRoutes(d) {
     routes.push({
       path: `/cities/${c.slug}`,
       title: `${c.en} | Medical Aesthetics, Cosmetic Surgeons & Prices`,
-      description: `Discover the best cosmetic surgeons and clinics in ${c.en}. ${c.doctorsCount}+ verified doctors, real patient cases, compare prices. ${c.savings} less than US clinics.`,
+      description: `Plan cosmetic medical travel in ${c.en}. Explore local logistics, commonly requested procedures and published expert profiles.`,
       schema: {
         "@context": "https://schema.org",
         "@type": "City",
@@ -199,6 +224,7 @@ function buildRoutes(d) {
     routes.push({
       path: `/doctors/${doc.id}`,
       includeInSitemap: false,
+      robots: "noindex, follow",
       title: `${doc.en} - ${doc.titleEn} in ${doc.cityEn}`,
       description: `Consult ${doc.en}, a board-certified surgeon in ${doc.cityEn} with ${doc.years}+ years experience and ${doc.reviews}+ verified patient reviews. Specializes in ${doc.specEn.slice(0, 2).join(", ")}.`,
       schema: {
@@ -220,6 +246,8 @@ function buildRoutes(d) {
     const treatment = item.treatment.en;
     routes.push({
       path: `/cases/${item.id}`,
+      includeInSitemap: false,
+      robots: "noindex, follow",
       title: `${treatment} - Real Patient Case | Before & After`,
       description: `Watch a real before-and-after ${treatment} procedure performed in Asia. Patient recovery timeline, price, surgeon info, and verified results.`,
       type: "article",
