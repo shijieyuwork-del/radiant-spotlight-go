@@ -26,7 +26,8 @@ describe("AsiaIndex 冒烟 — 源码级：JSX 引用都有 import", () => {
 
     // 文件中实际渲染的组件（<Foo 或 <Foo.Bar 形式，排除小写 HTML 标签）
     const used = new Set<string>();
-    for (const m of src.matchAll(/<([A-Z][A-Za-z0-9]*)/g)) used.add(m[1]);
+    // 前一个字符是字母/点则是 TS 泛型（useRef<HTMLDivElement> 等），排除
+    for (const m of src.matchAll(/(^|[^A-Za-z0-9_.])<([A-Z][A-Za-z0-9]*)/gm)) used.add(m[2]);
 
     // import 进来的标识符
     const imported = new Set<string>();
