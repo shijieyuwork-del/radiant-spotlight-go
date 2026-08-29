@@ -255,31 +255,31 @@ const Packages = () => {
             </div>
           </section>
 
-          <section id="journey" className="container scroll-mt-24 py-12 md:py-20">
+          <section id="journey" className="container scroll-mt-24 py-10 md:py-20">
             <div className="mx-auto max-w-3xl text-center">
               <span className="pill bg-accent text-accent-foreground"><Route className="size-3.5" />{c("A clear path from home to follow-up", "从家中咨询到术后随访", "Понятный путь от дома до наблюдения")}</span>
-              <h2 className="mt-4 font-display text-4xl font-medium leading-tight tracking-tight md:text-6xl">
+              <h2 className="mt-4 font-display text-[2.25rem] font-medium leading-[1.06] tracking-tight sm:text-5xl md:text-6xl">
                 {c("Six steps. ", "六个步骤，", "Шесть этапов. ")}<em className="not-italic text-primary">{c("No guessing what comes next.", "每一步都清楚。", "Вы всегда знаете, что дальше.")}</em>
               </h2>
               <p className="mt-4 text-base leading-relaxed text-foreground/65 md:text-lg">{c("Each stage answers the question patients ask most: what happens next, who helps and what should I prepare?", "每个阶段都会回答患者最关心的问题：下一步是什么、谁来协助、需要准备什么？", "Каждый этап отвечает на главные вопросы: что дальше, кто поможет и что подготовить?")}</p>
             </div>
 
-            <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            <div className="-mx-4 mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-5 scrollbar-hide sm:-mx-6 sm:px-6 md:mx-0 md:mt-10 md:grid md:grid-cols-2 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-3">
               {JOURNEY_STEPS.map((step, index) => {
                 const Icon = step.icon;
                 return (
-                  <article key={step.eyebrow[0]} className={`group overflow-hidden rounded-[1.75rem] border bg-card shadow-soft transition hover:-translate-y-1 hover:shadow-pop ${index === 0 ? "border-primary/45 ring-4 ring-primary/5" : "border-border/70"}`}>
-                    <div className="relative aspect-[16/8] overflow-hidden bg-muted">
-                      <img src={step.image} alt={pick(step.title)} loading="lazy" className="size-full object-cover transition duration-700 group-hover:scale-[1.035]" />
+                  <article key={step.eyebrow[0]} className={`group min-w-[84vw] snap-center overflow-hidden rounded-[1.5rem] border bg-card shadow-soft transition hover:-translate-y-1 hover:shadow-pop sm:min-w-[68vw] md:min-w-0 md:rounded-[1.75rem] ${index === 0 ? "border-primary/45 ring-4 ring-primary/5" : "border-border/70"}`}>
+                    <div className="relative aspect-[16/9] overflow-hidden bg-muted md:aspect-[16/8]">
+                      <img src={step.image} alt={pick(step.title)} loading={index === 0 ? "eager" : "lazy"} decoding="async" className="size-full object-cover transition duration-700 group-hover:scale-[1.035]" />
                       <div className="absolute inset-0 bg-gradient-to-t from-foreground/35 via-transparent to-transparent" />
                       <span className="absolute bottom-3 left-3 rounded-full bg-white/90 px-3 py-1 text-[10px] font-bold uppercase tracking-[.14em] text-foreground shadow-soft backdrop-blur">{c(`Step ${index + 1}`, `第 ${index + 1} 步`, `Этап ${index + 1}`)}</span>
                     </div>
-                    <div className="p-5 sm:p-6">
+                    <div className="p-4 sm:p-5 md:p-6">
                       <div className="flex items-center gap-3">
                         <span className="grid size-10 shrink-0 place-items-center rounded-2xl bg-primary/10 text-primary"><Icon className="size-4" /></span>
                         <p className="text-[10px] font-bold uppercase tracking-[.15em] text-primary">{pick(step.eyebrow)}</p>
                       </div>
-                      <h3 className="mt-4 font-display text-2xl font-semibold leading-tight tracking-tight">{pick(step.title)}</h3>
+                      <h3 className="mt-3 font-display text-[1.35rem] font-semibold leading-tight tracking-tight sm:text-2xl md:mt-4">{pick(step.title)}</h3>
                       <p className="mt-3 text-sm leading-relaxed text-foreground/65">{pick(step.text)}</p>
                       {index === 0 && (
                         <a href={QUOTE_WHATSAPP_URL} target="_blank" rel="noreferrer" className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary/80">
@@ -293,28 +293,28 @@ const Packages = () => {
             </div>
           </section>
 
-          <section id="support" className="container scroll-mt-24 py-12 md:py-20">
+          <section id="support" className="container scroll-mt-24 py-10 md:py-20">
             <div className="overflow-hidden rounded-[2.5rem] border border-primary/15 bg-gradient-to-br from-[hsl(158,58%,90%)] via-[hsl(145,48%,92%)] to-[hsl(50,80%,91%)] shadow-pop">
-              <div className="grid gap-8 px-6 py-9 sm:px-9 md:px-12 md:py-12 lg:grid-cols-[.85fr_1.15fr] lg:items-end">
+              <div className="grid gap-5 px-5 py-7 sm:px-9 sm:py-9 md:px-12 md:py-12 lg:grid-cols-[.85fr_1.15fr] lg:items-end lg:gap-8">
                 <div>
                   <span className="pill bg-white/80 text-foreground shadow-soft"><ShieldCheck className="size-3.5 text-primary" />{c("Free coordination support", "免费协调支持", "Бесплатная координационная поддержка")}</span>
-                  <h2 className="mt-4 font-display text-4xl font-medium leading-tight tracking-tight md:text-5xl">{c("Practical details, handled with you.", "实际细节，有人和你一起处理。", "Практические детали решаются вместе с вами.")}</h2>
+                  <h2 className="mt-4 font-display text-[2.2rem] font-medium leading-[1.08] tracking-tight sm:text-4xl md:text-5xl">{c("Practical details, handled with you.", "实际细节，有人和你一起处理。", "Практические детали решаются вместе с вами.")}</h2>
                 </div>
                 <p className="max-w-2xl text-base leading-relaxed text-foreground/65 md:text-lg">{c("Support is confirmed around your actual appointment and itinerary. Before you travel, you receive a clear summary of what is included, optional or paid separately.", "支持内容会根据实际预约和行程确认。出发前，你会收到清晰说明，了解哪些已包含、哪些可选、哪些需另行支付。", "Поддержка подтверждается с учётом вашей записи и маршрута. До поездки вы получите ясное описание включённых, дополнительных и отдельно оплачиваемых услуг.")}</p>
               </div>
-              <div className="grid gap-4 bg-white/60 p-4 sm:p-6 md:grid-cols-2 lg:grid-cols-6 lg:p-8">
+              <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto bg-white/60 p-4 scrollbar-hide sm:p-6 md:grid md:grid-cols-2 md:overflow-visible lg:grid-cols-6 lg:p-8">
                 {SUPPORT_SERVICES.map((service, index) => {
                   const Icon = service.icon;
                   const wide = index < 2 ? "lg:col-span-3" : "lg:col-span-2";
                   return (
-                    <article key={service.title[0]} className={`group overflow-hidden rounded-3xl border border-white/90 bg-card shadow-soft ${wide}`}>
-                      <div className="grid min-h-full sm:grid-cols-[10rem_1fr]">
-                        <div className="relative min-h-40 overflow-hidden bg-muted sm:min-h-full">
-                          <img src={service.image} alt={pick(service.title)} loading="lazy" className="absolute inset-0 size-full object-cover transition duration-700 group-hover:scale-105" />
+                    <article key={service.title[0]} className={`group min-w-[82vw] snap-center overflow-hidden rounded-3xl border border-white/90 bg-card shadow-soft sm:min-w-[68vw] md:min-w-0 ${wide}`}>
+                      <div className="grid min-h-full md:grid-cols-[9rem_1fr] lg:grid-cols-[10rem_1fr]">
+                        <div className="relative aspect-[16/9] overflow-hidden bg-muted md:aspect-auto md:min-h-full">
+                          <img src={service.image} alt={pick(service.title)} loading={index < 2 ? "eager" : "lazy"} decoding="async" className="absolute inset-0 size-full object-cover transition duration-700 group-hover:scale-105" />
                           <span className="absolute left-3 top-3 grid size-9 place-items-center rounded-xl bg-white/90 text-primary shadow-soft backdrop-blur"><Icon className="size-4" /></span>
                         </div>
-                        <div className="p-5">
-                          <h3 className="font-display text-xl font-semibold leading-tight tracking-tight">{pick(service.title)}</h3>
+                        <div className="p-4 sm:p-5">
+                          <h3 className="font-display text-[1.2rem] font-semibold leading-tight tracking-tight sm:text-xl">{pick(service.title)}</h3>
                           <p className="mt-3 text-sm leading-relaxed text-foreground/65">{pick(service.text)}</p>
                         </div>
                       </div>
