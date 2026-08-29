@@ -25,7 +25,7 @@ import { MedicalDisclaimer } from "@/components/MedicalDisclaimer";
 import heroBg from "@/assets/hero-bg.jpg";
 import journeyConsultation from "@/assets/journey-premium-natural-consultation-v5.jpg";
 import journeyArrival from "@/assets/journey-premium-natural-arrival-v5.jpg";
-import journeyGroundSupport from "@/assets/journey-premium-concierge-v6.jpg";
+import journeyGroundSupport from "@/assets/journey-premium-natural-concierge-v5.jpg";
 import journeyTreatment from "@/assets/journey-premium-clinic-v6.jpg";
 import journeyRecovery from "@/assets/journey-premium-natural-recovery-v5.jpg";
 import journeyFollowUp from "@/assets/journey-premium-natural-followup-v5.jpg";
