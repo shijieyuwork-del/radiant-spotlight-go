@@ -26,7 +26,7 @@ import journeyConsultation from "@/assets/journey-premium-video-consultation.jpg
 import journeyArrival from "@/assets/journey-premium-china-arrival.jpg";
 import journeySupport from "@/assets/journey-premium-coordination-support.jpg";
 import journeyRecovery from "@/assets/journey-premium-ground-support.jpg";
-import journeyFollowUp from "@/assets/journey-premium-remote-follow-up.jpg";
+import journeyFollowUp from "@/assets/journey-premium-doctor-follow-up.jpg";
 import journeyExploration from "@/assets/journey-premium-recovery-hangzhou.jpg";
 import AppPromoSection from "@/components/AppPromoSection";
 import { supabase } from "@/integrations/supabase/client";
