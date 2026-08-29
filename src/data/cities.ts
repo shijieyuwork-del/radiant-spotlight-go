@@ -1,12 +1,12 @@
-import heroBg from "@/assets/hero-bg.jpg";
-import c1 from "@/assets/clinic1.jpg";
-import c2 from "@/assets/clinic2.jpg";
-import c3 from "@/assets/clinic3.jpg";
 import shanghaiImg from "@/assets/city-shanghai.jpg";
 import guangzhouImg from "@/assets/city-guangzhou.jpg";
 import beijingImg from "@/assets/city-beijing.jpg";
 import hainanImg from "@/assets/city-hainan.jpg";
 import hangzhouImg from "@/assets/city-hangzhou.jpg";
+import seoulImg from "@/assets/city-seoul.jpg";
+import bangkokImg from "@/assets/city-bangkok.jpg";
+import tokyoImg from "@/assets/city-tokyo.jpg";
+import singaporeImg from "@/assets/city-singapore.jpg";
 
 export type City = {
   /** URL slug (lowercase English city name) */
@@ -50,7 +50,7 @@ const CITY_CATALOG: City[] = [
       "首尔是亚洲最具国际知名度的整形目的地，拥有大量专攻双眼皮、鼻综合与面部轮廓的资深专家，诊所普遍配备中文、英文、俄文协调员，术后管理细致。",
     introEn:
       "Seoul is Asia's best-known aesthetic surgery destination, with deep expertise in double-eyelid, rhinoplasty and facial contouring. Most clinics provide Chinese, English and Russian coordinators and detailed post-op care.",
-    img: heroBg,
+    img: seoulImg,
     clinics: 156, doctorsCount: 98, savings: "55–70%",
     hotZh: ["双眼皮 / 眼袋", "鼻综合", "面部轮廓", "面部拉皮", "脂肪填充"],
     hotEn: ["Blepharoplasty", "Rhinoplasty", "Facial Contouring", "Facelift", "Facial Fat Grafting"],
@@ -91,7 +91,7 @@ const CITY_CATALOG: City[] = [
       "曼谷以高性价比和国际化服务著称，隆胸、吸脂、腹壁整形价格优势明显，私立医院 JCI 认证比例高，适合希望用欧美 1/3 预算完成手术的客户。",
     introEn:
       "Bangkok is known for competitive pricing and international service. Breast augmentation, liposuction and tummy tuck costs are roughly one-third of US rates, and many private hospitals hold JCI accreditation.",
-    img: c2,
+    img: bangkokImg,
     clinics: 132, doctorsCount: 76, savings: "65–75%",
     hotZh: ["隆胸", "吸脂塑形", "腹壁整形", "巴西提臀", "面部拉皮"],
     hotEn: ["Breast Augmentation", "Liposuction", "Tummy Tuck", "BBL", "Facelift"],
@@ -132,7 +132,7 @@ const CITY_CATALOG: City[] = [
       "东京整形以精细化、自然风格见长，双眼皮与脂肪填充技术成熟，专家普遍注重长期安全与低侵入性方案，适合追求低调、持久效果的客户。",
     introEn:
       "Tokyo surgeons are known for refined, natural-looking results. Blepharoplasty and facial fat grafting are especially mature, with a strong focus on long-term safety and minimally invasive approaches.",
-    img: c3,
+    img: tokyoImg,
     clinics: 98, doctorsCount: 64, savings: "40–55%",
     hotZh: ["双眼皮 / 眼袋", "面部脂肪填充", "鼻综合", "颈部提升", "面部拉皮"],
     hotEn: ["Blepharoplasty", "Facial Fat Grafting", "Rhinoplasty", "Neck Lift", "Facelift"],
@@ -173,7 +173,7 @@ const CITY_CATALOG: City[] = [
       "新加坡以严苛的医疗监管和高端服务闻名，适合追求高安全标准、英语无障碍沟通的客户。拉皮、隆胸与体形雕塑由委员会认证整形外科专家主刀。",
     introEn:
       "Singapore is known for strict medical regulation and premium service. It suits patients who prioritize safety and seamless English communication. Facelift, breast surgery and body contouring are performed by board-certified plastic surgeons.",
-    img: c1,
+    img: singaporeImg,
     clinics: 54, doctorsCount: 38, savings: "35–50%",
     hotZh: ["面部拉皮", "隆胸", "吸脂塑形", "腹壁整形", "鼻综合"],
     hotEn: ["Facelift", "Breast Augmentation", "Liposuction", "Tummy Tuck", "Rhinoplasty"],
