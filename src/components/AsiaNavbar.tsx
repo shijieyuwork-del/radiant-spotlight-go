@@ -17,13 +17,13 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
   const c = (en: string, zh: string, ru: string) => asiaCopy(lang, { en, zh, ru });
   const isActive = (to: string) => to === "/" ? pathname === "/" : pathname === to || pathname.startsWith(`${to}/`);
   const links = homeLinks
-    ? [
+      ? [
         { to: "/", label: c("Home", "首页", "Главная") },
-        { to: "/cities", label: t("nav.cities") },
         { to: "/cases", label: t("nav.cases") },
         { to: "/doctors", label: t("nav.compliance") },
         { to: "/treatments", label: t("nav.projects") },
         { to: "/travel-packages", label: c("Travel Support", "行程支持", "Поддержка поездки") },
+        { to: "/cities", label: t("nav.cities") },
         { to: "/why-china", label: c("Why China", "为什么选中国", "Почему Китай") },
       ]
     : [
