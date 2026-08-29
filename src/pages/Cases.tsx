@@ -170,7 +170,7 @@ const Cases = () => {
             <input
               value={q}
               onChange={(e) => setQ(e.target.value)}
-              className="w-full bg-transparent outline-none text-sm font-medium"
+              className="w-full bg-transparent text-base font-medium outline-none sm:text-sm"
               placeholder={c("Search procedures, recovery stages or cities…", "搜索项目、恢复阶段或城市…", "Поиск по процедуре, этапу или городу…")}
             />
           </div>
@@ -271,7 +271,7 @@ const Cases = () => {
 };
 
 const FilterSelect = ({ value, onChange, label, options }: { value: string; onChange: (value: string) => void; label: string; options: { key: string; label: string }[] }) => (
-  <select value={value} onChange={(event) => onChange(event.target.value)} className="min-h-12 w-full rounded-xl border border-border/70 bg-card px-3 text-[13px] font-semibold text-foreground shadow-soft outline-none transition focus:border-primary/50 focus:ring-4 focus:ring-primary/10 sm:rounded-full sm:px-4 sm:text-sm">
+  <select value={value} onChange={(event) => onChange(event.target.value)} className="min-h-12 w-full rounded-xl border border-border/70 bg-card px-3 text-base font-semibold text-foreground shadow-soft outline-none transition focus:border-primary/50 focus:ring-4 focus:ring-primary/10 sm:rounded-full sm:px-4 sm:text-sm">
     <option value="">{label}</option>
     {options.map((option) => <option key={option.key} value={option.key}>{option.label}</option>)}
   </select>

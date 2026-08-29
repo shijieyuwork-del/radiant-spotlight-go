@@ -55,7 +55,7 @@ const Chip = ({ active, onClick, label }: { active: boolean; onClick: () => void
   <button
     type="button"
     onClick={onClick}
-    className={`rounded-full px-3.5 py-2 text-xs font-semibold transition ${
+    className={`min-h-12 rounded-full px-3.5 py-2 text-xs font-semibold transition ${
       active
         ? "bg-primary text-primary-foreground shadow-soft"
         : "border border-border bg-background text-foreground hover:border-primary/50 hover:text-primary"
@@ -82,14 +82,14 @@ export const CitySearchBar = ({ filter }: { filter: CityFilter }) => {
               "搜索城市、国家或项目 —— 如首尔、韩国、隆鼻…",
               "Поиск по городу, стране или процедуре — Сеул, Корея, нос…",
             )}
-            className="h-12 w-full rounded-full border border-border/70 bg-background pl-11 pr-10 text-sm outline-none transition focus:border-primary/50 focus:ring-4 focus:ring-primary/10"
+            className="h-12 w-full rounded-full border border-border/70 bg-background pl-11 pr-12 text-base outline-none transition focus:border-primary/50 focus:ring-4 focus:ring-primary/10 sm:text-sm"
           />
           {filter.query && (
             <button
               type="button"
               onClick={() => filter.setQuery("")}
               aria-label={c("Clear search", "清除搜索", "Очистить поиск")}
-              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1 text-muted-foreground transition hover:text-foreground"
+              className="absolute right-0 top-1/2 grid size-12 -translate-y-1/2 place-items-center rounded-full text-muted-foreground transition hover:bg-muted hover:text-foreground"
             >
               <X className="size-4" />
             </button>
@@ -137,7 +137,7 @@ export const CityQuickResults = ({ results, query }: { results: City[]; query?: 
           href="https://wa.me/14708613825"
           target="_blank"
           rel="noreferrer"
-          className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90"
+          className="inline-flex min-h-12 items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90"
         >
           <MessageCircle className="size-4" />
           {c("Ask us", "咨询客服", "Спросить нас")}
@@ -174,19 +174,19 @@ export const CityQuickResults = ({ results, query }: { results: City[]; query?: 
             <div className="mt-3 grid grid-cols-3 gap-1.5 text-center text-[11px] font-semibold">
               <Link
                 to={`/cities/${city.slug}`}
-                className="rounded-lg bg-secondary px-2 py-2 text-foreground transition hover:bg-accent"
+                className="flex min-h-12 items-center justify-center rounded-xl bg-secondary px-2 py-2 text-foreground transition hover:bg-accent"
               >
                 {c("Guide", "城市详情", "Гид")}
               </Link>
               <Link
                 to={`/cases?city=${encodeURIComponent(city.en)}`}
-                className="rounded-lg bg-accent px-2 py-2 text-accent-foreground transition hover:opacity-80"
+                className="flex min-h-12 items-center justify-center rounded-xl bg-accent px-2 py-2 text-accent-foreground transition hover:opacity-80"
               >
                 {c("Cases", "真实案例", "Кейсы")}
               </Link>
               <Link
                 to={`/doctors?city=${encodeURIComponent(city.en)}`}
-                className="rounded-lg bg-primary px-2 py-2 text-primary-foreground transition hover:bg-primary/90"
+                className="flex min-h-12 items-center justify-center rounded-xl bg-primary px-2 py-2 text-primary-foreground transition hover:bg-primary/90"
               >
                 {c("Experts", "专家", "Эксперты")}
               </Link>

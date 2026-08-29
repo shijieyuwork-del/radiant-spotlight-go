@@ -220,7 +220,7 @@ const QuoteDialog = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg p-0 rounded-3xl border-border overflow-hidden gap-0 max-h-[92vh] overflow-y-auto">
+      <DialogContent className="quote-dialog-mobile max-w-lg gap-0 overflow-y-auto rounded-3xl border-border p-0 sm:max-h-[92vh]">
         {submitted ? (
           <SuccessState
             onClose={() => onOpenChange(false)}
@@ -231,13 +231,14 @@ const QuoteDialog = ({
           />
         ) : (
           <>
-            <div className="bg-gradient-mint p-6 pb-5 relative">
+            <div className="relative bg-gradient-mint p-5 pb-5 pr-16 sm:p-6 sm:pb-5 sm:pr-16">
               <div className="flex items-center justify-between">
                 <span className="pill bg-background/80 backdrop-blur shadow-soft">
                   <Sparkles className="size-3 text-primary" /> Free · No obligation
                 </span>
                 <span className="text-[11px] font-semibold text-foreground/60 uppercase tracking-wider">
-                  Step {step} of 2
+                  <span className="hidden min-[360px]:inline">Step {step} of 2</span>
+                  <span className="min-[360px]:hidden">{step} / 2</span>
                 </span>
               </div>
               <DialogTitle className="font-display text-2xl md:text-[26px] font-semibold tracking-tight mt-3 leading-tight">
@@ -259,21 +260,21 @@ const QuoteDialog = ({
             {step === 1 ? (
               <IntentStep onPick={pickIntent} doctorName={ctx.doctorName} />
             ) : (
-              <form onSubmit={handleSubmit} className="p-6 space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-4 p-4 sm:p-6">
                 <button
                   type="button"
                   onClick={() => setStep(1)}
-                  className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground -mt-1 mb-1"
+                  className="-ml-3 -mt-1 mb-1 inline-flex min-h-12 items-center gap-1 rounded-xl px-3 text-xs text-muted-foreground hover:bg-muted hover:text-foreground"
                 >
                   <ArrowLeft className="size-3" /> Change option
                 </button>
 
                 <div className="grid sm:grid-cols-2 gap-3">
                   <Field label="Your name" required>
-                    <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Jane" className="rounded-xl h-11" />
+                    <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Jane" className="h-12 rounded-xl" />
                   </Field>
                   <Field label="Email" required>
-                    <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="jane@email.com" className="rounded-xl h-11" />
+                    <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="jane@email.com" className="h-12 rounded-xl" />
                   </Field>
                 </div>
 
@@ -281,7 +282,7 @@ const QuoteDialog = ({
                   <select
                     value={country}
                     onChange={(e) => setCountry(e.target.value)}
-                    className="w-full h-11 rounded-xl border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                    className="h-12 w-full rounded-xl border border-input bg-background px-3 text-base focus:outline-none focus:ring-2 focus:ring-ring sm:text-sm"
                   >
                     <option value="">Select your country</option>
                     {COUNTRIES.map((c) => <option key={c} value={c}>{c}</option>)}
@@ -292,7 +293,7 @@ const QuoteDialog = ({
                   <select
                     value={procedure}
                     onChange={(e) => setProcedure(e.target.value)}
-                    className="w-full h-11 rounded-xl border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                    className="h-12 w-full rounded-xl border border-input bg-background px-3 text-base focus:outline-none focus:ring-2 focus:ring-ring sm:text-sm"
                   >
                     <option value="">Select a procedure</option>
                     {PROCEDURES.map((p) => <option key={p} value={p}>{p}</option>)}
@@ -360,7 +361,7 @@ const IntentStep = ({ onPick, doctorName }: { onPick: (i: Intent) => void; docto
   ];
 
   return (
-    <div className="p-6 pt-5 space-y-3">
+    <div className="space-y-3 p-4 pt-5 sm:p-6 sm:pt-5">
       <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
         What would you like to do?
       </p>
@@ -436,7 +437,7 @@ const SlotPicker = ({ value, onChange, city }: { value: string; onChange: (v: st
             key={d.key}
             type="button"
             onClick={() => setActiveDay(d.key)}
-            className={`rounded-xl py-2 text-center transition-colors ${
+            className={`min-h-12 rounded-xl py-2 text-center transition-colors ${
               activeDay === d.key ? "bg-foreground text-background" : "bg-muted/60 hover:bg-muted text-foreground"
             }`}
           >
@@ -454,7 +455,7 @@ const SlotPicker = ({ value, onChange, city }: { value: string; onChange: (v: st
               key={t}
               type="button"
               onClick={() => onChange(slotKey)}
-              className={`rounded-xl py-2 text-sm font-semibold transition-colors ${
+              className={`min-h-12 rounded-xl py-2 text-sm font-semibold transition-colors ${
                 active ? "bg-primary text-foreground ring-2 ring-foreground" : "bg-muted/60 hover:bg-muted text-foreground"
               }`}
             >

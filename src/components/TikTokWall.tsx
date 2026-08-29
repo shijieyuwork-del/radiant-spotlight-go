@@ -174,7 +174,7 @@ const TikTokCard = ({
       <div className={`absolute right-2 flex flex-col items-center gap-3 ${discovery ? "top-14" : "bottom-24"}`}>
         <button
           onClick={(e) => { e.stopPropagation(); toggleSaved(); }}
-          className="size-10 rounded-full bg-black/40 backdrop-blur grid place-items-center text-white hover:scale-110 transition-transform"
+          className="grid size-12 place-items-center rounded-full bg-black/40 text-white backdrop-blur transition-transform hover:scale-105"
           aria-label={signedIn
             ? saved ? "Remove from saved cases" : "Save this case"
             : "Sign up to save this case"}
@@ -185,7 +185,7 @@ const TikTokCard = ({
 
         {!discovery && <button
           onClick={(e) => e.stopPropagation()}
-          className="size-10 rounded-full bg-black/40 backdrop-blur grid place-items-center text-white hover:scale-110 transition-transform"
+          className="grid size-12 place-items-center rounded-full bg-black/40 text-white backdrop-blur transition-transform hover:scale-105"
           aria-label="comments"
         >
           <MessageCircle className="size-5" />
@@ -194,7 +194,7 @@ const TikTokCard = ({
 
         {!discovery && <button
           onClick={(e) => e.stopPropagation()}
-          className="size-10 rounded-full bg-black/40 backdrop-blur grid place-items-center text-white hover:scale-110 transition-transform"
+          className="grid size-12 place-items-center rounded-full bg-black/40 text-white backdrop-blur transition-transform hover:scale-105"
           aria-label="share"
         >
           <Share2 className="size-5" />
@@ -202,7 +202,7 @@ const TikTokCard = ({
 
         {!discovery && <button
           onClick={toggleMute}
-          className="size-10 rounded-full bg-black/40 backdrop-blur grid place-items-center text-white hover:scale-110 transition-transform"
+          className="grid size-12 place-items-center rounded-full bg-black/40 text-white backdrop-blur transition-transform hover:scale-105"
           aria-label="mute"
         >
           {muted ? <VolumeX className="size-5" /> : <Volume2 className="size-5" />}

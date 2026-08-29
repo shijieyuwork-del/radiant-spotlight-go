@@ -166,7 +166,7 @@ const Experts = () => {
             <input
               value={q}
               onChange={(e) => setQ(e.target.value)}
-              className="w-full bg-transparent outline-none text-sm font-medium"
+              className="w-full bg-transparent text-base font-medium outline-none sm:text-sm"
               placeholder={c("Search by name, clinic or specialty…", "搜索专家、机构或擅长项目…", "Поиск по имени, клинике или специализации…")}
             />
           </div>

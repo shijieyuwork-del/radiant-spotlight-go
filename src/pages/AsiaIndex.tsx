@@ -207,7 +207,7 @@ const Hero = () => {
               <Button asChild size="lg" className="h-[3.25rem] w-full rounded-2xl px-8 text-[15px] font-semibold shadow-pop sm:h-12 sm:w-auto sm:min-w-72 sm:rounded-full">
                 <Link to="/cases">{copy.cases}<ArrowRight className="ml-1.5 size-4" /></Link>
               </Button>
-              <QuoteCtaButton className="h-[3.25rem] w-full rounded-2xl border border-foreground px-7 text-[15px] sm:h-12 sm:w-auto sm:rounded-full" />
+              <QuoteCtaButton className="order-first h-[3.25rem] w-full rounded-2xl border border-foreground px-7 text-[15px] sm:order-none sm:h-12 sm:w-auto sm:rounded-full" />
             </div>
 
             <div className="-mx-4 mt-6 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 scrollbar-hide sm:mx-0 sm:mt-8 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4">
@@ -335,9 +335,9 @@ const TravelBar = () => {
           return next;
         });
       }
-    }, 3200);
+    }, 4800);
     return () => window.clearInterval(timer);
-  }, []);
+  }, [steps.length]);
 
   return (
     <section className="container py-7 md:py-10" aria-labelledby="home-journey-title">
@@ -367,6 +367,16 @@ const TravelBar = () => {
             <article
               key={x.t}
               onClick={() => showStep(index)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  showStep(index);
+                }
+              }}
+              role="button"
+              tabIndex={0}
+              aria-label={`${journeyCopy.step} ${index + 1}: ${x.t}`}
+              aria-current={activeStep === index ? "step" : undefined}
               className={`group relative min-w-[82vw] cursor-pointer snap-center overflow-hidden rounded-[1.6rem] border bg-card shadow-soft transition-all duration-500 sm:min-w-[55vw] md:min-w-[calc((100%_-_2.5rem)/3)] ${activeStep === index ? "border-primary/60 shadow-pop md:-translate-y-1" : "border-white/70 opacity-80 hover:opacity-100"}`}
             >
               <div className="relative h-40 overflow-hidden md:h-44">
@@ -392,9 +402,18 @@ const TravelBar = () => {
           ))}
         </div>
         <div className="mt-1 flex items-center justify-center gap-3 px-5">
-          <div className="flex items-center gap-1.5" aria-label={`Step ${activeStep + 1} of ${steps.length}`}>
+          <div className="flex items-center" aria-label={`Step ${activeStep + 1} of ${steps.length}`}>
             {steps.map((step, index) => (
-              <button key={step.t} type="button" onClick={() => showStep(index)} className={`h-2 rounded-full transition-all ${activeStep === index ? "w-8 bg-primary" : "w-2 bg-card/80 hover:bg-primary/40"}`} aria-label={`Show step ${index + 1}`} />
+              <button
+                key={step.t}
+                type="button"
+                onClick={() => showStep(index)}
+                className="grid size-12 place-items-center rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                aria-label={`Show step ${index + 1}`}
+                aria-current={activeStep === index ? "step" : undefined}
+              >
+                <span className={`h-2 rounded-full transition-all ${activeStep === index ? "w-8 bg-primary" : "w-2 bg-card/80"}`} />
+              </button>
             ))}
           </div>
         </div>
@@ -463,7 +482,7 @@ const CitiesSection = () => {
         ))}
       </div>
       <div className="mt-2 flex justify-center sm:hidden">
-        <Link to="/cities" className="inline-flex items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90">
+        <Link to="/cities" className="inline-flex min-h-12 items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90">
           {lang === "zh" ? "查看全部城市" : lang === "ru" ? "Все города" : "All cities"} <ArrowRight className="size-4" />
         </Link>
       </div>
@@ -497,24 +516,33 @@ const TreatmentsSection = () => {
   ];
   const treatmentCloudRailRef = useRef<HTMLDivElement>(null);
   const treatmentCloudPausedRef = useRef(false);
+  const treatmentCloudIndexRef = useRef(0);
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    let frame = 0;
-    let previousTime = 0;
-    const animate = (time: number) => {
+    let resetTimer = 0;
+    const timer = window.setInterval(() => {
       const rail = treatmentCloudRailRef.current;
-      if (rail && !treatmentCloudPausedRef.current && !document.hidden) {
-        const elapsed = previousTime ? time - previousTime : 0;
-        rail.scrollLeft += elapsed * 0.06;
-        const loopPoint = rail.scrollWidth / 2;
-        if (rail.scrollLeft >= loopPoint) rail.scrollLeft -= loopPoint;
+      if (!rail || treatmentCloudPausedRef.current || document.hidden) return;
+      const nextIndex = treatmentCloudIndexRef.current + 1;
+      const card = rail.children[nextIndex] as HTMLElement | undefined;
+      if (!card) return;
+      const left = card.offsetLeft - rail.offsetLeft - Math.max(0, (rail.clientWidth - card.clientWidth) / 2);
+      rail.scrollTo({ left, behavior: "smooth" });
+      treatmentCloudIndexRef.current = nextIndex;
+      if (nextIndex === procedureClouds.length) {
+        resetTimer = window.setTimeout(() => {
+          const firstCard = rail.children[0] as HTMLElement | undefined;
+          if (!firstCard) return;
+          rail.scrollTo({ left: firstCard.offsetLeft - rail.offsetLeft, behavior: "auto" });
+          treatmentCloudIndexRef.current = 0;
+        }, 750);
       }
-      previousTime = time;
-      frame = window.requestAnimationFrame(animate);
+    }, 4800);
+    return () => {
+      window.clearInterval(timer);
+      window.clearTimeout(resetTimer);
     };
-    frame = window.requestAnimationFrame(animate);
-    return () => window.cancelAnimationFrame(frame);
-  }, []);
+  }, [procedureClouds.length]);
   return (
     <section id="projects" className="container py-10 md:py-16">
       <div className="mb-5 flex flex-wrap items-end justify-between gap-4 md:mb-8">
@@ -527,16 +555,20 @@ const TreatmentsSection = () => {
       </div>
       <div
         ref={treatmentCloudRailRef}
+        onMouseEnter={() => { treatmentCloudPausedRef.current = true; }}
+        onMouseLeave={() => { treatmentCloudPausedRef.current = false; }}
         onTouchStart={() => { treatmentCloudPausedRef.current = true; }}
         onTouchEnd={() => { treatmentCloudPausedRef.current = false; }}
-        className="flex touch-pan-x items-stretch gap-8 overflow-x-auto overscroll-x-contain rounded-[2rem] bg-gradient-to-r from-[hsl(158,58%,90%)] via-[hsl(145,48%,91%)] to-[hsl(50,80%,91%)] px-4 py-4 shadow-pop scrollbar-hide sm:gap-9 md:gap-10 md:px-6 md:py-5"
+        onFocusCapture={() => { treatmentCloudPausedRef.current = true; }}
+        onBlurCapture={() => { treatmentCloudPausedRef.current = false; }}
+        className="flex touch-pan-x snap-x snap-mandatory items-stretch gap-8 overflow-x-auto overscroll-x-contain scroll-smooth rounded-[2rem] bg-gradient-to-r from-[hsl(158,58%,90%)] via-[hsl(145,48%,91%)] to-[hsl(50,80%,91%)] px-4 py-4 shadow-pop scrollbar-hide sm:gap-9 md:gap-10 md:px-6 md:py-5"
       >
         {[...procedureClouds, ...procedureClouds].map((cloud, repeatedIndex) => {
           const cloudIndex = repeatedIndex % procedureClouds.length;
           const duplicate = repeatedIndex >= procedureClouds.length;
           const CloudIcon = cloud.icon;
           return (
-          <article key={`${cloud.en}-${duplicate ? "loop" : "primary"}`} aria-hidden={duplicate || undefined} className="group relative flex min-h-[250px] w-[82vw] min-w-[82vw] shrink-0 flex-col justify-center px-3 py-3 transition duration-500 hover:-translate-y-1 sm:w-[56vw] sm:min-w-[56vw] md:min-h-[235px] md:w-[calc((100%_-_5rem)/3)] md:min-w-[calc((100%_-_5rem)/3)] lg:w-[calc((100%_-_7.5rem)/4)] lg:min-w-[calc((100%_-_7.5rem)/4)]">
+          <article key={`${cloud.en}-${duplicate ? "loop" : "primary"}`} aria-hidden={duplicate || undefined} className="group relative flex min-h-[250px] w-[82vw] min-w-[82vw] shrink-0 snap-center flex-col justify-center px-3 py-3 transition duration-500 hover:-translate-y-1 sm:w-[56vw] sm:min-w-[56vw] md:min-h-[235px] md:w-[calc((100%_-_5rem)/3)] md:min-w-[calc((100%_-_5rem)/3)] lg:w-[calc((100%_-_7.5rem)/4)] lg:min-w-[calc((100%_-_7.5rem)/4)]">
             <span className="absolute right-0 top-2 font-display text-6xl font-semibold leading-none text-foreground/[0.04]">0{cloudIndex + 1}</span>
             <div className="mb-2 flex justify-center" aria-hidden="true">
               <CloudIcon strokeWidth={1.35} className="size-12 text-primary transition duration-500 group-hover:scale-110 md:size-14" />
@@ -597,7 +629,7 @@ const DoctorsSection = () => {
       if (!rail || doctorRailPausedRef.current || document.hidden) return;
       const atEnd = rail.scrollLeft + rail.clientWidth >= rail.scrollWidth - 24;
       rail.scrollTo({ left: atEnd ? 0 : rail.scrollLeft + Math.min(rail.clientWidth * 0.86, 1080), behavior: "smooth" });
-    }, 3200);
+    }, 5200);
     return () => window.clearInterval(timer);
   }, []);
   return (
@@ -623,11 +655,13 @@ const DoctorsSection = () => {
         {displayedDoctors.map((d) => {
           const photo = d.photo;
           return (
-          <article
+          <Link
             key={d.id}
-            className="group block min-w-[82vw] snap-center sm:min-w-[62vw] md:min-w-[calc((100%_-_3rem)/3)] md:max-w-[calc((100%_-_3rem)/3)]"
+            to={d.demo ? `/doctors/demo/${d.id}` : `/doctors/profile/${d.id}`}
+            aria-label={`${lang === "zh" ? "查看专家资料" : lang === "ru" ? "Профиль эксперта" : "View expert profile"}: ${d.name}`}
+            className="group block min-w-[82vw] snap-center rounded-3xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 sm:min-w-[62vw] md:min-w-[calc((100%_-_3rem)/3)] md:max-w-[calc((100%_-_3rem)/3)]"
           >
-            <div className="flex min-h-[315px] flex-col rounded-3xl border border-border bg-card p-5 shadow-soft transition duration-300 group-hover:-translate-y-1 group-hover:border-primary/35 group-hover:shadow-pop md:min-h-[335px] md:p-6">
+            <article className="flex min-h-[370px] flex-col rounded-3xl border border-border bg-card p-5 shadow-soft transition duration-300 group-hover:-translate-y-1 group-hover:border-primary/35 group-hover:shadow-pop md:min-h-[390px] md:p-6">
               <div className="flex min-w-0 items-center gap-4">
                 {photo ? <img src={photo} alt={d.name} className="size-24 shrink-0 rounded-full border-2 border-primary/15 object-cover transition-transform duration-500 group-hover:scale-105 md:size-28" /> : <div className="grid size-24 shrink-0 place-items-center rounded-full bg-primary/10 text-primary md:size-28"><Stethoscope className="size-10" /></div>}
                 <div className="min-w-0">
@@ -637,16 +671,19 @@ const DoctorsSection = () => {
                 </div>
               </div>
 
-              <p className="mt-5 flex items-center gap-2 text-sm text-foreground/80"><MapPin className="size-4 text-primary" />{d.city} · {d.hospital}</p>
+              <p className="mt-5 flex items-start gap-2 text-sm text-foreground/80"><MapPin className="mt-0.5 size-4 shrink-0 text-primary" /><span className="line-clamp-2">{d.city} · {d.hospital}</span></p>
               <p className="mt-4 line-clamp-3 text-sm leading-relaxed text-muted-foreground">{d.bio}</p>
               <div className="mt-4 flex flex-wrap gap-1.5 overflow-hidden max-h-[54px]">
                 {d.specialties.slice(0, 3).map((s) => (
                   <span key={s} className="rounded-full bg-accent px-2.5 py-1 text-[11px] text-accent-foreground">{s}</span>
                 ))}
               </div>
-
-            </div>
-          </article>
+              <span className="mt-auto flex min-h-12 items-center justify-between border-t border-border/70 pt-4 text-sm font-semibold text-foreground">
+                {lang === "zh" ? "查看专家资料" : lang === "ru" ? "Профиль эксперта" : "View expert profile"}
+                <ArrowRight className="size-4 text-primary transition-transform group-hover:translate-x-1" />
+              </span>
+            </article>
+          </Link>
         )})}
       </div>
     </section>

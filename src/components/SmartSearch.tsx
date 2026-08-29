@@ -93,7 +93,7 @@ const SmartSearch = ({ initialProcedure = null, initialPlace = null, onFiltersCh
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder={query ? "" : `Try "${animatedPlaceholder}|"`}
-            className="w-full bg-transparent outline-none text-sm font-medium py-3 placeholder:text-foreground/60"
+            className="w-full bg-transparent py-3 text-base font-medium outline-none placeholder:text-foreground/60 sm:text-sm"
           />
         </div>
         <Button
