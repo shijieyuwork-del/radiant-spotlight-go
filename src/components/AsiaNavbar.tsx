@@ -118,6 +118,8 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
         { to: "/travel-packages", label: c("Travel Support", "行程支持", "Поддержка поездки") },
         { to: "/cities", label: t("nav.cities") },
         { to: "/why-china", label: c("Why China", "为什么选中国", "Почему Китай") },
+        { to: "/about", label: c("About", "关于我们", "О нас") },
+        { to: "/provider-verification", label: c("Standards", "审核标准", "Стандарты") },
       ]
     : [
         { to: "/", label: c("Home", "首页", "Главная") },
@@ -127,7 +129,7 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
     ? links.filter((link) => ["/", "/treatments", "/cases", "/doctors", "/travel-packages"].includes(link.to))
     : links;
   const moreLinks = homeLinks
-    ? links.filter((link) => ["/cities", "/why-china"].includes(link.to))
+    ? links.filter((link) => ["/cities", "/why-china", "/about", "/provider-verification"].includes(link.to))
     : [];
   const featuredDoctors = DEMO_CHINA_DOCTORS.map((doctor) => ({
     city: doctor.city,
@@ -177,7 +179,7 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
           { label: c("Facelift specialists", "面部提升专家", "Подтяжка лица"), to: "/doctors?q=Facelift" },
         ] },
         { title: c("Before you choose", "选择之前", "Перед выбором"), links: [
-          { label: c("How profiles are reviewed", "专家资料审核方式", "Как проверяются профили"), to: "/why-china" },
+          { label: c("How profiles are reviewed", "专家资料审核方式", "Как проверяются профили"), to: "/provider-verification" },
           { label: c("Patient recovery diaries", "患者恢复日记", "Дневники пациентов"), to: "/cases" },
           { label: c("Get matching guidance", "获取匹配建议", "Помощь с подбором"), to: "/doctors" },
         ] },

@@ -7,6 +7,10 @@
 /treatments/               /treatments                   301
 /why-china/                /why-china                    301
 /privacy/                  /privacy                      301
+/about/                    /about                        301
+/provider-verification/    /provider-verification        301
+/medical-review-policy/    /medical-review-policy        301
+/editorial-policy/         /editorial-policy             301
 /lp/:slug/                 /lp/:slug                     301
 /doctors/:slug/            /doctors/:slug                301
 /cases/:slug/              /cases/:slug                  301
@@ -21,6 +25,10 @@
 /treatments                /treatments.html              200
 /why-china                 /why-china.html               200
 /privacy                   /privacy.html                 200
+/about                     /about.html                   200
+/provider-verification     /provider-verification.html   200
+/medical-review-policy     /medical-review-policy.html   200
+/editorial-policy          /editorial-policy.html        200
 /lp/:slug                  /lp/:slug.html                200
 /doctors/:slug             /doctors/:slug.html           200
 /cases/:slug               /cases/:slug.html             200

@@ -61,6 +61,8 @@ function createBreadcrumbSchema(p, pageTitle, siteUrl) {
   const sectionLabels = {
     cases: "Patient Diaries", cities: "Destinations", doctors: "Experts",
     treatments: "Procedures", "travel-packages": "Travel Support", "why-china": "Why China",
+    about: "About Cosmetics Asia", "provider-verification": "Provider Verification Standards",
+    "medical-review-policy": "Medical Review Policy", "editorial-policy": "Editorial Policy",
   };
   const segments = p.split("?")[0].split("/").filter(Boolean);
   if (!segments.length) return null;
@@ -159,6 +161,28 @@ function buildRoutes(d) {
       path: "/privacy",
       title: "Privacy Notice",
       description: "How Cosmetics Asia uses essential storage, optional analytics, and the information you choose to share.",
+    },
+    {
+      path: "/about",
+      title: "About Cosmetics Asia",
+      description: "Learn how Cosmetics Asia supports cosmetic medical travel research and coordination, what we check, and where our role ends.",
+      schema: { "@context": "https://schema.org", "@type": "AboutPage", name: "About Cosmetics Asia" },
+    },
+    {
+      path: "/provider-verification",
+      title: "Provider Verification Standards",
+      description: "The checks, labels, evidence, and limits behind provider profiles published by Cosmetics Asia.",
+    },
+    {
+      path: "/medical-review-policy",
+      title: "Medical Review Policy",
+      description: "How Cosmetics Asia labels, sources, reviews, and updates medical information, including when content is not medically reviewed.",
+      schema: { "@context": "https://schema.org", "@type": "MedicalWebPage", name: "Medical Review Policy" },
+    },
+    {
+      path: "/editorial-policy",
+      title: "Editorial Policy",
+      description: "The sourcing, labeling, correction, translation, and commercial disclosure standards used by Cosmetics Asia.",
     },
     {
       path: "/lp/rhinoplasty-china",

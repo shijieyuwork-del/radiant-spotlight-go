@@ -20,6 +20,10 @@ const SECTION_LABELS: Record<string, string> = {
   treatments: "Procedures",
   "travel-packages": "Travel Support",
   "why-china": "Why China",
+  about: "About Cosmetics Asia",
+  "provider-verification": "Provider Verification Standards",
+  "medical-review-policy": "Medical Review Policy",
+  "editorial-policy": "Editorial Policy",
 };
 
 function createBreadcrumbSchema(path: string, pageTitle: string) {

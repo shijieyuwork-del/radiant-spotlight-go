@@ -27,6 +27,10 @@ import AuditAdmin from "./pages/AuditAdmin.tsx";
 import WhyChina from "./pages/WhyChina.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import Privacy from "./pages/Privacy.tsx";
+import About from "./pages/About.tsx";
+import ProviderVerification from "./pages/ProviderVerification.tsx";
+import MedicalReviewPolicy from "./pages/MedicalReviewPolicy.tsx";
+import EditorialPolicy from "./pages/EditorialPolicy.tsx";
 import TreatmentLandingPage from "./pages/TreatmentLandingPage.tsx";
 import AnalyticsRouteTracker from "@/components/AnalyticsRouteTracker";
 import ConsentBanner from "@/components/ConsentBanner";
@@ -62,6 +66,10 @@ const App = () => (
                     <Route path="/packages" element={<Navigate to="/travel-packages" replace />} />
                     <Route path="/why-china" element={<WhyChina />} />
                     <Route path="/privacy" element={<Privacy />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/provider-verification" element={<ProviderVerification />} />
+                    <Route path="/medical-review-policy" element={<MedicalReviewPolicy />} />
+                    <Route path="/editorial-policy" element={<EditorialPolicy />} />
                     <Route path="/lp/rhinoplasty-china" element={<TreatmentLandingPage kind="rhinoplasty" />} />
                     <Route path="/lp/blepharoplasty-china" element={<TreatmentLandingPage kind="blepharoplasty" />} />
                     <Route path="/lp/facelift-china" element={<TreatmentLandingPage kind="facelift" />} />
