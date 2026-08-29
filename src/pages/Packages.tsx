@@ -20,11 +20,11 @@ import {
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { MedicalDisclaimer } from "@/components/MedicalDisclaimer";
 import { useAsia } from "@/lib/asia-i18n";
 import { asiaCopy } from "@/lib/asia-copy";
 import QuoteCtaButton, { QUOTE_WHATSAPP_URL } from "@/components/QuoteCtaButton";
+import PaymentDetailsSection from "@/components/PaymentDetailsSection";
 import serviceAirportPickup from "@/assets/service-real-airport-v2.jpg";
 import serviceHotelBooking from "@/assets/service-real-accommodation-v3.jpg";
 import serviceClinicTranslation from "@/assets/service-real-translation-v2.jpg";
@@ -161,41 +161,6 @@ const Packages = () => {
   const { lang } = useAsia();
   const c = <T,>(en: T, zh: T, ru: T) => asiaCopy(lang, { en, zh, ru });
   const pick = (values: readonly [string, string, string]) => c(values[0], values[1], values[2]);
-
-  const faqs = [
-    {
-      q: c("What does the $400 deposit cover?", "400 美元押金用于什么？", "Для чего нужен депозит $400?"),
-      a: c(
-        "It reserves your procedure appointment and lets us coordinate airport pickup and in-clinic translation. It remains valid for 12 months and is refunded when you pay the clinic for treatment.",
-        "用于保留手术预约，并让我们协调机场接送和院内翻译。押金在 12 个月内有效，并在你向诊所支付治疗费用时退还。",
-        "Он закрепляет время процедуры и позволяет организовать трансфер и перевод в клинике. Депозит действует 12 месяцев и возвращается после оплаты лечения в клинике."
-      ),
-    },
-    {
-      q: c("Who receives my medical payment?", "医疗费用支付给谁？", "Кому оплачиваются медицинские услуги?"),
-      a: c(
-        "All surgery, examination, anesthesia and other medical fees are charged directly by the clinic or hospital. Cosmetics Asia does not collect your medical payment.",
-        "手术、检查、麻醉和其他医疗费用均由诊所或医院直接收取，Cosmetics Asia 不代收医疗费用。",
-        "Операция, обследования, анестезия и другие медицинские услуги оплачиваются напрямую клинике или больнице."
-      ),
-    },
-    {
-      q: c("Is the consultation really free?", "咨询真的免费吗？", "Консультация действительно бесплатная?"),
-      a: c(
-        "Your initial conversation with our coordination team is free and carries no obligation. If a expert or hospital charges for a medical consultation, we confirm that cost before you book.",
-        "与我们协调团队的首次沟通免费且无需承诺。如专家或医院收取医疗咨询费，我们会在预约前确认。",
-        "Первичная беседа с нашей командой бесплатна и ни к чему не обязывает. Если эксперт или клиника взимает плату за медицинскую консультацию, мы сообщим об этом до записи."
-      ),
-    },
-    {
-      q: c("What if my travel date changes?", "如果行程日期改变怎么办？", "Что делать, если дата поездки изменится?"),
-      a: c(
-        "Tell your coordinator as early as possible. Your $400 deposit remains valid for 12 months, and we will help update eligible appointment and support arrangements.",
-        "请尽早告知协调员。400 美元押金在 12 个月内有效，我们会协助更新符合条件的预约和支持安排。",
-        "Сообщите координатору как можно раньше. Депозит $400 действует 12 месяцев, и мы поможем обновить доступные записи и услуги."
-      ),
-    },
-  ];
 
   return (
     <>
@@ -354,6 +319,8 @@ const Packages = () => {
             </div>
           </section>
 
+          <PaymentDetailsSection />
+
           <section className="container py-12 md:py-20">
             <div className="grid gap-8 lg:grid-cols-[.82fr_1.18fr] lg:gap-14">
               <div>
@@ -382,27 +349,6 @@ const Packages = () => {
                     ].map((item) => <li key={item} className="flex gap-2"><ChevronRight className="mt-0.5 size-4 shrink-0 text-amber-700" />{item}</li>)}
                   </ul>
                 </article>
-              </div>
-            </div>
-          </section>
-
-          <section className="container py-12 md:py-20">
-            <div className="rounded-[2.25rem] border border-primary/15 bg-card p-6 shadow-soft sm:p-8 md:p-10">
-              <div className="grid gap-8 lg:grid-cols-[.7fr_1.3fr] lg:gap-14">
-                <div>
-                  <span className="pill bg-accent text-accent-foreground"><MessageCircle className="size-3.5" />{c("Questions patients ask first", "患者最先问的问题", "Первые вопросы пациентов")}</span>
-                  <h2 className="mt-4 font-display text-4xl font-medium tracking-tight md:text-5xl">{c("Clear answers before you decide.", "决定前，先获得清晰答案。", "Ясные ответы до решения.")}</h2>
-                </div>
-                <Accordion type="single" collapsible className="overflow-hidden rounded-2xl border border-border/70 bg-background/70 px-4 sm:px-5">
-                  {faqs.map((faq, index) => (
-                    <AccordionItem key={faq.q} value={`faq-${index}`} className="border-border/70">
-                      <AccordionTrigger className="gap-4 py-5 text-left text-sm font-semibold hover:no-underline sm:text-base">
-                        <span className="flex items-start gap-3"><span className="mt-0.5 font-mono text-[10px] text-primary">0{index + 1}</span>{faq.q}</span>
-                      </AccordionTrigger>
-                      <AccordionContent className="pl-8 pr-2 text-sm leading-relaxed text-muted-foreground sm:text-[15px]">{faq.a}</AccordionContent>
-                    </AccordionItem>
-                  ))}
-                </Accordion>
               </div>
             </div>
           </section>
