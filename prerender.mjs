@@ -281,13 +281,21 @@ async function main() {
       MARKER,
       `<!--SEO-->\n${renderMeta(r, cfg)}\n    <!--/SEO-->`
     );
-    // 扁平输出：/cities/seoul -> dist/cities/seoul.html
-    // 若写成 dist/cities/seoul/index.html，Cloudflare Pages 会 308 跳到带斜杠的
-    // URL，而我们的 canonical 和 sitemap 都是不带斜杠的形式，白白多一跳。
-    const outFile =
-      r.path === "/" ? path.join(DIST, "index.html") : path.join(DIST, `${r.path}.html`);
-    await mkdir(path.dirname(outFile), { recursive: true });
-    await writeFile(outFile, html, "utf8");
+    if (r.path === "/") {
+      await writeFile(path.join(DIST, "index.html"), html, "utf8");
+      continue;
+    }
+
+    // Emit both forms because hosting platforms differ: some resolve clean URLs
+    // through /path.html, while Lovable resolves them through /path/index.html.
+    const flatFile = path.join(DIST, `${r.path}.html`);
+    const directoryFile = path.join(DIST, r.path, "index.html");
+    await mkdir(path.dirname(flatFile), { recursive: true });
+    await mkdir(path.dirname(directoryFile), { recursive: true });
+    await Promise.all([
+      writeFile(flatFile, html, "utf8"),
+      writeFile(directoryFile, html, "utf8"),
+    ]);
   }
 
   const lastmod = new Date().toISOString().slice(0, 10);
