@@ -201,7 +201,7 @@ const Hero = () => {
               {copy.title}<br />
               <em className="text-primary not-italic">{copy.emphasis}</em>
             </h1>
-            <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground sm:mt-5 sm:text-[15px] md:text-lg">{copy.subtitle}</p>
+            <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground sm:mt-5 sm:text-[15px] md:hidden">{copy.subtitle}</p>
 
             <div className="mx-auto mt-6 flex max-w-lg flex-col justify-center gap-3 sm:mt-7 sm:flex-row">
               <Button asChild size="lg" className="h-[3.25rem] w-full rounded-2xl px-8 text-[15px] font-semibold shadow-pop sm:h-12 sm:w-auto sm:min-w-72 sm:rounded-full">
