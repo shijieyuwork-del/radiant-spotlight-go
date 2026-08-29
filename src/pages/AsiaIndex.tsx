@@ -642,6 +642,105 @@ const TreatmentsSectionLegacy = () => {
   );
 };
 
+const TreatmentsSection = () => {
+  const { t, lang } = useAsia();
+  const procedureGoals = [
+    {
+      key: "nose",
+      image: procedureRhinoplasty,
+      en: "Refine your profile",
+      zh: "改善面部侧颜",
+      ru: "Гармоничный профиль",
+      descriptionEn: "Explore nose procedures with published expert information and practical planning support.",
+      descriptionZh: "了解鼻部项目、公开专家信息与实际行程协调支持。",
+      descriptionRu: "Изучите операции на носу, информацию об экспертах и поддержку в планировании.",
+      treatments: [["Rhinoplasty", "鼻综合"], ["Revision Rhinoplasty", "鼻修复"], ["Nasal Tip Surgery", "鼻尖塑形"]],
+      href: "/treatments/rhinoplasty",
+    },
+    {
+      key: "eyes",
+      image: procedureEyes,
+      en: "Refresh your eyes",
+      zh: "改善眼部状态",
+      ru: "Освежить взгляд",
+      treatments: [["Double Eyelid", "双眼皮"], ["Blepharoplasty", "眼睑成形"], ["Ptosis Correction", "上睑下垂矫正"]],
+      href: "/treatments/double-eyelid-surgery",
+    },
+    {
+      key: "face",
+      image: procedureFacelift,
+      en: "Restore facial definition",
+      zh: "重塑面部轮廓",
+      ru: "Чёткие контуры лица",
+      treatments: [["Facelift", "面部拉皮"], ["Neck Lift", "颈部提升"], ["Fat Grafting", "脂肪填充"]],
+      href: "/treatments/facelift",
+    },
+    {
+      key: "body",
+      image: procedureBody,
+      en: "Shape body contours",
+      zh: "改善身体线条",
+      ru: "Контуры тела",
+      treatments: [["Liposuction", "吸脂"], ["Tummy Tuck", "腹壁成形"], ["Body Lift", "身体提升"]],
+      href: "/treatments/liposuction",
+    },
+    {
+      key: "breast",
+      image: procedureBreast,
+      en: "Explore breast options",
+      zh: "了解胸部项目",
+      ru: "Операции на груди",
+      treatments: [["Augmentation", "隆胸"], ["Breast Lift", "乳房提升"], ["Revision", "假体修复"]],
+      href: "/treatments/breast-augmentation",
+    },
+    {
+      key: "hair",
+      image: procedureHair,
+      en: "Restore hair naturally",
+      zh: "自然改善发量",
+      ru: "Восстановление волос",
+      treatments: [["FUE Transplant", "FUE 植发"], ["Hairline", "发际线种植"], ["Crown", "头顶加密"]],
+      href: "/treatments/fue-hair-transplant",
+    },
+  ];
+  const labelFor = (goal: typeof procedureGoals[number]) => lang === "zh" ? goal.zh : lang === "ru" ? goal.ru : goal.en;
+  return (
+    <section id="projects" className="container py-10 md:py-16" aria-labelledby="procedure-goals-title">
+      <div className="mb-7 grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(300px,0.46fr)] lg:items-end md:mb-10">
+        <div>
+          <span className="pill mb-3 bg-accent text-accent-foreground"><Flame className="size-3.5" /> {t("tx.kicker")}</span>
+          <h2 id="procedure-goals-title" className="max-w-3xl font-display text-3xl font-medium leading-[0.98] tracking-tight sm:text-4xl md:text-5xl">
+            {lang === "zh" ? <>从你的目标出发，<em className="not-italic text-primary">了解适合的项目</em></> : lang === "ru" ? <>Начните с вашей цели — <em className="not-italic text-primary">изучите варианты</em></> : <>Start with your goals. <em className="not-italic text-primary">Explore your options.</em></>}
+          </h2>
+        </div>
+        <div className="lg:pb-1">
+          <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
+            {lang === "zh" ? "不需要提前知道具体术式。先选择你想改善的方向，再查看相关项目与公开专家信息。" : lang === "ru" ? "Не обязательно заранее знать название процедуры. Выберите цель и изучите подходящие варианты и опубликованную информацию об экспертах." : "You do not need to know the procedure name yet. Choose what you want to improve, then review relevant options and published expert information."}
+          </p>
+          <Link to="/treatments" className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-foreground underline decoration-primary/40 underline-offset-4 transition-colors duration-150 hover:text-primary">
+            {lang === "zh" ? "查看全部项目" : lang === "ru" ? "Все процедуры" : "View all procedures"}<ArrowRight className="size-4" />
+          </Link>
+        </div>
+      </div>
+
+      <div className="flex touch-pan-x snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain pb-2 scrollbar-hide md:gap-4 lg:grid lg:grid-cols-6 lg:overflow-visible lg:pb-0">
+        {procedureGoals.map((goal, index) => (
+          <Link key={goal.key} to={goal.href} className="group relative min-h-[300px] w-[76vw] min-w-[76vw] shrink-0 snap-center overflow-hidden rounded-[1.6rem] bg-foreground shadow-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:w-[44vw] sm:min-w-[44vw] lg:min-h-[340px] lg:w-auto lg:min-w-0">
+            <img src={goal.image} alt={labelFor(goal)} loading="lazy" className="absolute inset-0 size-full object-cover transition-transform duration-400 ease-out group-hover:scale-[1.035]" />
+            <div className="absolute inset-0 bg-gradient-to-t from-foreground/95 via-foreground/20 to-transparent" />
+            <div className="relative flex min-h-[300px] flex-col justify-end p-5 text-background lg:min-h-[340px]">
+              <span className="mb-2 text-[10px] font-bold uppercase tracking-[0.18em] text-background/60">{String(index + 1).padStart(2, "0")}</span>
+              <h3 className="font-display text-2xl font-medium leading-[0.95] lg:text-[1.7rem]">{labelFor(goal)}</h3>
+              <p className="mt-3 line-clamp-2 text-xs leading-relaxed text-background/70">{goal.treatments.map(([en, zh]) => lang === "zh" ? zh : en).join(" · ")}</p>
+              <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-background/90">{lang === "zh" ? "查看项目" : lang === "ru" ? "Смотреть" : "Explore"}<ArrowRight className="size-3.5 transition-transform duration-200 group-hover:translate-x-1" /></span>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </section>
+  );
+};
+
 // ClinicsSection removed — patients only browse experts.
 
 const DoctorsSection = () => {

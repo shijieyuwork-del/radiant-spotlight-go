@@ -1,8 +1,8 @@
-import portrait1 from "@/assets/video2.jpg";
-import portrait2 from "@/assets/video3.jpg";
-import portrait3 from "@/assets/video4.jpg";
-import portrait4 from "@/assets/video5.jpg";
-import portrait5 from "@/assets/video6.jpg";
+import linPortrait from "@/assets/doctor-demo-lin.jpg";
+import zhouPortrait from "@/assets/doctor-demo-zhou.jpg";
+import chenPortrait from "@/assets/doctor-demo-chen.jpg";
+import xuPortrait from "@/assets/doctor-demo-xu.jpg";
+import guPortrait from "@/assets/doctor-demo-gu.jpg";
 
 export type DemoChinaDoctor = {
   id: string;
@@ -18,9 +18,9 @@ export type DemoChinaDoctor = {
 
 // Fictional profiles for layout preview only. Replace through the expert admin.
 export const DEMO_CHINA_DOCTORS: DemoChinaDoctor[] = [
-  { id: "demo-lin", name: "Lin Yue", title: "Plastic Expert", hospital: "Sample Shanghai Aesthetic Center", city: "Shanghai", specialties: ["Rhinoplasty", "Blepharoplasty", "Facial Contouring"], bio: "Fictional sample profile illustrating how a China-based expert will appear after publication.", photo: portrait1, demo: true },
-  { id: "demo-zhou", name: "Zhou An", title: "Facial Rejuvenation Expert", hospital: "Sample Beijing Medical Center", city: "Beijing", specialties: ["Facelift", "Neck Lift", "Facial Fat Grafting"], bio: "Fictional sample profile for previewing specialties, consultation booking and expert-linked diaries.", photo: portrait2, demo: true },
-  { id: "demo-chen", name: "Chen Rui", title: "Aesthetic Plastic Expert", hospital: "Sample Guangzhou Aesthetic Hospital", city: "Guangzhou", specialties: ["Blepharoplasty", "Rhinoplasty", "Breast Surgery"], bio: "Fictional sample profile. Credentials and clinical claims are intentionally omitted until real data is supplied.", photo: portrait3, demo: true },
-  { id: "demo-xu", name: "Xu Ning", title: "Body Contouring Expert", hospital: "Sample Hangzhou Medical Center", city: "Hangzhou", specialties: ["Liposuction", "Tummy Tuck", "Body Contouring"], bio: "Fictional sample profile used only to demonstrate the expert discovery experience.", photo: portrait4, demo: true },
-  { id: "demo-gu", name: "Gu Wen", title: "Aesthetic Expert", hospital: "Sample Hainan International Clinic", city: "Hainan", specialties: ["Facial Rejuvenation", "Skin Treatments", "Fat Grafting"], bio: "Fictional sample profile that will be replaced by a reviewed expert record from the administrator portal.", photo: portrait5, demo: true },
+  { id: "demo-lin", name: "Lin Yue", title: "Plastic Expert", hospital: "Sample Shanghai Aesthetic Center", city: "Shanghai", specialties: ["Rhinoplasty", "Blepharoplasty", "Facial Contouring"], bio: "Fictional sample profile illustrating how a China-based expert will appear after publication.", photo: linPortrait, demo: true },
+  { id: "demo-zhou", name: "Zhou An", title: "Facial Rejuvenation Expert", hospital: "Sample Beijing Medical Center", city: "Beijing", specialties: ["Facelift", "Neck Lift", "Facial Fat Grafting"], bio: "Fictional sample profile for previewing specialties, consultation booking and expert-linked diaries.", photo: zhouPortrait, demo: true },
+  { id: "demo-chen", name: "Chen Rui", title: "Aesthetic Plastic Expert", hospital: "Sample Guangzhou Aesthetic Hospital", city: "Guangzhou", specialties: ["Blepharoplasty", "Rhinoplasty", "Breast Surgery"], bio: "Fictional sample profile. Credentials and clinical claims are intentionally omitted until real data is supplied.", photo: chenPortrait, demo: true },
+  { id: "demo-xu", name: "Xu Ning", title: "Body Contouring Expert", hospital: "Sample Hangzhou Medical Center", city: "Hangzhou", specialties: ["Liposuction", "Tummy Tuck", "Body Contouring"], bio: "Fictional sample profile used only to demonstrate the expert discovery experience.", photo: xuPortrait, demo: true },
+  { id: "demo-gu", name: "Gu Wen", title: "Aesthetic Expert", hospital: "Sample Hainan International Clinic", city: "Hainan", specialties: ["Facial Rejuvenation", "Skin Treatments", "Fat Grafting"], bio: "Fictional sample profile that will be replaced by a reviewed expert record from the administrator portal.", photo: guPortrait, demo: true },
 ];

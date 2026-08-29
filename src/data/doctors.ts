@@ -1,8 +1,9 @@
-import v2 from "@/assets/video2.jpg";
-import v3 from "@/assets/video3.jpg";
-import v4 from "@/assets/video4.jpg";
-import v5 from "@/assets/video5.jpg";
-import v6 from "@/assets/video6.jpg";
+import kimMinsooPortrait from "@/assets/doctor-kim-minsoo.jpg";
+import parkSooyoungPortrait from "@/assets/doctor-park-sooyoung.jpg";
+import somchaiViriyaPortrait from "@/assets/doctor-somchai-viriya.jpg";
+import tanakaYukiPortrait from "@/assets/doctor-tanaka-yuki.jpg";
+import limWeijiePortrait from "@/assets/doctor-lim-weijie.jpg";
+import liWenzhiPortrait from "@/assets/doctor-li-wenzhi.jpg";
 
 export type Doctor = {
   id: string;
@@ -39,7 +40,7 @@ export const DOCTORS: Doctor[] = [
     titleZh: "整形外科 院长", titleEn: "Director, Plastic Surgery",
     clinicZh: "ID 整形医院", clinicEn: "ID Hospital",
     cityZh: "首尔", cityEn: "Seoul",
-    img: v4, license: "KR-PS-04129",
+    img: kimMinsooPortrait, license: "KR-PS-04129",
     qualZh: "韩国整形外科专家会 (KAPS) 正式会员 · 大韩美容整形外科学会 (KSPRS) 会员",
     qualEn: "Member, Korean Association of Plastic Surgeons (KAPS) · KSPRS",
     years: 18, surgeries: "6,800+", rating: 4.95, reviews: 1624,
@@ -66,7 +67,7 @@ export const DOCTORS: Doctor[] = [
     titleZh: "面部年轻化中心 院长", titleEn: "Director, Facial Rejuvenation Center",
     clinicZh: "BK 整形医院", clinicEn: "BK Plastic Surgery",
     cityZh: "首尔", cityEn: "Seoul",
-    img: v3, license: "KR-PS-03871",
+    img: parkSooyoungPortrait, license: "KR-PS-03871",
     qualZh: "大韩整形外科学会 (KSPRS) 会员 · 面部拉皮专科认证",
     qualEn: "Member, KSPRS · Certified Facial Rejuvenation Specialist",
     years: 22, surgeries: "5,400+", rating: 4.93, reviews: 1387,
@@ -94,7 +95,7 @@ export const DOCTORS: Doctor[] = [
     titleZh: "形体整形中心 主任", titleEn: "Director, Body Contouring Center",
     clinicZh: "康民国际医院", clinicEn: "Bumrungrad International Hospital",
     cityZh: "曼谷", cityEn: "Bangkok",
-    img: v6, license: "TH-PS-11208",
+    img: somchaiViriyaPortrait, license: "TH-PS-11208",
     qualZh: "泰国医学委员会整形外科专科认证 · 美国 ASAPS 国际会员",
     qualEn: "Board Certified Plastic Surgeon, Medical Council of Thailand · ASAPS International Member",
     years: 19, surgeries: "7,200+", rating: 4.94, reviews: 1511,
@@ -123,7 +124,7 @@ export const DOCTORS: Doctor[] = [
     titleZh: "美容外科 院长", titleEn: "Director, Aesthetic Surgery",
     clinicZh: "高须诊所", clinicEn: "Takasu Clinic",
     cityZh: "东京", cityEn: "Tokyo",
-    img: v2, license: "JP-PS-08463",
+    img: tanakaYukiPortrait, license: "JP-PS-08463",
     qualZh: "日本美容外科学会 (JSAPS) 专门医 · 日本整形外科学会 会员",
     qualEn: "JSAPS Certified Specialist · Member, Japanese Society of Plastic Surgery",
     years: 16, surgeries: "4,100+", rating: 4.91, reviews: 987,
@@ -151,7 +152,7 @@ export const DOCTORS: Doctor[] = [
     titleZh: "整形外科 顾问专家", titleEn: "Consultant Plastic Surgeon",
     clinicZh: "伊丽莎白乌节医院", clinicEn: "Mount Elizabeth Orchard Hospital",
     cityZh: "新加坡", cityEn: "Singapore",
-    img: v5, license: "SG-PS-05721",
+    img: limWeijiePortrait, license: "SG-PS-05721",
     qualZh: "新加坡医学专科学院 (FAMS) 整形外科院士 · 英国皇家外科医学院 会员",
     qualEn: "Fellow, Academy of Medicine Singapore (Plastic Surgery) · MRCS (UK)",
     years: 20, surgeries: "5,800+", rating: 4.96, reviews: 1124,
@@ -180,7 +181,7 @@ export const DOCTORS: Doctor[] = [
     titleZh: "整形外科 副主任", titleEn: "Deputy Director, Plastic Surgery",
     clinicZh: "上海华美医疗美容医院", clinicEn: "Shanghai Huamei Plastic Surgery Hospital",
     cityZh: "上海", cityEn: "Shanghai",
-    img: v4, license: "CN-PS-20180123456",
+    img: liWenzhiPortrait, license: "CN-PS-20180123456",
     qualZh: "中国卫健委主诊专家 · 中华医学会整形外科学分会会员",
     qualEn: "Shanghai NHC Attending Surgeon · Member, Chinese Society of Plastic Surgery",
     years: 22, surgeries: "8,200+", rating: 4.96, reviews: 1842,
