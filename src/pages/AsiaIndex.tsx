@@ -171,7 +171,7 @@ const Hero = () => {
         }
       : {
           badge: "China's cosmetic care platform for international patients",
-          title: "1,000+ patient journeys.",
+          title: "1,000+ real patient journeys.",
           emphasis: "A clearer way to choose.",
           subtitle: "Understand procedures, review published expert profiles and explore patient recovery diaries before you travel.",
           cases: "Watch patient recovery videos",
