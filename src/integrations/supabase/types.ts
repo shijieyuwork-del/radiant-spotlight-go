@@ -122,6 +122,60 @@ export type Database = {
         }
         Relationships: []
       }
+      quote_requests: {
+        Row: {
+          city: string | null
+          contact_method: string
+          country: string
+          created_at: string
+          email: string | null
+          expert_name: string | null
+          id: string
+          name: string
+          notes: string | null
+          phone: string
+          phone_prefix: string | null
+          preferred_slot: string | null
+          procedure: string
+          source: string | null
+          user_id: string | null
+        }
+        Insert: {
+          city?: string | null
+          contact_method: string
+          country: string
+          created_at?: string
+          email?: string | null
+          expert_name?: string | null
+          id?: string
+          name: string
+          notes?: string | null
+          phone: string
+          phone_prefix?: string | null
+          preferred_slot?: string | null
+          procedure: string
+          source?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          city?: string | null
+          contact_method?: string
+          country?: string
+          created_at?: string
+          email?: string | null
+          expert_name?: string | null
+          id?: string
+          name?: string
+          notes?: string | null
+          phone?: string
+          phone_prefix?: string | null
+          preferred_slot?: string | null
+          procedure?: string
+          source?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       security_alert_outbox: {
         Row: {
           body: string
