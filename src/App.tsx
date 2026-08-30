@@ -1,4 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { lazy, Suspense } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
@@ -9,33 +10,36 @@ import { QuoteProvider } from "@/components/QuoteRequest";
 import FloatingLiveChat from "@/components/FloatingLiveChat";
 import { AuthProvider } from "@/lib/auth";
 import AsiaIndex from "./pages/AsiaIndex.tsx";
-import Cases from "./pages/Cases.tsx";
-import CaseDetail from "./pages/CaseDetail.tsx";
-import Doctors from "./pages/Doctors.tsx";
-import DoctorDetail from "./pages/DoctorDetail.tsx";
-import ManagedDoctorDetail from "./pages/ManagedDoctorDetail.tsx";
-import DemoDoctorDetail from "./pages/DemoDoctorDetail.tsx";
-import DoctorAdmin from "./pages/DoctorAdmin.tsx";
-import Cities from "./pages/Cities.tsx";
-import CityDetail from "./pages/CityDetail.tsx";
-import Packages from "./pages/Packages.tsx";
-import Treatments from "./pages/Treatments.tsx";
-import TreatmentDetail from "./pages/TreatmentDetail.tsx";
-import Auth from "./pages/Auth.tsx";
-import VideoAdmin from "./pages/VideoAdmin.tsx";
-import AuditAdmin from "./pages/AuditAdmin.tsx";
-import WhyChina from "./pages/WhyChina.tsx";
-import NotFound from "./pages/NotFound.tsx";
-import Privacy from "./pages/Privacy.tsx";
-import About from "./pages/About.tsx";
-import ProviderVerification from "./pages/ProviderVerification.tsx";
-import MedicalReviewPolicy from "./pages/MedicalReviewPolicy.tsx";
-import EditorialPolicy from "./pages/EditorialPolicy.tsx";
-import TreatmentLandingPage from "./pages/TreatmentLandingPage.tsx";
 import AnalyticsRouteTracker from "@/components/AnalyticsRouteTracker";
 import ConsentBanner from "@/components/ConsentBanner";
 
 const queryClient = new QueryClient();
+
+const Cases = lazy(() => import("./pages/Cases.tsx"));
+const CaseDetail = lazy(() => import("./pages/CaseDetail.tsx"));
+const Doctors = lazy(() => import("./pages/Doctors.tsx"));
+const DoctorDetail = lazy(() => import("./pages/DoctorDetail.tsx"));
+const ManagedDoctorDetail = lazy(() => import("./pages/ManagedDoctorDetail.tsx"));
+const DemoDoctorDetail = lazy(() => import("./pages/DemoDoctorDetail.tsx"));
+const DoctorAdmin = lazy(() => import("./pages/DoctorAdmin.tsx"));
+const Cities = lazy(() => import("./pages/Cities.tsx"));
+const CityDetail = lazy(() => import("./pages/CityDetail.tsx"));
+const Packages = lazy(() => import("./pages/Packages.tsx"));
+const Treatments = lazy(() => import("./pages/Treatments.tsx"));
+const TreatmentDetail = lazy(() => import("./pages/TreatmentDetail.tsx"));
+const Auth = lazy(() => import("./pages/Auth.tsx"));
+const VideoAdmin = lazy(() => import("./pages/VideoAdmin.tsx"));
+const AuditAdmin = lazy(() => import("./pages/AuditAdmin.tsx"));
+const WhyChina = lazy(() => import("./pages/WhyChina.tsx"));
+const NotFound = lazy(() => import("./pages/NotFound.tsx"));
+const Privacy = lazy(() => import("./pages/Privacy.tsx"));
+const About = lazy(() => import("./pages/About.tsx"));
+const ProviderVerification = lazy(() => import("./pages/ProviderVerification.tsx"));
+const MedicalReviewPolicy = lazy(() => import("./pages/MedicalReviewPolicy.tsx"));
+const EditorialPolicy = lazy(() => import("./pages/EditorialPolicy.tsx"));
+const TreatmentLandingPage = lazy(() => import("./pages/TreatmentLandingPage.tsx"));
+
+const RouteFallback = () => <div className="min-h-[55vh] bg-background" aria-live="polite" aria-label="Loading page" />;
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -50,6 +54,7 @@ const App = () => (
                   <AnalyticsRouteTracker />
                   <ConsentBanner />
                   <FloatingLiveChat />
+                  <Suspense fallback={<RouteFallback />}>
                   <Routes>
                     <Route path="/" element={<AsiaIndex />} />
                     <Route path="/cases" element={<Cases />} />
@@ -82,6 +87,7 @@ const App = () => (
                     <Route path="/:lang/*" element={<Navigate to="/" replace />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
+                  </Suspense>
                 </TooltipProvider>
               </QuoteProvider>
             </AuthProvider>

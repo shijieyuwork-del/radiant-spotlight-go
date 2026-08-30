@@ -30,6 +30,7 @@ async function loadAppData() {
         export { DOCTORS } from "@/data/doctors";
         export { TIKTOK_CASES } from "@/data/tiktokCases";
         export { TREATMENTS } from "@/data/treatments";
+        export { PROCEDURE_CATALOG } from "@/data/procedureCatalog";
         export { SITE_URL, SITE_NAME, OG_IMAGE, TWITTER_HANDLE, ORGANIZATION_SCHEMA } from "@/lib/seo-config";
       `,
       resolveDir: __dirname,
@@ -149,8 +150,8 @@ function buildRoutes(d) {
     },
     {
       path: "/travel-packages",
-      title: "Medical Travel Packages",
-      description: "Compare concierge packages for your Asia surgery trip — airport pickup, in-clinic translation, hotel help, and coordinated aftercare.",
+      title: "China Medical Travel Support",
+      description: "Plan cosmetic care in China with clear payment terms, airport pickup, in-clinic translation, accommodation guidance and coordinated follow-up.",
     },
     {
       path: "/why-china",
@@ -203,28 +204,32 @@ function buildRoutes(d) {
 
   routes.push({
     path: "/treatments",
-    title: "Cosmetic Surgery Procedures Explained | Recovery, Risks & Costs",
+    title: "Cosmetic Procedures in China | Surgery Types & Guides",
     description:
-      "Plain-language guides to rhinoplasty, blepharoplasty, facelift, liposuction, breast augmentation and tummy tuck: how each procedure works, who it suits, real recovery timelines, honest risks, and what to ask your surgeon.",
+      "Explore cosmetic procedures in China, including plastic surgery, hair restoration, cosmetic dentistry, skin and non-surgical treatments, with detailed recovery and risk guides.",
   });
 
-  for (const t of d.TREATMENTS) {
+  const richTreatments = new Map(d.TREATMENTS.map((t) => [t.slug, t]));
+  for (const procedure of d.PROCEDURE_CATALOG) {
+    const t = richTreatments.get(procedure.slug);
+    const description = t?.summaryEn ??
+      `Learn what to discuss when considering ${procedure.en} in China, including planning, provider checks, risks and next steps.`;
     routes.push({
-      path: `/treatments/${t.slug}`,
-      title: `${t.en} — What It Involves, Recovery, Risks & Cost`,
-      description: t.summaryEn,
+      path: `/treatments/${procedure.slug}`,
+      title: `${procedure.en} in China | Procedure Overview`,
+      description,
       schema: {
         "@context": "https://schema.org",
         "@type": "MedicalWebPage",
-        name: `${t.en} — Procedure Guide`,
-        description: t.summaryEn,
+        name: `${procedure.en} in China | Procedure Overview`,
+        description,
         about: {
           "@type": "MedicalProcedure",
-          name: t.en,
-          procedureType: "https://schema.org/SurgicalProcedure",
+          name: procedure.en,
         },
         audience: { "@type": "Patient" },
-        lastReviewed: "2026-08-07",
+        dateModified: "2026-08-30",
+        publisher: { "@id": `${d.SITE_URL}/#organization` },
       },
     });
   }
@@ -250,7 +255,7 @@ function buildRoutes(d) {
       includeInSitemap: false,
       robots: "noindex, follow",
       title: `${doc.en} - ${doc.titleEn} in ${doc.cityEn}`,
-      description: `Consult ${doc.en}, a board-certified surgeon in ${doc.cityEn} with ${doc.years}+ years experience and ${doc.reviews}+ verified patient reviews. Specializes in ${doc.specEn.slice(0, 2).join(", ")}.`,
+      description: `View a published profile for ${doc.en} in ${doc.cityEn}, including listed specialties, languages and clinic information. Confirm current credentials directly before treatment.`,
       schema: {
         "@context": "https://schema.org",
         "@type": "Physician",
@@ -272,8 +277,8 @@ function buildRoutes(d) {
       path: `/cases/${item.id}`,
       includeInSitemap: false,
       robots: "noindex, follow",
-      title: `${treatment} - Real Patient Case | Before & After`,
-      description: `Watch a real before-and-after ${treatment} procedure performed in Asia. Patient recovery timeline, price, surgeon info, and verified results.`,
+      title: `${treatment} | Patient Journey Preview`,
+      description: `View a ${treatment} journey preview with available procedure, location and recovery-stage information. Provider details may still be pending review.`,
       type: "article",
       schema: {
         "@context": "https://schema.org",
@@ -322,10 +327,9 @@ async function main() {
     ]);
   }
 
-  const lastmod = new Date().toISOString().slice(0, 10);
   const sitemapUrls = routes
     .filter((route) => route.includeInSitemap !== false)
-    .map((route) => `  <url>\n    <loc>${esc(`${cfg.SITE_URL}${route.path}`)}</loc>\n    <lastmod>${lastmod}</lastmod>\n  </url>`)
+    .map((route) => `  <url>\n    <loc>${esc(`${cfg.SITE_URL}${route.path}`)}</loc>\n  </url>`)
     .join("\n");
   await writeFile(
     path.join(DIST, "sitemap.xml"),

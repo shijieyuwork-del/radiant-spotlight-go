@@ -85,7 +85,7 @@ const DoctorDetail = () => {
     <>
       <PageMeta
         title={`${doctorName} - ${doctorTitle} in ${doctorCity}`}
-        description={`Consult ${doctorName}, a board-certified surgeon in ${doctorCity} with ${doctor.years}+ years experience and ${doctor.reviews}+ verified patient reviews. Specializes in ${(lang === "zh" ? doctor.specZh : doctor.specEn).slice(0, 2).join(", ")}.`}
+        description={`View a published profile for ${doctorName} in ${doctorCity}, including listed specialties, languages and clinic information. Confirm current credentials directly before treatment.`}
         path={`/doctors/${id}`}
         image={doctor.img}
         structuredData={doctorSchema}

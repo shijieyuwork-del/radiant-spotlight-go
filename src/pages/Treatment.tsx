@@ -55,7 +55,7 @@ const Treatment = () => {
             Double Eyelid <em className="text-primary not-italic">Surgery</em>
           </h1>
           <p className="text-lg text-muted-foreground max-w-xl">
-            The signature surgical procedure to create a natural, defined upper eyelid crease. Incisional or partial-incision technique, performed under local anesthesia by board-certified surgeons.
+            A surgical procedure that creates an upper-eyelid crease using an incisional or partial-incision technique. Confirm the clinician's registration, specialty and anesthesia plan before treatment.
           </p>
 
           <div className="flex flex-wrap gap-3 pt-2">
@@ -96,7 +96,7 @@ const Treatment = () => {
           <h2 className="font-display text-4xl md:text-5xl font-medium tracking-tight">
             Compare <em className="text-primary not-italic">offers</em>
           </h2>
-          <p className="text-sm text-muted-foreground">{offers.length} board-certified surgeons</p>
+          <p className="text-sm text-muted-foreground">{offers.length} published provider offers</p>
         </div>
 
         <div className="grid gap-4">
@@ -146,7 +146,7 @@ const Treatment = () => {
           <p className="text-muted-foreground mt-4 max-w-md">A complete surgical package — from first consult to full recovery, handled end-to-end.</p>
         </div>
         <div className="space-y-3">
-          {["Free virtual consult with board-certified surgeon", "3D simulation & personalized eyelid design", "Surgery in fully accredited operating room", "1 night recovery suite + overnight nurse", "Stitch removal + 3 follow-up visits", "Aftercare hotel package & airport transfer"].map((i) => (
+          {["Virtual consultation with the listed provider", "Procedure planning discussion", "Treatment at the provider's stated facility", "Recovery arrangements shown in the written quote", "Follow-up schedule shown in the written quote", "Optional accommodation and airport coordination"].map((i) => (
             <div key={i} className="flex items-center gap-3 bg-card rounded-2xl px-5 py-4 shadow-soft">
               <div className="size-8 rounded-full bg-gradient-mint grid place-items-center shrink-0">
                 <Check className="size-4" />

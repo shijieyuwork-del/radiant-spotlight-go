@@ -141,7 +141,7 @@ const Hero = () => {
   const copy = lang === "zh"
     ? {
         badge: "专为国际患者打造的中国医美平台",
-        title: "1000+ 位患者的医美历程，",
+        title: "患者医美历程预览，",
         emphasis: "让选择更清晰",
         subtitle: "先了解项目、查看已发布的专家资料与患者恢复日记，再决定是否出发。翻译、行程和术后支持由我们协调。",
         cases: "观看患者短视频",
@@ -157,7 +157,7 @@ const Hero = () => {
     : lang === "ru"
       ? {
           badge: "Китайская платформа для международных пациентов",
-          title: "Более 1 000 историй пациентов.",
+          title: "Примеры историй пациентов.",
           emphasis: "Больше ясности при выборе.",
           subtitle: "Сравните реальные случаи, квалификацию экспертов и прозрачные цены до поездки. Мы организуем перевод, поездку и последующий уход.",
           cases: "Смотреть видео пациентов",
@@ -172,7 +172,7 @@ const Hero = () => {
         }
       : {
           badge: "China's cosmetic care platform for international patients",
-          title: "1,000+ real patient journeys.",
+          title: "Patient journey previews.",
           emphasis: "A clearer way to choose.",
           subtitle: "Understand procedures, review published expert profiles and explore patient recovery diaries before you travel.",
           cases: "Watch patient recovery videos",

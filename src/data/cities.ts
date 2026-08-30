@@ -172,7 +172,7 @@ const CITY_CATALOG: City[] = [
     introZh:
       "新加坡以严苛的医疗监管和高端服务闻名，适合追求高安全标准、英语无障碍沟通的客户。拉皮、隆胸与体形雕塑由委员会认证整形外科专家主刀。",
     introEn:
-      "Singapore is known for strict medical regulation and premium service. It suits patients who prioritize safety and seamless English communication. Facelift, breast surgery and body contouring are performed by board-certified plastic surgeons.",
+      "Singapore is known for strict medical regulation and English-language care. Patients should still confirm each clinician's current registration, specialty and facility privileges before treatment.",
     img: singaporeImg,
     clinics: 54, doctorsCount: 38, savings: "35–50%",
     hotZh: ["面部拉皮", "隆胸", "吸脂塑形", "腹壁整形", "鼻综合"],

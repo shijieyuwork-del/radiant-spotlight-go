@@ -23,9 +23,9 @@ export type TranslationKey =
 
 const en: Record<TranslationKey, string> = {
   "nav.discover": "Discover", "nav.treatments": "Treatments", "nav.reviews": "Reviews", "nav.forClinics": "For Clinics", "nav.signIn": "Sign in",
-  "hero.badge": "4,200+ verified surgeons · 50+ countries",
+  "hero.badge": "Published provider information · International coordination",
   "hero.title1": "Find the world's", "hero.titleEm": "best", "hero.title2": "aesthetic experts.",
-  "hero.subtitle": "Verified experts. Real results. 50+ countries. The trusted cross-border platform for cosmetic surgery — board-certified credentials, real recovery diaries, transparent pricing.",
+  "hero.subtitle": "Review published provider information, procedure guides and patient journey previews before planning cosmetic care abroad.",
   "hero.procedure": "Procedure", "hero.procedurePlaceholder": "Rhinoplasty, double eyelid...",
   "hero.country": "Country", "hero.findDoctorsIn": "Find experts in", "hero.featuredIn": "Featured in",
   "hero.boardCertified": "Board-certified only", "hero.countries": "50+ countries", "hero.diaries": "2M+ recovery diaries",
@@ -47,10 +47,10 @@ const en: Record<TranslationKey, string> = {
   "doctor.desc": "License, board certs, case volume, languages, hospital affiliations — verified before any expert goes live.",
   "reviews.pill": "Verified reviews", "reviews.titlePre": "Reviews from patients who", "reviews.titleEm": "actually flew.",
   "how.watch": "Watch", "how.watchDesc": "Scroll real recovery diaries from verified surgical patients worldwide.",
-  "how.consult": "Consult", "how.consultDesc": "Book free virtual consults with board-certified surgeons. Compare quotes.",
+  "how.consult": "Consult", "how.consultDesc": "Prepare questions for a virtual consultation and compare written quotes.",
   "how.fly": "Fly & operate", "how.flyDesc": "Travel packages, aftercare hotels, English-speaking coordinators included.",
   "cta.pill": "For surgeons", "cta.titlePre": "Bring your practice to", "cta.titleEm": "millions.",
-  "cta.desc": "Join 4,200+ board-certified plastic surgery clinics. Showcase your work through patient diaries, attract international patients, fill your OR.",
+  "cta.desc": "Publish accurate provider information and help international patients prepare for consultations.",
   "cta.apply": "Apply to join",
 };
 
@@ -89,7 +89,7 @@ const ko: Record<TranslationKey, string> = {
 
 const zh: Record<TranslationKey, string> = {
   "nav.discover": "发现", "nav.treatments": "项目", "nav.reviews": "评价", "nav.forClinics": "诊所入驻", "nav.signIn": "登录",
-  "hero.badge": "4,200+ 认证专家 · 覆盖 50+ 国家",
+  "hero.badge": "已发布专家信息 · 国际协调支持",
   "hero.title1": "找到全球", "hero.titleEm": "最好的", "hero.title2": "医美专家。",
   "hero.subtitle": "认证专家。真实效果。50+ 国家。值得信赖的跨境医美平台 — 资质认证、真实恢复日记、透明价格。",
   "hero.procedure": "项目", "hero.procedurePlaceholder": "鼻整形、双眼皮...",
@@ -116,13 +116,13 @@ const zh: Record<TranslationKey, string> = {
   "how.consult": "咨询", "how.consultDesc": "与认证专家免费视频咨询。比较报价。",
   "how.fly": "出行 & 手术", "how.flyDesc": "包含出行套餐、康复酒店、中文协调员。",
   "cta.pill": "专家入驻", "cta.titlePre": "让您的诊所触达", "cta.titleEm": "数百万人。",
-  "cta.desc": "加入 4,200+ 认证整形诊所。通过患者日记展示作品,吸引国际患者,填满您的手术日程。",
+  "cta.desc": "发布准确的专家信息，帮助国际患者为面诊做好准备。",
   "cta.apply": "申请加入",
 };
 
 const th: Record<TranslationKey, string> = {
   "nav.discover": "ค้นพบ", "nav.treatments": "หัตถการ", "nav.reviews": "รีวิว", "nav.forClinics": "สำหรับคลินิก", "nav.signIn": "เข้าสู่ระบบ",
-  "hero.badge": "ศัลยแพทย์ผ่านการรับรอง 4,200+ คน · 50+ ประเทศ",
+  "hero.badge": "ข้อมูลผู้ให้บริการที่เผยแพร่ · การประสานงานระหว่างประเทศ",
   "hero.title1": "ค้นหา", "hero.titleEm": "ดีที่สุด", "hero.title2": "ผู้เชี่ยวชาญด้านความงามทั่วโลก",
   "hero.subtitle": "ผู้เชี่ยวชาญที่ผ่านการรับรอง ผลลัพธ์จริง 50+ ประเทศ แพลตฟอร์มศัลยกรรมข้ามพรมแดนที่น่าเชื่อถือ",
   "hero.procedure": "หัตถการ", "hero.procedurePlaceholder": "เสริมจมูก, ตาสองชั้น...",
@@ -149,7 +149,7 @@ const th: Record<TranslationKey, string> = {
   "how.consult": "ปรึกษา", "how.consultDesc": "จองปรึกษาออนไลน์ฟรีกับผู้เชี่ยวชาญที่ผ่านการรับรอง",
   "how.fly": "บิน & ผ่าตัด", "how.flyDesc": "แพ็กเกจเดินทาง โรงแรมพักฟื้น ผู้ประสานงานภาษาไทย",
   "cta.pill": "สำหรับศัลยแพทย์", "cta.titlePre": "นำคลินิกของคุณสู่", "cta.titleEm": "ผู้คนนับล้าน",
-  "cta.desc": "เข้าร่วมกับคลินิกศัลยกรรม 4,200+ แห่ง จัดแสดงผลงานผ่านบันทึกผู้ป่วย",
+  "cta.desc": "เผยแพร่ข้อมูลผู้ให้บริการที่ถูกต้องและช่วยผู้ป่วยต่างชาติเตรียมตัวก่อนปรึกษาแพทย์",
   "cta.apply": "สมัครเข้าร่วม",
 };
 

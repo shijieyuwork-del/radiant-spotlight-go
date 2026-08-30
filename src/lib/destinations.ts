@@ -28,7 +28,7 @@ const koreaRhino: DestinationData = {
   city: "Seoul",
   flag: "🇰🇷",
   intro:
-    "Seoul's Gangnam district is the world's rhinoplasty capital — board-certified plastic surgeons, advanced 3D simulation, and recovery hotels built specifically for international patients.",
+    "Seoul's Gangnam district has a high concentration of cosmetic surgery clinics, international coordinators and recovery accommodation. Confirm each clinician's registration and facility before treatment.",
   costs: [
     { country: "South Korea", flag: "🇰🇷", low: 3800, high: 5500 },
     { country: "Turkey", flag: "🇹🇷", low: 2800, high: 4200 },

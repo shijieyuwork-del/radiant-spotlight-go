@@ -6,7 +6,7 @@ import PageMeta from "@/components/PageMeta";
 import { findTreatment } from "@/data/treatments";
 import { useAsia } from "@/lib/asia-i18n";
 import { MEDICAL_DISCLAIMER } from "@/lib/seo-config";
-import { PROCEDURE_CATEGORIES, procedureSlug } from "@/pages/Treatments";
+import { PROCEDURE_CATEGORIES, procedureSlug } from "@/data/procedureCatalog";
 import { Button } from "@/components/ui/button";
 import TikTokWall from "@/components/TikTokWall";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
@@ -97,7 +97,7 @@ const TreatmentDetail = () => {
     description: t.summaryEn,
     about: { "@type": "MedicalProcedure", name: t.en, procedureType: "https://schema.org/SurgicalProcedure" },
     audience: { "@type": "Patient" },
-    lastReviewed: "2026-08-07",
+    dateModified: "2026-08-30",
   };
 
   return (
@@ -367,6 +367,16 @@ const CatalogProcedureDetail = ({
   const consultationQuestions = treatment
     ? (zh ? treatment.askZh : treatment.askEn)
     : null;
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "MedicalWebPage",
+    name: `${procedure.en} in China | Procedure Overview`,
+    description: treatment?.summaryEn ?? `Learn what to discuss when considering ${procedure.en} in China, including planning, provider checks, risks and next steps.`,
+    about: { "@type": "MedicalProcedure", name: procedure.en },
+    audience: { "@type": "Patient" },
+    dateModified: "2026-08-30",
+    publisher: { "@id": "https://cosmetics-asia.com/#organization" },
+  };
 
   return (
     <>
@@ -374,6 +384,7 @@ const CatalogProcedureDetail = ({
         title={`${procedure.en} in China | Procedure Overview`}
         description={treatment?.summaryEn ?? `Learn what to discuss when considering ${procedure.en} in China, including planning, provider checks, risks and next steps.`}
         path={path}
+        structuredData={schema}
       />
       <div className="min-h-screen bg-background">
         <AsiaNavbar />
@@ -387,6 +398,14 @@ const CatalogProcedureDetail = ({
             <h1 className="font-display text-4xl font-medium tracking-tight md:text-5xl">{name}</h1>
             <p className="mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground">{description}</p>
           </section>
+
+          <div className="mt-4 flex flex-col gap-2 rounded-2xl border border-primary/15 bg-primary/[0.045] px-4 py-3 text-xs leading-relaxed text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+            <p><span className="font-semibold text-foreground">Editorially researched, not medically reviewed.</span> Updated August 30, 2026.</p>
+            <div className="flex flex-wrap gap-x-4 gap-y-1 font-semibold text-primary">
+              <Link to="/medical-review-policy" className="hover:underline">Medical review policy</Link>
+              <Link to="/editorial-policy" className="hover:underline">Editorial policy</Link>
+            </div>
+          </div>
 
           <section className="mt-8 rounded-[2rem] border border-border/70 bg-card p-5 shadow-soft md:p-8">
             <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">

@@ -313,7 +313,7 @@ const Index = () => {
         <div className="container py-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
             {[
-              { v: "4,200+", l: t("social.verifiedDoctors"), icon: ShieldCheck },
+              { v: "Published", l: t("social.verifiedDoctors"), icon: ShieldCheck },
               { v: "50+", l: t("social.countriesCovered"), icon: Globe2 },
               { v: "2M+", l: t("social.patientVideos"), icon: PlayCircle },
               { v: "180K", l: t("social.surgeriesBooked"), icon: Scissors },

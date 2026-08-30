@@ -19,7 +19,7 @@ const AppPromoSection = () => (
           </p>
           <div className="mt-6 flex flex-wrap gap-2 text-xs font-semibold sm:text-sm">
             <span className="rounded-full bg-white/65 px-4 py-2">China-focused expert directory</span>
-            <span className="rounded-full bg-white/65 px-4 py-2">10K+ diaries</span>
+            <span className="rounded-full bg-white/65 px-4 py-2">Journey previews</span>
             <span className="rounded-full bg-white/65 px-4 py-2">iOS + Android</span>
           </div>
           <a href={WAITLIST_URL} target="_blank" rel="noreferrer" className="mt-7 inline-flex w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 py-4 text-center font-semibold text-background transition hover:-translate-y-0.5 hover:bg-foreground/90 sm:w-auto sm:px-6">
