@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  Sparkles, ArrowRight, Star, MapPin, ShieldCheck,
+  Sparkles, ArrowRight, MapPin, ShieldCheck,
   Stethoscope, Building2,
   Flame, Gift, Wallet, Users, Plane,
   Eye,
@@ -1108,69 +1108,6 @@ const PromoBar = () => {
   );
 };
 
-const PatientReviewsSection = () => {
-  const { lang } = useAsia();
-  const zh = lang === "zh";
-  const ru = lang === "ru";
-  const standards = [
-    {
-      title: zh ? "核验就诊记录" : ru ? "Запись или визит подтверждены" : "Booking or visit verified",
-      text: zh ? "仅在确认预约或到院记录后添加 Verified 标识。" : ru ? "Метка Verified появляется только после подтверждения записи или визита в клинику." : "The Verified label appears only after booking or clinic attendance is confirmed.",
-    },
-    {
-      title: zh ? "保留真实感受" : ru ? "Отзывы остаются словами пациента" : "Opinions stay in the patient's words",
-      text: zh ? "我们不会为了营销而改写患者对沟通、恢复或服务的评价。" : ru ? "Мы не переписываем для рекламы мнения о коммуникации, восстановлении или сервисе." : "We do not rewrite opinions about communication, recovery or service for marketing.",
-    },
-    {
-      title: zh ? "医疗结果因人而异" : ru ? "Результаты индивидуальны" : "Outcomes vary by patient",
-      text: zh ? "评价代表个人经历，不构成疗效保证或医疗建议。" : ru ? "Отзыв отражает личный опыт и не является гарантией результата или медицинской рекомендацией." : "A review reflects one person's experience—not a promise of results or medical advice.",
-    },
-  ];
-
-  return (
-    <section className="container py-10 md:py-20">
-      <div className="relative overflow-hidden rounded-[2.25rem] bg-foreground px-5 py-8 text-background shadow-pop md:px-10 md:py-12">
-        <div className="absolute -right-24 -top-28 size-80 rounded-full bg-primary/30 blur-3xl" />
-        <div className="absolute -bottom-32 left-1/4 size-72 rounded-full bg-accent/20 blur-3xl" />
-        <div className="relative">
-          <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
-            <div className="max-w-3xl">
-              <span className="pill mb-3 bg-accent text-accent-foreground"><Star className="size-3.5 fill-primary text-primary" /> {zh ? "患者评价标准" : ru ? "Стандарты отзывов пациентов" : "Patient review standards"}</span>
-              <h2 className="font-display text-3xl font-medium tracking-tight sm:text-4xl md:text-5xl">
-                {zh ? "真实经历，" : ru ? "Реальный опыт, " : "Real experiences, "}<em className="not-italic text-primary">{zh ? "不制造完美故事" : ru ? "без рекламного сценария" : "without the polished sales script"}</em>
-              </h2>
-              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-background/70 md:text-base">
-                {zh
-                  ? "我们正在收集首批通过 Cosmetics Asia 预约的患者评价。评价会在核验后公开展示；在此之前，我们不会使用虚构姓名、星级或手术结果填充页面。"
-                  : ru
-                    ? "Мы собираем первые отзывы пациентов, записавшихся через Cosmetics Asia. Они появятся после проверки; до этого мы не будем заполнять раздел вымышленными именами, рейтингами или результатами."
-                    : "We are collecting the first reviews from patients booked through Cosmetics Asia. Reviews will appear after verification; until then, we will not fill this space with invented names, ratings or outcomes."}
-              </p>
-            </div>
-            <Button asChild size="lg" className="w-full shrink-0 rounded-full bg-primary px-7 text-primary-foreground hover:bg-primary/90 lg:w-fit">
-              <a href="https://wa.me/14708613825?text=I%27d%20like%20to%20share%20my%20Cosmetics%20Asia%20experience" target="_blank" rel="noreferrer">
-                {zh ? "提交我的评价" : ru ? "Поделиться опытом" : "Share your experience"}<ArrowRight className="ml-2 size-4" />
-              </a>
-            </Button>
-          </div>
-
-          <div className="-mx-5 mt-7 flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 pb-2 scrollbar-hide md:mx-0 md:grid md:grid-cols-3 md:overflow-visible md:px-0">
-            {standards.map((item, index) => (
-              <article key={item.title} className="min-w-[78vw] snap-center rounded-3xl border border-background/10 bg-background/[0.06] p-5 backdrop-blur-sm sm:min-w-[56vw] md:min-w-0">
-                <div className="flex items-center justify-between gap-3">
-                  <ShieldCheck className="size-5 text-primary" />
-                  <span className="font-display text-2xl text-background/20">0{index + 1}</span>
-                </div>
-                <h3 className="mt-4 font-display text-lg font-medium">{item.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-background/65">{item.text}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
 
 // ============== Page ==============
 const AsiaIndex = () => (
@@ -1187,7 +1124,7 @@ const AsiaIndex = () => (
       <main className="home-content-flow">
         <TravelBar />
         <DoctorsSection />
-        <PatientReviewsSection />
+        
         <TreatmentsSection />
         <HowItWorks />
         <CitiesSection />
