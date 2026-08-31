@@ -292,22 +292,6 @@ export type Database = {
     }
     Functions: {
       enqueue_weekly_security_summary: { Args: never; Returns: undefined }
-      read_profile: {
-        Args: { p_id: string }
-        Returns: {
-          avatar_url: string | null
-          created_at: string
-          display_name: string | null
-          id: string
-          updated_at: string
-        }[]
-        SetofOptions: {
-          from: "*"
-          to: "profiles"
-          isOneToOne: false
-          isSetofReturn: true
-        }
-      }
       run_security_watchdog: { Args: never; Returns: string }
     }
     Enums: {
