@@ -253,7 +253,7 @@ const ProcedureCityLandingPage = () => {
                   <h2 className="mt-3 font-display text-4xl font-medium md:text-5xl">Experts in {city.en}</h2>
                   <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground">Licensed specialists published on Cosmetics Asia. Ask them directly about technique, quotes, and follow-up.</p>
                 </div>
-                <Link to={`/doctors?city=${city.slug}`} className="inline-flex items-center gap-2 text-sm font-semibold underline decoration-primary/60 underline-offset-4">All experts in {city.en} <ArrowRight className="size-4" /></Link>
+                <Link to={`/doctors?city=${city.en}`} className="inline-flex items-center gap-2 text-sm font-semibold underline decoration-primary/60 underline-offset-4">All experts in {city.en} <ArrowRight className="size-4" /></Link>
               </div>
               <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {experts.map((doctor) => (
