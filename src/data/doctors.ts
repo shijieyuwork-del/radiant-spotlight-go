@@ -1,7 +1,7 @@
 import kimMinsooPortrait from "@/assets/doctor-kim-minsoo.webp";
 import parkSooyoungPortrait from "@/assets/doctor-park-sooyoung.webp";
-import somchaiViriyaPortrait from "@/assets/doctor-somchai-viriya.jpg";
-import tanakaYukiPortrait from "@/assets/doctor-tanaka-yuki.jpg";
+import somchaiViriyaPortrait from "@/assets/doctor-somchai-viriya.webp";
+import tanakaYukiPortrait from "@/assets/doctor-tanaka-yuki.webp";
 import limWeijiePortrait from "@/assets/doctor-lim-weijie.webp";
 import liWenzhiPortrait from "@/assets/doctor-li-wenzhi.webp";
 
