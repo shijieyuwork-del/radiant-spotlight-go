@@ -255,18 +255,23 @@ const onQuote = (position: string) => {
                 </div>
                 <Link to={`/doctors?city=${city.en}`} className="inline-flex items-center gap-2 text-sm font-semibold underline decoration-primary/60 underline-offset-4">All experts in {city.en} <ArrowRight className="size-4" /></Link>
               </div>
-              <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
                 {experts.map((doctor) => (
-                  <Link key={doctor.id} to={`/doctors/${doctor.id}`} className="group rounded-3xl border border-border bg-card p-5 shadow-soft transition hover:border-primary/40">
-                    <div className="flex items-center gap-4">
-                      <img src={doctor.img} alt={`Portrait of ${doctor.en}`} loading="lazy" className="size-14 rounded-2xl object-cover" />
-                      <div className="min-w-0">
-                        <p className="truncate font-display text-lg font-semibold">{doctor.en}</p>
-                        <p className="truncate text-xs text-muted-foreground">{doctor.titleEn}</p>
-                        <p className="mt-0.5 flex items-center gap-1 text-xs font-semibold text-primary"><Star className="size-3 fill-primary" />{doctor.rating} · {doctor.reviews.toLocaleString()} reviews</p>
+                  <Link
+                    key={doctor.id}
+                    to={`/doctors/${doctor.id}`}
+                    className="group flex flex-col rounded-3xl border border-border bg-card p-6 shadow-soft transition hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-pop sm:max-w-md"
+                  >
+                    <div className="flex items-start gap-4">
+                      <img src={doctor.img} alt={`Portrait of ${doctor.en}`} loading="lazy" className="size-16 shrink-0 rounded-2xl object-cover ring-1 ring-border" />
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate font-display text-lg font-semibold leading-tight">{doctor.en}</p>
+                        <p className="mt-0.5 truncate text-xs text-muted-foreground">{doctor.titleEn}</p>
+                        <p className="mt-1.5 flex items-center gap-1 text-xs font-semibold text-primary"><Star className="size-3 fill-primary" />{doctor.rating} · {doctor.reviews.toLocaleString()} reviews</p>
                       </div>
+                      <ArrowRight className="mt-1 size-4 shrink-0 text-muted-foreground transition group-hover:translate-x-0.5 group-hover:text-primary" />
                     </div>
-                    <p className="mt-4 text-xs text-muted-foreground">{doctor.clinicEn}</p>
+                    <p className="mt-4 flex items-center gap-1.5 border-t border-border pt-4 text-xs text-muted-foreground"><Stethoscope className="size-3.5 shrink-0 text-primary" />{doctor.clinicEn}</p>
                     <div className="mt-3 flex flex-wrap gap-1.5">
                       {doctor.specEn.slice(0, 3).map((spec) => (
                         <span key={spec} className="rounded-full bg-primary/10 px-2.5 py-1 text-[11px] font-semibold text-primary">{spec}</span>
