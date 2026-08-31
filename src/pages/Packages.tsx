@@ -28,15 +28,15 @@ import QuoteCtaButton, { QUOTE_WHATSAPP_URL } from "@/components/QuoteCtaButton"
 import journeyConsultation from "@/assets/journey-premium-natural-consultation-v5.webp";
 import journeyArrival from "@/assets/journey-premium-natural-arrival-v5.webp";
 import journeyGroundSupport from "@/assets/journey-premium-natural-concierge-v5.webp";
-import journeyTreatment from "@/assets/journey-premium-clinic-v6.jpg";
-import journeyRecovery from "@/assets/journey-premium-natural-recovery-v5.jpg";
-import journeyFollowUp from "@/assets/journey-premium-natural-followup-v5.jpg";
-import supportAirport from "@/assets/packages-quiet-luxury-support-airport-v3.jpg";
-import supportTranslation from "@/assets/packages-quiet-luxury-support-translation-v3.jpg";
-import supportAccommodation from "@/assets/packages-quiet-luxury-support-accommodation-v3.jpg";
-import supportRecords from "@/assets/packages-quiet-luxury-support-records-v3.jpg";
-import supportConcierge from "@/assets/packages-quiet-luxury-support-concierge-v3.jpg";
-import travelSupportCareTeam from "@/assets/travel-support-asian-care-team-v2.jpg";
+import journeyTreatment from "@/assets/journey-premium-clinic-v6.webp";
+import journeyRecovery from "@/assets/journey-premium-natural-recovery-v5.webp";
+import journeyFollowUp from "@/assets/journey-premium-natural-followup-v5.webp";
+import supportAirport from "@/assets/packages-quiet-luxury-support-airport-v3.webp";
+import supportTranslation from "@/assets/packages-quiet-luxury-support-translation-v3.webp";
+import supportAccommodation from "@/assets/packages-quiet-luxury-support-accommodation-v3.webp";
+import supportRecords from "@/assets/packages-quiet-luxury-support-records-v3.webp";
+import supportConcierge from "@/assets/packages-quiet-luxury-support-concierge-v3.webp";
+import travelSupportCareTeam from "@/assets/travel-support-asian-care-team-v2.webp";
 
 
 

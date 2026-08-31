@@ -1,9 +1,9 @@
-import kimMinsooPortrait from "@/assets/doctor-kim-minsoo.jpg";
-import parkSooyoungPortrait from "@/assets/doctor-park-sooyoung.jpg";
+import kimMinsooPortrait from "@/assets/doctor-kim-minsoo.webp";
+import parkSooyoungPortrait from "@/assets/doctor-park-sooyoung.webp";
 import somchaiViriyaPortrait from "@/assets/doctor-somchai-viriya.jpg";
 import tanakaYukiPortrait from "@/assets/doctor-tanaka-yuki.jpg";
-import limWeijiePortrait from "@/assets/doctor-lim-weijie.jpg";
-import liWenzhiPortrait from "@/assets/doctor-li-wenzhi.jpg";
+import limWeijiePortrait from "@/assets/doctor-lim-weijie.webp";
+import liWenzhiPortrait from "@/assets/doctor-li-wenzhi.webp";
 
 export type Doctor = {
   id: string;

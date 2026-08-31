@@ -3,10 +3,10 @@ import guangzhouImg from "@/assets/city-guangzhou.webp";
 import beijingImg from "@/assets/city-beijing.webp";
 import hainanImg from "@/assets/city-hainan.webp";
 import hangzhouImg from "@/assets/city-hangzhou.jpg";
-import seoulImg from "@/assets/city-seoul.jpg";
-import bangkokImg from "@/assets/city-bangkok.jpg";
-import tokyoImg from "@/assets/city-tokyo.jpg";
-import singaporeImg from "@/assets/city-singapore.jpg";
+import seoulImg from "@/assets/city-seoul.webp";
+import bangkokImg from "@/assets/city-bangkok.webp";
+import tokyoImg from "@/assets/city-tokyo.webp";
+import singaporeImg from "@/assets/city-singapore.webp";
 
 export type City = {
   /** URL slug (lowercase English city name) */
