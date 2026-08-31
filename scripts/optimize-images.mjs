@@ -14,25 +14,20 @@ const MAX_WIDTH = 900;
 const QUALITY = 78;
 const DELETE_SOURCE = process.argv.includes("--delete-source");
 
-// Files to convert. Keep this list explicit so we never touch icons/logos.
-const TARGETS = [
-  "doctor-demo-zhou-premium-real-face-v8.png",
-  "doctor-demo-zhou-candid-consultation-v9.png",
-  "doctor-demo-gu-candid-texture-v8.png",
-  "doctor-demo-chen-authoritative-v4.png",
-  "doctor-demo-lin-natural-v4.png",
-  "city-hainan.jpg",
-  "city-beijing.jpg",
-  "city-guangzhou.jpg",
-  "journey-premium-natural-concierge-v5.jpg",
-  "journey-premium-natural-consultation-v5.jpg",
-  "journey-premium-natural-arrival-v5.jpg",
-  "doctor-demo-xu-natural-v3.jpg",
-];
+// Any photographic asset in src/assets above this size gets re-encoded.
+const SIZE_THRESHOLD = 250 * 1024;
+
+const allFiles = await readdir(ASSETS_DIR);
+const TARGETS = [];
+for (const name of allFiles) {
+  if (!/\.(png|jpe?g)$/i.test(name)) continue;
+  const { size } = await stat(path.join(ASSETS_DIR, name));
+  if (size >= SIZE_THRESHOLD) TARGETS.push(name);
+}
 
 const kb = (n) => `${Math.round(n / 1024)} KB`;
 
-const existing = new Set(await readdir(ASSETS_DIR));
+const existing = new Set(allFiles);
 
 for (const name of TARGETS) {
   if (!existing.has(name)) {
