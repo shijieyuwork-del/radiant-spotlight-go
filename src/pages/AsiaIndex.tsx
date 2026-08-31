@@ -136,8 +136,30 @@ const treatments: Treatment[] = [
 // TikTok cases live in src/data/tiktokCases.ts.
 
 // ============== Sections ==============
+type NavigatorConnection = {
+  saveData?: boolean;
+  effectiveType?: string;
+};
+
 const Hero = () => {
   const { t, lang, fmt } = useAsia();
+  const [showHeroVideo, setShowHeroVideo] = useState(false);
+
+  useEffect(() => {
+    if (window.matchMedia("(max-width: 767px)").matches) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const connection = (navigator as Navigator & { connection?: NavigatorConnection }).connection;
+    if (connection?.saveData) return;
+    if (connection?.effectiveType && /(^|-)2g$/.test(connection.effectiveType)) return;
+    const cb = () => setShowHeroVideo(true);
+    if (typeof window.requestIdleCallback === "function") {
+      const id = window.requestIdleCallback(cb, { timeout: 2500 });
+      return () => window.cancelIdleCallback(id);
+    }
+    const id = window.setTimeout(cb, 1500);
+    return () => window.clearTimeout(id);
+  }, []);
+
   const copy = lang === "zh"
     ? {
         badge: "更清晰地了解中国医美",
