@@ -90,8 +90,8 @@ const ProcedureCityLandingPage = () => {
 
   useEffect(() => {
     if (!lp) return;
-    const sendInitialEvents = () => {
-      trackEvent("view_landing_page", { page_group: "procedure_city_landing", slug: lp.slug });
+const sendInitialEvents = () => {
+      trackEvent("view_landing_page", { page_group: "procedure_city_landing" });
       trackEvent("view_pricing", { source: "procedure_city_landing", section: "published_range" });
     };
     sendInitialEvents();
@@ -105,8 +105,8 @@ const ProcedureCityLandingPage = () => {
 
   if (!lp || !city) return <Navigate to="/" replace />;
 
-  const onQuote = (position: string) => {
-    trackEvent("select_cta", { source: "procedure_city_landing", slug: lp.slug, position });
+const onQuote = (position: string) => {
+    trackEvent("select_cta", { source: "procedure_city_landing", position });
     open({ procedure: `${lp.procedureLabel} in ${city.en}`, source: "procedure_city_landing" });
   };
 
