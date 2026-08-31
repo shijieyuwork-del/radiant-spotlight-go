@@ -199,9 +199,9 @@ describe("RLS: audit_logs 审计日志", () => {
     expect(error).not.toBeNull();
   });
 
-  it("anon: 无法调用 read_profile 函数", async () => {
-    const { error } = await anon.rpc("read_profile", { p_id: crypto.randomUUID() });
-    expect(error).not.toBeNull();
+  it("anon: 无法读取任何 profiles 记录", async () => {
+    const { data, error } = await anon.from("profiles").select("id").limit(1);
+    expect(error ?? (data?.length ?? 0) === 0).toBeTruthy();
   });
 });
 
