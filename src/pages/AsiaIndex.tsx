@@ -227,20 +227,21 @@ const Hero = () => {
         <div className="hero-motion__veil absolute inset-0" />
       </div>
 
-      <div className="container relative pb-9 pt-8 sm:py-14 md:py-20">
+      <div className="container relative pb-9 pt-5 sm:py-14 md:py-20">
         <div className="flex flex-col gap-8 md:gap-14">
           <div className="mx-auto w-full max-w-5xl text-center">
             <span className="pill max-w-full justify-center bg-card/80 text-center leading-relaxed shadow-soft backdrop-blur">
               <ShieldCheck className="size-3.5 text-primary" />
               {copy.badge}
             </span>
-            <h1 className="mx-auto mt-4 max-w-4xl font-display text-[2.35rem] font-medium leading-[1.01] tracking-tight min-[390px]:text-[2.55rem] sm:mt-5 sm:text-5xl md:text-[3.75rem]">
-              {copy.title}<br />
-              <em className="text-primary not-italic">{copy.emphasis}</em>
+            <h1 className="mx-auto mt-4 max-w-4xl font-display text-[1.95rem] font-medium leading-[1.01] tracking-tight min-[390px]:text-[2.15rem] sm:mt-5 sm:text-5xl md:text-[3.75rem]">
+              {copy.title}
+              <span className="hidden sm:inline"><br />
+              <em className="text-primary not-italic">{copy.emphasis}</em></span>
             </h1>
-            <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-[15px]">{copy.subtitle}</p>
+            <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-[15px]"><em className="text-primary not-italic sm:hidden">{copy.emphasis} </em>{copy.subtitle}</p>
 
-            <div className="mx-auto mt-6 flex max-w-lg flex-col justify-center gap-3 sm:mt-7 sm:flex-row">
+            <div className="mx-auto mt-5 flex max-w-lg flex-col justify-center gap-3 sm:mt-7 sm:flex-row">
               <QuoteCtaButton className="h-[3.25rem] w-full rounded-2xl border border-foreground px-8 text-[15px] shadow-pop sm:h-12 sm:w-auto sm:rounded-full" />
               <Button asChild size="lg" variant="outline" className="h-[3.25rem] w-full rounded-2xl border-primary/25 bg-card/70 px-8 text-[15px] font-semibold backdrop-blur sm:h-12 sm:w-auto sm:rounded-full">
                 <Link to="/cases">{copy.cases}<ArrowRight className="ml-1.5 size-4" /></Link>
