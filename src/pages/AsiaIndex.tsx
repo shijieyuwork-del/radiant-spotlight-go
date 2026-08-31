@@ -23,16 +23,16 @@ import { ORGANIZATION_SCHEMA } from "@/lib/seo-config";
 import { useQuote } from "@/components/QuoteRequest";
 import { MedicalDisclaimer } from "@/components/MedicalDisclaimer";
 import heroBg from "@/assets/hero-bg.jpg";
-import journeyConsultation from "@/assets/journey-premium-natural-consultation-v5.jpg";
-import journeyArrival from "@/assets/journey-premium-natural-arrival-v5.jpg";
-import journeyGroundSupport from "@/assets/journey-premium-natural-concierge-v5.jpg";
-import journeyTreatment from "@/assets/journey-premium-clinic-v6.jpg";
-import journeyRecovery from "@/assets/journey-premium-natural-recovery-v5.jpg";
-import journeyFollowUp from "@/assets/journey-premium-natural-followup-v5.jpg";
+import journeyConsultation from "@/assets/journey-premium-natural-consultation-v5.webp";
+import journeyArrival from "@/assets/journey-premium-natural-arrival-v5.webp";
+import journeyGroundSupport from "@/assets/journey-premium-natural-concierge-v5.webp";
+import journeyTreatment from "@/assets/journey-premium-clinic-v6.webp";
+import journeyRecovery from "@/assets/journey-premium-natural-recovery-v5.webp";
+import journeyFollowUp from "@/assets/journey-premium-natural-followup-v5.webp";
 import procedureRhinoplasty from "@/assets/procedures/rhinoplasty.jpg";
-import procedureEyes from "@/assets/procedures/double-eyelid-natural-v4.jpg";
+import procedureEyes from "@/assets/procedures/double-eyelid-natural-v4.webp";
 import procedureFacelift from "@/assets/procedures/facelift.jpg";
-import procedureBody from "@/assets/procedures/body-contouring-natural-v2.jpg";
+import procedureBody from "@/assets/procedures/body-contouring-natural-v2.webp";
 import procedureBreast from "@/assets/procedures/breast-augmentation.jpg";
 import procedureHair from "@/assets/procedures/fue-hair-transplant.jpg";
 import procedureJaw from "@/assets/procedures/jaw-contouring.jpg";
@@ -520,7 +520,7 @@ const CitiesSection = () => {
           <Link key={c.slug} to={`/cities/${c.slug}`} className="group block min-w-[82vw] snap-center sm:min-w-[62vw] md:min-w-[calc((100%_-_3rem)/3)] md:max-w-[calc((100%_-_3rem)/3)]">
             <article className="flex min-h-[270px] flex-col rounded-3xl border border-border bg-card p-5 shadow-soft transition duration-300 group-hover:-translate-y-1 group-hover:border-primary/35 group-hover:shadow-pop md:min-h-[290px] md:p-6">
               <div className="flex min-w-0 items-center gap-4">
-                <img src={c.img} alt={`${c.en} city`} className="size-24 shrink-0 rounded-full border-2 border-primary/15 object-cover transition-transform duration-500 group-hover:scale-105 md:size-28" />
+                <img src={c.img} alt={`${c.en} city`} loading="lazy" decoding="async" className="size-24 shrink-0 rounded-full border-2 border-primary/15 object-cover transition-transform duration-500 group-hover:scale-105 md:size-28" />
                 <div className="min-w-0">
                   <h3 className="font-display text-2xl font-semibold leading-tight text-foreground md:text-3xl">{lang === "zh" ? c.zh : c.en}</h3>
                   <p className="mt-1 text-sm text-muted-foreground">{lang === "zh" ? c.en : c.zh}</p>
@@ -829,7 +829,7 @@ const TreatmentsSection = () => {
       <div className="flex touch-pan-x snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain pb-2 scrollbar-hide md:gap-4" aria-label={lang === "zh" ? "12 个项目方向，可横向滑动浏览" : "12 procedure goals, scroll horizontally to explore"}>
         {procedureGoals.map((goal, index) => (
           <Link key={goal.key} to={goal.href} className="group relative min-h-[300px] w-[76vw] min-w-[76vw] shrink-0 snap-center overflow-hidden rounded-[1.6rem] bg-foreground shadow-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:w-[44vw] sm:min-w-[44vw] lg:min-h-[340px] lg:w-[calc((100%_-_5rem)/6)] lg:min-w-[calc((100%_-_5rem)/6)] lg:snap-start">
-            <img src={goal.image} alt={labelFor(goal)} loading="lazy" className="absolute inset-0 size-full object-cover transition-transform duration-400 ease-out group-hover:scale-[1.035]" />
+            <img src={goal.image} alt={labelFor(goal)} loading="lazy" decoding="async" className="absolute inset-0 size-full object-cover transition-transform duration-400 ease-out group-hover:scale-[1.035]" />
             <div className="absolute inset-0 bg-gradient-to-t from-foreground/95 via-foreground/20 to-transparent" />
             <div className="relative flex min-h-[300px] flex-col justify-end p-5 text-background lg:min-h-[340px]">
               <span className="mb-2 text-[10px] font-bold uppercase tracking-[0.18em] text-background/60">{String(index + 1).padStart(2, "0")}</span>
@@ -916,7 +916,7 @@ className="flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscro
             <article className="relative min-h-[400px] w-full rounded-3xl transition-transform [transform-style:preserve-3d] [transition-duration:380ms] [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none md:min-h-[420px] md:group-hover:[transform:rotateY(180deg)] md:group-focus-visible:[transform:rotateY(180deg)]">
               <div className="absolute inset-0 flex flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-soft [backface-visibility:hidden]">
                 <div className="relative flex-1 overflow-hidden bg-primary/10">
-                  {photo ? <img src={photo} alt={d.name} className="size-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.025] motion-reduce:transition-none" /> : <div className="grid size-full place-items-center text-primary"><Stethoscope className="size-16" /></div>}
+                  {photo ? <img src={photo} alt={d.name} loading="lazy" decoding="async" className="size-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.025] motion-reduce:transition-none" /> : <div className="grid size-full place-items-center text-primary"><Stethoscope className="size-16" /></div>}
                   <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
                   {d.demo && <span className="absolute left-4 top-4 inline-flex rounded-full border border-white/55 bg-white/88 px-3 py-1.5 text-[10px] font-semibold text-foreground shadow-sm backdrop-blur-sm">Sample profile · {d.photoKind === "stock" ? "stock photo" : "AI image"}</span>}
 <div className="absolute inset-x-0 bottom-0 p-5 text-white">

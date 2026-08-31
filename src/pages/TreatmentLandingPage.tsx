@@ -23,7 +23,7 @@ import { findTreatment } from "@/data/treatments";
 import { MEDICAL_DISCLAIMER } from "@/lib/seo-config";
 import { trackEvent } from "@/lib/analytics";
 import rhinoplastyImage from "@/assets/treatment-rhinoplasty.jpg";
-import blepharoplastyImage from "@/assets/treatment-eyelid.jpg";
+import blepharoplastyImage from "@/assets/treatment-eyelid.webp";
 import faceliftImage from "@/assets/treatment-facelift.jpg";
 
 export type TreatmentLandingKind = "rhinoplasty" | "blepharoplasty" | "facelift";

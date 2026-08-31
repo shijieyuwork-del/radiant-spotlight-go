@@ -32,12 +32,12 @@ import {
 import { findCity } from "@/data/cities";
 import type { LandingProcedureKey } from "@/data/landingPages";
 import rhinoplastyImage from "@/assets/treatment-rhinoplasty.jpg";
-import eyelidImage from "@/assets/treatment-eyelid.jpg";
+import eyelidImage from "@/assets/treatment-eyelid.webp";
 import faceliftImage from "@/assets/treatment-facelift.jpg";
 import breastImage from "@/assets/treatment-breast-augmentation.jpg";
 import lipoImage from "@/assets/treatment-liposuction.jpg";
-import tummyImage from "@/assets/treatment-tummy-tuck.jpg";
-import bblImage from "@/assets/treatment-bbl.jpg";
+import tummyImage from "@/assets/treatment-tummy-tuck.webp";
+import bblImage from "@/assets/treatment-bbl.webp";
 import mommyImage from "@/assets/treatment-body-contouring.jpg";
 
 const PROCEDURE_IMAGE: Record<LandingProcedureKey, string> = {

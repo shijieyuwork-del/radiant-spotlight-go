@@ -72,7 +72,7 @@ const MegaNavItem = ({ active, featuredDoctors, intro, label, groups, to, viewAl
               {featuredDoctors.map((doctor) => (
                 <Link key={doctor.id} to={`/doctors/demo/${doctor.id}`} className="group/doctor min-w-0 border border-border bg-background p-2.5 transition-[border-color,transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:border-primary/35 hover:shadow-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
                   <div className="relative aspect-[4/3] overflow-hidden bg-muted">
-                    <img src={doctor.photo} alt={doctor.name} className="size-full object-cover transition-transform duration-300 group-hover/doctor:scale-[1.03]" />
+                    <img src={doctor.photo} alt={doctor.name} loading="lazy" decoding="async" className="size-full object-cover transition-transform duration-300 group-hover/doctor:scale-[1.03]" />
                     <span className="absolute bottom-2 left-2 rounded-full bg-card/90 px-2 py-1 text-[9px] font-bold uppercase tracking-[0.08em] text-foreground backdrop-blur-sm">{doctor.sampleLabel}</span>
                   </div>
                   <h4 className="mt-3 truncate font-display text-lg font-medium text-foreground">{doctor.name}</h4>

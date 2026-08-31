@@ -1,8 +1,8 @@
-import linPortrait from "@/assets/doctor-demo-lin-natural-v4.png";
-import zhouPortrait from "@/assets/doctor-demo-zhou-candid-consultation-v9.png";
-import chenPortrait from "@/assets/doctor-demo-chen-authoritative-v4.png";
-import xuPortrait from "@/assets/doctor-demo-xu-natural-v3.jpg";
-import guPortrait from "@/assets/doctor-demo-gu-candid-texture-v8.png";
+import linPortrait from "@/assets/doctor-demo-lin-natural-v4.webp";
+import zhouPortrait from "@/assets/doctor-demo-zhou-candid-consultation-v9.webp";
+import chenPortrait from "@/assets/doctor-demo-chen-authoritative-v4.webp";
+import xuPortrait from "@/assets/doctor-demo-xu-natural-v3.webp";
+import guPortrait from "@/assets/doctor-demo-gu-candid-texture-v8.webp";
 
 export type DemoChinaDoctor = {
   id: string;
