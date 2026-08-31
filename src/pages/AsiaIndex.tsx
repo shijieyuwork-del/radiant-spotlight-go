@@ -885,27 +885,35 @@ const DoctorsSection = () => {
             key={d.id}
             to={d.demo ? `/doctors/demo/${d.id}` : `/doctors/profile/${d.id}`}
             aria-label={`${lang === "zh" ? "查看专家资料" : lang === "ru" ? "Профиль эксперта" : "View expert profile"}: ${d.name}`}
-            className="group flex min-w-[82vw] snap-center rounded-3xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 sm:min-w-[62vw] md:min-w-[calc((100%_-_3rem)/3)] md:max-w-[calc((100%_-_3rem)/3)]"
+            className="group flex min-w-[82vw] snap-center rounded-3xl [perspective:1200px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 sm:min-w-[62vw] md:min-w-[calc((100%_-_3rem)/3)] md:max-w-[calc((100%_-_3rem)/3)]"
           >
-            <article className="flex min-h-[540px] w-full flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-soft transition duration-300 group-hover:-translate-y-1 group-hover:border-primary/35 group-hover:shadow-pop md:min-h-[570px]">
-              <div className="relative aspect-[16/10] w-full overflow-hidden bg-primary/10 md:aspect-[4/3]">
-                {photo ? <img src={photo} alt={d.name} className="size-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.035]" /> : <div className="grid size-full place-items-center text-primary"><Stethoscope className="size-16" /></div>}
-                {d.demo && <span className="absolute bottom-4 left-4 inline-flex rounded-full border border-white/60 bg-white/90 px-3 py-1.5 text-[10px] font-semibold text-foreground shadow-sm backdrop-blur-sm">Sample profile · {d.photoKind === "stock" ? "stock photo" : "AI image"}</span>}
+            <article className="relative min-h-[500px] w-full rounded-3xl transition-transform [transform-style:preserve-3d] [transition-duration:380ms] [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none md:min-h-[540px] md:group-hover:[transform:rotateY(180deg)] md:group-focus-visible:[transform:rotateY(180deg)]">
+              <div className="absolute inset-0 flex flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-soft [backface-visibility:hidden]">
+                <div className="relative flex-1 overflow-hidden bg-primary/10">
+                  {photo ? <img src={photo} alt={d.name} className="size-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.025] motion-reduce:transition-none" /> : <div className="grid size-full place-items-center text-primary"><Stethoscope className="size-16" /></div>}
+                  <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
+                  {d.demo && <span className="absolute left-4 top-4 inline-flex rounded-full border border-white/55 bg-white/88 px-3 py-1.5 text-[10px] font-semibold text-foreground shadow-sm backdrop-blur-sm">Sample profile · {d.photoKind === "stock" ? "stock photo" : "AI image"}</span>}
+                  <div className="absolute inset-x-0 bottom-0 p-6 text-white">
+                    <h3 className="font-display text-3xl font-semibold leading-tight md:text-[2rem]">{d.name}</h3>
+                    <p className="mt-1 text-sm font-medium text-white/80">{d.title}</p>
+                    <p className="mt-3 flex items-center gap-2 text-sm text-white/85"><MapPin className="size-4 text-primary" />{d.city}</p>
+                  </div>
+                </div>
+                <div className="flex min-h-16 items-center justify-between px-6 text-sm font-semibold text-foreground md:hidden">
+                  {lang === "zh" ? "查看专家资料" : lang === "ru" ? "Профиль эксперта" : "View expert profile"}
+                  <ArrowRight className="size-4 text-primary" />
+                </div>
               </div>
 
-              <div className="flex flex-1 flex-col p-5 md:p-6">
-                <div className="min-w-0">
-                  <h3 className="font-display text-2xl font-semibold leading-tight text-foreground md:text-[1.65rem]">{d.name}</h3>
-                  <p className="mt-1 line-clamp-2 text-sm font-medium text-muted-foreground">{d.title}</p>
+              <div className="absolute inset-0 hidden flex-col overflow-hidden rounded-3xl border border-primary/25 bg-card p-7 shadow-pop [backface-visibility:hidden] [transform:rotateY(180deg)] md:flex">
+                <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-primary">{lang === "zh" ? "专家简介" : lang === "ru" ? "О специалисте" : "Expert overview"}</span>
+                <h3 className="mt-3 font-display text-3xl font-semibold leading-tight text-foreground">{d.name}</h3>
+                <p className="mt-2 flex items-start gap-2 text-sm leading-relaxed text-foreground/75"><MapPin className="mt-0.5 size-4 shrink-0 text-primary" />{d.city} · {d.hospital}</p>
+                <p className="mt-6 text-sm leading-7 text-muted-foreground">{d.bio}</p>
+                <div className="mt-6 flex flex-wrap gap-2">
+                  {d.specialties.slice(0, 3).map((s) => <span key={s} className="rounded-full bg-accent px-3 py-1.5 text-xs text-accent-foreground">{s}</span>)}
                 </div>
-                <p className="mt-4 flex items-start gap-2 text-sm text-foreground/80"><MapPin className="mt-0.5 size-4 shrink-0 text-primary" /><span className="line-clamp-2">{d.city} · {d.hospital}</span></p>
-                <p className="mt-4 line-clamp-3 text-sm leading-relaxed text-muted-foreground">{d.bio}</p>
-                <div className="mt-4 flex max-h-[54px] flex-wrap gap-1.5 overflow-hidden">
-                  {d.specialties.slice(0, 3).map((s) => (
-                    <span key={s} className="rounded-full bg-accent px-2.5 py-1 text-[11px] text-accent-foreground">{s}</span>
-                  ))}
-                </div>
-                <span className="mt-auto flex min-h-12 items-center justify-between border-t border-border/70 pt-4 text-sm font-semibold text-foreground">
+                <span className="mt-auto flex min-h-12 items-center justify-between border-t border-border/70 pt-5 text-sm font-semibold text-foreground">
                   {lang === "zh" ? "查看专家资料" : lang === "ru" ? "Профиль эксперта" : "View expert profile"}
                   <ArrowRight className="size-4 text-primary transition-transform group-hover:translate-x-1" />
                 </span>
