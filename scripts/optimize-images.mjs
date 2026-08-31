@@ -4,10 +4,31 @@
  * Usage: node scripts/optimize-images.mjs [--delete-source]
  *
  * Settings: max width 900px (no upscaling), quality 78.
+ *
+ * NOTE: `sharp` is intentionally NOT a project dependency (it is a heavy
+ * native module that would slow down / bloat every production CI build).
+ * This is a one-off maintenance script — install sharp ad hoc before use:
+ *   npx --yes -p sharp node scripts/optimize-images.mjs
+ * or:
+ *   npm i -D sharp && node scripts/optimize-images.mjs && npm un sharp
  */
 import { readdir, stat, unlink } from "node:fs/promises";
 import path from "node:path";
-import sharp from "sharp";
+
+let sharp;
+try {
+  ({ default: sharp } = await import("sharp"));
+} catch {
+  console.error(
+    [
+      "This script needs `sharp`, which is intentionally not a project dependency.",
+      "It is a one-off maintenance tool. Run one of:",
+      "  npx --yes -p sharp node scripts/optimize-images.mjs",
+      "  npm i -D sharp   (then re-run this script)",
+    ].join("\n"),
+  );
+  process.exit(1);
+}
 
 const ASSETS_DIR = path.resolve("src/assets");
 const MAX_WIDTH = 900;
