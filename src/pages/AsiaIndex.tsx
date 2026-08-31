@@ -211,16 +211,19 @@ const Hero = () => {
     <section className="hero-motion relative overflow-hidden">
       <div className="hero-motion__background absolute inset-x-0 top-0 h-[900px] sm:h-[940px]" aria-hidden="true">
         <img src={heroBg} alt="" className="hero-motion__image absolute inset-0 size-full object-cover" />
-        <video
-          className="hero-motion__video absolute inset-0 size-full object-cover"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-        >
-          <source src="/video/cosmetics-asia-home-motion.mp4?v=1" type="video/mp4" />
-        </video>
+        {showHeroVideo && (
+          <video
+            className="hero-motion__video absolute inset-0 size-full object-cover"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="none"
+            poster={heroBg}
+          >
+            <source src="/video/cosmetics-asia-home-motion.mp4?v=1" type="video/mp4" />
+          </video>
+        )}
         <div className="hero-motion__veil absolute inset-0" />
       </div>
 
