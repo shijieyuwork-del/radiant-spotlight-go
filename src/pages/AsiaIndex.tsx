@@ -859,11 +859,11 @@ const DoctorsSection = () => {
     return () => window.clearInterval(timer);
   }, []);
   return (
-    <section id="compliance" className="container py-10 md:py-16">
-      <div className="mb-6 flex flex-wrap items-end justify-between gap-4 md:mb-8">
+<section id="compliance" className="container py-8 md:py-12">
+      <div className="mb-5 flex flex-wrap items-end justify-between gap-4 md:mb-6">
         <div>
           <span className="pill bg-accent text-accent-foreground mb-3"><Stethoscope className="size-3.5" /> {t("doctors.kicker")}</span>
-          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight">
+          <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-medium tracking-tight">
             {t("doctors.title1")} <em className="text-primary not-italic">{t("doctors.titleEm")}</em>
           </h2>
         </div>
@@ -876,7 +876,7 @@ const DoctorsSection = () => {
         onPointerUp={() => { doctorRailPausedRef.current = false; }}
         onFocusCapture={() => { doctorRailPausedRef.current = true; }}
         onBlurCapture={() => { doctorRailPausedRef.current = false; }}
-        className="flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain scroll-smooth rounded-[2rem] bg-gradient-to-r from-[hsl(158,58%,90%)] via-[hsl(145,48%,91%)] to-[hsl(50,80%,91%)] px-4 py-5 shadow-pop scrollbar-hide md:gap-6 md:px-6 md:py-7"
+className="flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain scroll-smooth rounded-[2rem] bg-gradient-to-r from-[hsl(158,58%,90%)] via-[hsl(145,48%,91%)] to-[hsl(50,80%,91%)] px-4 py-4 shadow-pop scrollbar-hide md:gap-5 md:px-6 md:py-5"
       >
         {displayedDoctors.map((d) => {
           const photo = d.photo;
@@ -887,17 +887,17 @@ const DoctorsSection = () => {
             aria-label={`${lang === "zh" ? "查看专家资料" : lang === "ru" ? "Профиль эксперта" : "View expert profile"}: ${d.name}`}
             className="group flex min-w-[82vw] snap-center rounded-3xl [perspective:1200px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 sm:min-w-[62vw] md:min-w-[calc((100%_-_3rem)/3)] md:max-w-[calc((100%_-_3rem)/3)]"
           >
-            <article className="relative min-h-[500px] w-full rounded-3xl transition-transform [transform-style:preserve-3d] [transition-duration:380ms] [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none md:min-h-[540px] md:group-hover:[transform:rotateY(180deg)] md:group-focus-visible:[transform:rotateY(180deg)]">
+            <article className="relative min-h-[400px] w-full rounded-3xl transition-transform [transform-style:preserve-3d] [transition-duration:380ms] [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none md:min-h-[420px] md:group-hover:[transform:rotateY(180deg)] md:group-focus-visible:[transform:rotateY(180deg)]">
               <div className="absolute inset-0 flex flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-soft [backface-visibility:hidden]">
                 <div className="relative flex-1 overflow-hidden bg-primary/10">
                   {photo ? <img src={photo} alt={d.name} className="size-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.025] motion-reduce:transition-none" /> : <div className="grid size-full place-items-center text-primary"><Stethoscope className="size-16" /></div>}
                   <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
                   {d.demo && <span className="absolute left-4 top-4 inline-flex rounded-full border border-white/55 bg-white/88 px-3 py-1.5 text-[10px] font-semibold text-foreground shadow-sm backdrop-blur-sm">Sample profile · {d.photoKind === "stock" ? "stock photo" : "AI image"}</span>}
-                  <div className="absolute inset-x-0 bottom-0 p-6 text-white">
+<div className="absolute inset-x-0 bottom-0 p-5 text-white">
                     <span className="mb-2 inline-flex rounded-full border border-white/25 bg-black/25 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.13em] text-white/90 backdrop-blur-sm">{d.roleLabel}</span>
-                    <h3 className="font-display text-3xl font-semibold leading-tight md:text-[2rem]">{d.name}</h3>
+                    <h3 className="font-display text-2xl font-semibold leading-tight md:text-[1.65rem]">{d.name}</h3>
                     <p className="mt-1 text-sm font-medium text-white/80">{d.title}</p>
-                    <p className="mt-3 flex items-center gap-2 text-sm text-white/85"><MapPin className="size-4 text-primary" />{d.city}</p>
+                    <p className="mt-2 flex items-center gap-2 text-sm text-white/85"><MapPin className="size-4 text-primary" />{d.city}</p>
                   </div>
                 </div>
                 <div className="flex min-h-16 items-center justify-between px-6 text-sm font-semibold text-foreground md:hidden">
@@ -906,15 +906,15 @@ const DoctorsSection = () => {
                 </div>
               </div>
 
-              <div className="absolute inset-0 hidden flex-col overflow-hidden rounded-3xl border border-primary/25 bg-card p-7 shadow-pop [backface-visibility:hidden] [transform:rotateY(180deg)] md:flex">
+<div className="absolute inset-0 hidden flex-col overflow-hidden rounded-3xl border border-primary/25 bg-card p-6 shadow-pop [backface-visibility:hidden] [transform:rotateY(180deg)] md:flex">
                 <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-primary">{d.roleLabel}</span>
-                <h3 className="mt-3 font-display text-3xl font-semibold leading-tight text-foreground">{d.name}</h3>
+                <h3 className="mt-2 font-display text-2xl font-semibold leading-tight text-foreground md:text-[1.65rem]">{d.name}</h3>
                 <p className="mt-2 flex items-start gap-2 text-sm leading-relaxed text-foreground/75"><MapPin className="mt-0.5 size-4 shrink-0 text-primary" />{d.city} · {d.hospital}</p>
-                <p className="mt-6 text-sm leading-7 text-muted-foreground">{d.bio}</p>
-                <div className="mt-6 flex flex-wrap gap-2">
-                  {d.specialties.slice(0, 3).map((s) => <span key={s} className="rounded-full bg-accent px-3 py-1.5 text-xs text-accent-foreground">{s}</span>)}
+                <p className="mt-4 line-clamp-3 text-sm leading-6 text-muted-foreground">{d.bio}</p>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {d.specialties.slice(0, 3).map((s) => <span key={s} className="rounded-full bg-accent px-3 py-1 text-xs text-accent-foreground">{s}</span>)}
                 </div>
-                <span className="mt-auto flex min-h-12 items-center justify-between border-t border-border/70 pt-5 text-sm font-semibold text-foreground">
+                <span className="mt-auto flex min-h-10 items-center justify-between border-t border-border/70 pt-4 text-sm font-semibold text-foreground">
                   {lang === "zh" ? "查看专家资料" : lang === "ru" ? "Профиль эксперта" : "View expert profile"}
                   <ArrowRight className="size-4 text-primary transition-transform group-hover:translate-x-1" />
                 </span>
