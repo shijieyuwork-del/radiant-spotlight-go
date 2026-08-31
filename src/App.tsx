@@ -38,6 +38,7 @@ const ProviderVerification = lazy(() => import("./pages/ProviderVerification.tsx
 const MedicalReviewPolicy = lazy(() => import("./pages/MedicalReviewPolicy.tsx"));
 const EditorialPolicy = lazy(() => import("./pages/EditorialPolicy.tsx"));
 const TreatmentLandingPage = lazy(() => import("./pages/TreatmentLandingPage.tsx"));
+const ProcedureCityLandingPage = lazy(() => import("./pages/ProcedureCityLandingPage.tsx"));
 
 const RouteFallback = () => <div className="min-h-[55vh] bg-background" aria-live="polite" aria-label="Loading page" />;
 
@@ -77,7 +78,8 @@ const App = () => (
                     <Route path="/editorial-policy" element={<EditorialPolicy />} />
                     <Route path="/lp/rhinoplasty-china" element={<TreatmentLandingPage kind="rhinoplasty" />} />
                     <Route path="/lp/blepharoplasty-china" element={<TreatmentLandingPage kind="blepharoplasty" />} />
-                    <Route path="/lp/facelift-china" element={<TreatmentLandingPage kind="facelift" />} />
+<Route path="/lp/facelift-china" element={<TreatmentLandingPage kind="facelift" />} />
+                    <Route path="/lp/:slug" element={<ProcedureCityLandingPage />} />
                     <Route path="/auth" element={<Auth />} />
                     <Route path="/admin/videos" element={<VideoAdmin />} />
 <Route path="/admin/doctors" element={<DoctorAdmin />} />
