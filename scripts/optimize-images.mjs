@@ -15,9 +15,18 @@ const QUALITY = 78;
 const DELETE_SOURCE = process.argv.includes("--delete-source");
 
 // Any photographic asset in src/assets above this size gets re-encoded.
-const SIZE_THRESHOLD = 250 * 1024;
+const SIZE_THRESHOLD = 150 * 1024;
 
-const allFiles = await readdir(ASSETS_DIR);
+const walk = async (dir) => {
+  const out = [];
+  for (const entry of await readdir(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) out.push(...(await walk(full)));
+    else out.push(path.relative(ASSETS_DIR, full));
+  }
+  return out;
+};
+const allFiles = await walk(ASSETS_DIR);
 const TARGETS = [];
 for (const name of allFiles) {
   if (!/\.(png|jpe?g)$/i.test(name)) continue;
