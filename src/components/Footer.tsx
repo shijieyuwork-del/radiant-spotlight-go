@@ -14,8 +14,8 @@ const Footer = () => {
         </div>
         {[
           { title: "Explore", items: [{ label: "Patient Diaries", to: "/cases" }, { label: "Experts in China", to: "/doctors" }, { label: "Procedure Academy", to: "/treatments" }, { label: "China Destinations", to: "/cities" }] },
-          { title: "Plan Your Trip", items: [{ label: "Travel Support", to: "/travel-packages" }, { label: "Why China", to: "/why-china" }, { label: "Shanghai", to: "/cities/shanghai" }, { label: "Beijing", to: "/cities/beijing" }] },
-          { title: "Popular Guides", items: [{ label: "Rhinoplasty", to: "/treatments/rhinoplasty" }, { label: "Eyelid Surgery", to: "/treatments/blepharoplasty" }, { label: "Facelift", to: "/treatments/facelift" }, { label: "Liposuction", to: "/treatments/liposuction" }] },
+          { title: "Plan Your Trip", items: [{ label: "Medical Tourism China", to: "/medical-tourism-china" }, { label: "Travel Support", to: "/travel-packages" }, { label: "Why China", to: "/why-china" }, { label: "Shanghai", to: "/cities/shanghai" }] },
+          { title: "Popular Guides", items: [{ label: "Plastic Surgery China", to: "/plastic-surgery-china" }, { label: "Rhinoplasty", to: "/treatments/rhinoplasty" }, { label: "Eyelid Surgery", to: "/treatments/blepharoplasty" }, { label: "Facelift", to: "/treatments/facelift" }] },
           { title: "Trust & Policies", items: [{ label: "About Us", to: "/about" }, { label: "Provider Verification", to: "/provider-verification" }, { label: "Medical Review Policy", to: "/medical-review-policy" }, { label: "Editorial Policy", to: "/editorial-policy" }] },
         ].map((c) => (
           <div key={c.title}>

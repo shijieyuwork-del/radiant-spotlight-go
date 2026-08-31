@@ -20,6 +20,8 @@ const SECTION_LABELS: Record<string, string> = {
   treatments: "Procedures",
   "travel-packages": "Travel Support",
   "why-china": "Why China",
+  "medical-tourism-china": "Medical Tourism in China",
+  "plastic-surgery-china": "Plastic Surgery in China",
   about: "About Cosmetics Asia",
   "provider-verification": "Provider Verification Standards",
   "medical-review-policy": "Medical Review Policy",

@@ -62,6 +62,7 @@ function createBreadcrumbSchema(p, pageTitle, siteUrl) {
   const sectionLabels = {
     cases: "Patient Diaries", cities: "Destinations", doctors: "Experts",
     treatments: "Procedures", "travel-packages": "Travel Support", "why-china": "Why China",
+    "medical-tourism-china": "Medical Tourism in China", "plastic-surgery-china": "Plastic Surgery in China",
     about: "About Cosmetics Asia", "provider-verification": "Provider Verification Standards",
     "medical-review-policy": "Medical Review Policy", "editorial-policy": "Editorial Policy",
   };
@@ -157,6 +158,18 @@ function buildRoutes(d) {
       path: "/why-china",
       title: "Why Choose Asia for Surgery",
       description: "Evidence-based reasons to consider cosmetic medical travel in Asia, plus a practical safety checklist and original sources.",
+    },
+    {
+      path: "/medical-tourism-china",
+      title: "Medical Tourism in China: 2026 Patient Planning Guide",
+      description: "Plan medical tourism in China with a practical guide to provider checks, records, travel, translation, costs, recovery and follow-up for international patients.",
+      schema: { "@context": "https://schema.org", "@type": "MedicalWebPage", name: "Medical Tourism in China: 2026 Patient Planning Guide", dateModified: "2026-08-31" },
+    },
+    {
+      path: "/plastic-surgery-china",
+      title: "Plastic Surgery in China: Patient Guide to Safety & Planning",
+      description: "Considering plastic surgery in China? Compare procedures, provider checks, cost components, recovery planning, risks and support for international patients.",
+      schema: { "@context": "https://schema.org", "@type": "MedicalWebPage", name: "Plastic Surgery in China: Patient Guide to Safety & Planning", dateModified: "2026-08-31" },
     },
     {
       path: "/privacy",
