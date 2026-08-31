@@ -170,13 +170,17 @@ const QuoteDialog = ({
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
 
-  // 登录用户打开表单时，通过带审计的 read_profile RPC 预填姓名/邮箱（每次读取都会写入审计日志）
+  // 登录用户打开表单时预填姓名/邮箱（profiles 的 RLS 只允许本人读取自己的记录）
   useEffect(() => {
     if (!isOpen || !user) return;
-    void supabase.rpc("read_profile", { p_id: user.id }).then(({ data }) => {
-      const row = Array.isArray(data) ? data[0] : null;
-      if (row?.display_name) setName((n) => n || row.display_name);
-    });
+    void supabase
+      .from("profiles")
+      .select("display_name")
+      .eq("id", user.id)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (data?.display_name) setName((n) => n || data.display_name!);
+      });
     if (user.email) setEmail((e) => e || user.email!);
   }, [isOpen, user]);
 
