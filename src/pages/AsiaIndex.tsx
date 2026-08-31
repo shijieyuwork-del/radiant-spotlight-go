@@ -906,15 +906,15 @@ className="flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscro
                 </div>
               </div>
 
-              <div className="absolute inset-0 hidden flex-col overflow-hidden rounded-3xl border border-primary/25 bg-card p-7 shadow-pop [backface-visibility:hidden] [transform:rotateY(180deg)] md:flex">
+<div className="absolute inset-0 hidden flex-col overflow-hidden rounded-3xl border border-primary/25 bg-card p-6 shadow-pop [backface-visibility:hidden] [transform:rotateY(180deg)] md:flex">
                 <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-primary">{d.roleLabel}</span>
-                <h3 className="mt-3 font-display text-3xl font-semibold leading-tight text-foreground">{d.name}</h3>
+                <h3 className="mt-2 font-display text-2xl font-semibold leading-tight text-foreground md:text-[1.65rem]">{d.name}</h3>
                 <p className="mt-2 flex items-start gap-2 text-sm leading-relaxed text-foreground/75"><MapPin className="mt-0.5 size-4 shrink-0 text-primary" />{d.city} · {d.hospital}</p>
-                <p className="mt-6 text-sm leading-7 text-muted-foreground">{d.bio}</p>
-                <div className="mt-6 flex flex-wrap gap-2">
-                  {d.specialties.slice(0, 3).map((s) => <span key={s} className="rounded-full bg-accent px-3 py-1.5 text-xs text-accent-foreground">{s}</span>)}
+                <p className="mt-4 line-clamp-3 text-sm leading-6 text-muted-foreground">{d.bio}</p>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {d.specialties.slice(0, 3).map((s) => <span key={s} className="rounded-full bg-accent px-3 py-1 text-xs text-accent-foreground">{s}</span>)}
                 </div>
-                <span className="mt-auto flex min-h-12 items-center justify-between border-t border-border/70 pt-5 text-sm font-semibold text-foreground">
+                <span className="mt-auto flex min-h-10 items-center justify-between border-t border-border/70 pt-4 text-sm font-semibold text-foreground">
                   {lang === "zh" ? "查看专家资料" : lang === "ru" ? "Профиль эксперта" : "View expert profile"}
                   <ArrowRight className="size-4 text-primary transition-transform group-hover:translate-x-1" />
                 </span>
