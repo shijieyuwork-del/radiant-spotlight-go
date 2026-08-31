@@ -44,9 +44,11 @@ const DemoDoctorDetail = () => {
           <Link to="/doctors" className="mb-5 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"><ArrowLeft className="size-4" />{lang === "zh" ? "全部专家" : lang === "ru" ? "Все эксперты" : "All doctors"}</Link>
           <section className="grid gap-7 rounded-[2rem] border border-border/70 bg-card p-5 shadow-pop md:grid-cols-[240px_1fr] md:p-8">
             <figure>
-              <img src={doctor.photo} alt={`${doctor.name} AI-generated sample profile portrait`} className="aspect-square w-full rounded-3xl object-cover object-top" />
+              <img src={doctor.photo} alt={`${doctor.name} sample profile portrait`} className="aspect-square w-full rounded-3xl object-cover object-top" />
               <figcaption className="mt-2 text-xs leading-relaxed text-muted-foreground">
-                {lang === "zh" ? "AI 生成的示例形象，不代表真实医生。" : lang === "ru" ? "Демонстрационное изображение создано ИИ и не изображает реального врача." : "AI-generated sample image; not a real practitioner."}
+                {doctor.photoKind === "stock" ? (
+                  <>{lang === "zh" ? "真人图库照片，不代表所示虚构专家。" : lang === "ru" ? "Стоковое фото реального человека; не изображает вымышленного эксперта." : "Real-person stock photo; not the fictional expert shown."}{" "}<a href={doctor.photoSource} target="_blank" rel="noreferrer" className="underline decoration-border underline-offset-2 hover:text-foreground">{doctor.photoCredit}</a></>
+                ) : (lang === "zh" ? "AI 生成的示例形象，不代表真实医生。" : lang === "ru" ? "Демонстрационное изображение создано ИИ и не изображает реального врача." : "AI-generated sample image; not a real practitioner.")}
               </figcaption>
             </figure>
             <div>

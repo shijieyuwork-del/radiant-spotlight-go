@@ -890,7 +890,7 @@ const DoctorsSection = () => {
             <article className="flex min-h-[540px] w-full flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-soft transition duration-300 group-hover:-translate-y-1 group-hover:border-primary/35 group-hover:shadow-pop md:min-h-[570px]">
               <div className="relative aspect-[16/10] w-full overflow-hidden bg-primary/10 md:aspect-[4/3]">
                 {photo ? <img src={photo} alt={d.name} className="size-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.035]" /> : <div className="grid size-full place-items-center text-primary"><Stethoscope className="size-16" /></div>}
-                {d.demo && <span className="absolute bottom-4 left-4 inline-flex rounded-full border border-white/60 bg-white/90 px-3 py-1.5 text-[10px] font-semibold text-foreground shadow-sm backdrop-blur-sm">Sample profile · AI image</span>}
+                {d.demo && <span className="absolute bottom-4 left-4 inline-flex rounded-full border border-white/60 bg-white/90 px-3 py-1.5 text-[10px] font-semibold text-foreground shadow-sm backdrop-blur-sm">Sample profile · {d.photoKind === "stock" ? "stock photo" : "AI image"}</span>}
               </div>
 
               <div className="flex flex-1 flex-col p-5 md:p-6">
