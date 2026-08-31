@@ -140,10 +140,10 @@ const Hero = () => {
   const { t, lang, fmt } = useAsia();
   const copy = lang === "zh"
     ? {
-        badge: "专为国际患者打造的中国医美平台",
-        title: "患者医美历程预览，",
-        emphasis: "让选择更清晰",
-        subtitle: "先了解项目、查看已发布的专家资料与患者恢复日记，再决定是否出发。翻译、行程和术后支持由我们协调。",
+        badge: "更清晰地了解中国医美",
+        title: "选择之前，先看真实恢复过程。",
+        emphasis: "找到适合你的中国医美方案。",
+        subtitle: "查看患者恢复日记与公开专家资料，并获得咨询、行程和回国后随访的实际协调支持。",
         cases: "观看患者短视频",
         consultation: "在线面诊",
         consultationDetail: "出发前与专家进行一对一线上沟通",
@@ -156,10 +156,10 @@ const Hero = () => {
       }
     : lang === "ru"
       ? {
-          badge: "Китайская платформа для международных пациентов",
-          title: "Примеры историй пациентов.",
-          emphasis: "Больше ясности при выборе.",
-          subtitle: "Сравните реальные случаи, квалификацию экспертов и прозрачные цены до поездки. Мы организуем перевод, поездку и последующий уход.",
+          badge: "Косметическая помощь в Китае — понятнее",
+          title: "Увидьте реальное восстановление до выбора.",
+          emphasis: "Найдите подходящий вариант в Китае.",
+          subtitle: "Изучайте истории пациентов и опубликованные профили экспертов, получая практическую поддержку для консультации, поездки и наблюдения.",
           cases: "Смотреть видео пациентов",
           consultation: "Онлайн-консультация",
           consultationDetail: "Встреча с экспертом онлайн до поездки",
@@ -171,10 +171,10 @@ const Hero = () => {
           pricingDetail: "Координация во время восстановления",
         }
       : {
-          badge: "China's cosmetic care platform for international patients",
-          title: "Patient journey previews.",
-          emphasis: "A clearer way to choose.",
-          subtitle: "Understand procedures, review published expert profiles and explore patient recovery diaries before you travel.",
+          badge: "Cosmetic care in China, made clearer",
+          title: "See real recovery before you choose.",
+          emphasis: "Find the right cosmetic care in China.",
+          subtitle: "Explore patient journeys, published expert information and practical support for consultation, travel and follow-up.",
           cases: "Watch patient recovery videos",
           consultation: "Online consultation",
           consultationDetail: "Meet your expert online before you travel (not providing medical advice)",
@@ -187,7 +187,7 @@ const Hero = () => {
         };
   return (
     <section className="hero-motion relative overflow-hidden">
-      <div className="hero-motion__background absolute inset-x-0 top-0 h-[720px] sm:h-[780px]" aria-hidden="true">
+      <div className="hero-motion__background absolute inset-x-0 top-0 h-[900px] sm:h-[940px]" aria-hidden="true">
         <img src={heroBg} alt="" className="hero-motion__image absolute inset-0 size-full object-cover" />
         <video
           className="hero-motion__video absolute inset-0 size-full object-cover"
@@ -204,53 +204,49 @@ const Hero = () => {
 
       <div className="container relative pb-9 pt-8 sm:py-14 md:py-20">
         <div className="flex flex-col gap-8 md:gap-14">
-          <div className="text-center max-w-3xl mx-auto w-full">
+          <div className="mx-auto w-full max-w-5xl text-center">
             <span className="pill max-w-full justify-center bg-card/80 text-center leading-relaxed shadow-soft backdrop-blur">
               <ShieldCheck className="size-3.5 text-primary" />
               {copy.badge}
             </span>
-            <h1 className="mt-4 font-display text-[2.35rem] font-medium leading-[1.01] tracking-tight min-[390px]:text-[2.55rem] sm:mt-5 sm:text-5xl md:text-6xl">
+            <h1 className="mx-auto mt-4 max-w-4xl font-display text-[2.35rem] font-medium leading-[1.01] tracking-tight min-[390px]:text-[2.55rem] sm:mt-5 sm:text-5xl md:text-[3.75rem]">
               {copy.title}<br />
               <em className="text-primary not-italic">{copy.emphasis}</em>
             </h1>
-            <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground sm:mt-5 sm:text-[15px] md:hidden">{copy.subtitle}</p>
+            <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-[15px]">{copy.subtitle}</p>
 
             <div className="mx-auto mt-6 flex max-w-lg flex-col justify-center gap-3 sm:mt-7 sm:flex-row">
-              <Button asChild size="lg" className="h-[3.25rem] w-full rounded-2xl px-8 text-[15px] font-semibold shadow-pop sm:h-12 sm:w-auto sm:min-w-72 sm:rounded-full">
+              <QuoteCtaButton className="h-[3.25rem] w-full rounded-2xl border border-foreground px-8 text-[15px] shadow-pop sm:h-12 sm:w-auto sm:rounded-full" />
+              <Button asChild size="lg" variant="outline" className="h-[3.25rem] w-full rounded-2xl border-primary/25 bg-card/70 px-8 text-[15px] font-semibold backdrop-blur sm:h-12 sm:w-auto sm:rounded-full">
                 <Link to="/cases">{copy.cases}<ArrowRight className="ml-1.5 size-4" /></Link>
               </Button>
-              <QuoteCtaButton className="order-first h-[3.25rem] w-full rounded-2xl border border-foreground px-7 text-[15px] sm:order-none sm:h-12 sm:w-auto sm:rounded-full" />
             </div>
 
-            <div className="mt-6 sm:mt-8">
+            <div className="mx-auto mt-7 max-w-4xl sm:mt-9">
               <HeroVideoGallery items={TIKTOK_CASES.slice(0, 10)} lang={lang} fmtPrice={fmt} />
             </div>
 
-
             <div
-              className="mx-auto mt-6 max-w-5xl overflow-hidden rounded-[1.35rem] border border-primary/10 bg-card/80 shadow-[0_16px_45px_rgba(18,55,45,0.07)] backdrop-blur-xl sm:mt-8"
+              className="mx-auto mt-6 max-w-4xl rounded-full border border-primary/10 bg-card/80 px-4 py-3 shadow-[0_14px_40px_rgba(18,55,45,0.06)] backdrop-blur-xl sm:mt-7 sm:px-6"
               role="list"
               aria-label={lang === "zh" ? "协调服务" : lang === "ru" ? "Координационные услуги" : "Coordination services"}
             >
-              <div className="grid grid-cols-2 lg:grid-cols-4">
+              <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 sm:gap-x-8">
               {[
                 { icon: Video, title: copy.consultation },
                 { icon: MapPin, title: copy.travel },
                 { icon: Users, title: copy.english },
                 { icon: ShieldCheck, title: copy.pricing },
-              ].map((item, index) => (
+              ].map((item) => (
                 <div
                   key={item.title}
                   role="listitem"
-                  className="group relative flex min-h-[5.25rem] items-center gap-3 px-3.5 py-4 text-left transition-colors duration-300 hover:bg-primary/[0.045] sm:px-5 lg:min-h-[5.75rem] lg:border-l lg:border-primary/10 lg:first:border-l-0 [&:nth-child(2)]:border-l [&:nth-child(2)]:border-primary/10 [&:nth-child(n+3)]:border-t [&:nth-child(n+3)]:border-primary/10 lg:[&:nth-child(n+3)]:border-t-0"
+                  className="group flex items-center gap-2 text-left"
                 >
-                  <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-primary/[0.09] text-primary ring-1 ring-inset ring-primary/10 transition-transform duration-300 group-hover:-translate-y-0.5">
-                    <item.icon className="size-[1.05rem]" strokeWidth={1.8} />
+                  <span className="grid size-7 shrink-0 place-items-center rounded-full bg-primary/[0.09] text-primary ring-1 ring-inset ring-primary/10">
+                    <item.icon className="size-3.5" strokeWidth={1.8} />
                   </span>
-                  <div className="min-w-0">
-                    <span className="mb-1 block text-[9px] font-bold uppercase tracking-[0.16em] text-primary/55">0{index + 1}</span>
-                    <strong className="block text-[13px] font-semibold leading-[1.35] tracking-[-0.01em] text-foreground sm:text-sm">{item.title}</strong>
-                  </div>
+                  <strong className="text-xs font-semibold leading-snug text-foreground/80">{item.title}</strong>
                 </div>
               ))}
               </div>
@@ -889,29 +885,31 @@ const DoctorsSection = () => {
             key={d.id}
             to={d.demo ? `/doctors/demo/${d.id}` : `/doctors/profile/${d.id}`}
             aria-label={`${lang === "zh" ? "查看专家资料" : lang === "ru" ? "Профиль эксперта" : "View expert profile"}: ${d.name}`}
-            className="group block min-w-[82vw] snap-center rounded-3xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 sm:min-w-[62vw] md:min-w-[calc((100%_-_3rem)/3)] md:max-w-[calc((100%_-_3rem)/3)]"
+            className="group flex min-w-[82vw] snap-center rounded-3xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 sm:min-w-[62vw] md:min-w-[calc((100%_-_3rem)/3)] md:max-w-[calc((100%_-_3rem)/3)]"
           >
-            <article className="flex min-h-[370px] flex-col rounded-3xl border border-border bg-card p-5 shadow-soft transition duration-300 group-hover:-translate-y-1 group-hover:border-primary/35 group-hover:shadow-pop md:min-h-[390px] md:p-6">
-              <div className="flex min-w-0 items-center gap-4">
-                {photo ? <img src={photo} alt={d.name} className="size-24 shrink-0 rounded-full border-2 border-primary/15 object-cover transition-transform duration-500 group-hover:scale-105 md:size-28" /> : <div className="grid size-24 shrink-0 place-items-center rounded-full bg-primary/10 text-primary md:size-28"><Stethoscope className="size-10" /></div>}
-                <div className="min-w-0">
-                  <h3 className="font-display text-xl font-semibold leading-tight text-foreground md:text-2xl">{d.name}</h3>
-                  <p className="mt-1 line-clamp-2 text-sm font-medium text-muted-foreground">{d.title}</p>
-                  {d.demo && <span className="mt-2 inline-flex rounded-full bg-accent px-2.5 py-1 text-[10px] font-semibold text-accent-foreground">Sample profile</span>}
-                </div>
+            <article className="flex min-h-[540px] w-full flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-soft transition duration-300 group-hover:-translate-y-1 group-hover:border-primary/35 group-hover:shadow-pop md:min-h-[570px]">
+              <div className="relative aspect-[16/10] w-full overflow-hidden bg-primary/10 md:aspect-[4/3]">
+                {photo ? <img src={photo} alt={d.name} className="size-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.035]" /> : <div className="grid size-full place-items-center text-primary"><Stethoscope className="size-16" /></div>}
+                {d.demo && <span className="absolute bottom-4 left-4 inline-flex rounded-full border border-white/60 bg-white/90 px-3 py-1.5 text-[10px] font-semibold text-foreground shadow-sm backdrop-blur-sm">Sample profile</span>}
               </div>
 
-              <p className="mt-5 flex items-start gap-2 text-sm text-foreground/80"><MapPin className="mt-0.5 size-4 shrink-0 text-primary" /><span className="line-clamp-2">{d.city} · {d.hospital}</span></p>
-              <p className="mt-4 line-clamp-3 text-sm leading-relaxed text-muted-foreground">{d.bio}</p>
-              <div className="mt-4 flex flex-wrap gap-1.5 overflow-hidden max-h-[54px]">
-                {d.specialties.slice(0, 3).map((s) => (
-                  <span key={s} className="rounded-full bg-accent px-2.5 py-1 text-[11px] text-accent-foreground">{s}</span>
-                ))}
+              <div className="flex flex-1 flex-col p-5 md:p-6">
+                <div className="min-w-0">
+                  <h3 className="font-display text-2xl font-semibold leading-tight text-foreground md:text-[1.65rem]">{d.name}</h3>
+                  <p className="mt-1 line-clamp-2 text-sm font-medium text-muted-foreground">{d.title}</p>
+                </div>
+                <p className="mt-4 flex items-start gap-2 text-sm text-foreground/80"><MapPin className="mt-0.5 size-4 shrink-0 text-primary" /><span className="line-clamp-2">{d.city} · {d.hospital}</span></p>
+                <p className="mt-4 line-clamp-3 text-sm leading-relaxed text-muted-foreground">{d.bio}</p>
+                <div className="mt-4 flex max-h-[54px] flex-wrap gap-1.5 overflow-hidden">
+                  {d.specialties.slice(0, 3).map((s) => (
+                    <span key={s} className="rounded-full bg-accent px-2.5 py-1 text-[11px] text-accent-foreground">{s}</span>
+                  ))}
+                </div>
+                <span className="mt-auto flex min-h-12 items-center justify-between border-t border-border/70 pt-4 text-sm font-semibold text-foreground">
+                  {lang === "zh" ? "查看专家资料" : lang === "ru" ? "Профиль эксперта" : "View expert profile"}
+                  <ArrowRight className="size-4 text-primary transition-transform group-hover:translate-x-1" />
+                </span>
               </div>
-              <span className="mt-auto flex min-h-12 items-center justify-between border-t border-border/70 pt-4 text-sm font-semibold text-foreground">
-                {lang === "zh" ? "查看专家资料" : lang === "ru" ? "Профиль эксперта" : "View expert profile"}
-                <ArrowRight className="size-4 text-primary transition-transform group-hover:translate-x-1" />
-              </span>
             </article>
           </Link>
         )})}
