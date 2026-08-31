@@ -79,7 +79,7 @@ const ConsentBanner = () => {
   return (
     <div className="fixed inset-x-0 bottom-0 z-[100] px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] pointer-events-none">
       <aside
-        className="pointer-events-auto mx-auto flex w-full max-w-3xl flex-col gap-3 rounded-2xl border border-primary/20 bg-card/98 p-4 shadow-soft backdrop-blur sm:flex-row sm:items-center sm:gap-4"
+        className="pointer-events-auto relative mx-auto flex w-full max-w-3xl flex-col gap-3 rounded-2xl border border-primary/20 bg-card/98 p-4 shadow-soft backdrop-blur sm:flex-row sm:items-center sm:gap-4"
         aria-label="Analytics privacy choices"
       >
         <button
