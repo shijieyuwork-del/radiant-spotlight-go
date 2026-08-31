@@ -248,7 +248,7 @@ const Hero = () => {
               </Button>
             </div>
 
-            <div className="mx-auto mt-7 max-w-4xl sm:mt-9">
+            <div className="mx-auto mt-5 max-w-4xl sm:mt-9">
               <HeroVideoGallery items={TIKTOK_CASES.slice(0, 10)} lang={lang} fmtPrice={fmt} />
             </div>
 
