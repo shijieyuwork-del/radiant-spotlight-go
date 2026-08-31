@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { DollarSign, Languages, Menu, ChevronRight, ChevronDown, Phone, Mail, UserRound, ArrowRight, MapPin } from "lucide-react";
+import { DollarSign, Languages, Menu, ChevronRight, ChevronDown, Phone, Mail, MessageCircle, ArrowRight, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
@@ -9,6 +9,7 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTr
 import BrandLogo from "@/components/BrandLogo";
 import { asiaCopy } from "@/lib/asia-copy";
 import { DEMO_CHINA_DOCTORS } from "@/data/demoChinaDoctors";
+import { useQuote } from "@/components/QuoteRequest";
 
 type Props = { homeLinks?: boolean };
 
@@ -106,6 +107,7 @@ const MegaNavItem = ({ active, featuredDoctors, intro, label, groups, to, viewAl
 
 const AsiaNavbar = ({ homeLinks = true }: Props) => {
   const { t, lang, setLang, currency, setCurrency } = useAsia();
+  const { open } = useQuote();
   const { pathname } = useLocation();
   const c = (en: string, zh: string, ru: string) => asiaCopy(lang, { en, zh, ru });
   const isActive = (to: string) => to === "/" ? pathname === "/" : pathname === to || pathname.startsWith(`${to}/`);
@@ -250,18 +252,16 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
               <span className="hidden truncate sm:inline">hello@cosmetics-asia.com</span>
             </a>
           </div>
-          <Link
-            to="/auth?next=/cases"
-            aria-label={c("Sign in or sign up to save favorite cases", "登录或注册并保存喜欢的案例", "Войдите или зарегистрируйтесь, чтобы сохранять понравившиеся истории")}
-            className="inline-flex min-h-12 shrink-0 items-center gap-1.5 rounded-full border border-white/30 bg-foreground/10 px-3 font-semibold text-white transition hover:bg-foreground/20 md:min-h-9"
+          <button
+            type="button"
+            onClick={() => open({ source: "navbar_top" })}
+            aria-label={c("Start a consultation", "开始咨询", "Начать консультацию")}
+            className="inline-flex min-h-12 shrink-0 items-center gap-1.5 rounded-full border border-white/35 bg-foreground/15 px-3 font-semibold text-white transition hover:bg-foreground/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-primary md:min-h-9"
           >
-            <UserRound className="size-3.5" />
-            <span className="hidden min-[360px]:inline">{c("Sign in / Sign up", "登录 / 注册", "Войти / Регистрация")}</span>
-            <span className="min-[360px]:hidden">{c("Account", "账户", "Аккаунт")}</span>
-            <span className="hidden text-[10px] font-medium text-white/65 lg:inline">
-              · {c("Save cases", "保存案例", "Сохранять истории")}
-            </span>
-          </Link>
+            <MessageCircle className="size-3.5" />
+            <span>{c("Start a consultation", "开始咨询", "Начать консультацию")}</span>
+            <ArrowRight className="hidden size-3.5 sm:block" />
+          </button>
         </div>
       </div>
       <header className="border-b border-border/60 bg-background/95 shadow-[0_4px_18px_rgba(16,42,36,0.04)] backdrop-blur-xl">
@@ -376,10 +376,15 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
                   <DropdownMenuContent align="end" className="rounded-2xl">{(Object.keys(langLabel) as Lang[]).map((l) => <DropdownMenuItem key={l} onClick={() => setLang(l)}>{langLabel[l].flag} {langLabel[l].label}</DropdownMenuItem>)}</DropdownMenuContent>
                 </DropdownMenu>
               </div>
-              <Link to="/auth?next=/cases" className="mt-3 flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-primary px-4 text-sm font-semibold text-primary-foreground">
-                <UserRound className="size-4" />
-                {c("Sign in or sign up · Save cases", "登录或注册 · 保存案例", "Войти или зарегистрироваться · Сохранять истории")}
-              </Link>
+              <button
+                type="button"
+                onClick={() => open({ source: "mobile_navigation" })}
+                className="mt-3 flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-primary px-4 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              >
+                <MessageCircle className="size-4" />
+                {c("Start a consultation", "开始咨询", "Начать консультацию")}
+                <ArrowRight className="size-4" />
+              </button>
             </div>
           </SheetContent>
         </Sheet>
