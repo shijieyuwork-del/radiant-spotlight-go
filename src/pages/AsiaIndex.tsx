@@ -136,8 +136,30 @@ const treatments: Treatment[] = [
 // TikTok cases live in src/data/tiktokCases.ts.
 
 // ============== Sections ==============
+type NavigatorConnection = {
+  saveData?: boolean;
+  effectiveType?: string;
+};
+
 const Hero = () => {
   const { t, lang, fmt } = useAsia();
+  const [showHeroVideo, setShowHeroVideo] = useState(false);
+
+  useEffect(() => {
+    if (window.matchMedia("(max-width: 767px)").matches) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const connection = (navigator as Navigator & { connection?: NavigatorConnection }).connection;
+    if (connection?.saveData) return;
+    if (connection?.effectiveType && /(^|-)2g$/.test(connection.effectiveType)) return;
+    const cb = () => setShowHeroVideo(true);
+    if (typeof window.requestIdleCallback === "function") {
+      const id = window.requestIdleCallback(cb, { timeout: 2500 });
+      return () => window.cancelIdleCallback(id);
+    }
+    const id = window.setTimeout(cb, 1500);
+    return () => window.clearTimeout(id);
+  }, []);
+
   const copy = lang === "zh"
     ? {
         badge: "更清晰地了解中国医美",
@@ -189,40 +211,44 @@ const Hero = () => {
     <section className="hero-motion relative overflow-hidden">
       <div className="hero-motion__background absolute inset-x-0 top-0 h-[900px] sm:h-[940px]" aria-hidden="true">
         <img src={heroBg} alt="" className="hero-motion__image absolute inset-0 size-full object-cover" />
-        <video
-          className="hero-motion__video absolute inset-0 size-full object-cover"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-        >
-          <source src="/video/cosmetics-asia-home-motion.mp4?v=1" type="video/mp4" />
-        </video>
+        {showHeroVideo && (
+          <video
+            className="hero-motion__video absolute inset-0 size-full object-cover"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="none"
+            poster={heroBg}
+          >
+            <source src="/video/cosmetics-asia-home-motion.mp4?v=1" type="video/mp4" />
+          </video>
+        )}
         <div className="hero-motion__veil absolute inset-0" />
       </div>
 
-      <div className="container relative pb-9 pt-8 sm:py-14 md:py-20">
+      <div className="container relative pb-9 pt-5 sm:py-14 md:py-20">
         <div className="flex flex-col gap-8 md:gap-14">
           <div className="mx-auto w-full max-w-5xl text-center">
             <span className="pill max-w-full justify-center bg-card/80 text-center leading-relaxed shadow-soft backdrop-blur">
               <ShieldCheck className="size-3.5 text-primary" />
               {copy.badge}
             </span>
-            <h1 className="mx-auto mt-4 max-w-4xl font-display text-[2.35rem] font-medium leading-[1.01] tracking-tight min-[390px]:text-[2.55rem] sm:mt-5 sm:text-5xl md:text-[3.75rem]">
-              {copy.title}<br />
-              <em className="text-primary not-italic">{copy.emphasis}</em>
+            <h1 className="mx-auto mt-4 max-w-4xl font-display text-[1.95rem] font-medium leading-[1.01] tracking-tight min-[390px]:text-[2.15rem] sm:mt-5 sm:text-5xl md:text-[3.75rem]">
+              {copy.title}
+              <span className="hidden sm:inline"><br />
+              <em className="text-primary not-italic">{copy.emphasis}</em></span>
             </h1>
-            <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-[15px]">{copy.subtitle}</p>
+            <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-[15px]"><em className="text-primary not-italic sm:hidden">{copy.emphasis} </em>{copy.subtitle}</p>
 
-            <div className="mx-auto mt-6 flex max-w-lg flex-col justify-center gap-3 sm:mt-7 sm:flex-row">
+            <div className="mx-auto mt-5 flex max-w-lg flex-col justify-center gap-3 sm:mt-7 sm:flex-row">
               <QuoteCtaButton className="h-[3.25rem] w-full rounded-2xl border border-foreground px-8 text-[15px] shadow-pop sm:h-12 sm:w-auto sm:rounded-full" />
               <Button asChild size="lg" variant="outline" className="h-[3.25rem] w-full rounded-2xl border-primary/25 bg-card/70 px-8 text-[15px] font-semibold backdrop-blur sm:h-12 sm:w-auto sm:rounded-full">
                 <Link to="/cases">{copy.cases}<ArrowRight className="ml-1.5 size-4" /></Link>
               </Button>
             </div>
 
-            <div className="mx-auto mt-7 max-w-4xl sm:mt-9">
+            <div className="mx-auto mt-5 max-w-4xl sm:mt-9">
               <HeroVideoGallery items={TIKTOK_CASES.slice(0, 10)} lang={lang} fmtPrice={fmt} />
             </div>
 
