@@ -894,6 +894,7 @@ const DoctorsSection = () => {
                   <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
                   {d.demo && <span className="absolute left-4 top-4 inline-flex rounded-full border border-white/55 bg-white/88 px-3 py-1.5 text-[10px] font-semibold text-foreground shadow-sm backdrop-blur-sm">Sample profile · {d.photoKind === "stock" ? "stock photo" : "AI image"}</span>}
                   <div className="absolute inset-x-0 bottom-0 p-6 text-white">
+                    <span className="mb-2 inline-flex rounded-full border border-white/25 bg-black/25 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.13em] text-white/90 backdrop-blur-sm">{d.roleLabel}</span>
                     <h3 className="font-display text-3xl font-semibold leading-tight md:text-[2rem]">{d.name}</h3>
                     <p className="mt-1 text-sm font-medium text-white/80">{d.title}</p>
                     <p className="mt-3 flex items-center gap-2 text-sm text-white/85"><MapPin className="size-4 text-primary" />{d.city}</p>
@@ -906,7 +907,7 @@ const DoctorsSection = () => {
               </div>
 
               <div className="absolute inset-0 hidden flex-col overflow-hidden rounded-3xl border border-primary/25 bg-card p-7 shadow-pop [backface-visibility:hidden] [transform:rotateY(180deg)] md:flex">
-                <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-primary">{lang === "zh" ? "专家简介" : lang === "ru" ? "О специалисте" : "Expert overview"}</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-primary">{d.roleLabel}</span>
                 <h3 className="mt-3 font-display text-3xl font-semibold leading-tight text-foreground">{d.name}</h3>
                 <p className="mt-2 flex items-start gap-2 text-sm leading-relaxed text-foreground/75"><MapPin className="mt-0.5 size-4 shrink-0 text-primary" />{d.city} · {d.hospital}</p>
                 <p className="mt-6 text-sm leading-7 text-muted-foreground">{d.bio}</p>
@@ -1110,18 +1111,19 @@ const PromoBar = () => {
 const PatientReviewsSection = () => {
   const { lang } = useAsia();
   const zh = lang === "zh";
+  const ru = lang === "ru";
   const standards = [
     {
-      title: zh ? "核验就诊记录" : "Booking or visit verified",
-      text: zh ? "仅在确认预约或到院记录后添加 Verified 标识。" : "The Verified label appears only after booking or clinic attendance is confirmed.",
+      title: zh ? "核验就诊记录" : ru ? "Запись или визит подтверждены" : "Booking or visit verified",
+      text: zh ? "仅在确认预约或到院记录后添加 Verified 标识。" : ru ? "Метка Verified появляется только после подтверждения записи или визита в клинику." : "The Verified label appears only after booking or clinic attendance is confirmed.",
     },
     {
-      title: zh ? "保留真实感受" : "Opinions stay in the patient's words",
-      text: zh ? "我们不会为了营销而改写患者对沟通、恢复或服务的评价。" : "We do not rewrite opinions about communication, recovery or service for marketing.",
+      title: zh ? "保留真实感受" : ru ? "Отзывы остаются словами пациента" : "Opinions stay in the patient's words",
+      text: zh ? "我们不会为了营销而改写患者对沟通、恢复或服务的评价。" : ru ? "Мы не переписываем для рекламы мнения о коммуникации, восстановлении или сервисе." : "We do not rewrite opinions about communication, recovery or service for marketing.",
     },
     {
-      title: zh ? "医疗结果因人而异" : "Outcomes vary by patient",
-      text: zh ? "评价代表个人经历，不构成疗效保证或医疗建议。" : "A review reflects one person's experience—not a promise of results or medical advice.",
+      title: zh ? "医疗结果因人而异" : ru ? "Результаты индивидуальны" : "Outcomes vary by patient",
+      text: zh ? "评价代表个人经历，不构成疗效保证或医疗建议。" : ru ? "Отзыв отражает личный опыт и не является гарантией результата или медицинской рекомендацией." : "A review reflects one person's experience—not a promise of results or medical advice.",
     },
   ];
 
@@ -1133,19 +1135,21 @@ const PatientReviewsSection = () => {
         <div className="relative">
           <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
-              <span className="pill mb-3 bg-accent text-accent-foreground"><Star className="size-3.5 fill-primary text-primary" /> {zh ? "已核验患者评价" : "Verified patient reviews"}</span>
+              <span className="pill mb-3 bg-accent text-accent-foreground"><Star className="size-3.5 fill-primary text-primary" /> {zh ? "患者评价标准" : ru ? "Стандарты отзывов пациентов" : "Patient review standards"}</span>
               <h2 className="font-display text-3xl font-medium tracking-tight sm:text-4xl md:text-5xl">
-                {zh ? "真实经历，" : "Real experiences, "}<em className="not-italic text-primary">{zh ? "不制造完美故事" : "without the polished sales script"}</em>
+                {zh ? "真实经历，" : ru ? "Реальный опыт, " : "Real experiences, "}<em className="not-italic text-primary">{zh ? "不制造完美故事" : ru ? "без рекламного сценария" : "without the polished sales script"}</em>
               </h2>
               <p className="mt-3 max-w-2xl text-sm leading-relaxed text-background/70 md:text-base">
                 {zh
                   ? "我们正在收集首批通过 Cosmetics Asia 预约的患者评价。评价会在核验后公开展示；在此之前，我们不会使用虚构姓名、星级或手术结果填充页面。"
-                  : "We are collecting the first reviews from patients booked through Cosmetics Asia. Reviews will appear after verification; until then, we will not fill this space with invented names, ratings or outcomes."}
+                  : ru
+                    ? "Мы собираем первые отзывы пациентов, записавшихся через Cosmetics Asia. Они появятся после проверки; до этого мы не будем заполнять раздел вымышленными именами, рейтингами или результатами."
+                    : "We are collecting the first reviews from patients booked through Cosmetics Asia. Reviews will appear after verification; until then, we will not fill this space with invented names, ratings or outcomes."}
               </p>
             </div>
             <Button asChild size="lg" className="w-full shrink-0 rounded-full bg-primary px-7 text-primary-foreground hover:bg-primary/90 lg:w-fit">
               <a href="https://wa.me/14708613825?text=I%27d%20like%20to%20share%20my%20Cosmetics%20Asia%20experience" target="_blank" rel="noreferrer">
-                {zh ? "提交我的评价" : "Share your experience"}<ArrowRight className="ml-2 size-4" />
+                {zh ? "提交我的评价" : ru ? "Поделиться опытом" : "Share your experience"}<ArrowRight className="ml-2 size-4" />
               </a>
             </Button>
           </div>
@@ -1183,6 +1187,7 @@ const AsiaIndex = () => (
       <main className="home-content-flow">
         <TravelBar />
         <DoctorsSection />
+        <PatientReviewsSection />
         <TreatmentsSection />
         <HowItWorks />
         <CitiesSection />

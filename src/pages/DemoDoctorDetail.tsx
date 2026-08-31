@@ -54,6 +54,7 @@ const DemoDoctorDetail = () => {
             <div>
               <span className="pill bg-accent text-accent-foreground"><Stethoscope className="size-3.5 text-primary" />{lang === "zh" ? "虚构示例资料" : lang === "ru" ? "Демо-профиль" : "Fictional sample profile"}</span>
               <h1 className="mt-4 font-display text-3xl font-semibold tracking-tight md:text-5xl">{doctor.name}</h1>
+              <p className="mt-2 text-sm font-bold uppercase tracking-[0.13em] text-primary">{doctor.roleLabel}</p>
               <p className="mt-2 text-lg text-muted-foreground">{doctor.title}</p>
               <p className="mt-5 flex items-center gap-2 text-sm"><Building2 className="size-4 text-primary" />{doctor.hospital}</p>
               <Link to={`/cities/${doctor.city.toLowerCase()}`} className="mt-2 flex items-center gap-2 text-sm transition hover:text-primary"><MapPin className="size-4 text-primary" />{doctor.city}, China</Link>
