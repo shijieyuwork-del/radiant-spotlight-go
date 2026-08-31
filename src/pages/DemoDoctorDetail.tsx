@@ -43,7 +43,13 @@ const DemoDoctorDetail = () => {
         <main className="container py-8 md:py-12">
           <Link to="/doctors" className="mb-5 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"><ArrowLeft className="size-4" />{lang === "zh" ? "全部专家" : lang === "ru" ? "Все эксперты" : "All doctors"}</Link>
           <section className="grid gap-7 rounded-[2rem] border border-border/70 bg-card p-5 shadow-pop md:grid-cols-[240px_1fr] md:p-8">
-            <img src={doctor.photo} alt={doctor.name} className="aspect-square w-full rounded-3xl object-cover" />
+            <figure>
+              <img src={doctor.photo} alt={`${doctor.name} sample profile stock portrait`} className="aspect-square w-full rounded-3xl object-cover object-top" />
+              <figcaption className="mt-2 text-xs leading-relaxed text-muted-foreground">
+                {lang === "zh" ? "真人图库照片，不代表所示虚构专家。" : lang === "ru" ? "Стоковое фото реального человека; не изображает вымышленного эксперта." : "Real-person stock photo; not the fictional expert shown."}{" "}
+                <a href={doctor.photoSource} target="_blank" rel="noreferrer" className="underline decoration-border underline-offset-2 hover:text-foreground">{doctor.photoCredit}</a>
+              </figcaption>
+            </figure>
             <div>
               <span className="pill bg-accent text-accent-foreground"><Stethoscope className="size-3.5 text-primary" />{lang === "zh" ? "虚构示例资料" : lang === "ru" ? "Демо-профиль" : "Fictional sample profile"}</span>
               <h1 className="mt-4 font-display text-3xl font-semibold tracking-tight md:text-5xl">{doctor.name}</h1>
