@@ -266,6 +266,7 @@ export const useAsia = () => {
 const STORE = "glowy.asia.v1";
 export const AsiaI18nProvider = ({ children }: { children: ReactNode }) => {
   const initial = useMemo(() => {
+    if (typeof window === "undefined") return null;
     try { return JSON.parse(localStorage.getItem(STORE) || "null"); } catch { return null; }
   }, []);
   const [lang, setLang] = useState<AsiaLang>(initial?.lang ?? "en");

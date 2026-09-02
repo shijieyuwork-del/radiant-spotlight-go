@@ -9,8 +9,8 @@
  * WhatsApp）永远只能看到 index.html 里的那一份默认值 —— 27 个页面在它们眼里
  * 标题描述完全相同，canonical 还全部指向首页。
  *
- * 这个脚本不做 React SSR（body 仍由客户端渲染），只解决 <head>。
- * 这是投入产出比最高的一刀：搜索引擎和社交预览读的就是 head。
+ * 核心指南、治疗页和城市页同时进行 React SSG，正文直接写入 HTML；
+ * 其他路由仍输出独立的 head，并由客户端渲染正文。
  */
 import { build } from "esbuild";
 import { readFile, writeFile, mkdir, rm } from "fs/promises";
@@ -20,6 +20,7 @@ import { fileURLToPath, pathToFileURL } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DIST = path.join(__dirname, "dist");
 const TMP = path.join(__dirname, "node_modules", ".prerender-data.mjs");
+const SSR_DIR = path.join(__dirname, ".ssr-temp");
 
 /** 把 TS 数据文件打成 Node 能直接 import 的 ESM。图片等资源用 empty loader 掏空。 */
 async function loadAppData() {
@@ -307,6 +308,7 @@ function buildRoutes(d) {
 
 async function main() {
   const d = await loadAppData();
+  const { render } = await import(pathToFileURL(path.join(SSR_DIR, "entry-server.js")).href + "?t=" + Date.now());
   const template = await readFile(path.join(DIST, "index.html"), "utf8");
 
   const MARKER = /<!--SEO-->[\s\S]*?<!--\/SEO-->/;
@@ -319,10 +321,18 @@ async function main() {
   const cfg = d;
 
   for (const r of routes) {
-    const html = template.replace(
+    let html = template.replace(
       MARKER,
       `<!--SEO-->\n${renderMeta(r, cfg)}\n    <!--/SEO-->`
     );
+    const isSsgRoute = r.path === "/medical-tourism-china" ||
+      r.path === "/plastic-surgery-china" ||
+      r.path === "/treatments" || r.path.startsWith("/treatments/") ||
+      r.path === "/cities" || r.path.startsWith("/cities/");
+    if (isSsgRoute) {
+      const body = render(r.path);
+      html = html.replace('<div id="root"></div>', `<div id="root">${body}</div>`);
+    }
     if (r.path === "/") {
       await writeFile(path.join(DIST, "index.html"), html, "utf8");
       continue;
@@ -350,8 +360,8 @@ async function main() {
     "utf8",
   );
 
-  await rm(TMP, { force: true });
-  console.log(`prerender: 已生成 ${routes.length} 个静态页面`);
+  await Promise.all([rm(TMP, { force: true }), rm(SSR_DIR, { recursive: true, force: true })]);
+  console.log(`prerender: 已生成 ${routes.length} 个页面，核心指南、治疗页和城市页包含静态正文`);
 }
 
 main().catch((e) => {

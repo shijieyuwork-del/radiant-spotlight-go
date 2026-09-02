@@ -73,6 +73,7 @@ const STORE_KEY = "glowy.i18n.v1";
 export const I18nProvider = ({ children }: { children: ReactNode }) => {
   const detected = useMemo(detectRegion, []);
   const stored = useMemo(() => {
+    if (typeof window === "undefined") return null;
     try { return JSON.parse(localStorage.getItem(STORE_KEY) || "null"); } catch { return null; }
   }, []);
 

@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, type ReactNode } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
@@ -43,10 +43,9 @@ const ChinaSeoGuide = lazy(() => import("./pages/ChinaSeoGuide.tsx"));
 
 const RouteFallback = () => <div className="min-h-[55vh] bg-background" aria-live="polite" aria-label="Loading page" />;
 
-const App = () => (
+export const AppProviders = ({ children }: { children: ReactNode }) => (
   <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <I18nProvider>
+    <I18nProvider>
           <AsiaI18nProvider>
             <AuthProvider>
               <QuoteProvider>
@@ -56,7 +55,17 @@ const App = () => (
                   <AnalyticsRouteTracker />
                   <ConsentBanner />
                   <FloatingLiveChat />
-                  <Suspense fallback={<RouteFallback />}>
+                  {children}
+                </TooltipProvider>
+              </QuoteProvider>
+            </AuthProvider>
+          </AsiaI18nProvider>
+    </I18nProvider>
+  </QueryClientProvider>
+);
+
+export const AppRoutes = () => (
+  <Suspense fallback={<RouteFallback />}>
                   <Routes>
                     <Route path="/" element={<AsiaIndex />} />
                     <Route path="/cases" element={<Cases />} />
@@ -92,14 +101,15 @@ const App = () => (
                     <Route path="/:lang/*" element={<Navigate to="/" replace />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
-                  </Suspense>
-                </TooltipProvider>
-              </QuoteProvider>
-            </AuthProvider>
-          </AsiaI18nProvider>
-        </I18nProvider>
-      </BrowserRouter>
-  </QueryClientProvider>
+  </Suspense>
+);
+
+const App = () => (
+  <BrowserRouter>
+    <AppProviders>
+      <AppRoutes />
+    </AppProviders>
+  </BrowserRouter>
 );
 
 export default App;

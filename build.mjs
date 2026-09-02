@@ -26,6 +26,7 @@ try {
   // Use the locally installed vite binary (no network / npx resolution at build time).
   const viteBin = path.join(__dirname, 'node_modules', 'vite', 'bin', 'vite.js');
   await run(process.execPath, [viteBin, 'build']);
+  await run(process.execPath, [viteBin, 'build', '--ssr', 'src/entry-server.tsx', '--outDir', '.ssr-temp']);
   await run('node', ['prerender.mjs']);
 } catch (e) {
   console.error(e.message);

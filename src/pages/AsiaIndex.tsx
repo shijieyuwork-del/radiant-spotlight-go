@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import {
   Sparkles, ArrowRight, MapPin, ShieldCheck,
   Stethoscope, Building2,
@@ -299,6 +299,191 @@ const Hero = () => {
             </div>
             <TikTokWall items={TIKTOK_CASES.slice(0, 7)} lang={lang} fmtPrice={fmt} variant="preview" />
           </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const TravelInspiredHeroPreview = () => {
+  const { lang, fmt } = useAsia();
+  const copy = lang === "zh"
+    ? {
+        badge: "面向国际患者的中国医美服务",
+        title: "先看真实恢复，",
+        emphasis: "再安心做出选择。",
+        subtitle: "从项目、城市和医生开始了解，我们协助你把咨询、行程与术后支持连接起来。",
+        procedure: "感兴趣的项目",
+        procedureValue: "浏览全部项目",
+        city: "目的地",
+        cityValue: "比较城市选择",
+        planning: "规划阶段",
+        planningValue: "暂时还不确定",
+        diaries: "真实患者恢复日记",
+        diariesTitle: "选择之前，",
+        diariesEmphasis: "先看看恢复过程。",
+        benefitCta: "了解我们的服务方式",
+        servicesEyebrow: "四项核心支持",
+        servicesTitle: "从沟通到回国后，",
+        servicesEmphasis: "实用支持持续衔接。",
+      }
+    : lang === "ru"
+      ? {
+          badge: "Эстетическая медицина в Китае для иностранных пациентов",
+          title: "Сначала изучите восстановление.",
+          emphasis: "Затем выбирайте уверенно.",
+          subtitle: "Начните с процедуры, города или врача — мы свяжем консультацию, поездку и последующую поддержку.",
+          procedure: "Процедура",
+          procedureValue: "Все процедуры",
+          city: "Направление",
+          cityValue: "Сравнить города",
+          planning: "Этап планирования",
+          planningValue: "Пока не уверен(а)",
+          diaries: "Истории восстановления",
+          diariesTitle: "Посмотрите восстановление",
+          diariesEmphasis: "до выбора.",
+          benefitCta: "Как устроена поддержка",
+          servicesEyebrow: "Четыре вида поддержки",
+          servicesTitle: "Практическая помощь",
+          servicesEmphasis: "до, во время и после поездки.",
+        }
+      : {
+          badge: "China cosmetic care for international patients",
+          title: "See real recovery first.",
+          emphasis: "Choose your care with confidence.",
+          subtitle: "Start with a procedure, city or doctor. We connect consultation, travel planning and aftercare support.",
+          procedure: "Procedure",
+          procedureValue: "Explore all options",
+          city: "Destination",
+          cityValue: "Compare cities",
+          planning: "Planning stage",
+          planningValue: "Not sure yet",
+          diaries: "Patient recovery diaries",
+          diariesTitle: "See patient diaries",
+          diariesEmphasis: "before you choose.",
+          benefitCta: "See how support works",
+          servicesEyebrow: "Four essentials",
+          servicesTitle: "Practical support,",
+          servicesEmphasis: "before, during and after your trip.",
+        };
+
+  const selectors = [
+    { icon: Stethoscope, label: copy.procedure, value: copy.procedureValue, to: "/treatments" },
+    { icon: MapPin, label: copy.city, value: copy.cityValue, to: "/cities" },
+    { icon: HelpCircle, label: copy.planning, value: copy.planningValue, to: "/doctors" },
+  ];
+  const metrics = [
+    { value: "1,500+", label: lang === "zh" ? "服务患者" : lang === "ru" ? "Пациентов" : "Patients" },
+    { value: "20 yrs", label: lang === "zh" ? "医生平均经验" : lang === "ru" ? "Средний опыт врачей" : "Average doctor experience" },
+    { value: "10+", label: lang === "zh" ? "覆盖城市" : lang === "ru" ? "Городов" : "Cities" },
+    { value: "100+", label: lang === "zh" ? "顶级医院与诊所" : lang === "ru" ? "Ведущих клиник" : "Top-tier clinics" },
+  ];
+  const services = lang === "zh"
+    ? [
+        { icon: Video, title: "Online consultation", description: "出发前在线沟通目标、问题与下一步安排。" },
+        { icon: MapPin, title: "Airport pickup & drop-off", description: "协调机场与住宿或就诊地点之间的接送。" },
+        { icon: Users, title: "English in-clinic translation", description: "在约定的就诊过程中提供英文沟通协助。" },
+        { icon: ShieldCheck, title: "Aftercare support", description: "恢复期间协助沟通，并按医生建议协调远程随访。" },
+      ]
+    : lang === "ru"
+      ? [
+          { icon: Video, title: "Онлайн-консультация", description: "Обсудите цели, вопросы и следующие шаги до поездки." },
+          { icon: MapPin, title: "Трансфер из аэропорта", description: "Координация трансфера до места проживания или клиники." },
+          { icon: Users, title: "Перевод в клинике", description: "Помощь в общении на английском во время согласованных визитов." },
+          { icon: ShieldCheck, title: "Поддержка после лечения", description: "Помощь с общением и удалённым наблюдением по рекомендации врача." },
+        ]
+      : [
+          { icon: Video, title: "Online consultation", description: "Discuss your goals, questions and next steps before you travel." },
+          { icon: MapPin, title: "Airport pickup & drop-off", description: "Coordinated transfers between the airport, accommodation and clinic." },
+          { icon: Users, title: "English in-clinic translation", description: "English communication support during included clinic visits." },
+          { icon: ShieldCheck, title: "Aftercare support", description: "Recovery coordination and remote follow-up when your doctor recommends it." },
+        ];
+
+  return (
+    <section className="relative overflow-hidden pb-10 pt-4 sm:pb-14 sm:pt-6 md:pb-16">
+      <div className="container">
+        <div className="relative isolate">
+          <div className="relative min-h-[920px] overflow-hidden rounded-[2rem] border border-white/40 bg-foreground shadow-[0_28px_80px_rgba(17,54,45,0.18)] sm:min-h-[690px] md:min-h-[720px] md:rounded-[2.75rem]">
+            <img src={heroBg} alt="" className="absolute inset-0 size-full object-cover opacity-75" />
+            <video className="absolute inset-0 size-full object-cover opacity-80" autoPlay muted loop playsInline preload="metadata" aria-hidden="true">
+              <source src="/video/cosmetics-asia-home-motion.mp4?v=1" type="video/mp4" />
+            </video>
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,32,26,.38)_0%,rgba(7,32,26,.2)_38%,rgba(7,32,26,.72)_100%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_32%,rgba(255,255,255,.12),transparent_46%)]" />
+
+            <div className="relative z-10 flex min-h-[920px] flex-col items-center justify-center px-5 pb-44 pt-16 text-center text-white sm:min-h-[690px] sm:px-8 sm:pb-48 md:min-h-[720px] md:px-12 md:pb-52">
+              <span className="inline-flex max-w-full items-center gap-2 rounded-full border border-white/45 bg-white/12 px-4 py-2 text-xs font-semibold text-white shadow-soft backdrop-blur-md sm:text-sm">
+                <ShieldCheck className="size-4 text-[hsl(155,62%,68%)]" /> {copy.badge}
+              </span>
+              <h1 className="mt-6 max-w-5xl font-display text-[2.65rem] font-medium leading-[0.98] tracking-tight text-white sm:text-6xl md:text-[4.75rem]">
+                {copy.title}<br />
+                <em className="not-italic text-[hsl(155,62%,68%)]">{copy.emphasis}</em>
+              </h1>
+              <p className="mt-5 max-w-2xl text-sm leading-relaxed text-white/78 sm:text-base md:text-lg">{copy.subtitle}</p>
+
+              <div className="mt-8 grid w-full max-w-5xl gap-2 rounded-[1.65rem] border border-white/55 bg-card/95 p-2 text-left text-foreground shadow-[0_24px_65px_rgba(0,0,0,.24)] backdrop-blur-xl sm:grid-cols-2 md:mt-10 md:grid-cols-[1fr_1fr_1fr_auto] md:rounded-full">
+                {selectors.map((item) => (
+                  <Link key={item.label} to={item.to} className="group flex min-h-16 items-center gap-3 rounded-2xl px-4 transition-colors hover:bg-primary/[0.07] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary md:rounded-full md:border-r md:border-border/80">
+                    <span className="grid size-10 shrink-0 place-items-center rounded-full bg-primary/[0.09] text-primary"><item.icon className="size-4" /></span>
+                    <span className="min-w-0">
+                      <span className="block text-[10px] font-bold uppercase tracking-[0.14em] text-muted-foreground">{item.label}</span>
+                      <strong className="mt-0.5 block truncate text-sm font-semibold">{item.value}</strong>
+                    </span>
+                    <ArrowRight className="ml-auto size-4 text-primary transition-transform group-hover:translate-x-0.5" />
+                  </Link>
+                ))}
+                <QuoteCtaButton variant="primary" className="min-h-16 w-full px-7 md:w-auto" quoteCtx={{ source: "travel_inspired_hero_preview" }} />
+              </div>
+            </div>
+          </div>
+
+          <div className="relative z-20 mx-3 -mt-28 grid grid-cols-2 overflow-hidden rounded-[1.75rem] border border-border/70 bg-card shadow-[0_24px_70px_rgba(17,54,45,.14)] sm:mx-8 md:mx-auto md:max-w-6xl md:grid-cols-4 md:rounded-[2rem]">
+            {metrics.map((item, index) => (
+              <div
+                key={item.label}
+                className={`flex min-h-28 flex-col items-center justify-center px-3 py-5 text-center sm:min-h-32 sm:px-5 md:min-h-36 md:px-6 ${index % 2 === 0 ? "border-r border-border/70" : ""} ${index < 2 ? "border-b border-border/70" : ""} ${index < 3 ? "md:border-r md:border-border/70" : "md:border-r-0"} md:border-b-0`}
+              >
+                <strong className="font-display text-3xl font-semibold leading-none tracking-tight text-foreground sm:text-4xl" data-stat>{item.value}</strong>
+                <span className="mt-2 max-w-[12rem] text-xs font-medium leading-snug text-muted-foreground sm:text-sm">{item.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <section className="mx-auto mt-16 max-w-7xl sm:mt-20 md:mt-24" aria-labelledby="home-support-title">
+          <div className="mb-7 flex flex-col justify-between gap-4 sm:flex-row sm:items-end md:mb-9">
+            <div>
+              <span className="pill mb-3 bg-accent text-accent-foreground"><ShieldCheck className="size-3.5" />{copy.servicesEyebrow}</span>
+              <h2 id="home-support-title" className="max-w-3xl font-display text-3xl font-medium leading-[1.03] tracking-tight sm:text-4xl md:text-5xl">
+                {copy.servicesTitle} <em className="not-italic text-primary">{copy.servicesEmphasis}</em>
+              </h2>
+            </div>
+            <Link to="/travel-packages" className="inline-flex min-h-11 shrink-0 items-center gap-2 self-start rounded-full border border-primary/20 bg-card px-5 text-sm font-semibold text-foreground transition hover:border-primary/40 hover:text-primary sm:self-auto">
+              {copy.benefitCta}<ArrowRight className="size-4" />
+            </Link>
+          </div>
+          <div className="grid overflow-hidden rounded-[1.75rem] border border-border/70 bg-card shadow-[0_22px_60px_rgba(17,54,45,.09)] sm:grid-cols-2 lg:grid-cols-4 lg:rounded-[2rem]">
+            {services.map((service, index) => (
+              <article key={service.title} className={`group relative min-h-56 p-6 transition-colors hover:bg-primary/[0.035] sm:p-7 ${index % 2 === 0 ? "border-r border-border/70" : ""} ${index < 2 ? "border-b border-border/70" : ""} ${index < 3 ? "lg:border-r lg:border-border/70" : "lg:border-r-0"} lg:border-b-0`}>
+                <span className="absolute right-5 top-5 font-mono text-[10px] font-semibold tracking-[0.16em] text-primary/55">0{index + 1}</span>
+                <span className="grid size-12 place-items-center rounded-2xl bg-primary/[0.09] text-primary ring-1 ring-inset ring-primary/10">
+                  <service.icon className="size-5" strokeWidth={1.7} />
+                </span>
+                <h3 className="mt-6 max-w-[14rem] font-display text-[1.35rem] font-semibold leading-tight tracking-tight text-foreground">{service.title}</h3>
+                <p className="mt-3 text-sm leading-6 text-muted-foreground">{service.description}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <div className="mx-auto mt-16 max-w-7xl sm:mt-20 md:mt-24">
+          <div className="mb-7 md:mb-9">
+            <span className="pill mb-3 bg-accent text-accent-foreground"><Eye className="size-3.5" />{copy.diaries}</span>
+            <h2 className="max-w-4xl font-display text-3xl font-medium leading-[1.03] tracking-tight sm:text-4xl md:text-5xl">
+              {copy.diariesTitle} <em className="not-italic text-primary">{copy.diariesEmphasis}</em>
+            </h2>
+          </div>
+          <HeroVideoGallery items={TIKTOK_CASES.slice(0, 10)} lang={lang} fmtPrice={fmt} size="large" />
         </div>
       </div>
     </section>
@@ -886,10 +1071,10 @@ const DoctorsSection = () => {
   }, []);
   return (
 <section id="compliance" className="container py-8 md:py-12">
-      <div className="mb-5 flex flex-wrap items-end justify-between gap-4 md:mb-6">
+      <div className="mb-7 flex flex-wrap items-end justify-between gap-4 md:mb-9">
         <div>
           <span className="pill bg-accent text-accent-foreground mb-3"><Stethoscope className="size-3.5" /> {t("doctors.kicker")}</span>
-          <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-medium tracking-tight">
+          <h2 className="max-w-4xl font-display text-3xl font-medium leading-[1.03] tracking-tight sm:text-4xl md:text-5xl">
             {t("doctors.title1")} <em className="text-primary not-italic">{t("doctors.titleEm")}</em>
           </h2>
         </div>
@@ -918,7 +1103,6 @@ className="flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscro
                 <div className="relative flex-1 overflow-hidden bg-primary/10">
                   {photo ? <img src={photo} alt={d.name} loading="lazy" decoding="async" className="size-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.025] motion-reduce:transition-none" /> : <div className="grid size-full place-items-center text-primary"><Stethoscope className="size-16" /></div>}
                   <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
-                  {d.demo && <span className="absolute left-4 top-4 inline-flex rounded-full border border-white/55 bg-white/88 px-3 py-1.5 text-[10px] font-semibold text-foreground shadow-sm backdrop-blur-sm">Sample profile · {d.photoKind === "stock" ? "stock photo" : "AI image"}</span>}
 <div className="absolute inset-x-0 bottom-0 p-5 text-white">
                     <span className="mb-2 inline-flex rounded-full border border-white/25 bg-black/25 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.13em] text-white/90 backdrop-blur-sm">{d.roleLabel}</span>
                     <h3 className="font-display text-2xl font-semibold leading-tight md:text-[1.65rem]">{d.name}</h3>
@@ -1136,29 +1320,32 @@ const PromoBar = () => {
 
 
 // ============== Page ==============
-const AsiaIndex = () => (
-  <>
-    <PageMeta
-      title="Cosmetic Surgery in Asia | Patient Diaries"
-      description="Explore published cosmetic expert profiles, patient journey previews, procedure guides, and practical travel and aftercare support for cosmetic care in China."
-      path="/"
-      structuredData={ORGANIZATION_SCHEMA}
-    />
-    <div className="min-h-screen bg-background overflow-x-hidden">
-      <AsiaNavbar />
-      <Hero />
-      <main className="home-content-flow">
-        <TravelBar />
-        <DoctorsSection />
-        
-        <TreatmentsSection />
-        <HowItWorks />
-        <CitiesSection />
-        <AppPromoSection />
-      </main>
-      <Footer />
-    </div>
-  </>
-);
+const AsiaIndex = () => {
+  const [searchParams] = useSearchParams();
+  const showTravelInspiredPreview = searchParams.get("hero-preview") === "travel-inspired";
+
+  return (
+    <>
+      <PageMeta
+        title="Cosmetic Surgery in Asia | Patient Diaries"
+        description="Explore published cosmetic expert profiles, patient journey previews, procedure guides, and practical travel and aftercare support for cosmetic care in China."
+        path="/"
+        structuredData={ORGANIZATION_SCHEMA}
+      />
+      <div className="min-h-screen overflow-x-hidden bg-background">
+        <AsiaNavbar />
+        {showTravelInspiredPreview ? <TravelInspiredHeroPreview /> : <Hero />}
+        <main className="home-content-flow">
+          <DoctorsSection />
+          <TreatmentsSection />
+          <HowItWorks />
+          <CitiesSection />
+          <AppPromoSection />
+        </main>
+        <Footer />
+      </div>
+    </>
+  );
+};
 
 export default AsiaIndex;

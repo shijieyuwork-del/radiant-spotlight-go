@@ -231,6 +231,42 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase, 
   const touchStart = useRef<{ x: number; y: number } | null>(null);
   const swipeMoved = useRef(false);
   const suppressClick = useRef(false);
+  const previewStageRef = useRef<HTMLDivElement>(null);
+  const pointerFrameRef = useRef<number | null>(null);
+
+  useEffect(() => () => {
+    if (pointerFrameRef.current !== null) window.cancelAnimationFrame(pointerFrameRef.current);
+  }, []);
+
+  const movePreviewWithPointer = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (variant !== "preview" || event.pointerType !== "mouse") return;
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const stage = previewStageRef.current;
+    if (!stage) return;
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const progress = Math.max(-1, Math.min(1, ((event.clientX - bounds.left) / bounds.width) * 2 - 1));
+    const shift = progress * 64;
+
+    if (pointerFrameRef.current !== null) window.cancelAnimationFrame(pointerFrameRef.current);
+    pointerFrameRef.current = window.requestAnimationFrame(() => {
+      stage.style.transition = "none";
+      stage.style.transform = `translate3d(${shift}px, 0, 0)`;
+      pointerFrameRef.current = null;
+    });
+  };
+
+  const resetPreviewPointer = () => {
+    const stage = previewStageRef.current;
+    if (!stage) return;
+    if (pointerFrameRef.current !== null) {
+      window.cancelAnimationFrame(pointerFrameRef.current);
+      pointerFrameRef.current = null;
+    }
+    stage.style.transition = "transform 320ms cubic-bezier(0.22, 1, 0.36, 1)";
+    stage.style.transform = "translate3d(0, 0, 0)";
+  };
 
   useEffect(() => {
     if (variant !== "preview") return;
@@ -253,6 +289,8 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase, 
     return (
       <div
         className="relative touch-pan-y select-none overflow-hidden overscroll-x-contain rounded-[1.75rem] border border-primary/15 bg-[radial-gradient(ellipse_at_50%_100%,hsl(var(--primary)/.22),transparent_62%)] px-2 pb-5 pt-3 shadow-pop sm:rounded-[2.25rem] sm:px-6 sm:pb-6 sm:pt-4 md:pt-6"
+        onPointerMove={movePreviewWithPointer}
+        onPointerLeave={resetPreviewPointer}
         onTouchStart={(e) => {
           touchStart.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
           swipeMoved.current = false;
@@ -276,7 +314,7 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase, 
           }
         }}
       >
-        <div className="relative mx-auto h-[500px] max-w-[90rem] sm:h-[540px] md:h-[590px]">
+        <div ref={previewStageRef} className="relative mx-auto h-[500px] max-w-[90rem] sm:h-[540px] md:h-[590px] motion-reduce:transform-none">
           {items.map((it, index) => {
             const distance = distanceFromActive(index);
             const depth = Math.abs(distance);

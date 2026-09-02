@@ -17,14 +17,14 @@ const FloatingLiveChat = () => {
       type="button"
       aria-label={label}
       onClick={() => { trackEvent("select_cta", { source: "floating_consultation" }); open({ source: "floating_consultation" }); }}
-      className="consult-blink group fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 z-50 flex min-h-12 items-center gap-2 rounded-full border border-background/20 bg-foreground p-1.5 text-background shadow-pop transition-all hover:-translate-y-0.5 hover:bg-foreground/95 hover:border-background/30 sm:bottom-6 sm:right-6 sm:pl-1.5 sm:pr-4"
+      className="consult-blink group fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 z-50 flex min-h-14 items-center gap-2.5 rounded-full border border-background/20 bg-foreground p-2 text-background shadow-pop transition-all hover:-translate-y-0.5 hover:border-background/30 hover:bg-foreground/95 sm:bottom-6 sm:right-6 sm:min-h-[3.75rem] sm:pl-2 sm:pr-5"
     >
-      <span className="relative grid size-9 place-items-center rounded-full bg-primary text-primary-foreground">
-        <MessageCircle className="size-4" />
+      <span className="relative grid size-10 place-items-center rounded-full bg-primary text-primary-foreground sm:size-11">
+        <MessageCircle className="size-[18px]" />
         <span aria-hidden className="consult-blink-ring absolute inset-0 rounded-full bg-primary" />
       </span>
-      <span className="hidden whitespace-nowrap text-sm font-semibold sm:inline">{label}</span>
-      <ArrowRight className="hidden size-3.5 text-primary transition-transform group-hover:translate-x-0.5 sm:block" />
+      <span className="hidden whitespace-nowrap text-[15px] font-semibold sm:inline">{label}</span>
+      <ArrowRight className="hidden size-4 text-primary transition-transform group-hover:translate-x-0.5 sm:block" />
     </button>
   );
 };
