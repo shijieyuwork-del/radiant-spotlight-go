@@ -47,7 +47,9 @@ const Navbar = () => {
           <CurrencyPicker />
           <LanguagePicker />
           <Button variant="ghost" size="icon" className="rounded-full hidden sm:inline-flex"><Search className="size-4" /></Button>
-          <Button className="rounded-full bg-foreground text-background hover:bg-foreground/90 px-5">{t("nav.signIn")}</Button>
+          <Button asChild className="rounded-full bg-foreground text-background hover:bg-foreground/90 px-5">
+            <Link to={lp("/auth")}>{t("nav.signIn")}</Link>
+          </Button>
         </div>
       </nav>
     </header>
