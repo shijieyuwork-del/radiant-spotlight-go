@@ -300,6 +300,26 @@ export default function ContentAdmin() {
           <DialogHeader><DialogTitle>编辑专家资料</DialogTitle></DialogHeader>
           {editingExpert && (
             <div className="space-y-3">
+              <div className="space-y-2">
+                <Label htmlFor="edit-expert-photo">专家照片</Label>
+                <div className="flex items-center gap-3">
+                  {stagedPhoto
+                    ? <img src={stagedPhoto.url} alt="新照片预览" className="size-16 rounded-xl object-cover ring-2 ring-primary/40" />
+                    : editingExpert.photoUrl
+                      ? <img src={editingExpert.photoUrl} alt={editingExpert.name} className="size-16 rounded-xl object-cover" />
+                      : <div className="size-16 rounded-xl bg-muted grid place-items-center"><Stethoscope className="size-5 text-muted-foreground" /></div>}
+                  <p className="text-xs text-muted-foreground">{stagedPhoto ? `新照片：${stagedPhoto.file.name}` : "当前照片，可在下方拖入新照片替换"}</p>
+                </div>
+                <FileDropZone
+                  id="edit-expert-photo"
+                  accept="image/jpeg,image/png,image/webp"
+                  rules={PHOTO_RULES}
+                  disabled={saving}
+                  fileName={stagedPhoto ? `已选择：${stagedPhoto.file.name}` : null}
+                  onFile={stagePhoto}
+                  onInvalid={(message) => toast.error(message)}
+                />
+              </div>
               <TextField label="姓名 *" value={editingExpert.name} onChange={(v) => setEditingExpert({ ...editingExpert, name: v })} />
               <TextField label="职称 *" value={editingExpert.title} onChange={(v) => setEditingExpert({ ...editingExpert, title: v })} />
               <TextField label="医院/机构" value={editingExpert.hospital} onChange={(v) => setEditingExpert({ ...editingExpert, hospital: v })} />
