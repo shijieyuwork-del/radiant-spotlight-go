@@ -18,6 +18,7 @@ import { TIKTOK_CASES } from "@/data/tiktokCases";
 import { CITIES } from "@/data/cities";
 import { CitySearchBar, CityQuickResults, useCityFilter } from "@/components/CitySearch";
 import { useAsia } from "@/lib/asia-i18n";
+import { localizeDoctorRow } from "@/lib/i18n-content";
 import QuoteCtaButton from "@/components/QuoteCtaButton";
 import { ORGANIZATION_SCHEMA } from "@/lib/seo-config";
 import { useQuote } from "@/components/QuoteRequest";
@@ -1050,15 +1051,15 @@ const DoctorsSection = () => {
     const chinaCities = ["Shanghai", "Beijing", "Guangzhou", "Hangzhou", "Hainan", "上海", "北京", "广州", "杭州", "海南"];
     supabase
       .from("doctors")
-      .select("id,name,title,hospital,city,specialties,bio,photo_path")
+      .select("id,name,title,hospital,city,specialties,bio,photo_path,i18n")
       .eq("status", "published")
       .order("created_at", { ascending: false })
       .then(async ({ data }) => {
         const rows = (data ?? []).filter((doctor) => chinaCities.some((city) => doctor.city?.toLowerCase().includes(city.toLowerCase())));
         const photos = await signedUrls("doctor-photos", rows.map((doctor) => doctor.photo_path));
-        setPublishedDoctors(rows.map((doctor, index) => ({ ...doctor, photo: photos[index] })) as typeof publishedDoctors);
+        setPublishedDoctors(rows.map((doctor, index) => localizeDoctorRow({ ...doctor, photo: photos[index] } as Record<string, unknown>, lang)) as typeof publishedDoctors);
       });
-  }, []);
+  }, [lang]);
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const timer = window.setInterval(() => {
