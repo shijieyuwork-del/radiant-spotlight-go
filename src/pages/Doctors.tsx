@@ -28,7 +28,7 @@ type DirectoryDoctor = ManagedDoctor & { demo?: boolean };
 
 const Experts = () => {
   const { t, lang } = useAsia();
-  const c = <T,>(en: T, zh: T, ru: T) => asiaCopy(lang, { en, zh, ru });
+  const c = <T,>(en: T, zh: T, ru: T, es?: T) => asiaCopy(lang, { en, zh, ru, es });
   const [searchParams] = useSearchParams();
   const [q, setQ] = useState(() => searchParams.get("q") ?? "");
   // 支持从城市搜索跳转进来时预选城市（/doctors?city=Seoul）
@@ -168,7 +168,7 @@ const Experts = () => {
               value={q}
               onChange={(e) => setQ(e.target.value)}
               className="w-full bg-transparent text-base font-medium outline-none sm:text-sm"
-              placeholder={c("Search by name, clinic or specialty…", "搜索专家、机构或擅长项目…", "Поиск по имени, клинике или специализации…")}
+              placeholder={c("Search by name, clinic or specialty…", "搜索专家、机构或擅长项目…", "Поиск по имени, клинике или специализации…", "Buscar por nombre, clínica o especialidad…")}
             />
           </div>
         </div>
@@ -176,7 +176,7 @@ const Experts = () => {
         {/* Procedure filter */}
         {specialties.length > 0 && <div className="mb-3">
           <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold text-center mb-2">
-            {c("Procedure", "手术类型", "Процедура")}
+            {c("Procedure", "手术类型", "Процедура", "Procedimiento")}
           </p>
           <div className="flex items-center gap-2 flex-wrap justify-center">
             <Button variant={spec === "all" ? "default" : "outline"} size="sm" className="rounded-full" onClick={() => setSpec("all")}>
@@ -193,7 +193,7 @@ const Experts = () => {
         {/* City filter */}
         {cities.length > 0 && <div className="mb-10">
           <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold text-center mb-2">
-            {c("City", "城市", "Город")}
+            {c("City", "城市", "Город", "Ciudad")}
           </p>
           <div className="flex items-center gap-2 flex-wrap justify-center">
             <span className="text-xs text-muted-foreground inline-flex items-center gap-1 mr-1"><Filter className="size-3" /></span>
@@ -210,33 +210,33 @@ const Experts = () => {
 
         {directoryDoctors.length > 0 && (
           <div className="mb-10">
-            <h2 className="mb-4 font-display text-2xl">{managedDoctors.length > 0 ? c("Published doctors", "已发布专家", "Опубликованные эксперты") : c("Sample doctor profiles", "专家展示样例", "Примеры профилей экспертов")}</h2>
+            <h2 className="mb-4 font-display text-2xl">{managedDoctors.length > 0 ? c("Published doctors", "已发布专家", "Опубликованные эксперты", "Expertos publicados") : c("Sample doctor profiles", "专家展示样例", "Примеры профилей экспертов", "Perfiles de expertos de muestra")}</h2>
             <div className="mb-5">
               <SortChips
-                label={c("Sort", "排序", "Сортировка")}
+                label={c("Sort", "排序", "Сортировка", "Ordenar")}
                 value={sort}
                 onChange={setSort}
                 options={[
-                  { key: "recommended", label: c("Recommended", "推荐", "Рекомендуемые") },
-                  { key: "hot", label: c("Most popular", "热度最高", "Популярные") },
-                  { key: "latest", label: c("Newest", "最新入驻", "Новые") },
-                  { key: "distance", label: c("Nearest", "距离最近", "Ближайшие") },
+                  { key: "recommended", label: c("Recommended", "推荐", "Рекомендуемые", "Recomendado") },
+                  { key: "hot", label: c("Most popular", "热度最高", "Популярные", "Más popular") },
+                  { key: "latest", label: c("Newest", "最新入驻", "Новые", "Más reciente") },
+                  { key: "distance", label: c("Nearest", "距离最近", "Ближайшие", "Más cercano") },
                 ]}
               />
               {sort === "distance" && (
                 <p className="mt-2 flex items-center justify-center gap-1 text-[11px] text-muted-foreground">
                   <Navigation className="size-3" />
                   {locStatus === "locating"
-                    ? c("Locating…", "正在获取定位…", "Определяем местоположение…")
+                    ? c("Locating…", "正在获取定位…", "Определяем местоположение…", "Localizando…")
                     : locStatus === "denied"
-                      ? c("Location unavailable — showing default order.", "无法获取定位，已按默认顺序展示。", "Геолокация недоступна — показан обычный порядок.")
-                      : c("Sorted by distance from you.", "已按与你的距离排序。", "Отсортировано по расстоянию от вас.")}
+                      ? c("Location unavailable — showing default order.", "无法获取定位，已按默认顺序展示。", "Геолокация недоступна — показан обычный порядок.", "Ubicación no disponible — mostrando el orden predeterminado.")
+                      : c("Sorted by distance from you.", "已按与你的距离排序。", "Отсортировано по расстоянию от вас.", "Ordenado por distancia desde tu ubicación.")}
                 </p>
               )}
             </div>
             {visibleDirectoryDoctors.length === 0 ? (
               <p className="rounded-3xl border border-dashed border-border bg-card/60 px-6 py-8 text-center text-sm text-muted-foreground">
-                {c("No experts in this city yet — try another city or ask us for a match.", "该城市暂无专家资料 —— 换个城市试试，或让我们帮你匹配。", "В этом городе пока нет экспертов — попробуйте другой город или напишите нам.")}
+                {c("No experts in this city yet — try another city or ask us for a match.", "该城市暂无专家资料 —— 换个城市试试，或让我们帮你匹配。", "В этом городе пока нет экспертов — попробуйте другой город или напишите нам.", "Todavía no hay expertos en esta ciudad — prueba otra ciudad o pídenos ayuda para encontrar una opción.")}
               </p>
             ) : (
             <div className="grid gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
@@ -252,7 +252,7 @@ const Experts = () => {
                         <h3 className="font-display text-xl font-semibold leading-tight"><Highlight text={d.name} query={q} /></h3>
                         <p className="mt-1 text-xs text-muted-foreground"><Highlight text={d.title} query={q} /></p>
                         <p className="mt-2 text-xs text-muted-foreground"><MapPin className="mr-1 inline size-3" /><Highlight text={d.city} query={q} /></p>
-                        {d.demo && <span className="mt-2 inline-flex rounded-full bg-accent px-2.5 py-1 text-[10px] font-semibold text-accent-foreground">{c("Sample profile", "示例资料", "Демо-профиль")}</span>}
+                        {d.demo && <span className="mt-2 inline-flex rounded-full bg-accent px-2.5 py-1 text-[10px] font-semibold text-accent-foreground">{c("Sample profile", "示例资料", "Демо-профиль", "Perfil de muestra")}</span>}
                       </div>
                     </div>
                     <p className="mt-5 text-sm text-muted-foreground"><Building2 className="mr-1 inline size-4 text-primary" /><Highlight text={d.hospital} query={q} /></p>
@@ -260,7 +260,7 @@ const Experts = () => {
                     <div className="mt-4 flex flex-wrap gap-1.5">{d.specialties.map((s) => <span key={s} className="rounded-full bg-accent px-2.5 py-1 text-[11px]"><Highlight text={s} query={q} /></span>)}</div>
                     <div className="mt-auto grid gap-2 pt-6 min-[430px]:grid-cols-[0.9fr_1.1fr]">
                       <Link to={d.demo ? "/doctors" : `/doctors/profile/${d.id}`} className="flex min-h-12 items-center justify-center rounded-xl border border-primary/30 px-3 py-3 text-center text-xs font-semibold text-primary hover:bg-primary/10">
-                        {c("Expert & cases", "专家与案例", "Эксперт и истории пациентов")}
+                        {c("Expert & cases", "专家与案例", "Эксперт и истории пациентов", "Experto y casos")}
                       </Link>
                       <QuoteCtaButton quoteCtx={{ doctorName: d.name, city: d.city }} className="min-h-12 rounded-xl px-3 py-3 text-center text-[13px] leading-tight" />
                     </div>
@@ -277,7 +277,7 @@ const Experts = () => {
 
         {items.length === 0 ? (
           <p className="text-center text-muted-foreground py-12 text-sm">
-            {c("Expert profiles are currently under review. You can still book a free video consultation and we will help identify suitable options.", "专家资料正在审核中。你仍可预约免费视频咨询，我们会根据需求协助匹配。", "Профили экспертов проходят проверку. Вы можете записаться на бесплатную видеоконсультацию, а мы поможем подобрать подходящие варианты.")}
+            {c("Expert profiles are currently under review. You can still book a free video consultation and we will help identify suitable options.", "专家资料正在审核中。你仍可预约免费视频咨询，我们会根据需求协助匹配。", "Профили экспертов проходят проверку. Вы можете записаться на бесплатную видеоконсультацию, а мы поможем подобрать подходящие варианты.", "Los perfiles de expertos están actualmente en revisión. Aun así puedes reservar una videoconsulta gratuita y te ayudaremos a identificar opciones adecuadas.")}
           </p>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -335,7 +335,7 @@ const Experts = () => {
 
                 <div className="mt-4">
                   <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold mb-1.5">
-                    {c("Procedures", "手术类型", "Процедуры")}
+                    {c("Procedures", "手术类型", "Процедуры", "Procedimientos")}
                   </p>
                   <div className="flex flex-wrap gap-1.5">
                     {d.specEn.map((sEn, i) => {
@@ -360,7 +360,7 @@ const Experts = () => {
 
                 <div className="mt-auto grid gap-2 pt-6 min-[430px]:grid-cols-[0.9fr_1.1fr]">
                   <Link to={`/doctors/${d.id}`} className="flex min-h-12 items-center justify-center rounded-xl border border-primary/30 bg-card px-3 py-3 text-center text-xs font-semibold text-primary transition hover:bg-primary/10">
-                    {c("Expert & cases", "专家与案例", "Эксперт и истории пациентов")}
+                    {c("Expert & cases", "专家与案例", "Эксперт и истории пациентов", "Experto y casos")}
                   </Link>
                   <QuoteCtaButton
                     quoteCtx={{ doctorName: lang === "zh" ? d.zh : d.en, city: lang === "zh" ? d.cityZh : d.cityEn }}
@@ -376,17 +376,19 @@ const Experts = () => {
           <div className="max-w-2xl">
             <span className="pill bg-card/80 text-accent-foreground shadow-soft">
               <MessageCircle className="size-3.5 text-primary" />
-              {lang === "zh" ? "免费匹配建议" : lang === "ru" ? "Бесплатная помощь с выбором" : "Free matching guidance"}
+              {lang === "zh" ? "免费匹配建议" : lang === "ru" ? "Бесплатная помощь с выбором" : lang === "es" ? "Orientación gratuita para elegir" : "Free matching guidance"}
             </span>
             <h2 className="mt-4 font-display text-[1.9rem] font-medium leading-[1.05] tracking-tight sm:text-4xl">
-              {lang === "zh" ? "不确定哪位专家更适合你？" : lang === "ru" ? "Не уверены, какой эксперт вам подходит?" : "Not sure which expert is right for you?"}
+              {lang === "zh" ? "不确定哪位专家更适合你？" : lang === "ru" ? "Не уверены, какой эксперт вам подходит?" : lang === "es" ? "¿No sabes qué experto es el adecuado para ti?" : "Not sure which expert is right for you?"}
             </h2>
             <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
               {lang === "zh"
                 ? "告诉我们你在考虑的项目、预算和城市，我们会帮助你缩小选择范围。"
                 : lang === "ru"
                   ? "Расскажите нам о желаемой процедуре, бюджете и городе — мы поможем сузить выбор."
-                  : "Tell us what you’re considering, your budget and preferred city, and we’ll help you narrow down suitable options."}
+                  : lang === "es"
+                    ? "Cuéntanos qué procedimiento, presupuesto y ciudad tienes en mente, y te ayudaremos a reducir las opciones."
+                    : "Tell us what you’re considering, your budget and preferred city, and we’ll help you narrow down suitable options."}
             </p>
           </div>
           <a
@@ -395,7 +397,7 @@ const Experts = () => {
             rel="noreferrer"
             className="cta-primary mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl px-6 py-3 text-sm font-bold transition md:mt-0 md:w-auto md:min-w-44 md:rounded-full"
           >
-            {lang === "zh" ? "获取免费匹配建议" : lang === "ru" ? "Получить бесплатную помощь" : "Get free matching guidance"}
+            {lang === "zh" ? "获取免费匹配建议" : lang === "ru" ? "Получить бесплатную помощь" : lang === "es" ? "Obtener orientación gratuita" : "Get free matching guidance"}
             <ArrowRight className="size-4" />
           </a>
         </aside>

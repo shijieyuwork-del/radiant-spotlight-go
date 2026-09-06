@@ -62,10 +62,10 @@ const CaseDetail = () => {
           <AsiaNavbar homeLinks={false} />
           <div className="container py-24 text-center">
             <p className="text-muted-foreground">
-              {lang === "zh" ? "案例不存在。" : lang === "ru" ? "История не найдена." : "Case not found."}
+              {lang === "zh" ? "案例不存在。" : lang === "ru" ? "История не найдена." : lang === "es" ? "No se encontró el caso." : "Case not found."}
             </p>
             <Link to="/cases" className="text-primary underline mt-4 inline-block">
-              {lang === "zh" ? "返回案例列表" : lang === "ru" ? "Вернуться ко всем историям" : "Back to all cases"}
+              {lang === "zh" ? "返回案例列表" : lang === "ru" ? "Вернуться ко всем историям" : lang === "es" ? "Volver a todos los casos" : "Back to all cases"}
             </Link>
           </div>
           <Footer />
@@ -142,10 +142,10 @@ const CaseDetail = () => {
                 type="button"
                 onClick={(event) => { event.stopPropagation(); setExpanded(true); }}
                 className="absolute right-3 top-3 z-20 inline-flex min-h-11 items-center gap-2 rounded-full bg-white/90 px-4 text-xs font-bold text-foreground shadow-pop backdrop-blur transition hover:bg-white active:scale-[0.98]"
-                aria-label={lang === "zh" ? "放大观看案例" : lang === "ru" ? "Открыть в большом формате" : "Enlarge case video"}
+                aria-label={lang === "zh" ? "放大观看案例" : lang === "ru" ? "Открыть в большом формате" : lang === "es" ? "Ampliar video del caso" : "Enlarge case video"}
               >
                 <Maximize2 className="size-4" />
-                {lang === "zh" ? "放大观看" : lang === "ru" ? "Увеличить" : "Enlarge"}
+                {lang === "zh" ? "放大观看" : lang === "ru" ? "Увеличить" : lang === "es" ? "Ampliar" : "Enlarge"}
               </button>
 
               {!playing && (
@@ -159,14 +159,14 @@ const CaseDetail = () => {
               {ended && (
                 <div className="absolute inset-0 z-20 grid place-items-center bg-black/65 p-6 backdrop-blur-[2px]" onClick={(event) => event.stopPropagation()}>
                   <div className="max-w-xs text-center text-white">
-                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/65">{lang === "zh" ? "下一个案例" : lang === "ru" ? "Следующая история" : "Up next"}</p>
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/65">{lang === "zh" ? "下一个案例" : lang === "ru" ? "Следующая история" : lang === "es" ? "A continuación" : "Up next"}</p>
                     <p className="mt-2 font-display text-2xl font-medium leading-tight">{nextItem.treatment[lang]}</p>
                     <p className="mt-2 line-clamp-2 text-sm text-white/75">{nextItem.caption[lang]}</p>
                     <Button asChild size="lg" className="mt-5 rounded-full bg-primary px-7 text-primary-foreground hover:bg-primary/90">
-                      <Link to={`/cases/${nextItem.id}`}>{lang === "zh" ? "播放下一个" : lang === "ru" ? "Смотреть следующую" : "Watch next case"}<ArrowRight className="ml-2 size-4" /></Link>
+                      <Link to={`/cases/${nextItem.id}`}>{lang === "zh" ? "播放下一个" : lang === "ru" ? "Смотреть следующую" : lang === "es" ? "Ver siguiente caso" : "Watch next case"}<ArrowRight className="ml-2 size-4" /></Link>
                     </Button>
                     <button type="button" className="mt-3 block w-full text-xs text-white/70 hover:text-white" onClick={() => { setEnded(false); ref.current?.play(); }}>
-                      {lang === "zh" ? "重新播放当前视频" : lang === "ru" ? "Повторить видео" : "Replay this video"}
+                      {lang === "zh" ? "重新播放当前视频" : lang === "ru" ? "Повторить видео" : lang === "es" ? "Repetir este video" : "Replay this video"}
                     </button>
                   </div>
                 </div>
@@ -201,13 +201,13 @@ const CaseDetail = () => {
               </div>
             </div>
 
-            <nav className="mx-auto mt-4 grid w-full max-w-md grid-cols-2 gap-3 lg:max-w-none" aria-label={lang === "zh" ? "案例浏览" : lang === "ru" ? "Просмотр историй" : "Browse cases"}>
+            <nav className="mx-auto mt-4 grid w-full max-w-md grid-cols-2 gap-3 lg:max-w-none" aria-label={lang === "zh" ? "案例浏览" : lang === "ru" ? "Просмотр историй" : lang === "es" ? "Explorar casos" : "Browse cases"}>
               <Link to={`/cases/${previousItem.id}`} className="group rounded-2xl border border-border/70 bg-card p-3 shadow-soft transition hover:-translate-y-0.5 hover:border-primary/30">
-                <span className="flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground"><ArrowLeft className="size-3.5" />{lang === "zh" ? "上一个" : lang === "ru" ? "Предыдущая" : "Previous"}</span>
+                <span className="flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground"><ArrowLeft className="size-3.5" />{lang === "zh" ? "上一个" : lang === "ru" ? "Предыдущая" : lang === "es" ? "Anterior" : "Previous"}</span>
                 <span className="mt-1 block truncate text-sm font-semibold">{previousItem.treatment[lang]}</span>
               </Link>
               <Link to={`/cases/${nextItem.id}`} className="group rounded-2xl border border-primary/30 bg-primary/10 p-3 shadow-soft transition hover:-translate-y-0.5 hover:bg-primary/15">
-                <span className="flex items-center justify-end gap-1 text-[11px] font-semibold uppercase tracking-wider text-primary">{lang === "zh" ? "下一个" : lang === "ru" ? "Следующая" : "Next"}<ArrowRight className="size-3.5" /></span>
+                <span className="flex items-center justify-end gap-1 text-[11px] font-semibold uppercase tracking-wider text-primary">{lang === "zh" ? "下一个" : lang === "ru" ? "Следующая" : lang === "es" ? "Siguiente" : "Next"}<ArrowRight className="size-3.5" /></span>
                 <span className="mt-1 block truncate text-right text-sm font-semibold">{nextItem.treatment[lang]}</span>
               </Link>
             </nav>
@@ -226,18 +226,18 @@ const CaseDetail = () => {
             <div className="rounded-3xl bg-card shadow-soft p-5 space-y-3">
               <p className="text-sm flex items-center gap-2"><Building2 className="size-4 text-primary" /> {item.clinic[lang]}</p>
               {item.city && (
-                <Link to={`/cities/${item.city.en.toLowerCase()}`} className="flex items-center gap-2 text-sm transition hover:text-primary"><MapPin className="size-4 text-primary" /> {item.city[lang]}, China · {lang === "zh" ? "查看城市指南" : lang === "ru" ? "Гид по городу" : "View city guide"}</Link>
+                <Link to={`/cities/${item.city.en.toLowerCase()}`} className="flex items-center gap-2 text-sm transition hover:text-primary"><MapPin className="size-4 text-primary" /> {item.city[lang]}, China · {lang === "zh" ? "查看城市指南" : lang === "ru" ? "Гид по городу" : lang === "es" ? "Ver guía de la ciudad" : "View city guide"}</Link>
               )}
-              <p className="text-sm flex items-center gap-2"><ShieldCheck className="size-4 text-primary" /> {lang === "zh" ? "日记预览 · 核验状态待更新" : lang === "ru" ? "Предпросмотр дневника · проверка ожидается" : "Diary preview · verification status pending"}</p>
+              <p className="text-sm flex items-center gap-2"><ShieldCheck className="size-4 text-primary" /> {lang === "zh" ? "日记预览 · 核验状态待更新" : lang === "ru" ? "Предпросмотр дневника · проверка ожидается" : lang === "es" ? "Vista previa del diario · verificación pendiente" : "Diary preview · verification status pending"}</p>
             </div>
 
             <div className="rounded-3xl border border-border/70 bg-card p-5 shadow-soft sm:p-6">
               <div className="mb-4 flex items-center justify-between gap-3">
                 <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                  {lang === "zh" ? "相关专科专家" : lang === "ru" ? "Эксперт по данному направлению" : "Expert for this specialty"}
+                  {lang === "zh" ? "相关专科专家" : lang === "ru" ? "Эксперт по данному направлению" : lang === "es" ? "Experto para esta especialidad" : "Expert for this specialty"}
                 </p>
                 <span className="rounded-full bg-accent px-2.5 py-1 text-[10px] font-semibold text-accent-foreground">
-                  {lang === "zh" ? "示例资料" : lang === "ru" ? "Демо-профиль" : "Sample profile"}
+                  {lang === "zh" ? "示例资料" : lang === "ru" ? "Демо-профиль" : lang === "es" ? "Perfil de ejemplo" : "Sample profile"}
                 </span>
               </div>
               <div className="flex items-start gap-4">
@@ -255,17 +255,17 @@ const CaseDetail = () => {
               </div>
               <div className="mt-5 grid gap-2 min-[430px]:grid-cols-2">
                 <Link to={`/doctors/demo/${caseDoctor.id}`} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-primary/30 px-4 text-sm font-semibold text-primary transition hover:bg-primary/10">
-                  {lang === "zh" ? "查看这位专家" : lang === "ru" ? "Подробнее о эксперте" : "Browse this expert"}<ArrowRight className="size-4" />
+                  {lang === "zh" ? "查看这位专家" : lang === "ru" ? "Подробнее о эксперте" : lang === "es" ? "Ver este experto" : "Browse this expert"}<ArrowRight className="size-4" />
                 </Link>
                 <a href={`https://wa.me/14708613825?text=${encodeURIComponent(`Hi Cosmetics Asia, I’d like to ask about ${caseDoctor.name} and this ${item.treatment.en} case: https://cosmetics-asia.com/cases/${item.id}`)}`} target="_blank" rel="noreferrer" className="cta-primary inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-4 text-sm font-bold transition">
-                  {lang === "zh" ? "咨询这位专家" : lang === "ru" ? "Спросить об этом эксперте" : "Ask about this expert"}<MessageCircle className="size-4" />
+                  {lang === "zh" ? "咨询这位专家" : lang === "ru" ? "Спросить об этом эксперте" : lang === "es" ? "Preguntar sobre este experto" : "Ask about this expert"}<MessageCircle className="size-4" />
                 </a>
               </div>
             </div>
 
             {item.priceCny > 0 && <div className="rounded-3xl bg-gradient-to-br from-[hsl(155,60%,90%)] to-[hsl(50,80%,92%)] p-5 flex items-center justify-between gap-4 shadow-soft">
               <div>
-                <p className="text-xs text-foreground/60">{lang === "zh" ? "参考价格" : lang === "ru" ? "Ориентировочная цена" : "Reference price"}</p>
+                <p className="text-xs text-foreground/60">{lang === "zh" ? "参考价格" : lang === "ru" ? "Ориентировочная цена" : lang === "es" ? "Precio de referencia" : "Reference price"}</p>
                 <p className="font-display text-3xl font-semibold mt-1">{fmt(item.priceCny)}</p>
               </div>
               <Button size="lg" className="rounded-2xl bg-foreground text-background hover:bg-foreground/90">
@@ -275,28 +275,32 @@ const CaseDetail = () => {
 
             <div className="prose prose-sm max-w-none text-muted-foreground">
               <p>
-                {lang === "zh" ? "这是日记版式预览。患者身份、接诊机构、价格和就诊凭证完成审核后，页面才会展示相应的已核验标识。" : lang === "ru" ? "Это предварительный формат дневника. Личность пациента, клиника, цена и подтверждение визита отмечаются как проверенные только после завершения проверки." : "This is a diary-format preview. Patient identity, provider, pricing and attendance evidence are shown as verified only after review is complete."}
+                {lang === "zh" ? "这是日记版式预览。患者身份、接诊机构、价格和就诊凭证完成审核后，页面才会展示相应的已核验标识。" : lang === "ru" ? "Это предварительный формат дневника. Личность пациента, клиника, цена и подтверждение визита отмечаются как проверенные только после завершения проверки." : lang === "es" ? "Esta es una vista previa en formato de diario. La identidad del paciente, el proveedor, el precio y la evidencia de asistencia se muestran como verificados solo después de completar la revisión." : "This is a diary-format preview. Patient identity, provider, pricing and attendance evidence are shown as verified only after review is complete."}
               </p>
             </div>
 
             <aside className="overflow-hidden rounded-[2rem] border border-primary/15 bg-gradient-to-br from-[hsl(158,58%,90%)] via-[hsl(145,48%,91%)] to-[hsl(50,80%,91%)] p-5 shadow-soft sm:p-7">
               <span className="pill bg-card/80 text-accent-foreground shadow-soft">
                 <MessageCircle className="size-3.5 text-primary" />
-                {lang === "zh" ? "免费咨询" : lang === "ru" ? "Бесплатная консультация" : "Free guidance"}
+                {lang === "zh" ? "免费咨询" : lang === "ru" ? "Бесплатная консультация" : lang === "es" ? "Orientación gratuita" : "Free guidance"}
               </span>
               <h2 className="mt-4 font-display text-2xl font-medium leading-tight tracking-tight sm:text-3xl">
                 {lang === "zh"
                   ? "正在考虑类似的项目？"
                   : lang === "ru"
                     ? "Рассматриваете похожую процедуру?"
-                    : "Considering a similar procedure?"}
+                    : lang === "es"
+                      ? "¿Estás considerando un procedimiento similar?"
+                      : "Considering a similar procedure?"}
               </h2>
               <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-[15px]">
                 {lang === "zh"
                   ? "把这个案例发给我们，并告诉我们你的目标。我们可以协助你匹配专家、了解预估费用和恢复安排。"
                   : lang === "ru"
                     ? "Отправьте нам этот пример и расскажите о своей цели. Мы поможем подобрать эксперта и разобраться в стоимости и восстановлении."
-                    : "Send us this case and tell us your goals. We can help you compare experts and understand estimated pricing and recovery planning."}
+                    : lang === "es"
+                      ? "Envíanos este caso y cuéntanos tus objetivos. Podemos ayudarte a comparar expertos y entender el precio estimado y la planificación de la recuperación."
+                      : "Send us this case and tell us your goals. We can help you compare experts and understand estimated pricing and recovery planning."}
               </p>
               <a
                 href={`https://wa.me/14708613825?text=${encodeURIComponent(`Hi Cosmetics Asia, I’m interested in this ${item.treatment.en} case: https://cosmetics-asia.com/cases/${item.id}`)}`}
@@ -304,7 +308,7 @@ const CaseDetail = () => {
                 rel="noreferrer"
                 className="cta-primary mt-5 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl px-6 py-3 text-sm font-bold transition sm:w-auto sm:rounded-full"
               >
-                {lang === "zh" ? "咨询类似案例" : lang === "ru" ? "Обсудить похожий случай" : "Discuss a similar case"}
+                {lang === "zh" ? "咨询类似案例" : lang === "ru" ? "Обсудить похожий случай" : lang === "es" ? "Consultar un caso similar" : "Discuss a similar case"}
                 <ArrowRight className="size-4" />
               </a>
             </aside>
@@ -335,8 +339,8 @@ const CaseDetail = () => {
         <div className="mt-16">
           <h2 className="font-display text-2xl md:text-3xl font-medium tracking-tight mb-6">
             {item.city
-              ? lang === "zh" ? `${item.city.zh}的更多恢复日记` : lang === "ru" ? `Другие дневники из города ${item.city.en}` : `More recovery diaries from ${item.city.en}`
-              : lang === "zh" ? "你可能也感兴趣" : lang === "ru" ? "Вам также может понравиться" : "You may also like"}
+              ? lang === "zh" ? `${item.city.zh}的更多恢复日记` : lang === "ru" ? `Другие дневники из города ${item.city.en}` : lang === "es" ? `Más diarios de recuperación de ${item.city.en}` : `More recovery diaries from ${item.city.en}`
+              : lang === "zh" ? "你可能也感兴趣" : lang === "ru" ? "Вам также может понравиться" : lang === "es" ? "También te puede interesar" : "You may also like"}
           </h2>
           <TikTokWall items={related} lang={lang} fmtPrice={fmt} variant="wall" />
         </div>

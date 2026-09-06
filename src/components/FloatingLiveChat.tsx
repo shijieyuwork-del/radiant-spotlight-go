@@ -8,7 +8,7 @@ const FloatingLiveChat = () => {
   const { lang } = useAsia();
   const { pathname } = useLocation();
   const { open } = useQuote();
-  const label = lang === "zh" ? "开始咨询" : lang === "ru" ? "Начать консультацию" : "Start a consultation";
+  const label = lang === "zh" ? "开始咨询" : lang === "ru" ? "Начать консультацию" : lang === "es" ? "Iniciar una consulta" : "Start a consultation";
 
   if (pathname.startsWith("/lp/") || pathname === "/privacy") return null;
 

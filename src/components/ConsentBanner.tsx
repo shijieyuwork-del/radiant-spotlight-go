@@ -74,6 +74,7 @@ const ConsentBanner = () => {
     en: "Optional analytics help us improve the site. We never send your form answers or contact details.",
     zh: "可选的分析数据帮助我们改进网站，我们不会发送你的表单内容或联系方式。",
     ru: "Необязательная аналитика помогает нам улучшать сайт. Мы не передаём ваши ответы из форм и контактные данные.",
+    es: "Los análisis opcionales nos ayudan a mejorar el sitio. Nunca enviamos tus respuestas de formularios ni tus datos de contacto.",
   });
 
   return (
@@ -93,7 +94,7 @@ const ConsentBanner = () => {
         <p className="min-w-0 flex-1 pr-10 text-sm leading-relaxed text-muted-foreground sm:pr-0">
           {body}{" "}
           <Link to="/privacy" className="font-semibold text-foreground underline decoration-primary/50 underline-offset-4">
-            {asiaCopy(lang, { en: "Read privacy notice", zh: "阅读隐私声明", ru: "Политика конфиденциальности" })}
+            {asiaCopy(lang, { en: "Read privacy notice", zh: "阅读隐私声明", ru: "Политика конфиденциальности", es: "Leer el aviso de privacidad" })}
           </Link>
         </p>
         <div className="flex shrink-0 flex-col gap-2 sm:flex-row sm:items-center">
@@ -102,14 +103,14 @@ const ConsentBanner = () => {
             onClick={() => choose("granted")}
             className="cta-primary inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-5 text-sm font-semibold"
           >
-            <BarChart3 className="size-4" /> {asiaCopy(lang, { en: "Allow analytics", zh: "允许分析", ru: "Разрешить аналитику" })}
+            <BarChart3 className="size-4" /> {asiaCopy(lang, { en: "Allow analytics", zh: "允许分析", ru: "Разрешить аналитику", es: "Permitir análisis" })}
           </button>
           <button
             type="button"
             onClick={() => choose("denied")}
             className="inline-flex min-h-11 items-center justify-center rounded-full border border-foreground/25 bg-card px-5 text-sm font-semibold hover:border-foreground hover:bg-muted"
           >
-            {asiaCopy(lang, { en: "Essential only", zh: "仅必要功能", ru: "Только необходимое" })}
+            {asiaCopy(lang, { en: "Essential only", zh: "仅必要功能", ru: "Только необходимое", es: "Solo lo esencial" })}
           </button>
         </div>
       </aside>

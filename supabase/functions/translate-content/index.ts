@@ -36,7 +36,7 @@ Deno.serve(async (req) => {
     const fields = body.fields ?? {}
     const revise = body.revise === true
     const entries = Object.entries(fields).filter(([, v]) => typeof v === 'string' && v.trim())
-    if (entries.length === 0) return json({ translations: { zh: {}, en: {}, ru: {} }, revised: false })
+    if (entries.length === 0) return json({ translations: { zh: {}, en: {}, ru: {}, es: {} }, revised: false })
 
     const apiKey = Deno.env.get('LOVABLE_API_KEY')
     if (!apiKey) return json({ error: 'AI not configured' }, 500)
@@ -49,9 +49,9 @@ Deno.serve(async (req) => {
     const system = revise
       ? baseRules +
         ' Input is a JSON object of Chinese source fields. First REVISE the Chinese: fix typos and grammar, tighten wording, make it clear, professional and trustworthy, keep the original meaning and roughly the original length. ' +
-        'Then translate the revised Chinese into natural English and Russian. Return ONLY JSON of the shape {"zh":{...},"en":{...},"ru":{...}} with the exact same keys in every language.'
+        'Then translate the revised Chinese into natural English, Russian and Spanish. Return ONLY JSON of the shape {"zh":{...},"en":{...},"ru":{...},"es":{...}} with the exact same keys in every language.'
       : baseRules +
-        ' Input is a JSON object of Chinese source fields. Return ONLY JSON of the shape {"en":{...},"ru":{...}} with the exact same keys, translated into natural English and Russian.'
+        ' Input is a JSON object of Chinese source fields. Return ONLY JSON of the shape {"en":{...},"ru":{...},"es":{...}} with the exact same keys, translated into natural English, Russian and Spanish.'
 
     const payload = Object.fromEntries(entries)
     const res = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
@@ -73,7 +73,7 @@ Deno.serve(async (req) => {
 
     const data = await res.json()
     const raw = data?.choices?.[0]?.message?.content ?? '{}'
-    let parsed: { zh?: Fields; en?: Fields; ru?: Fields }
+    let parsed: { zh?: Fields; en?: Fields; ru?: Fields; es?: Fields }
     try {
       parsed = JSON.parse(raw)
     } catch {
@@ -85,7 +85,7 @@ Deno.serve(async (req) => {
 
     const zh = revise ? pick(parsed.zh) : payload
     return json({
-      translations: { zh, en: pick(parsed.en), ru: pick(parsed.ru) },
+      translations: { zh, en: pick(parsed.en), ru: pick(parsed.ru), es: pick(parsed.es) },
       original: payload,
       revised: revise && JSON.stringify(zh) !== JSON.stringify(payload),
     })

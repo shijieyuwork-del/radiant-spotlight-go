@@ -3,31 +3,31 @@ import { useEffect, useState } from "react";
 export type CityTimezone = {
   iana: string;
   offset: string;
-  label: { en: string; zh: string; ru: string };
+  label: { en: string; zh: string; ru: string; es: string };
 };
 
 export const CHINA_TZ: CityTimezone = {
   iana: "Asia/Shanghai",
   offset: "GMT+8",
-  label: { en: "China Standard Time", zh: "中国标准时间", ru: "Китайское стандартное время" },
+  label: { en: "China Standard Time", zh: "中国标准时间", ru: "Китайское стандартное время", es: "Hora estándar de China" },
 };
 
 const CITY_TIMEZONES: { match: RegExp; tz: CityTimezone }[] = [
   {
     match: /seoul|서울|首尔/i,
-    tz: { iana: "Asia/Seoul", offset: "GMT+9", label: { en: "Korea Standard Time", zh: "韩国标准时间", ru: "Корейское стандартное время" } },
+    tz: { iana: "Asia/Seoul", offset: "GMT+9", label: { en: "Korea Standard Time", zh: "韩国标准时间", ru: "Корейское стандартное время", es: "Hora estándar de Corea" } },
   },
   {
     match: /tokyo|东京|東京/i,
-    tz: { iana: "Asia/Tokyo", offset: "GMT+9", label: { en: "Japan Standard Time", zh: "日本标准时间", ru: "Японское стандартное время" } },
+    tz: { iana: "Asia/Tokyo", offset: "GMT+9", label: { en: "Japan Standard Time", zh: "日本标准时间", ru: "Японское стандартное время", es: "Hora estándar de Japón" } },
   },
   {
     match: /bangkok|曼谷/i,
-    tz: { iana: "Asia/Bangkok", offset: "GMT+7", label: { en: "Indochina Time", zh: "曼谷时间", ru: "Время Бангкока" } },
+    tz: { iana: "Asia/Bangkok", offset: "GMT+7", label: { en: "Indochina Time", zh: "曼谷时间", ru: "Время Бангкока", es: "Hora de Bangkok" } },
   },
   {
     match: /singapore|新加坡/i,
-    tz: { iana: "Asia/Singapore", offset: "GMT+8", label: { en: "Singapore Time", zh: "新加坡时间", ru: "Сингапурское время" } },
+    tz: { iana: "Asia/Singapore", offset: "GMT+8", label: { en: "Singapore Time", zh: "新加坡时间", ru: "Сингапурское время", es: "Hora de Singapur" } },
   },
 ];
 
@@ -38,7 +38,7 @@ export const getCityTimezone = (city?: string | null): CityTimezone => {
   return hit ? hit.tz : CHINA_TZ;
 };
 
-const LOCALES: Record<string, string> = { en: "en-US", zh: "zh-CN", ru: "ru-RU" };
+const LOCALES: Record<string, string> = { en: "en-US", zh: "zh-CN", ru: "ru-RU", es: "es-ES" };
 
 export const formatCityTime = (tz: CityTimezone, lang: string = "en", date: Date = new Date()) =>
   new Intl.DateTimeFormat(LOCALES[lang] ?? "en-US", {

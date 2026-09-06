@@ -47,7 +47,7 @@ export const ORGANIZATION_SCHEMA = {
       name: SITE_NAME,
       alternateName: "Cosmetics Asia China Medical Travel",
       publisher: { "@id": `${SITE_URL}/#organization` },
-      inLanguage: ["en", "zh", "ru"],
+      inLanguage: ["en", "zh", "ru", "es"],
     },
   ],
 };

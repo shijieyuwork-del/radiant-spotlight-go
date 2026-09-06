@@ -68,7 +68,7 @@ const Chip = ({ active, onClick, label }: { active: boolean; onClick: () => void
 /** 搜索框 + 国家筛选 chips */
 export const CitySearchBar = ({ filter }: { filter: CityFilter }) => {
   const { lang } = useAsia();
-  const c = <T,>(en: T, zh: T, ru: T) => asiaCopy(lang, { en, zh, ru });
+  const c = <T,>(en: T, zh: T, ru: T, es?: T) => asiaCopy(lang, { en, zh, ru, es });
   return (
     <div className="rounded-3xl border border-border bg-card p-4 shadow-soft md:p-5">
       <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
@@ -81,6 +81,7 @@ export const CitySearchBar = ({ filter }: { filter: CityFilter }) => {
               "Search a city, country or procedure — e.g. Seoul, Korea, nose…",
               "搜索城市、国家或项目 —— 如首尔、韩国、隆鼻…",
               "Поиск по городу, стране или процедуре — Сеул, Корея, нос…",
+              "Busca una ciudad, país o procedimiento — p. ej. Seúl, Corea, nariz…",
             )}
             className="h-12 w-full rounded-full border border-border/70 bg-background pl-11 pr-12 text-base outline-none transition focus:border-primary/50 focus:ring-4 focus:ring-primary/10 sm:text-sm"
           />
@@ -88,7 +89,7 @@ export const CitySearchBar = ({ filter }: { filter: CityFilter }) => {
             <button
               type="button"
               onClick={() => filter.setQuery("")}
-              aria-label={c("Clear search", "清除搜索", "Очистить поиск")}
+              aria-label={c("Clear search", "清除搜索", "Очистить поиск", "Borrar búsqueda")}
               className="absolute right-0 top-1/2 grid size-12 -translate-y-1/2 place-items-center rounded-full text-muted-foreground transition hover:bg-muted hover:text-foreground"
             >
               <X className="size-4" />
@@ -99,7 +100,7 @@ export const CitySearchBar = ({ filter }: { filter: CityFilter }) => {
           <Chip
             active={filter.country === "all"}
             onClick={() => filter.setCountry("all")}
-            label={c("All countries", "全部国家", "Все страны")}
+            label={c("All countries", "全部国家", "Все страны", "Todos los países")}
           />
           {filter.countries.map((code) => {
             const meta = COUNTRY_META[code];
@@ -108,7 +109,7 @@ export const CitySearchBar = ({ filter }: { filter: CityFilter }) => {
                 key={code}
                 active={filter.country === code}
                 onClick={() => filter.setCountry(code)}
-                label={`${meta?.flag ?? ""} ${c(meta?.en ?? code, meta?.zh ?? code, meta?.ru ?? code)}`}
+                label={`${meta?.flag ?? ""} ${c(meta?.en ?? code, meta?.zh ?? code, meta?.ru ?? code, meta?.es ?? code)}`}
               />
             );
           })}
@@ -121,7 +122,7 @@ export const CitySearchBar = ({ filter }: { filter: CityFilter }) => {
 /** 搜索结果：紧凑城市卡，附「城市详情 / 案例 / 专家」快捷入口；query 用于高亮命中词 */
 export const CityQuickResults = ({ results, query }: { results: City[]; query?: string }) => {
   const { lang } = useAsia();
-  const c = <T,>(en: T, zh: T, ru: T) => asiaCopy(lang, { en, zh, ru });
+  const c = <T,>(en: T, zh: T, ru: T, es?: T) => asiaCopy(lang, { en, zh, ru, es });
 
   if (results.length === 0) {
     return (
@@ -131,6 +132,7 @@ export const CityQuickResults = ({ results, query }: { results: City[]; query?: 
             "No matching city yet — tell us where you want to go and we'll help.",
             "暂时没有匹配的城市 —— 告诉我们你想去的城市，我们来帮你对接。",
             "Подходящий город не найден — напишите нам, и мы поможем.",
+            "Todavía no hay una ciudad que coincida — cuéntanos adónde quieres ir y te ayudaremos.",
           )}
         </p>
         <a
@@ -140,7 +142,7 @@ export const CityQuickResults = ({ results, query }: { results: City[]; query?: 
           className="inline-flex min-h-12 items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90"
         >
           <MessageCircle className="size-4" />
-          {c("Ask us", "咨询客服", "Спросить нас")}
+          {c("Ask us", "咨询客服", "Спросить нас", "Escríbenos")}
         </a>
       </div>
     );
@@ -165,7 +167,7 @@ export const CityQuickResults = ({ results, query }: { results: City[]; query?: 
                 </p>
                 <p className="mt-0.5 flex items-center gap-1 text-xs text-muted-foreground truncate">
                   <MapPin className="size-3 shrink-0" />
-                  {meta ? `${meta.flag} ${c(meta.en, meta.zh, meta.ru)}` : ""}
+                  {meta ? `${meta.flag} ${c(meta.en, meta.zh, meta.ru, meta.es)}` : ""}
                   {" · "}
                   <Highlight text={lang === "zh" ? city.en : city.zh} query={query} />
                 </p>
@@ -176,19 +178,19 @@ export const CityQuickResults = ({ results, query }: { results: City[]; query?: 
                 to={`/cities/${city.slug}`}
                 className="flex min-h-12 items-center justify-center rounded-xl bg-secondary px-2 py-2 text-foreground transition hover:bg-accent"
               >
-                {c("Guide", "城市详情", "Гид")}
+                {c("Guide", "城市详情", "Гид", "Guía")}
               </Link>
               <Link
                 to={`/cases?city=${encodeURIComponent(city.en)}`}
                 className="flex min-h-12 items-center justify-center rounded-xl bg-accent px-2 py-2 text-accent-foreground transition hover:opacity-80"
               >
-                {c("Cases", "真实案例", "Кейсы")}
+                {c("Cases", "真实案例", "Кейсы", "Casos")}
               </Link>
               <Link
                 to={`/doctors?city=${encodeURIComponent(city.en)}`}
                 className="flex min-h-12 items-center justify-center rounded-xl bg-primary px-2 py-2 text-primary-foreground transition hover:bg-primary/90"
               >
-                {c("Experts", "专家", "Эксперты")}
+                {c("Experts", "专家", "Эксперты", "Expertos")}
               </Link>
             </div>
           </div>

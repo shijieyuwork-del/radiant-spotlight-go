@@ -16,7 +16,7 @@ const CityDetail = () => {
   const { slug = "" } = useParams();
   const city = findCity(slug);
   const { lang, fmt } = useAsia();
-  const c = (en: string, zh: string, ru: string) => lang === "zh" ? zh : lang === "ru" ? ru : en;
+  const c = (en: string, zh: string, ru: string, es?: string) => lang === "zh" ? zh : lang === "ru" ? ru : lang === "es" ? (es ?? en) : en;
 
   if (!city) return <Navigate to="/cities" replace />;
 
@@ -57,7 +57,7 @@ const CityDetail = () => {
           className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition"
         >
           <ArrowLeft className="size-4" />
-          {c("All cities", "返回城市列表", "Все города")}
+          {c("All cities", "返回城市列表", "Все города", "Todas las ciudades")}
         </Link>
       </div>
 
@@ -67,7 +67,7 @@ const CityDetail = () => {
           <div className="lg:col-span-7 space-y-5">
             <span className="pill bg-accent text-accent-foreground">
               <MapPin className="size-3.5" />
-              {c("City guide", "城市指南", "Гид по городу")}
+              {c("City guide", "城市指南", "Гид по городу", "Guía de la ciudad")}
             </span>
             <h1 className="font-display text-5xl md:text-6xl font-medium tracking-tight leading-[0.95]">
               {lang === "zh" ? city.zh : city.en}
@@ -80,10 +80,10 @@ const CityDetail = () => {
             </p>
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl pt-2">
-              <HeroStat icon={<Building2 className="size-4" />} value={c("Local", "当地", "Местные")} label={c("provider information", "机构信息", "данные клиник")} />
-              <HeroStat icon={<Stethoscope className="size-4" />} value={c("Review", "审核", "Проверка")} label={c("expert profiles", "专家资料", "профилей экспертов")} />
-              <HeroStat icon={<Sparkles className="size-4" />} value={c("Care", "项目", "Услуги")} label={c("popular procedures", "热门项目", "популярные процедуры")} />
-              <HeroStat icon={<Wallet className="size-4" />} value={c("Itemized", "明细", "Подробно")} label={c("pricing guidance", "报价说明", "ориентиры по ценам")} />
+              <HeroStat icon={<Building2 className="size-4" />} value={c("Local", "当地", "Местные", "Local")} label={c("provider information", "机构信息", "данные клиник", "información del proveedor")} />
+              <HeroStat icon={<Stethoscope className="size-4" />} value={c("Review", "审核", "Проверка", "Revisión")} label={c("expert profiles", "专家资料", "профилей экспертов", "perfiles de expertos")} />
+              <HeroStat icon={<Sparkles className="size-4" />} value={c("Care", "项目", "Услуги", "Cuidado")} label={c("popular procedures", "热门项目", "популярные процедуры", "procedimientos populares")} />
+              <HeroStat icon={<Wallet className="size-4" />} value={c("Itemized", "明细", "Подробно", "Detallado")} label={c("pricing guidance", "报价说明", "ориентиры по ценам", "orientación de precios")} />
             </div>
           </div>
 
@@ -92,7 +92,7 @@ const CityDetail = () => {
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
             <div className="absolute bottom-5 left-5 right-5 text-background">
               <p className="text-xs uppercase tracking-wider opacity-80 mb-2">
-                {c("Trending procedures", "热门项目", "Популярные процедуры")}
+                {c("Trending procedures", "热门项目", "Популярные процедуры", "Procedimientos en tendencia")}
               </p>
               <div className="flex flex-wrap gap-1.5">
                 {(lang === "zh" ? city.hotZh : city.hotEn).map((h) => (
@@ -110,7 +110,7 @@ const CityDetail = () => {
       <section className="container py-10">
         <div className="rounded-3xl bg-card shadow-soft p-6 md:p-8">
           <h2 className="font-display text-2xl md:text-3xl font-semibold mb-5">
-            {c(`Why ${city.en}?`, `为什么选 ${city.zh}？`, `Почему ${city.en}?`)}
+            {c(`Why ${city.en}?`, `为什么选 ${city.zh}？`, `Почему ${city.en}?`, `¿Por qué ${city.en}?`)}
           </h2>
           <div className="grid md:grid-cols-3 gap-4">
             {(lang === "zh" ? city.whyZh : city.whyEn).map((w) => (
@@ -129,23 +129,23 @@ const CityDetail = () => {
           <div>
             <span className="pill bg-accent text-accent-foreground mb-2">
               <Stethoscope className="size-3.5" />
-              {c("Expert profiles", "专家资料", "Профили экспертов")}
+              {c("Expert profiles", "专家资料", "Профили экспертов", "Perfiles de expertos")}
             </span>
             <h2 className="font-display text-3xl md:text-4xl font-semibold">
-              {c(`Surgeons in ${city.en}`, `${city.zh}专家资料`, `Эксперты в городе ${city.en}`)}
+              {c(`Surgeons in ${city.en}`, `${city.zh}专家资料`, `Эксперты в городе ${city.en}`, `Expertos en ${city.en}`)}
             </h2>
           </div>
           <Link
             to={`/doctors?city=${encodeURIComponent(city.en)}`}
             className="hidden md:inline-flex items-center gap-1 text-sm font-semibold text-primary hover:translate-x-0.5 transition"
           >
-            {c("All surgeons", "全部专家", "Все эксперты")} <ArrowRight className="size-4" />
+            {c("All surgeons", "全部专家", "Все эксперты", "Todos los expertos")} <ArrowRight className="size-4" />
           </Link>
         </div>
 
         {cityDoctors.length === 0 && cityDemoDoctors.length === 0 ? (
           <p className="text-sm text-muted-foreground">
-            {c("No Cosmetics Asia-listed surgeons yet for this city — request a match below.", "本城市暂无平台主推专家，可在下方提交匹配申请。", "В этом городе пока нет опубликованных экспертов Cosmetics Asia — отправьте запрос на подбор ниже.")}
+            {c("No Cosmetics Asia-listed surgeons yet for this city — request a match below.", "本城市暂无平台主推专家，可在下方提交匹配申请。", "В этом городе пока нет опубликованных экспертов Cosmetics Asia — отправьте запрос на подбор ниже.", "Aún no hay expertos listados por Cosmetics Asia en esta ciudad — solicita una recomendación abajo.")}
           </p>
         ) : cityDemoDoctors.length > 0 ? (
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -153,10 +153,10 @@ const CityDetail = () => {
               <Link key={doctor.id} to={`/doctors/demo/${doctor.id}`} className="group overflow-hidden rounded-3xl border border-border/70 bg-card shadow-soft transition hover:-translate-y-1 hover:border-primary/30 hover:shadow-pop">
                 <div className="aspect-[4/3] overflow-hidden bg-muted"><img src={doctor.photo} alt={doctor.name} className="size-full object-cover transition-transform duration-500 group-hover:scale-105" /></div>
                 <div className="p-5">
-                  <div className="flex items-start justify-between gap-3"><div><h3 className="font-display text-xl font-semibold">{doctor.name}</h3><p className="mt-1 text-xs text-muted-foreground">{doctor.title}</p></div><span className="rounded-full bg-accent px-2.5 py-1 text-[10px] font-semibold text-accent-foreground">{c("Sample", "示例", "Пример")}</span></div>
+                  <div className="flex items-start justify-between gap-3"><div><h3 className="font-display text-xl font-semibold">{doctor.name}</h3><p className="mt-1 text-xs text-muted-foreground">{doctor.title}</p></div><span className="rounded-full bg-accent px-2.5 py-1 text-[10px] font-semibold text-accent-foreground">{c("Sample", "示例", "Пример", "Ejemplo")}</span></div>
                   <p className="mt-3 flex items-center gap-1.5 text-xs text-muted-foreground"><MapPin className="size-3.5 text-primary" />{doctor.city}</p>
                   <div className="mt-4 flex flex-wrap gap-1.5">{doctor.specialties.slice(0, 3).map((specialty) => <span key={specialty} className="rounded-full bg-secondary px-2.5 py-1 text-[10px] font-medium">{specialty}</span>)}</div>
-                  <span className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-primary">{c("View expert and related cases", "查看专家与相关案例", "Профиль и связанные случаи")}<ArrowRight className="size-4" /></span>
+                  <span className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-primary">{c("View expert and related cases", "查看专家与相关案例", "Профиль и связанные случаи", "Ver perfil y casos relacionados")}<ArrowRight className="size-4" /></span>
                 </div>
               </Link>
             ))}
@@ -210,10 +210,10 @@ const CityDetail = () => {
         <section className="container py-10">
           <div className="flex items-end justify-between mb-5 gap-4">
             <h2 className="font-display text-3xl md:text-4xl font-semibold">
-              {c(`Recovery diary previews from ${city.en}`, `${city.zh}恢复日记预览`, `Дневники восстановления из города ${city.en}`)}
+              {c(`Recovery diary previews from ${city.en}`, `${city.zh}恢复日记预览`, `Дневники восстановления из города ${city.en}`, `Vistas previas del diario de recuperación de ${city.en}`)}
             </h2>
             <Link to={`/cases?city=${encodeURIComponent(city.en)}`} className="text-sm font-semibold text-primary hover:translate-x-0.5 transition inline-flex items-center gap-1">
-              {c("All cases", "全部案例", "Все случаи")} <ArrowRight className="size-4" />
+              {c("All cases", "全部案例", "Все случаи", "Todos los casos")} <ArrowRight className="size-4" />
             </Link>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -244,13 +244,13 @@ const CityDetail = () => {
       <section className="container py-10">
         <div className="rounded-3xl bg-gradient-to-r from-[hsl(155,55%,92%)] via-[hsl(150,48%,91%)] to-[hsl(50,78%,92%)] p-6 md:p-8 shadow-soft">
           <h2 className="font-display text-2xl md:text-3xl font-semibold mb-5">
-            {c("Travel essentials", "出行配套", "Всё необходимое для поездки")}
+            {c("Travel essentials", "出行配套", "Всё необходимое для поездки", "Esenciales de viaje")}
           </h2>
           <div className="grid md:grid-cols-4 gap-4">
-            <TravelCard icon={<Plane className="size-5 text-primary" />} title={c("Airports", "机场", "Аэропорты")} body={travel.airport} />
-            <TravelCard icon={<FileCheck2 className="size-5 text-primary" />} title={c("Visa", "签证", "Виза")} body={travel.visa} />
-            <TravelCard icon={<Hotel className="size-5 text-primary" />} title={c("Recovery hotels", "恢复酒店", "Отели для восстановления")} body={travel.hotel} />
-            <TravelCard icon={<Languages className="size-5 text-primary" />} title={c("Languages", "语言", "Языки")} body={travel.lang} />
+            <TravelCard icon={<Plane className="size-5 text-primary" />} title={c("Airports", "机场", "Аэропорты", "Aeropuertos")} body={travel.airport} />
+            <TravelCard icon={<FileCheck2 className="size-5 text-primary" />} title={c("Visa", "签证", "Виза", "Visa")} body={travel.visa} />
+            <TravelCard icon={<Hotel className="size-5 text-primary" />} title={c("Recovery hotels", "恢复酒店", "Отели для восстановления", "Hoteles de recuperación")} body={travel.hotel} />
+            <TravelCard icon={<Languages className="size-5 text-primary" />} title={c("Languages", "语言", "Языки", "Idiomas")} body={travel.lang} />
           </div>
         </div>
       </section>
@@ -260,17 +260,17 @@ const CityDetail = () => {
         <div className="rounded-3xl bg-foreground text-background p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <div>
             <h2 className="font-display text-2xl md:text-3xl font-semibold">
-              {c(`Plan your ${city.en} trip with Cosmetics Asia`, `让 Cosmetics Asia 为你规划 ${city.zh} 行程`, `Спланируйте поездку в ${city.en} с Cosmetics Asia`)}
+              {c(`Plan your ${city.en} trip with Cosmetics Asia`, `让 Cosmetics Asia 为你规划 ${city.zh} 行程`, `Спланируйте поездку в ${city.en} с Cosmetics Asia`, `Planifica tu viaje a ${city.en} con Cosmetics Asia`)}
             </h2>
             <p className="text-sm text-background/80 mt-2 max-w-xl">
-              {c("Surgeon shortlist, price quote, hospital booking and recovery hotel — handled by an English-speaking coordinator.", "主刀候选 / 报价 / 机构预约 / 恢复酒店，全程中英文专属顾问对接。", "Подбор экспертов, смета, запись в клинику и отель для восстановления — с поддержкой англоязычного координатора.")}
+              {c("Surgeon shortlist, price quote, hospital booking and recovery hotel — handled by an English-speaking coordinator.", "主刀候选 / 报价 / 机构预约 / 恢复酒店，全程中英文专属顾问对接。", "Подбор экспертов, смета, запись в клинику и отель для восстановления — с поддержкой англоязычного координатора.", "Preselección de expertos, cotización, reserva de hospital y hotel de recuperación — gestionado por un coordinador de habla inglesa.")}
             </p>
           </div>
           <Link
             to={`/doctors?city=${encodeURIComponent(city.en)}`}
             className="inline-flex items-center gap-2 rounded-full bg-background text-foreground px-6 py-3 text-sm font-semibold hover:opacity-90 transition shrink-0"
           >
-            {c("Get matched", "立即匹配主刀", "Подобрать эксперта")} <ArrowRight className="size-4" />
+            {c("Get matched", "立即匹配主刀", "Подобрать эксперта", "Encontrar experto")} <ArrowRight className="size-4" />
           </Link>
         </div>
       </section>

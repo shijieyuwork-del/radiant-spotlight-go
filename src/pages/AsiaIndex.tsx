@@ -193,7 +193,23 @@ const Hero = () => {
           pricing: "Поддержка после лечения",
           pricingDetail: "Координация во время восстановления",
         }
-      : {
+      : lang === "es"
+        ? {
+            badge: "Atención estética en China, más clara",
+            title: "Mira la recuperación real antes de elegir.",
+            emphasis: "Encuentra la atención estética adecuada en China.",
+            subtitle: "Explora las experiencias de pacientes y la información publicada de expertos, con apoyo práctico para la consulta, el viaje y el seguimiento.",
+            cases: "Ver videos de recuperación de pacientes",
+            consultation: "Consulta en línea",
+            consultationDetail: "Reúnete con tu experto en línea antes de viajar (no se brinda asesoría médica)",
+            english: "Traducción en inglés en la clínica",
+            englishDetail: "Apoyo de comunicación durante las visitas a la clínica",
+            travel: "Traslado desde y hacia el aeropuerto",
+            travelDetail: "Traslado privado hacia y desde tu destino",
+            pricing: "Apoyo posterior al tratamiento",
+            pricingDetail: "Apoyo coordinado durante toda la recuperación",
+          }
+        : {
           badge: "Cosmetic care in China, made clearer",
           title: "See real recovery before you choose.",
           emphasis: "Find the right cosmetic care in China.",
@@ -256,7 +272,7 @@ const Hero = () => {
             <div
               className="mx-auto mt-6 max-w-4xl rounded-full border border-primary/10 bg-card/80 px-4 py-3 shadow-[0_14px_40px_rgba(18,55,45,0.06)] backdrop-blur-xl sm:mt-7 sm:px-6"
               role="list"
-              aria-label={lang === "zh" ? "协调服务" : lang === "ru" ? "Координационные услуги" : "Coordination services"}
+              aria-label={lang === "zh" ? "协调服务" : lang === "ru" ? "Координационные услуги" : lang === "es" ? "Servicios de coordinación" : "Coordination services"}
             >
               <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 sm:gap-x-8">
               {[
@@ -284,18 +300,18 @@ const Hero = () => {
             <div className="mb-6 flex flex-col items-start justify-between gap-4 px-1 sm:flex-row sm:items-end md:mb-8">
               <div>
                 <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.16em] text-primary">
-                  <Sparkles className="size-3.5" /> {lang === "zh" ? "我们的核心优势" : lang === "ru" ? "Наше главное отличие" : "Our biggest difference"}
+                  <Sparkles className="size-3.5" /> {lang === "zh" ? "我们的核心优势" : lang === "ru" ? "Наше главное отличие" : lang === "es" ? "Nuestra mayor diferencia" : "Our biggest difference"}
                 </span>
                 <h2 className="mt-2 max-w-4xl font-display text-3xl font-medium leading-tight tracking-tight sm:text-4xl md:text-5xl">
-                  {lang === "zh" ? "患者恢复日记，" : lang === "ru" ? "Дневники восстановления пациентов — " : "Patient recovery diaries, "}
-                  <em className="not-italic text-primary">{lang === "zh" ? "帮助你做功课" : lang === "ru" ? "изучите до выбора" : "before you choose"}</em>
+                  {lang === "zh" ? "患者恢复日记，" : lang === "ru" ? "Дневники восстановления пациентов — " : lang === "es" ? "Diarios de recuperación de pacientes, " : "Patient recovery diaries, "}
+                  <em className="not-italic text-primary">{lang === "zh" ? "帮助你做功课" : lang === "ru" ? "изучите до выбора" : lang === "es" ? "antes de elegir" : "before you choose"}</em>
                 </h2>
               </div>
               <Link
                 to="/cases"
                 className="cta-primary inline-flex min-h-11 w-full shrink-0 items-center justify-center gap-1.5 rounded-full px-5 py-2.5 text-sm font-bold shadow-soft transition-all sm:w-auto sm:text-xs"
               >
-                {lang === "zh" ? "浏览全部日记" : lang === "ru" ? "Все дневники" : "Explore all diaries"} <ArrowRight className="size-3.5" />
+                {lang === "zh" ? "浏览全部日记" : lang === "ru" ? "Все дневники" : lang === "es" ? "Ver todos los diarios" : "Explore all diaries"} <ArrowRight className="size-3.5" />
               </Link>
             </div>
             <TikTokWall items={TIKTOK_CASES.slice(0, 7)} lang={lang} fmtPrice={fmt} variant="preview" />
@@ -348,7 +364,27 @@ const TravelInspiredHeroPreview = () => {
           servicesTitle: "Практическая помощь",
           servicesEmphasis: "до, во время и после поездки.",
         }
-      : {
+      : lang === "es"
+        ? {
+            badge: "Atención estética en China para pacientes internacionales",
+            title: "Mira primero la recuperación real.",
+            emphasis: "Elige tu atención con confianza.",
+            subtitle: "Empieza por un procedimiento, una ciudad o un experto. Conectamos la consulta, la planificación del viaje y el apoyo posterior.",
+            procedure: "Procedimiento",
+            procedureValue: "Explorar todas las opciones",
+            city: "Destino",
+            cityValue: "Comparar ciudades",
+            planning: "Etapa de planificación",
+            planningValue: "Aún no estoy seguro/a",
+            diaries: "Diarios de recuperación de pacientes",
+            diariesTitle: "Mira los diarios de pacientes",
+            diariesEmphasis: "antes de elegir.",
+            benefitCta: "Cómo funciona el apoyo",
+            servicesEyebrow: "Cuatro esenciales",
+            servicesTitle: "Apoyo práctico,",
+            servicesEmphasis: "antes, durante y después de tu viaje.",
+          }
+        : {
           badge: "China cosmetic care for international patients",
           title: "See real recovery first.",
           emphasis: "Choose your care with confidence.",
@@ -374,10 +410,10 @@ const TravelInspiredHeroPreview = () => {
     { icon: HelpCircle, label: copy.planning, value: copy.planningValue, to: "/doctors" },
   ];
   const metrics = [
-    { value: "1,500+", label: lang === "zh" ? "服务患者" : lang === "ru" ? "Пациентов" : "Patients" },
-    { value: "20 yrs", label: lang === "zh" ? "专家平均经验" : lang === "ru" ? "Средний опыт экспертов" : "Average expert experience" },
-    { value: "10+", label: lang === "zh" ? "覆盖城市" : lang === "ru" ? "Городов" : "Cities" },
-    { value: "100+", label: lang === "zh" ? "顶级医院与诊所" : lang === "ru" ? "Ведущих клиник" : "Top-tier clinics" },
+    { value: "1,500+", label: lang === "zh" ? "服务患者" : lang === "ru" ? "Пациентов" : lang === "es" ? "Pacientes" : "Patients" },
+    { value: "20 yrs", label: lang === "zh" ? "专家平均经验" : lang === "ru" ? "Средний опыт экспертов" : lang === "es" ? "Experiencia promedio de los expertos" : "Average expert experience" },
+    { value: "10+", label: lang === "zh" ? "覆盖城市" : lang === "ru" ? "Городов" : lang === "es" ? "Ciudades" : "Cities" },
+    { value: "100+", label: lang === "zh" ? "顶级医院与诊所" : lang === "ru" ? "Ведущих клиник" : lang === "es" ? "Clínicas de primer nivel" : "Top-tier clinics" },
   ];
   const services = lang === "zh"
     ? [
@@ -393,7 +429,14 @@ const TravelInspiredHeroPreview = () => {
           { icon: Users, title: "Перевод в клинике", description: "Помощь в общении на английском во время согласованных визитов." },
           { icon: ShieldCheck, title: "Поддержка после лечения", description: "Помощь с общением и удалённым наблюдением по рекомендации эксперта." },
         ]
-      : [
+      : lang === "es"
+        ? [
+            { icon: Video, title: "Online consultation", description: "Habla sobre tus objetivos, preguntas y próximos pasos antes de viajar." },
+            { icon: MapPin, title: "Airport pickup & drop-off", description: "Traslados coordinados entre el aeropuerto, el alojamiento y la clínica." },
+            { icon: Users, title: "English in-clinic translation", description: "Apoyo de comunicación en inglés durante las visitas incluidas a la clínica." },
+            { icon: ShieldCheck, title: "Aftercare support", description: "Coordinación de la recuperación y seguimiento remoto cuando tu experto lo recomiende." },
+          ]
+        : [
           { icon: Video, title: "Online consultation", description: "Discuss your goals, questions and next steps before you travel." },
           { icon: MapPin, title: "Airport pickup & drop-off", description: "Coordinated transfers between the airport, accommodation and clinic." },
           { icon: Users, title: "English in-clinic translation", description: "English communication support during included clinic visits." },
@@ -500,7 +543,9 @@ const TravelBar = () => {
     ? { eyebrow: "服务流程", title: "六步开启你的", emphasis: "中国医疗之旅", step: "步骤" }
     : lang === "ru"
       ? { eyebrow: "Как это работает", title: "6 шагов к", emphasis: "лечению в Китае", step: "Шаг" }
-      : { eyebrow: "How it works", title: "6 steps to your", emphasis: "care in China", step: "Step" };
+      : lang === "es"
+        ? { eyebrow: "Cómo funciona", title: "6 pasos hacia tu", emphasis: "atención en China", step: "Paso" }
+        : { eyebrow: "How it works", title: "6 steps to your", emphasis: "care in China", step: "Step" };
   const localizedSteps = [
     {
       icon: Video,
@@ -508,6 +553,7 @@ const TravelBar = () => {
       en: ["Get a free quote", "Tell us your goals and questions so we can help identify suitable specialists"],
       zh: ["获取免费报价", "告诉我们你的目标和疑问，我们会协助匹配合适的专家"],
       ru: ["Получить бесплатную оценку", "Расскажите о целях и вопросах, чтобы мы помогли подобрать специалистов"],
+      es: ["Obtén una cotización gratuita", "Cuéntanos tus objetivos y preguntas para ayudarte a identificar especialistas adecuados"],
     },
     {
       icon: Plane,
@@ -515,6 +561,7 @@ const TravelBar = () => {
       en: ["Arrange your travel & visa", "Confirm appointments, flights, travel documents and arrival details"],
       zh: ["安排行程与签证", "确认预约、航班、旅行文件和抵达信息"],
       ru: ["Организуйте поездку и визу", "Подтвердите запись, перелёт, документы и детали прибытия"],
+      es: ["Organiza tu viaje y visa", "Confirma citas, vuelos, documentos de viaje y detalles de llegada"],
     },
     {
       icon: MapPin,
@@ -522,6 +569,7 @@ const TravelBar = () => {
       en: ["Choose your on-ground support", "Select pickup, accommodation guidance, translation and coordination"],
       zh: ["选择落地支持服务", "按需选择接机、住宿建议、翻译与行程协调"],
       ru: ["Выберите поддержку на месте", "Выберите трансфер, помощь с проживанием, перевод и координацию"],
+      es: ["Elige tu apoyo en destino", "Selecciona traslado, orientación de alojamiento, traducción y coordinación"],
     },
     {
       icon: HeartPulse,
@@ -529,6 +577,7 @@ const TravelBar = () => {
       en: ["Receive coordinated treatment support", "Get practical communication and scheduling help during clinic visits"],
       zh: ["获得治疗协调支持", "就诊期间获得沟通、翻译与日程协调协助"],
       ru: ["Получите поддержку во время лечения", "Получайте помощь с общением и расписанием во время визитов"],
+      es: ["Recibe apoyo coordinado durante el tratamiento", "Obtén ayuda práctica de comunicación y programación durante las visitas a la clínica"],
     },
     {
       icon: Map,
@@ -536,6 +585,7 @@ const TravelBar = () => {
       en: ["Recover—and explore when ready", "Follow your expert’s advice, with optional travel when you are cleared"],
       zh: ["安心恢复，适合时再探索", "遵循专家的恢复建议，获得许可后可自愿安排旅行"],
       ru: ["Восстанавливайтесь и путешествуйте, когда будете готовы", "Следуйте рекомендациям эксперта и путешествуйте только после разрешения"],
+      es: ["Recupérate y explora cuando estés listo/a", "Sigue las indicaciones de tu experto, con viajes opcionales una vez que tengas autorización"],
     },
     {
       icon: MessageCircle,
@@ -543,10 +593,11 @@ const TravelBar = () => {
       en: ["Stay connected after you return", "Coordinate remote follow-up and translation when your expert recommends it"],
       zh: ["回国后保持联系", "专家建议复诊时，我们协助协调远程随访与翻译"],
       ru: ["Оставайтесь на связи после возвращения", "Мы поможем организовать онлайн-наблюдение и перевод по рекомендации эксперта"],
+      es: ["Mantente en contacto después de regresar", "Coordinamos el seguimiento remoto y la traducción cuando tu experto lo recomiende"],
     },
   ];
   const steps = localizedSteps.map((item) => {
-    const [t, d] = item[lang === "zh" ? "zh" : lang === "ru" ? "ru" : "en"];
+    const [t, d] = item[lang === "zh" ? "zh" : lang === "ru" ? "ru" : lang === "es" ? "es" : "en"];
     return { icon: item.icon, image: item.image, t, d };
   });
 
@@ -686,7 +737,7 @@ const CitiesSection = () => {
             {t("cities.title1")} <em className="text-primary not-italic">{t("cities.titleEm")}</em>
           </h2>
         </div>
-        <Link to="/cities" className="pill hidden bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90 sm:inline-flex">{lang === "zh" ? "全部城市" : lang === "ru" ? "Все города" : "All cities"}<ArrowRight className="size-4" /></Link>
+        <Link to="/cities" className="pill hidden bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90 sm:inline-flex">{lang === "zh" ? "全部城市" : lang === "ru" ? "Все города" : lang === "es" ? "Todas las ciudades" : "All cities"}<ArrowRight className="size-4" /></Link>
       </div>
       <div className="mb-6 md:mb-8">
         <CitySearchBar filter={cityFilter} />
@@ -723,7 +774,7 @@ const CitiesSection = () => {
       </div>
       <div className="mt-2 flex justify-center sm:hidden">
         <Link to="/cities" className="inline-flex min-h-12 items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90">
-          {lang === "zh" ? "查看全部城市" : lang === "ru" ? "Все города" : "All cities"} <ArrowRight className="size-4" />
+          {lang === "zh" ? "查看全部城市" : lang === "ru" ? "Все города" : lang === "es" ? "Todas las ciudades" : "All cities"} <ArrowRight className="size-4" />
         </Link>
       </div>
     </section>
@@ -850,7 +901,7 @@ const TreatmentsSectionLegacy = () => {
         <div className="relative flex flex-col items-center justify-between gap-3 border-t border-white/55 bg-white/22 px-5 py-3.5 backdrop-blur-sm sm:flex-row sm:px-7 md:px-9">
           <div className="flex items-center gap-4">
             <span className="hidden text-[10px] font-bold uppercase tracking-[0.16em] text-foreground/55 lg:inline">
-              {lang === "zh" ? "探索全部 12 类项目" : lang === "ru" ? "12 направлений" : "Explore all 12 specialties"}
+              {lang === "zh" ? "探索全部 12 类项目" : lang === "ru" ? "12 направлений" : lang === "es" ? "Explora las 12 especialidades" : "Explore all 12 specialties"}
             </span>
             <div className="flex items-center gap-1.5" aria-label={lang === "zh" ? "选择项目分类" : "Choose a specialty"}>
               {procedureClouds.map((cloud, index) => (
@@ -867,7 +918,7 @@ const TreatmentsSectionLegacy = () => {
           </div>
           <div className="flex w-full items-center justify-between gap-4 sm:w-auto sm:justify-end">
             <p className="text-sm text-foreground/65">
-              {lang === "zh" ? "还不确定适合哪一项？" : lang === "ru" ? "Не знаете, с чего начать?" : "Not sure where to begin?"}
+              {lang === "zh" ? "还不确定适合哪一项？" : lang === "ru" ? "Не знаете, с чего начать?" : lang === "es" ? "¿No sabes por dónde empezar?" : "Not sure where to begin?"}
             </p>
             <QuoteCtaButton quoteCtx={{ source: "procedure_specialties" }} className="min-h-10 px-5 text-xs hover:-translate-y-0.5" />
           </div>
@@ -886,9 +937,11 @@ const TreatmentsSection = () => {
       en: "Refine your profile",
       zh: "改善面部侧颜",
       ru: "Гармоничный профиль",
+      es: "Perfecciona tu perfil",
       descriptionEn: "Explore nose procedures with published expert information and practical planning support.",
       descriptionZh: "了解鼻部项目、公开专家信息与实际行程协调支持。",
       descriptionRu: "Изучите операции на носу, информацию об экспертах и поддержку в планировании.",
+      descriptionEs: "Explora los procedimientos de nariz con información publicada de expertos y apoyo práctico de planificación.",
       treatments: [["Rhinoplasty", "鼻综合"], ["Revision Rhinoplasty", "鼻修复"], ["Nasal Tip Surgery", "鼻尖塑形"]],
       href: "/treatments/rhinoplasty",
     },
@@ -898,6 +951,8 @@ const TreatmentsSection = () => {
       en: "Refresh your eyes",
       zh: "改善眼部状态",
       ru: "Освежить взгляд",
+      es: "Renueva tu mirada",
+      es: "Renueva tu mirada",
       treatments: [["Double Eyelid", "双眼皮"], ["Blepharoplasty", "眼睑成形"], ["Ptosis Correction", "上睑下垂矫正"]],
       href: "/treatments/double-eyelid-surgery",
     },
@@ -907,6 +962,8 @@ const TreatmentsSection = () => {
       en: "Restore facial definition",
       zh: "重塑面部轮廓",
       ru: "Чёткие контуры лица",
+      es: "Restaura la definición facial",
+      es: "Restaura la definición facial",
       treatments: [["Facelift", "面部拉皮"], ["Neck Lift", "颈部提升"], ["Fat Grafting", "脂肪填充"]],
       href: "/treatments/facelift",
     },
@@ -916,6 +973,8 @@ const TreatmentsSection = () => {
       en: "Shape body contours",
       zh: "改善身体线条",
       ru: "Контуры тела",
+      es: "Define los contornos del cuerpo",
+      es: "Define los contornos del cuerpo",
       treatments: [["Liposuction", "吸脂"], ["Tummy Tuck", "腹壁成形"], ["Body Lift", "身体提升"]],
       href: "/treatments/liposuction",
     },
@@ -925,6 +984,8 @@ const TreatmentsSection = () => {
       en: "Explore breast options",
       zh: "了解胸部项目",
       ru: "Операции на груди",
+      es: "Explora opciones de senos",
+      es: "Explora opciones de senos",
       treatments: [["Augmentation", "隆胸"], ["Breast Lift", "乳房提升"], ["Revision", "假体修复"]],
       href: "/treatments/breast-augmentation",
     },
@@ -934,6 +995,8 @@ const TreatmentsSection = () => {
       en: "Restore hair naturally",
       zh: "自然改善发量",
       ru: "Восстановление волос",
+      es: "Restaura el cabello de forma natural",
+      es: "Restaura el cabello de forma natural",
       treatments: [["FUE Transplant", "FUE 植发"], ["Hairline", "发际线种植"], ["Crown", "头顶加密"]],
       href: "/treatments/fue-hair-transplant",
     },
@@ -943,6 +1006,8 @@ const TreatmentsSection = () => {
       en: "Define facial contours",
       zh: "精塑面部轮廓",
       ru: "Скорректировать овал лица",
+      es: "Define los contornos faciales",
+      es: "Define los contornos faciales",
       treatments: [["Jaw Contouring", "下颌角整形"], ["Chin Augmentation", "下巴塑形"], ["Genioplasty", "颏成形术"]],
       href: "/treatments/jaw-contouring",
     },
@@ -952,6 +1017,8 @@ const TreatmentsSection = () => {
       en: "Restore your smile",
       zh: "焕新自然笑容",
       ru: "Восстановить улыбку",
+      es: "Restaura tu sonrisa",
+      es: "Restaura tu sonrisa",
       treatments: [["Dental Implants", "种植牙"], ["Porcelain Veneers", "瓷贴面"], ["Teeth Whitening", "牙齿美白"]],
       href: "/treatments/dental-implants",
     },
@@ -961,6 +1028,8 @@ const TreatmentsSection = () => {
       en: "Renew your skin",
       zh: "改善肌肤质感",
       ru: "Обновить кожу",
+      es: "Renueva tu piel",
+      es: "Renueva tu piel",
       treatments: [["Laser Resurfacing", "激光焕肤"], ["RF Microneedling", "射频微针"], ["Skin Tightening", "皮肤紧致"]],
       href: "/treatments/laser-skin-resurfacing",
     },
@@ -970,6 +1039,8 @@ const TreatmentsSection = () => {
       en: "Refine lips & smile",
       zh: "精致唇形与笑容",
       ru: "Подчеркнуть губы и улыбку",
+      es: "Perfecciona labios y sonrisa",
+      es: "Perfecciona labios y sonrisa",
       treatments: [["Lip Lift", "唇部提升"], ["Lip Contouring", "唇形塑造"], ["Gummy Smile", "露龈笑改善"]],
       href: "/treatments/lip-lift",
     },
@@ -979,6 +1050,8 @@ const TreatmentsSection = () => {
       en: "Complete your transformation",
       zh: "完善整体身形",
       ru: "Завершить преображение",
+      es: "Completa tu transformación",
+      es: "Completa tu transformación",
       treatments: [["Body Lift", "身体提升"], ["Arm Lift", "手臂提升"], ["Thigh Lift", "大腿提升"]],
       href: "/treatments/body-lift",
     },
@@ -988,26 +1061,28 @@ const TreatmentsSection = () => {
       en: "Care designed for men",
       zh: "男士专属改善方案",
       ru: "Процедуры для мужчин",
+      es: "Cuidado diseñado para hombres",
+      es: "Cuidado diseñado para hombres",
       treatments: [["Male Breast Reduction", "男性乳房缩小"], ["Male Liposuction", "男士吸脂"], ["Hair Transplant", "植发"]],
       href: "/treatments/male-breast-reduction",
     },
   ];
-  const labelFor = (goal: typeof procedureGoals[number]) => lang === "zh" ? goal.zh : lang === "ru" ? goal.ru : goal.en;
+  const labelFor = (goal: typeof procedureGoals[number]) => lang === "zh" ? goal.zh : lang === "ru" ? goal.ru : lang === "es" ? goal.es : goal.en;
   return (
     <section id="projects" className="container py-10 md:py-16" aria-labelledby="procedure-goals-title">
       <div className="mb-7 grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(300px,0.46fr)] lg:items-end md:mb-10">
         <div>
           <span className="pill mb-3 bg-accent text-accent-foreground"><Flame className="size-3.5" /> {t("tx.kicker")}</span>
           <h2 id="procedure-goals-title" className="max-w-3xl font-display text-3xl font-medium leading-[0.98] tracking-tight sm:text-4xl md:text-5xl">
-            {lang === "zh" ? <>从你的目标出发，<em className="not-italic text-primary">了解适合的项目</em></> : lang === "ru" ? <>Начните с вашей цели — <em className="not-italic text-primary">изучите варианты</em></> : <>Start with your goals. <em className="not-italic text-primary">Explore your options.</em></>}
+            {lang === "zh" ? <>从你的目标出发，<em className="not-italic text-primary">了解适合的项目</em></> : lang === "ru" ? <>Начните с вашей цели — <em className="not-italic text-primary">изучите варианты</em></> : lang === "es" ? <>Comienza por tus objetivos. <em className="not-italic text-primary">Explora tus opciones.</em></> : <>Start with your goals. <em className="not-italic text-primary">Explore your options.</em></>}
           </h2>
         </div>
         <div className="lg:pb-1">
           <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
-            {lang === "zh" ? "不需要提前知道具体术式。先选择你想改善的方向，再查看相关项目与公开专家信息。" : lang === "ru" ? "Не обязательно заранее знать название процедуры. Выберите цель и изучите подходящие варианты и опубликованную информацию об экспертах." : "You do not need to know the procedure name yet. Choose what you want to improve, then review relevant options and published expert information."}
+            {lang === "zh" ? "不需要提前知道具体术式。先选择你想改善的方向，再查看相关项目与公开专家信息。" : lang === "ru" ? "Не обязательно заранее знать название процедуры. Выберите цель и изучите подходящие варианты и опубликованную информацию об экспертах." : lang === "es" ? "No necesitas conocer el nombre del procedimiento todavía. Elige lo que quieres mejorar y luego revisa las opciones relevantes y la información publicada de expertos." : "You do not need to know the procedure name yet. Choose what you want to improve, then review relevant options and published expert information."}
           </p>
           <Link to="/treatments" className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-foreground underline decoration-primary/40 underline-offset-4 transition-colors duration-150 hover:text-primary">
-            {lang === "zh" ? "查看全部项目" : lang === "ru" ? "Все процедуры" : "View all procedures"}<ArrowRight className="size-4" />
+            {lang === "zh" ? "查看全部项目" : lang === "ru" ? "Все процедуры" : lang === "es" ? "Ver todos los procedimientos" : "View all procedures"}<ArrowRight className="size-4" />
           </Link>
         </div>
       </div>
@@ -1021,13 +1096,13 @@ const TreatmentsSection = () => {
               <span className="mb-2 text-[10px] font-bold uppercase tracking-[0.18em] text-background/60">{String(index + 1).padStart(2, "0")}</span>
               <h3 className="font-display text-2xl font-medium leading-[0.95] lg:text-[1.7rem]">{labelFor(goal)}</h3>
               <p className="mt-3 line-clamp-2 text-xs leading-relaxed text-background/70">{goal.treatments.map(([en, zh]) => lang === "zh" ? zh : en).join(" · ")}</p>
-              <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-background/90">{lang === "zh" ? "查看项目" : lang === "ru" ? "Смотреть" : "Explore"}<ArrowRight className="size-3.5 transition-transform duration-200 group-hover:translate-x-1" /></span>
+              <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-background/90">{lang === "zh" ? "查看项目" : lang === "ru" ? "Смотреть" : lang === "es" ? "Explorar" : "Explore"}<ArrowRight className="size-3.5 transition-transform duration-200 group-hover:translate-x-1" /></span>
             </div>
           </Link>
         ))}
       </div>
       <div className="mt-3 flex items-center justify-end gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-        <span>{lang === "zh" ? "12 个方向 · 横向滑动浏览" : lang === "ru" ? "12 направлений · листайте вправо" : "12 specialties · scroll to explore"}</span>
+        <span>{lang === "zh" ? "12 个方向 · 横向滑动浏览" : lang === "ru" ? "12 направлений · листайте вправо" : lang === "es" ? "12 especialidades · desliza para explorar" : "12 specialties · scroll to explore"}</span>
         <ArrowRight className="size-3.5 text-primary" />
       </div>
     </section>
@@ -1096,7 +1171,7 @@ className="flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscro
           <Link
             key={d.id}
             to={d.demo ? `/doctors/demo/${d.id}` : `/doctors/profile/${d.id}`}
-            aria-label={`${lang === "zh" ? "查看专家资料" : lang === "ru" ? "Профиль эксперта" : "View expert profile"}: ${d.name}`}
+            aria-label={`${lang === "zh" ? "查看专家资料" : lang === "ru" ? "Профиль эксперта" : lang === "es" ? "Ver perfil del experto" : "View expert profile"}: ${d.name}`}
             className="group flex min-w-[82vw] snap-center rounded-3xl [perspective:1200px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 sm:min-w-[62vw] md:min-w-[calc((100%_-_3rem)/3)] md:max-w-[calc((100%_-_3rem)/3)]"
           >
             <article className="relative min-h-[400px] w-full rounded-3xl transition-transform [transform-style:preserve-3d] [transition-duration:380ms] [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none md:min-h-[420px] md:group-hover:[transform:rotateY(180deg)] md:group-focus-visible:[transform:rotateY(180deg)]">
@@ -1112,7 +1187,7 @@ className="flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscro
                   </div>
                 </div>
                 <div className="flex min-h-16 items-center justify-between px-6 text-sm font-semibold text-foreground md:hidden">
-                  {lang === "zh" ? "查看专家资料" : lang === "ru" ? "Профиль эксперта" : "View expert profile"}
+                  {lang === "zh" ? "查看专家资料" : lang === "ru" ? "Профиль эксперта" : lang === "es" ? "Ver perfil del experto" : "View expert profile"}
                   <ArrowRight className="size-4 text-primary" />
                 </div>
               </div>
@@ -1126,7 +1201,7 @@ className="flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscro
                   {d.specialties.slice(0, 3).map((s) => <span key={s} className="rounded-full bg-accent px-3 py-1 text-xs text-accent-foreground">{s}</span>)}
                 </div>
                 <span className="mt-auto flex min-h-10 items-center justify-between border-t border-border/70 pt-4 text-sm font-semibold text-foreground">
-                  {lang === "zh" ? "查看专家资料" : lang === "ru" ? "Профиль эксперта" : "View expert profile"}
+                  {lang === "zh" ? "查看专家资料" : lang === "ru" ? "Профиль эксперта" : lang === "es" ? "Ver perfil del experto" : "View expert profile"}
                   <ArrowRight className="size-4 text-primary transition-transform group-hover:translate-x-1" />
                 </span>
               </div>
@@ -1155,6 +1230,13 @@ const HowItWorks = () => {
           emphasis: "Сделайте первый шаг сегодня",
           text: "Расскажите о процедуре, бюджете и желаемом городе. Мы поможем уточнить ваши потребности и подобрать подходящего эксперта в Китае.",
         }
+      : lang === "es"
+      ? {
+          eyebrow: "Consulta gratuita en línea",
+          title: "¿Listo/a para comenzar?",
+          emphasis: "Da el primer paso hoy",
+          text: "Cuéntanos el procedimiento, presupuesto y ciudad que tienes en mente. Te ayudaremos a aclarar tus necesidades y a conectarte con un experto adecuado en China.",
+        }
       : {
           eyebrow: "Free online consultation",
           title: "Ready to get started?",
@@ -1178,20 +1260,20 @@ const HowItWorks = () => {
 
           <div className="m-4 rounded-[1.5rem] border border-primary/25 bg-[hsl(156_48%_89%)] p-5 shadow-[0_16px_38px_rgba(22,63,52,0.12),0_2px_6px_rgba(22,63,52,0.06)] sm:m-5 sm:p-6 md:flex md:flex-col md:justify-center lg:m-6 lg:p-7">
             <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-primary">
-              {lang === "zh" ? "选择联系方式" : lang === "ru" ? "Выберите способ связи" : "Choose how to connect"}
+              {lang === "zh" ? "选择联系方式" : lang === "ru" ? "Выберите способ связи" : lang === "es" ? "Elige cómo conectar" : "Choose how to connect"}
             </p>
             <h3 className="mt-2 font-display text-2xl font-medium leading-tight">
-              {lang === "zh" ? "邮件或 WhatsApp，由你决定。" : lang === "ru" ? "Email или WhatsApp — на ваш выбор." : "Email or WhatsApp—your choice."}
+              {lang === "zh" ? "邮件或 WhatsApp，由你决定。" : lang === "ru" ? "Email или WhatsApp — на ваш выбор." : lang === "es" ? "Correo o WhatsApp, tú decides." : "Email or WhatsApp—your choice."}
             </h3>
             <div className="mt-5 grid grid-cols-2 gap-2">
               <span className="flex min-h-12 items-center gap-2 rounded-xl border border-border/80 bg-card px-3 text-xs font-semibold shadow-[0_4px_12px_rgba(22,63,52,0.05)]"><Mail className="size-4 text-primary" />Email</span>
               <span className="flex min-h-12 items-center gap-2 rounded-xl border border-border/80 bg-card px-3 text-xs font-semibold shadow-[0_4px_12px_rgba(22,63,52,0.05)]"><MessageCircle className="size-4 text-primary" />WhatsApp</span>
             </div>
             <Button size="lg" onClick={() => open()} className="cta-primary mt-3 min-h-[52px] w-full rounded-xl px-7 text-sm shadow-[0_12px_24px_rgba(13,54,44,0.18)] transition-all hover:-translate-y-0.5 hover:shadow-[0_16px_30px_rgba(13,54,44,0.22)]">
-              {lang === "zh" ? "开始免费咨询" : lang === "ru" ? "Начать консультацию" : "Start a consultation"}<ArrowRight className="ml-2 size-4" />
+              {lang === "zh" ? "开始免费咨询" : lang === "ru" ? "Начать консультацию" : lang === "es" ? "Iniciar una consulta" : "Start a consultation"}<ArrowRight className="ml-2 size-4" />
             </Button>
             <p className="mt-3 text-center text-[11px] text-muted-foreground">
-              {lang === "zh" ? "免费 · 无义务 · 由协调团队回复" : lang === "ru" ? "Бесплатно · без обязательств" : "Free · No obligation · Coordinator reply"}
+              {lang === "zh" ? "免费 · 无义务 · 由协调团队回复" : lang === "ru" ? "Бесплатно · без обязательств" : lang === "es" ? "Gratis · Sin compromiso · Respuesta del equipo coordinador" : "Free · No obligation · Coordinator reply"}
             </p>
           </div>
         </div>
@@ -1207,27 +1289,28 @@ const HomeFaq = () => {
   const { lang } = useAsia();
   const zh = lang === "zh";
   const ru = lang === "ru";
-  const c = (en: string, cn: string, Russian: string) => zh ? cn : ru ? Russian : en;
+  const es = lang === "es";
+  const c = (en: string, cn: string, Russian: string, Spanish: string) => zh ? cn : ru ? Russian : es ? Spanish : en;
   const questions = [
     {
-      q: c("Do I need to pay Cosmetics Asia?", "我需要向 Cosmetics Asia 支付费用吗？", "Нужно ли платить Cosmetics Asia?"),
-      a: c("Medical fees are paid directly to the treating clinic or hospital; Cosmetics Asia does not collect them. We collect a $400 coordination deposit to reserve your procedure appointment and coordinate airport pickup and in-clinic translation. It remains valid for 12 months and is refunded when you pay the clinic for treatment.", "医疗费用全部由诊所或医院直接收取，Cosmetics Asia 不代收。我们收取 400 美元协调押金，用于保留手术预约，并协调机场接送和院内翻译。押金在 12 个月内有效，并在你向诊所支付治疗费用时退还。", "Медицинские услуги оплачиваются напрямую клинике или больнице; Cosmetics Asia их не принимает. Мы взимаем координационный депозит $400, чтобы закрепить время процедуры и организовать трансфер и перевод в клинике. Он действует 12 месяцев и возвращается после оплаты лечения в клинике."),
+      q: c("Do I need to pay Cosmetics Asia?", "我需要向 Cosmetics Asia 支付费用吗？", "Нужно ли платить Cosmetics Asia?", "¿Necesito pagarle a Cosmetics Asia?"),
+      a: c("Medical fees are paid directly to the treating clinic or hospital; Cosmetics Asia does not collect them. We collect a $400 coordination deposit to reserve your procedure appointment and coordinate airport pickup and in-clinic translation. It remains valid for 12 months and is refunded when you pay the clinic for treatment.", "医疗费用全部由诊所或医院直接收取，Cosmetics Asia 不代收。我们收取 400 美元协调押金，用于保留手术预约，并协调机场接送和院内翻译。押金在 12 个月内有效，并在你向诊所支付治疗费用时退还。", "Медицинские услуги оплачиваются напрямую клинике или больнице; Cosmetics Asia их не принимает. Мы взимаем координационный депозит $400, чтобы закрепить время процедуры и организовать трансфер и перевод в клинике. Он действует 12 месяцев и возвращается после оплаты лечения в клинике.", "Los honorarios médicos se pagan directamente a la clínica u hospital tratante; Cosmetics Asia no los cobra. Cobramos un depósito de coordinación de $400 para reservar tu cita del procedimiento y coordinar el traslado del aeropuerto y la traducción en la clínica. Es válido durante 12 meses y se reembolsa cuando pagas el tratamiento a la clínica."),
     },
     {
-      q: c("What is the $400 deposit for?", "400 美元押金是做什么用的？", "Для чего нужен депозит $400?"),
-      a: c("The $400 deposit reserves your procedure appointment and helps us coordinate airport pickup and in-clinic translation. It is not an additional medical charge, remains valid for 12 months and is refunded when you pay the clinic for treatment.", "这笔 400 美元押金用于保留手术预约，并帮助我们协调机场接送和院内翻译。它不是额外的医疗费用，可保留 12 个月，并在你向诊所支付治疗费用时退还。", "Депозит $400 закрепляет время процедуры и помогает организовать трансфер и перевод в клинике. Это не дополнительная медицинская плата; депозит действует 12 месяцев и возвращается после оплаты лечения в клинике."),
+      q: c("What is the $400 deposit for?", "400 美元押金是做什么用的？", "Для чего нужен депозит $400?", "¿Para qué es el depósito de $400?"),
+      a: c("The $400 deposit reserves your procedure appointment and helps us coordinate airport pickup and in-clinic translation. It is not an additional medical charge, remains valid for 12 months and is refunded when you pay the clinic for treatment.", "这笔 400 美元押金用于保留手术预约，并帮助我们协调机场接送和院内翻译。它不是额外的医疗费用，可保留 12 个月，并在你向诊所支付治疗费用时退还。", "Депозит $400 закрепляет время процедуры и помогает организовать трансфер и перевод в клинике. Это не дополнительная медицинская плата; депозит действует 12 месяцев и возвращается после оплаты лечения в клинике.", "El depósito de $400 reserva tu cita del procedimiento y nos ayuda a coordinar el traslado del aeropuerto y la traducción en la clínica. No es un cargo médico adicional, es válido durante 12 meses y se reembolsa cuando pagas el tratamiento a la clínica."),
     },
     {
-      q: c("Who receives my medical payment?", "手术和治疗费用支付给谁？", "Кому оплачиваются медицинские услуги?"),
-      a: c("All surgery, examination, anesthesia and other medical fees are charged directly by the clinic or hospital. Cosmetics Asia does not collect your medical payment.", "全部手术、检查、麻醉及其他医疗费用均由诊所或医院直接收取。Cosmetics Asia 不代收医疗费用。", "Операция, обследования, анестезия и другие медицинские услуги оплачиваются напрямую клинике или больнице. Cosmetics Asia не принимает медицинские платежи."),
+      q: c("Who receives my medical payment?", "手术和治疗费用支付给谁？", "Кому оплачиваются медицинские услуги?", "¿Quién recibe mi pago médico?"),
+      a: c("All surgery, examination, anesthesia and other medical fees are charged directly by the clinic or hospital. Cosmetics Asia does not collect your medical payment.", "全部手术、检查、麻醉及其他医疗费用均由诊所或医院直接收取。Cosmetics Asia 不代收医疗费用。", "Операция, обследования, анестезия и другие медицинские услуги оплачиваются напрямую клинике или больнице. Cosmetics Asia не принимает медицинские платежи.", "Todos los honorarios de cirugía, exámenes, anestesia y otros servicios médicos son cobrados directamente por la clínica u hospital. Cosmetics Asia no cobra tu pago médico."),
     },
     {
-      q: c("Can my consultation be conducted in English?", "线上咨询可以使用英语吗？", "Можно ли провести консультацию на английском?"),
-      a: c("Yes. We arrange confirmed English-language support for the appointment, either with an English-speaking expert or a bilingual coordinator, depending on availability.", "可以。我们会根据已确认的预约安排英语沟通支持；具体形式可能是英语专家或双语协调员陪同。", "Да. Для подтверждённой записи мы организуем поддержку на английском: англоговорящего эксперта или двуязычного координатора, в зависимости от доступности."),
+      q: c("Can my consultation be conducted in English?", "线上咨询可以使用英语吗？", "Можно ли провести консультацию на английском?", "¿Puede realizarse mi consulta en inglés?"),
+      a: c("Yes. We arrange confirmed English-language support for the appointment, either with an English-speaking expert or a bilingual coordinator, depending on availability.", "可以。我们会根据已确认的预约安排英语沟通支持；具体形式可能是英语专家或双语协调员陪同。", "Да. Для подтверждённой записи мы организуем поддержку на английском: англоговорящего эксперта или двуязычного координатора, в зависимости от доступности.", "Sí. Organizamos apoyo confirmado en inglés para la cita, ya sea con un experto de habla inglesa o un coordinador bilingüe, según disponibilidad."),
     },
     {
-      q: c("How is my medical information handled?", "我的医疗资料如何使用？", "Как используются мои медицинские данные?"),
-      a: c("Information is used for the consultation and coordination you authorize, and only necessary details are shared with relevant service providers. Do not send sensitive records through public comments or social media.", "资料仅用于你授权的咨询和行程协调，并只向相关服务方提供必要信息。请勿通过公开评论或社交媒体发送敏感病历。", "Данные используются только для разрешённой вами консультации и координации; партнёрам передаётся лишь необходимая информация. Не отправляйте конфиденциальные документы в открытых комментариях или соцсетях."),
+      q: c("How is my medical information handled?", "我的医疗资料如何使用？", "Как используются мои медицинские данные?", "¿Cómo se maneja mi información médica?"),
+      a: c("Information is used for the consultation and coordination you authorize, and only necessary details are shared with relevant service providers. Do not send sensitive records through public comments or social media.", "资料仅用于你授权的咨询和行程协调，并只向相关服务方提供必要信息。请勿通过公开评论或社交媒体发送敏感病历。", "Данные используются только для разрешённой вами консультации и координации; партнёрам передаётся лишь необходимая информация. Не отправляйте конфиденциальные документы в открытых комментариях или соцсетях.", "La información se usa para la consulta y coordinación que autorizas, y solo se comparten los datos necesarios con los proveedores de servicios pertinentes. No envíes registros sensibles por comentarios públicos ni redes sociales."),
     },
   ];
 
@@ -1238,9 +1321,9 @@ const HomeFaq = () => {
         <div className="pointer-events-none absolute -bottom-32 left-1/3 size-64 rounded-full bg-[hsl(48_86%_82%/.2)] blur-3xl" aria-hidden="true" />
 
         <div className="relative max-w-4xl">
-          <span className="pill mb-4 border border-primary/15 bg-primary/10 text-foreground"><Wallet className="size-3.5 text-primary" /> {c("Payment, made simple", "付款方式，一眼看懂", "Оплата — всё просто")}</span>
+          <span className="pill mb-4 border border-primary/15 bg-primary/10 text-foreground"><Wallet className="size-3.5 text-primary" /> {c("Payment, made simple", "付款方式，一眼看懂", "Оплата — всё просто", "Pagos, de forma sencilla")}</span>
           <h2 id="home-faq-title" className="font-display text-3xl font-medium leading-[1.04] tracking-tight sm:text-4xl md:text-5xl">
-            {c("Simple, transparent payments. ", "付款简单透明，", "Простая и прозрачная оплата. ")}<em className="not-italic text-primary">{c("Know exactly where your money goes.", "每一笔都清楚去向。", "Вы точно знаете, куда идут ваши деньги.")}</em>
+            {c("Simple, transparent payments. ", "付款简单透明，", "Простая и прозрачная оплата. ", "Pagos simples y transparentes. ")}<em className="not-italic text-primary">{c("Know exactly where your money goes.", "每一笔都清楚去向。", "Вы точно знаете, куда идут ваши деньги.", "Sabrás exactamente adónde va tu dinero.")}</em>
           </h2>
         </div>
 
@@ -1254,11 +1337,11 @@ const HomeFaq = () => {
             <div className="relative flex items-start gap-4">
               <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-primary text-primary-foreground shadow-[0_8px_22px_hsl(var(--primary)/.22)]"><Building2 className="size-5" strokeWidth={2} /></span>
               <div className="min-w-0 pt-0.5">
-                <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary">{c("Medical treatment", "手术与医疗费用", "Медицинские услуги")}</p>
-                <h3 className="mt-1 font-display text-xl font-medium leading-tight text-foreground sm:text-2xl">{c("Pay the clinic directly", "直接支付给诊所或医院", "Оплачивайте напрямую клинике")}</h3>
+                <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary">{c("Medical treatment", "手术与医疗费用", "Медицинские услуги", "Tratamiento médico")}</p>
+                <h3 className="mt-1 font-display text-xl font-medium leading-tight text-foreground sm:text-2xl">{c("Pay the clinic directly", "直接支付给诊所或医院", "Оплачивайте напрямую клинике", "Paga directamente a la clínica")}</h3>
               </div>
             </div>
-            <p className="relative mt-5 max-w-xl text-[15px] leading-7 text-foreground/70 sm:text-base">{c("Your clinic or hospital collects all surgery, examination and anesthesia fees. Cosmetics Asia does not collect your medical payment.", "手术、检查和麻醉等医疗费用均由诊所或医院直接收取，Cosmetics Asia 不代收。", "Операция, обследования и анестезия оплачиваются напрямую клинике или больнице. Cosmetics Asia не принимает медицинские платежи.")}</p>
+            <p className="relative mt-5 max-w-xl text-[15px] leading-7 text-foreground/70 sm:text-base">{c("Your clinic or hospital collects all surgery, examination and anesthesia fees. Cosmetics Asia does not collect your medical payment.", "手术、检查和麻醉等医疗费用均由诊所或医院直接收取，Cosmetics Asia 不代收。", "Операция, обследования и анестезия оплачиваются напрямую клинике или больнице. Cosmetics Asia не принимает медицинские платежи.", "Tu clínica u hospital cobra todos los honorarios de cirugía, exámenes y anestesia. Cosmetics Asia no cobra tu pago médico.")}</p>
           </article>
 
           <article className="group relative overflow-hidden rounded-[1.75rem] border border-[hsl(43_70%_72%/.65)] bg-[hsl(48_82%_94%)] p-5 shadow-soft transition-[transform,box-shadow,border-color] duration-150 hover:-translate-y-0.5 hover:border-[hsl(43_70%_62%/.8)] hover:shadow-pop sm:p-7">
@@ -1266,20 +1349,20 @@ const HomeFaq = () => {
             <div className="relative flex items-start gap-4">
               <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-[hsl(42_88%_86%)] text-[hsl(33_78%_33%)] shadow-[0_8px_22px_hsl(42_70%_55%/.16)]"><Wallet className="size-5" strokeWidth={2} /></span>
               <div className="min-w-0 pt-0.5">
-                <p className="text-xs font-bold uppercase tracking-[0.14em] text-[hsl(33_72%_35%)]">{c("Before departure", "出发前", "До вылета")}</p>
-                <h3 className="mt-1 font-display text-xl font-medium leading-tight text-foreground sm:text-2xl">{c("$400 coordination deposit", "支付 $400 协调押金", "Координационный депозит $400")}</h3>
+                <p className="text-xs font-bold uppercase tracking-[0.14em] text-[hsl(33_72%_35%)]">{c("Before departure", "出发前", "До вылета", "Antes de salir")}</p>
+                <h3 className="mt-1 font-display text-xl font-medium leading-tight text-foreground sm:text-2xl">{c("$400 coordination deposit", "支付 $400 协调押金", "Координационный депозит $400", "Depósito de coordinación de $400")}</h3>
               </div>
             </div>
-            <p className="relative mt-5 max-w-xl text-[15px] leading-7 text-foreground/70 sm:text-base">{c("It reserves your procedure appointment and coordinates airport pickup and in-clinic translation. It remains valid for 12 months and is refunded when you pay the clinic for treatment.", "用于保留手术预约，并协调机场接送和院内翻译。押金在 12 个月内有效，并在你向诊所支付治疗费用时退还。", "Он закрепляет время процедуры и помогает организовать трансфер и перевод в клинике. Депозит действует 12 месяцев и возвращается после оплаты лечения в клинике.")}</p>
+            <p className="relative mt-5 max-w-xl text-[15px] leading-7 text-foreground/70 sm:text-base">{c("It reserves your procedure appointment and coordinates airport pickup and in-clinic translation. It remains valid for 12 months and is refunded when you pay the clinic for treatment.", "用于保留手术预约，并协调机场接送和院内翻译。押金在 12 个月内有效，并在你向诊所支付治疗费用时退还。", "Он закрепляет время процедуры и помогает организовать трансфер и перевод в клинике. Депозит действует 12 месяцев и возвращается после оплаты лечения в клинике.", "Reserva tu cita del procedimiento y coordina el traslado del aeropuerto y la traducción en la clínica. Es válido durante 12 meses y se reembolsa cuando pagas el tratamiento a la clínica.")}</p>
           </article>
         </div>
 
         <div className="relative mt-5 grid gap-6 rounded-[1.75rem] border border-border/80 bg-background/65 p-5 sm:p-7 lg:grid-cols-[0.52fr_1.48fr] lg:items-start lg:gap-8">
           <div className="lg:py-1">
-            <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary">{c("Need more detail?", "还想了解更多？", "Нужны подробности?")}</p>
-            <h3 className="mt-2 font-display text-2xl font-medium leading-tight sm:text-3xl">{c("Common questions", "常见问题", "Частые вопросы")}</h3>
+            <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary">{c("Need more detail?", "还想了解更多？", "Нужны подробности?", "¿Necesitas más detalles?")}</p>
+            <h3 className="mt-2 font-display text-2xl font-medium leading-tight sm:text-3xl">{c("Common questions", "常见问题", "Частые вопросы", "Preguntas frecuentes")}</h3>
             <Link to="/travel-packages" className="group/link mt-5 inline-flex min-h-11 items-center gap-2 rounded-full border border-primary/20 bg-card px-4 text-sm font-semibold text-foreground shadow-soft transition-[color,border-color,transform] duration-150 hover:-translate-y-0.5 hover:border-primary/40 hover:text-primary">
-              {c("Explore travel support", "查看行程支持", "Подробнее о поддержке в поездке")}<ArrowRight className="size-4 text-primary transition-transform duration-150 group-hover/link:translate-x-1" />
+              {c("Explore travel support", "查看行程支持", "Подробнее о поддержке в поездке", "Explorar el apoyo de viaje")}<ArrowRight className="size-4 text-primary transition-transform duration-150 group-hover/link:translate-x-1" />
             </Link>
           </div>
 

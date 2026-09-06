@@ -4,7 +4,7 @@ import { Maximize2, Play, Volume2, VolumeX, X, ArrowRight, ChevronLeft, ChevronR
 import type { TikTokItem } from "@/components/TikTokWall";
 import { DEFAULT_VIDEO_POSTER } from "@/lib/cover-fallback";
 
-type Lang = "en" | "zh" | "ru";
+type Lang = "en" | "zh" | "ru" | "es";
 
 type HeroVideoGalleryProps = {
   items: TikTokItem[];
@@ -17,6 +17,7 @@ const ui = {
   en: { fullscreen: "Play fullscreen", viewCase: "View case", more: "More patient diaries", previous: "Previous explainer video", next: "Next explainer video", show: "Show explainer video", guide: "Video guide", playGuide: "Play guide fullscreen", learnMore: "Explore support", patientDiaries: "Patient diaries", patientSubtitle: "Real recovery stories, shared step by step." },
   zh: { fullscreen: "全屏播放", viewCase: "查看案例", more: "更多患者日记", previous: "上一个讲解视频", next: "下一个讲解视频", show: "显示讲解视频", guide: "讲解视频", playGuide: "全屏播放讲解", learnMore: "了解支持服务", patientDiaries: "患者日记", patientSubtitle: "真实恢复经历，按阶段记录。" },
   ru: { fullscreen: "На весь экран", viewCase: "Смотреть случай", more: "Больше историй пациентов", previous: "Предыдущее видео", next: "Следующее видео", show: "Показать видео", guide: "Видеообзор", playGuide: "Смотреть на весь экран", learnMore: "Подробнее о поддержке", patientDiaries: "Истории пациентов", patientSubtitle: "Реальный опыт восстановления по этапам." },
+  es: { fullscreen: "Reproducir en pantalla completa", viewCase: "Ver caso", more: "Más diarios de pacientes", previous: "Video explicativo anterior", next: "Siguiente video explicativo", show: "Mostrar video explicativo", guide: "Guía en video", playGuide: "Reproducir guía en pantalla completa", learnMore: "Explorar el apoyo", patientDiaries: "Diarios de pacientes", patientSubtitle: "Historias reales de recuperación, compartidas paso a paso." },
 } as const;
 
 const GalleryCard = ({
@@ -59,7 +60,7 @@ const GalleryCard = ({
         <Maximize2 className="size-3.5" />
       </span>
       <span className="absolute inset-x-3.5 bottom-3.5">
-        <span className="mb-1 block text-[9px] font-bold uppercase tracking-[0.16em] text-white/65">{lang === "zh" ? "患者日记" : lang === "ru" ? "История пациента" : "Patient diary"}</span>
+        <span className="mb-1 block text-[9px] font-bold uppercase tracking-[0.16em] text-white/65">{lang === "zh" ? "患者日记" : lang === "ru" ? "История пациента" : lang === "es" ? "Diario del paciente" : "Patient diary"}</span>
         <span className="block font-display text-lg font-medium leading-tight text-white">{t}</span>
         <span className="mt-1.5 block truncate text-xs font-medium text-white/75">
           {item.city?.[lang === "zh" ? "zh" : "en"]}
@@ -82,15 +83,15 @@ const HeroVideoGallery = ({ items, lang, size = "default" }: HeroVideoGalleryPro
       id: "care-coordination-overview",
       src: "/video/cosmetics-asia-home-motion.mp4?v=1",
       poster: "/video/source/shanghai-consultation.webp",
-      title: lang === "zh" ? "跨境医疗协调如何进行" : lang === "ru" ? "Как проходит координация лечения" : "How care coordination works",
-      description: lang === "zh" ? "了解从首次沟通、专家匹配到行程与术后支持的主要环节。" : lang === "ru" ? "Основные этапы: от первого разговора и подбора эксперта до поездки и наблюдения." : "A clear overview of consultation, expert matching, travel planning and aftercare support.",
+      title: lang === "zh" ? "跨境医疗协调如何进行" : lang === "ru" ? "Как проходит координация лечения" : lang === "es" ? "Cómo funciona la coordinación de la atención" : "How care coordination works",
+      description: lang === "zh" ? "了解从首次沟通、专家匹配到行程与术后支持的主要环节。" : lang === "ru" ? "Основные этапы: от первого разговора и подбора эксперта до поездки и наблюдения." : lang === "es" ? "Una visión clara de la consulta, la selección de expertos, la planificación del viaje y el apoyo posterior." : "A clear overview of consultation, expert matching, travel planning and aftercare support.",
     },
     {
       id: "planning-your-visit",
       src: "/video/cosmetics-asia-hero-stabilized.mp4",
       poster: "/video/source/shanghai-consultation.webp",
-      title: lang === "zh" ? "出发前需要准备什么" : lang === "ru" ? "Как подготовиться к поездке" : "Preparing for your visit",
-      description: lang === "zh" ? "出发前确认咨询、文件、接机和院内沟通安排。" : lang === "ru" ? "Что подтвердить до поездки: консультацию, документы, трансфер и перевод." : "What to confirm before travel, including consultation, documents, pickup and translation.",
+      title: lang === "zh" ? "出发前需要准备什么" : lang === "ru" ? "Как подготовиться к поездке" : lang === "es" ? "Cómo prepararte para tu visita" : "Preparing for your visit",
+      description: lang === "zh" ? "出发前确认咨询、文件、接机和院内沟通安排。" : lang === "ru" ? "Что подтвердить до поездки: консультацию, документы, трансфер и перевод." : lang === "es" ? "Qué confirmar antes de viajar, incluyendo consulta, documentos, traslado y traducción." : "What to confirm before travel, including consultation, documents, pickup and translation.",
     },
   ];
   const activeExplainer = explainers[activeExplainerIndex] ?? explainers[0];
@@ -147,7 +148,7 @@ const HeroVideoGallery = ({ items, lang, size = "default" }: HeroVideoGalleryPro
             </div>
           </div>
 
-          <div className="relative hidden overflow-hidden rounded-[2rem] border border-primary/15 bg-foreground p-3 shadow-[0_28px_80px_rgba(17,54,45,.18)] md:block" role="region" aria-roledescription="carousel" aria-label={lang === "zh" ? "项目讲解视频" : lang === "ru" ? "Видеообзоры" : "Procedure explainer videos"}>
+          <div className="relative hidden overflow-hidden rounded-[2rem] border border-primary/15 bg-foreground p-3 shadow-[0_28px_80px_rgba(17,54,45,.18)] md:block" role="region" aria-roledescription="carousel" aria-label={lang === "zh" ? "项目讲解视频" : lang === "ru" ? "Видеообзоры" : lang === "es" ? "Videos explicativos de procedimientos" : "Procedure explainer videos"}>
             <div className="relative h-[560px] overflow-hidden rounded-[1.45rem] bg-foreground lg:h-[610px]">
               {activeExplainer && (
                 <>

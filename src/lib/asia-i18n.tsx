@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 
-export type AsiaLang = "en" | "zh" | "ru";
+export type AsiaLang = "en" | "zh" | "ru" | "es";
 export type AsiaCurrency = "USD" | "CNY";
 const RATE = 7.2;
 
@@ -8,6 +8,7 @@ export const asiaLangLabel: Record<AsiaLang, { label: string; flag: string }> = 
   en: { label: "English", flag: "🇺🇸" },
   zh: { label: "中文", flag: "🇨🇳" },
   ru: { label: "Русский", flag: "🇷🇺" },
+  es: { label: "Español", flag: "🇪🇸" },
 };
 
 type Dict = Record<string, string>;
@@ -249,6 +250,85 @@ const dict: Record<AsiaLang, Dict> = {
     "disclaimer.text": "Cosmetics Asia — информационная и координационная платформа, а не медицинское учреждение. Мы не предоставляем медицинских советов, диагностики или лечения. Все медицинские решения принимаются напрямую между вами и лицензированными медицинскими учреждениями.",
     "disclaimer.short": "Не является медицинской консультацией — Cosmetics Asia предоставляет только информацию и координацию. Все медицинские решения принимаются между вами и лицензированными медицинскими учреждениями.",
   },
+  es: {
+    "brand.suffix": "Asia",
+    "nav.cities": "Ciudades",
+    "nav.projects": "Procedimientos",
+    "nav.clinics": "Clínicas verificadas",
+    "nav.cases": "Diarios de pacientes",
+    "nav.compliance": "Expertos",
+    "nav.signin": "Iniciar sesión",
+    "nav.signup": "Registrarse",
+    "hero.badge": "Con licencia en China · Verificado por autoridades médicas locales · Pensado para pacientes internacionales",
+    "hero.title1": "Belleza en China,",
+    "hero.titleEm": "sin complicaciones",
+    "hero.subtitle": "Perfiles de expertos en China · diarios de recuperación de pacientes · coordinación en inglés, recogida en el aeropuerto y apoyo con el visado.",
+    "hero.searchPh": "Busca un procedimiento, experto o ciudad (p. ej. rinoplastia, lifting, Shanghái, Pekín)",
+    "hero.cta": "Solicita un presupuesto gratis",
+    "hero.hot": "Tendencias",
+    "hero.feat1": "Licencia del cirujano verificada",
+    "hero.feat2": "Permiso de la clínica registrado",
+    "hero.feat3": "Paga después de la consulta",
+    "doc.cert": "Cirujano verificado",
+    "doc.years": "años de experiencia",
+    "doc.cases": "procedimientos",
+    "doc.lic": "N.º de licencia",
+    "compliance.t1": "Permiso del consejo médico",
+    "compliance.d1": "Verificamos la licencia nacional de cada clínica",
+    "compliance.t2": "Licencia del experto",
+    "compliance.d2": "Cada cirujano responsable se puede consultar",
+    "compliance.t3": "Suministros originales",
+    "compliance.d3": "Trazabilidad de lotes de implantes · anestesiólogo propio en cada caso",
+    "compliance.t4": "Pago en depósito",
+    "compliance.d4": "Paga tras la consulta presencial · reembolsable",
+    "cities.kicker": "Destinos principales",
+    "cities.title1": "Encuentra una clínica en",
+    "cities.titleEm": "las mejores ciudades de China",
+    "cities.clinics": "clínicas verificadas",
+    "tx.kicker": "Especialidades",
+    "tx.title1": "Explora procedimientos",
+    "tx.titleEm": "por especialidad",
+    "tx.note": "Precios orientativos para planificar · el plan definitivo y el presupuesto detallado se confirman tras la valoración clínica",
+    "tx.from": "Orientativo desde",
+    "tx.group": "Precio coordinado",
+
+    "cl.kicker": "Clínicas verificadas",
+    "cl.title1": "Con licencia y en regla ·",
+    "cl.titleEm": "cada clínica registrada",
+    "cl.note": "Todas las clínicas cuentan con licencia nacional de actividad médica",
+    "cl.exp": "en activo",
+    "cl.years": "años",
+    "cl.lic": "Licencia:",
+    "cl.beian": "Registro del consejo médico:",
+    "cl.spec": "Especialidad",
+    "cl.reviews": "opiniones",
+
+    "doctors.kicker": "Cirujanos responsables",
+    "doctors.title1": "Cirujanos reconocidos",
+    "doctors.titleEm": "internacionalmente",
+    "doctors.lic": "Licencia médica:",
+    "doctors.exp": "años de experiencia",
+    "doctors.cases": "procedimientos",
+    "doctors.cta": "Ver perfil",
+    "cases.kicker": "Diarios de pacientes",
+    "cases.title1": "Diarios de recuperación ·",
+    "cases.titleEm": "un caso a la vez",
+    "cases.tabAll": "Todos",
+    "cases.viewAll": "Ver todos los diarios",
+    "cases.wallTitle": "Diarios de recuperación de pacientes",
+    "cases.wallTitleMain": "Diarios de recuperación ",
+    "cases.wallTitleEm": "de pacientes",
+    "cases.wallSub": "Explora vistas previas por procedimiento y destino en China. Las etiquetas verificadas aparecen solo tras la revisión.",
+    "promo.kicker": "Oferta de bienvenida",
+    "promo.title": "Regístrate y consigue 150 $ para tu primer tratamiento",
+    "promo.note": "Doble párpado desde 550 $ · Rinoplastia desde 2.200 $ · Lifting SMAS desde 10.800 $ · Cirujanos certificados · Garantía de devolución",
+    "promo.cta": "Obtener oferta",
+    "case.back": "Volver",
+    "case.related": "Casos relacionados",
+    "case.book": "Reservar este tratamiento",
+    "disclaimer.text": "Cosmetics Asia es una plataforma de información y coordinación de viajes, no un proveedor médico. No ofrecemos consejo médico, diagnóstico ni tratamiento. Todas las decisiones médicas se toman directamente entre usted y las instituciones médicas autorizadas.",
+    "disclaimer.short": "No es consejo médico: Cosmetics Asia solo ofrece información y coordinación. Todas las decisiones médicas se toman entre usted y las instituciones médicas autorizadas.",
+  },
 };
 
 export type AsiaDictKey = keyof typeof dict.en;
@@ -277,7 +357,7 @@ export const AsiaI18nProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     localStorage.setItem(STORE, JSON.stringify({ lang, currency }));
-    document.documentElement.lang = lang === "zh" ? "zh-CN" : lang === "ru" ? "ru" : "en";
+    document.documentElement.lang = lang === "zh" ? "zh-CN" : lang === "ru" ? "ru" : lang === "es" ? "es" : "en";
   }, [lang, currency]);
 
   const t: AsiaI18nState["t"] = (k) => dict[lang][k] ?? dict.en[k] ?? (k as string);

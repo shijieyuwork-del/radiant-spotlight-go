@@ -25,7 +25,7 @@ export type TikTokItem = {
 
 export type TikTokWallProps = {
   items: TikTokItem[];
-  lang: "en" | "zh" | "ru";
+  lang: "en" | "zh" | "ru" | "es";
   fmtPrice: (cny: number) => string;
   /** 'preview' = small grid, 'wall' = larger immersive wall */
   variant?: "preview" | "wall" | "cases";
@@ -38,6 +38,7 @@ const labels = {
   en: { play: "Tap to play", verified: "Diary preview" },
   zh: { play: "点击播放", verified: "日记预览" },
   ru: { play: "Нажмите для просмотра", verified: "Предпросмотр дневника" },
+  es: { play: "Toca para reproducir", verified: "Vista previa del diario" },
 };
 
 const MARK_CLASS = "rounded bg-primary/70 px-0.5 text-primary-foreground";
@@ -56,11 +57,12 @@ const TikTokCard = ({
   const recoveryStage = (() => {
     const text = item.caption.en;
     const match = text.match(/(\d+)[- ]?(day|week|month)/i);
-    if (!match) return lang === "zh" ? "恢复日记" : lang === "ru" ? "Дневник восстановления" : "Recovery diary";
+    if (!match) return lang === "zh" ? "恢复日记" : lang === "ru" ? "Дневник восстановления" : lang === "es" ? "Diario de recuperación" : "Recovery diary";
     const value = match[1];
     const unit = match[2].toLowerCase();
     if (lang === "zh") return `${value}${unit === "day" ? "天" : unit === "week" ? "周" : "个月"}`;
     if (lang === "ru") return `${value} ${unit === "day" ? "дн." : unit === "week" ? "нед." : "мес."}`;
+    if (lang === "es") return `${unit === "day" ? "Día" : unit === "week" ? "Semana" : "Mes"} ${value}`;
     return `${unit[0].toUpperCase()}${unit.slice(1)} ${value}`;
   })();
 

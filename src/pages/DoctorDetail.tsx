@@ -18,7 +18,7 @@ import { useAsia } from "@/lib/asia-i18n";
 const DoctorDetail = () => {
   const { id } = useParams();
   const { t, lang, fmt } = useAsia();
-  const c = (en: string, zh: string, ru: string) => lang === "zh" ? zh : lang === "ru" ? ru : en;
+  const c = (en: string, zh: string, ru: string, es?: string) => lang === "zh" ? zh : lang === "ru" ? ru : lang === "es" ? (es ?? en) : en;
   const doctor = useMemo(() => (id ? findDoctor(id) : undefined), [id]);
 
   const cases = useMemo(
@@ -42,10 +42,10 @@ const DoctorDetail = () => {
           <AsiaNavbar homeLinks={false} />
           <div className="container py-24 text-center">
             <p className="text-muted-foreground">
-              {c("Expert profile not found.", "专家档案不存在。", "Профиль эксперта не найден.")}
+              {c("Expert profile not found.", "专家档案不存在。", "Профиль эксперта не найден.", "Perfil de experto no encontrado.")}
             </p>
             <Link to="/doctors" className="text-primary underline mt-4 inline-block">
-              {c("Back to all experts", "返回专家列表", "Вернуться ко всем экспертам")}
+              {c("Back to all experts", "返回专家列表", "Вернуться ко всем экспертам", "Volver a todos los expertos")}
             </Link>
           </div>
           <Footer />
@@ -96,7 +96,7 @@ const DoctorDetail = () => {
 
       <section className="container py-8 md:py-12">
         <Link to="/doctors" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-6">
-          <ArrowLeft className="size-4" /> {c("All experts", "全部专家", "Все эксперты")}
+          <ArrowLeft className="size-4" /> {c("All experts", "全部专家", "Все эксперты", "Todos los expertos")}
         </Link>
 
         {/* Header card */}
@@ -174,7 +174,7 @@ const DoctorDetail = () => {
             <div>
               <h2 className="font-display text-2xl font-medium tracking-tight flex items-center gap-2 mb-3">
                 <Stethoscope className="size-5 text-primary" />
-                {c("About the surgeon", "专家简介", "О эксперте")}
+                {c("About the surgeon", "专家简介", "О эксперте", "Sobre el cirujano")}
               </h2>
               <p className="text-muted-foreground leading-relaxed">
                 {lang === "zh" ? doctor.bioZh : doctor.bioEn}
@@ -186,7 +186,7 @@ const DoctorDetail = () => {
               <div className="rounded-3xl bg-card shadow-soft p-5">
                 <h3 className="font-display text-base font-semibold flex items-center gap-2 mb-3">
                   <GraduationCap className="size-4 text-primary" />
-                  {c("Education & training", "教育与研修", "Образование и подготовка")}
+                  {c("Education & training", "教育与研修", "Образование и подготовка", "Formación y capacitación")}
                 </h3>
                 <ul className="space-y-2 text-sm text-muted-foreground">
                   {(lang === "zh" ? doctor.eduZh : doctor.eduEn).map((line) => (
@@ -200,7 +200,7 @@ const DoctorDetail = () => {
               <div className="rounded-3xl bg-card shadow-soft p-5">
                 <h3 className="font-display text-base font-semibold flex items-center gap-2 mb-3">
                   <Trophy className="size-4 text-primary" />
-                  {c("Awards & memberships", "荣誉与学会", "Награды и профессиональные сообщества")}
+                  {c("Awards & memberships", "荣誉与学会", "Награды и профессиональные сообщества", "Premios y membresías")}
                 </h3>
                 <ul className="space-y-2 text-sm text-muted-foreground">
                   {(lang === "zh" ? doctor.awardsZh : doctor.awardsEn).map((line) => (
@@ -216,11 +216,11 @@ const DoctorDetail = () => {
             {/* Cases */}
             <div>
               <h2 className="font-display text-2xl font-medium tracking-tight mb-4">
-                {c(`Verified cases by this surgeon (${cases.length})`, `本专家真实案例（${cases.length}）`, `Проверенные случаи этого эксперта (${cases.length})`)}
+                {c(`Verified cases by this surgeon (${cases.length})`, `本专家真实案例（${cases.length}）`, `Проверенные случаи этого эксперта (${cases.length})`, `Casos verificados de este cirujano (${cases.length})`)}
               </h2>
               {cases.length === 0 ? (
                 <p className="text-sm text-muted-foreground">
-                  {c("No public cases yet — book a consult to view private galleries.", "暂无公开案例 · 预约面诊可查看私密相册。", "Публичных случаев пока нет — запишитесь на консультацию, чтобы запросить закрытое портфолио.")}
+                  {c("No public cases yet — book a consult to view private galleries.", "暂无公开案例 · 预约面诊可查看私密相册。", "Публичных случаев пока нет — запишитесь на консультацию, чтобы запросить закрытое портфолио.", "Todavía no hay casos públicos — reserva una consulta para ver galerías privadas.")}
                 </p>
               ) : (
                 <TikTokWall items={cases} lang={lang} fmtPrice={fmt} variant="wall" />
@@ -231,12 +231,12 @@ const DoctorDetail = () => {
           {/* Sidebar */}
           <aside className="lg:col-span-4 space-y-6">
             <div className="rounded-3xl bg-gradient-to-br from-[hsl(155,60%,90%)] to-[hsl(50,80%,92%)] p-5 shadow-soft">
-              <p className="text-xs text-foreground/60">{c("Book with this surgeon", "预约本专家", "Запись к этому эксперту")}</p>
+              <p className="text-xs text-foreground/60">{c("Book with this surgeon", "预约本专家", "Запись к этому эксперту", "Reserva con este cirujano")}</p>
               <p className="font-display text-xl font-semibold mt-1 leading-tight">
-                {c("Free 1-on-1 consult", "免费 1 对 1 面诊", "Бесплатная индивидуальная консультация")}
+                {c("Free 1-on-1 consult", "免费 1 对 1 面诊", "Бесплатная индивидуальная консультация", "Consulta gratuita individual")}
               </p>
               <p className="text-xs text-foreground/70 mt-2">
-                {c("English-speaking coordinator · medical visa and airport pickup support.", "全程中英双语助理 · 提供医疗签证与机场接送协助。", "Англоязычный координатор · помощь с медицинской визой и трансфером из аэропорта.")}
+                {c("English-speaking coordinator · medical visa and airport pickup support.", "全程中英双语助理 · 提供医疗签证与机场接送协助。", "Англоязычный координатор · помощь с медицинской визой и трансфером из аэропорта.", "Coordinador de habla inglesa · apoyo con visado médico y recogida en el aeropuerto.")}
               </p>
               <Button className="mt-4 w-full rounded-2xl bg-foreground text-background hover:bg-foreground/90">
                 <MessageCircle className="size-4" /> {t("hero.cta")}
@@ -246,7 +246,7 @@ const DoctorDetail = () => {
 
             <div className="rounded-3xl bg-card shadow-soft p-5">
               <h3 className="font-display text-base font-semibold mb-3">
-                {c("Reference price list", "参考价目表", "Ориентировочные цены")}
+                {c("Reference price list", "参考价目表", "Ориентировочные цены", "Lista de precios de referencia")}
               </h3>
               <ul className="divide-y divide-border">
                 {doctor.priceList.map((p) => (
@@ -261,7 +261,7 @@ const DoctorDetail = () => {
             <div className="rounded-3xl bg-card shadow-soft p-5">
               <h3 className="font-display text-base font-semibold flex items-center gap-2 mb-3">
                 <Languages className="size-4 text-primary" />
-                {c("Languages spoken", "可用语言", "Языки общения")}
+                {c("Languages spoken", "可用语言", "Языки общения", "Idiomas que habla")}
               </h3>
               <div className="flex flex-wrap gap-1.5">
                 {doctor.languages.map((l) => (
@@ -275,7 +275,7 @@ const DoctorDetail = () => {
         {/* Other experts */}
         <div className="mt-16">
           <h2 className="font-display text-2xl md:text-3xl font-medium tracking-tight mb-6">
-            {c("Other verified surgeons", "其他持证专家", "Другие проверенные эксперты")}
+            {c("Other verified surgeons", "其他持证专家", "Другие проверенные эксперты", "Otros cirujanos verificados")}
           </h2>
           <div className="grid md:grid-cols-3 gap-6">
             {otherDoctors.map((d) => (

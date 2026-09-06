@@ -11,7 +11,7 @@ import { asiaCopy } from "@/lib/asia-copy";
 
 const Cities = () => {
   const { lang } = useAsia();
-  const c = <T,>(en: T, zh: T, ru: T) => asiaCopy(lang, { en, zh, ru });
+  const c = <T,>(en: T, zh: T, ru: T, es?: T) => asiaCopy(lang, { en, zh, ru, es });
   const navigate = useNavigate();
   const filter = useCityFilter();
   return (
@@ -28,7 +28,7 @@ const Cities = () => {
       <section className="container py-12 md:py-16">
         <span className="pill bg-accent text-accent-foreground mb-3">
           <MapPin className="size-3.5" />
-          {c("Asia destinations", "亚洲城市", "Города Азии")}
+          {c("Asia destinations", "亚洲城市", "Города Азии", "Destinos en Asia")}
         </span>
         <h1 className="font-display text-4xl md:text-5xl font-medium tracking-tight max-w-3xl">
           {lang === "zh" ? (
@@ -38,6 +38,10 @@ const Cities = () => {
           ) : lang === "ru" ? (
             <>
               Выберите город — <em className="text-primary not-italic">найдите своего эксперта</em>
+            </>
+          ) : lang === "es" ? (
+            <>
+              Elige una ciudad, <em className="text-primary not-italic">encuentra a tu cirujano</em>
             </>
           ) : (
             <>
@@ -51,6 +55,7 @@ const Cities = () => {
             "Asia's leading medical-aesthetic destinations — from Seoul and Bangkok to Shanghai and Tokyo — each with its own specialties, price level and travel logistics.",
             "从首尔、曼谷到上海、东京，亚洲热门医美目的地各有强势项目、价格区间与出行配套。",
             "Ведущие направления медицинской эстетики Азии — от Сеула и Бангкока до Шанхая и Токио — со своими специализациями, ценами и логистикой.",
+            "Los principales destinos de estética médica en Asia — de Seúl y Bangkok a Shanghái y Tokio — cada uno con sus especialidades, nivel de precios y logística de viaje.",
           )}
         </p>
 
@@ -63,10 +68,11 @@ const Cities = () => {
                 `${filter.results.length} ${filter.results.length === 1 ? "city" : "cities"} found`,
                 `找到 ${filter.results.length} 个城市`,
                 `Найдено городов: ${filter.results.length}`,
+                `${filter.results.length} ${filter.results.length === 1 ? "ciudad encontrada" : "ciudades encontradas"}`,
               )}
               {" · "}
               <button type="button" onClick={filter.clear} className="font-semibold text-primary hover:underline">
-                {c("Reset", "重置", "Сбросить")}
+                {c("Reset", "重置", "Сбросить", "Restablecer")}
               </button>
             </p>
           )}
@@ -82,6 +88,7 @@ const Cities = () => {
                 "No matching city yet — tell us where you want to go and we'll help.",
                 "暂时没有匹配的城市 —— 告诉我们你想去的城市，我们来帮你对接。",
                 "Подходящий город не найден — напишите нам, и мы поможем.",
+                "Todavía no hay una ciudad que coincida — cuéntanos a dónde quieres ir y te ayudaremos.",
               )}
             </p>
             <a
@@ -91,7 +98,7 @@ const Cities = () => {
               className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90"
             >
               <MessageCircle className="size-4" />
-              {c("Ask us", "咨询客服", "Спросить нас")}
+              {c("Ask us", "咨询客服", "Спросить нас", "Contáctanos")}
             </a>
           </div>
         ) : (
@@ -118,11 +125,11 @@ const Cities = () => {
                         <Highlight text={lang === "zh" ? city.zh : city.en} query={filter.query} className="rounded bg-primary/80 px-0.5 text-primary-foreground" />
                       </p>
                       <p className="text-xs opacity-80 mt-1">
-                        {meta ? `${meta.flag} ${c(meta.en, meta.zh, meta.ru)} · ` : ""}
+                        {meta ? `${meta.flag} ${c(meta.en, meta.zh, meta.ru, meta.es)} · ` : ""}
                         <Highlight text={lang === "zh" ? city.en : city.zh} query={filter.query} className="rounded bg-primary/80 px-0.5 text-primary-foreground" />
                       </p>
                     </div>
-                    <span className="pill bg-background/95 text-foreground text-[10px]"><Wallet className="size-3 text-primary" />{c("Travel guide", "行程指南", "Путеводитель")}</span>
+                    <span className="pill bg-background/95 text-foreground text-[10px]"><Wallet className="size-3 text-primary" />{c("Travel guide", "行程指南", "Путеводитель", "Guía de viaje")}</span>
                   </div>
                 </div>
 
@@ -134,13 +141,13 @@ const Cities = () => {
                   <div className="grid grid-cols-2 gap-2 text-center">
                     <Stat
                       icon={<Building2 className="size-3.5" />}
-                      label={c("Provider info", "机构资料", "Информация о клинике")}
-                      value={c("Local", "当地", "Местные")}
+                      label={c("Provider info", "机构资料", "Информация о клинике", "Información del proveedor")}
+                      value={c("Local", "当地", "Местные", "Local")}
                     />
                     <Stat
                       icon={<Stethoscope className="size-3.5" />}
-                      label={c("Expert profiles", "专家资料", "Профили экспертов")}
-                      value={c("Reviewed", "审核后发布", "Проверено")}
+                      label={c("Expert profiles", "专家资料", "Профили экспертов", "Perfiles de expertos")}
+                      value={c("Reviewed", "审核后发布", "Проверено", "Revisado")}
                     />
                   </div>
 
@@ -157,7 +164,7 @@ const Cities = () => {
 
                   <div className="mt-auto pt-3 flex items-center justify-between gap-2">
                     <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary">
-                      {c("Explore the city", "查看城市详情", "Узнать о городе")}
+                      {c("Explore the city", "查看城市详情", "Узнать о городе", "Explorar la ciudad")}
                       <ArrowRight className="size-4 group-hover:translate-x-1 transition" />
                     </span>
                     <div className="flex gap-1.5">
@@ -167,7 +174,7 @@ const Cities = () => {
                         className="inline-flex items-center gap-1 rounded-full bg-accent px-3 py-1.5 text-[11px] font-semibold text-accent-foreground transition hover:opacity-80"
                       >
                         <Video className="size-3" />
-                        {c("Cases", "案例", "Кейсы")}
+                        {c("Cases", "案例", "Кейсы", "Casos")}
                       </button>
                       <button
                         type="button"
@@ -175,7 +182,7 @@ const Cities = () => {
                         className="inline-flex items-center gap-1 rounded-full bg-primary px-3 py-1.5 text-[11px] font-semibold text-primary-foreground transition hover:bg-primary/90"
                       >
                         <Stethoscope className="size-3" />
-                        {c("Experts", "专家", "Эксперты")}
+                        {c("Experts", "专家", "Эксперты", "Expertos")}
                       </button>
                     </div>
                   </div>
@@ -193,21 +200,25 @@ const Cities = () => {
           <div className="md:col-span-2">
             <span className="pill mb-3 bg-background/80 text-foreground">
               <MapPin className="size-3.5 text-primary" />
-              {lang === "zh" ? "更多城市" : lang === "ru" ? "Другие города" : "More destinations"}
+              {lang === "zh" ? "更多城市" : lang === "ru" ? "Другие города" : lang === "es" ? "Más destinos" : "More destinations"}
             </span>
             <h2 className="font-display text-3xl md:text-4xl font-semibold tracking-tight text-[#26483f]">
               {lang === "zh"
                 ? "你的城市不在这里？告诉我们"
                 : lang === "ru"
                   ? "Не нашли нужный город? Расскажите нам"
-                  : "Don’t see your preferred city? Tell us"}
+                  : lang === "es"
+                    ? "¿No ves tu ciudad preferida? Cuéntanos"
+                    : "Don’t see your preferred city? Tell us"}
             </h2>
             <p className="text-base text-foreground/75 mt-3 max-w-2xl leading-relaxed">
               {lang === "zh"
                 ? "告诉我们你希望前往的城市和想咨询的项目，我们会协助查找合适的专家与诊所选择。"
                 : lang === "ru"
                   ? "Сообщите желаемый город и интересующую процедуру — мы поможем найти подходящих экспертов и клиники."
-                  : "Share the city and procedure you’re considering, and we’ll help explore suitable expert and clinic options."}
+                  : lang === "es"
+                    ? "Cuéntanos la ciudad y el procedimiento que te interesa, y te ayudaremos a explorar expertos y clínicas adecuados."
+                    : "Share the city and procedure you’re considering, and we’ll help explore suitable expert and clinic options."}
             </p>
           </div>
           <div className="flex md:justify-end">
@@ -217,14 +228,16 @@ const Cities = () => {
                   ? "你好 Cosmetics Asia，我想咨询一个目前城市列表中没有的城市。"
                   : lang === "ru"
                     ? "Здравствуйте, Cosmetics Asia. Я хочу узнать о городе, которого пока нет в списке."
-                    : "Hi Cosmetics Asia, I’d like to ask about a city that is not currently listed."
+                    : lang === "es"
+                      ? "Hola Cosmetics Asia, me gustaría preguntar por una ciudad que no está en la lista actual."
+                      : "Hi Cosmetics Asia, I’d like to ask about a city that is not currently listed."
               )}`}
               target="_blank"
               rel="noreferrer"
               className="cta-primary inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full px-7 py-3 text-sm font-semibold transition md:w-auto"
             >
               <MessageCircle className="size-4" />
-              {lang === "zh" ? "告诉我们" : lang === "ru" ? "Написать нам" : "Tell us"}
+              {lang === "zh" ? "告诉我们" : lang === "ru" ? "Написать нам" : lang === "es" ? "Cuéntanos" : "Tell us"}
               <ArrowRight className="size-4" />
             </a>
           </div>
