@@ -276,7 +276,21 @@ export default function DoctorAdmin({ embedded = false }: { embedded?: boolean }
         <section className="rounded-3xl bg-card shadow-pop p-6 h-fit">
           <div className="flex gap-3 items-center mb-6"><Stethoscope className="text-primary" /><h1 className="font-display text-2xl">添加专家资料</h1></div>
           <form onSubmit={submit} className="space-y-4" noValidate ref={formRef}>
+            <ExpertImageExtractor
+              disabled={busy}
+              onExtract={(f) => {
+                if (f.name) { setName(f.name); clearError("name"); }
+                if (f.title) { setTitle(f.title); clearError("title"); }
+                if (f.hospital) { setHospital(f.hospital); clearError("hospital"); }
+                if (f.city) { setCity(f.city); clearError("city"); }
+                if (f.specialties) setSpecialties(f.specialties);
+                if (f.languages) setLanguages(f.languages);
+                if (f.bio) { setBio(f.bio); clearError("bio"); }
+                if (f.credentials) setCredentials(f.credentials);
+              }}
+            />
             <div>
+
               <Label htmlFor="expert-photo">专家照片</Label>
               <FileDropZone
                 id="expert-photo"
