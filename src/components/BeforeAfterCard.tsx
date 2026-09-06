@@ -95,6 +95,7 @@ const BeforeAfterCard = ({
           </div>
         </div>
       </div>
+      )}
 
       {/* Meta */}
       <div className="p-5 space-y-2">
