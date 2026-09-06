@@ -111,7 +111,7 @@ const MegaNavItem = ({ active, featuredDoctors, intro, label, groups, to, viewAl
 const AccountMenu = ({ lang, onClose }: { lang: Lang; onClose?: () => void }) => {
   const { user, signOut } = useAuth();
   const c = (en: string, zh: string, ru: string, es?: string) => asiaCopy(lang, { en, zh, ru, es });
-  const isAdmin = useIsAdmin();
+  const { isAdmin } = useIsAdmin();
   const initial = user?.email?.[0]?.toUpperCase() ?? user?.user_metadata?.display_name?.[0]?.toUpperCase() ?? "?";
   const label = user?.user_metadata?.display_name || user?.email || "";
 
