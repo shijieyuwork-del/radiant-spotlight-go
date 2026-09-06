@@ -210,42 +210,51 @@ const TreatmentDetail = () => {
   );
 };
 
-const categoryCopy: Record<string, { en: string; zh: string }> = {
+const categoryCopy: Record<string, { en: string; zh: string; es: string }> = {
   "Nose": {
     en: "Nasal procedures reshape or restore specific bone, cartilage or soft-tissue structures. The appropriate approach depends on facial proportions, breathing function, skin thickness and any previous surgery.",
     zh: "鼻部项目针对骨骼、软骨或软组织进行塑形与修复。适合的方案取决于面部比例、呼吸功能、皮肤厚度以及既往手术情况。",
+    es: "Los procedimientos nasales remodelan o restauran estructuras óseas, cartilaginosas o de tejido blando específicas. El enfoque adecuado depende de las proporciones faciales, la función respiratoria, el grosor de la piel y cualquier cirugía previa.",
   },
   "Eyes": {
     en: "Eyelid and eye-area procedures address crease shape, excess skin, fat position or muscle function. Small anatomical differences can materially change the recommended technique.",
     zh: "眼部项目可处理褶皱形态、松弛皮肤、脂肪位置或肌肉功能。细微的解剖差异可能明显影响术式选择。",
+    es: "Los procedimientos del párpado y la zona ocular abordan la forma del pliegue, el exceso de piel, la posición de la grasa o la función muscular. Pequeñas diferencias anatómicas pueden cambiar de forma importante la técnica recomendada.",
   },
   "Face & Contour": {
     en: "Facial contour procedures adjust projection, width, symmetry or volume. Planning should consider the whole face rather than treating one feature in isolation.",
     zh: "面部轮廓项目可调整突出度、宽度、对称性或容量。规划时应考虑整体面部比例，而不是孤立处理某一个部位。",
+    es: "Los procedimientos de contorno facial ajustan la proyección, el ancho, la simetría o el volumen. La planificación debe considerar el rostro en su conjunto en lugar de tratar una sola zona de forma aislada.",
   },
   "Facial Rejuvenation": {
     en: "Facial rejuvenation procedures address tissue descent, skin excess or volume change. Different techniques work at different anatomical layers and have different recovery profiles.",
     zh: "面部年轻化项目处理组织下垂、皮肤松弛或容量变化。不同术式作用于不同解剖层次，恢复过程也不同。",
+    es: "Los procedimientos de rejuvenecimiento facial abordan la caída de tejidos, el exceso de piel o el cambio de volumen. Distintas técnicas actúan en diferentes capas anatómicas y tienen perfiles de recuperación diferentes.",
   },
   "Breast": {
     en: "Breast procedures may change size, shape, position or symmetry. Implant choice, existing tissue, scars, future pregnancy and long-term follow-up should all be discussed.",
     zh: "胸部项目可能改变大小、形态、位置或对称性。应讨论假体选择、自身组织条件、疤痕、未来生育及长期随访。",
+    es: "Los procedimientos mamarios pueden cambiar el tamaño, la forma, la posición o la simetría. Deben discutirse la elección del implante, el tejido existente, las cicatrices, un futuro embarazo y el seguimiento a largo plazo.",
   },
   "Body Contouring": {
     en: "Body-contouring procedures remove fat, tighten skin or reshape tissue. They are not substitutes for weight management, and safe treatment extent must be individualized.",
     zh: "身体塑形项目可去除脂肪、收紧皮肤或重塑组织，但不能代替体重管理；安全治疗范围必须个体化评估。",
+    es: "Los procedimientos de contorno corporal eliminan grasa, tensan la piel o remodelan el tejido. No sustituyen el control del peso, y el alcance seguro del tratamiento debe individualizarse.",
   },
   "Hair Restoration": {
     en: "Hair-restoration planning considers the cause of hair loss, donor density, hairline design and the number of grafts that can be safely harvested.",
     zh: "毛发移植规划需要评估脱发原因、供区密度、发际线设计以及可安全提取的毛囊数量。",
+    es: "La planificación de la restauración capilar considera la causa de la caída del cabello, la densidad de la zona donante, el diseño de la línea de implantación y el número de injertos que se pueden extraer con seguridad.",
   },
   "Cosmetic Dentistry": {
     en: "Cosmetic dental care should protect bite function and healthy tooth structure while improving appearance. Imaging, gum health and long-term maintenance matter as much as color and shape.",
     zh: "牙齿美容应在改善外观的同时保护咬合功能和健康牙体。影像检查、牙龈健康与长期维护和颜色、形态同样重要。",
+    es: "La odontología estética debe proteger la función de la mordida y la estructura dental sana a la vez que mejora la apariencia. Las imágenes diagnósticas, la salud de las encías y el mantenimiento a largo plazo importan tanto como el color y la forma.",
   },
   "Skin & Non-Surgical": {
     en: "Skin and non-surgical treatments vary by device, product, depth and indication. A qualified expert should confirm the diagnosis, product authenticity and realistic treatment limits.",
     zh: "皮肤与非手术项目会因设备、产品、作用深度和适应症而不同。应由合格专家确认诊断、产品真伪及合理治疗边界。",
+    es: "Los tratamientos de piel y no quirúrgicos varían según el dispositivo, el producto, la profundidad y la indicación. Un experto calificado debe confirmar el diagnóstico, la autenticidad del producto y los límites realistas del tratamiento.",
   },
 };
 
