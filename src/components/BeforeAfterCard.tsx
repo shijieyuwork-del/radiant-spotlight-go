@@ -41,15 +41,13 @@ const BeforeAfterCard = ({
       >
         {/* After (full) */}
         <img src={after} alt={`${procedure} after`} className={`absolute inset-0 size-full object-cover ${blur ? "blur-[14px] scale-110" : ""}`} />
-        {/* Before (clipped) */}
-        <div className="absolute inset-0 overflow-hidden" style={{ width: `${pos}%` }}>
-          <img
-            src={before}
-            alt={`${procedure} before`}
-            className={`absolute inset-0 h-full w-[100vw] max-w-none object-cover ${blur ? "blur-[14px] scale-110" : ""}`}
-            style={{ width: ref.current?.offsetWidth ?? "100%" }}
-          />
-        </div>
+        {/* Before (clipped via clip-path so both images stay full-size) */}
+        <img
+          src={before}
+          alt={`${procedure} before`}
+          className={`absolute inset-0 size-full object-cover ${blur ? "blur-[14px] scale-110" : ""}`}
+          style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}
+        />
 
         {/* Labels */}
         <span className="absolute top-3 left-3 pill bg-background/90 backdrop-blur shadow-soft text-foreground">Before</span>
