@@ -1,8 +1,9 @@
 import { Link, useLocation } from "react-router-dom";
-import { DollarSign, Languages, Menu, ChevronRight, ChevronDown, Phone, Mail, MessageCircle, ArrowRight, MapPin } from "lucide-react";
+import { DollarSign, Languages, Menu, ChevronRight, ChevronDown, Phone, Mail, MessageCircle, ArrowRight, MapPin, User, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
-  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAsia, asiaLangLabel as langLabel, type AsiaLang as Lang } from "@/lib/asia-i18n";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
@@ -10,6 +11,7 @@ import BrandLogo from "@/components/BrandLogo";
 import { asiaCopy } from "@/lib/asia-copy";
 import { DEMO_CHINA_DOCTORS } from "@/data/demoChinaDoctors";
 import { useQuote } from "@/components/QuoteRequest";
+import { useAuth } from "@/lib/auth";
 
 type Props = { homeLinks?: boolean };
 
@@ -104,6 +106,48 @@ const MegaNavItem = ({ active, featuredDoctors, intro, label, groups, to, viewAl
     </div>
   </div>
 );
+
+const AccountMenu = ({ lang, onClose }: { lang: Lang; onClose?: () => void }) => {
+  const { user, signOut } = useAuth();
+  const c = (en: string, zh: string, ru: string) => asiaCopy(lang, { en, zh, ru });
+  const initial = user?.email?.[0]?.toUpperCase() ?? user?.user_metadata?.display_name?.[0]?.toUpperCase() ?? "?";
+  const label = user?.user_metadata?.display_name || user?.email || "";
+
+  if (!user) return (
+    <div className="flex items-center gap-2">
+      <Button asChild variant="ghost" className="rounded-full px-4 h-9 text-sm font-medium hover:bg-muted/60">
+        <Link to="/auth?tab=signin" onClick={onClose}>{c("Sign in", "登录", "Войти")}</Link>
+      </Button>
+      <Button asChild className="rounded-full bg-foreground text-background hover:bg-foreground/90 px-4 h-9 text-sm font-medium shadow-soft">
+        <Link to="/auth?tab=signup" onClick={onClose}>{c("Sign up", "注册", "Регистрация")}</Link>
+      </Button>
+    </div>
+  );
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" className="rounded-full h-9 px-1.5 gap-2 hover:bg-muted/60" aria-label={c("Account menu", "账户菜单", "Меню аккаунта")}>
+          <Avatar className="size-7 bg-gradient-mint">
+            <AvatarFallback className="text-xs font-semibold bg-gradient-mint text-foreground">{initial}</AvatarFallback>
+          </Avatar>
+          <span className="hidden lg:inline text-sm font-medium max-w-[120px] truncate">{label}</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-48">
+        <DropdownMenuItem asChild>
+          <Link to="/profile" onClick={onClose} className="cursor-pointer flex items-center gap-2">
+            <User className="size-4" /> {c("Profile", "个人资料", "Профиль")}
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={() => { signOut(); onClose?.(); }} className="cursor-pointer flex items-center gap-2 text-destructive focus:text-destructive">
+          <LogOut className="size-4" /> {c("Sign out", "退出登录", "Выйти")}
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
 
 const AsiaNavbar = ({ homeLinks = true }: Props) => {
   const { t, lang, setLang, currency, setCurrency } = useAsia();
@@ -310,32 +354,40 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
             </DropdownMenu>
           )}
         </div>
-        <div className="hidden md:flex items-center gap-1.5">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm" className="rounded-full gap-1.5">
-                <DollarSign className="size-3.5" /> {currency}
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="rounded-2xl">
-              <DropdownMenuItem onClick={() => setCurrency("USD")} className="rounded-xl">🇺🇸 USD ($)</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setCurrency("CNY")} className="rounded-xl">🇨🇳 CNY (¥)</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm" className="rounded-full gap-1.5">
-                <Languages className="size-3.5" /> {langLabel[lang].flag} {langLabel[lang].label}
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="rounded-2xl">
-              {(Object.keys(langLabel) as Lang[]).map((l) => (
-                <DropdownMenuItem key={l} onClick={() => setLang(l)} className="rounded-xl">
-                  {langLabel[l].flag} {langLabel[l].label}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
+        <div className="flex items-center gap-1.5">
+          <div className="hidden md:flex items-center gap-1.5">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="rounded-full gap-1.5">
+                  <DollarSign className="size-3.5" /> {currency}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="rounded-2xl">
+                <DropdownMenuItem onClick={() => setCurrency("USD")} className="rounded-xl">🇺🇸 USD ($)</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setCurrency("CNY")} className="rounded-xl">🇨🇳 CNY (¥)</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="rounded-full gap-1.5">
+                  <Languages className="size-3.5" /> {langLabel[lang].flag} {langLabel[lang].label}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="rounded-2xl">
+                {(Object.keys(langLabel) as Lang[]).map((l) => (
+                  <DropdownMenuItem key={l} onClick={() => setLang(l)} className="rounded-xl">
+                    {langLabel[l].flag} {langLabel[l].label}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+          <div className="hidden md:block">
+            <AccountMenu lang={lang} />
+          </div>
+          <Button asChild variant="ghost" className="md:hidden rounded-full px-3 h-9 text-sm font-medium">
+            <Link to="/auth?tab=signin">{c("Sign in", "登录", "Войти")}</Link>
+          </Button>
         </div>
 
         <Sheet>
@@ -375,6 +427,9 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
                   <DropdownMenuTrigger asChild><Button variant="outline" className="h-12 rounded-2xl"><Languages className="size-4 mr-1" />{langLabel[lang].flag} {langLabel[lang].label}</Button></DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="rounded-2xl">{(Object.keys(langLabel) as Lang[]).map((l) => <DropdownMenuItem key={l} onClick={() => setLang(l)}>{langLabel[l].flag} {langLabel[l].label}</DropdownMenuItem>)}</DropdownMenuContent>
                 </DropdownMenu>
+              </div>
+              <div className="mt-3 grid grid-cols-2 gap-2">
+                <AccountMenu lang={lang} />
               </div>
               <button
                 type="button"
