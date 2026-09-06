@@ -8,6 +8,7 @@ import { signedUrls } from "@/lib/storage-urls";
 import { isUploadCancelled, replaceMedia, uploadMedia } from "@/lib/upload-media";
 import { PHOTO_RULES, fieldForUploadError, validateMediaFile } from "@/lib/media-validation";
 import { scrollToFirstError } from "@/lib/scroll-to-error";
+import { translateFields } from "@/lib/i18n-content";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -168,14 +169,19 @@ export default function DoctorAdmin() {
           onRetry: (a, m) => toast.info(`连接中断，自动重试中（${a}/${m}）…`),
         });
       }
+      // 中文录入 → 自动翻译成英文/俄文，随记录一起保存
+      const i18n = await translateFields({
+        name: name.trim(), title: title.trim(), hospital: hospital.trim(), city: city.trim(),
+        bio: bio.trim(), credentials: credentials.trim(),
+      });
       const { error } = await supabase.from("doctors").insert({
         name: name.trim(), title: title.trim(), hospital: hospital.trim(), city: city.trim(),
         specialties: specialties.split(/[,，]/).map((x) => x.trim()).filter(Boolean),
         bio: bio.trim(), credentials: credentials || null, languages: languages || null,
-        photo_path: photoPath, status: "published",
+        photo_path: photoPath, status: "published", i18n,
       });
       if (error) throw error;
-      toast.success("专家资料已发布");
+      toast.success(i18n.en ? "专家资料已发布，并生成英文/俄文版本" : "专家资料已发布（翻译暂未生成）");
       setName(""); setTitle(""); setHospital(""); setSpecialties(""); setBio(""); setCredentials("");
       clearStaged();
       setErrors({});
