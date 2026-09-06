@@ -7,6 +7,7 @@ import PageMeta from "@/components/PageMeta";
 import TikTokWall, { type TikTokItem } from "@/components/TikTokWall";
 import { Pagination, SortChips } from "@/components/ListControls";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
+import { usePublishedVideos } from "@/hooks/use-published-videos";
 import { DOCTORS } from "@/data/doctors";
 import { CITIES } from "@/data/cities";
 import { useAsia } from "@/lib/asia-i18n";
@@ -32,11 +33,14 @@ const Cases = () => {
   // 支持从城市搜索跳转进来时预选城市（/cases?city=Seoul）
   const [activeCity, setActiveCity] = useState(() => searchParams.get("city") ?? "");
   const [activeStage, setActiveStage] = useState(() => searchParams.get("stage") ?? "");
+  // 后台上传并发布的视频与演示日记合并展示
+  const uploaded = usePublishedVideos(lang);
+  const ALL_CASES = useMemo(() => [...uploaded, ...TIKTOK_CASES], [uploaded]);
 
   // Use the case's own China destination; fall back to expert data for legacy entries.
   const caseCity = useMemo(() => {
     const map = new Map<string, { en: string; zh: string }>();
-    TIKTOK_CASES.forEach((c) => {
+    ALL_CASES.forEach((c) => {
       if (c.city) map.set(c.id, c.city);
     });
     DOCTORS.forEach((d) =>
@@ -49,13 +53,13 @@ const Cases = () => {
 
   const treatments = useMemo(() => {
     const set = new Map<string, string>();
-    TIKTOK_CASES.forEach((c) => set.set(c.treatment.en, c.treatment[lang]));
+    ALL_CASES.forEach((c) => set.set(c.treatment.en, c.treatment[lang]));
     return Array.from(set, ([key, label]) => ({ key, label }));
   }, [lang]);
 
   const cities = useMemo(() => {
     const set = new Map<string, string>();
-    TIKTOK_CASES.forEach((c) => {
+    ALL_CASES.forEach((c) => {
       const city = caseCity.get(c.id);
       if (city) set.set(city.en, lang === "zh" ? city.zh : city.en);
     });
@@ -82,7 +86,7 @@ const Cases = () => {
   };
 
   const items = useMemo(() => {
-    return TIKTOK_CASES.filter((c) => {
+    return ALL_CASES.filter((c) => {
       if (activeTreatment && activeTreatment !== c.treatment.en) return false;
       if (activeCity) {
         const city = caseCity.get(c.id);
@@ -94,7 +98,7 @@ const Cases = () => {
       const hay = `${c.user.en} ${c.user.zh} ${c.caption.en} ${c.caption.zh} ${c.clinic.en} ${c.clinic.zh} ${c.treatment.en} ${c.treatment.zh} ${city?.en || ""} ${city?.zh || ""} ${stageFor(c.caption.en)}`.toLowerCase();
       return hay.includes(q.toLowerCase());
     });
-  }, [q, activeTreatment, activeCity, activeStage, caseCity]);
+  }, [ALL_CASES, q, activeTreatment, activeCity, activeStage, caseCity]);
 
   // —— 排序：推荐 / 热度 / 最新 / 距离 ——
   const [sort, setSort] = useState("recommended");

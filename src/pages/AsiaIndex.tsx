@@ -13,6 +13,7 @@ import Footer from "@/components/Footer";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import TikTokWall from "@/components/TikTokWall";
 import HeroVideoGallery from "@/components/HeroVideoGallery";
+import { usePublishedVideos } from "@/hooks/use-published-videos";
 import PageMeta from "@/components/PageMeta";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
 import { CITIES } from "@/data/cities";
@@ -145,6 +146,9 @@ type NavigatorConnection = {
 
 const Hero = () => {
   const { t, lang, fmt } = useAsia();
+  // 后台上传并发布的视频排在演示日记前面
+  const uploaded = usePublishedVideos(lang);
+  const diaryItems = [...uploaded, ...TIKTOK_CASES];
   const [showHeroVideo, setShowHeroVideo] = useState(false);
 
   useEffect(() => {
@@ -267,7 +271,7 @@ const Hero = () => {
             </div>
 
             <div className="mx-auto mt-5 max-w-4xl sm:mt-9">
-              <HeroVideoGallery items={TIKTOK_CASES.slice(0, 10)} lang={lang} fmtPrice={fmt} />
+              <HeroVideoGallery items={diaryItems.slice(0, 10)} lang={lang} fmtPrice={fmt} />
             </div>
 
             <div
@@ -315,7 +319,7 @@ const Hero = () => {
                 {lang === "zh" ? "浏览全部日记" : lang === "ru" ? "Все дневники" : lang === "es" ? "Ver todos los diarios" : "Explore all diaries"} <ArrowRight className="size-3.5" />
               </Link>
             </div>
-            <TikTokWall items={TIKTOK_CASES.slice(0, 7)} lang={lang} fmtPrice={fmt} variant="preview" />
+            <TikTokWall items={diaryItems.slice(0, 7)} lang={lang} fmtPrice={fmt} variant="preview" />
           </div>
         </div>
       </div>
@@ -325,6 +329,8 @@ const Hero = () => {
 
 const TravelInspiredHeroPreview = () => {
   const { lang, fmt } = useAsia();
+  const uploaded = usePublishedVideos(lang);
+  const diaryItems = [...uploaded, ...TIKTOK_CASES];
   const copy = lang === "zh"
     ? {
         badge: "面向国际患者的中国医美服务",
@@ -528,7 +534,7 @@ const TravelInspiredHeroPreview = () => {
               {copy.diariesTitle} <em className="not-italic text-primary">{copy.diariesEmphasis}</em>
             </h2>
           </div>
-          <HeroVideoGallery items={TIKTOK_CASES.slice(0, 10)} lang={lang} fmtPrice={fmt} size="large" />
+          <HeroVideoGallery items={diaryItems.slice(0, 10)} lang={lang} fmtPrice={fmt} size="large" />
         </div>
       </div>
     </section>
