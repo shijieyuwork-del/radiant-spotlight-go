@@ -18,9 +18,14 @@ import { useAsia } from "@/lib/asia-i18n";
 import { useSavedCase } from "@/lib/saved-cases";
 import { supabase } from "@/integrations/supabase/client";
 import { signedUrl } from "@/lib/storage-urls";
-import { localizeVideoRow } from "@/lib/i18n-content";
+import { localizeDoctorRow, localizeVideoRow } from "@/lib/i18n-content";
 import { toTikTokItem } from "@/hooks/use-published-videos";
 import type { TikTokItem } from "@/components/TikTokWall";
+
+type LinkedExpert = {
+  id: string; name: string; title: string; hospital: string; city: string;
+  bio: string; specialties: string[]; photoUrl: string | null;
+};
 
 const CaseDetail = () => {
   const { id } = useParams();
@@ -28,6 +33,7 @@ const CaseDetail = () => {
   const staticItem = useMemo(() => TIKTOK_CASES.find((c) => c.id === id), [id]);
   // 后台上传的视频不在静态数据里，按 id 从已发布视频中读取
   const [uploadedItem, setUploadedItem] = useState<TikTokItem | null>(null);
+  const [linkedExpert, setLinkedExpert] = useState<LinkedExpert | null>(null);
   useEffect(() => {
     if (staticItem || !id) return;
     let active = true;
@@ -45,6 +51,25 @@ const CaseDetail = () => {
         signedUrl("video-covers", row.cover_path),
       ]);
       if (active) setUploadedItem(toTikTokItem(row, url, cover));
+      // 后台视频关联了专家时，读取真实专家资料（而不是按项目猜测的示例专家）
+      if (data.doctor_id) {
+        const { data: doc } = await supabase
+          .from("doctors")
+          .select("id,name,title,hospital,city,bio,specialties,photo_path,i18n")
+          .eq("id", data.doctor_id)
+          .eq("status", "published")
+          .maybeSingle();
+        if (!doc || !active) return;
+        const d = localizeDoctorRow(doc as unknown as Record<string, unknown>, lang) as unknown as {
+          id: string; name: string; title: string; hospital: string; city: string;
+          bio: string; specialties: string[] | null; photo_path: string | null;
+        };
+        const photoUrl = d.photo_path ? await signedUrl("doctor-photos", d.photo_path) : null;
+        if (active) setLinkedExpert({
+          id: d.id, name: d.name, title: d.title, hospital: d.hospital, city: d.city,
+          bio: d.bio, specialties: d.specialties ?? [], photoUrl,
+        });
+      }
     })();
     return () => { active = false; };
   }, [id, lang, staticItem]);
@@ -259,6 +284,43 @@ const CaseDetail = () => {
               <p className="text-sm flex items-center gap-2"><ShieldCheck className="size-4 text-primary" /> {lang === "zh" ? "日记预览 · 核验状态待更新" : lang === "ru" ? "Предпросмотр дневника · проверка ожидается" : lang === "es" ? "Vista previa del diario · verificación pendiente" : "Diary preview · verification status pending"}</p>
             </div>
 
+            {linkedExpert ? (
+              <div className="rounded-3xl border border-border/70 bg-card p-5 shadow-soft sm:p-6">
+                <div className="mb-4 flex items-center justify-between gap-3">
+                  <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                    {lang === "zh" ? "本案例专家" : lang === "ru" ? "Эксперт этого случая" : lang === "es" ? "Experto de este caso" : "Expert for this case"}
+                  </p>
+                  <span className="rounded-full bg-primary/10 px-2.5 py-1 text-[10px] font-semibold text-primary">
+                    {lang === "zh" ? "已发布资料" : lang === "ru" ? "Опубликованный профиль" : lang === "es" ? "Perfil publicado" : "Published profile"}
+                  </span>
+                </div>
+                <div className="flex items-start gap-4">
+                  {linkedExpert.photoUrl
+                    ? <img src={linkedExpert.photoUrl} alt={linkedExpert.name} className="size-24 shrink-0 rounded-2xl border-2 border-primary/15 object-cover sm:size-28" />
+                    : <div className="grid size-24 shrink-0 place-items-center rounded-2xl border-2 border-primary/15 bg-muted sm:size-28"><BadgeCheck className="size-7 text-muted-foreground" /></div>}
+                  <div className="min-w-0 flex-1">
+                    <h2 className="font-display text-xl font-semibold leading-tight sm:text-2xl">{linkedExpert.name}</h2>
+                    <p className="mt-1 text-sm text-muted-foreground">{linkedExpert.title}</p>
+                    <p className="mt-2 flex items-start gap-1.5 text-xs leading-relaxed text-muted-foreground"><Building2 className="mt-0.5 size-3.5 shrink-0 text-primary" />{linkedExpert.hospital}</p>
+                    <p className="mt-1 flex items-center gap-1.5 text-xs text-muted-foreground"><MapPin className="size-3.5 shrink-0 text-primary" />{linkedExpert.city}</p>
+                  </div>
+                </div>
+                <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{linkedExpert.bio}</p>
+                {linkedExpert.specialties.length > 0 && (
+                  <div className="mt-4 flex flex-wrap gap-1.5">
+                    {linkedExpert.specialties.map((specialty) => <span key={specialty} className="rounded-full bg-secondary px-3 py-1 text-[11px] font-semibold text-foreground/80">{specialty}</span>)}
+                  </div>
+                )}
+                <div className="mt-5 grid gap-2 min-[430px]:grid-cols-2">
+                  <Link to={`/doctors/profile/${linkedExpert.id}`} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-primary/30 px-4 text-sm font-semibold text-primary transition hover:bg-primary/10">
+                    {lang === "zh" ? "查看这位专家" : lang === "ru" ? "Подробнее о эксперте" : lang === "es" ? "Ver este experto" : "Browse this expert"}<ArrowRight className="size-4" />
+                  </Link>
+                  <a href={`https://wa.me/14708613825?text=${encodeURIComponent(`Hi Cosmetics Asia, I’d like to ask about ${linkedExpert.name} and this ${item.treatment.en} case: https://cosmetics-asia.com/cases/${item.id}`)}`} target="_blank" rel="noreferrer" className="cta-primary inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-4 text-sm font-bold transition">
+                    {lang === "zh" ? "咨询这位专家" : lang === "ru" ? "Спросить об этом эксперте" : lang === "es" ? "Preguntar sobre este experto" : "Ask about this expert"}<MessageCircle className="size-4" />
+                  </a>
+                </div>
+              </div>
+            ) : (
             <div className="rounded-3xl border border-border/70 bg-card p-5 shadow-soft sm:p-6">
               <div className="mb-4 flex items-center justify-between gap-3">
                 <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
@@ -290,6 +352,7 @@ const CaseDetail = () => {
                 </a>
               </div>
             </div>
+            )}
 
             {item.priceCny > 0 && <div className="rounded-3xl bg-gradient-to-br from-[hsl(155,60%,90%)] to-[hsl(50,80%,92%)] p-5 flex items-center justify-between gap-4 shadow-soft">
               <div>
