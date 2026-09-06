@@ -15,6 +15,8 @@ const LANG_TABS = [
   { key: "zh", label: "中文（润色后）" },
   { key: "en", label: "English" },
   { key: "ru", label: "Русский" },
+  { key: "es", label: "Español" },
+
 ] as const;
 
 const FIELD_LABELS: Record<string, string> = {
