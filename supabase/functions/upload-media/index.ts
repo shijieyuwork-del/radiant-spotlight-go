@@ -19,12 +19,17 @@ const BUCKETS = {
     exts: ['jpg', 'jpeg', 'png', 'webp'],
     maxBytes: 10 * 1024 * 1024, // 10MB
   },
+  'before-after': {
+    types: ['image/jpeg', 'image/png', 'image/webp'],
+    exts: ['jpg', 'jpeg', 'png', 'webp'],
+    maxBytes: 10 * 1024 * 1024, // 10MB
+  },
 } as const
 
 type BucketName = keyof typeof BUCKETS
 
 // Which table/column a bucket's media belongs to (used by replace mode)
-const TABLE_FOR_BUCKET: Record<BucketName, { table: 'doctors' | 'videos'; column: 'photo_path' | 'storage_path' | 'cover_path' }> = {
+const TABLE_FOR_BUCKET: Partial<Record<BucketName, { table: 'doctors' | 'videos'; column: 'photo_path' | 'storage_path' | 'cover_path' }>> = {
   'doctor-photos': { table: 'doctors', column: 'photo_path' },
   'short-videos': { table: 'videos', column: 'storage_path' },
   'video-covers': { table: 'videos', column: 'cover_path' },
