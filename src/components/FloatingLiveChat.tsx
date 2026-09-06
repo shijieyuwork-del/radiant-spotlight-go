@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { ArrowRight, MessageCircle } from "lucide-react";
 import { useAsia } from "@/lib/asia-i18n";
 import { useLocation } from "react-router-dom";
@@ -8,9 +9,22 @@ const FloatingLiveChat = () => {
   const { lang } = useAsia();
   const { pathname } = useLocation();
   const { open } = useQuote();
+  const [isPastHero, setIsPastHero] = useState(pathname !== "/");
   const label = lang === "zh" ? "开始咨询" : lang === "ru" ? "Начать консультацию" : lang === "es" ? "Iniciar una consulta" : "Start a consultation";
 
-  if (pathname.startsWith("/lp/") || pathname === "/privacy") return null;
+  useEffect(() => {
+    if (pathname !== "/") {
+      setIsPastHero(true);
+      return;
+    }
+
+    const updateVisibility = () => setIsPastHero(window.scrollY > 720);
+    updateVisibility();
+    window.addEventListener("scroll", updateVisibility, { passive: true });
+    return () => window.removeEventListener("scroll", updateVisibility);
+  }, [pathname]);
+
+  if (pathname.startsWith("/lp/") || pathname === "/privacy" || !isPastHero) return null;
 
   return (
 <button

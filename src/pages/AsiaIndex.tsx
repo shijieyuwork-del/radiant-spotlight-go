@@ -327,16 +327,16 @@ const Hero = () => {
   );
 };
 
-const TravelInspiredHeroPreview = () => {
+const PrivateCareHero = () => {
   const { lang, fmt } = useAsia();
   const uploaded = usePublishedVideos(lang);
   const diaryItems = [...uploaded, ...TIKTOK_CASES];
   const copy = lang === "zh"
     ? {
-        badge: "面向国际患者的中国医美服务",
-        title: "先看真实恢复，",
-        emphasis: "再安心做出选择。",
-        subtitle: "从项目、城市和专家开始了解，我们协助你把咨询、行程与术后支持连接起来。",
+        badge: "中国私人医美协调服务",
+        title: "依据真实信息选择。",
+        emphasis: "带着清晰计划出发。",
+        subtitle: "比较患者恢复日记与公开专家资料，并获得从首次咨询、赴华行程到回国随访的低调协调支持。",
         procedure: "感兴趣的项目",
         procedureValue: "浏览全部项目",
         city: "目的地",
@@ -353,10 +353,10 @@ const TravelInspiredHeroPreview = () => {
       }
     : lang === "ru"
       ? {
-          badge: "Эстетическая медицина в Китае для иностранных пациентов",
-          title: "Сначала изучите восстановление.",
-          emphasis: "Затем выбирайте уверенно.",
-          subtitle: "Начните с процедуры, города или эксперта — мы свяжем консультацию, поездку и последующую поддержку.",
+          badge: "Персональная координация лечения в Китае",
+          title: "Выбирайте на основе фактов.",
+          emphasis: "Путешествуйте с ясным планом.",
+          subtitle: "Сравните дневники восстановления и опубликованные профили экспертов, а мы деликатно поддержим вас от первой консультации до наблюдения после возвращения.",
           procedure: "Процедура",
           procedureValue: "Все процедуры",
           city: "Направление",
@@ -373,10 +373,10 @@ const TravelInspiredHeroPreview = () => {
         }
       : lang === "es"
         ? {
-            badge: "Atención estética en China para pacientes internacionales",
-            title: "Mira primero la recuperación real.",
-            emphasis: "Elige tu atención con confianza.",
-            subtitle: "Empieza por un procedimiento, una ciudad o un experto. Conectamos la consulta, la planificación del viaje y el apoyo posterior.",
+            badge: "Coordinación privada de atención en China",
+            title: "Elige con información real.",
+            emphasis: "Viaja con un plan claro.",
+            subtitle: "Compara diarios de recuperación y perfiles publicados, con apoyo discreto desde la primera consulta hasta el seguimiento tras tu regreso.",
             procedure: "Procedimiento",
             procedureValue: "Explorar todas las opciones",
             city: "Destino",
@@ -392,10 +392,10 @@ const TravelInspiredHeroPreview = () => {
             servicesEmphasis: "antes, durante y después de tu viaje.",
           }
         : {
-          badge: "China cosmetic care for international patients",
-          title: "See real recovery first.",
-          emphasis: "Choose your care with confidence.",
-          subtitle: "Start with a procedure, city or doctor. We connect consultation, travel planning and aftercare support.",
+          badge: "Private care coordination in China",
+          title: "Choose with evidence.",
+          emphasis: "Travel with a clear plan.",
+          subtitle: "Compare recovery diaries and published expert information, then receive discreet support from your first consultation through follow-up at home.",
           procedure: "Procedure",
           procedureValue: "Explore all options",
           city: "Destination",
@@ -416,11 +416,27 @@ const TravelInspiredHeroPreview = () => {
     { icon: MapPin, label: copy.city, value: copy.cityValue, to: "/cities" },
     { icon: HelpCircle, label: copy.planning, value: copy.planningValue, to: "/doctors" },
   ];
-  const metrics = [
-    { value: "1,500+", label: lang === "zh" ? "服务患者" : lang === "ru" ? "Пациентов" : lang === "es" ? "Pacientes" : "Patients" },
-    { value: "20 yrs", label: lang === "zh" ? "专家平均经验" : lang === "ru" ? "Средний опыт экспертов" : lang === "es" ? "Experiencia promedio de los expertos" : "Average expert experience" },
-    { value: "10+", label: lang === "zh" ? "覆盖城市" : lang === "ru" ? "Городов" : lang === "es" ? "Ciudades" : "Cities" },
-    { value: "100+", label: lang === "zh" ? "顶级医院与诊所" : lang === "ru" ? "Ведущих клиник" : lang === "es" ? "Clínicas de primer nivel" : "Top-tier clinics" },
+  const assurances = [
+    {
+      icon: ShieldCheck,
+      value: lang === "zh" ? "公开资料" : lang === "ru" ? "Открытые профили" : lang === "es" ? "Perfiles publicados" : "Published profiles",
+      label: lang === "zh" ? "选择前先比较专家信息" : lang === "ru" ? "Сравните данные до выбора" : lang === "es" ? "Compara antes de elegir" : "Compare before you choose",
+    },
+    {
+      icon: Wallet,
+      value: lang === "zh" ? "直接付款" : lang === "ru" ? "Прямая оплата" : lang === "es" ? "Pago directo" : "Pay clinics directly",
+      label: lang === "zh" ? "医疗费用直接支付给机构" : lang === "ru" ? "Медицинские расходы — клинике" : lang === "es" ? "Los gastos médicos van a la clínica" : "Medical fees go to the provider",
+    },
+    {
+      icon: Users,
+      value: lang === "zh" ? "多语言协调" : lang === "ru" ? "На вашем языке" : lang === "es" ? "Apoyo multilingüe" : "Multilingual support",
+      label: lang === "zh" ? "跨语言沟通更从容" : lang === "ru" ? "Понятная коммуникация" : lang === "es" ? "Comunicación más clara" : "Clearer communication across borders",
+    },
+    {
+      icon: Plane,
+      value: lang === "zh" ? "全程衔接" : lang === "ru" ? "От начала до конца" : lang === "es" ? "De principio a fin" : "End-to-end support",
+      label: lang === "zh" ? "从首次沟通到回国随访" : lang === "ru" ? "От первого звонка до наблюдения" : lang === "es" ? "De la primera llamada al seguimiento" : "From first call to follow-up",
+    },
   ];
   const services = lang === "zh"
     ? [
@@ -454,48 +470,62 @@ const TravelInspiredHeroPreview = () => {
     <section className="relative overflow-hidden pb-10 pt-4 sm:pb-14 sm:pt-6 md:pb-16">
       <div className="container">
         <div className="relative isolate">
-          <div className="relative min-h-[920px] overflow-hidden rounded-[2rem] border border-white/40 bg-foreground shadow-[0_28px_80px_rgba(17,54,45,0.18)] sm:min-h-[690px] md:min-h-[720px] md:rounded-[2.75rem]">
-            <img src={heroBg} alt="" className="absolute inset-0 size-full object-cover opacity-75" />
-            <video className="absolute inset-0 size-full object-cover opacity-80" autoPlay muted loop playsInline preload="metadata" aria-hidden="true">
-              <source src="/video/cosmetics-asia-home-motion.mp4?v=1" type="video/mp4" />
-            </video>
-            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,32,26,.38)_0%,rgba(7,32,26,.2)_38%,rgba(7,32,26,.72)_100%)]" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_32%,rgba(255,255,255,.12),transparent_46%)]" />
-
-            <div className="relative z-10 flex min-h-[920px] flex-col items-center justify-center px-5 pb-44 pt-16 text-center text-white sm:min-h-[690px] sm:px-8 sm:pb-48 md:min-h-[720px] md:px-12 md:pb-52">
-              <span className="inline-flex max-w-full items-center gap-2 rounded-full border border-white/45 bg-white/12 px-4 py-2 text-xs font-semibold text-white shadow-soft backdrop-blur-md sm:text-sm">
-                <ShieldCheck className="size-4 text-[hsl(155,62%,68%)]" /> {copy.badge}
-              </span>
-              <h1 className="mt-6 max-w-5xl font-display text-[2.65rem] font-medium leading-[0.98] tracking-tight text-white sm:text-6xl md:text-[4.75rem]">
-                {copy.title}<br />
-                <em className="not-italic text-[hsl(155,62%,68%)]">{copy.emphasis}</em>
-              </h1>
-              <p className="mt-5 max-w-2xl text-sm leading-relaxed text-white/78 sm:text-base md:text-lg">{copy.subtitle}</p>
-
-              <div className="mt-8 grid w-full max-w-5xl gap-2 rounded-[1.65rem] border border-white/55 bg-card/95 p-2 text-left text-foreground shadow-[0_24px_65px_rgba(0,0,0,.24)] backdrop-blur-xl sm:grid-cols-2 md:mt-10 md:grid-cols-[1fr_1fr_1fr_auto] md:rounded-full">
-                {selectors.map((item) => (
-                  <Link key={item.label} to={item.to} className="group flex min-h-16 items-center gap-3 rounded-2xl px-4 transition-colors hover:bg-primary/[0.07] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary md:rounded-full md:border-r md:border-border/80">
-                    <span className="grid size-10 shrink-0 place-items-center rounded-full bg-primary/[0.09] text-primary"><item.icon className="size-4" /></span>
-                    <span className="min-w-0">
-                      <span className="block text-[10px] font-bold uppercase tracking-[0.14em] text-muted-foreground">{item.label}</span>
-                      <strong className="mt-0.5 block truncate text-sm font-semibold">{item.value}</strong>
-                    </span>
-                    <ArrowRight className="ml-auto size-4 text-primary transition-transform group-hover:translate-x-0.5" />
-                  </Link>
-                ))}
-                <QuoteCtaButton variant="primary" className="min-h-16 w-full px-7 md:w-auto" quoteCtx={{ source: "travel_inspired_hero_preview" }} />
+          <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-foreground shadow-[0_32px_90px_rgba(17,54,45,0.2)] md:rounded-[2.75rem]">
+            <div className="grid lg:grid-cols-[0.88fr_1.12fr]">
+              <div className="flex flex-col justify-center px-6 py-12 text-white sm:px-10 sm:py-14 lg:px-14 lg:py-14 xl:px-16">
+                <span className="inline-flex w-fit max-w-full items-center gap-2 rounded-full border border-white/20 bg-white/[0.08] px-4 py-2 text-xs font-semibold text-white/90 backdrop-blur-sm sm:text-sm">
+                  <ShieldCheck className="size-4 text-[hsl(155,62%,68%)]" /> {copy.badge}
+                </span>
+                <h1 className="mt-6 max-w-3xl font-display text-[2.8rem] font-medium leading-[0.96] tracking-tight text-white sm:text-6xl lg:text-[4rem] xl:text-[4.5rem]">
+                  {copy.title}<br />
+                  <em className="not-italic text-[hsl(155,62%,68%)]">{copy.emphasis}</em>
+                </h1>
+                <p className="mt-5 max-w-xl text-[15px] leading-7 text-white/72 sm:text-base sm:leading-7">{copy.subtitle}</p>
+                <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                  <QuoteCtaButton variant="primary" className="min-h-[3.25rem] w-full px-7 sm:w-auto" quoteCtx={{ source: "private_care_hero" }} />
+                  <Button asChild variant="outline" className="min-h-[3.25rem] w-full rounded-full border-white/30 bg-white/[0.06] px-7 text-sm font-semibold text-white hover:bg-white/[0.12] hover:text-white sm:w-auto">
+                    <Link to="/cases">{copy.diaries}<ArrowRight className="ml-1 size-4" /></Link>
+                  </Button>
+                </div>
               </div>
+
+              <div className="relative min-h-[420px] overflow-hidden border-t border-white/10 lg:min-h-full lg:border-l lg:border-t-0">
+                <img src={journeyConsultation} alt="" className="absolute inset-0 size-full object-cover object-center" />
+                <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-transparent to-transparent lg:bg-[linear-gradient(90deg,rgba(16,44,36,.25),transparent_38%,transparent)]" />
+                <div className="absolute inset-x-5 bottom-5 rounded-[1.4rem] border border-white/25 bg-foreground/55 p-5 text-white shadow-soft backdrop-blur-xl sm:inset-x-7 sm:bottom-7 sm:p-6">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-[hsl(155,62%,72%)]">
+                    {lang === "zh" ? "专属协调" : lang === "ru" ? "Персональная поддержка" : lang === "es" ? "Coordinación privada" : "Private coordination"}
+                  </span>
+                  <p className="mt-2 max-w-lg font-display text-2xl font-medium leading-tight text-white sm:text-3xl">
+                    {lang === "zh" ? "一个联系人，衔接咨询、行程与随访。" : lang === "ru" ? "Один координатор связывает консультацию, поездку и наблюдение." : lang === "es" ? "Un solo contacto para conectar la consulta, el viaje y el seguimiento." : "One point of contact, from consultation to travel and follow-up."}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid border-t border-white/10 bg-white/[0.045] p-2 sm:grid-cols-3">
+              {selectors.map((item) => (
+                <Link key={item.label} to={item.to} className="group flex min-h-[4.5rem] items-center gap-3 rounded-[1.25rem] px-4 text-white transition-colors duration-150 hover:bg-white/[0.07] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:border-r sm:border-white/10 sm:last:border-r-0">
+                  <span className="grid size-10 shrink-0 place-items-center rounded-full bg-white/[0.08] text-[hsl(155,62%,68%)] ring-1 ring-inset ring-white/10"><item.icon className="size-4" /></span>
+                  <span className="min-w-0">
+                    <span className="block text-[10px] font-bold uppercase tracking-[0.14em] text-white/50">{item.label}</span>
+                    <strong className="mt-0.5 block text-sm font-semibold text-white/90">{item.value}</strong>
+                  </span>
+                  <ArrowRight className="ml-auto size-4 text-[hsl(155,62%,68%)] transition-transform duration-150 group-hover:translate-x-0.5" />
+                </Link>
+              ))}
             </div>
           </div>
 
-          <div className="relative z-20 mx-3 -mt-28 grid grid-cols-2 overflow-hidden rounded-[1.75rem] border border-border/70 bg-card shadow-[0_24px_70px_rgba(17,54,45,.14)] sm:mx-8 md:mx-auto md:max-w-6xl md:grid-cols-4 md:rounded-[2rem]">
-            {metrics.map((item, index) => (
+          <div className="relative z-20 mx-2 mt-4 grid grid-cols-2 overflow-hidden rounded-[1.75rem] border border-border/70 bg-card shadow-[0_18px_55px_rgba(17,54,45,.1)] sm:mx-6 md:mx-auto md:max-w-6xl md:grid-cols-4 md:rounded-[2rem]">
+            {assurances.map((item, index) => (
               <div
                 key={item.label}
-                className={`flex min-h-28 flex-col items-center justify-center px-3 py-5 text-center sm:min-h-32 sm:px-5 md:min-h-36 md:px-6 ${index % 2 === 0 ? "border-r border-border/70" : ""} ${index < 2 ? "border-b border-border/70" : ""} ${index < 3 ? "md:border-r md:border-border/70" : "md:border-r-0"} md:border-b-0`}
+                className={`flex min-h-32 flex-col items-start justify-center px-5 py-6 text-left sm:px-6 md:min-h-36 ${index % 2 === 0 ? "border-r border-border/70" : ""} ${index < 2 ? "border-b border-border/70" : ""} ${index < 3 ? "md:border-r md:border-border/70" : "md:border-r-0"} md:border-b-0`}
               >
-                <strong className="font-display text-3xl font-semibold leading-none tracking-tight text-foreground sm:text-4xl" data-stat>{item.value}</strong>
-                <span className="mt-2 max-w-[12rem] text-xs font-medium leading-snug text-muted-foreground sm:text-sm">{item.label}</span>
+                <span className="grid size-9 place-items-center rounded-full bg-primary/10 text-primary"><item.icon className="size-4" strokeWidth={1.8} /></span>
+                <strong className="mt-3 font-display text-lg font-semibold leading-tight tracking-tight text-foreground sm:text-xl">{item.value}</strong>
+                <span className="mt-1 max-w-[13rem] text-xs font-medium leading-snug text-muted-foreground">{item.label}</span>
               </div>
             ))}
           </div>
@@ -1404,9 +1434,6 @@ const PromoBar = () => {
 
 // ============== Page ==============
 const AsiaIndex = () => {
-  const [searchParams] = useSearchParams();
-  const showTravelInspiredPreview = searchParams.get("hero-preview") === "travel-inspired";
-
   return (
     <>
       <PageMeta
@@ -1417,7 +1444,7 @@ const AsiaIndex = () => {
       />
       <div className="min-h-screen overflow-x-hidden bg-background">
         <AsiaNavbar />
-        {showTravelInspiredPreview ? <TravelInspiredHeroPreview /> : <Hero />}
+        <PrivateCareHero />
         <main className="home-content-flow">
           <DoctorsSection />
           <TreatmentsSection />
