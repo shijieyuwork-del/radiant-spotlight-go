@@ -19,6 +19,7 @@ import FileDropZone from "@/components/FileDropZone";
 import FieldError from "@/components/FieldError";
 import CoverVideo from "@/components/CoverVideo";
 import { translateFields } from "@/lib/i18n-content";
+import TranslationPreviewButton from "@/components/TranslationPreviewButton";
 
 const ADMIN_EMAIL = "shijieyuwork@gmail.com";
 const BUCKET = "short-videos";
@@ -725,6 +726,11 @@ const VideoAdmin = () => {
                 </span>
               </span>
             </label>
+            <TranslationPreviewButton
+              disabled={uploading}
+              revise={aiRevise}
+              fields={{ title: title.trim(), caption: caption.trim() }}
+            />
             <Button type="submit" disabled={uploading || (!file && pendingCount === 0)} className="w-full rounded-full h-11">
 
               {uploading

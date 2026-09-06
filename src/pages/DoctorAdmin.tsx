@@ -17,6 +17,7 @@ import { Progress } from "@/components/ui/progress";
 import ImageCropDialog from "@/components/ImageCropDialog";
 import FileDropZone from "@/components/FileDropZone";
 import FieldError from "@/components/FieldError";
+import TranslationPreviewButton from "@/components/TranslationPreviewButton";
 
 type Expert = {
   id: string; name: string; title: string; hospital: string; city: string;
@@ -382,6 +383,14 @@ export default function DoctorAdmin() {
                 </span>
               </span>
             </label>
+            <TranslationPreviewButton
+              disabled={busy}
+              revise={aiRevise}
+              fields={{
+                name: name.trim(), title: title.trim(), hospital: hospital.trim(),
+                city: city.trim(), bio: bio.trim(), credentials: credentials.trim(),
+              }}
+            />
             <Button disabled={busy} className="w-full rounded-full">
               {busy ? <Loader2 className="animate-spin" /> : <><UploadCloud className="size-4 mr-2" />发布专家</>}
             </Button>
