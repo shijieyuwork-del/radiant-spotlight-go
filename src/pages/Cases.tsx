@@ -98,7 +98,7 @@ const Cases = () => {
       const hay = `${c.user.en} ${c.user.zh} ${c.caption.en} ${c.caption.zh} ${c.clinic.en} ${c.clinic.zh} ${c.treatment.en} ${c.treatment.zh} ${city?.en || ""} ${city?.zh || ""} ${stageFor(c.caption.en)}`.toLowerCase();
       return hay.includes(q.toLowerCase());
     });
-  }, [q, activeTreatment, activeCity, activeStage, caseCity]);
+  }, [ALL_CASES, q, activeTreatment, activeCity, activeStage, caseCity]);
 
   // —— 排序：推荐 / 热度 / 最新 / 距离 ——
   const [sort, setSort] = useState("recommended");
