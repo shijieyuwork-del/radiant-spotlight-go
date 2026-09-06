@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@/lib/auth";
 
 /** Admin check based on the user_roles table (falls back to nothing when signed out). */
 export const useIsAdmin = () => {
