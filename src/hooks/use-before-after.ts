@@ -56,6 +56,8 @@ export const usePublishedBeforeAfter = (lang: Lang, doctorId?: string) => {
         ...r,
         title: localizedField(r.i18n, "title", lang, r.title),
         caption: localizedField(r.i18n, "caption", lang, r.caption) || null,
+        procedure: localizedField(r.i18n, "procedure", lang, r.procedure) || null,
+        city: localizedField(r.i18n, "city", lang, r.city) || null,
         beforeUrl: beforeUrls[i],
         afterUrl: afterUrls[i],
         doctorName: r.doctor_id ? names.get(r.doctor_id) ?? "" : "",
