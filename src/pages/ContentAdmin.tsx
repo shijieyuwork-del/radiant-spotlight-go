@@ -150,6 +150,13 @@ export default function ContentAdmin() {
         status: e.status, i18n,
       }).eq("id", e.id);
       if (error) throw error;
+      if (stagedPhoto) {
+        await replaceMedia("doctor-photos", e.id, stagedPhoto.file, {
+          onRetry: (a, m) => toast.info(`照片上传中断，自动重试中（${a}/${m}）…`),
+        });
+        URL.revokeObjectURL(stagedPhoto.url);
+        setStagedPhoto(null);
+      }
       toast.success(revised ? "已保存：中文已润色，并更新多语言版本" : "已保存并更新多语言版本");
       setEditingExpert(null);
       await load();
@@ -253,7 +260,7 @@ export default function ContentAdmin() {
                   </div>
                   <p className="text-xs text-muted-foreground truncate">{e.title} · {e.hospital} · {e.city}</p>
                   <div className="flex flex-wrap gap-2 mt-3">
-                    <Button size="sm" variant="outline" className="rounded-full h-8" onClick={() => setEditingExpert({ ...e })}><Pencil className="size-3.5 mr-1" />编辑</Button>
+                    <Button size="sm" variant="outline" className="rounded-full h-8" onClick={() => { setStagedPhoto(null); setEditingExpert({ ...e }); }}><Pencil className="size-3.5 mr-1" />编辑</Button>
                     <Button size="sm" variant="ghost" className="h-8" onClick={() => void toggleStatus("doctors", e.id, e.status)}>{e.status === "published" ? "下架" : "发布"}</Button>
                     <Button size="sm" variant="ghost" className="h-8 text-destructive" onClick={() => void removeExpert(e)}><Trash2 className="size-3.5 mr-1" />删除</Button>
                   </div>
@@ -288,7 +295,7 @@ export default function ContentAdmin() {
       </main>
 
       {/* 编辑专家 */}
-      <Dialog open={!!editingExpert} onOpenChange={(open) => !open && setEditingExpert(null)}>
+      <Dialog open={!!editingExpert} onOpenChange={(open) => { if (!open) { setStagedPhoto((p) => { if (p) URL.revokeObjectURL(p.url); return null; }); setEditingExpert(null); } }}>
         <DialogContent className="max-w-lg max-h-[85vh] overflow-y-auto">
           <DialogHeader><DialogTitle>编辑专家资料</DialogTitle></DialogHeader>
           {editingExpert && (
