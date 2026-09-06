@@ -41,8 +41,7 @@ const BeforeAfterAdmin = ({ experts }: { experts: ExpertOption[] }) => {
   const [rows, setRows] = useState<Row[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const [beforeFile, setBeforeFile] = useState<File | null>(null);
-  const [afterFile, setAfterFile] = useState<File | null>(null);
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [title, setTitle] = useState("");
   const [caption, setCaption] = useState("");
   const [procedure, setProcedure] = useState("");
@@ -78,8 +77,7 @@ const BeforeAfterAdmin = ({ experts }: { experts: ExpertOption[] }) => {
   });
 
   const reset = () => {
-    setBeforeFile(null);
-    setAfterFile(null);
+    setPhotoFile(null);
     setTitle("");
     setCaption("");
     setProcedure("");
@@ -89,16 +87,15 @@ const BeforeAfterAdmin = ({ experts }: { experts: ExpertOption[] }) => {
   };
 
   const submit = async () => {
-    if (!beforeFile || !afterFile) return toast.error("请分别上传术前和术后各一张图片");
+    if (!photoFile) return toast.error("请上传一张术前术后对比图片");
     if (!title.trim()) return toast.error("标题不能为空");
     setBusy(true);
     try {
-      const beforePath = await uploadMedia("before-after", beforeFile, {
-        onProgress: (p) => setProgress(Math.round(p / 2)),
+      const photoPath = await uploadMedia("before-after", photoFile, {
+        onProgress: (p) => setProgress(Math.round(p)),
       });
-      const afterPath = await uploadMedia("before-after", afterFile, {
-        onProgress: (p) => setProgress(50 + Math.round(p / 2)),
-      });
+      const beforePath = photoPath;
+      const afterPath = photoPath;
       const { revised, ...i18n } = await translateFields(
         { title: title.trim(), caption: caption.trim(), procedure: procedure.trim(), city: city.trim() },
         { revise: aiRevise }
@@ -148,31 +145,17 @@ const BeforeAfterAdmin = ({ experts }: { experts: ExpertOption[] }) => {
       {/* 上传表单 */}
       <div className="space-y-3 rounded-2xl bg-card p-5 shadow-soft">
         <h2 className="font-display text-xl">新增术前术后对比</h2>
-        <div className="grid grid-cols-2 gap-3">
-          <div>
-            <Label htmlFor="ba-before">术前照片 *</Label>
-            <FileDropZone
-              id="ba-before"
-              accept={PHOTO_ACCEPT}
-              rules={PHOTO_RULES}
-              disabled={busy}
-              fileName={beforeFile?.name ?? null}
-              onFile={setBeforeFile}
-              onInvalid={(m) => toast.error(m)}
-            />
-          </div>
-          <div>
-            <Label htmlFor="ba-after">术后照片 *</Label>
-            <FileDropZone
-              id="ba-after"
-              accept={PHOTO_ACCEPT}
-              rules={PHOTO_RULES}
-              disabled={busy}
-              fileName={afterFile?.name ?? null}
-              onFile={setAfterFile}
-              onInvalid={(m) => toast.error(m)}
-            />
-          </div>
+        <div>
+          <Label htmlFor="ba-photo">对比照片 *（术前术后拼好的一张图）</Label>
+          <FileDropZone
+            id="ba-photo"
+            accept={PHOTO_ACCEPT}
+            rules={PHOTO_RULES}
+            disabled={busy}
+            fileName={photoFile?.name ?? null}
+            onFile={setPhotoFile}
+            onInvalid={(m) => toast.error(m)}
+          />
         </div>
 
         <div>
@@ -244,7 +227,7 @@ const BeforeAfterAdmin = ({ experts }: { experts: ExpertOption[] }) => {
           {rows.map((r) => (
             <article key={r.id} className="rounded-2xl bg-card p-4 shadow-soft">
               <div className="flex gap-2">
-                {[r.beforeUrl, r.afterUrl].map((url, i) => (
+                {(r.before_path === r.after_path ? [r.beforeUrl] : [r.beforeUrl, r.afterUrl]).map((url, i) => (
                   <div key={i} className="relative flex-1">
                     {url
                       ? <img src={url} alt={`${r.title} ${i === 0 ? "before" : "after"}`} loading="lazy" className="w-full aspect-[4/5] object-cover rounded-xl" />
