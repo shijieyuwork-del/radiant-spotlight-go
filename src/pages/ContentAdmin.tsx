@@ -174,7 +174,7 @@ export default function ContentAdmin() {
     setSaving(true);
     try {
       const { revised, ...i18n } = await translateFields(
-        { title: v.title.trim(), caption: v.caption?.trim() },
+        { title: v.title.trim(), caption: v.caption?.trim(), city: v.city?.trim(), procedure: v.procedure?.trim() },
         { revise: aiRevise }
       );
       const { error } = await supabase.from("videos").update({
