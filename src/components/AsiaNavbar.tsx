@@ -1,8 +1,9 @@
 import { Link, useLocation } from "react-router-dom";
-import { DollarSign, Languages, Menu, ChevronRight, ChevronDown, Phone, Mail, MessageCircle, ArrowRight, MapPin } from "lucide-react";
+import { DollarSign, Languages, Menu, ChevronRight, ChevronDown, Phone, Mail, MessageCircle, ArrowRight, MapPin, User, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
-  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAsia, asiaLangLabel as langLabel, type AsiaLang as Lang } from "@/lib/asia-i18n";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
@@ -10,6 +11,7 @@ import BrandLogo from "@/components/BrandLogo";
 import { asiaCopy } from "@/lib/asia-copy";
 import { DEMO_CHINA_DOCTORS } from "@/data/demoChinaDoctors";
 import { useQuote } from "@/components/QuoteRequest";
+import { useAuth } from "@/lib/auth";
 
 type Props = { homeLinks?: boolean };
 
@@ -104,6 +106,48 @@ const MegaNavItem = ({ active, featuredDoctors, intro, label, groups, to, viewAl
     </div>
   </div>
 );
+
+const AccountMenu = ({ lang, onClose }: { lang: Lang; onClose?: () => void }) => {
+  const { user, signOut } = useAuth();
+  const c = (en: string, zh: string, ru: string) => asiaCopy(lang, { en, zh, ru });
+  const initial = user?.email?.[0]?.toUpperCase() ?? user?.user_metadata?.display_name?.[0]?.toUpperCase() ?? "?";
+  const label = user?.user_metadata?.display_name || user?.email || "";
+
+  if (!user) return (
+    <div className="flex items-center gap-2">
+      <Button asChild variant="ghost" className="rounded-full px-4 h-9 text-sm font-medium hover:bg-muted/60">
+        <Link to="/auth?tab=signin" onClick={onClose}>{c("Sign in", "登录", "Войти")}</Link>
+      </Button>
+      <Button asChild className="rounded-full bg-foreground text-background hover:bg-foreground/90 px-4 h-9 text-sm font-medium shadow-soft">
+        <Link to="/auth?tab=signup" onClick={onClose}>{c("Sign up", "注册", "Регистрация")}</Link>
+      </Button>
+    </div>
+  );
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" className="rounded-full h-9 px-1.5 gap-2 hover:bg-muted/60" aria-label={c("Account menu", "账户菜单", "Меню аккаунта")}>
+          <Avatar className="size-7 bg-gradient-mint">
+            <AvatarFallback className="text-xs font-semibold bg-gradient-mint text-foreground">{initial}</AvatarFallback>
+          </Avatar>
+          <span className="hidden lg:inline text-sm font-medium max-w-[120px] truncate">{label}</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-48">
+        <DropdownMenuItem asChild>
+          <Link to="/profile" onClick={onClose} className="cursor-pointer flex items-center gap-2">
+            <User className="size-4" /> {c("Profile", "个人资料", "Профиль")}
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={() => { signOut(); onClose?.(); }} className="cursor-pointer flex items-center gap-2 text-destructive focus:text-destructive">
+          <LogOut className="size-4" /> {c("Sign out", "退出登录", "Выйти")}
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
 
 const AsiaNavbar = ({ homeLinks = true }: Props) => {
   const { t, lang, setLang, currency, setCurrency } = useAsia();
@@ -252,16 +296,21 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
               <span className="hidden truncate sm:inline">hello@cosmetics-asia.com</span>
             </a>
           </div>
-          <button
-            type="button"
-            onClick={() => open({ source: "navbar_top" })}
-            aria-label={c("Start a consultation", "开始咨询", "Начать консультацию")}
-            className="inline-flex min-h-12 shrink-0 items-center gap-1.5 rounded-full border border-white/35 bg-foreground/15 px-3 font-semibold text-white transition hover:bg-foreground/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-primary md:min-h-9"
-          >
-            <MessageCircle className="size-3.5" />
-            <span>{c("Start a consultation", "开始咨询", "Начать консультацию")}</span>
-            <ArrowRight className="hidden size-3.5 sm:block" />
-          </button>
+          <div className="flex items-center gap-2">
+            <div className="hidden md:flex items-center gap-2">
+              <AccountMenu lang={lang} />
+            </div>
+            <button
+              type="button"
+              onClick={() => open({ source: "navbar_top" })}
+              aria-label={c("Start a consultation", "开始咨询", "Начать консультацию")}
+              className="inline-flex min-h-12 shrink-0 items-center gap-1.5 rounded-full border border-white/35 bg-foreground/15 px-3 font-semibold text-white transition hover:bg-foreground/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-primary md:min-h-9"
+            >
+              <MessageCircle className="size-3.5" />
+              <span>{c("Start a consultation", "开始咨询", "Начать консультацию")}</span>
+              <ArrowRight className="hidden size-3.5 sm:block" />
+            </button>
+          </div>
         </div>
       </div>
       <header className="border-b border-border/60 bg-background/95 shadow-[0_4px_18px_rgba(16,42,36,0.04)] backdrop-blur-xl">
@@ -375,6 +424,9 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
                   <DropdownMenuTrigger asChild><Button variant="outline" className="h-12 rounded-2xl"><Languages className="size-4 mr-1" />{langLabel[lang].flag} {langLabel[lang].label}</Button></DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="rounded-2xl">{(Object.keys(langLabel) as Lang[]).map((l) => <DropdownMenuItem key={l} onClick={() => setLang(l)}>{langLabel[l].flag} {langLabel[l].label}</DropdownMenuItem>)}</DropdownMenuContent>
                 </DropdownMenu>
+              </div>
+              <div className="mt-3 grid grid-cols-2 gap-2">
+                <AccountMenu lang={lang} />
               </div>
               <button
                 type="button"
