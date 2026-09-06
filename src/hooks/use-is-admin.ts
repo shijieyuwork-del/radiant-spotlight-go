@@ -2,17 +2,27 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 
-/** Admin check based on the user_roles table (falls back to nothing when signed out). */
+/**
+ * 管理员判定：读取 user_roles 表中的 admin 角色。
+ * loading 为 true 时结果尚未确定，调用方不应据此跳转。
+ */
 export const useIsAdmin = () => {
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const [isAdmin, setIsAdmin] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let active = true;
-    if (!user) {
-      setIsAdmin(false);
+    if (authLoading) {
+      setLoading(true);
       return;
     }
+    if (!user) {
+      setIsAdmin(false);
+      setLoading(false);
+      return;
+    }
+    setLoading(true);
     supabase
       .from("user_roles")
       .select("role")
@@ -20,12 +30,14 @@ export const useIsAdmin = () => {
       .eq("role", "admin")
       .maybeSingle()
       .then(({ data }) => {
-        if (active) setIsAdmin(Boolean(data));
+        if (!active) return;
+        setIsAdmin(Boolean(data));
+        setLoading(false);
       });
     return () => {
       active = false;
     };
-  }, [user]);
+  }, [user, authLoading]);
 
-  return isAdmin;
+  return { isAdmin, loading };
 };
