@@ -19,6 +19,7 @@ import ImageCropDialog from "@/components/ImageCropDialog";
 import FileDropZone from "@/components/FileDropZone";
 import FieldError from "@/components/FieldError";
 import TranslationPreviewButton from "@/components/TranslationPreviewButton";
+import ExpertImageExtractor from "@/components/ExpertImageExtractor";
 
 type Expert = {
   id: string; name: string; title: string; hospital: string; city: string;
