@@ -15,6 +15,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import LiveTranslationPanel from "@/components/LiveTranslationPanel";
+import FileDropZone from "@/components/FileDropZone";
+import { PHOTO_RULES, validateMediaFile } from "@/lib/media-validation";
+import { isUploadCancelled, replaceMedia } from "@/lib/upload-media";
 import { useRealtimeRefresh } from "@/hooks/use-realtime-refresh";
 import BeforeAfterAdmin from "@/components/BeforeAfterAdmin";
 import DoctorAdmin from "./DoctorAdmin";
@@ -47,6 +50,14 @@ export default function ContentAdmin() {
   const [editingVideo, setEditingVideo] = useState<VideoRow | null>(null);
   const [saving, setSaving] = useState(false);
   const [aiRevise, setAiRevise] = useState(true);
+  const [stagedPhoto, setStagedPhoto] = useState<{ file: File; url: string } | null>(null);
+
+  const stagePhoto = (file: File) => {
+    setStagedPhoto((prev) => {
+      if (prev) URL.revokeObjectURL(prev.url);
+      return { file, url: URL.createObjectURL(file) };
+    });
+  };
 
   const load = async () => {
     setLoading(true);
