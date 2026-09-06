@@ -35,7 +35,7 @@ const Cases = () => {
   const [activeStage, setActiveStage] = useState(() => searchParams.get("stage") ?? "");
   // 后台上传并发布的视频与演示日记合并展示
   const uploaded = usePublishedVideos(lang);
-  const ALL_CASES = useMemo(() => [...uploaded, ...ALL_CASES], [uploaded]);
+  const ALL_CASES = useMemo(() => [...uploaded, ...TIKTOK_CASES], [uploaded]);
 
   // Use the case's own China destination; fall back to expert data for legacy entries.
   const caseCity = useMemo(() => {
