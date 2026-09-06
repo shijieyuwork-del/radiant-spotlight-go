@@ -22,10 +22,10 @@ export default function LiveTranslationPanel({
 }) {
   const [bundle, setBundle] = useState<I18nBundle | null>(null);
   const [loading, setLoading] = useState(false);
-  const signature = JSON.stringify(fields) + String(revise);
+  const signature = JSON.stringify(fields);
 
   useEffect(() => {
-    const parsed = JSON.parse(signature.slice(0, signature.length - String(revise).length)) as Record<string, string>;
+    const parsed = JSON.parse(signature) as Record<string, string>;
     const hasContent = Object.values(parsed).some((v) => typeof v === "string" && v.trim());
     if (!hasContent) {
       setBundle(null);
