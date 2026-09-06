@@ -296,21 +296,16 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
               <span className="hidden truncate sm:inline">hello@cosmetics-asia.com</span>
             </a>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="hidden md:flex items-center gap-2">
-              <AccountMenu lang={lang} />
-            </div>
-            <button
-              type="button"
-              onClick={() => open({ source: "navbar_top" })}
-              aria-label={c("Start a consultation", "开始咨询", "Начать консультацию")}
-              className="inline-flex min-h-12 shrink-0 items-center gap-1.5 rounded-full border border-white/35 bg-foreground/15 px-3 font-semibold text-white transition hover:bg-foreground/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-primary md:min-h-9"
-            >
-              <MessageCircle className="size-3.5" />
-              <span>{c("Start a consultation", "开始咨询", "Начать консультацию")}</span>
-              <ArrowRight className="hidden size-3.5 sm:block" />
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={() => open({ source: "navbar_top" })}
+            aria-label={c("Start a consultation", "开始咨询", "Начать консультацию")}
+            className="inline-flex min-h-12 shrink-0 items-center gap-1.5 rounded-full border border-white/35 bg-foreground/15 px-3 font-semibold text-white transition hover:bg-foreground/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-primary md:min-h-9"
+          >
+            <MessageCircle className="size-3.5" />
+            <span>{c("Start a consultation", "开始咨询", "Начать консультацию")}</span>
+            <ArrowRight className="hidden size-3.5 sm:block" />
+          </button>
         </div>
       </div>
       <header className="border-b border-border/60 bg-background/95 shadow-[0_4px_18px_rgba(16,42,36,0.04)] backdrop-blur-xl">
