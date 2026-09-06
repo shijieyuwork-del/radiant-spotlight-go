@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import {
   Sparkles, ArrowRight, MapPin, ShieldCheck,
@@ -44,6 +44,7 @@ import procedureWeightLoss from "@/assets/procedures/body-lift.jpg";
 import procedureMen from "@/assets/procedures/male-breast-reduction.jpg";
 import AppPromoSection from "@/components/AppPromoSection";
 import { supabase } from "@/integrations/supabase/client";
+import { useRealtimeRefresh } from "@/hooks/use-realtime-refresh";
 import { signedUrls } from "@/lib/storage-urls";
 import { DEMO_CHINA_DOCTORS } from "@/data/demoChinaDoctors";
 
@@ -1111,7 +1112,7 @@ const DoctorsSection = () => {
   const displayedDoctors = publishedDoctors.length > 0
     ? publishedDoctors.map((doctor) => ({ ...doctor, photo: doctor.photo ?? "", demo: false as const }))
     : DEMO_CHINA_DOCTORS.map((doctor) => ({ ...doctor, photo_path: null }));
-  useEffect(() => {
+  const loadPublishedDoctors = useCallback(() => {
     const chinaCities = ["Shanghai", "Beijing", "Guangzhou", "Hangzhou", "Hainan", "上海", "北京", "广州", "杭州", "海南"];
     supabase
       .from("doctors")
@@ -1124,6 +1125,9 @@ const DoctorsSection = () => {
         setPublishedDoctors(rows.map((doctor, index) => localizeDoctorRow({ ...doctor, photo: photos[index] } as Record<string, unknown>, lang)) as typeof publishedDoctors);
       });
   }, [lang]);
+  useEffect(() => { loadPublishedDoctors(); }, [loadPublishedDoctors]);
+  // 后台发布新专家后首页自动更新
+  useRealtimeRefresh(["doctors"], loadPublishedDoctors);
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const timer = window.setInterval(() => {
