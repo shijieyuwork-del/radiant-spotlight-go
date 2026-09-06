@@ -30,6 +30,7 @@ const TreatmentDetail = lazy(() => import("./pages/TreatmentDetail.tsx"));
 const Auth = lazy(() => import("./pages/Auth.tsx"));
 const VideoAdmin = lazy(() => import("./pages/VideoAdmin.tsx"));
 const AuditAdmin = lazy(() => import("./pages/AuditAdmin.tsx"));
+const ContentAdmin = lazy(() => import("./pages/ContentAdmin.tsx"));
 const WhyChina = lazy(() => import("./pages/WhyChina.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 const Privacy = lazy(() => import("./pages/Privacy.tsx"));
@@ -95,6 +96,7 @@ export const AppRoutes = () => (
                     <Route path="/auth" element={<Auth />} />
                     <Route path="/admin/videos" element={<VideoAdmin />} />
 <Route path="/admin/doctors" element={<DoctorAdmin />} />
+                    <Route path="/admin/content" element={<ContentAdmin />} />
                     <Route path="/admin/audit" element={<AuditAdmin />} />
                     <Route path="/upload" element={<VideoAdmin />} />
                     <Route path="/cn" element={<Navigate to="/" replace />} />

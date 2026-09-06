@@ -146,6 +146,12 @@ const AccountMenu = ({ lang, onClose }: { lang: Lang; onClose?: () => void }) =>
           <>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
+              <Link to="/admin/content" onClick={onClose} className="cursor-pointer flex items-center gap-2">
+                <User className="size-4" /> {c("Content manager", "内容管理", "Управление контентом", "Gestor de contenido")}
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+
               <Link to="/admin/doctors" onClick={onClose} className="cursor-pointer flex items-center gap-2">
                 <User className="size-4" /> {c("Manage experts", "管理专家", "Управление экспертами", "Gestionar expertos")}
               </Link>
