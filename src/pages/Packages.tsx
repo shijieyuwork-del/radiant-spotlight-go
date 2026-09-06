@@ -368,7 +368,34 @@ const Packages = () => {
                       </div>
                     </article>
                   );
-                })}
+                 })}
+              </div>
+
+              {/* Hotel price tiers */}
+              <div className="border-t border-white/70 bg-white/45 px-5 py-7 sm:px-9 md:px-12 md:py-10">
+                <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+                  <div>
+                    <span className="pill bg-white/80 text-foreground shadow-soft"><Hotel className="size-3.5 text-primary" />{c("Hotel price guide", "酒店价格分区", "Ценовые категории отелей")}</span>
+                    <h3 className="mt-3 font-display text-2xl font-medium tracking-tight sm:text-3xl">{c("Pick a hotel tier that fits your trip.", "按预算选择住宿档次。", "Выберите категорию отеля под ваш бюджет.")}</h3>
+                  </div>
+                  <p className="max-w-md text-sm leading-relaxed text-foreground/60">{c("Typical nightly rates in major cities, shown in USD as a planning reference. Final prices vary by city, season and room type; hotel charges are paid separately to the hotel.", "以下为主要城市的每晚参考价格（美元）。实际价格因城市、季节和房型而异；酒店费用另行支付给酒店。", "Ориентировочные цены за ночь в крупных городах (в USD). Итоговая стоимость зависит от города, сезона и типа номера; проживание оплачивается отдельно отелю.")}</p>
+                </div>
+                <div className="mt-6 grid gap-4 md:grid-cols-3">
+                  {HOTEL_TIERS.map((tier) => {
+                    const TierIcon = tier.icon;
+                    return (
+                      <article key={tier.tier[0]} className="rounded-3xl border border-white/90 bg-card p-5 shadow-soft sm:p-6">
+                        <div className="flex items-center justify-between gap-3">
+                          <span className="grid size-10 place-items-center rounded-2xl bg-primary-soft text-primary" style={{ background: "hsl(var(--primary-soft))" }}><TierIcon className="size-4" /></span>
+                          <span className="font-display text-lg font-semibold text-primary">{tier.range}<span className="text-xs font-medium text-muted-foreground"> /{c("night", "晚", "ночь")}</span></span>
+                        </div>
+                        <h4 className="mt-4 font-display text-lg font-semibold tracking-tight">{pick(tier.tier)}</h4>
+                        <p className="mt-2 text-sm leading-relaxed text-foreground/65">{pick(tier.examples)}</p>
+                        <p className="mt-3 flex gap-2 text-xs leading-relaxed text-muted-foreground"><Check className="mt-0.5 size-3.5 shrink-0 text-primary" />{pick(tier.note)}</p>
+                      </article>
+                    );
+                  })}
+                </div>
               </div>
             </div>
           </section>
