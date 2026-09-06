@@ -19,6 +19,7 @@ import FileDropZone from "@/components/FileDropZone";
 import FieldError from "@/components/FieldError";
 import CoverVideo from "@/components/CoverVideo";
 import { translateFields } from "@/lib/i18n-content";
+import TranslationPreviewButton from "@/components/TranslationPreviewButton";
 
 const ADMIN_EMAIL = "shijieyuwork@gmail.com";
 const BUCKET = "short-videos";
