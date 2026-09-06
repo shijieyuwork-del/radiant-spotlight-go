@@ -356,9 +356,24 @@ export default function DoctorAdmin() {
                 </Button>
               </div>
             )}
+            <label className="flex items-start gap-3 rounded-2xl border border-border/70 bg-muted/30 p-3">
+              <input
+                type="checkbox"
+                className="mt-1 size-4 accent-primary"
+                checked={aiRevise}
+                onChange={(e) => setAiRevise(e.target.checked)}
+              />
+              <span className="text-sm">
+                AI 润色并翻译
+                <span className="block text-xs text-muted-foreground mt-0.5">
+                  勾选后，AI 会先润色中文文案（不改变原意），再生成英文与俄文版本；取消勾选则只做翻译。
+                </span>
+              </span>
+            </label>
             <Button disabled={busy} className="w-full rounded-full">
               {busy ? <Loader2 className="animate-spin" /> : <><UploadCloud className="size-4 mr-2" />发布专家</>}
             </Button>
+
           </form>
         </section>
         <section>
