@@ -12,6 +12,7 @@ import { asiaCopy } from "@/lib/asia-copy";
 import { DEMO_CHINA_DOCTORS } from "@/data/demoChinaDoctors";
 import { useQuote } from "@/components/QuoteRequest";
 import { useAuth } from "@/lib/auth";
+import { useIsAdmin } from "@/hooks/use-is-admin";
 
 type Props = { homeLinks?: boolean };
 
