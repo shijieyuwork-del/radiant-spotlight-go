@@ -15,6 +15,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import LiveTranslationPanel from "@/components/LiveTranslationPanel";
+import FileDropZone from "@/components/FileDropZone";
+import { PHOTO_RULES, validateMediaFile } from "@/lib/media-validation";
+import { replaceMedia } from "@/lib/upload-media";
 import { useRealtimeRefresh } from "@/hooks/use-realtime-refresh";
 import BeforeAfterAdmin from "@/components/BeforeAfterAdmin";
 import DoctorAdmin from "./DoctorAdmin";
@@ -47,6 +50,14 @@ export default function ContentAdmin() {
   const [editingVideo, setEditingVideo] = useState<VideoRow | null>(null);
   const [saving, setSaving] = useState(false);
   const [aiRevise, setAiRevise] = useState(true);
+  const [stagedPhoto, setStagedPhoto] = useState<{ file: File; url: string } | null>(null);
+
+  const stagePhoto = (file: File) => {
+    setStagedPhoto((prev) => {
+      if (prev) URL.revokeObjectURL(prev.url);
+      return { file, url: URL.createObjectURL(file) };
+    });
+  };
 
   const load = async () => {
     setLoading(true);
@@ -139,6 +150,13 @@ export default function ContentAdmin() {
         status: e.status, i18n,
       }).eq("id", e.id);
       if (error) throw error;
+      if (stagedPhoto) {
+        await replaceMedia("doctor-photos", e.id, stagedPhoto.file, {
+          onRetry: (a, m) => toast.info(`照片上传中断，自动重试中（${a}/${m}）…`),
+        });
+        URL.revokeObjectURL(stagedPhoto.url);
+        setStagedPhoto(null);
+      }
       toast.success(revised ? "已保存：中文已润色，并更新多语言版本" : "已保存并更新多语言版本");
       setEditingExpert(null);
       await load();
@@ -242,7 +260,7 @@ export default function ContentAdmin() {
                   </div>
                   <p className="text-xs text-muted-foreground truncate">{e.title} · {e.hospital} · {e.city}</p>
                   <div className="flex flex-wrap gap-2 mt-3">
-                    <Button size="sm" variant="outline" className="rounded-full h-8" onClick={() => setEditingExpert({ ...e })}><Pencil className="size-3.5 mr-1" />编辑</Button>
+                    <Button size="sm" variant="outline" className="rounded-full h-8" onClick={() => { setStagedPhoto(null); setEditingExpert({ ...e }); }}><Pencil className="size-3.5 mr-1" />编辑</Button>
                     <Button size="sm" variant="ghost" className="h-8" onClick={() => void toggleStatus("doctors", e.id, e.status)}>{e.status === "published" ? "下架" : "发布"}</Button>
                     <Button size="sm" variant="ghost" className="h-8 text-destructive" onClick={() => void removeExpert(e)}><Trash2 className="size-3.5 mr-1" />删除</Button>
                   </div>
@@ -277,11 +295,31 @@ export default function ContentAdmin() {
       </main>
 
       {/* 编辑专家 */}
-      <Dialog open={!!editingExpert} onOpenChange={(open) => !open && setEditingExpert(null)}>
+      <Dialog open={!!editingExpert} onOpenChange={(open) => { if (!open) { setStagedPhoto((p) => { if (p) URL.revokeObjectURL(p.url); return null; }); setEditingExpert(null); } }}>
         <DialogContent className="max-w-lg max-h-[85vh] overflow-y-auto">
           <DialogHeader><DialogTitle>编辑专家资料</DialogTitle></DialogHeader>
           {editingExpert && (
             <div className="space-y-3">
+              <div className="space-y-2">
+                <Label htmlFor="edit-expert-photo">专家照片</Label>
+                <div className="flex items-center gap-3">
+                  {stagedPhoto
+                    ? <img src={stagedPhoto.url} alt="新照片预览" className="size-16 rounded-xl object-cover ring-2 ring-primary/40" />
+                    : editingExpert.photoUrl
+                      ? <img src={editingExpert.photoUrl} alt={editingExpert.name} className="size-16 rounded-xl object-cover" />
+                      : <div className="size-16 rounded-xl bg-muted grid place-items-center"><Stethoscope className="size-5 text-muted-foreground" /></div>}
+                  <p className="text-xs text-muted-foreground">{stagedPhoto ? `新照片：${stagedPhoto.file.name}` : "当前照片，可在下方拖入新照片替换"}</p>
+                </div>
+                <FileDropZone
+                  id="edit-expert-photo"
+                  accept="image/jpeg,image/png,image/webp"
+                  rules={PHOTO_RULES}
+                  disabled={saving}
+                  fileName={stagedPhoto ? `已选择：${stagedPhoto.file.name}` : null}
+                  onFile={stagePhoto}
+                  onInvalid={(message) => toast.error(message)}
+                />
+              </div>
               <TextField label="姓名 *" value={editingExpert.name} onChange={(v) => setEditingExpert({ ...editingExpert, name: v })} />
               <TextField label="职称 *" value={editingExpert.title} onChange={(v) => setEditingExpert({ ...editingExpert, title: v })} />
               <TextField label="医院/机构" value={editingExpert.hospital} onChange={(v) => setEditingExpert({ ...editingExpert, hospital: v })} />
