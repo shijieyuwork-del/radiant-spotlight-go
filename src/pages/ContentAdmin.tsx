@@ -17,7 +17,7 @@ import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "
 import LiveTranslationPanel from "@/components/LiveTranslationPanel";
 import FileDropZone from "@/components/FileDropZone";
 import { PHOTO_RULES, validateMediaFile } from "@/lib/media-validation";
-import { isUploadCancelled, replaceMedia } from "@/lib/upload-media";
+import { replaceMedia } from "@/lib/upload-media";
 import { useRealtimeRefresh } from "@/hooks/use-realtime-refresh";
 import BeforeAfterAdmin from "@/components/BeforeAfterAdmin";
 import DoctorAdmin from "./DoctorAdmin";
