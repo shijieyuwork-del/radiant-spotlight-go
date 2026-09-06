@@ -8,6 +8,7 @@ import { signedUrls } from "@/lib/storage-urls";
 import { isUploadCancelled, replaceMedia, uploadMedia } from "@/lib/upload-media";
 import { PHOTO_RULES, fieldForUploadError, validateMediaFile } from "@/lib/media-validation";
 import { scrollToFirstError } from "@/lib/scroll-to-error";
+import { translateFields } from "@/lib/i18n-content";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
