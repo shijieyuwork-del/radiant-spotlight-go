@@ -59,6 +59,8 @@ export default function DoctorAdmin() {
   // 上传取消与失败重试
   const [submitRetry, setSubmitRetry] = useState<"failed" | "cancelled" | null>(null);
   const [failedReplace, setFailedReplace] = useState<{ expertId: string; file: File } | null>(null);
+  const [aiRevise, setAiRevise] = useState(true);
+
   const submitAbortRef = useRef<AbortController | null>(null);
   const replaceAbortRef = useRef<AbortController | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
