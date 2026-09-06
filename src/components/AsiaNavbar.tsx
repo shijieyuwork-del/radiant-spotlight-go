@@ -132,45 +132,14 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
           <BrandLogo markClassName="size-8 md:size-9" textClassName="text-lg md:text-xl" />
         </Link>
         <div className="hidden md:flex items-center gap-0.5 rounded-full bg-muted/60 p-1">
-          {desktopLinks.map((l) => megaMenus[l.to] ? (
-            <MegaNavItem
-              key={l.to}
-              active={isActive(l.to)}
-              label={l.label}
-              to={l.to}
-              intro={megaMenus[l.to].intro}
-              viewAll={megaMenus[l.to].viewAll}
-              groups={megaMenus[l.to].groups}
-              featuredDoctors={megaMenus[l.to].featuredDoctors}
-            />
-          ) : (
+          {desktopLinks.map((l) => (
             <Link
               key={l.to}
               to={l.to}
               aria-current={isActive(l.to) ? "page" : undefined}
-              className={`whitespace-nowrap rounded-full px-2.5 py-1.5 text-[13px] font-medium transition-all xl:px-4 xl:text-sm ${isActive(l.to) ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:bg-primary/10 hover:text-foreground"}`}
+              className={`whitespace-nowrap rounded-full px-2 py-1.5 text-[12px] font-medium transition-all xl:px-3 xl:text-[13px] ${isActive(l.to) ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:bg-primary/10 hover:text-foreground"}`}
             >{l.label}</Link>
           ))}
-          {moreLinks.length > 0 && (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button className={`inline-flex items-center gap-1 whitespace-nowrap rounded-full px-2.5 py-1.5 text-[13px] font-medium transition-all xl:px-4 xl:text-sm ${
-                  moreLinks.some((link) => isActive(link.to))
-                    ? "bg-primary text-primary-foreground shadow-sm"
-                    : "text-muted-foreground hover:bg-primary/10 hover:text-foreground"
-                }`}>
-                  {c("More", "更多", "Ещё", "Más")}<ChevronDown className="size-3.5" />
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="min-w-44 rounded-2xl p-1.5">
-                {moreLinks.map((link) => (
-                  <DropdownMenuItem key={link.to} asChild className={`rounded-xl ${isActive(link.to) ? "bg-primary/12 font-semibold text-primary" : ""}`}>
-                    <Link to={link.to} aria-current={isActive(link.to) ? "page" : undefined}>{link.label}</Link>
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-          )}
         </div>
         <div className="flex items-center gap-1.5">
           <div className="hidden md:flex items-center gap-1.5">
