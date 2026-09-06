@@ -262,14 +262,19 @@ type CatalogEducation = {
   price: string;
   downtimeEn: string;
   downtimeZh: string;
+  downtimeEs: string;
   finalEn: string;
   finalZh: string;
+  finalEs: string;
   anesthesiaEn: string;
   anesthesiaZh: string;
+  anesthesiaEs: string;
   risksEn: string[];
   risksZh: string[];
+  risksEs: string[];
   discloseEn: string[];
   discloseZh: string[];
+  discloseEs: string[];
 };
 
 const sharedDisclosure = {
@@ -286,6 +291,13 @@ const sharedDisclosure = {
     "妊娠、哺乳、活动性感染、严重过敏或增生性瘢痕史",
     "既往麻醉、手术或植入类医疗产品的不良反应",
     "全部处方药、非处方药、抗凝药、维生素、草药补充剂，以及尼古丁、酒精和其他药物使用情况",
+  ],
+  es: [
+    "Enfermedad cardíaca, presión arterial alta, asma, apnea del sueño u otras afecciones pulmonares",
+    "Diabetes, enfermedad hepática o renal, trastornos del sistema inmunitario, problemas de sangrado o coagulación",
+    "Embarazo, lactancia, infección activa, alergias graves o antecedentes de cicatrización difícil",
+    "Cualquier reacción previa a la anestesia, a una cirugía o a un producto médico implantado",
+    "Todos los medicamentos con receta, de venta libre, anticoagulantes, vitaminas, suplementos herbales, nicotina, alcohol y drogas recreativas",
   ],
 };
 

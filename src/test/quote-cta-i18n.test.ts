@@ -28,6 +28,7 @@ const CANONICAL = {
   en: "Get a free quote",
   zh: "获取免费报价",
   ru: "Получить бесплатную оценку",
+  es: "Solicita un presupuesto gratis",
 } as const;
 
 /** 渲染该按钮的页面/组件（必须走 QuoteCtaButton，不得内联文案） */
@@ -53,11 +54,11 @@ const sourceFiles = ["pages", "components", "lib", "data"].flatMap((d) => walk(j
 const dictSrc = read("lib/asia-i18n.tsx");
 
 /** 取出某个语言块（`  en: {` 独占一行开始，到下一个语言块或文件尾） */
-const langBlock = (lang: "en" | "zh" | "ru"): string => {
+const langBlock = (lang: "en" | "zh" | "ru" | "es"): string => {
   const start = dictSrc.indexOf(`\n  ${lang}: {\n`);
   if (start === -1) return "";
   const rest = dictSrc.slice(start + 1);
-  const next = rest.search(/\n  (en|zh|ru): \{\n/);
+  const next = rest.search(/\n  (en|zh|ru|es): \{\n/);
   return next === -1 ? rest : rest.slice(0, next + 1);
 };
 
@@ -70,7 +71,7 @@ const dictKeys = (block: string): string[] =>
 /* ---------------- 1. 字典键 hero.cta（唯一文案来源） ---------------- */
 describe("quote CTA i18n — 字典键 hero.cta（唯一文案来源）", () => {
   it("en/zh/ru 三个语言块都存在 hero.cta（不漏翻译）", () => {
-    for (const lang of ["en", "zh", "ru"] as const) {
+    for (const lang of ["en", "zh", "ru", "es"] as const) {
       expect(dictValue(langBlock(lang), "hero.cta"), `hero.cta 缺少 ${lang} 翻译`).not.toBeNull();
     }
   });
@@ -98,6 +99,7 @@ describe("quote CTA i18n — 字典键 hero.cta（唯一文案来源）", () => 
     expect(enKeys.length).toBeGreaterThan(0);
     expect(dictKeys(langBlock("zh"))).toEqual(enKeys);
     expect(dictKeys(langBlock("ru"))).toEqual(enKeys);
+    expect(dictKeys(langBlock("es"))).toEqual(enKeys);
   });
 });
 

@@ -48,7 +48,7 @@ const DemoDoctorDetail = () => {
               <figcaption className="mt-2 text-xs leading-relaxed text-muted-foreground">
                 {doctor.photoKind === "stock" ? (
                   <>{lang === "zh" ? "真人图库照片，不代表所示虚构专家。" : lang === "ru" ? "Стоковое фото реального человека; не изображает вымышленного эксперта." : lang === "es" ? "Foto de archivo de una persona real; no representa al experto ficticio mostrado." : "Real-person stock photo; not the fictional expert shown."}{" "}<a href={doctor.photoSource} target="_blank" rel="noreferrer" className="underline decoration-border underline-offset-2 hover:text-foreground">{doctor.photoCredit}</a></>
-                ) : (lang === "zh" ? "AI 生成的示例形象，不代表真实医生。" : lang === "ru" ? "Демонстрационное изображение создано ИИ и не изображает реального врача." : lang === "es" ? "Imagen de muestra generada por IA; no representa a un profesional real." : "AI-generated sample image; not a real practitioner.")}
+                ) : (lang === "zh" ? "AI 生成的示例形象，不代表真实专家。" : lang === "ru" ? "Демонстрационное изображение создано ИИ и не изображает реального эксперта." : lang === "es" ? "Imagen de muestra generada por IA; no representa a un profesional real." : "AI-generated sample image; not a real practitioner.")}
               </figcaption>
             </figure>
             <div>
