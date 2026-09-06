@@ -19,12 +19,17 @@ const BUCKETS = {
     exts: ['jpg', 'jpeg', 'png', 'webp'],
     maxBytes: 10 * 1024 * 1024, // 10MB
   },
+  'before-after': {
+    types: ['image/jpeg', 'image/png', 'image/webp'],
+    exts: ['jpg', 'jpeg', 'png', 'webp'],
+    maxBytes: 10 * 1024 * 1024, // 10MB
+  },
 } as const
 
 type BucketName = keyof typeof BUCKETS
 
 // Which table/column a bucket's media belongs to (used by replace mode)
-const TABLE_FOR_BUCKET: Record<BucketName, { table: 'doctors' | 'videos'; column: 'photo_path' | 'storage_path' | 'cover_path' }> = {
+const TABLE_FOR_BUCKET: Partial<Record<BucketName, { table: 'doctors' | 'videos'; column: 'photo_path' | 'storage_path' | 'cover_path' }>> = {
   'doctor-photos': { table: 'doctors', column: 'photo_path' },
   'short-videos': { table: 'videos', column: 'storage_path' },
   'video-covers': { table: 'videos', column: 'cover_path' },
@@ -167,7 +172,7 @@ Deno.serve(async (req) => {
     const mode = form.get('mode')
     const recordId = form.get('recordId')
     if (typeof bucket !== 'string' || !(bucket in BUCKETS)) {
-      return json({ error: 'bucket must be doctor-photos, short-videos or video-covers' }, 400)
+      return json({ error: 'bucket must be doctor-photos, short-videos, video-covers or before-after' }, 400)
     }
     if (!(file instanceof File) || file.size === 0) {
       return json({ error: 'file is required' }, 400)
@@ -209,7 +214,8 @@ Deno.serve(async (req) => {
     let oldPath: string | null = null
     let tableInfo: { table: 'doctors' | 'videos'; column: 'photo_path' | 'storage_path' | 'cover_path' } | null = null
     if (isReplace) {
-      tableInfo = TABLE_FOR_BUCKET[bucket as BucketName]
+      tableInfo = TABLE_FOR_BUCKET[bucket as BucketName] ?? null
+      if (!tableInfo) return json({ error: 'replace mode is not supported for this bucket' }, 400)
       const { data: record, error: fetchError } = await service
         .from(tableInfo.table)
         .select(`id, ${tableInfo.column}`)

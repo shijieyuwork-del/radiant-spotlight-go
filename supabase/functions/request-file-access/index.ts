@@ -12,7 +12,7 @@ const BUCKET_TARGETS: Record<string, { table: string; column: string }> = {
 }
 
 const BodySchema = z.object({
-  bucket: z.enum(['doctor-photos', 'short-videos', 'video-covers']),
+  bucket: z.enum(['doctor-photos', 'short-videos', 'video-covers', 'before-after']),
   paths: z
     .array(
       z
@@ -61,6 +61,18 @@ Deno.serve(async (req) => {
     let allowed: string[]
     if (isAdmin) {
       allowed = uniquePaths
+    } else if (bucket === 'before-after') {
+      // Two path columns on one row — a path is public if either column matches a published case
+      const { data: rows } = await service
+        .from('before_after_cases')
+        .select('before_path, after_path')
+        .eq('status', 'published')
+      const published = new Set<string>()
+      for (const r of (rows ?? []) as { before_path: string; after_path: string }[]) {
+        published.add(r.before_path)
+        published.add(r.after_path)
+      }
+      allowed = uniquePaths.filter((p) => published.has(p))
     } else {
       const { table, column } = BUCKET_TARGETS[bucket]
       const { data: rows } = await service

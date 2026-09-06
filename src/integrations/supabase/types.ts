@@ -53,6 +53,59 @@ export type Database = {
         }
         Relationships: []
       }
+      before_after_cases: {
+        Row: {
+          after_path: string
+          before_path: string
+          caption: string | null
+          city: string | null
+          created_at: string
+          doctor_id: string | null
+          i18n: Json
+          id: string
+          months_after: number | null
+          procedure: string | null
+          status: string
+          title: string
+        }
+        Insert: {
+          after_path: string
+          before_path: string
+          caption?: string | null
+          city?: string | null
+          created_at?: string
+          doctor_id?: string | null
+          i18n?: Json
+          id?: string
+          months_after?: number | null
+          procedure?: string | null
+          status?: string
+          title: string
+        }
+        Update: {
+          after_path?: string
+          before_path?: string
+          caption?: string | null
+          city?: string | null
+          created_at?: string
+          doctor_id?: string | null
+          i18n?: Json
+          id?: string
+          months_after?: number | null
+          procedure?: string | null
+          status?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "before_after_cases_doctor_id_fkey"
+            columns: ["doctor_id"]
+            isOneToOne: false
+            referencedRelation: "doctors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       doctors: {
         Row: {
           bio: string

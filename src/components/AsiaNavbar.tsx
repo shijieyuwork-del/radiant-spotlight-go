@@ -171,6 +171,7 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
       ? [
         { to: "/", label: c("Home", "首页", "Главная", "Inicio") },
         { to: "/cases", label: t("nav.cases") },
+        { to: "/before-after", label: c("Before & after", "术前术后", "До и после", "Antes y después") },
         { to: "/doctors", label: t("nav.compliance") },
         { to: "/treatments", label: t("nav.projects") },
         { to: "/travel-packages", label: c("Travel Support", "行程支持", "Поддержка поездки", "Apoyo de viaje") },
@@ -184,7 +185,7 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
         { to: "/cases", label: t("nav.cases") },
       ];
   const desktopLinks = homeLinks
-    ? links.filter((link) => ["/", "/treatments", "/cases", "/doctors", "/travel-packages"].includes(link.to))
+    ? links.filter((link) => ["/", "/treatments", "/cases", "/before-after", "/doctors", "/travel-packages"].includes(link.to))
     : links;
   const moreLinks = homeLinks
     ? links.filter((link) => ["/cities", "/why-china", "/about", "/provider-verification"].includes(link.to))
