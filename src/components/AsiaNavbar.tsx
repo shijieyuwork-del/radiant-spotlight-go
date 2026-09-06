@@ -12,6 +12,7 @@ import { asiaCopy } from "@/lib/asia-copy";
 import { DEMO_CHINA_DOCTORS } from "@/data/demoChinaDoctors";
 import { useQuote } from "@/components/QuoteRequest";
 import { useAuth } from "@/lib/auth";
+import { useIsAdmin } from "@/hooks/use-is-admin";
 
 type Props = { homeLinks?: boolean };
 
@@ -107,12 +108,10 @@ const MegaNavItem = ({ active, featuredDoctors, intro, label, groups, to, viewAl
   </div>
 );
 
-const ADMIN_EMAIL = "shijieyuwork@gmail.com";
-
 const AccountMenu = ({ lang, onClose }: { lang: Lang; onClose?: () => void }) => {
   const { user, signOut } = useAuth();
   const c = (en: string, zh: string, ru: string) => asiaCopy(lang, { en, zh, ru });
-  const isAdmin = user?.email?.toLowerCase() === ADMIN_EMAIL;
+  const isAdmin = useIsAdmin();
   const initial = user?.email?.[0]?.toUpperCase() ?? user?.user_metadata?.display_name?.[0]?.toUpperCase() ?? "?";
   const label = user?.user_metadata?.display_name || user?.email || "";
 
