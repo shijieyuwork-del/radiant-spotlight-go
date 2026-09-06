@@ -232,7 +232,9 @@ const BeforeAfterAdmin = ({ experts }: { experts: ExpertOption[] }) => {
                     {url
                       ? <img src={url} alt={`${r.title} ${i === 0 ? "before" : "after"}`} loading="lazy" className="w-full aspect-[4/5] object-cover rounded-xl" />
                       : <div className="w-full aspect-[4/5] rounded-xl bg-muted" />}
-                    <span className="absolute top-2 left-2 rounded-full bg-background/90 px-2 py-0.5 text-[11px]">{i === 0 ? "术前" : "术后"}</span>
+                    {r.before_path !== r.after_path && (
+                      <span className="absolute top-2 left-2 rounded-full bg-background/90 px-2 py-0.5 text-[11px]">{i === 0 ? "术前" : "术后"}</span>
+                    )}
                   </div>
                 ))}
               </div>

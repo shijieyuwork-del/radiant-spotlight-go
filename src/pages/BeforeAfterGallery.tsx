@@ -110,6 +110,7 @@ const BeforeAfterGallery = () => {
             {filtered.map((item) => (
               <div key={item.id} className="space-y-2">
                 <BeforeAfterCard
+                  single={item.before_path === item.after_path}
                   before={item.beforeUrl ?? ""}
                   after={item.afterUrl ?? ""}
                   doctor={item.doctorName || item.title}
