@@ -45,7 +45,7 @@ const MARK_CLASS = "rounded bg-primary/70 px-0.5 text-primary-foreground";
 
 const TikTokCard = ({
   item, lang, fmtPrice, caseHrefBase = "/cases/", autoPlayEligible = true, discovery = false, eager = false, beforeNavigate, highlight,
-}: { item: TikTokItem; lang: "en" | "zh" | "ru"; fmtPrice: (n: number) => string; caseHrefBase?: string; autoPlayEligible?: boolean; discovery?: boolean; eager?: boolean; beforeNavigate?: () => boolean; highlight?: string }) => {
+}: { item: TikTokItem; lang: "en" | "zh" | "ru" | "es"; fmtPrice: (n: number) => string; caseHrefBase?: string; autoPlayEligible?: boolean; discovery?: boolean; eager?: boolean; beforeNavigate?: () => boolean; highlight?: string }) => {
   const ref = useRef<HTMLVideoElement>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
   const [muted, setMuted] = useState(true);
