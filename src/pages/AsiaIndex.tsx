@@ -312,7 +312,7 @@ const TravelInspiredHeroPreview = () => {
         badge: "面向国际患者的中国医美服务",
         title: "先看真实恢复，",
         emphasis: "再安心做出选择。",
-        subtitle: "从项目、城市和医生开始了解，我们协助你把咨询、行程与术后支持连接起来。",
+        subtitle: "从项目、城市和专家开始了解，我们协助你把咨询、行程与术后支持连接起来。",
         procedure: "感兴趣的项目",
         procedureValue: "浏览全部项目",
         city: "目的地",
@@ -332,7 +332,7 @@ const TravelInspiredHeroPreview = () => {
           badge: "Эстетическая медицина в Китае для иностранных пациентов",
           title: "Сначала изучите восстановление.",
           emphasis: "Затем выбирайте уверенно.",
-          subtitle: "Начните с процедуры, города или врача — мы свяжем консультацию, поездку и последующую поддержку.",
+          subtitle: "Начните с процедуры, города или эксперта — мы свяжем консультацию, поездку и последующую поддержку.",
           procedure: "Процедура",
           procedureValue: "Все процедуры",
           city: "Направление",
@@ -374,7 +374,7 @@ const TravelInspiredHeroPreview = () => {
   ];
   const metrics = [
     { value: "1,500+", label: lang === "zh" ? "服务患者" : lang === "ru" ? "Пациентов" : "Patients" },
-    { value: "20 yrs", label: lang === "zh" ? "医生平均经验" : lang === "ru" ? "Средний опыт врачей" : "Average doctor experience" },
+    { value: "20 yrs", label: lang === "zh" ? "专家平均经验" : lang === "ru" ? "Средний опыт экспертов" : "Average expert experience" },
     { value: "10+", label: lang === "zh" ? "覆盖城市" : lang === "ru" ? "Городов" : "Cities" },
     { value: "100+", label: lang === "zh" ? "顶级医院与诊所" : lang === "ru" ? "Ведущих клиник" : "Top-tier clinics" },
   ];
@@ -383,14 +383,14 @@ const TravelInspiredHeroPreview = () => {
         { icon: Video, title: "Online consultation", description: "出发前在线沟通目标、问题与下一步安排。" },
         { icon: MapPin, title: "Airport pickup & drop-off", description: "协调机场与住宿或就诊地点之间的接送。" },
         { icon: Users, title: "English in-clinic translation", description: "在约定的就诊过程中提供英文沟通协助。" },
-        { icon: ShieldCheck, title: "Aftercare support", description: "恢复期间协助沟通，并按医生建议协调远程随访。" },
+        { icon: ShieldCheck, title: "Aftercare support", description: "恢复期间协助沟通，并按专家建议协调远程随访。" },
       ]
     : lang === "ru"
       ? [
           { icon: Video, title: "Онлайн-консультация", description: "Обсудите цели, вопросы и следующие шаги до поездки." },
           { icon: MapPin, title: "Трансфер из аэропорта", description: "Координация трансфера до места проживания или клиники." },
           { icon: Users, title: "Перевод в клинике", description: "Помощь в общении на английском во время согласованных визитов." },
-          { icon: ShieldCheck, title: "Поддержка после лечения", description: "Помощь с общением и удалённым наблюдением по рекомендации врача." },
+          { icon: ShieldCheck, title: "Поддержка после лечения", description: "Помощь с общением и удалённым наблюдением по рекомендации эксперта." },
         ]
       : [
           { icon: Video, title: "Online consultation", description: "Discuss your goals, questions and next steps before you travel." },
