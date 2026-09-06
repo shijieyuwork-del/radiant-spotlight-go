@@ -3,6 +3,7 @@ import { Link, Navigate } from "react-router-dom";
 import { ArrowLeft, Film, ImageIcon, Loader2, LogOut, RefreshCw, Sparkles, Stethoscope, Trash2, UploadCloud, X } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@/lib/auth";
+import { useIsAdmin } from "@/hooks/use-is-admin";
 import { supabase } from "@/integrations/supabase/client";
 import { signedUrls } from "@/lib/storage-urls";
 import { isUploadCancelled, replaceMedia, uploadMedia } from "@/lib/upload-media";
@@ -80,7 +81,7 @@ const queueStatusText = (item: QueueItem): string => {
   }
 };
 
-const VideoAdmin = () => {
+const VideoAdmin = ({ embedded = false }: { embedded?: boolean } = {}) => {
   const { user, loading: authLoading, signOut } = useAuth();
   const [videos, setVideos] = useState<VideoRow[]>([]);
   const [loading, setLoading] = useState(true);
@@ -157,7 +158,7 @@ const VideoAdmin = () => {
     }
   };
 
-  const isAdmin = user?.email?.toLowerCase() === ADMIN_EMAIL;
+  const { isAdmin } = useIsAdmin();
 
   const loadVideos = async () => {
     setLoading(true);
@@ -186,8 +187,9 @@ const VideoAdmin = () => {
   useEffect(() => () => { if (previewUrl) URL.revokeObjectURL(previewUrl); }, [previewUrl]);
 
   if (authLoading) return <LoadingScreen />;
-  if (!user) return <Navigate to="/auth?next=/admin/videos" replace />;
+  if (!user) return embedded ? null : <Navigate to="/auth?next=/admin/content" replace />;
   if (!isAdmin) {
+    if (embedded) return null;
     return (
       <div className="min-h-screen grid place-items-center bg-muted/30 px-4">
         <div className="max-w-md rounded-3xl bg-card shadow-pop p-8 text-center">
@@ -511,7 +513,8 @@ const VideoAdmin = () => {
   const pendingCount = queue.filter((q) => q.status === "pending").length;
 
   return (
-    <div className="min-h-screen bg-muted/30">
+    <div className={embedded ? "" : "min-h-screen bg-muted/30"}>
+      {!embedded && (
       <header className="border-b bg-background">
         <div className="container h-16 flex items-center justify-between">
           <Link to="/" className="inline-flex items-center gap-2 text-sm font-semibold"><ArrowLeft className="size-4" /> 返回网站</Link>
@@ -522,8 +525,9 @@ const VideoAdmin = () => {
           </div>
         </div>
       </header>
+      )}
 
-      <main className="container py-8 grid lg:grid-cols-[420px_1fr] gap-8">
+      <main className={embedded ? "grid gap-8" : "container py-8 grid lg:grid-cols-[420px_1fr] gap-8"}>
         <section className="rounded-3xl bg-card shadow-pop p-6 h-fit">
           <div className="flex items-center gap-3 mb-6"><div className="size-10 rounded-2xl bg-primary/10 grid place-items-center"><UploadCloud className="size-5 text-primary" /></div><div><h1 className="font-display text-2xl font-semibold">上传短视频</h1><p className="text-xs text-muted-foreground">MP4 / MOV / WebM，单文件最大 100MB，可一次拖入多个</p></div></div>
           <form onSubmit={upload} className="space-y-4" ref={formRef}>
@@ -740,10 +744,12 @@ const VideoAdmin = () => {
           </form>
         </section>
 
+        {!embedded && (
         <section>
           <div className="flex items-end justify-between mb-4"><div><h2 className="font-display text-2xl font-semibold">视频管理</h2><p className="text-sm text-muted-foreground">共 {videos.length} 条</p></div></div>
           {loading ? <LoadingScreen compact /> : videos.length === 0 ? <div className="rounded-3xl border border-dashed bg-card p-12 text-center text-muted-foreground"><Film className="size-10 mx-auto mb-3 opacity-40" /><p>还没有上传视频</p></div> : <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-5">{videos.map((video) => { const url = video.url ?? ""; return <article key={video.id} className="rounded-3xl bg-card shadow-soft overflow-hidden"><CoverVideo src={url} coverPath={video.cover_path} coverUrl={video.coverUrl} showReason className="w-full aspect-[9/16] max-h-80 object-cover bg-black" /><div className="p-4"><div className="flex items-start justify-between gap-2"><div><h3 className="font-semibold line-clamp-2">{video.title}</h3><p className="text-xs text-muted-foreground mt-1">{video.city || "未设置城市"}{video.procedure ? ` · ${video.procedure}` : ""}</p></div><span className={`text-[10px] px-2 py-1 rounded-full ${video.status === "published" ? "bg-primary/10 text-primary" : "bg-muted text-muted-foreground"}`}>{video.status === "published" ? "已发布" : "草稿"}</span></div><div className="flex items-center gap-3 mt-3 flex-wrap"><label className="inline-flex"><input type="file" accept="video/mp4,video/quicktime,video/webm" className="hidden" disabled={replacingId === video.id} onChange={(e) => { void replaceVideo(video, e.target.files?.[0] ?? null); e.target.value = ""; }} /><span className={`inline-flex items-center text-sm font-medium text-primary hover:underline cursor-pointer ${replacingId === video.id ? "opacity-50 pointer-events-none" : ""}`}>{replacingId === video.id ? <Loader2 className="size-4 mr-1 animate-spin" /> : <RefreshCw className="size-4 mr-1" />}更换视频</span></label>{replacingId === video.id && <span className="flex-1 max-w-32 space-y-1 inline-block"><Progress value={replaceProgress} className="h-1.5" /><span className="text-[10px] text-muted-foreground flex items-center gap-2">{replaceStage === "extract" ? "生成封面中…" : replaceStage === "cover" ? "上传封面中…" : replaceProgress < 100 ? `${replaceProgress}%` : "处理中…"}{replaceStage === "video" && <button type="button" className="text-muted-foreground hover:text-destructive underline" onClick={() => replaceAbortRef.current?.abort()}>取消</button>}</span></span>}{failedReplace?.videoId === video.id && replacingId !== video.id && <button type="button" className="inline-flex items-center text-sm font-medium text-primary hover:underline" onClick={() => { const f = failedReplace; setFailedReplace(null); void replaceVideo(video, f.file); }}><RefreshCw className="size-4 mr-1" />重试更换</button>}<Button variant="ghost" size="sm" className="text-destructive px-0" onClick={() => void removeVideo(video)}><Trash2 className="size-4 mr-1" />删除</Button></div></div></article>; })}</div>}
         </section>
+        )}
       </main>
     </div>
   );

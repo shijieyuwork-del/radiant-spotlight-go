@@ -94,8 +94,8 @@ export const AppRoutes = () => (
 <Route path="/lp/facelift-china" element={<TreatmentLandingPage kind="facelift" />} />
                     <Route path="/lp/:slug" element={<ProcedureCityLandingPage />} />
                     <Route path="/auth" element={<Auth />} />
-                    <Route path="/admin/videos" element={<VideoAdmin />} />
-<Route path="/admin/doctors" element={<DoctorAdmin />} />
+                    <Route path="/admin/videos" element={<Navigate to="/admin/content" replace />} />
+<Route path="/admin/doctors" element={<Navigate to="/admin/content" replace />} />
                     <Route path="/admin/content" element={<ContentAdmin />} />
                     <Route path="/admin/audit" element={<AuditAdmin />} />
                     <Route path="/upload" element={<VideoAdmin />} />

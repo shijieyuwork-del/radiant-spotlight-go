@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import {
   Search, Filter, Stethoscope, BadgeCheck, Building2, FileCheck2, Star, ArrowRight, MapPin, MessageCircle, Navigation,
@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { DOCTORS } from "@/data/doctors";
 import { useAsia } from "@/lib/asia-i18n";
 import { supabase } from "@/integrations/supabase/client";
+import { useRealtimeRefresh } from "@/hooks/use-realtime-refresh";
 import { localizeDoctorRow } from "@/lib/i18n-content";
 import { signedUrls } from "@/lib/storage-urls";
 
@@ -36,12 +37,15 @@ const Experts = () => {
   const [spec, setSpec] = useState<string>("all");
   const [managedDoctors, setManagedDoctors] = useState<ManagedDoctor[]>([]);
   
-  useEffect(()=>{supabase.from("doctors").select("id,name,title,hospital,city,specialties,bio,photo_path,created_at,i18n").eq("status","published").order("created_at",{ascending:false}).then(async ({data})=>{
+  const loadManagedDoctors = useCallback(()=>{supabase.from("doctors").select("id,name,title,hospital,city,specialties,bio,photo_path,created_at,i18n").eq("status","published").order("created_at",{ascending:false}).then(async ({data})=>{
     const chinaCities = ["shanghai", "beijing", "guangzhou", "hangzhou", "hainan", "上海", "北京", "广州", "杭州", "海南"];
     const rows = ((data??[]) as ManagedDoctor[]).filter((doctor)=>chinaCities.some((cityName)=>doctor.city?.toLowerCase().includes(cityName)));
     const photos = await signedUrls("doctor-photos", rows.map((doctor)=>doctor.photo_path));
     setManagedDoctors(rows.map((doctor, index)=>localizeDoctorRow({ ...doctor, photo: photos[index] }, lang)));
   })},[lang]);
+  useEffect(()=>{loadManagedDoctors();},[loadManagedDoctors]);
+  // 后台发布新专家后前台自动更新
+  useRealtimeRefresh(["doctors"], loadManagedDoctors);
 
   const publicDoctors = useMemo(() => DOCTORS.filter(() => false), []);
   const directoryDoctors: DirectoryDoctor[] = managedDoctors.length > 0

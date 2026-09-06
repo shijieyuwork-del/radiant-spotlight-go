@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
-import { ArrowLeft, Film, Loader2, Pencil, Search, Stethoscope, Trash2 } from "lucide-react";
+import { ArrowLeft, Film, Loader2, Pencil, Plus, Search, Stethoscope, Trash2, UploadCloud } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@/lib/auth";
 import { useIsAdmin } from "@/hooks/use-is-admin";
@@ -14,6 +14,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import LiveTranslationPanel from "@/components/LiveTranslationPanel";
+import { useRealtimeRefresh } from "@/hooks/use-realtime-refresh";
+import DoctorAdmin from "./DoctorAdmin";
+import VideoAdmin from "./VideoAdmin";
 
 type ExpertRow = {
   id: string; name: string; title: string; hospital: string; city: string;
@@ -32,7 +36,7 @@ type StatusFilter = "all" | "published" | "draft";
 
 export default function ContentAdmin() {
   const { user, loading: authLoading } = useAuth();
-  const isAdmin = useIsAdmin();
+  const { isAdmin, loading: adminLoading } = useIsAdmin();
   const [loading, setLoading] = useState(true);
   const [experts, setExperts] = useState<ExpertRow[]>([]);
   const [videos, setVideos] = useState<VideoRow[]>([]);
@@ -66,6 +70,9 @@ export default function ContentAdmin() {
     if (isAdmin) void load();
   }, [isAdmin]);
 
+  // 后台任何人发布/修改内容后自动同步列表
+  useRealtimeRefresh(isAdmin ? ["doctors", "videos"] : [], () => { void load(); });
+
   const match = (row: { status: string }, text: string) =>
     (statusFilter === "all" || row.status === statusFilter) &&
     (!query.trim() || text.toLowerCase().includes(query.trim().toLowerCase()));
@@ -80,7 +87,9 @@ export default function ContentAdmin() {
   );
   const expertName = (id: string | null) => experts.find((e) => e.id === id)?.name ?? "—";
 
-  if (authLoading) return <div />;
+  if (authLoading || adminLoading) {
+    return <div className="min-h-screen grid place-items-center"><Loader2 className="size-7 animate-spin text-primary" /></div>;
+  }
   if (!user) return <Navigate to="/auth?next=/admin/content" replace />;
   if (!isAdmin) return <Navigate to="/" replace />;
 
@@ -171,8 +180,7 @@ export default function ContentAdmin() {
         <div className="container h-16 flex items-center justify-between">
           <Link to="/" className="inline-flex gap-2 items-center text-sm font-semibold"><ArrowLeft className="size-4" />返回网站</Link>
           <div className="flex items-center gap-4 text-sm">
-            <Link to="/admin/doctors" className="text-muted-foreground hover:text-primary">添加专家</Link>
-            <Link to="/admin/videos" className="text-muted-foreground hover:text-primary">上传视频</Link>
+            <Link to="/admin/audit" className="text-muted-foreground hover:text-primary">审计报表</Link>
             <span className="font-semibold">内容管理</span>
           </div>
         </div>
@@ -206,7 +214,16 @@ export default function ContentAdmin() {
           <TabsList>
             <TabsTrigger value="experts"><Stethoscope className="size-4 mr-1.5" />专家（{filteredExperts.length}）</TabsTrigger>
             <TabsTrigger value="videos"><Film className="size-4 mr-1.5" />视频（{filteredVideos.length}）</TabsTrigger>
+            <TabsTrigger value="new-expert"><Plus className="size-4 mr-1.5" />新增专家</TabsTrigger>
+            <TabsTrigger value="new-video"><UploadCloud className="size-4 mr-1.5" />上传视频</TabsTrigger>
           </TabsList>
+
+          <TabsContent value="new-expert" className="mt-4 max-w-xl">
+            <DoctorAdmin embedded />
+          </TabsContent>
+          <TabsContent value="new-video" className="mt-4 max-w-xl">
+            <VideoAdmin embedded />
+          </TabsContent>
 
           <TabsContent value="experts" className="mt-4 grid gap-3 sm:grid-cols-2">
             {filteredExperts.map((e) => (
@@ -279,6 +296,13 @@ export default function ContentAdmin() {
               </div>
               <StatusSelect value={editingExpert.status} onChange={(v) => setEditingExpert({ ...editingExpert, status: v })} />
               <ReviseToggle checked={aiRevise} onChange={setAiRevise} />
+              <LiveTranslationPanel
+                revise={aiRevise}
+                fields={{
+                  name: editingExpert.name, title: editingExpert.title, hospital: editingExpert.hospital,
+                  city: editingExpert.city, bio: editingExpert.bio, credentials: editingExpert.credentials ?? "",
+                }}
+              />
             </div>
           )}
           <DialogFooter>
@@ -316,6 +340,7 @@ export default function ContentAdmin() {
               </div>
               <StatusSelect value={editingVideo.status} onChange={(v) => setEditingVideo({ ...editingVideo, status: v })} />
               <ReviseToggle checked={aiRevise} onChange={setAiRevise} />
+              <LiveTranslationPanel revise={aiRevise} fields={{ title: editingVideo.title, caption: editingVideo.caption ?? "" }} />
             </div>
           )}
           <DialogFooter>

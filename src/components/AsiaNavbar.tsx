@@ -111,7 +111,7 @@ const MegaNavItem = ({ active, featuredDoctors, intro, label, groups, to, viewAl
 const AccountMenu = ({ lang, onClose }: { lang: Lang; onClose?: () => void }) => {
   const { user, signOut } = useAuth();
   const c = (en: string, zh: string, ru: string, es?: string) => asiaCopy(lang, { en, zh, ru, es });
-  const isAdmin = useIsAdmin();
+  const { isAdmin } = useIsAdmin();
   const initial = user?.email?.[0]?.toUpperCase() ?? user?.user_metadata?.display_name?.[0]?.toUpperCase() ?? "?";
   const label = user?.user_metadata?.display_name || user?.email || "";
 
@@ -148,17 +148,6 @@ const AccountMenu = ({ lang, onClose }: { lang: Lang; onClose?: () => void }) =>
             <DropdownMenuItem asChild>
               <Link to="/admin/content" onClick={onClose} className="cursor-pointer flex items-center gap-2">
                 <User className="size-4" /> {c("Content manager", "内容管理", "Управление контентом", "Gestor de contenido")}
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-
-              <Link to="/admin/doctors" onClick={onClose} className="cursor-pointer flex items-center gap-2">
-                <User className="size-4" /> {c("Manage experts", "管理专家", "Управление экспертами", "Gestionar expertos")}
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link to="/admin/videos" onClick={onClose} className="cursor-pointer flex items-center gap-2">
-                <User className="size-4" /> {c("Manage videos", "管理视频", "Управление видео", "Gestionar vídeos")}
               </Link>
             </DropdownMenuItem>
           </>

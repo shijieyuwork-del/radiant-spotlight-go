@@ -3,6 +3,7 @@ import { Link, Navigate } from "react-router-dom";
 import { ArrowLeft, ImagePlus, Loader2, RefreshCw, Stethoscope, Trash2, UploadCloud, X } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@/lib/auth";
+import { useIsAdmin } from "@/hooks/use-is-admin";
 import { supabase } from "@/integrations/supabase/client";
 import { signedUrls } from "@/lib/storage-urls";
 import { isUploadCancelled, replaceMedia, uploadMedia } from "@/lib/upload-media";
@@ -37,8 +38,9 @@ type StagedPhoto = { id: string; file: File; url: string };
 /** 裁剪队列项：target 决定裁剪结果用于新建表单还是更换某专家照片 */
 type CropQueueItem = { file: File; target: "create" | Expert };
 
-export default function DoctorAdmin() {
+export default function DoctorAdmin({ embedded = false }: { embedded?: boolean } = {}) {
   const { user, loading: authLoading } = useAuth();
+  const { isAdmin, loading: adminLoading } = useIsAdmin();
   const [experts, setDoctors] = useState<Expert[]>([]);
   const [busy, setBusy] = useState(false);
   const [name, setName] = useState("");
@@ -131,12 +133,12 @@ export default function DoctorAdmin() {
   };
 
   useEffect(() => {
-    if (user?.email?.toLowerCase() === ADMIN) void load();
-  }, [user]);
+    if (isAdmin) void load();
+  }, [isAdmin]);
 
-  if (authLoading) return <div />;
-  if (!user) return <Navigate to="/auth?next=/admin/doctors" replace />;
-  if (user.email?.toLowerCase() !== ADMIN) return <Navigate to="/" replace />;
+  if (authLoading || adminLoading) return <div />;
+  if (!user) return embedded ? null : <Navigate to="/auth?next=/admin/content" replace />;
+  if (!isAdmin) return embedded ? null : <Navigate to="/" replace />;
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -258,7 +260,8 @@ export default function DoctorAdmin() {
   };
 
   return (
-    <div className="min-h-screen bg-muted/30">
+    <div className={embedded ? "" : "min-h-screen bg-muted/30"}>
+      {!embedded && (
       <header className="border-b bg-background">
         <div className="container h-16 flex items-center justify-between">
           <Link to="/upload" className="inline-flex gap-2 text-sm font-semibold"><ArrowLeft className="size-4" />视频后台</Link>
@@ -268,7 +271,8 @@ export default function DoctorAdmin() {
           </div>
         </div>
       </header>
-      <main className="container py-8 grid lg:grid-cols-[420px_1fr] gap-8">
+      )}
+      <main className={embedded ? "grid gap-8" : "container py-8 grid lg:grid-cols-[420px_1fr] gap-8"}>
         <section className="rounded-3xl bg-card shadow-pop p-6 h-fit">
           <div className="flex gap-3 items-center mb-6"><Stethoscope className="text-primary" /><h1 className="font-display text-2xl">添加专家资料</h1></div>
           <form onSubmit={submit} className="space-y-4" noValidate ref={formRef}>
@@ -397,6 +401,7 @@ export default function DoctorAdmin() {
 
           </form>
         </section>
+        {!embedded && (
         <section>
           <h2 className="font-display text-2xl mb-4">已添加专家（{experts.length}）</h2>
           <div className="grid sm:grid-cols-2 gap-4">
@@ -449,6 +454,7 @@ export default function DoctorAdmin() {
             })}
           </div>
         </section>
+        )}
       </main>
       <ImageCropDialog
         file={cropSource}
