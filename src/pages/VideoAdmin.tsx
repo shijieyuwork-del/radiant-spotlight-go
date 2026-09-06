@@ -115,6 +115,7 @@ const VideoAdmin = () => {
   const replaceAbortRef = useRef<AbortController | null>(null);
   const [submitRetry, setSubmitRetry] = useState<"failed" | "cancelled" | null>(null);
   const [failedReplace, setFailedReplace] = useState<{ videoId: string; file: File } | null>(null);
+  const [aiRevise, setAiRevise] = useState(true);
 
   const updateQueue = (updater: (prev: QueueItem[]) => QueueItem[]) => {
     setQueue((prev) => {
@@ -274,7 +275,7 @@ const VideoAdmin = () => {
       const i18nBatch = await translateFields({
         title: item.title.trim() || item.file.name,
         caption: meta.caption ?? "",
-      });
+      }, { revise: aiReviseRef.current });
       const { error: dbError } = await supabase.from("videos").insert({
         title: item.title.trim() || item.file.name,
         caption: meta.caption,
@@ -382,7 +383,7 @@ const VideoAdmin = () => {
         }
         setStage("saving");
 
-        const i18nSingle = await translateFields({ title: title.trim(), caption: meta.caption ?? "" });
+        const i18nSingle = await translateFields({ title: title.trim(), caption: meta.caption ?? "" }, { revise: aiReviseRef.current });
         const { error: dbError } = await supabase.from("videos").insert({
           title: title.trim(),
           caption: meta.caption,
