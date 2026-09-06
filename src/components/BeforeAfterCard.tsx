@@ -35,6 +35,22 @@ const BeforeAfterCard = ({
   return (
     <div className="rounded-[2rem] overflow-hidden glow-card bg-card">
       {/* Swipe reveal area */}
+      {single ? (
+        <div className="relative aspect-[4/5] select-none">
+          <img src={before} alt={`${procedure} before and after`} className={`absolute inset-0 size-full object-cover ${blur ? "blur-[14px] scale-110" : ""}`} />
+          <span className="absolute top-3 left-3 pill bg-background/90 backdrop-blur shadow-soft text-foreground">Before · After</span>
+          <span className="absolute bottom-3 left-3 pill bg-primary text-primary-foreground shadow-pop">
+            <ShieldCheck className="size-3.5" /> Verified Patient
+          </span>
+          <button
+            onClick={(e) => { e.stopPropagation(); setBlur((b) => !b); }}
+            className="absolute bottom-3 right-3 pill bg-background/90 backdrop-blur text-foreground hover:bg-background transition-colors"
+            aria-pressed={blur}
+          >
+            {blur ? <><EyeOff className="size-3.5" /> Privacy on</> : <><Eye className="size-3.5" /> Privacy off</>}
+          </button>
+        </div>
+      ) : (
       <div
         ref={ref}
         className="relative aspect-[4/5] select-none cursor-ew-resize touch-none"
