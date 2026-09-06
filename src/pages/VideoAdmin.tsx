@@ -115,6 +115,9 @@ const VideoAdmin = () => {
   const replaceAbortRef = useRef<AbortController | null>(null);
   const [submitRetry, setSubmitRetry] = useState<"failed" | "cancelled" | null>(null);
   const [failedReplace, setFailedReplace] = useState<{ videoId: string; file: File } | null>(null);
+  const [aiRevise, setAiRevise] = useState(true);
+  const aiReviseRef = useRef(true);
+  aiReviseRef.current = aiRevise;
 
   const updateQueue = (updater: (prev: QueueItem[]) => QueueItem[]) => {
     setQueue((prev) => {
@@ -274,7 +277,7 @@ const VideoAdmin = () => {
       const i18nBatch = await translateFields({
         title: item.title.trim() || item.file.name,
         caption: meta.caption ?? "",
-      });
+      }, { revise: aiReviseRef.current });
       const { error: dbError } = await supabase.from("videos").insert({
         title: item.title.trim() || item.file.name,
         caption: meta.caption,
@@ -382,7 +385,7 @@ const VideoAdmin = () => {
         }
         setStage("saving");
 
-        const i18nSingle = await translateFields({ title: title.trim(), caption: meta.caption ?? "" });
+        const i18nSingle = await translateFields({ title: title.trim(), caption: meta.caption ?? "" }, { revise: aiReviseRef.current });
         const { error: dbError } = await supabase.from("videos").insert({
           title: title.trim(),
           caption: meta.caption,
@@ -713,7 +716,17 @@ const VideoAdmin = () => {
                 </Button>
               </div>
             )}
+            <label className="flex items-start gap-3 rounded-2xl border border-border/70 bg-muted/30 p-3">
+              <input type="checkbox" className="mt-1 size-4 accent-primary" checked={aiRevise} onChange={(e) => setAiRevise(e.target.checked)} />
+              <span className="text-sm">
+                AI 润色并翻译
+                <span className="block text-xs text-muted-foreground mt-0.5">
+                  勾选后，AI 会先润色标题与说明的中文文案，再生成英文与俄文版本；取消勾选则只做翻译。
+                </span>
+              </span>
+            </label>
             <Button type="submit" disabled={uploading || (!file && pendingCount === 0)} className="w-full rounded-full h-11">
+
               {uploading
                 ? <><Loader2 className="size-4 mr-2 animate-spin" />{stage === "cover" ? "上传封面中…" : stage === "saving" ? "保存记录中…" : "正在上传…"}</>
                 : <><UploadCloud className="size-4 mr-2" />{pendingCount > 0 ? `上传视频（含队列 ${pendingCount} 个）` : "上传视频"}</>}

@@ -32,30 +32,35 @@ Deno.serve(async (req) => {
       if (!role) return json({ error: 'forbidden: admin only' }, 403)
     }
 
-    const body = await req.json() as { fields?: Fields; source?: string }
+    const body = await req.json() as { fields?: Fields; source?: string; revise?: boolean }
     const fields = body.fields ?? {}
+    const revise = body.revise === true
     const entries = Object.entries(fields).filter(([, v]) => typeof v === 'string' && v.trim())
-    if (entries.length === 0) return json({ translations: { zh: {}, en: {}, ru: {} } })
+    if (entries.length === 0) return json({ translations: { zh: {}, en: {}, ru: {} }, revised: false })
 
     const apiKey = Deno.env.get('LOVABLE_API_KEY')
     if (!apiKey) return json({ error: 'AI not configured' }, 500)
+
+    const baseRules =
+      'You work on medical-tourism marketing copy for an Asian aesthetics platform. ' +
+      'Keep proper nouns, clinic names and city names accurate. Never use the word "doctor"/"医生"/"врач" in prose — use "expert"/"专家"/"эксперт". ' +
+      'Never add medical advice, guarantees of results, prices or facts that are not in the source. Do not add commentary.'
+
+    const system = revise
+      ? baseRules +
+        ' Input is a JSON object of Chinese source fields. First REVISE the Chinese: fix typos and grammar, tighten wording, make it clear, professional and trustworthy, keep the original meaning and roughly the original length. ' +
+        'Then translate the revised Chinese into natural English and Russian. Return ONLY JSON of the shape {"zh":{...},"en":{...},"ru":{...}} with the exact same keys in every language.'
+      : baseRules +
+        ' Input is a JSON object of Chinese source fields. Return ONLY JSON of the shape {"en":{...},"ru":{...}} with the exact same keys, translated into natural English and Russian.'
 
     const payload = Object.fromEntries(entries)
     const res = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
       headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'google/gemini-2.5-flash',
+        model: 'google/gemini-3.7-flash',
         messages: [
-          {
-            role: 'system',
-            content:
-              'You translate medical-tourism marketing copy for a Chinese aesthetics platform. ' +
-              'Input is a JSON object of Chinese source fields. Return ONLY JSON of the shape ' +
-              '{"en":{...},"ru":{...}} with the exact same keys, translated into natural English and Russian. ' +
-              'Keep proper nouns and clinic/city names accurate. Never use the word "doctor"/"врач" in prose — use "expert"/"эксперт". ' +
-              'Do not add commentary or medical advice.',
-          },
+          { role: 'system', content: system },
           { role: 'user', content: JSON.stringify(payload) },
         ],
         response_format: { type: 'json_object' },
@@ -68,7 +73,7 @@ Deno.serve(async (req) => {
 
     const data = await res.json()
     const raw = data?.choices?.[0]?.message?.content ?? '{}'
-    let parsed: { en?: Fields; ru?: Fields }
+    let parsed: { zh?: Fields; en?: Fields; ru?: Fields }
     try {
       parsed = JSON.parse(raw)
     } catch {
@@ -78,13 +83,13 @@ Deno.serve(async (req) => {
     const pick = (obj: Fields | undefined): Fields =>
       Object.fromEntries(entries.map(([k]) => [k, String(obj?.[k] ?? payload[k])]))
 
+    const zh = revise ? pick(parsed.zh) : payload
     return json({
-      translations: {
-        zh: payload,
-        en: pick(parsed.en),
-        ru: pick(parsed.ru),
-      },
+      translations: { zh, en: pick(parsed.en), ru: pick(parsed.ru) },
+      original: payload,
+      revised: revise && JSON.stringify(zh) !== JSON.stringify(payload),
     })
+
   } catch (error) {
     return json({ error: error instanceof Error ? error.message : 'unexpected error' }, 500)
   }

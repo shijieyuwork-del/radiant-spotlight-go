@@ -59,6 +59,8 @@ export default function DoctorAdmin() {
   // 上传取消与失败重试
   const [submitRetry, setSubmitRetry] = useState<"failed" | "cancelled" | null>(null);
   const [failedReplace, setFailedReplace] = useState<{ expertId: string; file: File } | null>(null);
+  const [aiRevise, setAiRevise] = useState(true);
+
   const submitAbortRef = useRef<AbortController | null>(null);
   const replaceAbortRef = useRef<AbortController | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
@@ -169,11 +171,14 @@ export default function DoctorAdmin() {
           onRetry: (a, m) => toast.info(`连接中断，自动重试中（${a}/${m}）…`),
         });
       }
-      // 中文录入 → 自动翻译成英文/俄文，随记录一起保存
-      const i18n = await translateFields({
-        name: name.trim(), title: title.trim(), hospital: hospital.trim(), city: city.trim(),
-        bio: bio.trim(), credentials: credentials.trim(),
-      });
+      // 中文录入 → （可选）AI 润色中文 + 自动翻译成英文/俄文，随记录一起保存
+      const { revised, ...i18n } = await translateFields(
+        {
+          name: name.trim(), title: title.trim(), hospital: hospital.trim(), city: city.trim(),
+          bio: bio.trim(), credentials: credentials.trim(),
+        },
+        { revise: aiRevise }
+      );
       const { error } = await supabase.from("doctors").insert({
         name: name.trim(), title: title.trim(), hospital: hospital.trim(), city: city.trim(),
         specialties: specialties.split(/[,，]/).map((x) => x.trim()).filter(Boolean),
@@ -181,7 +186,14 @@ export default function DoctorAdmin() {
         photo_path: photoPath, status: "published", i18n,
       });
       if (error) throw error;
-      toast.success(i18n.en ? "专家资料已发布，并生成英文/俄文版本" : "专家资料已发布（翻译暂未生成）");
+      toast.success(
+        i18n.en
+          ? revised
+            ? "专家资料已发布：中文已润色，并生成英文/俄文版本"
+            : "专家资料已发布，并生成英文/俄文版本"
+          : "专家资料已发布（翻译暂未生成）"
+      );
+
       setName(""); setTitle(""); setHospital(""); setSpecialties(""); setBio(""); setCredentials("");
       clearStaged();
       setErrors({});
@@ -356,9 +368,24 @@ export default function DoctorAdmin() {
                 </Button>
               </div>
             )}
+            <label className="flex items-start gap-3 rounded-2xl border border-border/70 bg-muted/30 p-3">
+              <input
+                type="checkbox"
+                className="mt-1 size-4 accent-primary"
+                checked={aiRevise}
+                onChange={(e) => setAiRevise(e.target.checked)}
+              />
+              <span className="text-sm">
+                AI 润色并翻译
+                <span className="block text-xs text-muted-foreground mt-0.5">
+                  勾选后，AI 会先润色中文文案（不改变原意），再生成英文与俄文版本；取消勾选则只做翻译。
+                </span>
+              </span>
+            </label>
             <Button disabled={busy} className="w-full rounded-full">
               {busy ? <Loader2 className="animate-spin" /> : <><UploadCloud className="size-4 mr-2" />发布专家</>}
             </Button>
+
           </form>
         </section>
         <section>
