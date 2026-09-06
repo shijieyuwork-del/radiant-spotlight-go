@@ -49,5 +49,11 @@ export const localizeDoctorRow = <T extends Record<string, unknown>>(row: T, lan
 /** 视频记录按当前语言本地化。 */
 export const localizeVideoRow = <T extends Record<string, unknown>>(row: T, lang: Lang): T => {
   const i18n = (row as { i18n?: unknown }).i18n;
-  return { ...row, title: localizedField(i18n, "title", lang, row.title as string), caption: localizedField(i18n, "caption", lang, row.caption as string | null) || (row.caption ?? null) } as T;
+  return {
+    ...row,
+    title: localizedField(i18n, "title", lang, row.title as string),
+    caption: localizedField(i18n, "caption", lang, row.caption as string | null) || (row.caption ?? null),
+    procedure: localizedField(i18n, "procedure", lang, row.procedure as string | null) || (row.procedure ?? null),
+    city: localizedField(i18n, "city", lang, row.city as string | null) || (row.city ?? null),
+  } as T;
 };

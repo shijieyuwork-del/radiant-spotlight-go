@@ -280,6 +280,8 @@ const VideoAdmin = ({ embedded = false }: { embedded?: boolean } = {}) => {
       const i18nBatch = await translateFields({
         title: item.title.trim() || item.file.name,
         caption: meta.caption ?? "",
+        city: meta.city,
+        procedure: meta.procedure,
       }, { revise: aiReviseRef.current });
       const { error: dbError } = await supabase.from("videos").insert({
         title: item.title.trim() || item.file.name,
@@ -388,7 +390,7 @@ const VideoAdmin = ({ embedded = false }: { embedded?: boolean } = {}) => {
         }
         setStage("saving");
 
-        const i18nSingle = await translateFields({ title: title.trim(), caption: meta.caption ?? "" }, { revise: aiReviseRef.current });
+        const i18nSingle = await translateFields({ title: title.trim(), caption: meta.caption ?? "", city: meta.city, procedure: meta.procedure }, { revise: aiReviseRef.current });
         const { error: dbError } = await supabase.from("videos").insert({
           title: title.trim(),
           caption: meta.caption,
