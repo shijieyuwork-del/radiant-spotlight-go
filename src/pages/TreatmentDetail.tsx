@@ -389,13 +389,13 @@ const CatalogProcedureDetail = ({
   const path = `/treatments/${procedureSlug(procedure.en)}`;
   const description = treatment
     ? (zh ? treatment.summaryZh : treatment.summaryEn)
-    : (zh ? intro.zh : intro.en);
+    : (zh ? intro.zh : es ? (intro.es ?? intro.en) : intro.en);
   const planningRange = treatment
     ? `$${treatment.priceUsdLow.toLocaleString()}–$${treatment.priceUsdHigh.toLocaleString()}`
     : education.price;
   const risks = treatment
     ? (zh ? treatment.risksZh : treatment.risksEn)
-    : (zh ? education.risksZh : education.risksEn);
+    : (zh ? education.risksZh : es ? education.risksEs : education.risksEn);
   const consultationQuestions = treatment
     ? (zh ? treatment.askZh : treatment.askEn)
     : null;
@@ -449,9 +449,9 @@ const CatalogProcedureDetail = ({
             </div>
             <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4">
               <QuickFact icon={<DollarSign />} label={c("Planning range", "参考价格", "Диапазон цен", "Rango de planificación")} value={planningRange} />
-              <QuickFact icon={<Clock />} label={c("Typical downtime", "初步恢复", "Первичное восстановление", "Baja habitual")} value={zh ? education.downtimeZh : education.downtimeEn} />
-              <QuickFact icon={<Sparkles />} label={c("Result settles", "结果逐步稳定", "Окончательный результат", "El resultado se estabiliza")} value={zh ? education.finalZh : education.finalEn} />
-              <QuickFact icon={<Stethoscope />} label={c("Common anesthesia", "常见麻醉", "Обычная анестезия", "Anestesia habitual")} value={zh ? education.anesthesiaZh : education.anesthesiaEn} />
+              <QuickFact icon={<Clock />} label={c("Typical downtime", "初步恢复", "Первичное восстановление", "Baja habitual")} value={zh ? education.downtimeZh : es ? education.downtimeEs : education.downtimeEn} />
+              <QuickFact icon={<Sparkles />} label={c("Result settles", "结果逐步稳定", "Окончательный результат", "El resultado se estabiliza")} value={zh ? education.finalZh : es ? education.finalEs : education.finalEn} />
+              <QuickFact icon={<Stethoscope />} label={c("Common anesthesia", "常见麻醉", "Обычная анестезия", "Anestesia habitual")} value={zh ? education.anesthesiaZh : es ? education.anesthesiaEs : education.anesthesiaEn} />
             </div>
             <div className="mt-6 flex flex-col gap-3 rounded-2xl bg-primary/[0.07] p-4 sm:flex-row sm:items-center sm:justify-between">
               <p className="text-sm font-medium text-foreground">{c("Not sure what applies to you? Review it with a coordinator online.", "不确定哪些信息适合你？可以先和协调员在线聊一聊。", "Не уверены, что относится к вам? Обсудите это с координатором онлайн.", "¿No sabes qué aplica en tu caso? Revísalo con un coordinador en línea.")}</p>
@@ -498,7 +498,7 @@ const CatalogProcedureDetail = ({
             </ExpandablePanel>
 
             <ExpandablePanel icon={<HeartPulse className="size-5 text-primary" />} title={c("What should I tell the expert?", "哪些情况必须提前告诉专家？", "Что сообщить эксперту заранее?", "¿Qué debo decirle al experto?")} summary={c("Medical conditions, medication and previous treatment can change your plan.", "疾病、用药和既往治疗都可能影响方案。", "Заболевания, лекарства и прошлое лечение могут изменить план.", "Las condiciones médicas, la medicación y tratamientos previos pueden cambiar tu plan.")}>
-              <div className="mt-4"><Bullets items={zh ? education.discloseZh : education.discloseEn} /></div>
+              <div className="mt-4"><Bullets items={zh ? education.discloseZh : es ? education.discloseEs : education.discloseEn} /></div>
               <p className="mt-4 flex gap-2 text-xs font-medium leading-relaxed text-foreground"><Pill className="mt-0.5 size-4 shrink-0 text-primary" />{zh ? "不要自行停药。是否暂停或调整药物，必须由开药专家、手术专家或麻醉专家决定。" : "Do not stop medication on your own. Any change must be directed by the prescribing expert, surgeon or anesthesiologist."}</p>
             </ExpandablePanel>
 
