@@ -18,6 +18,7 @@ import { Progress } from "@/components/ui/progress";
 import FileDropZone from "@/components/FileDropZone";
 import FieldError from "@/components/FieldError";
 import CoverVideo from "@/components/CoverVideo";
+import { translateFields } from "@/lib/i18n-content";
 
 const ADMIN_EMAIL = "shijieyuwork@gmail.com";
 const BUCKET = "short-videos";
@@ -270,6 +271,10 @@ const VideoAdmin = () => {
         coverPath = null; // 封面失败不阻塞上传，信息流显示默认海报
       }
       patchItem(item.id, { status: "saving" });
+      const i18nBatch = await translateFields({
+        title: item.title.trim() || item.file.name,
+        caption: meta.caption ?? "",
+      });
       const { error: dbError } = await supabase.from("videos").insert({
         title: item.title.trim() || item.file.name,
         caption: meta.caption,
@@ -279,6 +284,7 @@ const VideoAdmin = () => {
         cover_path: coverPath,
         status: meta.status,
         doctor_id: meta.doctorId,
+        i18n: i18nBatch,
       });
       if (dbError) {
         await supabase.storage.from(BUCKET).remove([storagePath]);
@@ -376,6 +382,7 @@ const VideoAdmin = () => {
         }
         setStage("saving");
 
+        const i18nSingle = await translateFields({ title: title.trim(), caption: meta.caption ?? "" });
         const { error: dbError } = await supabase.from("videos").insert({
           title: title.trim(),
           caption: meta.caption,
@@ -385,6 +392,7 @@ const VideoAdmin = () => {
           cover_path: coverPath,
           status: meta.status,
           doctor_id: meta.doctorId,
+          i18n: i18nSingle,
         });
         if (dbError) {
           await supabase.storage.from(BUCKET).remove([storagePath]);
