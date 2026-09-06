@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { DollarSign, Languages, Menu, ChevronRight, ChevronDown, Phone, Mail, MessageCircle, ArrowRight, MapPin, User, LogOut } from "lucide-react";
+import { DollarSign, Languages, Menu, ChevronRight, Phone, Mail, MessageCircle, ArrowRight, User, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
@@ -9,104 +9,11 @@ import { useAsia, asiaLangLabel as langLabel, type AsiaLang as Lang } from "@/li
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import BrandLogo from "@/components/BrandLogo";
 import { asiaCopy } from "@/lib/asia-copy";
-import { DEMO_CHINA_DOCTORS } from "@/data/demoChinaDoctors";
 import { useQuote } from "@/components/QuoteRequest";
 import { useAuth } from "@/lib/auth";
 import { useIsAdmin } from "@/hooks/use-is-admin";
 
 type Props = { homeLinks?: boolean };
-
-type MegaMenuGroup = {
-  title: string;
-  links: { label: string; to: string }[];
-};
-
-type MegaNavItemProps = {
-  active: boolean;
-  featuredDoctors?: {
-    city: string;
-    id: string;
-    name: string;
-    photo: string;
-    profileLabel: string;
-    sampleLabel: string;
-    specialties: string[];
-    title: string;
-  }[];
-  intro: string;
-  label: string;
-  groups: MegaMenuGroup[];
-  to: string;
-  viewAll: string;
-};
-
-const MegaNavItem = ({ active, featuredDoctors, intro, label, groups, to, viewAll }: MegaNavItemProps) => (
-  <div className="group/mega flex h-16 items-center">
-    <Link
-      to={to}
-      aria-current={active ? "page" : undefined}
-      className={`inline-flex items-center gap-1 whitespace-nowrap rounded-full px-2.5 py-1.5 text-[13px] font-medium transition-all xl:px-4 xl:text-sm ${
-        active
-          ? "bg-primary text-primary-foreground shadow-sm"
-          : "text-muted-foreground hover:bg-primary/10 hover:text-foreground"
-      }`}
-    >
-      {label}<ChevronDown className="size-3.5 transition-transform duration-200 group-hover/mega:rotate-180" />
-    </Link>
-
-    <div className="invisible fixed inset-x-0 top-16 z-[65] translate-y-1 border-t border-border bg-card text-foreground opacity-0 shadow-[0_24px_50px_rgba(16,42,36,0.10)] transition-[opacity,transform,visibility] duration-200 group-hover/mega:visible group-hover/mega:translate-y-0 group-hover/mega:opacity-100 group-focus-within/mega:visible group-focus-within/mega:translate-y-0 group-focus-within/mega:opacity-100">
-      <div className={`container grid min-h-[310px] py-8 ${featuredDoctors ? "grid-cols-[0.58fr_2.42fr]" : "grid-cols-[0.72fr_repeat(3,1fr)]"}`}>
-        <div className="flex flex-col border-r border-border pr-8">
-          <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary">{label}</span>
-          <p className="mt-4 max-w-[15rem] font-display text-3xl font-medium leading-tight text-foreground">{intro}</p>
-          <Link to={to} className="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-primary transition hover:gap-3">
-            {viewAll}<ArrowRight className="size-4" />
-          </Link>
-        </div>
-        {featuredDoctors ? (
-          <div className="pl-8">
-            <div className="mb-4 flex items-center justify-between gap-4">
-              <h3 className="text-sm font-semibold text-foreground">{label}</h3>
-              <Link to={to} className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.12em] text-primary hover:underline">
-                {viewAll}<ArrowRight className="size-3.5" />
-              </Link>
-            </div>
-            <div className="grid grid-cols-5 gap-3">
-              {featuredDoctors.map((doctor) => (
-                <Link key={doctor.id} to={`/doctors/demo/${doctor.id}`} className="group/doctor min-w-0 border border-border bg-background p-2.5 transition-[border-color,transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:border-primary/35 hover:shadow-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
-                  <div className="relative aspect-[4/3] overflow-hidden bg-muted">
-                    <img src={doctor.photo} alt={doctor.name} loading="lazy" decoding="async" className="size-full object-cover transition-transform duration-300 group-hover/doctor:scale-[1.03]" />
-                    <span className="absolute bottom-2 left-2 rounded-full bg-card/90 px-2 py-1 text-[9px] font-bold uppercase tracking-[0.08em] text-foreground backdrop-blur-sm">{doctor.sampleLabel}</span>
-                  </div>
-                  <h4 className="mt-3 truncate font-display text-lg font-medium text-foreground">{doctor.name}</h4>
-                  <p className="mt-1 truncate text-xs text-muted-foreground">{doctor.title}</p>
-                  <p className="mt-1 flex items-center gap-1 text-[11px] text-muted-foreground/80"><MapPin className="size-3 text-primary" />{doctor.city}</p>
-                  <p className="mt-2 line-clamp-1 text-[10px] font-medium leading-relaxed text-foreground/70">{doctor.specialties.slice(0, 2).join(" · ")}</p>
-                  <span className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-primary">
-                    {doctor.profileLabel}<ArrowRight className="size-3 transition-transform group-hover/doctor:translate-x-0.5" />
-                  </span>
-                </Link>
-              ))}
-            </div>
-          </div>
-        ) : groups.slice(0, 3).map((group) => (
-          <div key={group.title} className="border-r border-border px-8 last:border-r-0">
-            <h3 className="border-b border-border pb-4 text-sm font-semibold text-foreground">{group.title}</h3>
-            <ul className="mt-2">
-              {group.links.map((item) => (
-                <li key={`${group.title}-${item.label}`} className="border-b border-border/70 last:border-0">
-                  <Link to={item.to} className="group/link flex min-h-12 items-center justify-between gap-3 text-sm text-muted-foreground transition-colors hover:text-primary focus-visible:text-primary focus-visible:outline-none">
-                    <span>{item.label}</span><ArrowRight className="size-3.5 -translate-x-1 opacity-0 transition-all group-hover/link:translate-x-0 group-hover/link:opacity-100" />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
-    </div>
-  </div>
-);
 
 const AccountMenu = ({ lang, onClose }: { lang: Lang; onClose?: () => void }) => {
   const { user, signOut } = useAuth();
