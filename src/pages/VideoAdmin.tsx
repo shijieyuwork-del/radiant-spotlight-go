@@ -116,6 +116,8 @@ const VideoAdmin = () => {
   const [submitRetry, setSubmitRetry] = useState<"failed" | "cancelled" | null>(null);
   const [failedReplace, setFailedReplace] = useState<{ videoId: string; file: File } | null>(null);
   const [aiRevise, setAiRevise] = useState(true);
+  const aiReviseRef = useRef(true);
+  aiReviseRef.current = aiRevise;
 
   const updateQueue = (updater: (prev: QueueItem[]) => QueueItem[]) => {
     setQueue((prev) => {
