@@ -46,7 +46,8 @@ const TreatmentDetail = () => {
   const { lang, fmt } = useAsia();
   const zh = lang === "zh";
   const ru = lang === "ru";
-  const c = (en: string, cn: string, russian: string) => zh ? cn : ru ? russian : en;
+  const es = lang === "es";
+  const c = (en: string, cn: string, russian: string, spanish?: string) => zh ? cn : ru ? russian : es ? (spanish ?? en) : en;
   const t = findTreatment(slug);
   const catalogMatch = PROCEDURE_CATEGORIES.flatMap((category) =>
     category.items.map(([en, cn]) => ({ en, zh: cn, categoryEn: category.en, categoryZh: category.zh }))
@@ -74,9 +75,9 @@ const TreatmentDetail = () => {
         <div className="min-h-screen bg-background">
           <AsiaNavbar />
           <div className="container py-24 text-center">
-            <h1 className="font-display text-3xl">{c("Procedure not found", "未找到该项目", "Процедура не найдена")}</h1>
+            <h1 className="font-display text-3xl">{c("Procedure not found", "未找到该项目", "Процедура не найдена", "Procedimiento no encontrado")}</h1>
             <Link to="/treatments" className="mt-4 inline-block text-primary hover:underline">
-              {c("See all procedures", "查看全部项目", "Все процедуры")}
+              {c("See all procedures", "查看全部项目", "Все процедуры", "Ver todos los procedimientos")}
             </Link>
           </div>
           <Footer />
@@ -116,29 +117,29 @@ const TreatmentDetail = () => {
             to="/treatments"
             className="mb-6 inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-soft transition-colors hover:bg-primary/90"
           >
-            <ArrowLeft className="size-4" /> {c("All procedures", "全部项目", "Все процедуры")}
+            <ArrowLeft className="size-4" /> {c("All procedures", "全部项目", "Все процедуры", "Todos los procedimientos")}
           </Link>
 
           <span className="pill bg-accent text-accent-foreground mb-3">
             <Stethoscope className="size-3.5" />
-            {c("Procedure guide", "项目指南", "Справочник по процедуре")}
+            {c("Procedure guide", "项目指南", "Справочник по процедуре", "Guía del procedimiento")}
           </span>
           <h1 className="font-display text-4xl md:text-5xl font-medium tracking-tight">{name}</h1>
           <p className="mt-3 text-lg text-muted-foreground leading-relaxed">
             {zh ? t.summaryZh : t.summaryEn}
           </p>
 
-          <Section icon={<Sparkles className="size-5" />} title={c("What it is", "这是什么", "Что это такое")}>
+          <Section icon={<Sparkles className="size-5" />} title={c("What it is", "这是什么", "Что это такое", "Qué es")}>
             <p className="text-sm text-muted-foreground leading-relaxed">{zh ? t.whatZh : t.whatEn}</p>
           </Section>
 
-          <Section icon={<Stethoscope className="size-5" />} title={c("Common techniques", "常见术式", "Распространённые методики")}>
+          <Section icon={<Stethoscope className="size-5" />} title={c("Common techniques", "常见术式", "Распространённые методики", "Técnicas comunes")}>
             <Bullets items={zh ? t.techniquesZh : t.techniquesEn} />
           </Section>
 
           <div className="mt-10 grid gap-6 sm:grid-cols-2">
             <div className="rounded-2xl border border-border/60 bg-card p-5">
-              <h3 className="font-medium">{c("Usually a good fit", "通常适合", "Кому обычно подходит")}</h3>
+              <h3 className="font-medium">{c("Usually a good fit", "通常适合", "Кому обычно подходит", "Suele ser adecuado")}</h3>
               <div className="mt-3">
                 <Bullets items={zh ? t.goodFitZh : t.goodFitEn} />
               </div>
@@ -146,7 +147,7 @@ const TreatmentDetail = () => {
             <div className="rounded-2xl border border-border/60 bg-card p-5">
               <h3 className="flex items-center gap-1.5 font-medium">
                 <CircleSlash className="size-4 text-muted-foreground" />
-                {c("Usually not a fit", "通常不适合", "Кому обычно не подходит")}
+                {c("Usually not a fit", "通常不适合", "Кому обычно не подходит", "Suele no ser adecuado")}
               </h3>
               <div className="mt-3">
                 <Bullets items={zh ? t.notFitZh : t.notFitEn} />
@@ -154,7 +155,7 @@ const TreatmentDetail = () => {
             </div>
           </div>
 
-          <Section icon={<Clock className="size-5" />} title={c("Recovery timeline", "恢复时间线", "Этапы восстановления")}>
+          <Section icon={<Clock className="size-5" />} title={c("Recovery timeline", "恢复时间线", "Этапы восстановления", "Cronología de recuperación")}>
             <ol className="space-y-4">
               {t.recovery.map((r, i) => (
                 <li key={i} className="flex gap-4">
@@ -165,27 +166,27 @@ const TreatmentDetail = () => {
             </ol>
           </Section>
 
-          <Section icon={<ShieldAlert className="size-5" />} title={c("Risks & complications", "风险与并发症", "Риски и осложнения")}>
+          <Section icon={<ShieldAlert className="size-5" />} title={c("Risks & complications", "风险与并发症", "Риски и осложнения", "Riesgos y complicaciones")}>
             <div className="rounded-2xl border border-destructive/25 bg-destructive/5 p-5">
               <Bullets items={zh ? t.risksZh : t.risksEn} />
             </div>
           </Section>
 
-          <Section icon={<HeartPulse className="size-5" />} title={c("Tell the expert before surgery", "术前必须告知专家", "Что сообщить эксперту до операции")}>
+          <Section icon={<HeartPulse className="size-5" />} title={c("Tell the expert before surgery", "术前必须告知专家", "Что сообщить эксперту до операции", "Informar al experto antes de la cirugía")}>
             <div className="rounded-2xl border border-primary/20 bg-primary/[0.045] p-5">
               <Bullets items={zh ? fullGuideEducation.discloseZh : fullGuideEducation.discloseEn} />
               <p className="mt-4 flex gap-2 text-xs font-medium leading-relaxed text-foreground">
                 <Pill className="mt-0.5 size-4 shrink-0 text-primary" />
-                {c("Do not stop medication on your own. Any change must be directed by the prescribing expert, surgeon or anesthesiologist.", "不要自行停药。是否暂停或调整药物，必须由开药专家、手术专家或麻醉专家决定。", "Не прекращайте приём лекарств самостоятельно. Любые изменения должен назначить лечащий эксперт, хирург или анестезиолог.")}
+                {c("Do not stop medication on your own. Any change must be directed by the prescribing expert, surgeon or anesthesiologist.", "不要自行停药。是否暂停或调整药物，必须由开药专家、手术专家或麻醉专家决定。", "Не прекращайте приём лекарств самостоятельно. Любые изменения должен назначить лечащий эксперт, хирург или анестезиолог.", "No suspendas la medicación por tu cuenta. Cualquier cambio debe ser indicado por el experto que la prescribió, el cirujano o el anestesiólogo.")}
               </p>
             </div>
           </Section>
 
-          <Section icon={<CircleHelp className="size-5" />} title={c("What to ask at consultation", "面诊时该问什么", "Что спросить на консультации")}>
+          <Section icon={<CircleHelp className="size-5" />} title={c("What to ask at consultation", "面诊时该问什么", "Что спросить на консультации", "Qué preguntar en la consulta")}>
             <Bullets items={zh ? t.askZh : t.askEn} />
           </Section>
 
-          <Section icon={<DollarSign className="size-5" />} title={c("What it costs", "费用参考", "Ориентировочная стоимость")}>
+          <Section icon={<DollarSign className="size-5" />} title={c("What it costs", "费用参考", "Ориентировочная стоимость", "Qué cuesta")}>
             <p className="font-display text-3xl font-medium tracking-tight">
               ${t.priceUsdLow.toLocaleString()} – ${t.priceUsdHigh.toLocaleString()}
             </p>
@@ -350,7 +351,8 @@ const CatalogProcedureDetail = ({
   const { fmt } = useAsia();
   const zh = lang === "zh";
   const ru = lang === "ru";
-  const c = (en: string, cn: string, russian: string) => zh ? cn : ru ? russian : en;
+  const es = lang === "es";
+  const c = (en: string, cn: string, russian: string, spanish?: string) => zh ? cn : ru ? russian : es ? (spanish ?? en) : en;
   const name = zh ? procedure.zh : procedure.en;
   const intro = categoryCopy[procedure.categoryEn];
   const education = catalogEducation[procedure.categoryEn];
@@ -390,7 +392,7 @@ const CatalogProcedureDetail = ({
         <AsiaNavbar />
         <main className="container max-w-4xl py-10 md:py-14">
           <Link to="/treatments" className="mb-7 inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-soft transition-colors hover:bg-primary/90">
-            <ArrowLeft className="size-4" /> {c("All procedures", "全部项目", "Все процедуры")}
+            <ArrowLeft className="size-4" /> {c("All procedures", "全部项目", "Все процедуры", "Todos los procedimientos")}
           </Link>
 
           <section className="rounded-[2rem] border border-border/60 bg-card p-6 shadow-soft md:p-9">
@@ -410,43 +412,43 @@ const CatalogProcedureDetail = ({
           <section className="mt-8 rounded-[2rem] border border-border/70 bg-card p-5 shadow-soft md:p-8">
             <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
               <div>
-                <span className="pill bg-accent text-accent-foreground"><Sparkles className="size-3.5" />{c("At a glance", "快速了解", "Кратко")}</span>
-                <h2 className="mt-3 font-display text-3xl font-medium tracking-tight">{c("Start with the essentials", "先看关键数字", "Основные сведения")}</h2>
+                <span className="pill bg-accent text-accent-foreground"><Sparkles className="size-3.5" />{c("At a glance", "快速了解", "Кратко", "De un vistazo")}</span>
+                <h2 className="mt-3 font-display text-3xl font-medium tracking-tight">{c("Start with the essentials", "先看关键数字", "Основные сведения", "Empieza por lo esencial")}</h2>
               </div>
-              <p className="max-w-md text-xs leading-relaxed text-muted-foreground">{c("General planning ranges for China—not a hospital quote or a personal recovery promise.", "以下为中国市场的一般规划参考，不是医院报价或个人恢复承诺。", "Это общие ориентиры для Китая, а не предложение клиники или гарантия восстановления.")}</p>
+              <p className="max-w-md text-xs leading-relaxed text-muted-foreground">{c("General planning ranges for China—not a hospital quote or a personal recovery promise.", "以下为中国市场的一般规划参考，不是医院报价或个人恢复承诺。", "Это общие ориентиры для Китая, а не предложение клиники или гарантия восстановления.", "Rangos generales de planificación para China, no una cotización hospitalaria ni una promesa personal de recuperación.")}</p>
             </div>
             <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4">
-              <QuickFact icon={<DollarSign />} label={c("Planning range", "参考价格", "Диапазон цен")} value={planningRange} />
-              <QuickFact icon={<Clock />} label={c("Typical downtime", "初步恢复", "Первичное восстановление")} value={zh ? education.downtimeZh : education.downtimeEn} />
-              <QuickFact icon={<Sparkles />} label={c("Result settles", "结果逐步稳定", "Окончательный результат")} value={zh ? education.finalZh : education.finalEn} />
-              <QuickFact icon={<Stethoscope />} label={c("Common anesthesia", "常见麻醉", "Обычная анестезия")} value={zh ? education.anesthesiaZh : education.anesthesiaEn} />
+              <QuickFact icon={<DollarSign />} label={c("Planning range", "参考价格", "Диапазон цен", "Rango de planificación")} value={planningRange} />
+              <QuickFact icon={<Clock />} label={c("Typical downtime", "初步恢复", "Первичное восстановление", "Baja habitual")} value={zh ? education.downtimeZh : education.downtimeEn} />
+              <QuickFact icon={<Sparkles />} label={c("Result settles", "结果逐步稳定", "Окончательный результат", "El resultado se estabiliza")} value={zh ? education.finalZh : education.finalEn} />
+              <QuickFact icon={<Stethoscope />} label={c("Common anesthesia", "常见麻醉", "Обычная анестезия", "Anestesia habitual")} value={zh ? education.anesthesiaZh : education.anesthesiaEn} />
             </div>
             <div className="mt-6 flex flex-col gap-3 rounded-2xl bg-primary/[0.07] p-4 sm:flex-row sm:items-center sm:justify-between">
-              <p className="text-sm font-medium text-foreground">{c("Not sure what applies to you? Review it with a coordinator online.", "不确定哪些信息适合你？可以先和协调员在线聊一聊。", "Не уверены, что относится к вам? Обсудите это с координатором онлайн.")}</p>
-              <Button asChild className="shrink-0 rounded-full px-5"><a href="https://wa.me/14708613825" target="_blank" rel="noreferrer">{c("Free online consultation", "免费在线咨询", "Бесплатная онлайн-консультация")}<ArrowRight className="ml-2 size-4" /></a></Button>
+              <p className="text-sm font-medium text-foreground">{c("Not sure what applies to you? Review it with a coordinator online.", "不确定哪些信息适合你？可以先和协调员在线聊一聊。", "Не уверены, что относится к вам? Обсудите это с координатором онлайн.", "¿No sabes qué aplica en tu caso? Revísalo con un coordinador en línea.")}</p>
+              <Button asChild className="shrink-0 rounded-full px-5"><a href="https://wa.me/14708613825" target="_blank" rel="noreferrer">{c("Free online consultation", "免费在线咨询", "Бесплатная онлайн-консультация", "Consulta en línea gratuita")}<ArrowRight className="ml-2 size-4" /></a></Button>
             </div>
           </section>
 
           <section className="mt-8 overflow-hidden rounded-[2rem] border border-border/70 bg-card shadow-soft">
             <div className="border-b border-border/60 px-5 py-5 md:px-7">
-              <span className="pill bg-accent text-accent-foreground"><FileCheck2 className="size-3.5" />{c("Only open what you need", "按需查看", "Откройте нужный раздел")}</span>
-              <h2 className="mt-3 font-display text-2xl font-medium tracking-tight md:text-3xl">{c("What to review before you decide", "决定前，重点看这三项", "Что проверить перед решением")}</h2>
+              <span className="pill bg-accent text-accent-foreground"><FileCheck2 className="size-3.5" />{c("Only open what you need", "按需查看", "Откройте нужный раздел", "Abre solo lo que necesitas")}</span>
+              <h2 className="mt-3 font-display text-2xl font-medium tracking-tight md:text-3xl">{c("What to review before you decide", "决定前，重点看这三项", "Что проверить перед решением", "Qué revisar antes de decidir")}</h2>
             </div>
 
             {treatment && (
               <ExpandablePanel
                 icon={<Sparkles className="size-5 text-primary" />}
-                title={c("Procedure details & recovery", "项目方式与恢复过程", "Процедура и восстановление")}
-                summary={c("Understand what it involves, common approaches and the usual recovery stages.", "了解项目内容、常见方式和通常的恢复阶段。", "Что включает процедура, основные методы и этапы восстановления.")}
+                title={c("Procedure details & recovery", "项目方式与恢复过程", "Процедура и восстановление", "Detalles del procedimiento y recuperación")}
+                summary={c("Understand what it involves, common approaches and the usual recovery stages.", "了解项目内容、常见方式和通常的恢复阶段。", "Что включает процедура, основные методы и этапы восстановления.", "Entiende en qué consiste, los enfoques comunes y las etapas habituales de recuperación.")}
               >
                 <div className="space-y-6 pt-1">
                   <p className="text-sm leading-relaxed text-muted-foreground">{zh ? treatment.whatZh : treatment.whatEn}</p>
                   <div>
-                    <h3 className="mb-3 font-display text-lg font-medium">{c("Common techniques", "常见方式", "Основные методы")}</h3>
+                    <h3 className="mb-3 font-display text-lg font-medium">{c("Common techniques", "常见方式", "Основные методы", "Técnicas comunes")}</h3>
                     <Bullets items={zh ? treatment.techniquesZh : treatment.techniquesEn} />
                   </div>
                   <div>
-                    <h3 className="mb-3 font-display text-lg font-medium">{c("Typical recovery", "通常恢复过程", "Типичное восстановление")}</h3>
+                    <h3 className="mb-3 font-display text-lg font-medium">{c("Typical recovery", "通常恢复过程", "Типичное восстановление", "Recuperación habitual")}</h3>
                     <ol className="grid gap-3 sm:grid-cols-2">
                       {treatment.recovery.map((item, index) => (
                         <li key={index} className="rounded-2xl bg-secondary/45 p-4">
@@ -460,17 +462,17 @@ const CatalogProcedureDetail = ({
               </ExpandablePanel>
             )}
 
-            <ExpandablePanel icon={<ShieldAlert className="size-5 text-destructive/75" />} title={c("Risks to understand", "可能有哪些风险？", "Важные риски")} summary={c("See the main complications to discuss with your surgeon.", "查看需要与专家重点确认的主要并发症。", "Основные осложнения, которые стоит обсудить с хирургом.")}>
+            <ExpandablePanel icon={<ShieldAlert className="size-5 text-destructive/75" />} title={c("Risks to understand", "可能有哪些风险？", "Важные риски", "Riesgos que debes entender")} summary={c("See the main complications to discuss with your surgeon.", "查看需要与专家重点确认的主要并发症。", "Основные осложнения, которые стоит обсудить с хирургом.", "Consulta las principales complicaciones a comentar con tu cirujano.")}>
               <div className="mt-4"><Bullets items={risks} /></div>
               <p className="mt-4 text-xs leading-relaxed text-muted-foreground">{zh ? "这不是完整风险清单。风险会随具体术式、麻醉方式、治疗范围和个人健康状况改变。" : "This is not a complete risk list. Risk changes with technique, anesthesia, treatment extent and your health."}</p>
             </ExpandablePanel>
 
-            <ExpandablePanel icon={<HeartPulse className="size-5 text-primary" />} title={c("What should I tell the expert?", "哪些情况必须提前告诉专家？", "Что сообщить эксперту заранее?")} summary={c("Medical conditions, medication and previous treatment can change your plan.", "疾病、用药和既往治疗都可能影响方案。", "Заболевания, лекарства и прошлое лечение могут изменить план.")}>
+            <ExpandablePanel icon={<HeartPulse className="size-5 text-primary" />} title={c("What should I tell the expert?", "哪些情况必须提前告诉专家？", "Что сообщить эксперту заранее?", "¿Qué debo decirle al experto?")} summary={c("Medical conditions, medication and previous treatment can change your plan.", "疾病、用药和既往治疗都可能影响方案。", "Заболевания, лекарства и прошлое лечение могут изменить план.", "Las condiciones médicas, la medicación y tratamientos previos pueden cambiar tu plan.")}>
               <div className="mt-4"><Bullets items={zh ? education.discloseZh : education.discloseEn} /></div>
               <p className="mt-4 flex gap-2 text-xs font-medium leading-relaxed text-foreground"><Pill className="mt-0.5 size-4 shrink-0 text-primary" />{zh ? "不要自行停药。是否暂停或调整药物，必须由开药专家、手术专家或麻醉专家决定。" : "Do not stop medication on your own. Any change must be directed by the prescribing expert, surgeon or anesthesiologist."}</p>
             </ExpandablePanel>
 
-            <ExpandablePanel icon={<CircleHelp className="size-5 text-primary" />} title={c("Questions for your consultation", "面诊时问什么？", "Вопросы для консультации")} summary={c("Save six practical questions for your expert.", "准备好 6 个实用问题，避免面诊时遗漏。", "Сохраните шесть практических вопросов эксперту.")}>
+            <ExpandablePanel icon={<CircleHelp className="size-5 text-primary" />} title={c("Questions for your consultation", "面诊时问什么？", "Вопросы для консультации", "Preguntas para tu consulta")} summary={c("Save six practical questions for your expert.", "准备好 6 个实用问题，避免面诊时遗漏。", "Сохраните шесть практических вопросов эксперту.", "Guarda seis preguntas prácticas para tu experto.")}>
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
               {(consultationQuestions ?? (zh ? [
                 `您做过多少例与我的情况相似的 ${procedure.zh}？`,
@@ -498,13 +500,13 @@ const CatalogProcedureDetail = ({
           <ProcedureVideoRow procedure={`${procedure.en} ${procedure.categoryEn}`} lang={lang} fmt={fmt} />
 
           <section className="mt-8 rounded-3xl bg-muted/45 p-6 md:p-8">
-            <h2 className="font-display text-2xl font-medium tracking-tight">{c("Next: get a plan built around you", "下一步：获取适合你的方案", "Следующий шаг: персональный план")}</h2>
+            <h2 className="font-display text-2xl font-medium tracking-tight">{c("Next: get a plan built around you", "下一步：获取适合你的方案", "Следующий шаг: персональный план", "Siguiente paso: un plan hecho para ti")}</h2>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
               {zh ? "这是一份一般性项目介绍，不构成医疗建议。具体方案、价格与恢复期只能在专家评估后确定。" : "This is a general overview, not medical advice. Technique, price and recovery can only be confirmed after a expert evaluates you."}
             </p>
             <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-              <Button asChild className="rounded-full px-6"><Link to="/doctors">{c("Explore doctors", "查看专家", "Смотреть экспертов")}<ArrowRight className="ml-2 size-4" /></Link></Button>
-              <Button asChild variant="outline" className="rounded-full px-6"><Link to="/travel-packages">{c("View travel support", "查看行程支持", "Поддержка поездки")}</Link></Button>
+              <Button asChild className="rounded-full px-6"><Link to="/doctors">{c("Explore doctors", "查看专家", "Смотреть экспертов", "Explorar expertos")}<ArrowRight className="ml-2 size-4" /></Link></Button>
+              <Button asChild variant="outline" className="rounded-full px-6"><Link to="/travel-packages">{c("View travel support", "查看行程支持", "Поддержка поездки", "Ver apoyo de viaje")}</Link></Button>
             </div>
           </section>
         </main>
@@ -575,20 +577,21 @@ const getRelatedCases = (procedure: string) => {
 const ProcedureVideoRow = ({ procedure, lang, fmt }: { procedure: string; lang: "en" | "zh" | "ru"; fmt: (cny: number) => string }) => {
   const zh = lang === "zh";
   const ru = lang === "ru";
-  const c = (en: string, cn: string, russian: string) => zh ? cn : ru ? russian : en;
+  const es = lang === "es";
+  const c = (en: string, cn: string, russian: string, spanish?: string) => zh ? cn : ru ? russian : es ? (spanish ?? en) : en;
   const items = getRelatedCases(procedure);
   return (
     <section className="mt-10 border-t border-border/60 pt-9">
       <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <span className="pill bg-accent text-accent-foreground">{c("Real case videos", "真实案例", "Видео реальных случаев")}</span>
+          <span className="pill bg-accent text-accent-foreground">{c("Real case videos", "真实案例", "Видео реальных случаев", "Videos de casos reales")}</span>
           <h2 className="mt-3 font-display text-2xl font-medium tracking-tight md:text-3xl">
-            {c("Watch related recovery diaries", "观看相关恢复短视频", "Смотрите дневники восстановления")}
+            {c("Watch related recovery diaries", "观看相关恢复短视频", "Смотрите дневники восстановления", "Ver diarios de recuperación relacionados")}
           </h2>
-          <p className="mt-1 text-sm text-muted-foreground">{c("Swipe to explore patient journeys and recovery updates.", "左右滑动查看更多案例与恢复过程。", "Листайте, чтобы увидеть больше историй пациентов.")}</p>
+          <p className="mt-1 text-sm text-muted-foreground">{c("Swipe to explore patient journeys and recovery updates.", "左右滑动查看更多案例与恢复过程。", "Листайте, чтобы увидеть больше историй пациентов.", "Desliza para ver más historias de pacientes y actualizaciones de recuperación.")}</p>
         </div>
         <Button asChild variant="outline" className="w-fit rounded-full">
-          <Link to="/cases">{c("View all cases", "查看全部案例", "Все случаи")}<ArrowRight className="ml-2 size-4" /></Link>
+          <Link to="/cases">{c("View all cases", "查看全部案例", "Все случаи", "Ver todos los casos")}<ArrowRight className="ml-2 size-4" /></Link>
         </Button>
       </div>
       <TikTokWall items={items} lang={lang} fmtPrice={fmt} variant="wall" />

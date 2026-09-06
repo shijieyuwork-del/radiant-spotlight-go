@@ -161,8 +161,9 @@ const Treatments = () => {
   const { open } = useQuote();
   const zh = lang === "zh";
   const ru = lang === "ru";
-  const copy = (en: string, cn: string, russian: string) => zh ? cn : ru ? russian : en;
-  const label = (en: string, cn: string) => zh ? cn : ru ? (RU_LABELS[en] ?? en) : en;
+  const es = lang === "es";
+  const copy = (en: string, cn: string, russian: string, spanish?: string) => zh ? cn : ru ? russian : es ? (spanish ?? en) : en;
+  const label = (en: string, cn: string, spanish?: string) => zh ? cn : ru ? (RU_LABELS[en] ?? en) : es ? (spanish ?? en) : en;
   const [activeCategory, setActiveCategory] = useState(0);
   const [query, setQuery] = useState("");
   const normalizedQuery = query.trim().toLowerCase();

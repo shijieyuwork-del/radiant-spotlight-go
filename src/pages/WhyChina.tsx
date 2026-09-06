@@ -31,7 +31,8 @@ const WhyChina = () => {
   const { open } = useQuote();
   const zh = lang === "zh";
   const ru = lang === "ru";
-  const c = (en: string, cn: string, Russian: string) => zh ? cn : ru ? Russian : en;
+  const es_ = lang === "es";
+  const c = (en: string, cn: string, Russian: string, spanish?: string) => zh ? cn : ru ? Russian : es_ ? (spanish ?? en) : en;
 
   const schema = {
     "@context": "https://schema.org",
@@ -57,49 +58,51 @@ const WhyChina = () => {
           <div className="container py-12 text-center md:py-16">
             <span className="pill mb-3 bg-accent text-accent-foreground">
               <FileCheck2 className="size-3.5 text-primary" />
-              {c("Source-led, not sales-led", "有来源，才值得相信", "Факты, а не рекламные обещания")}
+              {c("Source-led, not sales-led", "有来源，才值得相信", "Факты, а не рекламные обещания", "Basado en fuentes, no en ventas")}
             </span>
             <h1 className="mx-auto max-w-4xl font-display text-4xl font-medium leading-tight tracking-tight md:text-5xl">
               {zh ? (
                 <>为什么选择中国？<em className="text-primary not-italic">30 秒看懂。</em></>
               ) : ru ? (
                 <>Почему Китай? <em className="text-primary not-italic">Ответ за 30 секунд.</em></>
+              ) : es_ ? (
+                <>¿Por qué China? <em className="text-primary not-italic">La respuesta en 30 segundos.</em></>
               ) : (
                 <>Why China? <em className="text-primary not-italic">The 30-second answer.</em></>
               )}
             </h1>
             <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
-              {c("No information overload. Just three sourced reasons—and the safety checks that still matter.", "不堆宣传词。这里只讲三个有来源的理由，以及你必须核验的安全事项。", "Без перегруженной рекламы: три подтверждённых аргумента и важные проверки безопасности.")}
+              {c("No information overload. Just three sourced reasons—and the safety checks that still matter.", "不堆宣传词。这里只讲三个有来源的理由，以及你必须核验的安全事项。", "Без перегруженной рекламы: три подтверждённых аргумента и важные проверки безопасности.", "Sin exceso de información. Solo tres razones con fuentes, y las verificaciones de seguridad que siguen importando.")}
             </p>
           </div>
         </section>
 
         <section className="container py-12 md:py-16">
           <div className="mx-auto max-w-5xl">
-            <p className="text-center text-xs font-semibold text-primary">{c("THREE THINGS TO KNOW", "三个重点", "ТРИ ВАЖНЫХ ФАКТА")}</p>
+            <p className="text-center text-xs font-semibold text-primary">{c("THREE THINGS TO KNOW", "三个重点", "ТРИ ВАЖНЫХ ФАКТА", "TRES COSAS QUE DEBES SABER")}</p>
             <div className="mt-6 grid gap-5 md:grid-cols-3">
               <ReasonCard
                 number="01"
                 icon={<Stethoscope />}
-                title={c("A large surgeon pool", "专家人才池大", "Большой выбор хирургов")}
-                text={c("ISAPS estimates 5,000 plastic surgeons in China—the world's third-largest national pool.", "ISAPS 估算中国有约 5,000 名整形外科专家，全球排名第三。", "По оценке ISAPS, в Китае около 5 000 пластических хирургов — третий по величине национальный пул в мире.")}
+                title={c("A large surgeon pool", "专家人才池大", "Большой выбор хирургов", "Un amplio grupo de cirujanos")}
+                text={c("ISAPS estimates 5,000 plastic surgeons in China—the world's third-largest national pool.", "ISAPS 估算中国有约 5,000 名整形外科专家，全球排名第三。", "По оценке ISAPS, в Китае около 5 000 пластических хирургов — третий по величине национальный пул в мире.", "ISAPS estima 5,000 cirujanos plásticos en China, el tercer grupo nacional más grande del mundo.")}
                 source="ISAPS 2024"
                 href={SOURCES.isapsPdf}
               />
               <ReasonCard
                 number="02"
                 icon={<Newspaper />}
-                title={c("International interest is growing", "海外关注正在增加", "Международный интерес растёт")}
-                text={c("China is gaining international attention for natural-looking aesthetics, experienced practitioners and competitive pricing—giving patients a compelling new option in Asia.", "CNA 报道指出，中国正凭借自然化审美、经验丰富的专家和具有竞争力的价格获得国际关注，为海外患者提供一个值得考虑的新选择。", "Китай привлекает международное внимание естественной эстетикой, опытом специалистов и конкурентными ценами, становясь заметным вариантом в Азии.")}
+                title={c("International interest is growing", "海外关注正在增加", "Международный интерес растёт", "El interés internacional está creciendo")}
+                text={c("China is gaining international attention for natural-looking aesthetics, experienced practitioners and competitive pricing—giving patients a compelling new option in Asia.", "CNA 报道指出，中国正凭借自然化审美、经验丰富的专家和具有竞争力的价格获得国际关注，为海外患者提供一个值得考虑的新选择。", "Китай привлекает международное внимание естественной эстетикой, опытом специалистов и конкурентными ценами, становясь заметным вариантом в Азии.", "China está ganando atención internacional por su estética de aspecto natural, profesionales experimentados y precios competitivos, ofreciendo a los pacientes una nueva opción atractiva en Asia.")}
                 source="CNA"
                 href={SOURCES.cna}
               />
               <ReasonCard
                 number="03"
                 icon={<FileCheck2 />}
-                title={c("More flexible trip planning", "行程选择更灵活", "Более гибкое планирование поездки")}
-                text={c("Eligible third-country transit travelers may use China's 240-hour (10-day) visa-free transit policy; nationality, port and onward-travel rules apply.", "符合条件的第三国过境旅客可使用 240 小时（10 天）过境免签；国籍、口岸及后续行程条件适用。", "Путешественники, соответствующие условиям транзита через третью страну, могут воспользоваться 240-часовым безвизовым транзитом; действуют ограничения по гражданству, порту и дальнейшему маршруту.")}
-                source={c("Official policy", "中国官方政策", "Официальная политика")}
+                title={c("More flexible trip planning", "行程选择更灵活", "Более гибкое планирование поездки", "Planificación de viaje más flexible")}
+                text={c("Eligible third-country transit travelers may use China's 240-hour (10-day) visa-free transit policy; nationality, port and onward-travel rules apply.", "符合条件的第三国过境旅客可使用 240 小时（10 天）过境免签；国籍、口岸及后续行程条件适用。", "Путешественники, соответствующие условиям транзита через третью страну, могут воспользоваться 240-часовым безвизовым транзитом; действуют ограничения по гражданству, порту и дальнейшему маршруту.", "Los viajeros elegibles en tránsito desde un tercer país pueden usar la política de tránsito sin visado de 240 horas (10 días) de China; se aplican reglas de nacionalidad, puerto y viaje posterior.")}
+                source={c("Official policy", "中国官方政策", "Официальная политика", "Política oficial")}
                 href={SOURCES.visa}
               />
             </div>
@@ -111,28 +114,28 @@ const WhyChina = () => {
             <div className="mx-auto grid max-w-5xl gap-8 lg:grid-cols-[.85fr_1.15fr] lg:items-center">
               <div>
                 <span className="pill mb-3 bg-accent text-accent-foreground">
-                  <ShieldCheck className="size-3.5" /> {c("Safety first", "安全核验", "Безопасность прежде всего")}
+                  <ShieldCheck className="size-3.5" /> {c("Safety first", "安全核验", "Безопасность прежде всего", "La seguridad primero")}
                 </span>
                 <h2 className="font-display text-3xl font-medium tracking-tight md:text-4xl">
-                  {c("Choose the surgeon—not just the country.", "国家只是起点。专家才是决定。", "Выбирайте хирурга, а не только страну.")}
+                  {c("Choose the surgeon—not just the country.", "国家只是起点。专家才是决定。", "Выбирайте хирурга, а не только страну.", "Elige al cirujano, no solo al país.")}
                 </h2>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                  {c("Country-level data cannot prove an individual surgeon is safe. Confirm these four items before paying.", "国家数据不能证明某位专家安全。付款前，只确认下面四件事。", "Статистика страны не подтверждает безопасность конкретного хирурга. Проверьте эти четыре пункта до оплаты.")}
+                  {c("Country-level data cannot prove an individual surgeon is safe. Confirm these four items before paying.", "国家数据不能证明某位专家安全。付款前，只确认下面四件事。", "Статистика страны не подтверждает безопасность конкретного хирурга. Проверьте эти четыре пункта до оплаты.", "Los datos a nivel país no prueban que un cirujano individual sea seguro. Confirma estos cuatro puntos antes de pagar.")}
                 </p>
               </div>
               <div className="grid gap-3 sm:grid-cols-2">
-                <CheckItem title={c("Surgeon license & specialty", "专家执照与专科背景", "Лицензия и специализация хирурга")} />
-                <CheckItem title={c("Operating facility license", "实际手术机构许可", "Лицензия медицинского учреждения")} />
-                <CheckItem title={c("Anesthesia & emergency plan", "麻醉与紧急转诊方案", "План анестезии и экстренной помощи")} />
-                <CheckItem title={c("Aftercare & follow-up owner", "术后联系人与回国随访", "Ответственный за послеоперационное наблюдение")} />
+                <CheckItem title={c("Surgeon license & specialty", "专家执照与专科背景", "Лицензия и специализация хирурга", "Licencia y especialidad del cirujano")} />
+                <CheckItem title={c("Operating facility license", "实际手术机构许可", "Лицензия медицинского учреждения", "Licencia del centro donde se opera")} />
+                <CheckItem title={c("Anesthesia & emergency plan", "麻醉与紧急转诊方案", "План анестезии и экстренной помощи", "Plan de anestesia y emergencias")} />
+                <CheckItem title={c("Aftercare & follow-up owner", "术后联系人与回国随访", "Ответственный за послеоперационное наблюдение", "Responsable del cuidado posterior y seguimiento")} />
               </div>
             </div>
             <div className="mx-auto mt-8 flex max-w-5xl flex-col gap-3 sm:flex-row">
               <Button size="lg" onClick={() => open()} className="rounded-full px-7">
-                {c("Help me verify a plan", "帮我核验方案", "Помогите проверить план")}<ArrowRight className="ml-2 size-4" />
+                {c("Help me verify a plan", "帮我核验方案", "Помогите проверить план", "Ayúdenme a verificar un plan")}<ArrowRight className="ml-2 size-4" />
               </Button>
               <Button size="lg" variant="outline" asChild className="rounded-full bg-background px-7">
-                <Link to="/doctors">{c("Explore doctors", "查看专家", "Смотреть экспертов")}</Link>
+                <Link to="/doctors">{c("Explore doctors", "查看专家", "Смотреть экспертов", "Explorar expertos")}</Link>
               </Button>
             </div>
           </div>
@@ -151,15 +154,15 @@ const WhyChina = () => {
               />
             </div>
             <div>
-              <span className="pill mb-3 bg-accent text-accent-foreground"><PlayCircle className="size-3.5" /> {c("See the destination", "了解目的地", "Познакомьтесь с направлением")}</span>
+              <span className="pill mb-3 bg-accent text-accent-foreground"><PlayCircle className="size-3.5" /> {c("See the destination", "了解目的地", "Познакомьтесь с направлением", "Conoce el destino")}</span>
               <h2 className="font-display text-3xl font-medium tracking-tight md:text-4xl">
-                {c("See the city. Then plan the recovery stay.", "先了解城市，再规划恢复行程。", "Познакомьтесь с городом и спланируйте восстановление.")}
+                {c("See the city. Then plan the recovery stay.", "先了解城市，再规划恢复行程。", "Познакомьтесь с городом и спланируйте восстановление.", "Conoce la ciudad. Luego planifica tu estancia de recuperación.")}
               </h2>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                {c("Embedded through YouTube's official player; rights remain with the creator. Only plan activities after clinical clearance.", "视频通过 YouTube 官方播放器嵌入，版权归原作者。文化活动只能在专家允许后安排。", "Видео встроено через официальный плеер YouTube; права принадлежат автору. Планируйте активности только после разрешения эксперта.")}
+                {c("Embedded through YouTube's official player; rights remain with the creator. Only plan activities after clinical clearance.", "视频通过 YouTube 官方播放器嵌入，版权归原作者。文化活动只能在专家允许后安排。", "Видео встроено через официальный плеер YouTube; права принадлежат автору. Планируйте активности только после разрешения эксперта.", "Incrustado mediante el reproductor oficial de YouTube; los derechos son del creador. Planifica actividades solo tras el visto bueno clínico.")}
               </p>
               <a href={SOURCES.video} target="_blank" rel="noreferrer" className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline">
-                {c("Watch on YouTube", "在 YouTube 查看原视频", "Смотреть на YouTube")}<ExternalLink className="size-4" />
+                {c("Watch on YouTube", "在 YouTube 查看原视频", "Смотреть на YouTube", "Ver en YouTube")}<ExternalLink className="size-4" />
               </a>
             </div>
           </div>
@@ -168,7 +171,7 @@ const WhyChina = () => {
         <section className="border-t border-border/60">
           <div className="container py-10">
             <div className="mx-auto max-w-5xl">
-              <h2 className="text-sm font-semibold">{c("Original sources", "原始来源", "Первоисточники")}</h2>
+              <h2 className="text-sm font-semibold">{c("Original sources", "原始来源", "Первоисточники", "Fuentes originales")}</h2>
               <div className="mt-4 flex flex-wrap gap-x-6 gap-y-3 text-sm">
                 <SourceLink label="ISAPS Global Survey 2024" href={SOURCES.isaps} />
                 <SourceLink label="CNA independent report" href={SOURCES.cna} />
@@ -176,7 +179,7 @@ const WhyChina = () => {
                 <SourceLink label="ISAPS patient guidance" href={SOURCES.patients} />
               </div>
               <p className="mt-5 max-w-3xl text-xs leading-relaxed text-muted-foreground">
-                {c("Important: Cosmetic surgery involves risk and outcomes vary. Media coverage and national data do not replace individual verification of a surgeon, facility or treatment plan.", "重要提示：医美手术存在风险，效果因人而异。媒体报道和国家数据不能代替对具体专家、机构及治疗方案的独立核验。", "Важно: косметическая хирургия связана с рисками, а результаты индивидуальны. Публикации СМИ и национальная статистика не заменяют проверку конкретного хирурга, учреждения и плана лечения.")}
+                {c("Important: Cosmetic surgery involves risk and outcomes vary. Media coverage and national data do not replace individual verification of a surgeon, facility or treatment plan.", "重要提示：医美手术存在风险，效果因人而异。媒体报道和国家数据不能代替对具体专家、机构及治疗方案的独立核验。", "Важно: косметическая хирургия связана с рисками, а результаты индивидуальны. Публикации СМИ и национальная статистика не заменяют проверку конкретного хирурга, учреждения и плана лечения.", "Importante: la cirugía estética conlleva riesgos y los resultados varían. La cobertura mediática y los datos nacionales no sustituyen la verificación individual de un cirujano, centro o plan de tratamiento.")}
               </p>
             </div>
           </div>
