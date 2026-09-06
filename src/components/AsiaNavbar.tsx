@@ -202,23 +202,12 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
   }));
   const megaMenus: Record<string, { featuredDoctors?: typeof featuredDoctors; intro: string; viewAll: string; groups: MegaMenuGroup[] }> = {
     "/cases": {
-      intro: c("Real recovery, organized around your questions.", "按你的关注点，查看真实恢复历程。", "Реальное восстановление — по вашим вопросам.", "Recuperación real, organizada según tus preguntas."),
+      intro: c("Real recovery, in video or photos.", "用视频或照片，看真实恢复历程。", "Реальное восстановление — видео или фото.", "Recuperación real, en video o fotos."),
       viewAll: c("View all diaries", "查看全部日记", "Все дневники", "Ver todos los diarios"),
       groups: [
-        { title: c("Face & eyes", "面部与眼部", "Лицо и глаза", "Rostro y ojos"), links: [
-          { label: c("Rhinoplasty", "鼻综合", "Ринопластика", "Rinoplastia"), to: "/cases?treatment=Rhinoplasty" },
-          { label: c("Blepharoplasty", "眼睑整形", "Блефаропластика", "Blefaroplastia"), to: "/cases?treatment=Blepharoplasty" },
-          { label: c("Facelift", "面部提升", "Подтяжка лица", "Lifting facial"), to: "/cases?treatment=Facelift" },
-        ] },
-        { title: c("Body & breast", "身体与胸部", "Тело и грудь", "Cuerpo y mamas"), links: [
-          { label: c("Liposuction", "吸脂塑形", "Липосакция", "Liposucción"), to: "/cases?treatment=Liposuction" },
-          { label: c("Tummy tuck", "腹壁整形", "Абдоминопластика", "Abdominoplastia"), to: "/cases?treatment=Tummy%20Tuck" },
-          { label: c("Breast augmentation", "隆胸", "Увеличение груди", "Aumento de senos"), to: "/cases?treatment=Breast%20Augmentation" },
-        ] },
-        { title: c("Browse the journey", "按历程浏览", "Этапы восстановления", "Explora el proceso"), links: [
-          { label: c("Consultation", "面诊阶段", "Консультация", "Consulta"), to: "/cases?stage=Consultation" },
-          { label: c("First month", "术后首月", "Первый месяц", "Primer mes"), to: "/cases?stage=Month%201" },
-          { label: c("Final results", "最终效果", "Итоговый результат", "Resultados finales"), to: "/cases?stage=Final%20result" },
+        { title: c("Format", "浏览方式", "Формат", "Formato"), links: [
+          { label: c("Video diaries", "视频日记", "Видеодневники", "Videodiarios"), to: "/cases" },
+          { label: c("Before & after photos", "术前术后照片", "Фото до и после", "Fotos de antes y después"), to: "/before-after" },
         ] },
       ],
     },
