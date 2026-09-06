@@ -143,6 +143,21 @@ const AccountMenu = ({ lang, onClose }: { lang: Lang; onClose?: () => void }) =>
             <User className="size-4" /> {c("Profile", "个人资料", "Профиль")}
           </Link>
         </DropdownMenuItem>
+        {isAdmin && (
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem asChild>
+              <Link to="/admin/doctors" onClick={onClose} className="cursor-pointer flex items-center gap-2">
+                <User className="size-4" /> {c("Manage experts", "管理专家", "Управление экспертами")}
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link to="/admin/videos" onClick={onClose} className="cursor-pointer flex items-center gap-2">
+                <User className="size-4" /> {c("Manage videos", "管理视频", "Управление видео")}
+              </Link>
+            </DropdownMenuItem>
+          </>
+        )}
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => { signOut(); onClose?.(); }} className="cursor-pointer flex items-center gap-2 text-destructive focus:text-destructive">
           <LogOut className="size-4" /> {c("Sign out", "退出登录", "Выйти")}
