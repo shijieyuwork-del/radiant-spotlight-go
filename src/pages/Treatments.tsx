@@ -35,6 +35,18 @@ const CATEGORY_DESCRIPTIONS = [
   ["Device-based, injectable and skin-focused treatments that do not require major surgery.", "无需大型手术的仪器、注射及皮肤治疗项目。"],
 ] as const;
 
+const ES_CATEGORY_DESCRIPTIONS = [
+  "Procedimientos que modifican la estructura nasal, la proporción o la función respiratoria.",
+  "Procedimientos del párpado y la zona periocular relacionados con el pliegue, la piel, la grasa y la posición muscular.",
+  "Métodos óseos y de tejidos blandos para equilibrar el rostro y el perfil.",
+  "Métodos quirúrgicos para los cambios relacionados con la edad en el rostro y el cuello.",
+  "Procedimientos relacionados con el volumen, la posición, la forma y los implantes mamarios.",
+  "Procedimientos que remodelan el contorno corporal al eliminar, tensar o transferir tejido.",
+  "Métodos quirúrgicos de trasplante para el cuero cabelludo, las cejas y el vello facial.",
+  "Procedimientos restauradores y estéticos para los dientes, la alineación y el diseño de la sonrisa.",
+  "Tratamientos con dispositivos, inyectables y enfocados en la piel que no requieren cirugía mayor.",
+] as const;
+
 const CATEGORY_STYLES = [
   { panel: "bg-primary/[0.055]", marker: "bg-primary/15 text-primary", title: "text-foreground", link: "hover:bg-primary/10 hover:text-foreground", dot: "bg-primary" },
   { panel: "bg-accent/25", marker: "bg-accent text-accent-foreground", title: "text-foreground", link: "hover:bg-accent/55 hover:text-foreground", dot: "bg-accent-foreground/55" },
@@ -144,6 +156,81 @@ const RU_LABELS: Record<string, string> = {
   "Improve skin texture": "Улучшить текстуру кожи",
 };
 
+const ES_LABELS: Record<string, string> = {
+  Nose: "Nariz",
+  Eyes: "Ojos",
+  "Face & Contour": "Rostro y contorno",
+  "Facial Rejuvenation": "Rejuvenecimiento facial",
+  Breast: "Mama",
+  "Body Contouring": "Contorno corporal",
+  "Hair Restoration": "Restauración capilar",
+  "Cosmetic Dentistry": "Odontología estética",
+  "Skin & Non-Surgical": "Piel y no quirúrgico",
+  Rhinoplasty: "Rinoplastia",
+  "Revision Rhinoplasty": "Rinoplastia de revisión",
+  Septorhinoplasty: "Septorrinoplastia",
+  "Alar Base Reduction": "Reducción de la base alar",
+  "Nasal Tip Surgery": "Cirugía de la punta nasal",
+  "Double Eyelid Surgery": "Cirugía de párpado doble",
+  "Upper Blepharoplasty": "Blefaroplastia superior",
+  "Lower Blepharoplasty": "Blefaroplastia inferior",
+  "Ptosis Correction": "Corrección de ptosis",
+  Epicanthoplasty: "Epicantoplastia",
+  "Under-Eye Fat Repositioning": "Reposición de grasa bajo los ojos",
+  "Chin Augmentation": "Aumento de mentón",
+  Genioplasty: "Genioplastia",
+  "Jaw Contouring": "Contorno mandibular",
+  "Zygoma Reduction": "Reducción de pómulos",
+  "Facial Fat Grafting": "Injerto de grasa facial",
+  Otoplasty: "Otoplastia",
+  Facelift: "Ritidectomía facial",
+  "Neck Lift": "Lifting de cuello",
+  "Brow Lift": "Lifting de cejas",
+  "Deep-Plane Facelift": "Lifting facial de plano profundo",
+  "Mini Facelift": "Mini lifting facial",
+  "Lip Lift": "Lifting de labios",
+  "Breast Augmentation": "Aumento de mamas",
+  "Breast Lift": "Lifting de mamas",
+  "Breast Reduction": "Reducción de mamas",
+  "Implant Revision": "Revisión de implantes mamarios",
+  "Implant Removal": "Retiro de implantes mamarios",
+  "Male Breast Reduction": "Reducción de mamas en hombres",
+  Liposuction: "Liposucción",
+  "Tummy Tuck": "Abdominoplastia",
+  "Arm Lift": "Lifting de brazos",
+  "Thigh Lift": "Lifting de muslos",
+  "Body Lift": "Lifting corporal",
+  "Fat Transfer": "Transferencia de grasa",
+  "Mommy Makeover": "Renovación posparto",
+  "FUE Hair Transplant": "Trasplante capilar FUE",
+  "FUT Hair Transplant": "Trasplante capilar FUT",
+  "Hairline Restoration": "Restauración de la línea de implantación",
+  "Crown Restoration": "Restauración de la coronilla",
+  "Eyebrow Transplant": "Trasplante de cejas",
+  "Beard Transplant": "Trasplante de barba",
+  "Dental Implants": "Implantes dentales",
+  "Porcelain Veneers": "Carillas de porcelana",
+  "All-Ceramic Crowns": "Coronas totalmente cerámicas",
+  "Teeth Whitening": "Blanqueamiento dental",
+  "Clear Aligners": "Alineadores transparentes",
+  "Full-Mouth Reconstruction": "Reconstrucción bucal completa",
+  "Laser Skin Resurfacing": "Resurfacing láser de la piel",
+  "Pigmentation Treatment": "Tratamiento de la pigmentación",
+  "Acne Scar Treatment": "Tratamiento de cicatrices de acné",
+  "RF Microneedling": "Microagujas con radiofrecuencia",
+  "Ultrasound Skin Tightening": "Tensado de piel por ultrasonido",
+  "Botulinum Toxin": "Toxina botulínica",
+  "Dermal Fillers": "Rellenos dérmicos",
+  "Regenerative Skin Treatments": "Tratamientos regenerativos para la piel",
+  "Improve my nose": "Mejorar mi nariz",
+  "Look less tired": "Verme menos cansado",
+  "Define my profile": "Definir mi perfil",
+  "Look more refreshed": "Verme más rejuvenecido",
+  "Restore hair": "Recuperar el cabello",
+  "Improve my smile": "Mejorar mi sonrisa",
+  "Improve skin texture": "Mejorar la textura de la piel",
+};
+
 const RU_CATEGORY_DESCRIPTIONS = [
   "Процедуры, изменяющие строение и пропорции носа или улучшающие дыхание.",
   "Процедуры век и области вокруг глаз: складка, кожа, жировая ткань и положение мышц.",
@@ -163,14 +250,14 @@ const Treatments = () => {
   const ru = lang === "ru";
   const es = lang === "es";
   const copy = (en: string, cn: string, russian: string, spanish?: string) => zh ? cn : ru ? russian : es ? (spanish ?? en) : en;
-  const label = (en: string, cn: string, spanish?: string) => zh ? cn : ru ? (RU_LABELS[en] ?? en) : es ? (spanish ?? en) : en;
+  const label = (en: string, cn: string, spanish?: string) => zh ? cn : ru ? (RU_LABELS[en] ?? en) : es ? (ES_LABELS[en] ?? spanish ?? en) : en;
   const [activeCategory, setActiveCategory] = useState(0);
   const [query, setQuery] = useState("");
   const normalizedQuery = query.trim().toLowerCase();
   const visibleCategories = useMemo(() => {
     if (!normalizedQuery) return [{ category: PROCEDURE_CATEGORIES[activeCategory], index: activeCategory }];
     return PROCEDURE_CATEGORIES.map((category, index) => ({
-      category: { ...category, items: category.items.filter(([en, cn]) => `${en} ${cn} ${RU_LABELS[en] ?? ""} ${category.en} ${category.zh} ${RU_LABELS[category.en] ?? ""}`.toLowerCase().includes(normalizedQuery)) },
+      category: { ...category, items: category.items.filter(([en, cn]) => `${en} ${cn} ${RU_LABELS[en] ?? ""} ${ES_LABELS[en] ?? ""} ${category.en} ${category.zh} ${RU_LABELS[category.en] ?? ""} ${ES_LABELS[category.en] ?? ""}`.toLowerCase().includes(normalizedQuery)) },
       index,
     })).filter(({ category }) => category.items.length > 0);
   }, [activeCategory, normalizedQuery]);
@@ -258,7 +345,7 @@ const Treatments = () => {
                   >
                     <div className="flex items-start gap-3 sm:gap-4">
                       <span className={`grid size-11 shrink-0 place-items-center rounded-2xl ${CATEGORY_STYLES[categoryIndex].marker}`}>{(() => { const Icon = CATEGORY_META[categoryIndex].icon; return <Icon className="size-5" />; })()}</span>
-                      <div><span className="font-mono text-[11px] font-bold text-primary">{String(categoryIndex + 1).padStart(2, "0")}</span><h2 className="font-display text-[1.7rem] font-medium leading-tight tracking-tight sm:text-3xl">{label(category.en, category.zh)}</h2><p className="mt-1 max-w-xl text-sm leading-relaxed text-muted-foreground">{ru ? RU_CATEGORY_DESCRIPTIONS[categoryIndex] : CATEGORY_DESCRIPTIONS[categoryIndex][zh ? 1 : 0]}</p></div>
+                      <div><span className="font-mono text-[11px] font-bold text-primary">{String(categoryIndex + 1).padStart(2, "0")}</span><h2 className="font-display text-[1.7rem] font-medium leading-tight tracking-tight sm:text-3xl">{label(category.en, category.zh)}</h2><p className="mt-1 max-w-xl text-sm leading-relaxed text-muted-foreground">{ru ? RU_CATEGORY_DESCRIPTIONS[categoryIndex] : es ? ES_CATEGORY_DESCRIPTIONS[categoryIndex] : CATEGORY_DESCRIPTIONS[categoryIndex][zh ? 1 : 0]}</p></div>
                     </div>
                     <div className="mt-6 grid gap-3 sm:grid-cols-2">
                         {category.items.map(([en, cn], itemIndex) => (
