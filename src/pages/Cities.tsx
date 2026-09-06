@@ -11,7 +11,7 @@ import { asiaCopy } from "@/lib/asia-copy";
 
 const Cities = () => {
   const { lang } = useAsia();
-  const c = <T,>(en: T, zh: T, ru: T) => asiaCopy(lang, { en, zh, ru });
+  const c = <T,>(en: T, zh: T, ru: T, es?: T) => asiaCopy(lang, { en, zh, ru, es });
   const navigate = useNavigate();
   const filter = useCityFilter();
   return (
@@ -28,7 +28,7 @@ const Cities = () => {
       <section className="container py-12 md:py-16">
         <span className="pill bg-accent text-accent-foreground mb-3">
           <MapPin className="size-3.5" />
-          {c("Asia destinations", "亚洲城市", "Города Азии")}
+          {c("Asia destinations", "亚洲城市", "Города Азии", "Destinos en Asia")}
         </span>
         <h1 className="font-display text-4xl md:text-5xl font-medium tracking-tight max-w-3xl">
           {lang === "zh" ? (
@@ -38,6 +38,10 @@ const Cities = () => {
           ) : lang === "ru" ? (
             <>
               Выберите город — <em className="text-primary not-italic">найдите своего эксперта</em>
+            </>
+          ) : lang === "es" ? (
+            <>
+              Elige una ciudad, <em className="text-primary not-italic">encuentra a tu cirujano</em>
             </>
           ) : (
             <>
@@ -51,6 +55,7 @@ const Cities = () => {
             "Asia's leading medical-aesthetic destinations — from Seoul and Bangkok to Shanghai and Tokyo — each with its own specialties, price level and travel logistics.",
             "从首尔、曼谷到上海、东京，亚洲热门医美目的地各有强势项目、价格区间与出行配套。",
             "Ведущие направления медицинской эстетики Азии — от Сеула и Бангкока до Шанхая и Токио — со своими специализациями, ценами и логистикой.",
+            "Los principales destinos de estética médica en Asia — de Seúl y Bangkok a Shanghái y Tokio — cada uno con sus especialidades, nivel de precios y logística de viaje.",
           )}
         </p>
 
@@ -63,10 +68,11 @@ const Cities = () => {
                 `${filter.results.length} ${filter.results.length === 1 ? "city" : "cities"} found`,
                 `找到 ${filter.results.length} 个城市`,
                 `Найдено городов: ${filter.results.length}`,
+                `${filter.results.length} ${filter.results.length === 1 ? "ciudad encontrada" : "ciudades encontradas"}`,
               )}
               {" · "}
               <button type="button" onClick={filter.clear} className="font-semibold text-primary hover:underline">
-                {c("Reset", "重置", "Сбросить")}
+                {c("Reset", "重置", "Сбросить", "Restablecer")}
               </button>
             </p>
           )}
