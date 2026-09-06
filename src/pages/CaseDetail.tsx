@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
   ArrowLeft, ArrowRight, Heart, MessageCircle, Share2, Volume2, VolumeX, Play,
@@ -16,11 +16,39 @@ import { DOCTORS } from "@/data/doctors";
 import { DEMO_CHINA_DOCTORS } from "@/data/demoChinaDoctors";
 import { useAsia } from "@/lib/asia-i18n";
 import { useSavedCase } from "@/lib/saved-cases";
+import { supabase } from "@/integrations/supabase/client";
+import { signedUrl } from "@/lib/storage-urls";
+import { localizeVideoRow } from "@/lib/i18n-content";
+import { toTikTokItem } from "@/hooks/use-published-videos";
+import type { TikTokItem } from "@/components/TikTokWall";
 
 const CaseDetail = () => {
   const { id } = useParams();
   const { t, lang, fmt } = useAsia();
-  const item = useMemo(() => TIKTOK_CASES.find((c) => c.id === id), [id]);
+  const staticItem = useMemo(() => TIKTOK_CASES.find((c) => c.id === id), [id]);
+  // 后台上传的视频不在静态数据里，按 id 从已发布视频中读取
+  const [uploadedItem, setUploadedItem] = useState<TikTokItem | null>(null);
+  useEffect(() => {
+    if (staticItem || !id) return;
+    let active = true;
+    void (async () => {
+      const { data } = await supabase
+        .from("videos")
+        .select("id,title,caption,city,procedure,storage_path,cover_path,created_at,doctor_id,i18n")
+        .eq("id", id)
+        .eq("status", "published")
+        .maybeSingle();
+      if (!data || !active) return;
+      const row = localizeVideoRow(data as unknown as Record<string, unknown>, lang) as unknown as Parameters<typeof toTikTokItem>[0];
+      const [url, cover] = await Promise.all([
+        signedUrl("short-videos", row.storage_path),
+        signedUrl("video-covers", row.cover_path),
+      ]);
+      if (active) setUploadedItem(toTikTokItem(row, url, cover));
+    })();
+    return () => { active = false; };
+  }, [id, lang, staticItem]);
+  const item = staticItem ?? uploadedItem;
   const doctor = useMemo(() => DOCTORS.find(() => false), []);
   const caseDoctor = useMemo(() => {
     const treatment = item?.treatment.en.toLowerCase() ?? "";
