@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
-import { ArrowLeft, Film, Loader2, Pencil, Plus, Search, Stethoscope, Trash2, UploadCloud } from "lucide-react";
+import { ArrowLeft, Film, Images, Loader2, Pencil, Plus, Search, Stethoscope, Trash2, UploadCloud } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@/lib/auth";
 import { useIsAdmin } from "@/hooks/use-is-admin";
@@ -16,6 +16,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import LiveTranslationPanel from "@/components/LiveTranslationPanel";
 import { useRealtimeRefresh } from "@/hooks/use-realtime-refresh";
+import BeforeAfterAdmin from "@/components/BeforeAfterAdmin";
 import DoctorAdmin from "./DoctorAdmin";
 import VideoAdmin from "./VideoAdmin";
 
@@ -214,9 +215,14 @@ export default function ContentAdmin() {
           <TabsList>
             <TabsTrigger value="experts"><Stethoscope className="size-4 mr-1.5" />专家（{filteredExperts.length}）</TabsTrigger>
             <TabsTrigger value="videos"><Film className="size-4 mr-1.5" />视频（{filteredVideos.length}）</TabsTrigger>
+            <TabsTrigger value="before-after"><Images className="size-4 mr-1.5" />术前术后对比</TabsTrigger>
             <TabsTrigger value="new-expert"><Plus className="size-4 mr-1.5" />新增专家</TabsTrigger>
             <TabsTrigger value="new-video"><UploadCloud className="size-4 mr-1.5" />上传视频</TabsTrigger>
           </TabsList>
+
+          <TabsContent value="before-after" className="mt-4">
+            <BeforeAfterAdmin experts={experts.map((e) => ({ id: e.id, name: e.name }))} />
+          </TabsContent>
 
           <TabsContent value="new-expert" className="mt-4 max-w-xl">
             <DoctorAdmin embedded />
