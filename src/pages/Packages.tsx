@@ -163,6 +163,54 @@ const SUPPORT_SERVICES = [
   },
 ] as const;
 
+const HOTEL_TIERS = [
+  {
+    icon: Wallet,
+    tier: ["Budget", "经济型", "Эконом"],
+    range: "$40 – $80",
+    examples: [
+      "Clean 3-star hotels and serviced apartments near metro lines.",
+      "干净的三星级酒店和服务式公寓，通常靠近地铁。",
+      "Чистые отели 3* и апартаменты с обслуживанием рядом с метро.",
+    ],
+    note: [
+      "Good for shorter stays and tighter budgets.",
+      "适合预算有限或停留时间较短的行程。",
+      "Подходит для коротких поездок и ограниченного бюджета.",
+    ],
+  },
+  {
+    icon: Building2,
+    tier: ["Mid-range", "舒适型", "Средний класс"],
+    range: "$80 – $180",
+    examples: [
+      "International 4-star hotels close to major clinic areas.",
+      "靠近主要诊疗区域的国际四星级酒店。",
+      "Международные отели 4* рядом с основными клиниками.",
+    ],
+    note: [
+      "The most common choice for recovery stays.",
+      "最常见的术后恢复住宿选择。",
+      "Самый частый выбор для периода восстановления.",
+    ],
+  },
+  {
+    icon: Hotel,
+    tier: ["Premium", "高档型", "Премиум"],
+    range: "$180 – $400+",
+    examples: [
+      "5-star hotels with quiet rooms, room service and space to rest.",
+      "五星级酒店，安静客房、客房服务与充足休息空间。",
+      "Отели 5* с тихими номерами, обслуживанием и пространством для отдыха.",
+    ],
+    note: [
+      "Suited to longer recovery or added privacy.",
+      "适合较长恢复期或需要更多私密性的行程。",
+      "Подходит для длительного восстановления и большей приватности.",
+    ],
+  },
+] as const;
+
 const Packages = () => {
   const { lang } = useAsia();
   const c = <T,>(en: T, zh: T, ru: T) => asiaCopy(lang, { en, zh, ru });
