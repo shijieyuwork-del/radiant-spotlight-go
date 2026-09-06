@@ -60,6 +60,7 @@ export type Database = {
           created_at: string
           credentials: string | null
           hospital: string
+          i18n: Json
           id: string
           languages: string | null
           name: string
@@ -74,6 +75,7 @@ export type Database = {
           created_at?: string
           credentials?: string | null
           hospital: string
+          i18n?: Json
           id?: string
           languages?: string | null
           name: string
@@ -88,6 +90,7 @@ export type Database = {
           created_at?: string
           credentials?: string | null
           hospital?: string
+          i18n?: Json
           id?: string
           languages?: string | null
           name?: string
@@ -267,6 +270,7 @@ export type Database = {
           cover_path: string | null
           created_at: string
           doctor_id: string | null
+          i18n: Json
           id: string
           procedure: string | null
           status: string
@@ -279,6 +283,7 @@ export type Database = {
           cover_path?: string | null
           created_at?: string
           doctor_id?: string | null
+          i18n?: Json
           id?: string
           procedure?: string | null
           status?: string
@@ -291,6 +296,7 @@ export type Database = {
           cover_path?: string | null
           created_at?: string
           doctor_id?: string | null
+          i18n?: Json
           id?: string
           procedure?: string | null
           status?: string
