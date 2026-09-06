@@ -18,9 +18,14 @@ import { useAsia } from "@/lib/asia-i18n";
 import { useSavedCase } from "@/lib/saved-cases";
 import { supabase } from "@/integrations/supabase/client";
 import { signedUrl } from "@/lib/storage-urls";
-import { localizeVideoRow } from "@/lib/i18n-content";
+import { localizeDoctorRow, localizeVideoRow } from "@/lib/i18n-content";
 import { toTikTokItem } from "@/hooks/use-published-videos";
 import type { TikTokItem } from "@/components/TikTokWall";
+
+type LinkedExpert = {
+  id: string; name: string; title: string; hospital: string; city: string;
+  bio: string; specialties: string[]; photoUrl: string | null;
+};
 
 const CaseDetail = () => {
   const { id } = useParams();
@@ -28,6 +33,7 @@ const CaseDetail = () => {
   const staticItem = useMemo(() => TIKTOK_CASES.find((c) => c.id === id), [id]);
   // 后台上传的视频不在静态数据里，按 id 从已发布视频中读取
   const [uploadedItem, setUploadedItem] = useState<TikTokItem | null>(null);
+  const [linkedExpert, setLinkedExpert] = useState<LinkedExpert | null>(null);
   useEffect(() => {
     if (staticItem || !id) return;
     let active = true;
@@ -45,6 +51,25 @@ const CaseDetail = () => {
         signedUrl("video-covers", row.cover_path),
       ]);
       if (active) setUploadedItem(toTikTokItem(row, url, cover));
+      // 后台视频关联了专家时，读取真实专家资料（而不是按项目猜测的示例专家）
+      if (data.doctor_id) {
+        const { data: doc } = await supabase
+          .from("doctors")
+          .select("id,name,title,hospital,city,bio,specialties,photo_path,i18n")
+          .eq("id", data.doctor_id)
+          .eq("status", "published")
+          .maybeSingle();
+        if (!doc || !active) return;
+        const d = localizeDoctorRow(doc as unknown as Record<string, unknown>, lang) as unknown as {
+          id: string; name: string; title: string; hospital: string; city: string;
+          bio: string; specialties: string[] | null; photo_path: string | null;
+        };
+        const photoUrl = d.photo_path ? await signedUrl("doctor-photos", d.photo_path) : null;
+        if (active) setLinkedExpert({
+          id: d.id, name: d.name, title: d.title, hospital: d.hospital, city: d.city,
+          bio: d.bio, specialties: d.specialties ?? [], photoUrl,
+        });
+      }
     })();
     return () => { active = false; };
   }, [id, lang, staticItem]);
