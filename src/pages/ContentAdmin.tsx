@@ -140,7 +140,11 @@ export default function ContentAdmin() {
     setSaving(true);
     try {
       const { revised, ...i18n } = await translateFields(
-        { name: e.name.trim(), title: e.title.trim(), hospital: e.hospital.trim(), city: e.city.trim(), bio: e.bio.trim(), credentials: e.credentials?.trim() },
+        {
+          name: e.name.trim(), title: e.title.trim(), hospital: e.hospital.trim(), city: e.city.trim(),
+          specialties: (e.specialties ?? []).map((s) => s.trim()).filter(Boolean).join("，"),
+          bio: e.bio.trim(), credentials: e.credentials?.trim(),
+        },
         { revise: aiRevise }
       );
       const { error } = await supabase.from("doctors").update({

@@ -179,6 +179,7 @@ export default function DoctorAdmin({ embedded = false }: { embedded?: boolean }
       const { revised, ...i18n } = await translateFields(
         {
           name: name.trim(), title: title.trim(), hospital: hospital.trim(), city: city.trim(),
+          specialties: specialties.split(/[,，]/).map((x) => x.trim()).filter(Boolean).join("，"),
           bio: bio.trim(), credentials: credentials.trim(),
         },
         { revise: aiRevise }

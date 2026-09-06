@@ -43,8 +43,24 @@ export const localizedField = (
 export const localizeDoctorRow = <T extends Record<string, unknown>>(row: T, lang: Lang): T => {
   const i18n = (row as { i18n?: unknown }).i18n;
   const f = (key: string) => localizedField(i18n, key, lang, row[key] as string | null);
-  return { ...row, name: f("name"), title: f("title"), hospital: f("hospital"), bio: f("bio"), credentials: f("credentials") || (row.credentials ?? null) } as T;
+  const rawSpecialties = (row.specialties as string[] | null) ?? [];
+  const specialtiesText = localizedField(i18n, "specialties", lang, rawSpecialties.join("，"));
+  const specialties = splitList(specialtiesText).length ? splitList(specialtiesText) : rawSpecialties;
+  return {
+    ...row,
+    name: f("name"),
+    title: f("title"),
+    hospital: f("hospital"),
+    city: f("city") || (row.city ?? null),
+    specialties,
+    bio: f("bio"),
+    credentials: f("credentials") || (row.credentials ?? null),
+  } as T;
 };
+
+/** 逗号分隔列表（中英文逗号 / 顿号）拆分。 */
+export const splitList = (value: string | null | undefined): string[] =>
+  (value ?? "").split(/[,，、]/).map((s) => s.trim()).filter(Boolean);
 
 /** 视频记录按当前语言本地化。 */
 export const localizeVideoRow = <T extends Record<string, unknown>>(row: T, lang: Lang): T => {
