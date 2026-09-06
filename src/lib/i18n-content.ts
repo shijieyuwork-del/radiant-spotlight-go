@@ -1,6 +1,6 @@
 import { supabase } from "@/integrations/supabase/client";
 
-export type Lang = "en" | "zh" | "ru";
+export type Lang = "en" | "zh" | "ru" | "es";
 export type I18nBundle = Partial<Record<Lang, Record<string, string>>>;
 
 /**
@@ -36,7 +36,7 @@ export const localizedField = (
   fallback: string | null | undefined
 ): string => {
   const bundle = (i18n ?? {}) as I18nBundle;
-  return bundle?.[lang]?.[key] || bundle?.zh?.[key] || fallback || "";
+  return bundle?.[lang]?.[key] || bundle?.en?.[key] || bundle?.zh?.[key] || fallback || "";
 };
 
 /** 专家记录按当前语言本地化（缺译文时回落中文原文）。 */
