@@ -5,6 +5,7 @@ import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
 import { supabase } from "@/integrations/supabase/client";
+import { localizeDoctorRow, localizeVideoRow } from "@/lib/i18n-content";
 import { signedUrl, signedUrls } from "@/lib/storage-urls";
 import { formatCityTime, getCityTimezone } from "@/lib/timezones";
 import CoverVideo from "@/components/CoverVideo";
@@ -13,7 +14,7 @@ type Doctor = { id:string; name:string; title:string; hospital:string; city:stri
 type Video = { id:string; title:string; caption:string|null; storage_path:string; cover_path:string|null; url?:string; coverUrl?:string };
 const ManagedDoctorDetail = () => {
   const { id="" } = useParams(); const [doctor,setDoctor]=useState<Doctor|null>(null); const [videos,setVideos]=useState<Video[]>([]); const [loading,setLoading]=useState(true); const [photo,setPhoto]=useState("");
-  useEffect(()=>{(async()=>{const {data}=await supabase.from("doctors").select("*").eq("id",id).eq("status","published").maybeSingle();setDoctor(data as Doctor|null);if(data){setPhoto(await signedUrl("doctor-photos",(data as Doctor).photo_path));const r=await supabase.from("videos").select("id,title,caption,storage_path,cover_path").eq("doctor_id",id).eq("status","published").order("created_at",{ascending:false});const rows=(r.data??[]) as Video[];const [urls,coverUrls]=await Promise.all([signedUrls("short-videos",rows.map(v=>v.storage_path)),signedUrls("video-covers",rows.map(v=>v.cover_path))]);setVideos(rows.map((v,i)=>({...v,url:urls[i],coverUrl:coverUrls[i]})));}setLoading(false)})()},[id]);
+  useEffect(()=>{(async()=>{const {data}=await supabase.from("doctors").select("*").eq("id",id).eq("status","published").maybeSingle();setDoctor(data?localizeDoctorRow(data as Record<string,unknown>,lang) as unknown as Doctor:null);if(data){setPhoto(await signedUrl("doctor-photos",(data as Doctor).photo_path));const r=await supabase.from("videos").select("id,title,caption,storage_path,cover_path,i18n").eq("doctor_id",id).eq("status","published").order("created_at",{ascending:false});const rows=(r.data??[]) as Video[];const [urls,coverUrls]=await Promise.all([signedUrls("short-videos",rows.map(v=>v.storage_path)),signedUrls("video-covers",rows.map(v=>v.cover_path))]);setVideos(rows.map((v,i)=>localizeVideoRow({...v,url:urls[i],coverUrl:coverUrls[i]} as Record<string,unknown>,lang) as unknown as Video));}setLoading(false)})()},[id,lang]);
   if(loading)return <div className="min-h-screen grid place-items-center"><Loader2 className="animate-spin"/></div>;
   if(!doctor)return <><AsiaNavbar/><main className="container py-24 text-center">专家资料不存在。<br/><Link to="/doctors" className="text-primary">返回专家列表</Link></main></>;
   const tz=getCityTimezone(doctor.city);

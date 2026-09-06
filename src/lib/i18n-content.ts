@@ -35,3 +35,16 @@ export const localizedField = (
   const bundle = (i18n ?? {}) as I18nBundle;
   return bundle?.[lang]?.[key] || bundle?.zh?.[key] || fallback || "";
 };
+
+/** 专家记录按当前语言本地化（缺译文时回落中文原文）。 */
+export const localizeDoctorRow = <T extends Record<string, unknown>>(row: T, lang: Lang): T => {
+  const i18n = (row as { i18n?: unknown }).i18n;
+  const f = (key: string) => localizedField(i18n, key, lang, row[key] as string | null);
+  return { ...row, name: f("name"), title: f("title"), hospital: f("hospital"), bio: f("bio"), credentials: f("credentials") || (row.credentials ?? null) } as T;
+};
+
+/** 视频记录按当前语言本地化。 */
+export const localizeVideoRow = <T extends Record<string, unknown>>(row: T, lang: Lang): T => {
+  const i18n = (row as { i18n?: unknown }).i18n;
+  return { ...row, title: localizedField(i18n, "title", lang, row.title as string), caption: localizedField(i18n, "caption", lang, row.caption as string | null) || (row.caption ?? null) } as T;
+};
