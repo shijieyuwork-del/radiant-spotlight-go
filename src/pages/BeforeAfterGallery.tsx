@@ -4,7 +4,7 @@ import { Images, Loader2 } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
-import MedicalDisclaimer from "@/components/MedicalDisclaimer";
+import { MedicalDisclaimer } from "@/components/MedicalDisclaimer";
 import BeforeAfterCard from "@/components/BeforeAfterCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
