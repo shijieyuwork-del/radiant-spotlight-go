@@ -354,32 +354,40 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
             </DropdownMenu>
           )}
         </div>
-        <div className="hidden md:flex items-center gap-1.5">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm" className="rounded-full gap-1.5">
-                <DollarSign className="size-3.5" /> {currency}
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="rounded-2xl">
-              <DropdownMenuItem onClick={() => setCurrency("USD")} className="rounded-xl">🇺🇸 USD ($)</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setCurrency("CNY")} className="rounded-xl">🇨🇳 CNY (¥)</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm" className="rounded-full gap-1.5">
-                <Languages className="size-3.5" /> {langLabel[lang].flag} {langLabel[lang].label}
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="rounded-2xl">
-              {(Object.keys(langLabel) as Lang[]).map((l) => (
-                <DropdownMenuItem key={l} onClick={() => setLang(l)} className="rounded-xl">
-                  {langLabel[l].flag} {langLabel[l].label}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
+        <div className="flex items-center gap-1.5">
+          <div className="hidden md:flex items-center gap-1.5">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="rounded-full gap-1.5">
+                  <DollarSign className="size-3.5" /> {currency}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="rounded-2xl">
+                <DropdownMenuItem onClick={() => setCurrency("USD")} className="rounded-xl">🇺🇸 USD ($)</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setCurrency("CNY")} className="rounded-xl">🇨🇳 CNY (¥)</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="rounded-full gap-1.5">
+                  <Languages className="size-3.5" /> {langLabel[lang].flag} {langLabel[lang].label}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="rounded-2xl">
+                {(Object.keys(langLabel) as Lang[]).map((l) => (
+                  <DropdownMenuItem key={l} onClick={() => setLang(l)} className="rounded-xl">
+                    {langLabel[l].flag} {langLabel[l].label}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+          <div className="hidden md:block">
+            <AccountMenu lang={lang} />
+          </div>
+          <Button asChild variant="ghost" className="md:hidden rounded-full px-3 h-9 text-sm font-medium">
+            <Link to="/auth?tab=signin">{c("Sign in", "登录", "Войти")}</Link>
+          </Button>
         </div>
 
         <Sheet>
