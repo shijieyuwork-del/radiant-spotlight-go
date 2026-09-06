@@ -952,6 +952,7 @@ const TreatmentsSection = () => {
       zh: "改善眼部状态",
       ru: "Освежить взгляд",
       es: "Renueva tu mirada",
+      es: "Renueva tu mirada",
       treatments: [["Double Eyelid", "双眼皮"], ["Blepharoplasty", "眼睑成形"], ["Ptosis Correction", "上睑下垂矫正"]],
       href: "/treatments/double-eyelid-surgery",
     },
@@ -961,6 +962,7 @@ const TreatmentsSection = () => {
       en: "Restore facial definition",
       zh: "重塑面部轮廓",
       ru: "Чёткие контуры лица",
+      es: "Restaura la definición facial",
       es: "Restaura la definición facial",
       treatments: [["Facelift", "面部拉皮"], ["Neck Lift", "颈部提升"], ["Fat Grafting", "脂肪填充"]],
       href: "/treatments/facelift",
@@ -972,6 +974,7 @@ const TreatmentsSection = () => {
       zh: "改善身体线条",
       ru: "Контуры тела",
       es: "Define los contornos del cuerpo",
+      es: "Define los contornos del cuerpo",
       treatments: [["Liposuction", "吸脂"], ["Tummy Tuck", "腹壁成形"], ["Body Lift", "身体提升"]],
       href: "/treatments/liposuction",
     },
@@ -981,6 +984,7 @@ const TreatmentsSection = () => {
       en: "Explore breast options",
       zh: "了解胸部项目",
       ru: "Операции на груди",
+      es: "Explora opciones de senos",
       es: "Explora opciones de senos",
       treatments: [["Augmentation", "隆胸"], ["Breast Lift", "乳房提升"], ["Revision", "假体修复"]],
       href: "/treatments/breast-augmentation",
@@ -992,6 +996,7 @@ const TreatmentsSection = () => {
       zh: "自然改善发量",
       ru: "Восстановление волос",
       es: "Restaura el cabello de forma natural",
+      es: "Restaura el cabello de forma natural",
       treatments: [["FUE Transplant", "FUE 植发"], ["Hairline", "发际线种植"], ["Crown", "头顶加密"]],
       href: "/treatments/fue-hair-transplant",
     },
@@ -1001,6 +1006,7 @@ const TreatmentsSection = () => {
       en: "Define facial contours",
       zh: "精塑面部轮廓",
       ru: "Скорректировать овал лица",
+      es: "Define los contornos faciales",
       es: "Define los contornos faciales",
       treatments: [["Jaw Contouring", "下颌角整形"], ["Chin Augmentation", "下巴塑形"], ["Genioplasty", "颏成形术"]],
       href: "/treatments/jaw-contouring",
@@ -1012,6 +1018,7 @@ const TreatmentsSection = () => {
       zh: "焕新自然笑容",
       ru: "Восстановить улыбку",
       es: "Restaura tu sonrisa",
+      es: "Restaura tu sonrisa",
       treatments: [["Dental Implants", "种植牙"], ["Porcelain Veneers", "瓷贴面"], ["Teeth Whitening", "牙齿美白"]],
       href: "/treatments/dental-implants",
     },
@@ -1021,6 +1028,7 @@ const TreatmentsSection = () => {
       en: "Renew your skin",
       zh: "改善肌肤质感",
       ru: "Обновить кожу",
+      es: "Renueva tu piel",
       es: "Renueva tu piel",
       treatments: [["Laser Resurfacing", "激光焕肤"], ["RF Microneedling", "射频微针"], ["Skin Tightening", "皮肤紧致"]],
       href: "/treatments/laser-skin-resurfacing",
@@ -1032,6 +1040,7 @@ const TreatmentsSection = () => {
       zh: "精致唇形与笑容",
       ru: "Подчеркнуть губы и улыбку",
       es: "Perfecciona labios y sonrisa",
+      es: "Perfecciona labios y sonrisa",
       treatments: [["Lip Lift", "唇部提升"], ["Lip Contouring", "唇形塑造"], ["Gummy Smile", "露龈笑改善"]],
       href: "/treatments/lip-lift",
     },
@@ -1042,6 +1051,7 @@ const TreatmentsSection = () => {
       zh: "完善整体身形",
       ru: "Завершить преображение",
       es: "Completa tu transformación",
+      es: "Completa tu transformación",
       treatments: [["Body Lift", "身体提升"], ["Arm Lift", "手臂提升"], ["Thigh Lift", "大腿提升"]],
       href: "/treatments/body-lift",
     },
@@ -1051,6 +1061,7 @@ const TreatmentsSection = () => {
       en: "Care designed for men",
       zh: "男士专属改善方案",
       ru: "Процедуры для мужчин",
+      es: "Cuidado diseñado para hombres",
       es: "Cuidado diseñado para hombres",
       treatments: [["Male Breast Reduction", "男性乳房缩小"], ["Male Liposuction", "男士吸脂"], ["Hair Transplant", "植发"]],
       href: "/treatments/male-breast-reduction",
@@ -1249,20 +1260,20 @@ const HowItWorks = () => {
 
           <div className="m-4 rounded-[1.5rem] border border-primary/25 bg-[hsl(156_48%_89%)] p-5 shadow-[0_16px_38px_rgba(22,63,52,0.12),0_2px_6px_rgba(22,63,52,0.06)] sm:m-5 sm:p-6 md:flex md:flex-col md:justify-center lg:m-6 lg:p-7">
             <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-primary">
-              {lang === "zh" ? "选择联系方式" : lang === "ru" ? "Выберите способ связи" : "Choose how to connect"}
+              {lang === "zh" ? "选择联系方式" : lang === "ru" ? "Выберите способ связи" : lang === "es" ? "Elige cómo conectar" : "Choose how to connect"}
             </p>
             <h3 className="mt-2 font-display text-2xl font-medium leading-tight">
-              {lang === "zh" ? "邮件或 WhatsApp，由你决定。" : lang === "ru" ? "Email или WhatsApp — на ваш выбор." : "Email or WhatsApp—your choice."}
+              {lang === "zh" ? "邮件或 WhatsApp，由你决定。" : lang === "ru" ? "Email или WhatsApp — на ваш выбор." : lang === "es" ? "Correo o WhatsApp, tú decides." : "Email or WhatsApp—your choice."}
             </h3>
             <div className="mt-5 grid grid-cols-2 gap-2">
               <span className="flex min-h-12 items-center gap-2 rounded-xl border border-border/80 bg-card px-3 text-xs font-semibold shadow-[0_4px_12px_rgba(22,63,52,0.05)]"><Mail className="size-4 text-primary" />Email</span>
               <span className="flex min-h-12 items-center gap-2 rounded-xl border border-border/80 bg-card px-3 text-xs font-semibold shadow-[0_4px_12px_rgba(22,63,52,0.05)]"><MessageCircle className="size-4 text-primary" />WhatsApp</span>
             </div>
             <Button size="lg" onClick={() => open()} className="cta-primary mt-3 min-h-[52px] w-full rounded-xl px-7 text-sm shadow-[0_12px_24px_rgba(13,54,44,0.18)] transition-all hover:-translate-y-0.5 hover:shadow-[0_16px_30px_rgba(13,54,44,0.22)]">
-              {lang === "zh" ? "开始免费咨询" : lang === "ru" ? "Начать консультацию" : "Start a consultation"}<ArrowRight className="ml-2 size-4" />
+              {lang === "zh" ? "开始免费咨询" : lang === "ru" ? "Начать консультацию" : lang === "es" ? "Iniciar una consulta" : "Start a consultation"}<ArrowRight className="ml-2 size-4" />
             </Button>
             <p className="mt-3 text-center text-[11px] text-muted-foreground">
-              {lang === "zh" ? "免费 · 无义务 · 由协调团队回复" : lang === "ru" ? "Бесплатно · без обязательств" : "Free · No obligation · Coordinator reply"}
+              {lang === "zh" ? "免费 · 无义务 · 由协调团队回复" : lang === "ru" ? "Бесплатно · без обязательств" : lang === "es" ? "Gratis · Sin compromiso · Respuesta del equipo coordinador" : "Free · No obligation · Coordinator reply"}
             </p>
           </div>
         </div>
