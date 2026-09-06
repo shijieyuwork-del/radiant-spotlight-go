@@ -20,8 +20,9 @@ const ManagedDoctorDetail = () => {
   const { id="" } = useParams();
   const { items: beforeAfter } = usePublishedBeforeAfter(lang, id); const [doctor,setDoctor]=useState<Doctor|null>(null); const [videos,setVideos]=useState<Video[]>([]); const [loading,setLoading]=useState(true); const [photo,setPhoto]=useState("");
   useEffect(()=>{(async()=>{const {data}=await supabase.from("doctors").select("*").eq("id",id).eq("status","published").maybeSingle();setDoctor(data?localizeDoctorRow(data as Record<string,unknown>,lang) as unknown as Doctor:null);if(data){setPhoto(await signedUrl("doctor-photos",(data as Doctor).photo_path));const r=await supabase.from("videos").select("id,title,caption,storage_path,cover_path,i18n").eq("doctor_id",id).eq("status","published").order("created_at",{ascending:false});const rows=(r.data??[]) as Video[];const [urls,coverUrls]=await Promise.all([signedUrls("short-videos",rows.map(v=>v.storage_path)),signedUrls("video-covers",rows.map(v=>v.cover_path))]);setVideos(rows.map((v,i)=>localizeVideoRow({...v,url:urls[i],coverUrl:coverUrls[i]} as Record<string,unknown>,lang) as unknown as Video));}setLoading(false)})()},[id,lang]);
+  const c=(en:string,zh:string,ru:string,es:string)=>lang==="zh"?zh:lang==="ru"?ru:lang==="es"?es:en;
   if(loading)return <div className="min-h-screen grid place-items-center"><Loader2 className="animate-spin"/></div>;
-  if(!doctor)return <><AsiaNavbar/><main className="container py-24 text-center">专家资料不存在。<br/><Link to="/doctors" className="text-primary">返回专家列表</Link></main></>;
+  if(!doctor)return <><AsiaNavbar/><main className="container py-24 text-center">{c("Expert profile not found.","专家资料不存在。","Профиль эксперта не найден.","Perfil de experto no encontrado.")}<br/><Link to="/doctors" className="text-primary">{c("Back to experts","返回专家列表","Ко всем экспертам","Volver a expertos")}</Link></main></>;
   const tz=getCityTimezone(doctor.city);
   const doctorSchema={
     "@context":"https://schema.org",
