@@ -171,11 +171,14 @@ export default function DoctorAdmin() {
           onRetry: (a, m) => toast.info(`连接中断，自动重试中（${a}/${m}）…`),
         });
       }
-      // 中文录入 → 自动翻译成英文/俄文，随记录一起保存
-      const i18n = await translateFields({
-        name: name.trim(), title: title.trim(), hospital: hospital.trim(), city: city.trim(),
-        bio: bio.trim(), credentials: credentials.trim(),
-      });
+      // 中文录入 → （可选）AI 润色中文 + 自动翻译成英文/俄文，随记录一起保存
+      const { revised, ...i18n } = await translateFields(
+        {
+          name: name.trim(), title: title.trim(), hospital: hospital.trim(), city: city.trim(),
+          bio: bio.trim(), credentials: credentials.trim(),
+        },
+        { revise: aiRevise }
+      );
       const { error } = await supabase.from("doctors").insert({
         name: name.trim(), title: title.trim(), hospital: hospital.trim(), city: city.trim(),
         specialties: specialties.split(/[,，]/).map((x) => x.trim()).filter(Boolean),
@@ -183,7 +186,14 @@ export default function DoctorAdmin() {
         photo_path: photoPath, status: "published", i18n,
       });
       if (error) throw error;
-      toast.success(i18n.en ? "专家资料已发布，并生成英文/俄文版本" : "专家资料已发布（翻译暂未生成）");
+      toast.success(
+        i18n.en
+          ? revised
+            ? "专家资料已发布：中文已润色，并生成英文/俄文版本"
+            : "专家资料已发布，并生成英文/俄文版本"
+          : "专家资料已发布（翻译暂未生成）"
+      );
+
       setName(""); setTitle(""); setHospital(""); setSpecialties(""); setBio(""); setCredentials("");
       clearStaged();
       setErrors({});
