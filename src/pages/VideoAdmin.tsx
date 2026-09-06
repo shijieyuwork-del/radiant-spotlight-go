@@ -725,6 +725,11 @@ const VideoAdmin = () => {
                 </span>
               </span>
             </label>
+            <TranslationPreviewButton
+              disabled={uploading}
+              revise={aiRevise}
+              fields={{ title: title.trim(), caption: caption.trim() }}
+            />
             <Button type="submit" disabled={uploading || (!file && pendingCount === 0)} className="w-full rounded-full h-11">
 
               {uploading
