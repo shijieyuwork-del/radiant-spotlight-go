@@ -193,7 +193,23 @@ const Hero = () => {
           pricing: "Поддержка после лечения",
           pricingDetail: "Координация во время восстановления",
         }
-      : {
+      : lang === "es"
+        ? {
+            badge: "Atención estética en China, más clara",
+            title: "Mira la recuperación real antes de elegir.",
+            emphasis: "Encuentra la atención estética adecuada en China.",
+            subtitle: "Explora las experiencias de pacientes y la información publicada de expertos, con apoyo práctico para la consulta, el viaje y el seguimiento.",
+            cases: "Ver videos de recuperación de pacientes",
+            consultation: "Consulta en línea",
+            consultationDetail: "Reúnete con tu experto en línea antes de viajar (no se brinda asesoría médica)",
+            english: "Traducción en inglés en la clínica",
+            englishDetail: "Apoyo de comunicación durante las visitas a la clínica",
+            travel: "Traslado desde y hacia el aeropuerto",
+            travelDetail: "Traslado privado hacia y desde tu destino",
+            pricing: "Apoyo posterior al tratamiento",
+            pricingDetail: "Apoyo coordinado durante toda la recuperación",
+          }
+        : {
           badge: "Cosmetic care in China, made clearer",
           title: "See real recovery before you choose.",
           emphasis: "Find the right cosmetic care in China.",
@@ -256,7 +272,7 @@ const Hero = () => {
             <div
               className="mx-auto mt-6 max-w-4xl rounded-full border border-primary/10 bg-card/80 px-4 py-3 shadow-[0_14px_40px_rgba(18,55,45,0.06)] backdrop-blur-xl sm:mt-7 sm:px-6"
               role="list"
-              aria-label={lang === "zh" ? "协调服务" : lang === "ru" ? "Координационные услуги" : "Coordination services"}
+              aria-label={lang === "zh" ? "协调服务" : lang === "ru" ? "Координационные услуги" : lang === "es" ? "Servicios de coordinación" : "Coordination services"}
             >
               <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 sm:gap-x-8">
               {[
@@ -284,18 +300,18 @@ const Hero = () => {
             <div className="mb-6 flex flex-col items-start justify-between gap-4 px-1 sm:flex-row sm:items-end md:mb-8">
               <div>
                 <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.16em] text-primary">
-                  <Sparkles className="size-3.5" /> {lang === "zh" ? "我们的核心优势" : lang === "ru" ? "Наше главное отличие" : "Our biggest difference"}
+                  <Sparkles className="size-3.5" /> {lang === "zh" ? "我们的核心优势" : lang === "ru" ? "Наше главное отличие" : lang === "es" ? "Nuestra mayor diferencia" : "Our biggest difference"}
                 </span>
                 <h2 className="mt-2 max-w-4xl font-display text-3xl font-medium leading-tight tracking-tight sm:text-4xl md:text-5xl">
-                  {lang === "zh" ? "患者恢复日记，" : lang === "ru" ? "Дневники восстановления пациентов — " : "Patient recovery diaries, "}
-                  <em className="not-italic text-primary">{lang === "zh" ? "帮助你做功课" : lang === "ru" ? "изучите до выбора" : "before you choose"}</em>
+                  {lang === "zh" ? "患者恢复日记，" : lang === "ru" ? "Дневники восстановления пациентов — " : lang === "es" ? "Diarios de recuperación de pacientes, " : "Patient recovery diaries, "}
+                  <em className="not-italic text-primary">{lang === "zh" ? "帮助你做功课" : lang === "ru" ? "изучите до выбора" : lang === "es" ? "antes de elegir" : "before you choose"}</em>
                 </h2>
               </div>
               <Link
                 to="/cases"
                 className="cta-primary inline-flex min-h-11 w-full shrink-0 items-center justify-center gap-1.5 rounded-full px-5 py-2.5 text-sm font-bold shadow-soft transition-all sm:w-auto sm:text-xs"
               >
-                {lang === "zh" ? "浏览全部日记" : lang === "ru" ? "Все дневники" : "Explore all diaries"} <ArrowRight className="size-3.5" />
+                {lang === "zh" ? "浏览全部日记" : lang === "ru" ? "Все дневники" : lang === "es" ? "Ver todos los diarios" : "Explore all diaries"} <ArrowRight className="size-3.5" />
               </Link>
             </div>
             <TikTokWall items={TIKTOK_CASES.slice(0, 7)} lang={lang} fmtPrice={fmt} variant="preview" />
@@ -348,7 +364,27 @@ const TravelInspiredHeroPreview = () => {
           servicesTitle: "Практическая помощь",
           servicesEmphasis: "до, во время и после поездки.",
         }
-      : {
+      : lang === "es"
+        ? {
+            badge: "Atención estética en China para pacientes internacionales",
+            title: "Mira primero la recuperación real.",
+            emphasis: "Elige tu atención con confianza.",
+            subtitle: "Empieza por un procedimiento, una ciudad o un experto. Conectamos la consulta, la planificación del viaje y el apoyo posterior.",
+            procedure: "Procedimiento",
+            procedureValue: "Explorar todas las opciones",
+            city: "Destino",
+            cityValue: "Comparar ciudades",
+            planning: "Etapa de planificación",
+            planningValue: "Aún no estoy seguro/a",
+            diaries: "Diarios de recuperación de pacientes",
+            diariesTitle: "Mira los diarios de pacientes",
+            diariesEmphasis: "antes de elegir.",
+            benefitCta: "Cómo funciona el apoyo",
+            servicesEyebrow: "Cuatro esenciales",
+            servicesTitle: "Apoyo práctico,",
+            servicesEmphasis: "antes, durante y después de tu viaje.",
+          }
+        : {
           badge: "China cosmetic care for international patients",
           title: "See real recovery first.",
           emphasis: "Choose your care with confidence.",
@@ -374,10 +410,10 @@ const TravelInspiredHeroPreview = () => {
     { icon: HelpCircle, label: copy.planning, value: copy.planningValue, to: "/doctors" },
   ];
   const metrics = [
-    { value: "1,500+", label: lang === "zh" ? "服务患者" : lang === "ru" ? "Пациентов" : "Patients" },
-    { value: "20 yrs", label: lang === "zh" ? "专家平均经验" : lang === "ru" ? "Средний опыт экспертов" : "Average expert experience" },
-    { value: "10+", label: lang === "zh" ? "覆盖城市" : lang === "ru" ? "Городов" : "Cities" },
-    { value: "100+", label: lang === "zh" ? "顶级医院与诊所" : lang === "ru" ? "Ведущих клиник" : "Top-tier clinics" },
+    { value: "1,500+", label: lang === "zh" ? "服务患者" : lang === "ru" ? "Пациентов" : lang === "es" ? "Pacientes" : "Patients" },
+    { value: "20 yrs", label: lang === "zh" ? "专家平均经验" : lang === "ru" ? "Средний опыт экспертов" : lang === "es" ? "Experiencia promedio de los expertos" : "Average expert experience" },
+    { value: "10+", label: lang === "zh" ? "覆盖城市" : lang === "ru" ? "Городов" : lang === "es" ? "Ciudades" : "Cities" },
+    { value: "100+", label: lang === "zh" ? "顶级医院与诊所" : lang === "ru" ? "Ведущих клиник" : lang === "es" ? "Clínicas de primer nivel" : "Top-tier clinics" },
   ];
   const services = lang === "zh"
     ? [
@@ -393,7 +429,14 @@ const TravelInspiredHeroPreview = () => {
           { icon: Users, title: "Перевод в клинике", description: "Помощь в общении на английском во время согласованных визитов." },
           { icon: ShieldCheck, title: "Поддержка после лечения", description: "Помощь с общением и удалённым наблюдением по рекомендации эксперта." },
         ]
-      : [
+      : lang === "es"
+        ? [
+            { icon: Video, title: "Online consultation", description: "Habla sobre tus objetivos, preguntas y próximos pasos antes de viajar." },
+            { icon: MapPin, title: "Airport pickup & drop-off", description: "Traslados coordinados entre el aeropuerto, el alojamiento y la clínica." },
+            { icon: Users, title: "English in-clinic translation", description: "Apoyo de comunicación en inglés durante las visitas incluidas a la clínica." },
+            { icon: ShieldCheck, title: "Aftercare support", description: "Coordinación de la recuperación y seguimiento remoto cuando tu experto lo recomiende." },
+          ]
+        : [
           { icon: Video, title: "Online consultation", description: "Discuss your goals, questions and next steps before you travel." },
           { icon: MapPin, title: "Airport pickup & drop-off", description: "Coordinated transfers between the airport, accommodation and clinic." },
           { icon: Users, title: "English in-clinic translation", description: "English communication support during included clinic visits." },
@@ -500,7 +543,9 @@ const TravelBar = () => {
     ? { eyebrow: "服务流程", title: "六步开启你的", emphasis: "中国医疗之旅", step: "步骤" }
     : lang === "ru"
       ? { eyebrow: "Как это работает", title: "6 шагов к", emphasis: "лечению в Китае", step: "Шаг" }
-      : { eyebrow: "How it works", title: "6 steps to your", emphasis: "care in China", step: "Step" };
+      : lang === "es"
+        ? { eyebrow: "Cómo funciona", title: "6 pasos hacia tu", emphasis: "atención en China", step: "Paso" }
+        : { eyebrow: "How it works", title: "6 steps to your", emphasis: "care in China", step: "Step" };
   const localizedSteps = [
     {
       icon: Video,
@@ -508,6 +553,7 @@ const TravelBar = () => {
       en: ["Get a free quote", "Tell us your goals and questions so we can help identify suitable specialists"],
       zh: ["获取免费报价", "告诉我们你的目标和疑问，我们会协助匹配合适的专家"],
       ru: ["Получить бесплатную оценку", "Расскажите о целях и вопросах, чтобы мы помогли подобрать специалистов"],
+      es: ["Obtén una cotización gratuita", "Cuéntanos tus objetivos y preguntas para ayudarte a identificar especialistas adecuados"],
     },
     {
       icon: Plane,
@@ -515,6 +561,7 @@ const TravelBar = () => {
       en: ["Arrange your travel & visa", "Confirm appointments, flights, travel documents and arrival details"],
       zh: ["安排行程与签证", "确认预约、航班、旅行文件和抵达信息"],
       ru: ["Организуйте поездку и визу", "Подтвердите запись, перелёт, документы и детали прибытия"],
+      es: ["Organiza tu viaje y visa", "Confirma citas, vuelos, documentos de viaje y detalles de llegada"],
     },
     {
       icon: MapPin,
@@ -522,6 +569,7 @@ const TravelBar = () => {
       en: ["Choose your on-ground support", "Select pickup, accommodation guidance, translation and coordination"],
       zh: ["选择落地支持服务", "按需选择接机、住宿建议、翻译与行程协调"],
       ru: ["Выберите поддержку на месте", "Выберите трансфер, помощь с проживанием, перевод и координацию"],
+      es: ["Elige tu apoyo en destino", "Selecciona traslado, orientación de alojamiento, traducción y coordinación"],
     },
     {
       icon: HeartPulse,
@@ -529,6 +577,7 @@ const TravelBar = () => {
       en: ["Receive coordinated treatment support", "Get practical communication and scheduling help during clinic visits"],
       zh: ["获得治疗协调支持", "就诊期间获得沟通、翻译与日程协调协助"],
       ru: ["Получите поддержку во время лечения", "Получайте помощь с общением и расписанием во время визитов"],
+      es: ["Recibe apoyo coordinado durante el tratamiento", "Obtén ayuda práctica de comunicación y programación durante las visitas a la clínica"],
     },
     {
       icon: Map,
@@ -536,6 +585,7 @@ const TravelBar = () => {
       en: ["Recover—and explore when ready", "Follow your expert’s advice, with optional travel when you are cleared"],
       zh: ["安心恢复，适合时再探索", "遵循专家的恢复建议，获得许可后可自愿安排旅行"],
       ru: ["Восстанавливайтесь и путешествуйте, когда будете готовы", "Следуйте рекомендациям эксперта и путешествуйте только после разрешения"],
+      es: ["Recupérate y explora cuando estés listo/a", "Sigue las indicaciones de tu experto, con viajes opcionales una vez que tengas autorización"],
     },
     {
       icon: MessageCircle,
@@ -543,10 +593,11 @@ const TravelBar = () => {
       en: ["Stay connected after you return", "Coordinate remote follow-up and translation when your expert recommends it"],
       zh: ["回国后保持联系", "专家建议复诊时，我们协助协调远程随访与翻译"],
       ru: ["Оставайтесь на связи после возвращения", "Мы поможем организовать онлайн-наблюдение и перевод по рекомендации эксперта"],
+      es: ["Mantente en contacto después de regresar", "Coordinamos el seguimiento remoto y la traducción cuando tu experto lo recomiende"],
     },
   ];
   const steps = localizedSteps.map((item) => {
-    const [t, d] = item[lang === "zh" ? "zh" : lang === "ru" ? "ru" : "en"];
+    const [t, d] = item[lang === "zh" ? "zh" : lang === "ru" ? "ru" : lang === "es" ? "es" : "en"];
     return { icon: item.icon, image: item.image, t, d };
   });
 
@@ -686,7 +737,7 @@ const CitiesSection = () => {
             {t("cities.title1")} <em className="text-primary not-italic">{t("cities.titleEm")}</em>
           </h2>
         </div>
-        <Link to="/cities" className="pill hidden bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90 sm:inline-flex">{lang === "zh" ? "全部城市" : lang === "ru" ? "Все города" : "All cities"}<ArrowRight className="size-4" /></Link>
+        <Link to="/cities" className="pill hidden bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90 sm:inline-flex">{lang === "zh" ? "全部城市" : lang === "ru" ? "Все города" : lang === "es" ? "Todas las ciudades" : "All cities"}<ArrowRight className="size-4" /></Link>
       </div>
       <div className="mb-6 md:mb-8">
         <CitySearchBar filter={cityFilter} />
@@ -723,7 +774,7 @@ const CitiesSection = () => {
       </div>
       <div className="mt-2 flex justify-center sm:hidden">
         <Link to="/cities" className="inline-flex min-h-12 items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90">
-          {lang === "zh" ? "查看全部城市" : lang === "ru" ? "Все города" : "All cities"} <ArrowRight className="size-4" />
+          {lang === "zh" ? "查看全部城市" : lang === "ru" ? "Все города" : lang === "es" ? "Todas las ciudades" : "All cities"} <ArrowRight className="size-4" />
         </Link>
       </div>
     </section>
@@ -850,7 +901,7 @@ const TreatmentsSectionLegacy = () => {
         <div className="relative flex flex-col items-center justify-between gap-3 border-t border-white/55 bg-white/22 px-5 py-3.5 backdrop-blur-sm sm:flex-row sm:px-7 md:px-9">
           <div className="flex items-center gap-4">
             <span className="hidden text-[10px] font-bold uppercase tracking-[0.16em] text-foreground/55 lg:inline">
-              {lang === "zh" ? "探索全部 12 类项目" : lang === "ru" ? "12 направлений" : "Explore all 12 specialties"}
+              {lang === "zh" ? "探索全部 12 类项目" : lang === "ru" ? "12 направлений" : lang === "es" ? "Explora las 12 especialidades" : "Explore all 12 specialties"}
             </span>
             <div className="flex items-center gap-1.5" aria-label={lang === "zh" ? "选择项目分类" : "Choose a specialty"}>
               {procedureClouds.map((cloud, index) => (
@@ -867,7 +918,7 @@ const TreatmentsSectionLegacy = () => {
           </div>
           <div className="flex w-full items-center justify-between gap-4 sm:w-auto sm:justify-end">
             <p className="text-sm text-foreground/65">
-              {lang === "zh" ? "还不确定适合哪一项？" : lang === "ru" ? "Не знаете, с чего начать?" : "Not sure where to begin?"}
+              {lang === "zh" ? "还不确定适合哪一项？" : lang === "ru" ? "Не знаете, с чего начать?" : lang === "es" ? "¿No sabes por dónde empezar?" : "Not sure where to begin?"}
             </p>
             <QuoteCtaButton quoteCtx={{ source: "procedure_specialties" }} className="min-h-10 px-5 text-xs hover:-translate-y-0.5" />
           </div>
@@ -886,9 +937,11 @@ const TreatmentsSection = () => {
       en: "Refine your profile",
       zh: "改善面部侧颜",
       ru: "Гармоничный профиль",
+      es: "Perfecciona tu perfil",
       descriptionEn: "Explore nose procedures with published expert information and practical planning support.",
       descriptionZh: "了解鼻部项目、公开专家信息与实际行程协调支持。",
       descriptionRu: "Изучите операции на носу, информацию об экспертах и поддержку в планировании.",
+      descriptionEs: "Explora los procedimientos de nariz con información publicada de expertos y apoyo práctico de planificación.",
       treatments: [["Rhinoplasty", "鼻综合"], ["Revision Rhinoplasty", "鼻修复"], ["Nasal Tip Surgery", "鼻尖塑形"]],
       href: "/treatments/rhinoplasty",
     },
@@ -898,6 +951,7 @@ const TreatmentsSection = () => {
       en: "Refresh your eyes",
       zh: "改善眼部状态",
       ru: "Освежить взгляд",
+      es: "Renueva tu mirada",
       treatments: [["Double Eyelid", "双眼皮"], ["Blepharoplasty", "眼睑成形"], ["Ptosis Correction", "上睑下垂矫正"]],
       href: "/treatments/double-eyelid-surgery",
     },
@@ -907,6 +961,7 @@ const TreatmentsSection = () => {
       en: "Restore facial definition",
       zh: "重塑面部轮廓",
       ru: "Чёткие контуры лица",
+      es: "Restaura la definición facial",
       treatments: [["Facelift", "面部拉皮"], ["Neck Lift", "颈部提升"], ["Fat Grafting", "脂肪填充"]],
       href: "/treatments/facelift",
     },
@@ -916,6 +971,7 @@ const TreatmentsSection = () => {
       en: "Shape body contours",
       zh: "改善身体线条",
       ru: "Контуры тела",
+      es: "Define los contornos del cuerpo",
       treatments: [["Liposuction", "吸脂"], ["Tummy Tuck", "腹壁成形"], ["Body Lift", "身体提升"]],
       href: "/treatments/liposuction",
     },
@@ -925,6 +981,7 @@ const TreatmentsSection = () => {
       en: "Explore breast options",
       zh: "了解胸部项目",
       ru: "Операции на груди",
+      es: "Explora opciones de senos",
       treatments: [["Augmentation", "隆胸"], ["Breast Lift", "乳房提升"], ["Revision", "假体修复"]],
       href: "/treatments/breast-augmentation",
     },
@@ -934,6 +991,7 @@ const TreatmentsSection = () => {
       en: "Restore hair naturally",
       zh: "自然改善发量",
       ru: "Восстановление волос",
+      es: "Restaura el cabello de forma natural",
       treatments: [["FUE Transplant", "FUE 植发"], ["Hairline", "发际线种植"], ["Crown", "头顶加密"]],
       href: "/treatments/fue-hair-transplant",
     },
@@ -943,6 +1001,7 @@ const TreatmentsSection = () => {
       en: "Define facial contours",
       zh: "精塑面部轮廓",
       ru: "Скорректировать овал лица",
+      es: "Define los contornos faciales",
       treatments: [["Jaw Contouring", "下颌角整形"], ["Chin Augmentation", "下巴塑形"], ["Genioplasty", "颏成形术"]],
       href: "/treatments/jaw-contouring",
     },
@@ -952,6 +1011,7 @@ const TreatmentsSection = () => {
       en: "Restore your smile",
       zh: "焕新自然笑容",
       ru: "Восстановить улыбку",
+      es: "Restaura tu sonrisa",
       treatments: [["Dental Implants", "种植牙"], ["Porcelain Veneers", "瓷贴面"], ["Teeth Whitening", "牙齿美白"]],
       href: "/treatments/dental-implants",
     },
@@ -961,6 +1021,7 @@ const TreatmentsSection = () => {
       en: "Renew your skin",
       zh: "改善肌肤质感",
       ru: "Обновить кожу",
+      es: "Renueva tu piel",
       treatments: [["Laser Resurfacing", "激光焕肤"], ["RF Microneedling", "射频微针"], ["Skin Tightening", "皮肤紧致"]],
       href: "/treatments/laser-skin-resurfacing",
     },
@@ -970,6 +1031,7 @@ const TreatmentsSection = () => {
       en: "Refine lips & smile",
       zh: "精致唇形与笑容",
       ru: "Подчеркнуть губы и улыбку",
+      es: "Perfecciona labios y sonrisa",
       treatments: [["Lip Lift", "唇部提升"], ["Lip Contouring", "唇形塑造"], ["Gummy Smile", "露龈笑改善"]],
       href: "/treatments/lip-lift",
     },
@@ -979,6 +1041,7 @@ const TreatmentsSection = () => {
       en: "Complete your transformation",
       zh: "完善整体身形",
       ru: "Завершить преображение",
+      es: "Completa tu transformación",
       treatments: [["Body Lift", "身体提升"], ["Arm Lift", "手臂提升"], ["Thigh Lift", "大腿提升"]],
       href: "/treatments/body-lift",
     },
@@ -988,26 +1051,27 @@ const TreatmentsSection = () => {
       en: "Care designed for men",
       zh: "男士专属改善方案",
       ru: "Процедуры для мужчин",
+      es: "Cuidado diseñado para hombres",
       treatments: [["Male Breast Reduction", "男性乳房缩小"], ["Male Liposuction", "男士吸脂"], ["Hair Transplant", "植发"]],
       href: "/treatments/male-breast-reduction",
     },
   ];
-  const labelFor = (goal: typeof procedureGoals[number]) => lang === "zh" ? goal.zh : lang === "ru" ? goal.ru : goal.en;
+  const labelFor = (goal: typeof procedureGoals[number]) => lang === "zh" ? goal.zh : lang === "ru" ? goal.ru : lang === "es" ? goal.es : goal.en;
   return (
     <section id="projects" className="container py-10 md:py-16" aria-labelledby="procedure-goals-title">
       <div className="mb-7 grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(300px,0.46fr)] lg:items-end md:mb-10">
         <div>
           <span className="pill mb-3 bg-accent text-accent-foreground"><Flame className="size-3.5" /> {t("tx.kicker")}</span>
           <h2 id="procedure-goals-title" className="max-w-3xl font-display text-3xl font-medium leading-[0.98] tracking-tight sm:text-4xl md:text-5xl">
-            {lang === "zh" ? <>从你的目标出发，<em className="not-italic text-primary">了解适合的项目</em></> : lang === "ru" ? <>Начните с вашей цели — <em className="not-italic text-primary">изучите варианты</em></> : <>Start with your goals. <em className="not-italic text-primary">Explore your options.</em></>}
+            {lang === "zh" ? <>从你的目标出发，<em className="not-italic text-primary">了解适合的项目</em></> : lang === "ru" ? <>Начните с вашей цели — <em className="not-italic text-primary">изучите варианты</em></> : lang === "es" ? <>Comienza por tus objetivos. <em className="not-italic text-primary">Explora tus opciones.</em></> : <>Start with your goals. <em className="not-italic text-primary">Explore your options.</em></>}
           </h2>
         </div>
         <div className="lg:pb-1">
           <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
-            {lang === "zh" ? "不需要提前知道具体术式。先选择你想改善的方向，再查看相关项目与公开专家信息。" : lang === "ru" ? "Не обязательно заранее знать название процедуры. Выберите цель и изучите подходящие варианты и опубликованную информацию об экспертах." : "You do not need to know the procedure name yet. Choose what you want to improve, then review relevant options and published expert information."}
+            {lang === "zh" ? "不需要提前知道具体术式。先选择你想改善的方向，再查看相关项目与公开专家信息。" : lang === "ru" ? "Не обязательно заранее знать название процедуры. Выберите цель и изучите подходящие варианты и опубликованную информацию об экспертах." : lang === "es" ? "No necesitas conocer el nombre del procedimiento todavía. Elige lo que quieres mejorar y luego revisa las opciones relevantes y la información publicada de expertos." : "You do not need to know the procedure name yet. Choose what you want to improve, then review relevant options and published expert information."}
           </p>
           <Link to="/treatments" className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-foreground underline decoration-primary/40 underline-offset-4 transition-colors duration-150 hover:text-primary">
-            {lang === "zh" ? "查看全部项目" : lang === "ru" ? "Все процедуры" : "View all procedures"}<ArrowRight className="size-4" />
+            {lang === "zh" ? "查看全部项目" : lang === "ru" ? "Все процедуры" : lang === "es" ? "Ver todos los procedimientos" : "View all procedures"}<ArrowRight className="size-4" />
           </Link>
         </div>
       </div>
@@ -1021,13 +1085,13 @@ const TreatmentsSection = () => {
               <span className="mb-2 text-[10px] font-bold uppercase tracking-[0.18em] text-background/60">{String(index + 1).padStart(2, "0")}</span>
               <h3 className="font-display text-2xl font-medium leading-[0.95] lg:text-[1.7rem]">{labelFor(goal)}</h3>
               <p className="mt-3 line-clamp-2 text-xs leading-relaxed text-background/70">{goal.treatments.map(([en, zh]) => lang === "zh" ? zh : en).join(" · ")}</p>
-              <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-background/90">{lang === "zh" ? "查看项目" : lang === "ru" ? "Смотреть" : "Explore"}<ArrowRight className="size-3.5 transition-transform duration-200 group-hover:translate-x-1" /></span>
+              <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-background/90">{lang === "zh" ? "查看项目" : lang === "ru" ? "Смотреть" : lang === "es" ? "Explorar" : "Explore"}<ArrowRight className="size-3.5 transition-transform duration-200 group-hover:translate-x-1" /></span>
             </div>
           </Link>
         ))}
       </div>
       <div className="mt-3 flex items-center justify-end gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-        <span>{lang === "zh" ? "12 个方向 · 横向滑动浏览" : lang === "ru" ? "12 направлений · листайте вправо" : "12 specialties · scroll to explore"}</span>
+        <span>{lang === "zh" ? "12 个方向 · 横向滑动浏览" : lang === "ru" ? "12 направлений · листайте вправо" : lang === "es" ? "12 especialidades · desliza para explorar" : "12 specialties · scroll to explore"}</span>
         <ArrowRight className="size-3.5 text-primary" />
       </div>
     </section>
@@ -1096,7 +1160,7 @@ className="flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscro
           <Link
             key={d.id}
             to={d.demo ? `/doctors/demo/${d.id}` : `/doctors/profile/${d.id}`}
-            aria-label={`${lang === "zh" ? "查看专家资料" : lang === "ru" ? "Профиль эксперта" : "View expert profile"}: ${d.name}`}
+            aria-label={`${lang === "zh" ? "查看专家资料" : lang === "ru" ? "Профиль эксперта" : lang === "es" ? "Ver perfil del experto" : "View expert profile"}: ${d.name}`}
             className="group flex min-w-[82vw] snap-center rounded-3xl [perspective:1200px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 sm:min-w-[62vw] md:min-w-[calc((100%_-_3rem)/3)] md:max-w-[calc((100%_-_3rem)/3)]"
           >
             <article className="relative min-h-[400px] w-full rounded-3xl transition-transform [transform-style:preserve-3d] [transition-duration:380ms] [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none md:min-h-[420px] md:group-hover:[transform:rotateY(180deg)] md:group-focus-visible:[transform:rotateY(180deg)]">
@@ -1112,7 +1176,7 @@ className="flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscro
                   </div>
                 </div>
                 <div className="flex min-h-16 items-center justify-between px-6 text-sm font-semibold text-foreground md:hidden">
-                  {lang === "zh" ? "查看专家资料" : lang === "ru" ? "Профиль эксперта" : "View expert profile"}
+                  {lang === "zh" ? "查看专家资料" : lang === "ru" ? "Профиль эксперта" : lang === "es" ? "Ver perfil del experto" : "View expert profile"}
                   <ArrowRight className="size-4 text-primary" />
                 </div>
               </div>
@@ -1126,7 +1190,7 @@ className="flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscro
                   {d.specialties.slice(0, 3).map((s) => <span key={s} className="rounded-full bg-accent px-3 py-1 text-xs text-accent-foreground">{s}</span>)}
                 </div>
                 <span className="mt-auto flex min-h-10 items-center justify-between border-t border-border/70 pt-4 text-sm font-semibold text-foreground">
-                  {lang === "zh" ? "查看专家资料" : lang === "ru" ? "Профиль эксперта" : "View expert profile"}
+                  {lang === "zh" ? "查看专家资料" : lang === "ru" ? "Профиль эксперта" : lang === "es" ? "Ver perfil del experto" : "View expert profile"}
                   <ArrowRight className="size-4 text-primary transition-transform group-hover:translate-x-1" />
                 </span>
               </div>
@@ -1154,6 +1218,13 @@ const HowItWorks = () => {
           title: "Готовы начать?",
           emphasis: "Сделайте первый шаг сегодня",
           text: "Расскажите о процедуре, бюджете и желаемом городе. Мы поможем уточнить ваши потребности и подобрать подходящего эксперта в Китае.",
+        }
+      : lang === "es"
+      ? {
+          eyebrow: "Consulta gratuita en línea",
+          title: "¿Listo/a para comenzar?",
+          emphasis: "Da el primer paso hoy",
+          text: "Cuéntanos el procedimiento, presupuesto y ciudad que tienes en mente. Te ayudaremos a aclarar tus necesidades y a conectarte con un experto adecuado en China.",
         }
       : {
           eyebrow: "Free online consultation",

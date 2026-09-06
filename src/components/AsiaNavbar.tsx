@@ -110,7 +110,7 @@ const MegaNavItem = ({ active, featuredDoctors, intro, label, groups, to, viewAl
 
 const AccountMenu = ({ lang, onClose }: { lang: Lang; onClose?: () => void }) => {
   const { user, signOut } = useAuth();
-  const c = (en: string, zh: string, ru: string) => asiaCopy(lang, { en, zh, ru });
+  const c = (en: string, zh: string, ru: string, es?: string) => asiaCopy(lang, { en, zh, ru, es });
   const isAdmin = useIsAdmin();
   const initial = user?.email?.[0]?.toUpperCase() ?? user?.user_metadata?.display_name?.[0]?.toUpperCase() ?? "?";
   const label = user?.user_metadata?.display_name || user?.email || "";
@@ -118,10 +118,10 @@ const AccountMenu = ({ lang, onClose }: { lang: Lang; onClose?: () => void }) =>
   if (!user) return (
     <div className="flex items-center gap-2">
       <Button asChild variant="ghost" className="rounded-full px-4 h-9 text-sm font-medium hover:bg-muted/60">
-        <Link to="/auth?tab=signin" onClick={onClose}>{c("Sign in", "登录", "Войти")}</Link>
+        <Link to="/auth?tab=signin" onClick={onClose}>{c("Sign in", "登录", "Войти", "Iniciar sesión")}</Link>
       </Button>
       <Button asChild className="rounded-full bg-foreground text-background hover:bg-foreground/90 px-4 h-9 text-sm font-medium shadow-soft">
-        <Link to="/auth?tab=signup" onClick={onClose}>{c("Sign up", "注册", "Регистрация")}</Link>
+        <Link to="/auth?tab=signup" onClick={onClose}>{c("Sign up", "注册", "Регистрация", "Registrarse")}</Link>
       </Button>
     </div>
   );
@@ -129,7 +129,7 @@ const AccountMenu = ({ lang, onClose }: { lang: Lang; onClose?: () => void }) =>
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="rounded-full h-9 px-1.5 gap-2 hover:bg-muted/60" aria-label={c("Account menu", "账户菜单", "Меню аккаунта")}>
+        <Button variant="ghost" className="rounded-full h-9 px-1.5 gap-2 hover:bg-muted/60" aria-label={c("Account menu", "账户菜单", "Меню аккаунта", "Menú de la cuenta")}>
           <Avatar className="size-7 bg-gradient-mint">
             <AvatarFallback className="text-xs font-semibold bg-gradient-mint text-foreground">{initial}</AvatarFallback>
           </Avatar>
@@ -139,7 +139,7 @@ const AccountMenu = ({ lang, onClose }: { lang: Lang; onClose?: () => void }) =>
       <DropdownMenuContent align="end" className="w-48">
         <DropdownMenuItem asChild>
           <Link to="/profile" onClick={onClose} className="cursor-pointer flex items-center gap-2">
-            <User className="size-4" /> {c("Profile", "个人资料", "Профиль")}
+            <User className="size-4" /> {c("Profile", "个人资料", "Профиль", "Perfil")}
           </Link>
         </DropdownMenuItem>
         {isAdmin && (
@@ -147,19 +147,19 @@ const AccountMenu = ({ lang, onClose }: { lang: Lang; onClose?: () => void }) =>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
               <Link to="/admin/doctors" onClick={onClose} className="cursor-pointer flex items-center gap-2">
-                <User className="size-4" /> {c("Manage experts", "管理专家", "Управление экспертами")}
+                <User className="size-4" /> {c("Manage experts", "管理专家", "Управление экспертами", "Gestionar expertos")}
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
               <Link to="/admin/videos" onClick={onClose} className="cursor-pointer flex items-center gap-2">
-                <User className="size-4" /> {c("Manage videos", "管理视频", "Управление видео")}
+                <User className="size-4" /> {c("Manage videos", "管理视频", "Управление видео", "Gestionar vídeos")}
               </Link>
             </DropdownMenuItem>
           </>
         )}
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => { signOut(); onClose?.(); }} className="cursor-pointer flex items-center gap-2 text-destructive focus:text-destructive">
-          <LogOut className="size-4" /> {c("Sign out", "退出登录", "Выйти")}
+          <LogOut className="size-4" /> {c("Sign out", "退出登录", "Выйти", "Cerrar sesión")}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
@@ -170,22 +170,22 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
   const { t, lang, setLang, currency, setCurrency } = useAsia();
   const { open } = useQuote();
   const { pathname } = useLocation();
-  const c = (en: string, zh: string, ru: string) => asiaCopy(lang, { en, zh, ru });
+  const c = (en: string, zh: string, ru: string, es?: string) => asiaCopy(lang, { en, zh, ru, es });
   const isActive = (to: string) => to === "/" ? pathname === "/" : pathname === to || pathname.startsWith(`${to}/`);
   const links = homeLinks
       ? [
-        { to: "/", label: c("Home", "首页", "Главная") },
+        { to: "/", label: c("Home", "首页", "Главная", "Inicio") },
         { to: "/cases", label: t("nav.cases") },
         { to: "/doctors", label: t("nav.compliance") },
         { to: "/treatments", label: t("nav.projects") },
-        { to: "/travel-packages", label: c("Travel Support", "行程支持", "Поддержка поездки") },
+        { to: "/travel-packages", label: c("Travel Support", "行程支持", "Поддержка поездки", "Apoyo de viaje") },
         { to: "/cities", label: t("nav.cities") },
-        { to: "/why-china", label: c("Why China", "为什么选中国", "Почему Китай") },
-        { to: "/about", label: c("About", "关于我们", "О нас") },
-        { to: "/provider-verification", label: c("Standards", "审核标准", "Стандарты") },
+        { to: "/why-china", label: c("Why China", "为什么选中国", "Почему Китай", "Por qué China") },
+        { to: "/about", label: c("About", "关于我们", "О нас", "Acerca de") },
+        { to: "/provider-verification", label: c("Standards", "审核标准", "Стандарты", "Estándares") },
       ]
     : [
-        { to: "/", label: c("Home", "首页", "Главная") },
+        { to: "/", label: c("Home", "首页", "Главная", "Inicio") },
         { to: "/cases", label: t("nav.cases") },
       ];
   const desktopLinks = homeLinks
@@ -199,94 +199,94 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
     id: doctor.id,
     name: doctor.name,
     photo: doctor.photo,
-    profileLabel: c("View profile", "查看资料", "Профиль"),
-    sampleLabel: c("Sample", "示例", "Пример"),
+    profileLabel: c("View profile", "查看资料", "Профиль", "Ver perfil"),
+    sampleLabel: c("Sample", "示例", "Пример", "Ejemplo"),
     specialties: doctor.specialties,
     title: doctor.title,
   }));
   const megaMenus: Record<string, { featuredDoctors?: typeof featuredDoctors; intro: string; viewAll: string; groups: MegaMenuGroup[] }> = {
     "/cases": {
-      intro: c("Real recovery, organized around your questions.", "按你的关注点，查看真实恢复历程。", "Реальное восстановление — по вашим вопросам."),
-      viewAll: c("View all diaries", "查看全部日记", "Все дневники"),
+      intro: c("Real recovery, organized around your questions.", "按你的关注点，查看真实恢复历程。", "Реальное восстановление — по вашим вопросам.", "Recuperación real, organizada según tus preguntas."),
+      viewAll: c("View all diaries", "查看全部日记", "Все дневники", "Ver todos los diarios"),
       groups: [
-        { title: c("Face & eyes", "面部与眼部", "Лицо и глаза"), links: [
-          { label: c("Rhinoplasty", "鼻综合", "Ринопластика"), to: "/cases?treatment=Rhinoplasty" },
-          { label: c("Blepharoplasty", "眼睑整形", "Блефаропластика"), to: "/cases?treatment=Blepharoplasty" },
-          { label: c("Facelift", "面部提升", "Подтяжка лица"), to: "/cases?treatment=Facelift" },
+        { title: c("Face & eyes", "面部与眼部", "Лицо и глаза", "Rostro y ojos"), links: [
+          { label: c("Rhinoplasty", "鼻综合", "Ринопластика", "Rinoplastia"), to: "/cases?treatment=Rhinoplasty" },
+          { label: c("Blepharoplasty", "眼睑整形", "Блефаропластика", "Blefaroplastia"), to: "/cases?treatment=Blepharoplasty" },
+          { label: c("Facelift", "面部提升", "Подтяжка лица", "Lifting facial"), to: "/cases?treatment=Facelift" },
         ] },
-        { title: c("Body & breast", "身体与胸部", "Тело и грудь"), links: [
-          { label: c("Liposuction", "吸脂塑形", "Липосакция"), to: "/cases?treatment=Liposuction" },
-          { label: c("Tummy tuck", "腹壁整形", "Абдоминопластика"), to: "/cases?treatment=Tummy%20Tuck" },
-          { label: c("Breast augmentation", "隆胸", "Увеличение груди"), to: "/cases?treatment=Breast%20Augmentation" },
+        { title: c("Body & breast", "身体与胸部", "Тело и грудь", "Cuerpo y mamas"), links: [
+          { label: c("Liposuction", "吸脂塑形", "Липосакция", "Liposucción"), to: "/cases?treatment=Liposuction" },
+          { label: c("Tummy tuck", "腹壁整形", "Абдоминопластика", "Abdominoplastia"), to: "/cases?treatment=Tummy%20Tuck" },
+          { label: c("Breast augmentation", "隆胸", "Увеличение груди", "Aumento de senos"), to: "/cases?treatment=Breast%20Augmentation" },
         ] },
-        { title: c("Browse the journey", "按历程浏览", "Этапы восстановления"), links: [
-          { label: c("Consultation", "面诊阶段", "Консультация"), to: "/cases?stage=Consultation" },
-          { label: c("First month", "术后首月", "Первый месяц"), to: "/cases?stage=Month%201" },
-          { label: c("Final results", "最终效果", "Итоговый результат"), to: "/cases?stage=Final%20result" },
+        { title: c("Browse the journey", "按历程浏览", "Этапы восстановления", "Explora el proceso"), links: [
+          { label: c("Consultation", "面诊阶段", "Консультация", "Consulta"), to: "/cases?stage=Consultation" },
+          { label: c("First month", "术后首月", "Первый месяц", "Primer mes"), to: "/cases?stage=Month%201" },
+          { label: c("Final results", "最终效果", "Итоговый результат", "Resultados finales"), to: "/cases?stage=Final%20result" },
         ] },
       ],
     },
     "/doctors": {
       featuredDoctors,
-      intro: c("Compare published expert information before you decide.", "决定之前，先比较公开的专家资料。", "Сравните опубликованные профили экспертов."),
-      viewAll: c("View all experts", "查看全部专家", "Все эксперты"),
+      intro: c("Compare published expert information before you decide.", "决定之前，先比较公开的专家资料。", "Сравните опубликованные профили экспертов.", "Compara la información publicada de expertos antes de decidir."),
+      viewAll: c("View all experts", "查看全部专家", "Все эксперты", "Ver todos los expertos"),
       groups: [
-        { title: c("China", "中国", "Китай"), links: [
-          { label: c("Shanghai experts", "上海专家", "Эксперты Шанхая"), to: "/doctors?city=Shanghai" },
-          { label: c("Beijing experts", "北京专家", "Эксперты Пекина"), to: "/doctors?city=Beijing" },
-          { label: c("Guangzhou experts", "广州专家", "Эксперты Гуанчжоу"), to: "/doctors?city=Guangzhou" },
+        { title: c("China", "中国", "Китай", "China"), links: [
+          { label: c("Shanghai experts", "上海专家", "Эксперты Шанхая", "Expertos de Shanghái"), to: "/doctors?city=Shanghai" },
+          { label: c("Beijing experts", "北京专家", "Эксперты Пекина", "Expertos de Pekín"), to: "/doctors?city=Beijing" },
+          { label: c("Guangzhou experts", "广州专家", "Эксперты Гуанчжоу", "Expertos de Guangzhou"), to: "/doctors?city=Guangzhou" },
         ] },
-        { title: c("Popular specialties", "热门专长", "Популярные направления"), links: [
-          { label: c("Nose specialists", "鼻部专家", "Ринопластика"), to: "/doctors?q=Rhinoplasty" },
-          { label: c("Eye specialists", "眼部专家", "Пластика век"), to: "/doctors?q=Blepharoplasty" },
-          { label: c("Facelift specialists", "面部提升专家", "Подтяжка лица"), to: "/doctors?q=Facelift" },
+        { title: c("Popular specialties", "热门专长", "Популярные направления", "Especialidades populares"), links: [
+          { label: c("Nose specialists", "鼻部专家", "Ринопластика", "Especialistas en nariz"), to: "/doctors?q=Rhinoplasty" },
+          { label: c("Eye specialists", "眼部专家", "Пластика век", "Especialistas en párpados"), to: "/doctors?q=Blepharoplasty" },
+          { label: c("Facelift specialists", "面部提升专家", "Подтяжка лица", "Especialistas en lifting facial"), to: "/doctors?q=Facelift" },
         ] },
-        { title: c("Before you choose", "选择之前", "Перед выбором"), links: [
-          { label: c("How profiles are reviewed", "专家资料审核方式", "Как проверяются профили"), to: "/provider-verification" },
-          { label: c("Patient recovery diaries", "患者恢复日记", "Дневники пациентов"), to: "/cases" },
-          { label: c("Get matching guidance", "获取匹配建议", "Помощь с подбором"), to: "/doctors" },
+        { title: c("Before you choose", "选择之前", "Перед выбором", "Antes de elegir"), links: [
+          { label: c("How profiles are reviewed", "专家资料审核方式", "Как проверяются профили", "Cómo se revisan los perfiles"), to: "/provider-verification" },
+          { label: c("Patient recovery diaries", "患者恢复日记", "Дневники пациентов", "Diarios de recuperación de pacientes"), to: "/cases" },
+          { label: c("Get matching guidance", "获取匹配建议", "Помощь с подбором", "Recibe ayuda para elegir"), to: "/doctors" },
         ] },
       ],
     },
     "/treatments": {
-      intro: c("Explore procedures by the change you are considering.", "按你想改善的方向，了解相关项目。", "Изучите процедуры по желаемому результату."),
-      viewAll: c("View all procedures", "查看全部项目", "Все процедуры"),
+      intro: c("Explore procedures by the change you are considering.", "按你想改善的方向，了解相关项目。", "Изучите процедуры по желаемому результату.", "Explora procedimientos según el cambio que buscas."),
+      viewAll: c("View all procedures", "查看全部项目", "Все процедуры", "Ver todos los procedimientos"),
       groups: [
-        { title: c("Face & eyes", "面部与眼部", "Лицо и глаза"), links: [
-          { label: c("Rhinoplasty", "鼻综合", "Ринопластика"), to: "/treatments/rhinoplasty" },
-          { label: c("Double eyelid surgery", "双眼皮", "Пластика век"), to: "/treatments/double-eyelid-surgery" },
-          { label: c("Facelift", "面部提升", "Подтяжка лица"), to: "/treatments/facelift" },
+        { title: c("Face & eyes", "面部与眼部", "Лицо и глаза", "Rostro y ojos"), links: [
+          { label: c("Rhinoplasty", "鼻综合", "Ринопластика", "Rinoplastia"), to: "/treatments/rhinoplasty" },
+          { label: c("Double eyelid surgery", "双眼皮", "Пластика век", "Cirugía de párpado doble"), to: "/treatments/double-eyelid-surgery" },
+          { label: c("Facelift", "面部提升", "Подтяжка лица", "Lifting facial"), to: "/treatments/facelift" },
         ] },
-        { title: c("Body & breast", "身体与胸部", "Тело и грудь"), links: [
-          { label: c("Liposuction", "吸脂塑形", "Липосакция"), to: "/treatments/liposuction" },
-          { label: c("Tummy tuck", "腹壁整形", "Абдоминопластика"), to: "/treatments/tummy-tuck" },
-          { label: c("Breast augmentation", "隆胸", "Увеличение груди"), to: "/treatments/breast-augmentation" },
+        { title: c("Body & breast", "身体与胸部", "Тело и грудь", "Cuerpo y mamas"), links: [
+          { label: c("Liposuction", "吸脂塑形", "Липосакция", "Liposucción"), to: "/treatments/liposuction" },
+          { label: c("Tummy tuck", "腹壁整形", "Абдоминопластика", "Abdominoplastia"), to: "/treatments/tummy-tuck" },
+          { label: c("Breast augmentation", "隆胸", "Увеличение груди", "Aumento de senos"), to: "/treatments/breast-augmentation" },
         ] },
-        { title: c("Skin, hair & smile", "皮肤、毛发与牙齿", "Кожа, волосы и улыбка"), links: [
-          { label: c("Skin treatments", "皮肤治疗", "Процедуры для кожи"), to: "/treatments/laser-skin-resurfacing" },
-          { label: c("Hair transplant", "植发", "Пересадка волос"), to: "/treatments/fue-hair-transplant" },
-          { label: c("Dental veneers", "牙齿贴面", "Виниры"), to: "/treatments/porcelain-veneers" },
+        { title: c("Skin, hair & smile", "皮肤、毛发与牙齿", "Кожа, волосы и улыбка", "Piel, cabello y sonrisa"), links: [
+          { label: c("Skin treatments", "皮肤治疗", "Процедуры для кожи", "Tratamientos para la piel"), to: "/treatments/laser-skin-resurfacing" },
+          { label: c("Hair transplant", "植发", "Пересадка волос", "Trasplante capilar"), to: "/treatments/fue-hair-transplant" },
+          { label: c("Dental veneers", "牙齿贴面", "Виниры", "Carillas dentales"), to: "/treatments/porcelain-veneers" },
         ] },
       ],
     },
     "/travel-packages": {
-      intro: c("Plan the practical side of receiving care in China.", "把赴华就医中的实际安排提前规划清楚。", "Спланируйте практическую часть лечения в Китае."),
-      viewAll: c("View travel support", "查看行程支持", "Поддержка поездки"),
+      intro: c("Plan the practical side of receiving care in China.", "把赴华就医中的实际安排提前规划清楚。", "Спланируйте практическую часть лечения в Китае.", "Planifica los aspectos prácticos de tu tratamiento en China."),
+      viewAll: c("View travel support", "查看行程支持", "Поддержка поездки", "Ver apoyo de viaje"),
       groups: [
-        { title: c("Before departure", "出发之前", "До поездки"), links: [
-          { label: c("Appointment coordination", "预约协调", "Координация записи"), to: "/travel-packages" },
-          { label: c("Travel & visa planning", "行程与签证规划", "Поездка и виза"), to: "/travel-packages" },
-          { label: c("Medical record translation", "病历翻译", "Перевод меддокументов"), to: "/travel-packages" },
+        { title: c("Before departure", "出发之前", "До поездки", "Antes de salir"), links: [
+          { label: c("Appointment coordination", "预约协调", "Координация записи", "Coordinación de citas"), to: "/travel-packages" },
+          { label: c("Travel & visa planning", "行程与签证规划", "Поездка и виза", "Planificación de viaje y visado"), to: "/travel-packages" },
+          { label: c("Medical record translation", "病历翻译", "Перевод меддокументов", "Traducción de historial médico"), to: "/travel-packages" },
         ] },
-        { title: c("In China", "抵达中国后", "В Китае"), links: [
-          { label: c("Airport pickup", "机场接送", "Трансфер из аэропорта"), to: "/travel-packages" },
-          { label: c("In-clinic translation", "院内翻译", "Перевод в клинике"), to: "/travel-packages" },
-          { label: c("Accommodation guidance", "住宿建议", "Подбор проживания"), to: "/travel-packages" },
+        { title: c("In China", "抵达中国后", "В Китае", "En China"), links: [
+          { label: c("Airport pickup", "机场接送", "Трансфер из аэропорта", "Recogida en el aeropuerto"), to: "/travel-packages" },
+          { label: c("In-clinic translation", "院内翻译", "Перевод в клинике", "Traducción en la clínica"), to: "/travel-packages" },
+          { label: c("Accommodation guidance", "住宿建议", "Подбор проживания", "Ayuda con el alojamiento"), to: "/travel-packages" },
         ] },
-        { title: c("Plan your destination", "选择目的地", "Выберите направление"), links: [
-          { label: c("Why China", "为什么选中国", "Почему Китай"), to: "/why-china" },
-          { label: c("Shanghai", "上海", "Шанхай"), to: "/cities/shanghai" },
-          { label: c("Beijing", "北京", "Пекин"), to: "/cities/beijing" },
+        { title: c("Plan your destination", "选择目的地", "Выберите направление", "Planifica tu destino"), links: [
+          { label: c("Why China", "为什么选中国", "Почему Китай", "Por qué China"), to: "/why-china" },
+          { label: c("Shanghai", "上海", "Шанхай", "Shanghái"), to: "/cities/shanghai" },
+          { label: c("Beijing", "北京", "Пекин", "Pekín"), to: "/cities/beijing" },
         ] },
       ],
     },
@@ -316,11 +316,11 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
           <button
             type="button"
             onClick={() => open({ source: "navbar_top" })}
-            aria-label={c("Start a consultation", "开始咨询", "Начать консультацию")}
+            aria-label={c("Start a consultation", "开始咨询", "Начать консультацию", "Iniciar una consulta")}
             className="inline-flex min-h-12 shrink-0 items-center gap-1.5 rounded-full border border-white/35 bg-foreground/15 px-3 font-semibold text-white transition hover:bg-foreground/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-primary md:min-h-9"
           >
             <MessageCircle className="size-3.5" />
-            <span>{c("Start a consultation", "开始咨询", "Начать консультацию")}</span>
+            <span>{c("Start a consultation", "开始咨询", "Начать консультацию", "Iniciar una consulta")}</span>
             <ArrowRight className="hidden size-3.5 sm:block" />
           </button>
         </div>
@@ -358,7 +358,7 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
                     ? "bg-primary text-primary-foreground shadow-sm"
                     : "text-muted-foreground hover:bg-primary/10 hover:text-foreground"
                 }`}>
-                  {c("More", "更多", "Ещё")}<ChevronDown className="size-3.5" />
+                  {c("More", "更多", "Ещё", "Más")}<ChevronDown className="size-3.5" />
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="min-w-44 rounded-2xl p-1.5">
@@ -403,13 +403,13 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
             <AccountMenu lang={lang} />
           </div>
           <Button asChild variant="ghost" className="md:hidden rounded-full px-3 h-9 text-sm font-medium">
-            <Link to="/auth?tab=signin">{c("Sign in", "登录", "Войти")}</Link>
+            <Link to="/auth?tab=signin">{c("Sign in", "登录", "Войти", "Iniciar sesión")}</Link>
           </Button>
         </div>
 
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="size-12 rounded-full border border-primary/10 bg-card shadow-soft md:hidden" aria-label={c("Open menu", "打开菜单", "Открыть меню")}>
+            <Button variant="ghost" size="icon" className="size-12 rounded-full border border-primary/10 bg-card shadow-soft md:hidden" aria-label={c("Open menu", "打开菜单", "Открыть меню", "Abrir menú")}>
               <Menu className="size-5" />
             </Button>
           </SheetTrigger>
@@ -417,7 +417,7 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
             <SheetHeader className="border-b p-5 pr-16 text-left">
               <SheetTitle><BrandLogo /></SheetTitle>
               <SheetDescription className="sr-only">
-                {c("Site navigation and account settings", "网站导航与账户设置", "Навигация и настройки аккаунта")}
+                {c("Site navigation and account settings", "网站导航与账户设置", "Навигация и настройки аккаунта", "Navegación del sitio y ajustes de la cuenta")}
               </SheetDescription>
             </SheetHeader>
             <div className="flex h-[calc(100%-73px)] flex-col overflow-y-auto p-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
@@ -454,7 +454,7 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
                 className="mt-3 flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-primary px-4 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               >
                 <MessageCircle className="size-4" />
-                {c("Start a consultation", "开始咨询", "Начать консультацию")}
+                {c("Start a consultation", "开始咨询", "Начать консультацию", "Iniciar una consulta")}
                 <ArrowRight className="size-4" />
               </button>
             </div>

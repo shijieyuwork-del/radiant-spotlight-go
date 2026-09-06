@@ -25,7 +25,7 @@ const parseLikes = (s: string) => {
 
 const Cases = () => {
   const { t, lang, fmt } = useAsia();
-  const c = (en: string, zh: string, ru: string) => asiaCopy(lang, { en, zh, ru });
+  const c = (en: string, zh: string, ru: string, es?: string) => asiaCopy(lang, { en, zh, ru, es });
   const [searchParams] = useSearchParams();
   const [q, setQ] = useState("");
   const [activeTreatment, setActiveTreatment] = useState(() => searchParams.get("treatment") ?? "");
@@ -160,7 +160,7 @@ const Cases = () => {
         <div className="mx-auto mb-6 max-w-2xl text-center md:mb-8">
           <span className="pill bg-accent text-accent-foreground mb-3"><Heart className="size-3.5" /> {t("cases.kicker")}</span>
           <h1 className="font-display text-[2.15rem] font-medium leading-[1.04] tracking-tight sm:text-4xl md:text-5xl">
-            {c("Real recovery journeys, ", "真实恢复历程，", "Реальные истории восстановления: ")}<em className="text-primary not-italic">{c("from consultation to final results.", "从面诊到最终效果", "от консультации до результата.")}</em>
+            {c("Real recovery journeys, ", "真实恢复历程，", "Реальные истории восстановления: ", "Historias reales de recuperación, ")}<em className="text-primary not-italic">{c("from consultation to final results.", "从面诊到最终效果", "от консультации до результата.", "desde la consulta hasta el resultado final.")}</em>
           </h1>
         </div>
 
@@ -171,37 +171,37 @@ const Cases = () => {
               value={q}
               onChange={(e) => setQ(e.target.value)}
               className="w-full bg-transparent text-base font-medium outline-none sm:text-sm"
-              placeholder={c("Search procedures, recovery stages or cities…", "搜索项目、恢复阶段或城市…", "Поиск по процедуре, этапу или городу…")}
+              placeholder={c("Search procedures, recovery stages or cities…", "搜索项目、恢复阶段或城市…", "Поиск по процедуре, этапу или городу…", "Buscar procedimientos, etapas de recuperación o ciudades…")}
             />
           </div>
         </div>
 
         <div className="mx-auto mb-4 grid max-w-3xl grid-cols-1 gap-2 min-[430px]:grid-cols-3">
-          <FilterSelect value={activeTreatment} onChange={setActiveTreatment} label={c("All procedures", "全部项目", "Все процедуры")} options={treatments} />
-          <FilterSelect value={activeStage} onChange={setActiveStage} label={lang === "zh" ? "全部恢复阶段" : lang === "ru" ? "Все этапы восстановления" : "All recovery stages"} options={["Consultation", "Week 1", "Month 1", "Month 3+", "Final result", "Recovery update"].map((key) => ({ key, label: lang === "zh" ? ({ Consultation: "面诊", "Week 1": "术后第 1 周", "Month 1": "术后第 1 月", "Month 3+": "术后 3 个月以上", "Final result": "最终效果", "Recovery update": "恢复更新" } as Record<string,string>)[key] : lang === "ru" ? ({ Consultation: "Консультация", "Week 1": "1-я неделя", "Month 1": "1-й месяц", "Month 3+": "3+ месяца", "Final result": "Итоговый результат", "Recovery update": "Ход восстановления" } as Record<string,string>)[key] : key }))} />
-          <FilterSelect value={activeCity} onChange={setActiveCity} label={c("All cities", "全部城市", "Все города")} options={cityOptions} />
+          <FilterSelect value={activeTreatment} onChange={setActiveTreatment} label={c("All procedures", "全部项目", "Все процедуры", "Todos los procedimientos")} options={treatments} />
+          <FilterSelect value={activeStage} onChange={setActiveStage} label={lang === "zh" ? "全部恢复阶段" : lang === "ru" ? "Все этапы восстановления" : lang === "es" ? "Todas las etapas de recuperación" : "All recovery stages"} options={["Consultation", "Week 1", "Month 1", "Month 3+", "Final result", "Recovery update"].map((key) => ({ key, label: lang === "zh" ? ({ Consultation: "面诊", "Week 1": "术后第 1 周", "Month 1": "术后第 1 月", "Month 3+": "术后 3 个月以上", "Final result": "最终效果", "Recovery update": "恢复更新" } as Record<string,string>)[key] : lang === "ru" ? ({ Consultation: "Консультация", "Week 1": "1-я неделя", "Month 1": "1-й месяц", "Month 3+": "3+ месяца", "Final result": "Итоговый результат", "Recovery update": "Ход восстановления" } as Record<string,string>)[key] : lang === "es" ? ({ Consultation: "Consulta", "Week 1": "Semana 1", "Month 1": "Mes 1", "Month 3+": "3+ meses", "Final result": "Resultado final", "Recovery update": "Actualización de recuperación" } as Record<string,string>)[key] : key }))} />
+          <FilterSelect value={activeCity} onChange={setActiveCity} label={c("All cities", "全部城市", "Все города", "Todas las ciudades")} options={cityOptions} />
         </div>
 
         <div className="mb-3 md:mb-4">
           <SortChips
-            label={c("Sort", "排序", "Сортировка")}
+            label={c("Sort", "排序", "Сортировка", "Ordenar")}
             value={sort}
             onChange={setSort}
             options={[
-              { key: "recommended", label: c("Recommended", "推荐", "Рекомендуемые") },
-              { key: "hot", label: c("Most liked", "热度最高", "Популярные") },
-              { key: "latest", label: c("Latest", "最新更新", "Новые") },
-              { key: "distance", label: c("Nearest", "距离最近", "Ближайшие") },
+              { key: "recommended", label: c("Recommended", "推荐", "Рекомендуемые", "Recomendados") },
+              { key: "hot", label: c("Most liked", "热度最高", "Популярные", "Más gustados") },
+              { key: "latest", label: c("Latest", "最新更新", "Новые", "Más recientes") },
+              { key: "distance", label: c("Nearest", "距离最近", "Ближайшие", "Más cercanos") },
             ]}
           />
           {sort === "distance" && (
             <p className="mt-2 flex items-center justify-center gap-1 text-[11px] text-muted-foreground">
               <Navigation className="size-3" />
               {locStatus === "locating"
-                ? c("Locating…", "正在获取定位…", "Определяем местоположение…")
+                ? c("Locating…", "正在获取定位…", "Определяем местоположение…", "Localizando…")
                 : locStatus === "denied"
-                  ? c("Location unavailable — showing default order.", "无法获取定位，已按默认顺序展示。", "Геолокация недоступна — показан обычный порядок.")
-                  : c("Sorted by distance from you.", "已按与你的距离排序。", "Отсортировано по расстоянию от вас.")}
+                  ? c("Location unavailable — showing default order.", "无法获取定位，已按默认顺序展示。", "Геолокация недоступна — показан обычный порядок.", "Ubicación no disponible: se muestra el orden predeterminado.")
+                  : c("Sorted by distance from you.", "已按与你的距离排序。", "Отсортировано по расстоянию от вас.", "Ordenado por distancia desde tu ubicación.")}
             </p>
           )}
         </div>
@@ -209,7 +209,7 @@ const Cases = () => {
         <div className="mb-7 flex items-center justify-center gap-3 text-xs text-muted-foreground md:mb-10">
           <SlidersHorizontal className="size-3" />
           <span>
-            {lang === "zh" ? `共 ${sortedItems.length} 个案例` : lang === "ru" ? `${sortedItems.length} историй` : `${sortedItems.length} case${sortedItems.length === 1 ? "" : "s"}`}
+            {lang === "zh" ? `共 ${sortedItems.length} 个案例` : lang === "ru" ? `${sortedItems.length} историй` : lang === "es" ? `${sortedItems.length} caso${sortedItems.length === 1 ? "" : "s"}` : `${sortedItems.length} case${sortedItems.length === 1 ? "" : "s"}`}
           </span>
           {hasFilters && (
             <button
@@ -218,18 +218,18 @@ const Cases = () => {
               }}
               className="inline-flex items-center gap-1 font-semibold text-primary hover:underline"
             >
-              {c("Clear", "清空筛选", "Сбросить")}
+              {c("Clear", "清空筛选", "Сбросить", "Borrar")}
             </button>
           )}
         </div>
 
         {items.length === 0 ? (
           <p className="text-center text-muted-foreground py-12 text-sm">
-            {c("No matching cases — try a different filter.", "没有匹配的案例，换个筛选试试。", "Подходящих историй не найдено — измените фильтры.")}
+            {c("No matching cases — try a different filter.", "没有匹配的案例，换个筛选试试。", "Подходящих историй не найдено — измените фильтры.", "No hay casos que coincidan; prueba con otro filtro.")}
           </p>
         ) : (
           <div>
-            <div className="mb-4 flex items-end justify-between gap-4 md:mb-5"><div><span className="pill bg-accent text-accent-foreground">{c("Latest recovery updates", "最新更新", "Последние обновления")}</span><h2 className="mt-3 font-display text-[1.75rem] font-medium leading-tight md:text-3xl">{c("Choose a journey to continue", "选择一个历程继续观看", "Выберите историю и продолжайте просмотр")}</h2></div><span className="hidden items-center gap-1 text-sm font-semibold text-primary sm:inline-flex">{c("Open a card for the full timeline", "点击卡片查看完整时间线", "Откройте карточку, чтобы увидеть весь путь")}<ArrowRight className="size-4" /></span></div>
+            <div className="mb-4 flex items-end justify-between gap-4 md:mb-5"><div><span className="pill bg-accent text-accent-foreground">{c("Latest recovery updates", "最新更新", "Последние обновления", "Últimas actualizaciones")}</span><h2 className="mt-3 font-display text-[1.75rem] font-medium leading-tight md:text-3xl">{c("Choose a journey to continue", "选择一个历程继续观看", "Выберите историю и продолжайте просмотр", "Elige una historia para continuar")}</h2></div><span className="hidden items-center gap-1 text-sm font-semibold text-primary sm:inline-flex">{c("Open a card for the full timeline", "点击卡片查看完整时间线", "Откройте карточку, чтобы увидеть весь путь", "Abre una tarjeta para ver la cronología completa")}<ArrowRight className="size-4" /></span></div>
             <TikTokWall items={pagedItems} lang={lang} fmtPrice={fmt} variant="cases" highlight={q} />
             <Pagination page={safePage} totalPages={totalPages} onChange={setPage} />
           </div>
@@ -239,17 +239,19 @@ const Cases = () => {
           <div className="max-w-2xl">
             <span className="pill bg-card/80 text-accent-foreground shadow-soft">
               <MessageCircle className="size-3.5 text-primary" />
-              {lang === "zh" ? "免费匹配建议" : lang === "ru" ? "Бесплатная помощь с выбором" : "Free matching guidance"}
+              {lang === "zh" ? "免费匹配建议" : lang === "ru" ? "Бесплатная помощь с выбором" : lang === "es" ? "Orientación gratuita de emparejamiento" : "Free matching guidance"}
             </span>
             <h2 className="mt-4 font-display text-[1.9rem] font-medium leading-[1.05] tracking-tight sm:text-4xl">
-              {lang === "zh" ? "不确定哪位专家更适合你？" : lang === "ru" ? "Не уверены, какой эксперт вам подходит?" : "Not sure which expert is right for you?"}
+              {lang === "zh" ? "不确定哪位专家更适合你？" : lang === "ru" ? "Не уверены, какой эксперт вам подходит?" : lang === "es" ? "¿No sabes qué experto es el más adecuado para ti?" : "Not sure which expert is right for you?"}
             </h2>
             <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
               {lang === "zh"
                 ? "告诉我们你在考虑的项目、预算和城市，我们会帮助你缩小选择范围。"
                 : lang === "ru"
                   ? "Расскажите нам о желаемой процедуре, бюджете и городе — мы поможем сузить выбор."
-                  : "Tell us what you’re considering, your budget and preferred city, and we’ll help you narrow down suitable options."}
+                  : lang === "es"
+                    ? "Cuéntanos qué procedimiento consideras, tu presupuesto y la ciudad preferida, y te ayudaremos a reducir las opciones adecuadas."
+                    : "Tell us what you’re considering, your budget and preferred city, and we’ll help you narrow down suitable options."}
             </p>
           </div>
           <a
@@ -258,7 +260,7 @@ const Cases = () => {
             rel="noreferrer"
             className="cta-primary mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl px-6 py-3 text-sm font-bold transition md:mt-0 md:w-auto md:min-w-44 md:rounded-full"
           >
-            {lang === "zh" ? "获取免费匹配建议" : lang === "ru" ? "Получить бесплатную помощь" : "Get free matching guidance"}
+            {lang === "zh" ? "获取免费匹配建议" : lang === "ru" ? "Получить бесплатную помощь" : lang === "es" ? "Obtener orientación gratuita" : "Get free matching guidance"}
             <ArrowRight className="size-4" />
           </a>
         </aside>
