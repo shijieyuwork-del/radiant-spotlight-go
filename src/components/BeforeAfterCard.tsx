@@ -8,6 +8,8 @@ interface BeforeAfterCardProps {
   city: string;
   procedure: string;
   defaultBlur?: boolean;
+  /** 单张拼好的对比图：不显示滑块，直接整图展示 */
+  single?: boolean;
 }
 
 const BeforeAfterCard = ({
@@ -17,6 +19,7 @@ const BeforeAfterCard = ({
   city,
   procedure,
   defaultBlur = true,
+  single = false,
 }: BeforeAfterCardProps) => {
   const [pos, setPos] = useState(50);
   const [blur, setBlur] = useState(defaultBlur);
