@@ -1,5 +1,6 @@
 import { Quote } from "lucide-react";
 
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { useAsia } from "@/lib/asia-i18n";
 
 type PatientStory = {
@@ -178,49 +179,65 @@ const PatientStoriesSection = () => {
           </p>
         </div>
 
-        <div className="mt-10 grid gap-5 lg:grid-cols-3 lg:gap-6">
-          {patientStories.map((story, index) => {
-            const paragraphs = zh ? story.storyZh : story.story;
-            return (
-              <article
-                key={story.name}
-                className="group relative flex h-full flex-col overflow-hidden rounded-[8px] border border-primary/15 bg-card p-6 shadow-soft transition duration-500 hover:-translate-y-1 hover:border-primary/30 hover:shadow-pop sm:p-8"
-              >
-                <span className="pointer-events-none absolute -right-1 -top-7 select-none font-display text-[8rem] font-medium leading-none text-primary/10 transition-colors duration-500 group-hover:text-primary/15" aria-hidden="true">
-                  “
-                </span>
+        <Carousel
+          opts={{ align: "start", slidesToScroll: 1 }}
+          className="mt-10"
+          aria-label={zh ? "患者故事轮播" : "Patient stories carousel"}
+        >
+          <div className="mb-4 flex justify-end gap-3">
+            <CarouselPrevious
+              className="!static !size-11 !translate-y-0 border-primary/20 bg-background text-foreground shadow-sm hover:bg-primary hover:text-primary-foreground disabled:opacity-35"
+              aria-label={zh ? "查看上一位患者" : "View previous patient"}
+            />
+            <CarouselNext
+              className="!static !size-11 !translate-y-0 border-primary/20 bg-background text-foreground shadow-sm hover:bg-primary hover:text-primary-foreground disabled:opacity-35"
+              aria-label={zh ? "查看下一位患者" : "View next patient"}
+            />
+          </div>
 
-                <div className="relative flex items-center gap-4 border-b border-primary/10 pb-6">
-                  <div className="flex size-14 shrink-0 items-center justify-center rounded-[8px] border border-primary/15 bg-secondary text-lg font-bold text-foreground shadow-sm" aria-hidden="true">
-                    {story.name.slice(0, 1)}
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <h3 className="font-display text-2xl font-medium leading-tight text-foreground">{story.name}</h3>
-                    <p className="mt-1 text-xs font-bold uppercase text-muted-foreground">
-                      {zh ? `${story.age} 岁 · ${story.countryZh}` : `Age ${story.age} · ${story.country}`}
-                    </p>
-                    {story.procedure && (
-                      <p className="mt-2 text-[11px] font-bold uppercase tracking-[0.12em] text-primary">
-                        {zh ? story.procedureZh : story.procedure}
-                      </p>
-                    )}
-                  </div>
-                  <span className="self-start text-sm font-bold text-primary/55" aria-hidden="true">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                </div>
+          <CarouselContent className="!-ml-5 lg:!-ml-6">
+            {patientStories.map((story, index) => {
+              const paragraphs = zh ? story.storyZh : story.story;
+              return (
+                <CarouselItem key={story.name} className="!pl-5 sm:basis-1/2 lg:basis-1/3 lg:!pl-6">
+                  <article className="group relative flex h-full flex-col overflow-hidden rounded-[8px] border border-primary/15 bg-card p-6 shadow-soft transition duration-500 hover:-translate-y-1 hover:border-primary/30 hover:shadow-pop sm:p-8">
+                    <span className="pointer-events-none absolute -right-1 -top-7 select-none font-display text-[8rem] font-medium leading-none text-primary/10 transition-colors duration-500 group-hover:text-primary/15" aria-hidden="true">
+                      “
+                    </span>
 
-                <blockquote className="relative mt-7 flex-1 space-y-5 text-[15px] leading-7 text-foreground/75">
-                  {paragraphs.map((paragraph) => (
-                    <p key={paragraph}>{paragraph}</p>
-                  ))}
-                </blockquote>
+                    <div className="relative flex items-center gap-4 border-b border-primary/10 pb-6">
+                      <div className="flex size-14 shrink-0 items-center justify-center rounded-[8px] border border-primary/15 bg-secondary text-lg font-bold text-foreground shadow-sm" aria-hidden="true">
+                        {story.name.slice(0, 1)}
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <h3 className="font-display text-2xl font-medium leading-tight text-foreground">{story.name}</h3>
+                        <p className="mt-1 text-xs font-bold uppercase text-muted-foreground">
+                          {zh ? `${story.age} 岁 · ${story.countryZh}` : `Age ${story.age} · ${story.country}`}
+                        </p>
+                        {story.procedure && (
+                          <p className="mt-2 text-[11px] font-bold uppercase tracking-[0.12em] text-primary">
+                            {zh ? story.procedureZh : story.procedure}
+                          </p>
+                        )}
+                      </div>
+                      <span className="self-start text-sm font-bold text-primary/55" aria-hidden="true">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                    </div>
 
-                <div className="mt-8 h-1 w-12 rounded-full bg-primary/45 transition-all duration-500 group-hover:w-20 group-hover:bg-primary" aria-hidden="true" />
-              </article>
-            );
-          })}
-        </div>
+                    <blockquote className="relative mt-7 flex-1 space-y-5 text-[15px] leading-7 text-foreground/75">
+                      {paragraphs.map((paragraph) => (
+                        <p key={paragraph}>{paragraph}</p>
+                      ))}
+                    </blockquote>
+
+                    <div className="mt-8 h-1 w-12 rounded-full bg-primary/45 transition-all duration-500 group-hover:w-20 group-hover:bg-primary" aria-hidden="true" />
+                  </article>
+                </CarouselItem>
+              );
+            })}
+          </CarouselContent>
+        </Carousel>
       </div>
     </section>
   );
