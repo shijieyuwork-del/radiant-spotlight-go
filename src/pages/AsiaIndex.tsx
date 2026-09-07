@@ -265,7 +265,7 @@ const Hero = () => {
             <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-[15px]"><em className="text-primary not-italic sm:hidden">{copy.emphasis} </em>{copy.subtitle}</p>
 
             <div className="mx-auto mt-5 flex max-w-lg flex-col justify-center gap-3 sm:mt-7 sm:flex-row">
-              <QuoteCtaButton className="h-[3.25rem] w-full rounded-2xl border border-foreground px-8 text-[15px] shadow-pop sm:h-12 sm:w-auto sm:rounded-full" />
+              <QuoteCtaButton className="h-[3.25rem] w-full rounded-2xl border border-foreground px-8 text-[15px] shadow-pop sm:h-12 sm:w-auto sm:rounded-full" data-testid="home-hero-cta" />
               <Button asChild size="lg" variant="outline" className="h-[3.25rem] w-full rounded-2xl border-primary/25 bg-card/70 px-8 text-[15px] font-semibold backdrop-blur sm:h-12 sm:w-auto sm:rounded-full">
                 <Link to="/cases">{copy.cases}<ArrowRight className="ml-1.5 size-4" /></Link>
               </Button>
