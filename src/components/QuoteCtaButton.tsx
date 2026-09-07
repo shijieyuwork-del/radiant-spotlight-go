@@ -37,6 +37,7 @@ export interface QuoteCtaButtonProps {
   /** arrow：箭头在文案后（默认）；chat：对话图标在文案前 */
   icon?: keyof typeof ICONS;
   className?: string;
+  "data-testid"?: string;
 }
 
 const QuoteCtaButton = ({
