@@ -76,12 +76,12 @@ const JOURNEY_STEPS = [
     icon: HeartPulse,
     image: journeyTreatment,
     eyebrow: ["Treatment support", "治疗支持", "Поддержка лечения", "Apoyo durante el tratamiento"],
-    title: ["Receive coordinated treatment support", "获得治疗协调支持", "Получите поддержку во время лечения", "Recibe apoyo coordinado durante el tratamiento"],
+    title: ["Your transformation, with us by your side", "你的变美时刻，我们陪你", "Ваше преображение — мы рядом", "Tu transformación, con nosotros a tu lado"],
     text: [
-      "Get practical communication and scheduling help during clinic visits.",
-      "就诊期间获得沟通、翻译与日程协调协助。",
-      "Получайте помощь с общением и расписанием во время визитов.",
-      "Recibe ayuda práctica de comunicación y agenda durante las visitas a la clínica.",
+      "On surgery day, we accompany you to the clinic, help you communicate and stay close when you need us.",
+      "手术当天，我们陪同你前往诊所，协助沟通，在你需要时陪伴左右。",
+      "В день операции мы сопровождаем вас в клинику, помогаем с общением и остаёмся рядом, когда нужны вам.",
+      "El día de la cirugía te acompañamos a la clínica, te ayudamos a comunicarte y estamos cerca cuando nos necesitas.",
     ],
   },
   {

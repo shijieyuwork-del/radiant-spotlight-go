@@ -612,10 +612,10 @@ const TravelBar = () => {
     {
       icon: HeartPulse,
       image: journeyTreatment,
-      en: ["Receive coordinated treatment support", "Get practical communication and scheduling help during clinic visits"],
-      zh: ["获得治疗协调支持", "就诊期间获得沟通、翻译与日程协调协助"],
-      ru: ["Получите поддержку во время лечения", "Получайте помощь с общением и расписанием во время визитов"],
-      es: ["Recibe apoyo coordinado durante el tratamiento", "Obtén ayuda práctica de comunicación y programación durante las visitas a la clínica"],
+      en: ["Your transformation, with us by your side", "On surgery day, we accompany you to the clinic, help you communicate and stay close when you need us"],
+      zh: ["你的变美时刻，我们陪你", "手术当天，我们陪同你前往诊所，协助沟通，在你需要时陪伴左右"],
+      ru: ["Ваше преображение — мы рядом", "В день операции мы сопровождаем вас в клинику, помогаем с общением и остаёмся рядом, когда нужны вам"],
+      es: ["Tu transformación, con nosotros a tu lado", "El día de la cirugía te acompañamos a la clínica, te ayudamos a comunicarte y estamos cerca cuando nos necesitas"],
     },
     {
       icon: Map,
