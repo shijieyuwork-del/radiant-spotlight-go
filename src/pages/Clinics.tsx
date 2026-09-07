@@ -119,8 +119,6 @@ const Clinics = () => {
   }, [country, directory, query]);
 
   const visibleCount = filteredCities.reduce((total, entry) => total + entry.hospitals.length, 0);
-  const directoryCount = directory.reduce((total, entry) => total + entry.hospitals.length, 0);
-
   const updateFilter = (key: "q" | "country", value: string) => {
     const next = new URLSearchParams(searchParams);
     if (!value || value === "all") next.delete(key);
@@ -140,50 +138,7 @@ const Clinics = () => {
       <div className="min-h-screen bg-background">
         <AsiaNavbar />
         <main>
-          <section className="container pb-8 pt-6 md:pb-12 md:pt-10">
-            <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-foreground text-white shadow-[0_30px_80px_rgba(17,54,45,0.18)] md:rounded-[2.5rem]">
-              <div className="grid gap-10 px-6 py-10 sm:px-10 md:grid-cols-[1fr_auto] md:items-end md:px-12 md:py-12 lg:px-16">
-                <div className="max-w-3xl">
-                  <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/[0.08] px-4 py-2 text-xs font-semibold text-white/90">
-                    <Building2 className="size-4 text-[hsl(155,62%,68%)]" />
-                    {c("Clinic directory", "诊所目录", "Каталог клиник", "Directorio de clínicas")}
-                  </span>
-                  <h1 className="mt-6 font-display text-4xl font-medium leading-[0.98] tracking-tight sm:text-5xl md:text-6xl">
-                    {c("See every clinic", "查看全部诊所", "Все клиники", "Consulta todas las clínicas")}
-                    <br />
-                    <em className="not-italic text-[hsl(155,62%,68%)]">
-                      {c("in one clear directory.", "集中在一个清晰目录里。", "в одном понятном каталоге.", "en un directorio claro.")}
-                    </em>
-                  </h1>
-                  <p className="mt-5 max-w-2xl text-sm leading-7 text-white/72 sm:text-base">
-                    {c(
-                      "Browse the facilities currently included in our destination guides. Compare locations first, then review provider and expert information before making a decision.",
-                      "浏览目前收录在城市指南中的机构。先比较城市与地区，再查看机构及专家资料后作出决定。",
-                      "Просмотрите учреждения из наших городских путеводителей. Сначала сравните места, затем изучите информацию о клиниках и специалистах.",
-                      "Explora los centros incluidos en nuestras guías de destinos. Compara ubicaciones y revisa la información del centro y sus expertos antes de decidir.",
-                    )}
-                  </p>
-                </div>
-
-                <dl className="grid w-full grid-cols-2 gap-3 md:w-auto md:min-w-72">
-                  <div className="rounded-2xl border border-white/15 bg-white/[0.07] p-5">
-                    <dt className="text-[10px] font-bold uppercase tracking-[0.16em] text-white/55">
-                      {c("Directory entries", "目录机构", "Записи", "Centros")}
-                    </dt>
-                    <dd className="mt-2 font-display text-4xl text-white">{directoryCount}</dd>
-                  </div>
-                  <div className="rounded-2xl border border-white/15 bg-white/[0.07] p-5">
-                    <dt className="text-[10px] font-bold uppercase tracking-[0.16em] text-white/55">
-                      {c("Destinations", "目的地", "Направления", "Destinos")}
-                    </dt>
-                    <dd className="mt-2 font-display text-4xl text-white">{CITIES.length}</dd>
-                  </div>
-                </dl>
-              </div>
-            </div>
-          </section>
-
-          <section className="container pb-20" aria-labelledby="clinic-directory-title">
+          <section className="container pb-20 pt-6 md:pt-10" aria-labelledby="clinic-directory-title">
             <div className="sticky top-[6.25rem] z-30 rounded-3xl border border-border/70 bg-background/95 p-3 shadow-soft backdrop-blur-xl md:top-[6.1rem] md:p-4">
               <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
                 <label className="relative block min-w-0 flex-1">
