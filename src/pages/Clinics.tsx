@@ -11,6 +11,7 @@ import { asiaCopy } from "@/lib/asia-copy";
 import { localizedField } from "@/lib/i18n-content";
 import { supabase } from "@/integrations/supabase/client";
 import { useRealtimeRefresh } from "@/hooks/use-realtime-refresh";
+import genericClinicImg from "@/assets/clinics/generic-clinic.jpg";
 
 const normalize = (value: string) => value.trim().toLocaleLowerCase();
 
@@ -26,6 +27,7 @@ type DirectoryFacility = {
   primary: string;
   published: boolean;
   secondary: string;
+  img: string;
 };
 
 const Clinics = () => {
@@ -68,6 +70,7 @@ const Clinics = () => {
       primary: lang === "zh" ? hospital.zh : hospital.en,
       published: false,
       secondary: lang === "zh" ? hospital.en : hospital.zh,
+      img: hospital.img ?? genericClinicImg,
     }));
 
     for (const row of publishedClinics) {
@@ -86,6 +89,7 @@ const Clinics = () => {
           primary,
           published: true,
           secondary: secondary === primary ? "" : secondary,
+          img: genericClinicImg,
         });
       }
     }
@@ -247,7 +251,17 @@ const Clinics = () => {
 
                     <ul className="grid gap-3 md:grid-cols-2" aria-label={c(`Facilities in ${city.en}`, `${city.zh}的机构`, `Учреждения в ${city.en}`, `Centros en ${city.en}`)}>
                       {hospitals.map((hospital) => (
-                        <li key={hospital.key} className="flex min-h-36 flex-col rounded-2xl border border-border/70 bg-card p-5 transition-colors hover:border-primary/30">
+                        <li key={hospital.key} className="flex min-h-36 flex-col overflow-hidden rounded-2xl border border-border/70 bg-card transition-colors hover:border-primary/30">
+                          <div className="relative aspect-[2/1] w-full overflow-hidden bg-muted">
+                            <img
+                              src={hospital.img}
+                              alt={hospital.primary}
+                              loading="lazy"
+                              decoding="async"
+                              className="size-full object-cover"
+                            />
+                          </div>
+                          <div className="flex flex-1 flex-col p-5">
                           <div className="flex items-start gap-3">
                             <span className="grid size-10 shrink-0 place-items-center rounded-full bg-primary/10 text-primary">
                               <Building2 className="size-4" />
