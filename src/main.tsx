@@ -1,4 +1,5 @@
 import { createRoot } from "react-dom/client";
+import "@fontsource-variable/inter";
 import App from "./App.tsx";
 import ErrorBoundary from "./components/ErrorBoundary";
 import "./index.css";

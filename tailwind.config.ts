@@ -18,8 +18,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ['-apple-system', 'BlinkMacSystemFont', 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
-        sans: ['-apple-system', 'BlinkMacSystemFont', 'SF Pro Text', 'SF Pro Display', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
+        display: ['Inter Variable', '-apple-system', 'BlinkMacSystemFont', 'SF Pro Display', 'SF Pro Text', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', 'Arial', 'sans-serif'],
+        sans: ['Inter Variable', '-apple-system', 'BlinkMacSystemFont', 'SF Pro Text', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', 'Arial', 'sans-serif'],
       },
       backgroundImage: {
         'gradient-hero': 'var(--gradient-hero)',

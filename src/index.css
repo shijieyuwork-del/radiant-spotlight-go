@@ -160,12 +160,13 @@
   }
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Inter Variable', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif;
     font-feature-settings: "kern", "liga", "calt";
+    font-optical-sizing: auto;
     font-size: 1rem;
     font-weight: 400;
-    line-height: 1.62;
-    letter-spacing: -0.012em;
+    line-height: 1.6;
+    letter-spacing: -0.011em;
     text-rendering: optimizeLegibility;
   }
 
@@ -207,19 +208,27 @@
     }
   }
 
-  h1, h2, h3 {
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-weight: 500;
-    letter-spacing: -0.035em;
-    line-height: 1.02;
+  h1, h2 {
+    font-family: 'Inter Variable', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 560;
+    letter-spacing: -0.043em;
+    line-height: 1.04;
+    text-wrap: balance;
+  }
+
+  h3 {
+    font-family: 'Inter Variable', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 550;
+    letter-spacing: -0.028em;
+    line-height: 1.12;
     text-wrap: balance;
   }
 
   h4, h5, h6 {
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Inter Variable', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif;
     font-weight: 600;
-    letter-spacing: -0.025em;
-    line-height: 1.25;
+    letter-spacing: -0.018em;
+    line-height: 1.28;
     text-wrap: balance;
   }
 
@@ -237,7 +246,7 @@
   }
 
   button, [role="button"] {
-    font-weight: 600;
+    font-weight: 570;
   }
 
   ::selection {
@@ -288,8 +297,9 @@
     line-height: 1.25;
   }
   .font-display {
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    letter-spacing: -0.03em;
+    font-family: 'Inter Variable', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif;
+    font-optical-sizing: auto;
+    letter-spacing: -0.032em;
   }
   .tabular-nums,
   [data-price],
