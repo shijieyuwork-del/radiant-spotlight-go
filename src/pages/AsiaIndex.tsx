@@ -44,6 +44,7 @@ import procedureLips from "@/assets/procedures/lip-lift.jpg";
 import procedureWeightLoss from "@/assets/procedures/body-lift.jpg";
 import procedureMen from "@/assets/procedures/male-breast-reduction.jpg";
 import AppPromoSection from "@/components/AppPromoSection";
+import PatientStoriesSection from "@/components/PatientStoriesSection";
 import { supabase } from "@/integrations/supabase/client";
 import { useRealtimeRefresh } from "@/hooks/use-realtime-refresh";
 import { signedUrls } from "@/lib/storage-urls";
@@ -1452,6 +1453,7 @@ const AsiaIndex = () => {
           <HowItWorks />
           <CitiesSection />
           <AppPromoSection />
+          <PatientStoriesSection />
         </main>
         <Footer />
       </div>
