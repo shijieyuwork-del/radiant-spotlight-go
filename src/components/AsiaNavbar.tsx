@@ -13,7 +13,7 @@ import { useQuote } from "@/components/QuoteRequest";
 import { useAuth } from "@/lib/auth";
 import { useIsAdmin } from "@/hooks/use-is-admin";
 
-type Props = { homeLinks?: boolean };
+
 
 const AccountMenu = ({ lang, onClose }: { lang: Lang; onClose?: () => void }) => {
   const { user, signOut } = useAuth();
@@ -68,7 +68,7 @@ const AccountMenu = ({ lang, onClose }: { lang: Lang; onClose?: () => void }) =>
   );
 };
 
-const AsiaNavbar = ({ homeLinks = true }: Props) => {
+const AsiaNavbar = () => {
   const { t, lang, setLang, currency, setCurrency } = useAsia();
   const { open } = useQuote();
   const { pathname } = useLocation();
