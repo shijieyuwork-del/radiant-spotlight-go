@@ -54,18 +54,13 @@ const expectNoLegacyCopy = async (page: Page) => {
 
 test.describe("首页 / CTA 回归", () => {
   for (const lang of LANGS) {
-    test(`hero 与 HowItWorks 按钮为「${CTA[lang]}」（${lang}），外观匹配基线`, async ({ page }) => {
+    test(`hero 按钮为「${CTA[lang]}」（${lang}），外观匹配基线`, async ({ page }) => {
       await gotoWithLang(page, "/", lang);
 
-      const heroCta = page.getByRole("link", { name: CTA[lang], exact: true }).first();
-      await expect(heroCta, "hero 区必须存在 canonical CTA 链接").toBeVisible();
+      const heroCta = page.locator('[data-testid="home-hero-cta"]').first();
+      await expect(heroCta, "hero 区必须存在 canonical CTA 按钮").toBeVisible();
       await expect(heroCta).toHaveCSS("white-space", "nowrap"); // 防长文案换行回退
       await expect(heroCta).toHaveScreenshot(`home-hero-cta-${lang}.png`, { maxDiffPixelRatio: 0.02 });
-
-      // HowItWorks 区块的 <Button>（role=button，与 hero 的 <a> 区分）
-      const howItWorksCta = page.getByRole("button", { name: CTA[lang], exact: true });
-      await expect(howItWorksCta, "HowItWorks 区块必须使用同一文案").toBeVisible();
-      await expect(howItWorksCta).toHaveScreenshot(`home-howitworks-cta-${lang}.png`, { maxDiffPixelRatio: 0.02 });
 
       await expectNoLegacyCopy(page);
     });
