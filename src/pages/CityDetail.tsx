@@ -20,7 +20,11 @@ const CityDetail = () => {
 
   if (!city) return <Navigate to="/cities" replace />;
 
-  const cityDoctors = DOCTORS.filter(() => false);
+  const cityDoctors = DOCTORS.filter(
+    (d) =>
+      d.cityEn.toLowerCase() === city.en.toLowerCase() ||
+      d.cityZh === city.zh,
+  );
   const cityDemoDoctors = DEMO_CHINA_DOCTORS.filter((doctor) => doctor.city.toLowerCase() === city.en.toLowerCase());
   const cityCases = TIKTOK_CASES.filter((item) => item.city?.en.toLowerCase() === city.en.toLowerCase());
   const travel = lang === "zh" ? city.travelZh : city.travelEn;
