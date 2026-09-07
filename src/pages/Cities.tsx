@@ -17,8 +17,8 @@ const Cities = () => {
   return (
     <>
       <PageMeta
-        title="Top Surgery Destinations in Asia"
-        description="Explore Seoul, Shanghai, Bangkok, Tokyo, Singapore and more — Asia's cosmetic surgery hubs with specialties, USD pricing, visa info and travel planning."
+        title="Top Surgery Destinations in China"
+        description="Explore Shanghai, Beijing, Guangzhou, Hainan, Hangzhou and more — China's cosmetic surgery hubs with specialties, USD pricing, visa info and travel planning."
         path="/cities"
       />
       <div className="min-h-screen bg-background">
@@ -28,7 +28,7 @@ const Cities = () => {
       <section className="container py-12 md:py-16">
         <span className="pill bg-accent text-accent-foreground mb-3">
           <MapPin className="size-3.5" />
-          {c("Asia destinations", "亚洲城市", "Города Азии", "Destinos en Asia")}
+          {c("China destinations", "中国城市", "Города Китая", "Destinos en China")}
         </span>
         <h1 className="font-display text-4xl md:text-5xl font-medium tracking-tight max-w-3xl">
           {lang === "zh" ? (
@@ -52,10 +52,10 @@ const Cities = () => {
         </h1>
         <p className="text-muted-foreground mt-3 max-w-2xl">
           {c(
-            "Asia's leading medical-aesthetic destinations — from Seoul and Bangkok to Shanghai and Tokyo — each with its own specialties, price level and travel logistics.",
-            "从首尔、曼谷到上海、东京，亚洲热门医美目的地各有强势项目、价格区间与出行配套。",
-            "Ведущие направления медицинской эстетики Азии — от Сеула и Бангкока до Шанхая и Токио — со своими специализациями, ценами и логистикой.",
-            "Los principales destinos de estética médica en Asia — de Seúl y Bangkok a Shanghái y Tokio — cada uno con sus especialidades, nivel de precios y logística de viaje.",
+            "China's leading medical-aesthetic destinations — from Shanghai and Beijing to Guangzhou and Hainan — each with its own specialties, price level and travel logistics.",
+            "从上海、北京到广州、海南，中国热门医美目的地各有强势项目、价格区间与出行配套。",
+            "Ведущие направления медицинской эстетики Китая — от Шанхая и Пекина до Гуанчжоу и Хайнаня — со своими специализациями, ценами и логистикой.",
+            "Los principales destinos de estética médica en China — de Shanghái y Pekín a Cantón y Hainan — cada uno con sus especialidades, nivel de precios y logística de viaje.",
           )}
         </p>
 

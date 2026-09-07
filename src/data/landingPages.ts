@@ -11,7 +11,7 @@
  */
 import { DOCTORS } from "@/data/doctors";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
-import { findCity, CITIES } from "@/data/cities";
+import { findCity, CITIES, COUNTRY_BY_CITY } from "@/data/cities";
 
 export type LandingProcedureKey =
   | "rhinoplasty"
@@ -98,7 +98,7 @@ const cityFaqs = (citySlug: string): { question: string; answer: string }[] => {
   ];
 };
 
-export const LANDING_PAGES: ProcedureCityLanding[] = [
+const ALL_LANDING_PAGES: ProcedureCityLanding[] = [
   /* ------------------------------ Seoul ------------------------------ */
   {
     slug: "rhinoplasty-seoul",
@@ -634,6 +634,11 @@ export const LANDING_PAGES: ProcedureCityLanding[] = [
     ],
   },
 ];
+
+// 只保留中国城市的落地页（非中国城市已下线）
+export const LANDING_PAGES: ProcedureCityLanding[] = ALL_LANDING_PAGES.filter(
+  (lp) => (COUNTRY_BY_CITY[lp.citySlug] ?? "CN") === "CN",
+);
 
 export const findLanding = (slug: string) => LANDING_PAGES.find((lp) => lp.slug === slug);
 
