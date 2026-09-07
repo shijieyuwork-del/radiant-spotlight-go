@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
-import { ArrowLeft, Film, Images, Loader2, Pencil, Plus, Search, Stethoscope, Trash2, UploadCloud } from "lucide-react";
+import { ArrowLeft, Film, Images, Loader2, MessageSquare, Pencil, Plus, Search, Stethoscope, Trash2, UploadCloud } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@/lib/auth";
 import { useIsAdmin } from "@/hooks/use-is-admin";
@@ -20,6 +20,7 @@ import { PHOTO_RULES, validateMediaFile } from "@/lib/media-validation";
 import { replaceMedia } from "@/lib/upload-media";
 import { useRealtimeRefresh } from "@/hooks/use-realtime-refresh";
 import BeforeAfterAdmin from "@/components/BeforeAfterAdmin";
+import QuoteRequestsAdmin from "@/components/QuoteRequestsAdmin";
 import DoctorAdmin from "./DoctorAdmin";
 import VideoAdmin from "./VideoAdmin";
 
@@ -233,8 +234,9 @@ export default function ContentAdmin() {
           </Button>
         </div>
 
-        <Tabs defaultValue="experts">
+        <Tabs defaultValue="quotes">
           <TabsList>
+            <TabsTrigger value="quotes"><MessageSquare className="size-4 mr-1.5" />咨询</TabsTrigger>
             <TabsTrigger value="experts"><Stethoscope className="size-4 mr-1.5" />专家（{filteredExperts.length}）</TabsTrigger>
             <TabsTrigger value="videos"><Film className="size-4 mr-1.5" />视频（{filteredVideos.length}）</TabsTrigger>
             <TabsTrigger value="before-after"><Images className="size-4 mr-1.5" />术前术后对比</TabsTrigger>
@@ -242,9 +244,14 @@ export default function ContentAdmin() {
             <TabsTrigger value="new-video"><UploadCloud className="size-4 mr-1.5" />上传视频</TabsTrigger>
           </TabsList>
 
+          <TabsContent value="quotes" className="mt-4">
+            <QuoteRequestsAdmin />
+          </TabsContent>
+
           <TabsContent value="before-after" className="mt-4">
             <BeforeAfterAdmin experts={experts.map((e) => ({ id: e.id, name: e.name }))} />
           </TabsContent>
+
 
           <TabsContent value="new-expert" className="mt-4 max-w-xl">
             <DoctorAdmin embedded />
