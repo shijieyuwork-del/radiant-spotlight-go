@@ -83,16 +83,13 @@ const Auth = () => {
   const handleGoogle = async () => {
     setLoading(true);
     try {
-      sessionStorage.setItem("auth_next", nextPath);
       const result = await lovable.auth.signInWithOAuth("google", {
-        redirect_uri: window.location.origin,
+        redirect_uri: `${window.location.origin}/auth?next=${encodeURIComponent(nextPath)}`,
       });
       if (result.redirected) return; // browser is heading to Google
       if (result.error) throw result.error;
-      // Tokens received and session set — navigate to intended destination
-      const dest = sessionStorage.getItem("auth_next") ?? "/";
-      sessionStorage.removeItem("auth_next");
-      navigate(dest.startsWith("/") ? dest : "/", { replace: true });
+      // Tokens received and session already set — go to intended destination
+      navigate(nextPath, { replace: true });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : t("Google sign-in failed.", "Google 登录失败。"));
     } finally {
