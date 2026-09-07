@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
-import { ArrowRight, BadgeCheck, Building2, MapPin, Search, ShieldCheck, X } from "lucide-react";
+import { useSearchParams } from "react-router-dom";
+import { BadgeCheck, Building2, MapPin, Search, ShieldCheck, X } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
 import { Button } from "@/components/ui/button";
-import { CITIES, COUNTRY_BY_CITY, COUNTRY_META } from "@/data/cities";
+import { CITIES } from "@/data/cities";
 import { useAsia } from "@/lib/asia-i18n";
 import { asiaCopy } from "@/lib/asia-copy";
 import { localizedField } from "@/lib/i18n-content";
@@ -35,7 +35,7 @@ const Clinics = () => {
   const c = <T,>(en: T, zh: T, ru: T, es?: T) => asiaCopy(lang, { en, zh, ru, es });
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get("q") ?? "";
-  const country = searchParams.get("country") ?? "all";
+  const cityFilter = searchParams.get("city") ?? "all";
   const [publishedClinics, setPublishedClinics] = useState<PublishedClinicRow[]>([]);
 
   const loadPublishedClinics = useCallback(() => {
@@ -57,11 +57,6 @@ const Clinics = () => {
     loadPublishedClinics();
   }, [loadPublishedClinics]);
   useRealtimeRefresh(["doctors"], loadPublishedClinics);
-
-  const countryOptions = useMemo(() => {
-    const codes = Array.from(new Set(CITIES.map((city) => COUNTRY_BY_CITY[city.slug]).filter(Boolean)));
-    return codes.map((code) => ({ code, ...COUNTRY_META[code] }));
-  }, []);
 
   const directory = useMemo(() => CITIES.map((city) => {
     const hospitals: DirectoryFacility[] = city.hospitals.map((hospital) => ({
@@ -97,14 +92,11 @@ const Clinics = () => {
     return { city, hospitals };
   }), [lang, publishedClinics]);
 
-  const filteredCities = useMemo(() => {
+  const filteredFacilities = useMemo(() => {
     const term = normalize(query);
-    return directory.map(({ city, hospitals: cityHospitals }) => {
-      const countryCode = COUNTRY_BY_CITY[city.slug];
-      const countryMeta = COUNTRY_META[countryCode];
-      if (country !== "all" && countryCode !== country) return null;
-
-      const hospitals = cityHospitals.filter((hospital) => {
+    return directory.flatMap(({ city, hospitals }) => {
+      if (cityFilter !== "all" && city.slug !== cityFilter) return [];
+      return hospitals.filter((hospital) => {
         if (!term) return true;
         const searchable = [
           hospital.primary,
@@ -112,18 +104,14 @@ const Clinics = () => {
           hospital.area,
           city.en,
           city.zh,
-          countryMeta?.en,
-          countryMeta?.zh,
         ].join(" ").toLocaleLowerCase();
         return searchable.includes(term);
-      });
+      }).map((hospital) => ({ city, hospital }));
+    });
+  }, [cityFilter, directory, query]);
 
-      return hospitals.length > 0 ? { city, hospitals, countryCode, countryMeta } : null;
-    }).filter((entry): entry is NonNullable<typeof entry> => Boolean(entry));
-  }, [country, directory, query]);
-
-  const visibleCount = filteredCities.reduce((total, entry) => total + entry.hospitals.length, 0);
-  const updateFilter = (key: "q" | "country", value: string) => {
+  const visibleCount = filteredFacilities.length;
+  const updateFilter = (key: "q" | "city", value: string) => {
     const next = new URLSearchParams(searchParams);
     if (!value || value === "all") next.delete(key);
     else next.set(key, value);
@@ -158,27 +146,26 @@ const Clinics = () => {
                     className="min-h-12 w-full rounded-full border border-border bg-card py-3 pl-11 pr-4 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
                   />
                 </label>
-                <div className="flex gap-2 overflow-x-auto pb-1 lg:pb-0" aria-label={c("Filter by country", "按国家筛选", "Фильтр по стране", "Filtrar por país")}>
+                <div className="flex gap-2 overflow-x-auto pb-1 lg:pb-0" aria-label={c("Filter by city", "按城市筛选", "Фильтр по городу", "Filtrar por ciudad")}>
                   <Button
                     type="button"
                     size="sm"
-                    variant={country === "all" ? "default" : "outline"}
+                    variant={cityFilter === "all" ? "default" : "outline"}
                     className="min-h-10 shrink-0 rounded-full px-4"
-                    onClick={() => updateFilter("country", "all")}
+                    onClick={() => updateFilter("city", "all")}
                   >
                     {c("All", "全部", "Все", "Todos")}
                   </Button>
-                  {countryOptions.map((option) => (
+                  {CITIES.map((city) => (
                     <Button
-                      key={option.code}
+                      key={city.slug}
                       type="button"
                       size="sm"
-                      variant={country === option.code ? "default" : "outline"}
+                      variant={cityFilter === city.slug ? "default" : "outline"}
                       className="min-h-10 shrink-0 rounded-full px-4"
-                      onClick={() => updateFilter("country", option.code)}
+                      onClick={() => updateFilter("city", city.slug)}
                     >
-                      <span aria-hidden="true">{option.flag}</span>
-                      {c(option.en, option.zh, option.ru, option.es)}
+                      {lang === "zh" ? city.zh : city.en}
                     </Button>
                   ))}
                 </div>
@@ -192,14 +179,14 @@ const Clinics = () => {
                 </p>
                 <h2 id="clinic-directory-title" className="mt-2 font-display text-3xl font-medium tracking-tight sm:text-4xl">
                   {c(
-                    `${visibleCount} ${visibleCount === 1 ? "facility" : "facilities"} across ${filteredCities.length} ${filteredCities.length === 1 ? "destination" : "destinations"}`,
-                    `${visibleCount} 家机构，覆盖 ${filteredCities.length} 个目的地`,
-                    `${visibleCount} учреждений в ${filteredCities.length} направлениях`,
-                    `${visibleCount} centros en ${filteredCities.length} destinos`,
+                    `${visibleCount} ${visibleCount === 1 ? "facility" : "facilities"}`,
+                    `${visibleCount} 家医院及诊所`,
+                    `${visibleCount} учреждений`,
+                    `${visibleCount} centros`,
                   )}
                 </h2>
               </div>
-              {(query || country !== "all") && (
+              {(query || cityFilter !== "all") && (
                 <Button type="button" variant="ghost" className="w-fit rounded-full" onClick={clearFilters}>
                   <X className="mr-2 size-4" />
                   {c("Clear filters", "清除筛选", "Сбросить фильтры", "Borrar filtros")}
@@ -207,7 +194,7 @@ const Clinics = () => {
               )}
             </div>
 
-            {filteredCities.length === 0 ? (
+            {filteredFacilities.length === 0 ? (
               <div role="status" className="mt-8 rounded-3xl border border-dashed border-border bg-card/60 px-6 py-14 text-center">
                 <Building2 className="mx-auto size-9 text-primary" />
                 <h3 className="mt-4 font-display text-2xl">
@@ -221,36 +208,8 @@ const Clinics = () => {
                 </Button>
               </div>
             ) : (
-              <div className="mt-8 divide-y divide-border/80 border-y border-border/80">
-                {filteredCities.map(({ city, hospitals, countryMeta }) => (
-                  <article key={city.slug} className="grid gap-6 py-8 lg:grid-cols-[17rem_1fr] lg:gap-10 lg:py-10">
-                    <div>
-                      <Link to={`/cities/${city.slug}`} className="group block overflow-hidden rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
-                        <div className="relative aspect-[16/9] overflow-hidden bg-muted lg:aspect-[4/3]">
-                          <img
-                            src={city.img}
-                            alt=""
-                            loading="lazy"
-                            decoding="async"
-                            className="size-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-foreground/75 via-transparent to-transparent" />
-                          <div className="absolute inset-x-4 bottom-4 text-white">
-                            <span className="text-xs font-semibold text-white/75">
-                              {countryMeta ? `${countryMeta.flag} ${c(countryMeta.en, countryMeta.zh, countryMeta.ru, countryMeta.es)}` : ""}
-                            </span>
-                            <h3 className="mt-1 font-display text-3xl font-medium">{lang === "zh" ? city.zh : city.en}</h3>
-                          </div>
-                        </div>
-                      </Link>
-                      <Link to={`/cities/${city.slug}`} className="mt-4 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-primary hover:underline">
-                        {c("View destination guide", "查看城市指南", "Открыть путеводитель", "Ver guía del destino")}
-                        <ArrowRight className="size-4" />
-                      </Link>
-                    </div>
-
-                    <ul className="grid gap-3 md:grid-cols-2" aria-label={c(`Facilities in ${city.en}`, `${city.zh}的机构`, `Учреждения в ${city.en}`, `Centros en ${city.en}`)}>
-                      {hospitals.map((hospital) => (
+              <ul className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-3" aria-label={c("All hospitals and clinics", "全部医院及诊所", "Все больницы и клиники", "Todos los hospitales y clínicas")}>
+                {filteredFacilities.map(({ city, hospital }) => (
                         <li key={hospital.key} className="flex min-h-36 flex-col overflow-hidden rounded-2xl border border-border/70 bg-card transition-colors hover:border-primary/30">
                           <div className="relative aspect-[2/1] w-full overflow-hidden bg-muted">
                             <img
@@ -281,15 +240,12 @@ const Clinics = () => {
                           </div>
                           <p className="mt-auto flex items-center gap-2 pt-4 text-sm text-muted-foreground">
                             <MapPin className="size-4 shrink-0 text-primary" />
-                            {hospital.area}
+                            {lang === "zh" ? city.zh : city.en}{hospital.area ? ` · ${hospital.area}` : ""}
                           </p>
                           </div>
                         </li>
-                      ))}
-                    </ul>
-                  </article>
                 ))}
-              </div>
+              </ul>
             )}
 
             <div className="mt-10 flex items-start gap-3 rounded-2xl border border-primary/15 bg-primary/[0.05] p-5 text-sm leading-6 text-muted-foreground md:p-6">
