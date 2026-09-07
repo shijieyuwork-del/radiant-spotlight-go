@@ -85,17 +85,15 @@ test.describe("专家页 /doctors CTA 回归", () => {
 
 test.describe("套餐页 /packages CTA 回归", () => {
   for (const lang of LANGS) {
-    test(`hero 与底部按钮均为「${CTA[lang]}」（${lang}），两变体匹配基线`, async ({ page }) => {
+    test(`journey 卡片 CTA 为「${CTA[lang]}」（${lang}），匹配基线`, async ({ page }) => {
       await gotoWithLang(page, "/packages", lang);
 
-      // hero（dark 深绿）+ 底部转化区（primary 薄荷绿），均无 quoteCtx → 渲染为 <a>
+      // journey 卡片第一步中的 CTA 为指向 WhatsApp 的链接
       const ctas = page.getByRole("link", { name: CTA[lang], exact: true });
-      await expect(ctas, "套餐页 hero 与底部各一个 CTA").toHaveCount(2);
+      await expect(ctas, "套餐页必须有一个 canonical CTA 链接").toHaveCount(1);
 
       await expect(ctas.first()).toBeVisible();
       await expect(ctas.first()).toHaveScreenshot(`packages-hero-cta-${lang}.png`, { maxDiffPixelRatio: 0.02 });
-      await ctas.nth(1).scrollIntoViewIfNeeded();
-      await expect(ctas.nth(1)).toHaveScreenshot(`packages-bottom-cta-${lang}.png`, { maxDiffPixelRatio: 0.02 });
 
       await expectNoLegacyCopy(page);
     });
