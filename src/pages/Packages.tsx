@@ -163,60 +163,6 @@ const SUPPORT_SERVICES = [
   },
 ] as const;
 
-const HOTEL_TIERS = [
-  {
-    icon: Wallet,
-    tier: ["Budget", "经济型", "Эконом", "Económico"],
-    range: "$40 – $80",
-    examples: [
-      "Clean 3-star hotels and serviced apartments near metro lines.",
-      "干净的三星级酒店和服务式公寓，通常靠近地铁。",
-      "Чистые отели 3* и апартаменты с обслуживанием рядом с метро.",
-      "Hoteles limpios de 3 estrellas y apartamentos con servicios cerca de líneas de metro.",
-    ],
-    note: [
-      "Good for shorter stays and tighter budgets.",
-      "适合预算有限或停留时间较短的行程。",
-      "Подходит для коротких поездок и ограниченного бюджета.",
-      "Ideal para estancias cortas y presupuestos ajustados.",
-    ],
-  },
-  {
-    icon: Building2,
-    tier: ["Mid-range", "舒适型", "Средний класс", "Gama media"],
-    range: "$80 – $180",
-    examples: [
-      "International 4-star hotels close to major clinic areas.",
-      "靠近主要诊疗区域的国际四星级酒店。",
-      "Международные отели 4* рядом с основными клиниками.",
-      "Hoteles internacionales de 4 estrellas cerca de las principales zonas de clínicas.",
-    ],
-    note: [
-      "The most common choice for recovery stays.",
-      "最常见的术后恢复住宿选择。",
-      "Самый частый выбор для периода восстановления.",
-      "La opción más común para estancias de recuperación.",
-    ],
-  },
-  {
-    icon: Hotel,
-    tier: ["Premium", "高档型", "Премиум", "Premium"],
-    range: "$180 – $400+",
-    examples: [
-      "5-star hotels with quiet rooms, room service and space to rest.",
-      "五星级酒店，安静客房、客房服务与充足休息空间。",
-      "Отели 5* с тихими номерами, обслуживанием и пространством для отдыха.",
-      "Hoteles de 5 estrellas con habitaciones tranquilas, servicio de habitaciones y espacio para descansar.",
-    ],
-    note: [
-      "Suited to longer recovery or added privacy.",
-      "适合较长恢复期或需要更多私密性的行程。",
-      "Подходит для длительного восстановления и большей приватности.",
-      "Adecuado para recuperaciones más largas o mayor privacidad.",
-    ],
-  },
-] as const;
-
 const Packages = () => {
   const { lang } = useAsia();
   const c = <T,>(en: T, zh: T, ru: T, es?: T) => asiaCopy(lang, { en, zh, ru, es });
@@ -308,33 +254,6 @@ const Packages = () => {
                     </article>
                   );
                  })}
-              </div>
-
-              {/* Hotel price tiers */}
-              <div className="border-t border-white/70 bg-white/45 px-5 py-7 sm:px-9 md:px-12 md:py-10">
-                <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
-                  <div>
-                    <span className="pill bg-white/80 text-foreground shadow-soft"><Hotel className="size-3.5 text-primary" />{c("Hotel price guide", "酒店价格分区", "Ценовые категории отелей", "Guía de precios de hoteles")}</span>
-                    <h3 className="mt-3 font-display text-2xl font-medium tracking-tight sm:text-3xl">{c("Pick a hotel tier that fits your trip.", "按预算选择住宿档次。", "Выберите категорию отеля под ваш бюджет.", "Elige la categoría de hotel que se ajuste a tu viaje.")}</h3>
-                  </div>
-                  <p className="max-w-md text-sm leading-relaxed text-foreground/60">{c("Typical nightly rates in major cities, shown in USD as a planning reference. Final prices vary by city, season and room type; hotel charges are paid separately to the hotel.", "以下为主要城市的每晚参考价格（美元）。实际价格因城市、季节和房型而异；酒店费用另行支付给酒店。", "Ориентировочные цены за ночь в крупных городах (в USD). Итоговая стоимость зависит от города, сезона и типа номера; проживание оплачивается отдельно отелю.", "Tarifas nocturnas habituales en las principales ciudades, en USD como referencia de planificación. Los precios finales varían según ciudad, temporada y tipo de habitación; los gastos de hotel se pagan por separado.")}</p>
-                </div>
-                <div className="mt-6 grid gap-4 md:grid-cols-3">
-                  {HOTEL_TIERS.map((tier) => {
-                    const TierIcon = tier.icon;
-                    return (
-                      <article key={tier.tier[0]} className="rounded-3xl border border-white/90 bg-card p-5 shadow-soft sm:p-6">
-                        <div className="flex items-center justify-between gap-3">
-                          <span className="grid size-10 place-items-center rounded-2xl bg-primary-soft text-primary" style={{ background: "hsl(var(--primary-soft))" }}><TierIcon className="size-4" /></span>
-                          <span className="font-display text-lg font-semibold text-primary">{tier.range}<span className="text-xs font-medium text-muted-foreground"> /{c("night", "晚", "ночь", "noche")}</span></span>
-                        </div>
-                        <h4 className="mt-4 font-display text-lg font-semibold tracking-tight">{pick(tier.tier)}</h4>
-                        <p className="mt-2 text-sm leading-relaxed text-foreground/65">{pick(tier.examples)}</p>
-                        <p className="mt-3 flex gap-2 text-xs leading-relaxed text-muted-foreground"><Check className="mt-0.5 size-3.5 shrink-0 text-primary" />{pick(tier.note)}</p>
-                      </article>
-                    );
-                  })}
-                </div>
               </div>
             </div>
           </section>
