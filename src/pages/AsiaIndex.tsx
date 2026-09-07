@@ -753,7 +753,7 @@ const TravelBar = () => {
 
 const CitiesSection = () => {
   const { t, lang } = useAsia();
-  const cityFilter = useCityFilter();
+  
   const cityRailRef = useRef<HTMLDivElement>(null);
   const cityRailPausedRef = useRef(false);
   useEffect(() => {
@@ -776,10 +776,6 @@ const CitiesSection = () => {
           </h2>
         </div>
         <Link to="/cities" className="pill hidden bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90 sm:inline-flex">{lang === "zh" ? "全部城市" : lang === "ru" ? "Все города" : lang === "es" ? "Todas las ciudades" : "All cities"}<ArrowRight className="size-4" /></Link>
-      </div>
-      <div className="mb-6 md:mb-8">
-        <CitySearchBar filter={cityFilter} />
-        {cityFilter.active && <CityQuickResults results={cityFilter.results} query={cityFilter.query} />}
       </div>
       <div
         ref={cityRailRef}
