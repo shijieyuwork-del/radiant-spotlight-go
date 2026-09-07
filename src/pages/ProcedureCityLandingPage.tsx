@@ -72,7 +72,7 @@ const Metric = ({ icon: Icon, label, value }: { icon: typeof BadgeDollarSign; la
   </div>
 );
 
-const QuoteButton = ({ onClick, position, full = false, label = "Start my free consultation" }: { onClick: (position: string) => void; position: string; full?: boolean; label?: string }) => (
+const QuoteButton = ({ onClick, position, full = false, label = "Start a consultation" }: { onClick: (position: string) => void; position: string; full?: boolean; label?: string }) => (
   <button type="button" onClick={() => onClick(position)} className={`cta-primary inline-flex min-h-14 items-center justify-center gap-2 rounded-full px-7 text-base font-semibold ${full ? "w-full" : ""}`}>
     {label} <ArrowRight className="size-4" />
   </button>

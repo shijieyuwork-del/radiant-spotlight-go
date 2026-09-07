@@ -1122,7 +1122,7 @@ const TreatmentsSection = () => {
       eyebrow: c("One coordinated journey", "一站式行程支持", "Единая координация", "Un viaje coordinado"),
       title: c("One team, start to finish", "一支团队，全程协调", "Одна команда на всём пути", "Un equipo de principio a fin"),
       detail: c(
-        "Free consultation coordination, plus interpretation, airport pickup and hotel booking.",
+        "Consultation coordination, plus interpretation, airport pickup and hotel booking.",
         "免费协调问诊，并提供翻译、接机和酒店预订支持。",
         "Бесплатная координация консультации, а также перевод, трансфер и бронирование отеля.",
         "Coordinación gratuita de consultas, más interpretación, recogida y reserva de hotel.",

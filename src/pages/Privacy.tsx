@@ -57,7 +57,7 @@ const Privacy = () => (
           <section>
             <h2 className="font-display text-2xl font-semibold">Your choices</h2>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              You can allow or refuse optional analytics and change that choice later. Refusing analytics does not block access to the site or the free consultation flow.
+              You can allow or refuse optional analytics and change that choice later. Refusing analytics does not block access to the site or the consultation flow.
             </p>
             {analyticsConfigured() ? (
               <button type="button" onClick={openPrivacyChoices} className="mt-4 inline-flex min-h-11 items-center justify-center rounded-full border border-foreground px-5 text-sm font-semibold hover:bg-foreground hover:text-background">

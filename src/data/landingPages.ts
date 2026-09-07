@@ -107,7 +107,7 @@ const ALL_LANDING_PAGES: ProcedureCityLanding[] = [
     citySlug: "seoul",
     keywordTitle: "Rhinoplasty in Seoul, Korea | Cost, Recovery & Experts",
     description:
-      "Considering rhinoplasty in Seoul? Review realistic cost and recovery ranges for nose surgery in Korea, see verified experts, and start with a free consultation.",
+      "Considering rhinoplasty in Seoul? Review realistic cost and recovery ranges for nose surgery in Korea, see verified experts, and start with a consultation.",
     eyebrow: "Rhinoplasty planning in Seoul",
     headline: "Considering rhinoplasty in Seoul?",
     headlineAccent: "Korea's most-requested facial procedure, planned without pressure.",
@@ -154,7 +154,7 @@ const ALL_LANDING_PAGES: ProcedureCityLanding[] = [
     citySlug: "seoul",
     keywordTitle: "Double Eyelid Surgery in Seoul | Cost, Recovery & Experts",
     description:
-      "Double eyelid surgery in Seoul — review realistic cost and recovery for Korean blepharoplasty, compare verified experts, and start with a free consultation.",
+      "Double eyelid surgery in Seoul — review realistic cost and recovery for Korean blepharoplasty, compare verified experts, and start with a consultation.",
     eyebrow: "Eyelid surgery planning in Seoul",
     headline: "Considering double eyelid surgery in Seoul?",
     headlineAccent: "The signature procedure of Korea's aesthetic capital.",
@@ -201,7 +201,7 @@ const ALL_LANDING_PAGES: ProcedureCityLanding[] = [
     citySlug: "seoul",
     keywordTitle: "Facelift in Seoul, Korea | Cost, Recovery & Experts",
     description:
-      "Considering a facelift in Seoul? Compare realistic cost and recovery ranges for facial rejuvenation in Korea, see verified experts, and start a free consultation.",
+      "Considering a facelift in Seoul? Compare realistic cost and recovery ranges for facial rejuvenation in Korea, see verified experts, and start a consultation.",
     eyebrow: "Facelift planning in Seoul",
     headline: "Considering a facelift in Seoul?",
     headlineAccent: "Deep-plane expertise with a focus on natural results.",
@@ -248,7 +248,7 @@ const ALL_LANDING_PAGES: ProcedureCityLanding[] = [
     citySlug: "seoul",
     keywordTitle: "Breast Augmentation in Seoul | Cost, Recovery & Experts",
     description:
-      "Exploring breast augmentation in Seoul? Review realistic cost and recovery ranges, compare verified experts in Korea, and start with a free consultation.",
+      "Exploring breast augmentation in Seoul? Review realistic cost and recovery ranges, compare verified experts in Korea, and start with a consultation.",
     eyebrow: "Breast augmentation planning in Seoul",
     headline: "Considering breast augmentation in Seoul?",
     headlineAccent: "Implant options, honest pricing, and long-term planning.",
@@ -297,7 +297,7 @@ const ALL_LANDING_PAGES: ProcedureCityLanding[] = [
     citySlug: "bangkok",
     keywordTitle: "Rhinoplasty in Bangkok, Thailand | Cost, Recovery & Experts",
     description:
-      "Considering rhinoplasty in Bangkok? Compare realistic nose surgery costs and recovery in Thailand, see verified experts, and start a free consultation.",
+      "Considering rhinoplasty in Bangkok? Compare realistic nose surgery costs and recovery in Thailand, see verified experts, and start a consultation.",
     eyebrow: "Rhinoplasty planning in Bangkok",
     headline: "Considering rhinoplasty in Bangkok?",
     headlineAccent: "Accredited hospitals at roughly one-third of US rates.",
@@ -344,7 +344,7 @@ const ALL_LANDING_PAGES: ProcedureCityLanding[] = [
     citySlug: "bangkok",
     keywordTitle: "Breast Augmentation in Bangkok, Thailand | Cost, Recovery & Experts",
     description:
-      "Breast augmentation in Bangkok — realistic cost and recovery ranges for Thailand, verified experts at accredited hospitals, and a free consultation.",
+      "Breast augmentation in Bangkok — realistic cost and recovery ranges for Thailand, verified experts at accredited hospitals, and a consultation.",
     eyebrow: "Breast augmentation planning in Bangkok",
     headline: "Considering breast augmentation in Bangkok?",
     headlineAccent: "Motiva-certified experts at accredited international hospitals.",
@@ -438,7 +438,7 @@ const ALL_LANDING_PAGES: ProcedureCityLanding[] = [
     citySlug: "bangkok",
     keywordTitle: "Tummy Tuck in Bangkok, Thailand | Cost, Recovery & Experts",
     description:
-      "Considering a tummy tuck in Bangkok? Compare realistic abdominoplasty costs and recovery in Thailand, see verified experts, and start a free consultation.",
+      "Considering a tummy tuck in Bangkok? Compare realistic abdominoplasty costs and recovery in Thailand, see verified experts, and start a consultation.",
     eyebrow: "Abdominoplasty planning in Bangkok",
     headline: "Considering a tummy tuck in Bangkok?",
     headlineAccent: "A permanent scar — and a longer recovery. Plan for both.",
@@ -485,7 +485,7 @@ const ALL_LANDING_PAGES: ProcedureCityLanding[] = [
     citySlug: "bangkok",
     keywordTitle: "BBL in Bangkok, Thailand | Cost, Safety & Experts",
     description:
-      "Considering a Brazilian Butt Lift in Bangkok? Understand realistic costs, fat-transfer safety and recovery in Thailand, see verified experts, and start free.",
+      "Considering a Brazilian Butt Lift in Bangkok? Understand realistic costs, fat-transfer safety and recovery in Thailand, see verified experts, and start a consultation.",
     eyebrow: "BBL planning in Bangkok",
     headline: "Considering a BBL in Bangkok?",
     headlineAccent: "Understand the safety profile before the price tag.",
@@ -539,7 +539,7 @@ const ALL_LANDING_PAGES: ProcedureCityLanding[] = [
     citySlug: "bangkok",
     keywordTitle: "Facelift in Bangkok, Thailand | Cost, Recovery & Experts",
     description:
-      "Considering a facelift in Bangkok? Review realistic cost and recovery for facial rejuvenation in Thailand, see verified experts, and start a free consultation.",
+      "Considering a facelift in Bangkok? Review realistic cost and recovery for facial rejuvenation in Thailand, see verified experts, and start a consultation.",
     eyebrow: "Facelift planning in Bangkok",
     headline: "Considering a facelift in Bangkok?",
     headlineAccent: "Compare techniques, local stay, and follow-up honestly.",
@@ -586,7 +586,7 @@ const ALL_LANDING_PAGES: ProcedureCityLanding[] = [
     citySlug: "bangkok",
     keywordTitle: "Mommy Makeover in Bangkok, Thailand | Cost & Recovery",
     description:
-      "Exploring a mommy makeover in Bangkok? Understand combined tummy tuck and breast procedure costs and recovery in Thailand, see verified experts, and start free.",
+      "Exploring a mommy makeover in Bangkok? Understand combined tummy tuck and breast procedure costs and recovery in Thailand, see verified experts, and start a consultation.",
     eyebrow: "Mommy makeover planning in Bangkok",
     headline: "Considering a mommy makeover in Bangkok?",
     headlineAccent: "Combined procedures need combined planning.",
