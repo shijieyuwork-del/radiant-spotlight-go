@@ -162,21 +162,18 @@ const PatientStoriesSection = () => {
   return (
     <section className="border-t border-border/70 bg-background py-16 sm:py-20 md:py-24" aria-labelledby="patient-stories-title">
       <div className="container">
-        <div className="grid gap-6 md:grid-cols-[0.9fr_1.1fr] md:items-end md:gap-16">
-          <div className="max-w-xl">
+        <div className="max-w-5xl">
+          <div>
             <span className="inline-flex items-center gap-2 text-xs font-bold uppercase text-primary">
               <Quote className="size-4 fill-primary/15" aria-hidden="true" />
               {zh ? "真实患者经历" : "Patient stories"}
             </span>
             <h2 id="patient-stories-title" className="mt-4 font-display text-4xl font-medium leading-[1.08] sm:text-5xl">
-              {zh ? "他们的中国医美旅程" : "Care that travels with you."}
+              {zh
+                ? "已有 400 多位患者信任 CeladonChina 为他们的旅程提供支持。"
+                : "400+ patients have trusted CeladonChina to support their journey."}
             </h2>
           </div>
-          <p className="max-w-2xl text-base leading-7 text-muted-foreground md:justify-self-end">
-            {zh
-              ? "已有 400 多位患者信任 CeladonChina 为他们的旅程提供支持。"
-              : "400+ patients have trusted CeladonChina to support their journey."}
-          </p>
         </div>
 
         <Carousel
