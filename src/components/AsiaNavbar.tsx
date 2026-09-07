@@ -238,7 +238,7 @@ const AsiaNavbar = () => {
                 className="cta-primary mt-3 flex min-h-12 items-center justify-center gap-2 rounded-2xl px-4 text-sm font-semibold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               >
                 <MessageCircle className="size-4" />
-                {c("Start a consultation", "开始咨询", "Начать консультацию", "Iniciar una consulta")}
+                {t("hero.cta")}
                 <ArrowRight className="size-4" />
               </button>
             </div>
