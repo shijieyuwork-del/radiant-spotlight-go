@@ -39,7 +39,7 @@ const Experts = () => {
   
   const loadManagedDoctors = useCallback(()=>{supabase.from("doctors").select("id,name,title,city,specialties,bio,photo_path,created_at,i18n").eq("status","published").order("created_at",{ascending:false}).then(async ({data})=>{
     const chinaCities = ["shanghai", "beijing", "guangzhou", "hangzhou", "hainan", "上海", "北京", "广州", "杭州", "海南"];
-    const rows = ((data??[]) as ManagedDoctor[]).filter((doctor)=>chinaCities.some((cityName)=>doctor.city?.toLowerCase().includes(cityName)));
+    const rows = ((data??[]) as unknown as ManagedDoctor[]).filter((doctor)=>chinaCities.some((cityName)=>doctor.city?.toLowerCase().includes(cityName)));
     const photos = await signedUrls("doctor-photos", rows.map((doctor)=>doctor.photo_path));
     setManagedDoctors(rows.map((doctor, index)=>localizeDoctorRow({ ...doctor, photo: photos[index] }, lang)));
   })},[lang]);
