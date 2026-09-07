@@ -1478,8 +1478,8 @@ const AsiaIndex = () => {
         <AsiaNavbar />
         <main className="home-content-flow">
           <Hero />
-          <DoctorsSection />
           <TreatmentsSection />
+          <DoctorsSection />
           <CitiesSection />
           <PatientStoriesSection />
         </main>
