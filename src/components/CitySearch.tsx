@@ -115,6 +115,7 @@ export const CitySearchBar = ({ filter }: { filter: CityFilter }) => {
             );
           })}
         </div>
+        )}
       </div>
     </div>
   );
