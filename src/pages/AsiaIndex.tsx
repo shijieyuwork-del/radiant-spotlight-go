@@ -1445,7 +1445,6 @@ const AsiaIndex = () => {
       />
       <div className="min-h-screen overflow-x-hidden bg-background">
         <AsiaNavbar />
-        <Hero />
         <main className="home-content-flow">
           <DoctorsSection />
           <TreatmentsSection />
