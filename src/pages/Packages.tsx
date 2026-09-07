@@ -90,7 +90,7 @@ const JOURNEY_STEPS = [
     eyebrow: ["Recovery", "恢复期", "Восстановление", "Recuperación"],
     title: ["A little exploring, at your pace", "按你的节奏，感受中国", "Восстанавливайтесь и путешествуйте, когда будете готовы", "Recupérate y explora cuando estés listo"],
     text: [
-      "If your doctor clears you for outings, we can help plan a gentle itinerary and connect you with travel services, or keep it as relaxed as a stroll in the park.",
+      "If your doctor clears you for outings, we can help plan a gentle itinerary and connect you with travel services, or keep it as relaxed as a stroll in the beautiful park.",
       "如果医生确认你的恢复情况适合外出，我们可以协助规划轻松的行程、对接旅行服务，或只是安排去公园走走。",
       "Следуйте рекомендациям эксперта и путешествуйте только после разрешения.",
       "Sigue el consejo de tu experto, con viajes opcionales cuando recibas el visto bueno.",
