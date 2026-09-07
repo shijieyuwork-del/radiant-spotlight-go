@@ -34,11 +34,11 @@ const guideCopy = {
   },
   "plastic-surgery": {
     path: "/plastic-surgery-china",
-    title: "Plastic Surgery in China: Patient Guide to Safety & Planning",
-    description: "Considering plastic surgery in China? Compare procedures, provider checks, cost components, recovery planning, risks and support for international patients.",
+    title: "Plastic Surgery in China: Costs, Safety, Surgeons & Travel Guide",
+    description: "Plan plastic surgery in China with practical 2026 guidance on costs, surgeon and hospital checks, procedures, recovery, travel and follow-up.",
     kicker: "Plastic surgery in China",
-    heading: "Considering plastic surgery in China? Verify the plan before you travel.",
-    intro: "China has a large cosmetic and reconstructive surgery sector, but country-level reputation cannot tell you whether one surgeon or clinic is right for you. Compare published information, ask direct questions and make the final decision with the treating surgeon.",
+    heading: "Plastic surgery in China: plan around safety, not a headline price.",
+    intro: "Use this independent planning guide to compare cost components, verify a surgeon and facility, prepare for recovery and understand the practical steps of travelling to China for cosmetic surgery.",
     cta: "Discuss my procedure and trip",
     sections: [
       { title: "Choose the procedure only after consultation", body: "A search term such as rhinoplasty, facelift or liposuction describes a category, not your treatment plan. Anatomy, health history, goals, previous surgery and recovery constraints can change what is appropriate. Ask what alternatives exist, what the procedure cannot achieve and why the clinician recommends one approach." },
@@ -55,6 +55,20 @@ const guideCopy = {
     ],
   },
 } as const;
+
+const plasticSurgeryCosts = [
+  { procedure: "Double eyelid surgery", range: "$800–$5,000", recovery: "7–14 days", href: "/treatments/double-eyelid-surgery" },
+  { procedure: "Rhinoplasty", range: "$2,200–$9,000", recovery: "1–2 weeks", href: "/treatments/rhinoplasty" },
+  { procedure: "Facelift", range: "$2,500–$15,000", recovery: "2–4 weeks", href: "/treatments/facelift" },
+  { procedure: "Liposuction", range: "$2,500–$18,000", recovery: "2–6 weeks", href: "/treatments/liposuction" },
+] as const;
+
+const chinaDestinations = [
+  { city: "Shanghai", note: "Large specialist market with broad international transport links.", href: "/cities/shanghai" },
+  { city: "Beijing", note: "Major hospital systems and access to multidisciplinary care.", href: "/cities/beijing" },
+  { city: "Guangzhou", note: "Strong southern-China access and a substantial aesthetic-care market.", href: "/cities/guangzhou" },
+  { city: "Hangzhou", note: "A quieter destination within reach of the Yangtze River Delta.", href: "/cities/hangzhou" },
+] as const;
 
 const ChinaSeoGuide = ({ kind }: { kind: GuideKind }) => {
   const copy = guideCopy[kind];
@@ -74,8 +88,9 @@ const ChinaSeoGuide = ({ kind }: { kind: GuideKind }) => {
     name: copy.title,
     description: copy.description,
     url: `${SITE_URL}${copy.path}`,
-    dateModified: "2026-08-31",
-    author: { "@type": "Organization", name: "CeladonChina Editorial Team" },
+    dateModified: "2026-09-07",
+    datePublished: "2026-08-31",
+    author: { "@type": "Organization", name: "CeladonChina Editorial Team", url: `${SITE_URL}/editorial-policy` },
     publisher: { "@id": `${SITE_URL}/#organization` },
     audience: { "@type": "Patient" },
   };
@@ -91,6 +106,7 @@ const ChinaSeoGuide = ({ kind }: { kind: GuideKind }) => {
               <span className="pill mb-4 bg-accent text-accent-foreground"><FileCheck2 className="size-3.5 text-primary" />{copy.kicker}</span>
               <h1 className="max-w-4xl font-display text-4xl font-medium leading-[1.05] tracking-tight md:text-6xl">{copy.heading}</h1>
               <p className="mt-5 max-w-3xl text-base leading-7 text-muted-foreground md:text-lg">{copy.intro}</p>
+              <p className="mt-4 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">Updated September 7, 2026 · Editorially reviewed · General information, not medical advice</p>
               <div className="mt-7 flex flex-col gap-3 sm:flex-row">
                 <Button size="lg" onClick={() => open({ source: `${kind}_guide` })} className="rounded-full px-7">{copy.cta}<ArrowRight className="ml-2 size-4" /></Button>
                 <Button size="lg" variant="outline" asChild className="rounded-full bg-background px-7"><Link to="/provider-verification">Read our verification standards</Link></Button>
@@ -111,13 +127,50 @@ const ChinaSeoGuide = ({ kind }: { kind: GuideKind }) => {
             <div className="grid gap-4 sm:grid-cols-3">
               {[{ icon: Stethoscope, label: "Clinical review first" }, { icon: ShieldCheck, label: "Provider checks" }, { icon: Plane, label: "Recovery-led travel" }].map(({ icon: Icon, label }) => <div key={label} className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4 text-sm font-semibold"><Icon className="size-5 text-primary" />{label}</div>)}
             </div>
-            <div className="mt-12 space-y-10">
+            {kind === "plastic-surgery" && (
+              <nav aria-label="On this page" className="mt-8 rounded-3xl border border-border bg-card p-6">
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">On this page</p>
+                <div className="mt-4 grid gap-3 text-sm font-semibold sm:grid-cols-2 lg:grid-cols-3">
+                  <a href="#costs" className="hover:text-primary">Costs and recovery</a>
+                  <a href="#planning-details" className="hover:text-primary">Safety and provider checks</a>
+                  <a href="#destinations" className="hover:text-primary">China destinations</a>
+                  <a href="#questions" className="hover:text-primary">Frequently asked questions</a>
+                  <a href="#sources" className="hover:text-primary">Sources and methodology</a>
+                </div>
+              </nav>
+            )}
+            {kind === "plastic-surgery" && (
+              <section id="costs" className="mt-12 scroll-mt-32">
+                <span className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Planning ranges</span>
+                <h2 className="mt-3 font-display text-3xl font-medium md:text-4xl">Plastic surgery costs in China</h2>
+                <p className="mt-4 max-w-3xl leading-7 text-muted-foreground">These broad USD ranges are for early planning, not quotes. Surgeon experience, city, facility, anesthesia, tests, implants, hospital stay and revision complexity can materially change the final amount.</p>
+                <div className="mt-6 overflow-hidden rounded-3xl border border-border bg-card">
+                  <div className="overflow-x-auto">
+                    <table className="w-full min-w-[640px] text-left text-sm">
+                      <thead className="bg-muted/60 text-xs uppercase tracking-wider text-muted-foreground"><tr><th className="p-4">Procedure</th><th className="p-4">Planning range</th><th className="p-4">Early recovery range</th><th className="p-4">Guide</th></tr></thead>
+                      <tbody>{plasticSurgeryCosts.map((row) => <tr key={row.procedure} className="border-t border-border"><td className="p-4 font-semibold">{row.procedure}</td><td className="p-4">{row.range}</td><td className="p-4 text-muted-foreground">{row.recovery}</td><td className="p-4"><Link className="font-semibold text-primary underline underline-offset-4" to={row.href}>View procedure</Link></td></tr>)}</tbody>
+                    </table>
+                  </div>
+                </div>
+                <p className="mt-4 text-xs leading-6 text-muted-foreground">Recovery ranges describe common early recovery windows, not clearance to fly or return to work. Obtain a written, individualized plan and fee breakdown from the treating provider.</p>
+              </section>
+            )}
+            <div id="planning-details" className="mt-12 scroll-mt-32 space-y-10">
               {copy.sections.map((section, index) => <article key={section.title} className="grid gap-4 border-t border-border pt-8 md:grid-cols-[7rem_1fr]"><span className="font-display text-3xl text-primary/60">0{index + 1}</span><div><h2 className="font-display text-2xl font-medium md:text-3xl">{section.title}</h2><p className="mt-3 max-w-3xl leading-7 text-muted-foreground">{section.body}</p></div></article>)}
             </div>
+            {kind === "plastic-surgery" && (
+              <section id="destinations" className="mt-16 scroll-mt-32">
+                <span className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Where to start</span>
+                <h2 className="mt-3 font-display text-3xl font-medium md:text-4xl">Compare plastic surgery destinations in China</h2>
+                <div className="mt-7 grid gap-4 sm:grid-cols-2">
+                  {chinaDestinations.map((item) => <Link key={item.city} to={item.href} className="group rounded-3xl border border-border bg-card p-6 transition hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-soft"><h3 className="font-display text-2xl font-medium group-hover:text-primary">{item.city}</h3><p className="mt-2 text-sm leading-6 text-muted-foreground">{item.note}</p><span className="mt-4 inline-flex items-center text-sm font-semibold">Explore {item.city}<ArrowRight className="ml-2 size-4" /></span></Link>)}
+                </div>
+              </section>
+            )}
           </div>
         </section>
 
-        <section className="border-y border-border/60 bg-muted/35">
+        <section id="questions" className="scroll-mt-32 border-y border-border/60 bg-muted/35">
           <div className="container py-12 md:py-16">
             <div className="mx-auto max-w-5xl">
               <span className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Questions international patients ask</span>
@@ -128,6 +181,20 @@ const ChinaSeoGuide = ({ kind }: { kind: GuideKind }) => {
             </div>
           </div>
         </section>
+
+        {kind === "plastic-surgery" && (
+          <section id="sources" className="container scroll-mt-32 py-12">
+            <div className="mx-auto max-w-5xl rounded-3xl border border-border bg-card p-6 md:p-8">
+              <h2 className="font-display text-2xl font-medium">Sources and methodology</h2>
+              <p className="mt-3 max-w-4xl text-sm leading-7 text-muted-foreground">CeladonChina separates general planning information from individualized medical advice. Price and recovery ranges are broad editorial planning ranges compiled from the procedure information published on this site; they are not promises of price, candidacy or outcome. Provider information should be verified with the named clinician, facility and relevant regulator before payment or travel.</p>
+              <div className="mt-5 flex flex-wrap gap-4 text-sm font-semibold">
+                <Link className="text-primary underline underline-offset-4" to="/editorial-policy">Editorial policy</Link>
+                <Link className="text-primary underline underline-offset-4" to="/medical-review-policy">Medical review policy</Link>
+                <Link className="text-primary underline underline-offset-4" to="/provider-verification">Provider verification standards</Link>
+              </div>
+            </div>
+          </section>
+        )}
 
         <section className="container py-12 md:py-16">
           <div className="mx-auto flex max-w-5xl flex-col gap-5 rounded-3xl bg-foreground p-7 text-background md:flex-row md:items-center md:justify-between md:p-10">
