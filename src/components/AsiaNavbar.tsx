@@ -148,7 +148,7 @@ const AsiaNavbar = () => {
                   key={l.to}
                   to={l.to}
                   aria-current={isActive(l.to) ? "page" : undefined}
-                  className={`relative flex items-center whitespace-nowrap px-2.5 text-[11px] font-semibold uppercase tracking-[0.025em] transition-colors ${isActive(l.to) ? "text-primary" : "text-foreground hover:text-primary"}`}
+                  className={`relative flex items-center whitespace-nowrap px-2.5 text-[11px] font-semibold uppercase tracking-[0.025em] transition-colors ${isActive(l.to) ? "text-primary" : "text-foreground/60 hover:text-primary"}`}
                 >
                   {l.label}
                   {isActive(l.to) && <span className="absolute inset-x-2.5 bottom-0 h-1 rounded-t-full bg-primary" aria-hidden="true" />}
@@ -158,7 +158,7 @@ const AsiaNavbar = () => {
                 <DropdownMenuTrigger asChild>
                   <button
                     type="button"
-                    className={`relative inline-flex items-center gap-1 px-2.5 text-[11px] font-semibold uppercase tracking-[0.025em] transition-colors ${moreIsActive ? "text-primary" : "text-foreground hover:text-primary"}`}
+                    className={`relative inline-flex items-center gap-1 px-2.5 text-[11px] font-semibold uppercase tracking-[0.025em] transition-colors ${moreIsActive ? "text-primary" : "text-foreground/60 hover:text-primary"}`}
                     aria-label={c("Open more navigation links", "打开更多导航", "Открыть дополнительные ссылки", "Abrir más enlaces")}
                   >
                     {c("More", "更多", "Ещё", "Más")}
