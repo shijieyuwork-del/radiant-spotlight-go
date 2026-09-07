@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { translatedUiText } from "@/lib/locale-text";
 
-export type AsiaLang = "en" | "zh" | "ru" | "es";
+export type AsiaLang = "en" | "zh" | "ru" | "es" | "th" | "ms";
 export type AsiaCurrency = "USD" | "CNY";
 const RATE = 7.2;
 
@@ -9,10 +10,12 @@ export const asiaLangLabel: Record<AsiaLang, { label: string; flag: string }> = 
   zh: { label: "中文", flag: "🇨🇳" },
   ru: { label: "Русский", flag: "🇷🇺" },
   es: { label: "Español", flag: "🇪🇸" },
+  th: { label: "ไทย", flag: "🇹🇭" },
+  ms: { label: "Bahasa Melayu", flag: "🇲🇾" },
 };
 
 type Dict = Record<string, string>;
-const dict: Record<AsiaLang, Dict> = {
+const dict: Record<Exclude<AsiaLang, "th" | "ms">, Dict> = {
   en: {
     "brand.suffix": "Asia",
     "nav.cities": "Cities",
@@ -44,9 +47,9 @@ const dict: Record<AsiaLang, Dict> = {
     "compliance.d3": "Implant lot tracking · in-house anesthesiologist on every case",
     "compliance.t4": "Escrow payment",
     "compliance.d4": "Pay after in-person consult · refundable",
-    "cities.kicker": "Top destinations",
-    "cities.title1": "Find a clinic in",
-    "cities.titleEm": "China's top beauty cities",
+    "cities.kicker": "Top tier clinics",
+    "cities.title1": "Explore leading clinics",
+    "cities.titleEm": "across China",
     "cities.clinics": "verified clinics",
     "tx.kicker": "Procedure specialties",
     "tx.title1": "Explore procedures",
@@ -123,9 +126,9 @@ const dict: Record<AsiaLang, Dict> = {
     "compliance.d3": "假体批号可追溯 · 全程麻醉专家在场",
     "compliance.t4": "资金托管",
     "compliance.d4": "面诊后付款 · 不满意可退",
-    "cities.kicker": "中国热门城市",
-    "cities.title1": "在中国城市",
-    "cities.titleEm": "找正规机构",
+    "cities.kicker": "优质医疗机构",
+    "cities.title1": "探索中国",
+    "cities.titleEm": "优质医美机构",
     "cities.clinics": "家正规机构",
     "tx.kicker": "项目分类",
     "tx.title1": "按专业方向",
@@ -202,9 +205,9 @@ const dict: Record<AsiaLang, Dict> = {
     "compliance.d3": "Отслеживание партий имплантов · штатный анестезиолог на каждой операции",
     "compliance.t4": "Эскроу-оплата",
     "compliance.d4": "Оплата после очной консультации · возможен возврат",
-    "cities.kicker": "Лучшие направления Китая",
-    "cities.title1": "Найдите клинику в",
-    "cities.titleEm": "лучших городах Китая",
+    "cities.kicker": "Ведущие клиники",
+    "cities.title1": "Изучите ведущие клиники",
+    "cities.titleEm": "по всему Китаю",
     "cities.clinics": "проверенных клиник",
     "tx.kicker": "Направления процедур",
     "tx.title1": "Процедуры",
@@ -281,9 +284,9 @@ const dict: Record<AsiaLang, Dict> = {
     "compliance.d3": "Trazabilidad de lotes de implantes · anestesiólogo propio en cada caso",
     "compliance.t4": "Pago en depósito",
     "compliance.d4": "Paga tras la consulta presencial · reembolsable",
-    "cities.kicker": "Destinos principales",
-    "cities.title1": "Encuentra una clínica en",
-    "cities.titleEm": "las mejores ciudades de China",
+    "cities.kicker": "Clínicas destacadas",
+    "cities.title1": "Explora clínicas destacadas",
+    "cities.titleEm": "en toda China",
     "cities.clinics": "clínicas verificadas",
     "tx.kicker": "Especialidades",
     "tx.title1": "Explora procedimientos",
@@ -357,10 +360,14 @@ export const AsiaI18nProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     localStorage.setItem(STORE, JSON.stringify({ lang, currency }));
-    document.documentElement.lang = lang === "zh" ? "zh-CN" : lang === "ru" ? "ru" : lang === "es" ? "es" : "en";
+    document.documentElement.lang = lang === "zh" ? "zh-CN" : lang === "ru" ? "ru" : lang;
   }, [lang, currency]);
 
-  const t: AsiaI18nState["t"] = (k) => dict[lang][k] ?? dict.en[k] ?? (k as string);
+  const t: AsiaI18nState["t"] = (k) => {
+    const english = dict.en[k] ?? (k as string);
+    if (lang === "th" || lang === "ms") return translatedUiText(lang, english);
+    return dict[lang][k] ?? english;
+  };
   const fmt = (cny: number) => {
     if (currency === "CNY") return `¥${cny.toLocaleString("en-US")}`;
     const usd = Math.round(cny / RATE / 100) * 100;

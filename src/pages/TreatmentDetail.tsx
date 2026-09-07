@@ -375,7 +375,7 @@ const CatalogProcedureDetail = ({
   treatment,
 }: {
   procedure: { en: string; zh: string; categoryEn: string; categoryZh: string };
-  lang: "en" | "zh" | "ru" | "es";
+  lang: "en" | "zh" | "ru" | "es" | "th" | "ms";
   treatment?: RichTreatment;
 }) => {
   const { fmt } = useAsia();
@@ -604,7 +604,7 @@ const getRelatedCases = (procedure: string) => {
     .slice(0, 4);
 };
 
-const ProcedureVideoRow = ({ procedure, lang, fmt }: { procedure: string; lang: "en" | "zh" | "ru" | "es"; fmt: (cny: number) => string }) => {
+const ProcedureVideoRow = ({ procedure, lang, fmt }: { procedure: string; lang: "en" | "zh" | "ru" | "es" | "th" | "ms"; fmt: (cny: number) => string }) => {
   const zh = lang === "zh";
   const ru = lang === "ru";
   const es = lang === "es";

@@ -4,7 +4,7 @@ import { Maximize2, Play, Volume2, VolumeX, X, ArrowRight, ChevronLeft, ChevronR
 import type { TikTokItem } from "@/components/TikTokWall";
 import { DEFAULT_VIDEO_POSTER } from "@/lib/cover-fallback";
 
-type Lang = "en" | "zh" | "ru" | "es";
+type Lang = "en" | "zh" | "ru" | "es" | "th" | "ms";
 
 type HeroVideoGalleryProps = {
   items: TikTokItem[];

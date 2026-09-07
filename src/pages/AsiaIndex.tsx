@@ -16,9 +16,9 @@ import HeroVideoGallery from "@/components/HeroVideoGallery";
 import { usePublishedVideos } from "@/hooks/use-published-videos";
 import PageMeta from "@/components/PageMeta";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
-import { CITIES } from "@/data/cities";
 
 import { useAsia } from "@/lib/asia-i18n";
+import { translatedUiText } from "@/lib/locale-text";
 import { localizeDoctorRow } from "@/lib/i18n-content";
 import QuoteCtaButton from "@/components/QuoteCtaButton";
 import { ORGANIZATION_SCHEMA } from "@/lib/seo-config";
@@ -44,6 +44,9 @@ import procedureLips from "@/assets/procedures/lip-lift.jpg";
 import procedureWeightLoss from "@/assets/procedures/body-lift.jpg";
 import procedureMen from "@/assets/procedures/male-breast-reduction.jpg";
 import chineseDoctorTeam from "@/assets/chinese-doctor-team-candid-v1.webp";
+import shanghaiHuameiClinic from "@/assets/clinics/shanghai-huamei.jpg";
+import beijingBadachuClinic from "@/assets/clinics/beijing-badachu.jpg";
+import guangzhouHuameiClinic from "@/assets/clinics/guangzhou-huamei.jpg";
 import PatientStoriesSection from "@/components/PatientStoriesSection";
 import { supabase } from "@/integrations/supabase/client";
 import { useRealtimeRefresh } from "@/hooks/use-realtime-refresh";
@@ -114,7 +117,6 @@ const MaleChestLineIcon = ({ className, strokeWidth = 1.5 }: ProcedureIconProps)
 );
 
 // ============== Data (bilingual) ==============
-const cities = CITIES;
 
 type Treatment = {
   zh: string; en: string; emoji: string; from: number; orig?: number;
@@ -751,64 +753,98 @@ const TravelBar = () => {
   );
 };
 
-const CitiesSection = () => {
+const ClinicsSection = () => {
   const { t, lang } = useAsia();
-  
-  const cityRailRef = useRef<HTMLDivElement>(null);
-  const cityRailPausedRef = useRef(false);
+  const clinicText = (en: string, zh: string) => lang === "zh" ? zh : translatedUiText(lang, en);
+  const clinicRailRef = useRef<HTMLDivElement>(null);
+  const clinicRailPausedRef = useRef(false);
+  const clinics = [
+    {
+      en: "Shanghai Huamei Plastic Surgery Hospital",
+      zh: "上海华美医疗美容医院",
+      cityEn: "Shanghai · Xuhui District",
+      cityZh: "上海 · 徐汇区",
+      image: shanghaiHuameiClinic,
+      descriptionEn: "A licensed aesthetic hospital with surgical and non-surgical departments in central Shanghai.",
+      descriptionZh: "位于上海市区，设有整形外科与非手术医美科室的正规医疗美容医院。",
+      tagsEn: ["Eyes", "Nose", "Facial rejuvenation"],
+      tagsZh: ["眼部整形", "鼻部整形", "面部年轻化"],
+    },
+    {
+      en: "Plastic Surgery Hospital, CAMS (Badachu)",
+      zh: "中国医学科学院整形外科医院（八大处）",
+      cityEn: "Beijing · Shijingshan District",
+      cityZh: "北京 · 石景山区",
+      image: beijingBadachuClinic,
+      descriptionEn: "A specialist plastic-surgery hospital affiliated with the Chinese Academy of Medical Sciences.",
+      descriptionZh: "隶属于中国医学科学院的整形外科专科医院，覆盖多个整形与修复方向。",
+      tagsEn: ["Reconstructive", "Revision", "Facial surgery"],
+      tagsZh: ["整形修复", "修复手术", "面部整形"],
+    },
+    {
+      en: "Guangzhou Huamei Aesthetic Hospital",
+      zh: "广州华美医疗美容医院",
+      cityEn: "Guangzhou · Tianhe District",
+      cityZh: "广州 · 天河区",
+      image: guangzhouHuameiClinic,
+      descriptionEn: "A Guangzhou aesthetic hospital offering facial, breast and body-contouring services.",
+      descriptionZh: "位于广州天河区，提供面部、胸部及身体塑形等医疗美容服务。",
+      tagsEn: ["Eyes", "Breast", "Body contouring"],
+      tagsZh: ["眼部整形", "胸部整形", "身体塑形"],
+    },
+  ];
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const timer = window.setInterval(() => {
-      const rail = cityRailRef.current;
-      if (!rail || cityRailPausedRef.current || document.hidden) return;
+      const rail = clinicRailRef.current;
+      if (!rail || clinicRailPausedRef.current || document.hidden) return;
       const atEnd = rail.scrollLeft + rail.clientWidth >= rail.scrollWidth - 24;
       rail.scrollTo({ left: atEnd ? 0 : rail.scrollLeft + Math.min(rail.clientWidth * 0.86, 1080), behavior: "smooth" });
     }, 4800);
     return () => window.clearInterval(timer);
   }, []);
   return (
-    <section id="cities" className="container py-10 md:py-16">
+    <section id="clinics" className="container py-10 md:py-16">
       <div className="mb-6 flex flex-wrap items-end justify-between gap-4 md:mb-8">
         <div>
-          <span className="pill bg-accent text-accent-foreground mb-3"><MapPin className="size-3.5" /> {t("cities.kicker")}</span>
+          <span className="pill bg-accent text-accent-foreground mb-3"><Building2 className="size-3.5" /> {t("cities.kicker")}</span>
           <h2 className="font-display text-3xl font-medium tracking-tight sm:text-4xl md:text-5xl">
             {t("cities.title1")} <em className="text-primary not-italic">{t("cities.titleEm")}</em>
           </h2>
         </div>
-        <Link to="/cities" className="pill hidden bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90 sm:inline-flex">{lang === "zh" ? "全部城市" : lang === "ru" ? "Все города" : lang === "es" ? "Todas las ciudades" : "All cities"}<ArrowRight className="size-4" /></Link>
+        <Link to="/clinics" className="pill hidden bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90 sm:inline-flex">{clinicText("All clinics", "全部机构")}<ArrowRight className="size-4" /></Link>
       </div>
       <div
-        ref={cityRailRef}
-        onMouseEnter={() => { cityRailPausedRef.current = true; }}
-        onMouseLeave={() => { cityRailPausedRef.current = false; }}
-        onPointerDown={() => { cityRailPausedRef.current = true; }}
-        onPointerUp={() => { cityRailPausedRef.current = false; }}
-        onFocusCapture={() => { cityRailPausedRef.current = true; }}
-        onBlurCapture={() => { cityRailPausedRef.current = false; }}
+        ref={clinicRailRef}
+        onMouseEnter={() => { clinicRailPausedRef.current = true; }}
+        onMouseLeave={() => { clinicRailPausedRef.current = false; }}
+        onPointerDown={() => { clinicRailPausedRef.current = true; }}
+        onPointerUp={() => { clinicRailPausedRef.current = false; }}
+        onFocusCapture={() => { clinicRailPausedRef.current = true; }}
+        onBlurCapture={() => { clinicRailPausedRef.current = false; }}
         className="flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain scroll-smooth py-1 scrollbar-hide md:gap-6"
       >
-        {cities.map((c) => (
-          <Link key={c.slug} to={`/cities/${c.slug}`} className="group block min-w-[82vw] snap-center sm:min-w-[62vw] md:min-w-[calc((100%_-_3rem)/3)] md:max-w-[calc((100%_-_3rem)/3)]">
+        {clinics.map((clinic) => (
+          <Link key={clinic.en} to={`/clinics?q=${encodeURIComponent(clinic.en)}`} className="group block min-w-[82vw] snap-center sm:min-w-[62vw] md:min-w-[calc((100%_-_3rem)/3)] md:max-w-[calc((100%_-_3rem)/3)]">
             <article className="flex min-h-[270px] flex-col rounded-3xl border border-border bg-card p-5 shadow-soft transition duration-300 group-hover:-translate-y-1 group-hover:border-primary/35 group-hover:shadow-pop md:min-h-[290px] md:p-6">
               <div className="flex min-w-0 items-center gap-4">
-                <img src={c.img} alt={`${c.en} city`} loading="lazy" decoding="async" className="size-24 shrink-0 rounded-full border-2 border-primary/15 object-cover transition-transform duration-500 group-hover:scale-105 md:size-28" />
+                <img src={clinic.image} alt="" loading="lazy" decoding="async" className="size-24 shrink-0 rounded-full border-2 border-primary/15 object-cover transition-transform duration-500 group-hover:scale-105 md:size-28" />
                 <div className="min-w-0">
-                  <h3 className="font-display text-2xl font-semibold leading-tight text-foreground md:text-3xl">{lang === "zh" ? c.zh : c.en}</h3>
-                  <p className="mt-1 text-sm text-muted-foreground">{lang === "zh" ? c.en : c.zh}</p>
-                  <p className="mt-2 line-clamp-2 text-sm font-medium text-primary">{lang === "zh" ? c.taglineZh : c.taglineEn}</p>
+                  <h3 className="font-display text-xl font-semibold leading-tight text-foreground md:text-2xl">{clinicText(clinic.en, clinic.zh)}</h3>
+                  <p className="mt-2 inline-flex items-center gap-1.5 text-sm font-medium text-primary"><MapPin className="size-3.5" />{clinicText(clinic.cityEn, clinic.cityZh)}</p>
                 </div>
               </div>
-              <p className="mt-5 line-clamp-2 text-sm leading-relaxed text-muted-foreground">{lang === "zh" ? c.introZh : c.introEn}</p>
+              <p className="mt-5 line-clamp-3 text-sm leading-relaxed text-muted-foreground">{clinicText(clinic.descriptionEn, clinic.descriptionZh)}</p>
               <div className="mt-4 flex max-h-[50px] flex-wrap gap-1.5 overflow-hidden">
-                {(lang === "zh" ? c.hotZh : c.hotEn).slice(0, 3).map((h) => <span key={h} className="rounded-full bg-accent px-2.5 py-1 text-[10px] text-accent-foreground">{h}</span>)}
+                {clinic.tagsEn.map((tag, index) => <span key={tag} className="rounded-full bg-accent px-2.5 py-1 text-[10px] text-accent-foreground">{clinicText(tag, clinic.tagsZh[index])}</span>)}
               </div>
             </article>
           </Link>
         ))}
       </div>
       <div className="mt-2 flex justify-center sm:hidden">
-        <Link to="/cities" className="inline-flex min-h-12 items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90">
-          {lang === "zh" ? "查看全部城市" : lang === "ru" ? "Все города" : lang === "es" ? "Todas las ciudades" : "All cities"} <ArrowRight className="size-4" />
+        <Link to="/clinics" className="inline-flex min-h-12 items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90">
+          {clinicText("All clinics", "查看全部机构")} <ArrowRight className="size-4" />
         </Link>
       </div>
     </section>
@@ -1477,7 +1513,7 @@ const AsiaIndex = () => {
           <Hero />
           <TreatmentsSection />
           <DoctorsSection />
-          <CitiesSection />
+          <ClinicsSection />
           <PatientStoriesSection />
         </main>
         <Footer />

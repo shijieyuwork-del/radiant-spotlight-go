@@ -1,6 +1,6 @@
 import { supabase } from "@/integrations/supabase/client";
 
-export type Lang = "en" | "zh" | "ru" | "es";
+export type Lang = "en" | "zh" | "ru" | "es" | "th" | "ms";
 export type I18nBundle = Partial<Record<Lang, Record<string, string>>>;
 
 /**
