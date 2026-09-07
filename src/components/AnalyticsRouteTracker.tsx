@@ -9,6 +9,14 @@ const AnalyticsRouteTracker = () => {
     trackPageView(pathname);
   }, [pathname]);
 
+  useEffect(() => {
+    const onConsent = (event: Event) => {
+      if ((event as CustomEvent<string>).detail === "granted") trackPageView(pathname);
+    };
+    window.addEventListener("ca:analytics-consent", onConsent);
+    return () => window.removeEventListener("ca:analytics-consent", onConsent);
+  }, [pathname]);
+
   return null;
 };
 

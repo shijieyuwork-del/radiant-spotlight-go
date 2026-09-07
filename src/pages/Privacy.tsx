@@ -22,15 +22,15 @@ const Privacy = () => (
           <span className="pill bg-card/85"><ShieldCheck className="size-3.5 text-primary" /> Privacy notice</span>
           <h1 className="mt-4 max-w-2xl font-display text-4xl font-medium md:text-6xl">Clear choices. Limited data.</h1>
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
-            We use only the information needed to run the site, respond to you, and—if you allow it—understand how visitors use public pages.
+            We use only the information needed to run the site, respond to you, and understand how visitors use public pages. Where required, analytics remains off until you allow it.
           </p>
-          <p className="mt-4 text-sm text-muted-foreground">Last updated: August 24, 2026</p>
+          <p className="mt-4 text-sm text-muted-foreground">Last updated: September 7, 2026</p>
         </div>
 
         <div className="mt-10 grid gap-6 md:grid-cols-3">
           {[
             { icon: Cookie, title: "Essential storage", text: "Keeps language, privacy choices, and sign-in functions working. It cannot be switched off through the analytics control." },
-            { icon: BarChart3, title: "Optional analytics", text: "Loads only after you choose Allow analytics. We group sensitive page paths and do not send form answers or contact details to Google." },
+            { icon: BarChart3, title: "Privacy-aware analytics", text: "In regions that require prior consent, analytics loads only after you allow it. Elsewhere it may load by default, and you can opt out at any time. We group sensitive page paths and do not send form answers or contact details to Google." },
             { icon: LockKeyhole, title: "Your enquiries", text: "Information you enter in the quote flow is used to prepare the Email or WhatsApp message you choose and coordinate your request. It is not added to analytics events." },
           ].map(({ icon: Icon, title, text }) => (
             <section key={title} className="rounded-3xl border border-border bg-card p-5 shadow-soft">
@@ -45,7 +45,7 @@ const Privacy = () => (
           <section>
             <h2 className="font-display text-2xl font-semibold">What optional analytics measures</h2>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              With your permission, Google Analytics may receive a grouped page category, device and browser information, approximate location, and actions such as opening the quote flow or choosing Email or WhatsApp. Treatment names, provider names, case identifiers, search queries, form fields, email addresses, phone numbers, and notes are excluded from our analytics event parameters.
+              Depending on your region and privacy choice, Google Analytics may receive a grouped page category, device and browser information, approximate location, and actions such as opening the quote flow or choosing Email or WhatsApp. Treatment names, provider names, case identifiers, search queries, form fields, email addresses, phone numbers, and notes are excluded from our analytics event parameters.
             </p>
           </section>
           <section>
@@ -57,7 +57,7 @@ const Privacy = () => (
           <section>
             <h2 className="font-display text-2xl font-semibold">Your choices</h2>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              You can allow or refuse optional analytics and change that choice later. Refusing analytics does not block access to the site or the consultation flow.
+              In the EEA, United Kingdom and Switzerland, analytics is off until you allow it. In other regions it may be on by default. You can change your choice at any time, and refusing analytics does not block access to the site or the consultation flow.
             </p>
             {analyticsConfigured() ? (
               <button type="button" onClick={openPrivacyChoices} className="mt-4 inline-flex min-h-11 items-center justify-center rounded-full border border-foreground px-5 text-sm font-semibold hover:bg-foreground hover:text-background">

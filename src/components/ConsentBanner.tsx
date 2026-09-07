@@ -4,9 +4,10 @@ import { BarChart3, X } from "lucide-react";
 import {
   analyticsConfigured,
   getAnalyticsConsent,
+  getAnalyticsRegion,
   setAnalyticsConsent,
-  trackPageView,
   type AnalyticsConsent,
+  type AnalyticsRegion,
 } from "@/lib/analytics";
 import { useAsia } from "@/lib/asia-i18n";
 import { asiaCopy } from "@/lib/asia-copy";
@@ -33,6 +34,7 @@ const ConsentBanner = () => {
   const { pathname } = useLocation();
   const { lang } = useAsia();
   const [open, setOpen] = useState(false);
+  const [region, setRegion] = useState<AnalyticsRegion>(() => getAnalyticsRegion());
 
   const dismiss = useCallback(() => {
     safeSessionSet(DISMISS_KEY, "1");
@@ -46,12 +48,21 @@ const ConsentBanner = () => {
   }, []);
 
   useEffect(() => {
+    const onRegion = (event: Event) => {
+      setRegion((event as CustomEvent<AnalyticsRegion>).detail);
+    };
+    window.addEventListener("ca:analytics-region", onRegion);
+    return () => window.removeEventListener("ca:analytics-region", onRegion);
+  }, []);
+
+  useEffect(() => {
     if (!analyticsConfigured()) return;
+    if (region !== "consent-required") return;
     if (getAnalyticsConsent() !== "unset") return;
     if (safeSessionGet(DISMISS_KEY)) return;
     const id = window.setTimeout(() => setOpen(true), 1200);
     return () => window.clearTimeout(id);
-  }, []);
+  }, [region]);
 
   useEffect(() => {
     if (!open) return;
@@ -67,7 +78,6 @@ const ConsentBanner = () => {
   const choose = (next: Exclude<AnalyticsConsent, "unset">) => {
     setAnalyticsConsent(next);
     setOpen(false);
-    if (next === "granted") window.setTimeout(() => trackPageView(pathname), 0);
   };
 
   const body = asiaCopy(lang, {

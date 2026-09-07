@@ -1,6 +1,6 @@
 # GA4 and GTM setup for Cosmetics Asia
 
-The site implements privacy-first measurement. Google tags do not load until a visitor chooses **Allow analytics**. Advertising storage, advertising user data, and advertising personalization remain denied.
+The site implements privacy-aware regional measurement. In the EEA, United Kingdom and Switzerland, Google tags do not load until a visitor chooses **Allow analytics**. Elsewhere they load by default unless the visitor has opted out. Advertising storage, advertising user data, and advertising personalization remain denied.
 
 ## Environment variables
 
@@ -9,7 +9,7 @@ Set both production variables:
 - `VITE_GTM_ID=GTM-M8PV34ZC`
 - `VITE_GA4_MEASUREMENT_ID=G-KLCMXD4L9Y`
 
-The site loads both only after analytics consent. GA4 receives the sanitized events directly, while GTM receives matching `dataLayer` events for Preview and future integrations. Do not add a second GA4/Google tag inside GTM, a CMS plugin, or the theme; doing so would double-count events.
+The site uses Cloudflare's country code to apply regional consent. If country detection fails, analytics remains off and the consent banner is shown. GA4 receives the sanitized events directly, while GTM receives matching `dataLayer` events for Preview and future integrations. Do not add a second GA4/Google tag inside GTM, a CMS plugin, or the theme; doing so would double-count events.
 
 ## GTM container
 

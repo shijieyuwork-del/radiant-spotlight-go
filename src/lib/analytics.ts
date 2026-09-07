@@ -1,4 +1,5 @@
 export type AnalyticsConsent = "granted" | "denied" | "unset";
+export type AnalyticsRegion = "pending" | "consent-required" | "analytics-default";
 
 export type AnalyticsEventName =
   | "page_view"
@@ -36,6 +37,16 @@ const GTM_ID = (import.meta.env.VITE_GTM_ID || "").trim();
 const GA4_ID = (import.meta.env.VITE_GA4_MEASUREMENT_ID || "").trim();
 const hasGtm = /^GTM-[A-Z0-9]+$/i.test(GTM_ID);
 const hasGa4 = /^G-[A-Z0-9]+$/i.test(GA4_ID);
+let runtimeConsent: AnalyticsConsent = "unset";
+let analyticsRegion: AnalyticsRegion = "pending";
+
+// EEA (EU + Iceland, Liechtenstein and Norway), United Kingdom and Switzerland.
+// If Cloudflare cannot resolve a country, the visitor stays consent-required.
+const CONSENT_REQUIRED_COUNTRIES = new Set([
+  "AT", "BE", "BG", "HR", "CY", "CZ", "DE", "DK", "EE", "ES", "FI", "FR",
+  "GR", "HU", "IE", "IS", "IT", "LI", "LT", "LU", "LV", "MT", "NL", "NO",
+  "PL", "PT", "RO", "SE", "SI", "SK", "GB", "CH",
+]);
 
 const gtag = (...args: unknown[]) => {
   window.dataLayer = window.dataLayer || [];
@@ -85,8 +96,14 @@ export const analyticsConfigured = () => hasGtm || hasGa4;
 export const getAnalyticsConsent = (): AnalyticsConsent => {
   if (typeof window === "undefined") return "unset";
   const value = window.localStorage.getItem(CONSENT_KEY);
-  return value === "granted" || value === "denied" ? value : "unset";
+  if (value === "granted" || value === "denied") return value;
+  return runtimeConsent;
 };
+
+export const getAnalyticsRegion = (): AnalyticsRegion => analyticsRegion;
+
+export const countryRequiresAnalyticsConsent = (countryCode: string | null | undefined) =>
+  !countryCode || CONSENT_REQUIRED_COUNTRIES.has(countryCode.trim().toUpperCase());
 
 const setDefaultConsent = () => {
   if (typeof window === "undefined") return;
@@ -135,17 +152,54 @@ const loadGoogleTags = () => {
   loadGa4();
 };
 
+const resolveCountryCode = async (): Promise<string | null> => {
+  try {
+    const response = await fetch("/cdn-cgi/trace", {
+      cache: "no-store",
+      credentials: "omit",
+      headers: { Accept: "text/plain" },
+    });
+    if (!response.ok) return null;
+    const match = (await response.text()).match(/^loc=([A-Z]{2})$/m);
+    return match?.[1] ?? null;
+  } catch {
+    return null;
+  }
+};
+
+const setRegion = (region: AnalyticsRegion) => {
+  analyticsRegion = region;
+  window.dispatchEvent(new CustomEvent("ca:analytics-region", { detail: region }));
+};
+
 export const bootstrapAnalytics = () => {
   if (typeof window === "undefined") return;
   setDefaultConsent();
-  if (getAnalyticsConsent() === "granted") {
+  const savedConsent = getAnalyticsConsent();
+  if (savedConsent === "granted") {
+    runtimeConsent = "granted";
     gtag("consent", "update", { analytics_storage: "granted" });
     loadGoogleTags();
   }
+
+  void resolveCountryCode().then((countryCode) => {
+    if (countryRequiresAnalyticsConsent(countryCode)) {
+      setRegion("consent-required");
+      return;
+    }
+
+    setRegion("analytics-default");
+    if (savedConsent !== "unset") return;
+    runtimeConsent = "granted";
+    gtag("consent", "update", { analytics_storage: "granted" });
+    loadGoogleTags();
+    window.dispatchEvent(new CustomEvent("ca:analytics-consent", { detail: "granted" }));
+  });
 };
 
 export const setAnalyticsConsent = (consent: Exclude<AnalyticsConsent, "unset">) => {
   window.localStorage.setItem(CONSENT_KEY, consent);
+  runtimeConsent = consent;
   gtag("consent", "update", {
     analytics_storage: consent,
     ad_storage: "denied",
