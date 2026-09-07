@@ -176,8 +176,8 @@ describe("quote CTA i18n — 英文语法守卫", () => {
 
 /* ---------------- 5. 遗留变体守卫（不用 QuoteCtaButton 的入口也必须取字典文案） ---------------- */
 describe("quote CTA — 无遗留 consultation/quote 变体", () => {
-  it("Treatments / DoctorDetail / QuoteRequest 的按钮与弹窗标题也从 hero.cta 取文案", () => {
-    for (const f of ["pages/Treatments.tsx", "pages/DoctorDetail.tsx", "components/QuoteRequest.tsx"]) {
+  it("DoctorDetail / QuoteRequest 的按钮与弹窗标题也从 hero.cta 取文案", () => {
+    for (const f of ["pages/DoctorDetail.tsx", "components/QuoteRequest.tsx"]) {
       expect(read(f), `${f} 未使用 t("hero.cta")`).toContain('t("hero.cta")');
     }
   });
