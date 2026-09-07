@@ -620,8 +620,8 @@ const TravelBar = () => {
     {
       icon: Map,
       image: journeyRecovery,
-      en: ["Recover—and explore when ready", "Follow your expert’s advice, with optional travel when you are cleared"],
-      zh: ["安心恢复，适合时再探索", "遵循专家的恢复建议，获得许可后可自愿安排旅行"],
+      en: ["A little exploring, at your pace", "If your doctor clears you for outings, we can help plan a gentle itinerary and connect you with travel services, or keep it as relaxed as a stroll in the park."],
+      zh: ["按你的节奏，感受中国", "如果医生确认你的恢复情况适合外出，我们可以协助规划轻松的行程、对接旅行服务，或只是安排去公园走走。"],
       ru: ["Восстанавливайтесь и путешествуйте, когда будете готовы", "Следуйте рекомендациям эксперта и путешествуйте только после разрешения"],
       es: ["Recupérate y explora cuando estés listo/a", "Sigue las indicaciones de tu experto, con viajes opcionales una vez que tengas autorización"],
     },
