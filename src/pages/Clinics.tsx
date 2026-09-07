@@ -16,6 +16,14 @@ import { ADDITIONAL_CLINICS } from "@/data/additionalClinics";
 
 const normalize = (value: string) => value.trim().toLocaleLowerCase();
 
+const GENERATED_CLINIC_COVERS = Object.entries(import.meta.glob("../assets/clinics/generated/*.webp", {
+  eager: true,
+  import: "default",
+  query: "?url",
+}) as Record<string, string>)
+  .sort(([left], [right]) => left.localeCompare(right))
+  .map(([, url]) => url);
+
 type PublishedClinicRow = {
   city: string;
   hospital: string;
@@ -29,6 +37,7 @@ type DirectoryFacility = {
   published: boolean;
   secondary: string;
   img: string;
+  illustrative: boolean;
 };
 
 const Clinics = () => {
@@ -59,15 +68,21 @@ const Clinics = () => {
   }, [loadPublishedClinics]);
   useRealtimeRefresh(["doctors"], loadPublishedClinics);
 
-  const directory = useMemo(() => CITIES.map((city) => {
-    const hospitals: DirectoryFacility[] = [...city.hospitals, ...(ADDITIONAL_CLINICS[city.slug] ?? [])].map((hospital) => ({
-      area: lang === "zh" ? hospital.areaZh : hospital.areaEn,
-      key: `guide:${city.slug}:${hospital.en}`,
-      primary: lang === "zh" ? hospital.zh : hospital.en,
-      published: false,
-      secondary: lang === "zh" ? hospital.en : hospital.zh,
-      img: hospital.img ?? genericClinicImg,
-    }));
+  const directory = useMemo(() => {
+    let coverIndex = 0;
+    return CITIES.map((city) => {
+    const hospitals: DirectoryFacility[] = [...city.hospitals, ...(ADDITIONAL_CLINICS[city.slug] ?? [])].map((hospital) => {
+      const generatedCover = GENERATED_CLINIC_COVERS[coverIndex++ % GENERATED_CLINIC_COVERS.length];
+      return {
+        area: lang === "zh" ? hospital.areaZh : hospital.areaEn,
+        key: `guide:${city.slug}:${hospital.en}`,
+        primary: lang === "zh" ? hospital.zh : hospital.en,
+        published: false,
+        secondary: lang === "zh" ? hospital.en : hospital.zh,
+        img: hospital.img ?? generatedCover ?? genericClinicImg,
+        illustrative: !hospital.img,
+      };
+    });
 
     for (const row of publishedClinics) {
       const rowCity = normalize(row.city);
@@ -85,13 +100,15 @@ const Clinics = () => {
           primary,
           published: true,
           secondary: secondary === primary ? "" : secondary,
-          img: genericClinicImg,
+          img: GENERATED_CLINIC_COVERS[coverIndex++ % GENERATED_CLINIC_COVERS.length] ?? genericClinicImg,
+          illustrative: true,
         });
       }
     }
 
     return { city, hospitals };
-  }), [lang, publishedClinics]);
+  });
+  }, [lang, publishedClinics]);
 
   const filteredFacilities = useMemo(() => {
     const term = normalize(query);
@@ -222,6 +239,11 @@ const Clinics = () => {
                               decoding="async"
                               className="size-full object-cover"
                             />
+                            {hospital.illustrative && (
+                              <span className="absolute bottom-3 right-3 rounded-full bg-background/90 px-2.5 py-1 text-[10px] font-semibold text-foreground/70 shadow-sm backdrop-blur">
+                                {c("Illustrative image", "示意图片", "Иллюстрация", "Imagen ilustrativa")}
+                              </span>
+                            )}
                           </div>
                           <div className="flex flex-1 flex-col p-5">
                           <div className="flex items-start gap-3">
