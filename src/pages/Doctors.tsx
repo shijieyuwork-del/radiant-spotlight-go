@@ -36,6 +36,8 @@ const Experts = () => {
   const [city, setCity] = useState<string>(() => searchParams.get("city") || "all");
   const [spec, setSpec] = useState<string>("all");
   const [managedDoctors, setManagedDoctors] = useState<ManagedDoctor[]>([]);
+  // 数据没回来前不要先渲染示例资料，否则会出现「先看到旧列表、一秒后跳变」
+  const [doctorsLoaded, setDoctorsLoaded] = useState(false);
   
   const loadManagedDoctors = useCallback(()=>{supabase.from("doctors").select("id,name,title,city,specialties,bio,photo_path,created_at,i18n").eq("status","published").order("created_at",{ascending:false}).then(async ({data})=>{
     const chinaCities = ["shanghai", "beijing", "guangzhou", "hangzhou", "hainan", "上海", "北京", "广州", "杭州", "海南"];
