@@ -12,12 +12,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
+const OAUTH_NEXT_KEY = "celadonchina.oauth.next";
+
 const Auth = () => {
   const { lang } = useAsia();
   const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const nextPath = searchParams.get("next")?.startsWith("/") ? searchParams.get("next")! : "/";
+  const requestedNextPath = searchParams.get("next");
+  const nextPath = requestedNextPath?.startsWith("/") ? requestedNextPath : "/";
   const [mode, setMode] = useState<"auth" | "forgot" | "reset">(
     searchParams.get("mode") === "reset" ? "reset" : "auth",
   );
@@ -83,14 +86,19 @@ const Auth = () => {
   const handleGoogle = async () => {
     setLoading(true);
     try {
+      sessionStorage.setItem(OAUTH_NEXT_KEY, nextPath);
       const result = await lovable.auth.signInWithOAuth("google", {
-        redirect_uri: `${window.location.origin}/auth?next=${encodeURIComponent(nextPath)}`,
+        redirect_uri: window.location.origin,
+        extraParams: { prompt: "select_account" },
       });
       if (result.redirected) return; // browser is heading to Google
       if (result.error) throw result.error;
       // Tokens received and session already set — go to intended destination
-      navigate(nextPath, { replace: true });
+      const savedNextPath = sessionStorage.getItem(OAUTH_NEXT_KEY);
+      sessionStorage.removeItem(OAUTH_NEXT_KEY);
+      navigate(savedNextPath?.startsWith("/") ? savedNextPath : nextPath, { replace: true });
     } catch (err) {
+      sessionStorage.removeItem(OAUTH_NEXT_KEY);
       toast.error(err instanceof Error ? err.message : t("Google sign-in failed.", "Google 登录失败。"));
     } finally {
       setLoading(false);
