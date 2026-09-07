@@ -459,7 +459,7 @@ const Treatments = () => {
                   <p className="mt-4 max-w-2xl text-base leading-relaxed text-foreground/70 md:text-lg">
                     {lang === "en" ? (
                       <>
-                        Don’t want to talk? That’s okay — email us at <strong className="font-semibold text-foreground">hello@cosmetics-asia.com</strong> or WhatsApp us at{" "}
+                        Don’t want to talk? That’s okay — email us at <strong className="font-semibold text-foreground">contact@celadonchina.com</strong> or WhatsApp us at{" "}
                         <a href="https://wa.me/14708613825" target="_blank" rel="noreferrer" className="font-semibold text-foreground underline decoration-primary/45 underline-offset-2 transition hover:text-primary">+1 470 861 3825</a>.
                       </>
                     ) : copy(

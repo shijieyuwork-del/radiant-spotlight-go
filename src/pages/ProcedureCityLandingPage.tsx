@@ -406,7 +406,7 @@ const onQuote = (position: string) => {
               <Link to="/privacy" className="hover:text-foreground">Privacy</Link>
               <Link to={`/cities/${city.slug}`} className="hover:text-foreground">{city.en} guide</Link>
               <Link to="/doctors" className="hover:text-foreground">Experts</Link>
-              <a href="mailto:hello@cosmetics-asia.com" className="hover:text-foreground">hello@cosmetics-asia.com</a>
+              <a href="mailto:contact@celadonchina.com" className="hover:text-foreground">contact@celadonchina.com</a>
             </div>
           </div>
         </footer>

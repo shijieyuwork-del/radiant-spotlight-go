@@ -261,7 +261,7 @@ const QuoteDialog = ({
 
     if (contactMethod === "email") {
       const subject = `Free quote request${procedure ? ` — ${procedure}` : ""}`;
-      const emailUrl = `mailto:hello@cosmetics-asia.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+      const emailUrl = `mailto:contact@celadonchina.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
       trackEvent("email_handoff", { source: ctx.source || "site_cta", option: intent || "unknown" });
       setLoading(false);
       onSubmitted();
@@ -426,7 +426,7 @@ const ContactChannelStep = ({ onPick, doctorName }: { onPick: (method: ContactMe
       desc: doctorName
         ? `Send your questions about ${doctorName} by email.`
         : "Send your questions and receive a reply by email.",
-      meta: "hello@cosmetics-asia.com",
+      meta: "contact@celadonchina.com",
     },
     {
       id: "whatsapp",

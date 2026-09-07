@@ -71,9 +71,9 @@ const Privacy = () => (
             <h2 className="font-display text-2xl font-semibold">Contact</h2>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
               Questions about privacy or a request concerning information you shared with us? Email
-              {" "}<a className="font-semibold text-foreground underline decoration-primary/50 underline-offset-4" href="mailto:hello@cosmetics-asia.com">hello@cosmetics-asia.com</a>.
+              {" "}<a className="font-semibold text-foreground underline decoration-primary/50 underline-offset-4" href="mailto:contact@celadonchina.com">contact@celadonchina.com</a>.
             </p>
-            <a href="mailto:hello@cosmetics-asia.com" className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-foreground"><Mail className="size-4 text-primary" /> Email Cosmetics Asia</a>
+            <a href="mailto:contact@celadonchina.com" className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-foreground"><Mail className="size-4 text-primary" /> Email Cosmetics Asia</a>
           </section>
         </div>
       </main>

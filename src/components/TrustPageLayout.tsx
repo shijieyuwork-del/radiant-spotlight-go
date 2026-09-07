@@ -60,7 +60,7 @@ const TrustPageLayout = ({ children, eyebrow, icon: Icon, intro, title }: TrustP
             </nav>
             <div className="mt-4 rounded-2xl bg-muted/70 p-4">
               <p className="text-xs font-semibold text-foreground">See something that needs correcting?</p>
-              <a href="mailto:hello@cosmetics-asia.com?subject=Correction%20request" className="mt-2 inline-flex min-h-8 items-center gap-1.5 text-xs font-semibold text-primary hover:underline">
+              <a href="mailto:contact@celadonchina.com?subject=Correction%20request" className="mt-2 inline-flex min-h-8 items-center gap-1.5 text-xs font-semibold text-primary hover:underline">
                 Send a correction request<ArrowRight className="size-3" />
               </a>
             </div>

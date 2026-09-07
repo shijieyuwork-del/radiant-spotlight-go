@@ -42,7 +42,7 @@ const EditorialPolicy = () => (
 
       <TrustSection title="Corrections and updates">
         <p>We correct material errors when credible evidence is provided. Minor spelling or formatting fixes may be made without a notice; a change to a medical claim, provider credential, commercial disclosure, or patient account should update the page date and, when useful, include a correction note.</p>
-        <p>Email <a className="font-semibold text-foreground underline decoration-primary/50 underline-offset-4" href="mailto:hello@cosmetics-asia.com?subject=Editorial%20correction">hello@cosmetics-asia.com</a> with the page URL, the statement in question, and a supporting source. Correction requests are assessed on evidence, not on whether the requester agrees with the conclusion.</p>
+        <p>Email <a className="font-semibold text-foreground underline decoration-primary/50 underline-offset-4" href="mailto:contact@celadonchina.com?subject=Editorial%20correction">contact@celadonchina.com</a> with the page URL, the statement in question, and a supporting source. Correction requests are assessed on evidence, not on whether the requester agrees with the conclusion.</p>
       </TrustSection>
     </TrustPageLayout>
   </>

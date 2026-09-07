@@ -55,7 +55,7 @@ const About = () => {
         </TrustSection>
 
         <TrustSection title="Contact and accountability">
-          <p>Questions about a profile, a policy, or a correction can be sent to <a className="font-semibold text-foreground underline decoration-primary/50 underline-offset-4" href="mailto:hello@cosmetics-asia.com">hello@cosmetics-asia.com</a>. For travel coordination, you can also contact us on WhatsApp at <a className="font-semibold text-foreground underline decoration-primary/50 underline-offset-4" href="https://wa.me/14708613825">+1 470 861 3825</a>.</p>
+          <p>Questions about a profile, a policy, or a correction can be sent to <a className="font-semibold text-foreground underline decoration-primary/50 underline-offset-4" href="mailto:contact@celadonchina.com">contact@celadonchina.com</a>. For travel coordination, you can also contact us on WhatsApp at <a className="font-semibold text-foreground underline decoration-primary/50 underline-offset-4" href="https://wa.me/14708613825">+1 470 861 3825</a>.</p>
         </TrustSection>
       </TrustPageLayout>
     </>

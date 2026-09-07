@@ -297,7 +297,7 @@ const TreatmentLandingPage = ({ kind }: { kind: TreatmentLandingKind }) => {
         </main>
 
         <footer className="border-t border-border bg-card/60">
-          <div className="container flex flex-col gap-4 py-8 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between"><div><BrandLogo /><p className="mt-2">Questions before you decide. Coordination when you are ready.</p></div><div className="flex flex-wrap gap-4"><Link to="/privacy" className="hover:text-foreground">Privacy</Link><Link to={`/treatments/${kind}`} className="hover:text-foreground">Full procedure guide</Link><a href="mailto:hello@cosmetics-asia.com" className="hover:text-foreground">hello@cosmetics-asia.com</a></div></div>
+          <div className="container flex flex-col gap-4 py-8 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between"><div><BrandLogo /><p className="mt-2">Questions before you decide. Coordination when you are ready.</p></div><div className="flex flex-wrap gap-4"><Link to="/privacy" className="hover:text-foreground">Privacy</Link><Link to={`/treatments/${kind}`} className="hover:text-foreground">Full procedure guide</Link><a href="mailto:contact@celadonchina.com" className="hover:text-foreground">contact@celadonchina.com</a></div></div>
         </footer>
       </div>
     </>

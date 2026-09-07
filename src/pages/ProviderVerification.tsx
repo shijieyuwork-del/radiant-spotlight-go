@@ -49,7 +49,7 @@ const ProviderVerification = () => (
 
       <TrustSection title="Ongoing review and corrections">
         <p>Material profile facts should be rechecked when a license expires, a provider changes facilities, a credible correction is received, or a source becomes unavailable. We may remove a label or unpublish a profile while evidence is incomplete.</p>
-        <p>To question a claim, email <a className="font-semibold text-foreground underline decoration-primary/50 underline-offset-4" href="mailto:hello@cosmetics-asia.com?subject=Provider%20profile%20correction">hello@cosmetics-asia.com</a> with the profile URL and supporting source. We will acknowledge the request and review material corrections before updating the page.</p>
+        <p>To question a claim, email <a className="font-semibold text-foreground underline decoration-primary/50 underline-offset-4" href="mailto:contact@celadonchina.com?subject=Provider%20profile%20correction">contact@celadonchina.com</a> with the profile URL and supporting source. We will acknowledge the request and review material corrections before updating the page.</p>
       </TrustSection>
     </TrustPageLayout>
   </>

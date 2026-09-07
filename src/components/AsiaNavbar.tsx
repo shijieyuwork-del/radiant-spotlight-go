@@ -110,9 +110,9 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
               <span className="hidden sm:inline">+1 470 861 3825</span>
               <span className="sm:hidden">WhatsApp</span>
             </a>
-            <a href="mailto:hello@cosmetics-asia.com" className="hidden min-h-12 min-w-0 items-center gap-1.5 rounded-full px-2 font-semibold tracking-[0.01em] text-white/95 transition hover:bg-white/10 hover:text-white sm:inline-flex md:min-h-9">
+            <a href="mailto:contact@celadonchina.com" className="hidden min-h-12 min-w-0 items-center gap-1.5 rounded-full px-2 font-semibold tracking-[0.01em] text-white/95 transition hover:bg-white/10 hover:text-white sm:inline-flex md:min-h-9">
               <Mail className="size-3.5 shrink-0" />
-              <span className="hidden truncate sm:inline">hello@cosmetics-asia.com</span>
+              <span className="hidden truncate sm:inline">contact@celadonchina.com</span>
             </a>
           </div>
           <button
