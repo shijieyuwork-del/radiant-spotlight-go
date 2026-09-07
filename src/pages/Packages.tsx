@@ -164,7 +164,7 @@ const SUPPORT_SERVICES = [
 ] as const;
 
 const Packages = () => {
-  const { lang } = useAsia();
+  const { lang, t } = useAsia();
   const c = <T,>(en: T, zh: T, ru: T, es?: T) => asiaCopy(lang, { en, zh, ru, es });
   const pick = (values: readonly [string, string, string, string?]) => c(values[0], values[1], values[2], values[3]);
 
