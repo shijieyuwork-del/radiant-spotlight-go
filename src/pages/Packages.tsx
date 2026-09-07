@@ -78,8 +78,8 @@ const JOURNEY_STEPS = [
     eyebrow: ["Treatment support", "治疗支持", "Поддержка лечения", "Apoyo durante el tratamiento"],
     title: ["Your transformation, with us by your side", "你的变美时刻，我们陪你", "Ваше преображение — мы рядом", "Tu transformación, con nosotros a tu lado"],
     text: [
-      "On surgery day, we accompany you to the clinic, help you communicate and stay close when you need us.",
-      "手术当天，我们陪同你前往诊所，协助沟通，在你需要时陪伴左右。",
+      "On surgery day, we accompany you to the clinic, help you communicate and stay close when you need us. If your doctor doesn’t feel like the right fit, let us know. We can accompany you to meet another doctor or visit another clinic.",
+      "手术当天，我们陪同你前往诊所，协助沟通，在你需要时陪伴左右。如果你觉得医生不合适，请告诉我们，我们可以陪同你面诊其他医生或前往其他诊所。",
       "В день операции мы сопровождаем вас в клинику, помогаем с общением и остаёмся рядом, когда нужны вам.",
       "El día de la cirugía te acompañamos a la clínica, te ayudamos a comunicarte y estamos cerca cuando nos necesitas.",
     ],

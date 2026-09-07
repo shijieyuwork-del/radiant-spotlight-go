@@ -612,8 +612,8 @@ const TravelBar = () => {
     {
       icon: HeartPulse,
       image: journeyTreatment,
-      en: ["Your transformation, with us by your side", "On surgery day, we accompany you to the clinic, help you communicate and stay close when you need us"],
-      zh: ["你的变美时刻，我们陪你", "手术当天，我们陪同你前往诊所，协助沟通，在你需要时陪伴左右"],
+      en: ["Your transformation, with us by your side", "On surgery day, we accompany you to the clinic, help you communicate and stay close when you need us. If your doctor doesn’t feel like the right fit, let us know. We can accompany you to meet another doctor or visit another clinic."],
+      zh: ["你的变美时刻，我们陪你", "手术当天，我们陪同你前往诊所，协助沟通，在你需要时陪伴左右。如果你觉得医生不合适，请告诉我们，我们可以陪同你面诊其他医生或前往其他诊所。"],
       ru: ["Ваше преображение — мы рядом", "В день операции мы сопровождаем вас в клинику, помогаем с общением и остаёмся рядом, когда нужны вам"],
       es: ["Tu transformación, con nosotros a tu lado", "El día de la cirugía te acompañamos a la clínica, te ayudamos a comunicarte y estamos cerca cuando nos necesitas"],
     },
