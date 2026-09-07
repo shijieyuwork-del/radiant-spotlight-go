@@ -65,6 +65,10 @@ function createBreadcrumbSchema(p, pageTitle, siteUrl) {
     cases: "Patient Diaries", cities: "Destinations", clinics: "Clinics & Hospitals", doctors: "Experts",
     treatments: "Procedures", "travel-packages": "Travel Support", "why-china": "Why China",
     "medical-tourism-china": "Medical Tourism in China", "plastic-surgery-china": "Plastic Surgery in China",
+    "cosmetic-surgery-tourism-china": "Cosmetic Surgery Tourism in China",
+    "cosmetic-surgery-china-for-international-patients": "Cosmetic Surgery in China for International Patients",
+    "choose-plastic-surgeon-china": "Choose a Plastic Surgeon in China",
+    "cosmetic-surgery-recovery-china": "Cosmetic Surgery Recovery in China",
     about: "About CeladonChina", "provider-verification": "Provider Verification Standards",
     "medical-review-policy": "Medical Review Policy", "editorial-policy": "Editorial Policy",
   };
@@ -369,6 +373,10 @@ async function main() {
     const isSsgRoute = r.path === "/medical-tourism-china" ||
       r.path.startsWith("/medical-tourism-china/") ||
       r.path === "/china-vs-korea-cosmetic-surgery" ||
+      r.path === "/cosmetic-surgery-tourism-china" ||
+      r.path === "/cosmetic-surgery-china-for-international-patients" ||
+      r.path === "/choose-plastic-surgeon-china" ||
+      r.path === "/cosmetic-surgery-recovery-china" ||
       r.path === "/plastic-surgery-china" ||
       r.path === "/treatments" || r.path.startsWith("/treatments/") ||
       r.path === "/cities" || r.path.startsWith("/cities/");

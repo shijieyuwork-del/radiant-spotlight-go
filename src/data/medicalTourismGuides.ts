@@ -42,6 +42,9 @@ const SHANGHAI_MEDICAL = "https://english.shanghai.gov.cn/en-IntlMedicalServices
 const BEIJING_PUMCH = "https://english.beijing.gov.cn/quickguideservices/medicalguide/majormedicalinstitutions/202312/t20231220_3505728.html";
 const KOREA_REGISTRATION = "https://www.medicalkorea.or.kr/en/registeredsystem";
 const KOREA_VISA = "https://www.medicalkorea.or.kr/en/medicalvisa";
+const CHINA_COSMETIC_RULES = "https://www.nhc.gov.cn/wjw/c100221/202201/d7e8fa33a26b425da98d69fb04191699.shtml";
+const CHINA_COSMETIC_OVERSIGHT = "https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/ggjgs/art/2023/art_ab97d5643ddc45ae861e7f351842f512.html";
+const ASPS_TRAVELING_FOR_SURGERY = "https://www.plasticsurgery.org/documents/health-policy/resources/2024-appropriate-care-of-patients-traveling-for-surgery.pdf";
 
 export const MEDICAL_TOURISM_GUIDES: MedicalTourismGuide[] = [
   {
@@ -591,6 +594,331 @@ export const MEDICAL_TOURISM_GUIDES: MedicalTourismGuide[] = [
     ],
   },
   {
+    slug: "cosmetic-surgery-tourism-china",
+    title: "Cosmetic Surgery Tourism in China: Patient Guide",
+    description: "Plan cosmetic surgery tourism in China with guidance on procedures, surgeon and facility checks, costs, travel, interpretation, recovery and follow-up.",
+    kicker: "Cosmetic surgery travel",
+    heading: "Cosmetic surgery tourism in China, planned around your care.",
+    intro: "Travelling for cosmetic surgery combines two decisions that should never be confused: whether a procedure is appropriate and whether the trip can support it safely. This guide connects provider research, written costs, travel logistics and recovery without treating surgery like a holiday package.",
+    answer: "Cosmetic surgery tourism in China means travelling to China for an elective aesthetic procedure while arranging the clinical and travel pathway together. Start with a named surgeon and licensed facility, obtain an individualized plan and complete estimate, then build interpretation, accommodation, recovery time and follow-up around the treating team's instructions.",
+    updated: "September 7, 2026",
+    readingTime: "10-minute guide",
+    takeaways: [
+      "Choose the surgeon and treating facility before choosing a travel package.",
+      "Compare the complete care pathway, not a procedure price or destination image.",
+      "Plan local recovery and home-country follow-up before paying or flying.",
+    ],
+    sections: [
+      {
+        title: "Separate the medical decision from the destination",
+        paragraphs: [
+          "China may be attractive because of specialist choice, major-city transport and a broad cosmetic-medicine market. None of those factors establishes that a procedure is suitable for an individual patient. Begin with your goals, health history, previous procedures, medicines, allergies and recovery constraints. A qualified treating clinician should explain the available options, likely limitations and the option of no treatment.",
+          "Do not allow a flight deal, hotel package or limited appointment window to set the clinical plan. The procedure, anesthesia, facility and duration of stay should follow the assessment. Travel arrangements come afterward and should remain flexible until the treating team confirms the expected pathway.",
+        ],
+      },
+      {
+        title: "Know how cosmetic medical care is regulated in China",
+        paragraphs: [
+          "China's national rules treat invasive cosmetic techniques as medical services. They require cosmetic medical institutions to be registered and licensed, and they distinguish cosmetic surgery, dentistry, dermatology and traditional Chinese medicine as clinical categories. National guidance also calls for stronger checks on institutional qualifications, practitioner credentials, advertising and the permitted scope of treatment.",
+          "For an international patient, the practical task is to verify the exact legal name of the institution, its address, the department responsible for care and the named clinician. A brand name, social account or English-language sales representative is not a substitute for the treating entity and its authorization.",
+        ],
+        bullets: [
+          "Legal name and address of the treating facility",
+          "Named surgeon and role in each important part of the procedure",
+          "Facility scope for the proposed operation and anesthesia",
+          "Postoperative contact and emergency-transfer arrangement",
+        ],
+      },
+      {
+        title: "Compare procedures through a consultation",
+        paragraphs: [
+          "Rhinoplasty, eyelid surgery, facelift, fat grafting and liposuction are categories rather than complete plans. Technique, extent, anesthesia and recovery can differ materially between patients. Use procedure guides to prepare questions, then ask the surgeon why a particular approach fits your anatomy and goals.",
+          "Before-and-after images can help communicate preferences, but they should show comparable cases, consistent angles and a meaningful follow-up point. They cannot predict your outcome. Ask what the procedure cannot change, how asymmetry is discussed and which complications or revisions may require additional treatment.",
+        ],
+      },
+      {
+        title: "Build one complete written budget",
+        paragraphs: [
+          "Request separate figures for consultation, tests, surgeon, facility, anesthesia, medicines, implants or devices, garments and scheduled reviews. Record what could change after examination and what happens to a deposit if treatment does not proceed. Then add flights, entry documents, local transport, accommodation, meals, a companion and contingency funds.",
+          "A lower procedure figure is not automatically the lower-cost journey. A longer recovery stay, changed flight or additional review can outweigh an apparent saving. Compare written estimates using the same categories and currency on the same date.",
+        ],
+        table: {
+          caption: "Cosmetic surgery tourism budget",
+          headers: ["Budget layer", "Include", "Confirm before"],
+          rows: [
+            ["Clinical", "Consultation, tests, surgery, anesthesia, medication", "Deposit"],
+            ["Recovery", "Reviews, garments, wound care, extra nights", "Treatment"],
+            ["Travel", "Entry, flights, transfers, hotel, companion", "Non-refundable booking"],
+            ["Contingency", "Plan change, delayed return, additional care", "Departure"],
+          ],
+        },
+      },
+      {
+        title: "Design the trip around recovery",
+        paragraphs: [
+          "Stay close enough to the treating facility for scheduled reviews and urgent questions. Confirm who interprets during consultation, consent and discharge, not only during airport pickup. Keep early recovery free from fixed tours and long transfers unless the treating clinician has approved them.",
+          "Surgery and prolonged travel can both contribute to blood-clot risk. Flying advice must be individualized to the operation, anesthesia, mobility, complications and personal risk factors. Obtain written warning signs, an after-hours contact and a clear decision about when you may travel.",
+        ],
+      },
+      {
+        title: "Take a usable care record home",
+        paragraphs: [
+          "Before leaving China, request the procedure and discharge summary, test results, prescriptions, implant or device details where relevant, wound-care instructions and the treating team's contact information. Ask which documents can be provided in English or translated for a clinician at home.",
+          "Arrange home-country follow-up before surgery when possible. Confirm how the China-based team will review photos or answer questions and what requires an in-person assessment. Cosmetic surgery tourism is only a complete pathway when responsibility after the flight home is clear.",
+        ],
+      },
+    ],
+    faqs: [
+      ["Why do international patients consider cosmetic surgery in China?", "Patients may consider China for specialist choice, procedure availability, cost or because they already travel there. Those advantages should be assessed alongside provider verification, communication, recovery and follow-up."],
+      ["Is cosmetic surgery tourism in China safe?", "No destination can guarantee safety. Risk depends on the patient, procedure, surgeon, facility, anesthesia and continuity of care. Verify each part and obtain individualized medical advice."],
+      ["Can CeladonChina choose a surgeon or procedure for me?", "No. CeladonChina can organize published information, questions, appointments and practical travel support. Medical recommendations and consent remain with licensed treating professionals."],
+      ["Should tourism be scheduled before or after surgery?", "Keep postoperative plans flexible and follow the treating clinician's restrictions. More demanding tourism is generally easier to plan before treatment, but the final itinerary must reflect the individual care plan."],
+    ],
+    sources: [
+      { title: "Medical Aesthetic Services Management Measures", publisher: "National Health Commission of the PRC", url: CHINA_COSMETIC_RULES },
+      { title: "Guidance on Strengthening Medical Aesthetic Industry Oversight", publisher: "State Administration for Market Regulation", url: CHINA_COSMETIC_OVERSIGHT },
+      { title: "Medical Tourism", publisher: "CDC Yellow Book", url: CDC_MEDICAL_TOURISM },
+      { title: "Appropriate Care of Patients Traveling for Surgery", publisher: "American Society of Plastic Surgeons", url: ASPS_TRAVELING_FOR_SURGERY },
+    ],
+    related: [
+      { label: "Plastic surgery in China: procedures and costs", href: "/plastic-surgery-china" },
+      { label: "China cosmetic surgery guide for international patients", href: "/cosmetic-surgery-china-for-international-patients" },
+      { label: "China vs Korea for cosmetic surgery", href: "/china-vs-korea-cosmetic-surgery" },
+    ],
+  },
+  {
+    slug: "cosmetic-surgery-china-for-international-patients",
+    title: "Cosmetic Surgery in China for International Patients",
+    description: "A practical guide to cosmetic surgery in China for foreigners, covering consultations, language support, payment, travel documents, recovery and records.",
+    kicker: "International patient guide",
+    heading: "Cosmetic surgery in China for international patients: what changes when care crosses borders.",
+    intro: "The operation is only one part of an international care journey. Foreign patients also need a workable route for records, consultation, interpretation, payment, local recovery and follow-up after returning home.",
+    answer: "International patients can explore cosmetic surgery in China, but access, language, payment and documentation vary by clinician and facility. Confirm that the named provider accepts international self-pay patients, can support informed consent in a language you understand and will supply records and follow-up instructions you can use at home.",
+    updated: "September 7, 2026",
+    readingTime: "8-minute guide",
+    takeaways: [
+      "Confirm international-patient access with the exact department and facility.",
+      "Arrange clinical interpretation for consent and discharge, not just travel help.",
+      "Keep payment terms, medical records and follow-up in writing.",
+    ],
+    sections: [
+      {
+        title: "Prepare a concise consultation file",
+        paragraphs: [
+          "Start with your main concern, relevant medical history, medicines, allergies, previous surgery and the dates you could realistically remain in China. Add clear, unfiltered photographs only when requested through an agreed channel. Ask which reports or tests are needed before a useful remote discussion.",
+          "An online consultation may help define questions and whether an in-person assessment is worthwhile, but it may not establish final candidacy, technique or price. Expect the plan to remain provisional until examination and any required testing are complete.",
+        ],
+      },
+      {
+        title: "Confirm the international-patient pathway",
+        paragraphs: [
+          "Ask whether you will use an international department, private hospital, specialist hospital or licensed clinic. Confirm the legal name and address, who schedules the appointment, which identification documents are required and whether the named surgeon will be available on the proposed dates.",
+          "Do not rely on a coordinator's description alone. Ask the treating institution to confirm the appointment and payment recipient. If a visiting clinician is involved, verify the date, facility and authorization for that specific visit.",
+        ],
+      },
+      {
+        title: "Make the clinical conversation understandable",
+        paragraphs: [
+          "Travel translation and clinical interpretation are different jobs. Confirm who will interpret the consultation, consent, anesthesia discussion, medication instructions and discharge. The interpreter should communicate your questions accurately rather than make medical recommendations.",
+          "Ask for enough time to review consent documents. If the final plan differs from the remote discussion, request a fresh explanation of the procedure, risks, alternatives, recovery and price before deciding whether to proceed.",
+        ],
+        bullets: [
+          "Language used for consultation and consent",
+          "Interpreter present for anesthesia and discharge",
+          "Written instructions available in a usable language",
+          "After-hours contact who can communicate with you",
+        ],
+      },
+      {
+        title: "Confirm entry, payment and communications",
+        paragraphs: [
+          "Entry requirements depend on nationality, route, duration and purpose, and they can change. Use the Chinese embassy, consulate or official visa center responsible for your place of residence. Do not make non-refundable bookings until the appointment and entry pathway are sufficiently clear.",
+          "Ask which cards, bank transfers or mobile-payment methods the institution accepts, whether a deposit is refundable and who issues the invoice. Arrange a working phone and internet connection for appointment updates and urgent contact after arrival.",
+        ],
+      },
+      {
+        title: "Leave China with a follow-up package",
+        paragraphs: [
+          "Request a treatment summary, discharge note, medication list, test results, implant or device information where relevant and written warning signs. Ask how routine questions will be handled after departure and which symptoms require local urgent care rather than a remote message.",
+          "A clinician at home may need these records to provide follow-up. Check insurance exclusions and identify appropriate local care before treatment instead of assuming the overseas provider can manage every issue remotely.",
+        ],
+      },
+    ],
+    faqs: [
+      ["Do cosmetic surgery clinics in China accept foreign patients?", "Some do, but access and services vary. Confirm with the exact facility and department that it accepts international self-pay patients and can support the required procedure and language."],
+      ["Will the surgeon speak English?", "Language ability varies. Even when a surgeon speaks some English, confirm whether qualified interpretation is available for consent, anesthesia and discharge."],
+      ["Can the final price be confirmed online?", "An early estimate may be possible, but examination, tests or a changed clinical plan can affect the final amount. Ask for all changes in writing before treatment."],
+    ],
+    sources: [
+      { title: "Medical Aesthetic Services Management Measures", publisher: "National Health Commission of the PRC", url: CHINA_COSMETIC_RULES },
+      { title: "Visa Category", publisher: "Chinese Visa Application Service Center", url: CHINA_VISA_CATEGORIES },
+      { title: "Medical Tourism", publisher: "CDC Yellow Book", url: CDC_MEDICAL_TOURISM },
+    ],
+    related: [
+      { label: "Cosmetic surgery tourism in China", href: "/cosmetic-surgery-tourism-china" },
+      { label: "China medical visa and entry guide", href: "/medical-tourism-china/visa" },
+      { label: "Travel and interpretation support", href: "/travel-packages" },
+    ],
+  },
+  {
+    slug: "choose-plastic-surgeon-china",
+    title: "How to Choose a Plastic Surgeon in China",
+    description: "Compare plastic surgeons in China by identity, registration, specialty, facility privileges, consultation quality and follow-up.",
+    kicker: "Surgeon verification",
+    heading: "How to choose a plastic surgeon in China: verify the person, place and plan.",
+    intro: "A surgeon profile is a starting point, not a decision. International patients need to connect the clinician's identity and experience to the exact facility, procedure, anesthesia and postoperative pathway.",
+    answer: "Choose a plastic surgeon in China by confirming the surgeon's legal identity, current registration, relevant training and experience, then verifying the facility and operating privileges separately. Use the consultation to assess whether the proposed plan, risks, alternatives and follow-up are explained clearly without pressure.",
+    updated: "September 7, 2026",
+    readingTime: "8-minute checklist",
+    takeaways: [
+      "Verify identity and current credentials with primary sources where possible.",
+      "Match experience to the procedure and patient concern, not a general reputation.",
+      "Reject any pathway that hides the facility, anesthesia team or follow-up responsibility.",
+    ],
+    sections: [
+      {
+        title: "Confirm the surgeon's legal identity",
+        paragraphs: [
+          "Record the clinician's full legal name in Chinese and English where available, current registration, professional title, specialty and the institution connected to the proposed care. Similar names, translated names and social-media handles can create confusion, so use primary documents and institution confirmation wherever possible.",
+          "China's rules for medical aesthetic services require relevant institutions and practitioners to meet defined authorization and experience requirements. Ask which regulator or public source can confirm the current record and when it was last checked.",
+        ],
+      },
+      {
+        title: "Match experience to your procedure",
+        paragraphs: [
+          "A broad title such as cosmetic surgeon does not show experience with your anatomy, revision status or intended operation. Ask how often the clinician manages comparable cases, which technique is being considered and why, and which parts of the procedure another clinician may perform.",
+          "Look for consistently documented cases with comparable starting concerns and adequate follow-up. Photographs should inform the consultation, not replace credential checks or a discussion of risks and limitations.",
+        ],
+      },
+      {
+        title: "Verify the facility separately",
+        paragraphs: [
+          "Confirm where the operation will occur and whether the facility is authorized for the proposed scope. Ask who administers anesthesia, how the patient is monitored, whether overnight observation is available and how an emergency transfer is handled.",
+          "A qualified surgeon working at one hospital does not prove that every clinic using the surgeon's name has the same privileges or resources. Connect the individual appointment to a specific date, facility and clinical team.",
+        ],
+        bullets: [
+          "Treating facility's legal name and address",
+          "Procedure scope and surgeon's privileges at that site",
+          "Named anesthesia professional and monitoring plan",
+          "Postoperative review and emergency-transfer pathway",
+        ],
+      },
+      {
+        title: "Use the consultation as a quality check",
+        paragraphs: [
+          "A useful consultation should address your goals, health information, alternatives, limitations, material risks and recovery. The surgeon should explain why the proposed plan fits rather than simply agree with the procedure name you requested.",
+          "Pause if questions are redirected only to sales staff, if a deposit is used to rush the decision or if the named surgeon changes without a new consultation. Informed consent requires enough information and time to decide freely.",
+        ],
+      },
+      {
+        title: "Compare shortlists with the same evidence",
+        paragraphs: [
+          "Create one comparison sheet for every option. Record verified credentials, relevant cases, facility, anesthesia, proposed plan, complete cost, recovery, language support and follow-up. Leave a field blank rather than filling it with an assumption.",
+          "The strongest option is not necessarily the most famous or cheapest. It is the one whose evidence, plan and communication remain clear when checked at clinician, facility and journey level.",
+        ],
+        table: {
+          caption: "Surgeon comparison sheet",
+          headers: ["Check", "Evidence to request", "Red flag"],
+          rows: [
+            ["Identity", "Legal name and current registration", "Only a nickname or social handle"],
+            ["Experience", "Comparable procedure history", "Unlabeled portfolio only"],
+            ["Facility", "Named licensed site and privileges", "Location disclosed after deposit"],
+            ["Plan", "Risks, alternatives and recovery", "Guaranteed result"],
+            ["Follow-up", "Named contacts and review schedule", "No plan after departure"],
+          ],
+        },
+      },
+    ],
+    faqs: [
+      ["What credentials should a plastic surgeon in China have?", "Confirm current physician registration, relevant specialty or training, experience for the proposed procedure and authorization to practise at the named facility. Requirements can vary by role and procedure."],
+      ["Is a large social-media following evidence of quality?", "No. Popularity does not verify registration, facility privileges, procedure experience or outcomes. Treat social content as marketing unless its claims can be independently checked."],
+      ["Should I choose the cheapest surgeon?", "Price alone cannot show provider fit or safety. Compare complete written estimates only after checking the surgeon, facility, plan, anesthesia and follow-up."],
+    ],
+    sources: [
+      { title: "Medical Aesthetic Services Management Measures", publisher: "National Health Commission of the PRC", url: CHINA_COSMETIC_RULES },
+      { title: "Guidance on Strengthening Medical Aesthetic Industry Oversight", publisher: "State Administration for Market Regulation", url: CHINA_COSMETIC_OVERSIGHT },
+      { title: "Appropriate Care of Patients Traveling for Surgery", publisher: "American Society of Plastic Surgeons", url: ASPS_TRAVELING_FOR_SURGERY },
+    ],
+    related: [
+      { label: "Browse published expert profiles", href: "/doctors" },
+      { label: "CeladonChina provider verification standards", href: "/provider-verification" },
+      { label: "Cosmetic surgery tourism in China", href: "/cosmetic-surgery-tourism-china" },
+    ],
+  },
+  {
+    slug: "cosmetic-surgery-recovery-china",
+    title: "Cosmetic Surgery Recovery in China: Travel Guide",
+    description: "Plan recovery after cosmetic surgery in China, including local reviews, accommodation, activity, warning signs, travel clearance and follow-up at home.",
+    kicker: "Recovery travel guide",
+    heading: "Cosmetic surgery recovery in China: protect the time after treatment.",
+    intro: "Recovery affects the city, hotel, companion plan and return flight. The safest itinerary leaves room for individual healing and keeps the patient close to the team responsible for early review.",
+    answer: "Plan cosmetic surgery recovery in China by staying near the treating facility for the clinician's required review period, using suitable accommodation, keeping activities flexible and arranging individualized clearance before flying. Take complete records and a defined follow-up plan home.",
+    updated: "September 7, 2026",
+    readingTime: "8-minute guide",
+    takeaways: [
+      "Let the treating clinician set review and travel timing.",
+      "Choose recovery accommodation for access and function, not sightseeing value.",
+      "Prepare for urgent questions in China and follow-up after returning home.",
+    ],
+    sections: [
+      {
+        title: "Ask for a procedure-specific recovery plan",
+        paragraphs: [
+          "Recovery differs by procedure, technique, anesthesia, patient and complication. Ask what is expected during the first day, first week and later stages; when dressings or sutures are reviewed; and which symptoms require urgent assessment. A general website timeline is not personal travel clearance.",
+          "Confirm medicines, wound care, compression garments, sleep position, bathing, activity and food instructions in writing. Know which supplies the facility provides and what must be purchased locally.",
+        ],
+      },
+      {
+        title: "Stay within practical reach of the facility",
+        paragraphs: [
+          "Early reviews are easier when the hotel or serviced apartment has a short, reliable route to the treating facility. Consider step-free access, lifts, a quiet room, food delivery, laundry, climate control and space for a companion if one is recommended.",
+          "Changing hotels or cities during early recovery can create unnecessary transport and communication problems. Keep the first part of the stay stable and confirm where to go outside normal clinic hours.",
+        ],
+        bullets: [
+          "Short route to scheduled reviews",
+          "Lift and accessible entry if mobility may be limited",
+          "Reliable internet and phone connection",
+          "Nearby pharmacy, food and appropriate urgent care",
+        ],
+      },
+      {
+        title: "Keep tourism secondary to healing",
+        paragraphs: [
+          "A free afternoon is not automatically a sightseeing window. Walking distance, crowds, sun, heat, swimming, alcohol and long vehicle journeys may conflict with instructions. Ask before adding any fixed activity after treatment.",
+          "If experiencing China is an important part of the trip, schedule more demanding plans before surgery or after clearance. During recovery, use optional low-effort activities that can be cancelled without cost or disappointment.",
+        ],
+      },
+      {
+        title: "Treat the return flight as a clinical decision",
+        paragraphs: [
+          "The CDC notes that surgery and air travel independently increase blood-clot risk and that travel after surgery can add risk through prolonged sitting. The relevant timing and precautions depend on the procedure, mobility, anesthesia, complications and personal history.",
+          "Ask the treating clinician when you may fly, whether an airline clearance document is needed and what to do during the journey. Flexible tickets and contingency funds matter because recovery does not follow a guaranteed date.",
+        ],
+      },
+      {
+        title: "Build continuity of care before departure",
+        paragraphs: [
+          "Request the operation and discharge summary, prescriptions, test results, implant or device records where relevant, photographs used for follow-up and written warning signs. Confirm the responsible China contact and expected response channel after you leave.",
+          "Identify a clinician or appropriate service at home that can assess you in person. Remote photographs cannot evaluate every problem, and overseas complications or revision care may not be covered by insurance.",
+        ],
+      },
+    ],
+    faqs: [
+      ["How long should I stay in China after cosmetic surgery?", "There is no universal stay length. The treating clinician should set it from the procedure, review schedule, recovery, complications and your individual travel risks."],
+      ["Can I visit another Chinese city after surgery?", "Only when the treating clinician agrees. Early recovery is usually easier near the responsible facility, and intercity travel can complicate review or urgent care."],
+      ["What should I take home after surgery?", "Request the procedure and discharge summary, medicines, test results, implant or device details where relevant, follow-up instructions, warning signs and named contacts."],
+    ],
+    sources: [
+      { title: "Medical Tourism", publisher: "CDC Yellow Book", url: CDC_MEDICAL_TOURISM },
+      { title: "Appropriate Care of Patients Traveling for Surgery", publisher: "American Society of Plastic Surgeons", url: ASPS_TRAVELING_FOR_SURGERY },
+    ],
+    related: [
+      { label: "Cosmetic surgery tourism in China", href: "/cosmetic-surgery-tourism-china" },
+      { label: "General recovery and aftercare guide", href: "/medical-tourism-china/recovery" },
+      { label: "Patient recovery diaries", href: "/cases" },
+    ],
+  },
+  {
     slug: "china-vs-korea-cosmetic-surgery",
     title: "China vs Korea for Cosmetic Surgery: A Patient Comparison",
     description: "Compare cosmetic surgery in China and South Korea across surgeon fit, regulation checks, cost, language, travel, recovery and follow-up.",
@@ -675,7 +1003,13 @@ export const MEDICAL_TOURISM_GUIDES: MedicalTourismGuide[] = [
 export const findMedicalTourismGuide = (slug?: string) =>
   MEDICAL_TOURISM_GUIDES.find((guide) => guide.slug === slug);
 
+const TOP_LEVEL_GUIDE_PATHS: Record<string, string> = {
+  "china-vs-korea-cosmetic-surgery": "/china-vs-korea-cosmetic-surgery",
+  "cosmetic-surgery-tourism-china": "/cosmetic-surgery-tourism-china",
+  "cosmetic-surgery-china-for-international-patients": "/cosmetic-surgery-china-for-international-patients",
+  "choose-plastic-surgeon-china": "/choose-plastic-surgeon-china",
+  "cosmetic-surgery-recovery-china": "/cosmetic-surgery-recovery-china",
+};
+
 export const medicalTourismGuidePath = (slug: string) =>
-  slug === "china-vs-korea-cosmetic-surgery"
-    ? "/china-vs-korea-cosmetic-surgery"
-    : `/medical-tourism-china/${slug}`;
+  TOP_LEVEL_GUIDE_PATHS[slug] ?? `/medical-tourism-china/${slug}`;

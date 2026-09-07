@@ -17,6 +17,9 @@ const MedicalTourismArticle = ({ guideSlug }: { guideSlug?: string }) => {
   if (!guide) return <Navigate to="/medical-tourism-china" replace />;
 
   const path = medicalTourismGuidePath(guide.slug);
+  const isCosmeticSurgeryGuide = !path.startsWith("/medical-tourism-china/");
+  const parentPath = isCosmeticSurgeryGuide ? "/plastic-surgery-china" : "/medical-tourism-china";
+  const parentLabel = isCosmeticSurgeryGuide ? "Plastic surgery in China guide" : "Medical tourism in China guide";
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -47,8 +50,8 @@ const MedicalTourismArticle = ({ guideSlug }: { guideSlug?: string }) => {
       <main>
         <header className="border-b border-border/60 bg-muted/30">
           <div className="container py-10 md:py-16">
-            <Link to="/medical-tourism-china" className="inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground transition hover:text-foreground">
-              <ArrowLeft className="size-4" /> Medical tourism in China guide
+            <Link to={parentPath} className="inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground transition hover:text-foreground">
+              <ArrowLeft className="size-4" /> {parentLabel}
             </Link>
             <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start">
               <div>

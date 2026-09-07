@@ -90,6 +90,10 @@ export const AppRoutes = () => (
                     <Route path="/medical-tourism-china" element={<ChinaSeoGuide kind="medical-tourism" />} />
                     <Route path="/medical-tourism-china/:slug" element={<MedicalTourismArticle />} />
                     <Route path="/china-vs-korea-cosmetic-surgery" element={<MedicalTourismArticle guideSlug="china-vs-korea-cosmetic-surgery" />} />
+                    <Route path="/cosmetic-surgery-tourism-china" element={<MedicalTourismArticle guideSlug="cosmetic-surgery-tourism-china" />} />
+                    <Route path="/cosmetic-surgery-china-for-international-patients" element={<MedicalTourismArticle guideSlug="cosmetic-surgery-china-for-international-patients" />} />
+                    <Route path="/choose-plastic-surgeon-china" element={<MedicalTourismArticle guideSlug="choose-plastic-surgeon-china" />} />
+                    <Route path="/cosmetic-surgery-recovery-china" element={<MedicalTourismArticle guideSlug="cosmetic-surgery-recovery-china" />} />
                     <Route path="/plastic-surgery-china" element={<ChinaSeoGuide kind="plastic-surgery" />} />
                     <Route path="/privacy" element={<Privacy />} />
                     <Route path="/about" element={<About />} />

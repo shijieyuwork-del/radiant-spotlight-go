@@ -71,6 +71,18 @@ const chinaDestinations = [
   { city: "Hangzhou", note: "A quieter destination within reach of the Yangtze River Delta.", href: "/cities/hangzhou" },
 ] as const;
 
+const cosmeticTourismGuideSlugs = new Set([
+  "cosmetic-surgery-tourism-china",
+  "cosmetic-surgery-china-for-international-patients",
+  "choose-plastic-surgeon-china",
+  "cosmetic-surgery-recovery-china",
+  "china-vs-korea-cosmetic-surgery",
+]);
+
+const cosmeticTourismGuides = MEDICAL_TOURISM_GUIDES.filter((guide) =>
+  cosmeticTourismGuideSlugs.has(guide.slug),
+);
+
 const ChinaSeoGuide = ({ kind }: { kind: GuideKind }) => {
   const copy = guideCopy[kind];
   const { open } = useQuote();
@@ -162,6 +174,29 @@ const ChinaSeoGuide = ({ kind }: { kind: GuideKind }) => {
                   <a href="#sources" className="hover:text-primary">Sources and methodology</a>
                 </div>
               </nav>
+            )}
+            {kind === "plastic-surgery" && (
+              <section className="mt-12 border-y border-border py-10" aria-labelledby="cosmetic-tourism-guides-heading">
+                <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_minmax(18rem,28rem)] md:items-end">
+                  <div>
+                    <span className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Cosmetic surgery travel guides</span>
+                    <h2 id="cosmetic-tourism-guides-heading" className="mt-3 font-display text-3xl font-medium md:text-4xl">Plan the procedure and the journey together.</h2>
+                  </div>
+                  <p className="text-sm leading-6 text-muted-foreground">Start with the complete tourism guide, then check international-patient access, surgeon evidence, recovery travel and the China–Korea comparison.</p>
+                </div>
+                <div className="mt-8 divide-y divide-border border-y border-border">
+                  {cosmeticTourismGuides.map((guide, index) => (
+                    <Link key={guide.slug} to={medicalTourismGuidePath(guide.slug)} className="group grid gap-3 py-5 sm:grid-cols-[3rem_minmax(0,1fr)_auto] sm:items-start">
+                      <span className="font-display text-xl text-primary/65">0{index + 1}</span>
+                      <span>
+                        <span className="block font-display text-xl font-medium leading-tight group-hover:text-primary">{guide.title}</span>
+                        <span className="mt-2 line-clamp-2 block text-sm leading-6 text-muted-foreground">{guide.description}</span>
+                      </span>
+                      <ArrowRight className="mt-1 hidden size-4 shrink-0 transition group-hover:translate-x-0.5 sm:block" />
+                    </Link>
+                  ))}
+                </div>
+              </section>
             )}
             {kind === "plastic-surgery" && (
               <section id="costs" className="mt-12 scroll-mt-32">
