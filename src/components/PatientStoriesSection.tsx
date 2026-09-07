@@ -1,4 +1,4 @@
-import { ExternalLink, Quote } from "lucide-react";
+import { Quote } from "lucide-react";
 
 import { useAsia } from "@/lib/asia-i18n";
 
@@ -7,7 +7,6 @@ type PatientStory = {
   age: number;
   country: string;
   countryZh: string;
-  href?: string;
   story: string[];
   storyZh: string[];
 };
@@ -18,7 +17,6 @@ const patientStories: PatientStory[] = [
     age: 31,
     country: "United States",
     countryZh: "美国",
-    href: "https://www.linkedin.com/in/angela-morgenroth/",
     story: [
       "I had always wanted to travel to China. When I came across CeladonChina, I realized I could finally plan the cosmetic treatments I had been considering alongside the trip.",
       "The whole experience was smoother than I expected. When I arrived, a Celadon coordinator was waiting with a sign bearing my name and flowers—a thoughtful welcome that meant a lot in an unfamiliar city. The following day, they accompanied me to meet the doctor, and I went ahead with rhinoplasty, double-eyelid surgery and lip enhancement.",
@@ -37,7 +35,6 @@ const patientStories: PatientStory[] = [
     age: 38,
     country: "Canada",
     countryZh: "加拿大",
-    href: "https://www.linkedin.com/in/rob-callaghan/",
     story: [
       "A friend of mine had a hair transplant in China with excellent results, but he also ran into travel-service problems, including difficulty getting around and language barriers. That led me to CeladonChina while researching services on Google.",
       "I was surprised to learn that they provide airport transfers, interpretation and hotel-booking support at no charge. They also introduced me to several established hair-transplant groups with clinics across China, so I could compare options based on my budget and priorities.",
@@ -71,31 +68,6 @@ const patientStories: PatientStory[] = [
   },
 ];
 
-const PatientName = ({ story }: { story: PatientStory }) => {
-  const content = (
-    <>
-      {story.name}
-      {story.href && <ExternalLink className="size-3.5" aria-hidden="true" />}
-    </>
-  );
-
-  if (!story.href) {
-    return <span className="inline-flex items-center gap-1.5">{content}</span>;
-  }
-
-  return (
-    <a
-      href={story.href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="inline-flex min-h-11 items-center gap-1.5 rounded-lg text-foreground underline decoration-primary/35 underline-offset-4 transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-      aria-label={`${story.name} on LinkedIn (opens in a new tab)`}
-    >
-      {content}
-    </a>
-  );
-};
-
 const PatientStoriesSection = () => {
   const { lang } = useAsia();
   const zh = lang === "zh";
@@ -127,9 +99,7 @@ const PatientStoriesSection = () => {
               <article key={story.name} className="py-8 first:pt-8 lg:px-7 lg:py-10 lg:first:pl-0 lg:last:pr-0">
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <h3 className="font-display text-2xl font-medium leading-none">
-                      <PatientName story={story} />
-                    </h3>
+                    <h3 className="font-display text-2xl font-medium leading-none">{story.name}</h3>
                     <p className="mt-2 text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground">
                       {zh ? `${story.age} 岁 · ${story.countryZh}` : `Age ${story.age} · ${story.country}`}
                     </p>
