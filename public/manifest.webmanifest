@@ -1,0 +1,21 @@
+{
+  "name": "Cosmetics Asia",
+  "short_name": "Cosmetics Asia",
+  "description": "Private cosmetic care planning and coordination across Asia.",
+  "start_url": "/app",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#fbfaf5",
+  "theme_color": "#102c24",
+  "categories": ["health", "travel", "lifestyle"],
+  "icons": [
+    { "src": "/ca-app-icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/ca-app-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Experts", "url": "/app/experts" },
+    { "name": "Clinics", "url": "/app/clinics" },
+    { "name": "My plan", "url": "/app/plan" }
+  ]
+}

@@ -1,6 +1,5 @@
-import { ArrowRight, MapPin, MessageCircle, Play, Search, Smartphone, Star } from "lucide-react";
-
-const WAITLIST_URL = "https://wa.me/14708613825?text=Hi%2C%20please%20add%20me%20to%20the%20CeladonChina%20app%20launch%20list.";
+import { ArrowRight, MapPin, Play, Search, Smartphone, Star } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const AppPromoSection = () => (
   <section className="container py-12 md:py-16">
@@ -10,7 +9,7 @@ const AppPromoSection = () => (
       <div className="absolute bottom-[-8rem] left-[32%] size-72 rounded-full bg-[hsl(50,78%,88%)]/45 blur-2xl" />
       <div className="relative grid items-center gap-10 md:grid-cols-[0.95fr_1.05fr]">
         <div className="relative z-10 max-w-xl">
-          <span className="pill mb-5 bg-white/75 text-foreground"><Smartphone className="size-3.5 text-primary" /> App coming soon</span>
+          <span className="pill mb-5 bg-white/75 text-foreground"><Smartphone className="size-3.5 text-primary" /> Mobile app preview</span>
           <h2 className="font-display text-3xl font-medium leading-[0.98] tracking-[-0.04em] sm:text-5xl lg:text-6xl">
             China’s cosmetic care.<br /><em className="not-italic text-primary">One app.</em>
           </h2>
@@ -22,9 +21,9 @@ const AppPromoSection = () => (
             <span className="rounded-full bg-white/65 px-4 py-2">Journey previews</span>
             <span className="rounded-full bg-white/65 px-4 py-2">iOS + Android</span>
           </div>
-          <a href={WAITLIST_URL} target="_blank" rel="noreferrer" className="mt-7 inline-flex w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 py-4 text-center font-semibold text-background transition hover:-translate-y-0.5 hover:bg-foreground/90 sm:w-auto sm:px-6">
-            <MessageCircle className="size-5" /> Join the launch list <ArrowRight className="size-4" />
-          </a>
+          <Link to="/app" className="mt-7 inline-flex w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 py-4 text-center font-semibold text-background transition hover:-translate-y-0.5 hover:bg-foreground/90 sm:w-auto sm:px-6">
+            <Smartphone className="size-5" /> Open the app <ArrowRight className="size-4" />
+          </Link>
         </div>
 
         <div className="relative z-10 flex min-h-[430px] items-center justify-center md:min-h-[500px]">

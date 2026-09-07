@@ -88,7 +88,7 @@ const ConsentBanner = () => {
   });
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-[100] px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] pointer-events-none">
+    <div className={`fixed inset-x-0 z-[100] px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] pointer-events-none ${pathname.startsWith("/app") ? "bottom-20" : "bottom-0"}`}>
       <aside
         className="pointer-events-auto relative mx-auto flex w-full max-w-3xl flex-col gap-3 rounded-2xl border border-border bg-card p-4 text-foreground shadow-soft sm:flex-row sm:items-center sm:gap-4"
         aria-label={asiaCopy(lang, { en: "Analytics privacy choices", zh: "分析数据隐私选项", ru: "Настройки конфиденциальности аналитики", es: "Opciones de privacidad de análisis", th: "ตัวเลือกความเป็นส่วนตัวของการวิเคราะห์", ms: "Pilihan privasi analitik" })}

@@ -2,6 +2,49 @@
 @tailwind components;
 @tailwind utilities;
 
+.mobile-app-nav {
+  position: fixed;
+}
+
+.mobile-app-scroll {
+  scrollbar-width: none;
+}
+
+.mobile-app-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.mobile-app-scroll > div {
+  animation: mobile-app-section-enter 260ms var(--ease-soft) both;
+}
+
+body.ca-mobile-app .consult-blink {
+  display: none;
+}
+
+@keyframes mobile-app-section-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (min-width: 1024px) {
+  .mobile-app-nav {
+    position: absolute;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-app-scroll > div {
+    animation: none;
+  }
+}
+
 @media (max-width: 639px) {
   .quote-dialog-mobile {
     top: max(0.75rem, env(safe-area-inset-top));
