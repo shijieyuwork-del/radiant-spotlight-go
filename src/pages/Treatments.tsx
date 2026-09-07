@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { Activity, ArrowRight, BookOpen, CheckCircle2, ClipboardCheck, Clock3, Eye, FileText, HeartPulse, MessageCircle, PlayCircle, ScanFace, Scissors, Search, ShieldAlert, Smile, Sparkles, UserRound, WalletCards, WandSparkles } from "lucide-react";
+import { Activity, ArrowRight, BookOpen, CheckCircle2, Clock3, Eye, FileText, HeartPulse, MessageCircle, PlayCircle, ScanFace, Scissors, Search, ShieldAlert, Smile, Sparkles, UserRound, WalletCards, WandSparkles } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
@@ -502,20 +502,6 @@ const Treatments = () => {
               <Link to="/cases" className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full bg-primary px-5 text-sm font-bold text-primary-foreground">{zh ? "浏览全部日记" : "Explore all diaries"}<ArrowRight className="size-4" /></Link>
             </div>
             <div className="mt-7"><TikTokWall items={TIKTOK_CASES.slice(0, 7)} lang={lang} fmtPrice={fmt} variant="preview" /></div>
-          </section>
-
-          <section className="mx-auto mb-4 mt-16 max-w-6xl rounded-[2rem] border border-primary/15 bg-primary/[0.055] p-6 sm:p-8 md:mt-24 md:p-10">
-            <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
-              <div>
-                <span className="pill bg-card"><ClipboardCheck className="size-3.5 text-primary" /> {zh ? "面诊问题清单" : "Consultation checklist"}</span>
-                <h2 className="mt-4 font-display text-3xl font-medium tracking-tight sm:text-4xl">{zh ? "值得向专家确认的问题" : "Questions worth asking your surgeon"}</h2>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{zh ? "好的面诊不仅讨论你想要的结果，也会解释技术选择、风险、恢复和紧急联系安排。" : "A useful consultation should cover technique, risks, recovery and contact arrangements—not only the result you hope to achieve."}</p>
-              </div>
-              <ol className="grid gap-3 sm:grid-cols-2">
-                {(zh ? ["您多久做一次这项手术？", "为什么为我推荐这种技术？", "手术在哪里进行，由谁麻醉？", "最常见的并发症有哪些？", "总报价包含和不包含什么？", "回国后出现问题联系谁？"] : ["How often do you perform this procedure?", "Which technique do you recommend, and why?", "Where is treatment performed, and who provides anesthesia?", "Which complications do you see most often?", "What is included—and excluded—from the quote?", "Who should I contact after returning home?"]).map((item, index) => <li key={item} className="flex min-h-20 gap-3 rounded-2xl border border-border/70 bg-card p-4 text-sm font-semibold"><span className="font-mono text-xs font-bold text-primary">0{index + 1}</span><span>{item}</span></li>)}
-              </ol>
-            </div>
-            <p className="mt-7 border-t border-primary/10 pt-5 text-xs leading-relaxed text-muted-foreground">{zh ? "本页内容仅用于一般科普和行程规划，不构成医疗建议、诊断或个体化治疗方案。请由具备资质的专家完成评估。" : "This page provides general education and planning information only. It is not medical advice, diagnosis or a personalized treatment recommendation. A licensed expert must evaluate your individual circumstances."}</p>
           </section>
 
         </section>
