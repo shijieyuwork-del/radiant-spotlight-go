@@ -66,7 +66,6 @@
     --gradient-mint: linear-gradient(135deg, hsl(var(--primary) / 0.38), hsl(var(--primary) / 0.12));
     --gradient-peach: linear-gradient(135deg, hsl(155 48% 91%), hsl(48 68% 94%));
     --gradient-card: linear-gradient(180deg, hsl(48 60% 99%) 0%, hsl(50 40% 96%) 100%);
-    --gradient-brand-bar: linear-gradient(90deg, hsl(158 45% 55%) 0%, hsl(104 42% 57%) 54%, hsl(48 72% 58%) 100%);
 
     /* Shadows */
     --shadow-soft: 0 8px 32px -12px hsl(158 45% 55% / 0.18);
