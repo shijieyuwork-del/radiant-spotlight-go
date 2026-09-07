@@ -234,21 +234,23 @@ const Packages = () => {
           </section>
 
           <section id="support" className="container scroll-mt-24 py-10 md:py-20">
-            <div className="overflow-hidden rounded-[2.5rem] border border-primary/15 bg-gradient-to-br from-[hsl(158,58%,90%)] via-[hsl(145,48%,92%)] to-[hsl(50,80%,91%)] shadow-pop">
-              <div className="px-5 py-7 sm:px-9 sm:py-9 md:px-12 md:py-12">
+            <div>
+              <div className="mb-7 md:mb-9">
                 <div>
-                  <span className="pill bg-white/80 text-foreground shadow-soft"><ShieldCheck className="size-3.5 text-primary" />{c("Free coordination support", "免费协调支持", "Бесплатная координационная поддержка", "Apoyo de coordinación gratuito")}</span>
-                  <h2 className="mt-4 max-w-3xl font-display text-[2.2rem] font-medium leading-[1.08] tracking-tight sm:text-4xl md:text-5xl">{c("Your journey. Our support.", "你的旅程，我们相伴。", "Бесплатные услуги Celadon", "Servicios gratuitos de Celadon")}</h2>
+                  <span className="pill bg-primary/10 text-foreground"><ShieldCheck className="size-3.5 text-primary" />{c("Free coordination support", "免费协调支持", "Бесплатная координационная поддержка", "Apoyo de coordinación gratuito")}</span>
+                  <h2 className="mt-4 max-w-3xl font-display text-3xl font-medium leading-tight tracking-tight sm:text-4xl">{c("Your journey. Our support.", "你的旅程，我们相伴。", "Бесплатные услуги Celadon", "Servicios gratuitos de Celadon")}</h2>
                 </div>
               </div>
-              <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto bg-white/60 p-4 scrollbar-hide sm:p-6 md:grid md:grid-cols-2 md:overflow-visible lg:grid-cols-6 lg:p-8">
+              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-6 lg:gap-5">
                 {SUPPORT_SERVICES.map((service, index) => {
                   const Icon = service.icon;
                   const wide = index < 2 ? "lg:col-span-3" : "lg:col-span-2";
                   return (
-                    <article key={service.title[0]} className={`group min-w-[82vw] snap-center rounded-3xl border border-white/90 bg-card p-5 shadow-soft sm:min-w-[68vw] sm:p-6 md:min-w-0 ${wide}`}>
-                      <span className="grid size-10 place-items-center rounded-2xl bg-primary/10 text-primary"><Icon className="size-4" /></span>
-                      <h3 className="mt-5 font-display text-[1.2rem] font-semibold leading-tight tracking-tight sm:text-xl">{pick(service.title)}</h3>
+                    <article key={service.title[0]} className={`min-w-0 rounded-3xl border border-primary/20 bg-white p-5 shadow-[0_4px_20px_-12px_hsl(var(--primary)/0.12)] sm:p-6 ${wide}`}>
+                      <div className="flex items-center gap-3">
+                        <span className="grid size-10 shrink-0 place-items-center rounded-2xl bg-primary/10 text-primary"><Icon aria-hidden="true" className="size-4" /></span>
+                        <h3 className="font-display text-lg font-semibold leading-tight tracking-tight sm:text-xl">{pick(service.title)}</h3>
+                      </div>
                       <p className="mt-3 text-sm leading-relaxed text-foreground/65">{pick(service.text)}</p>
                     </article>
                   );
