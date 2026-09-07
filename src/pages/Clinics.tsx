@@ -283,6 +283,7 @@ const Clinics = () => {
                             <MapPin className="size-4 shrink-0 text-primary" />
                             {hospital.area}
                           </p>
+                          </div>
                         </li>
                       ))}
                     </ul>
