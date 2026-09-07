@@ -1450,7 +1450,6 @@ const AsiaIndex = () => {
           <Hero />
           <DoctorsSection />
           <TreatmentsSection />
-          <HowItWorks />
           <CitiesSection />
           <AppPromoSection />
           <PatientStoriesSection />
