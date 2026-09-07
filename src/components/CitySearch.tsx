@@ -96,6 +96,7 @@ export const CitySearchBar = ({ filter }: { filter: CityFilter }) => {
             </button>
           )}
         </div>
+        {filter.countries.length > 1 && (
         <div className="flex flex-wrap items-center gap-2">
           <Chip
             active={filter.country === "all"}
