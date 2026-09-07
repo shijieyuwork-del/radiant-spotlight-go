@@ -9,7 +9,7 @@
  * WhatsApp）永远只能看到 index.html 里的那一份默认值 —— 27 个页面在它们眼里
  * 标题描述完全相同，canonical 还全部指向首页。
  *
- * 核心指南、治疗页和城市页同时进行 React SSG，正文直接写入 HTML；
+ * 核心指南、治疗页、城市页和医院目录/详情页同时进行 React SSG，正文直接写入 HTML；
  * 其他路由仍输出独立的 head，并由客户端渲染正文。
  */
 import { build } from "esbuild";
@@ -33,6 +33,8 @@ async function loadAppData() {
         export { TREATMENTS } from "@/data/treatments";
         export { PROCEDURE_CATALOG } from "@/data/procedureCatalog";
         export { MEDICAL_TOURISM_GUIDES, medicalTourismGuidePath } from "@/data/medicalTourismGuides";
+        export { STATIC_CLINICS } from "@/data/clinicDirectory";
+        export { CLINIC_DIRECTORY_META, clinicPageMeta } from "@/lib/clinic-seo";
         export { SITE_URL, SITE_NAME, OG_IMAGE, TWITTER_HANDLE, ORGANIZATION_SCHEMA, ORGANIZATION_ENTITY, WEBSITE_ENTITY } from "@/lib/seo-config";
       `,
       resolveDir: __dirname,
@@ -145,10 +147,8 @@ function buildRoutes(d) {
         "Explore Seoul, Shanghai, Bangkok, Tokyo, Singapore and more — Asia's cosmetic surgery hubs with specialties, USD pricing, visa info and travel planning.",
     },
     {
-      path: "/clinics",
-      title: "Clinic & Hospital Directory in Asia",
-      description:
-        "Browse clinics and hospitals currently included in CeladonChina destination guides, organized by city and country.",
+      ...d.CLINIC_DIRECTORY_META,
+      schema: d.CLINIC_DIRECTORY_META.structuredData,
     },
     {
       path: "/doctors",
@@ -332,6 +332,14 @@ function buildRoutes(d) {
     });
   }
 
+  for (const clinic of d.STATIC_CLINICS) {
+    const metadata = d.clinicPageMeta(clinic);
+    routes.push({
+      ...metadata,
+      schema: metadata.structuredData,
+    });
+  }
+
   for (const doc of d.DOCTORS) {
     routes.push({
       path: `/doctors/${doc.id}`,
@@ -403,7 +411,8 @@ async function main() {
       r.path === "/plastic-surgery-china" ||
       r.path === "/about" ||
       r.path === "/treatments" || r.path.startsWith("/treatments/") ||
-      r.path === "/cities" || r.path.startsWith("/cities/");
+      r.path === "/cities" || r.path.startsWith("/cities/") ||
+      r.path === "/clinics" || r.path.startsWith("/clinics/");
     if (isSsgRoute) {
       const body = render(r.path);
       html = html.replace('<div id="root"></div>', `<div id="root">${body}</div>`);
@@ -436,7 +445,7 @@ async function main() {
   );
 
   await Promise.all([rm(TMP, { force: true }), rm(SSR_DIR, { recursive: true, force: true })]);
-  console.log(`prerender: 已生成 ${routes.length} 个页面，核心指南、治疗页和城市页包含静态正文`);
+  console.log(`prerender: 已生成 ${routes.length} 个页面，核心指南、治疗页、城市页及医院目录/详情页包含静态正文`);
 }
 
 main().catch((e) => {

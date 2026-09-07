@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
-import { BadgeCheck, Building2, MapPin, Search, ShieldCheck, X } from "lucide-react";
+import { Building2, Search, ShieldCheck, X } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
@@ -8,29 +8,12 @@ import { Button } from "@/components/ui/button";
 import { CITIES } from "@/data/cities";
 import { useAsia } from "@/lib/asia-i18n";
 import { asiaCopy } from "@/lib/asia-copy";
-import { localizedField } from "@/lib/i18n-content";
-import { supabase } from "@/integrations/supabase/client";
-import { useRealtimeRefresh } from "@/hooks/use-realtime-refresh";
-import { ADDITIONAL_CLINICS } from "@/data/additionalClinics";
-import { findRealHospitalPhoto, type RealHospitalPhoto } from "@/data/realHospitalPhotos";
-import { HospitalDirectoryPhoto } from "@/components/HospitalDirectoryPhoto";
+import { findRealHospitalPhoto } from "@/data/realHospitalPhotos";
+import { useClinicDirectory } from "@/hooks/use-clinic-directory";
+import { ClinicCard } from "@/components/clinics/ClinicCard";
+import { CLINIC_DIRECTORY_META } from "@/lib/clinic-seo";
 
 const normalize = (value: string) => value.trim().toLocaleLowerCase();
-
-type PublishedClinicRow = {
-  city: string;
-  hospital: string;
-  i18n: unknown;
-};
-
-type DirectoryFacility = {
-  area: string;
-  key: string;
-  primary: string;
-  published: boolean;
-  secondary: string;
-  photo?: RealHospitalPhoto;
-};
 
 const Clinics = () => {
   const { lang } = useAsia();
@@ -38,85 +21,31 @@ const Clinics = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get("q") ?? "";
   const cityFilter = searchParams.get("city") ?? "all";
-  const [publishedClinics, setPublishedClinics] = useState<PublishedClinicRow[]>([]);
-
-  const loadPublishedClinics = useCallback(() => {
-    void supabase
-      .from("doctors")
-      .select("hospital,city,i18n")
-      .eq("status", "published")
-      .then(({ data }) => {
-        const unique = new Map<string, PublishedClinicRow>();
-        for (const row of data ?? []) {
-          if (!row.hospital?.trim() || !row.city?.trim()) continue;
-          unique.set(`${normalize(row.hospital)}:${normalize(row.city)}`, row as PublishedClinicRow);
-        }
-        setPublishedClinics(Array.from(unique.values()));
-      });
-  }, []);
-
-  useEffect(() => {
-    loadPublishedClinics();
-  }, [loadPublishedClinics]);
-  useRealtimeRefresh(["doctors"], loadPublishedClinics);
-
-  const directory = useMemo(() => {
-    return CITIES.map((city) => {
-    const hospitals: DirectoryFacility[] = [...city.hospitals, ...(ADDITIONAL_CLINICS[city.slug] ?? [])].map((hospital) => {
-      const photo = findRealHospitalPhoto(hospital.zh, hospital.en);
-      return {
-        area: lang === "zh" ? hospital.areaZh : hospital.areaEn,
-        key: `guide:${city.slug}:${hospital.en}`,
-        primary: lang === "zh" ? hospital.zh : hospital.en,
-        published: false,
-        secondary: lang === "zh" ? hospital.en : hospital.zh,
-        photo,
-      };
-    }).sort((a, b) => Number(Boolean(b.photo)) - Number(Boolean(a.photo)));
-
-    for (const row of publishedClinics) {
-      const rowCity = normalize(row.city);
-      if (![normalize(city.en), normalize(city.zh)].some((name) => rowCity.includes(name) || name.includes(rowCity))) continue;
-      const primary = localizedField(row.i18n, "hospital", lang, row.hospital);
-      const secondaryLanguage = lang === "zh" ? "en" : "zh";
-      const secondary = localizedField(row.i18n, "hospital", secondaryLanguage, row.hospital);
-      const alreadyListed = hospitals.some((hospital) =>
-        [hospital.primary, hospital.secondary].some((name) => normalize(name) === normalize(primary) || normalize(name) === normalize(row.hospital)),
-      );
-      if (!alreadyListed) {
-        const photo = findRealHospitalPhoto(row.hospital, primary, secondary);
-        hospitals.unshift({
-          area: lang === "zh" ? city.zh : city.en,
-          key: `published:${city.slug}:${row.hospital}`,
-          primary,
-          published: true,
-          secondary: secondary === primary ? "" : secondary,
-          photo,
-        });
-      }
-    }
-
-    return { city, hospitals };
-  });
-  }, [lang, publishedClinics]);
+  const { clinics, isError, refetch } = useClinicDirectory();
 
   const filteredFacilities = useMemo(() => {
     const term = normalize(query);
-    return directory.flatMap(({ city, hospitals }) => {
+    return CITIES.flatMap((city) => {
       if (cityFilter !== "all" && city.slug !== cityFilter) return [];
-      return hospitals.filter((hospital) => {
+      return clinics.filter((hospital) => {
+        if (hospital.citySlug !== city.slug) return false;
         if (!term) return true;
         const searchable = [
-          hospital.primary,
-          hospital.secondary,
-          hospital.area,
+          hospital.nameEn,
+          hospital.nameZh,
+          hospital.areaEn,
+          hospital.areaZh,
+          ...hospital.aliases,
           city.en,
           city.zh,
         ].join(" ").toLocaleLowerCase();
         return searchable.includes(term);
+      }).sort((a, b) => {
+        const score = (hospital: typeof a) => hospital.origin === "published" ? 2 : Number(Boolean(findRealHospitalPhoto(hospital.nameZh, hospital.nameEn, ...hospital.aliases)));
+        return score(b) - score(a);
       }).map((hospital) => ({ city, hospital }));
     });
-  }, [cityFilter, directory, query]);
+  }, [cityFilter, clinics, query]);
 
   const visibleCount = filteredFacilities.length;
   const selectedCity = CITIES.find((city) => city.slug === cityFilter);
@@ -132,11 +61,7 @@ const Clinics = () => {
 
   return (
     <>
-      <PageMeta
-        title="Clinic & Hospital Directory in Asia"
-        description="Browse clinics and hospitals currently included in CeladonChina destination guides, organized by city and country."
-        path="/clinics"
-      />
+      <PageMeta {...CLINIC_DIRECTORY_META} />
       <div className="min-h-screen bg-background">
         <AsiaNavbar />
         <main>
@@ -161,6 +86,7 @@ const Clinics = () => {
                     type="button"
                     size="sm"
                     variant={cityFilter === "all" ? "default" : "outline"}
+                    aria-pressed={cityFilter === "all"}
                     className="min-h-10 shrink-0 rounded-full px-4"
                     onClick={() => updateFilter("city", "all")}
                   >
@@ -172,6 +98,7 @@ const Clinics = () => {
                       type="button"
                       size="sm"
                       variant={cityFilter === city.slug ? "default" : "outline"}
+                      aria-pressed={cityFilter === city.slug}
                       className="min-h-10 shrink-0 rounded-full px-4"
                       onClick={() => updateFilter("city", city.slug)}
                     >
@@ -187,14 +114,14 @@ const Clinics = () => {
                 <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-primary">
                   {c("All listed facilities", "全部收录机构", "Все учреждения", "Todos los centros")}
                 </p>
-                <h2 id="clinic-directory-title" className="mt-2 font-display text-3xl font-medium tracking-tight sm:text-4xl">
+                <h1 id="clinic-directory-title" className="mt-2 font-display text-3xl font-medium tracking-tight sm:text-4xl">
                   {c(
                     `${visibleCount} ${visibleCount === 1 ? "facility" : "facilities"} in ${locationName}`,
                     `${visibleCount} 家医院及诊所，位于${locationName}`,
                     `${visibleCount} учреждений в ${locationName}`,
                     `${visibleCount} centros en ${locationName}`,
                   )}
-                </h2>
+                </h1>
               </div>
               {(query || cityFilter !== "all") && (
                 <Button type="button" variant="ghost" className="w-fit rounded-full" onClick={clearFilters}>
@@ -203,6 +130,15 @@ const Clinics = () => {
                 </Button>
               )}
             </div>
+
+            {isError && (
+              <p role="status" className="mt-5 text-sm text-muted-foreground">
+                {c("Showing the directory. Additional published profiles could not be loaded.", "目录已显示，后台关联的专家资料暂时无法加载。", "Каталог доступен. Дополнительные профили не загрузились.", "El directorio está disponible. No se pudieron cargar los perfiles adicionales.")}
+                {" "}<button type="button" onClick={() => void refetch()} className="rounded-sm underline underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">
+                  {c("Try again", "重试", "Повторить", "Reintentar")}
+                </button>
+              </p>
+            )}
 
             {filteredFacilities.length === 0 ? (
               <div role="status" className="mt-8 rounded-3xl border border-dashed border-border bg-card/60 px-6 py-14 text-center">
@@ -220,32 +156,7 @@ const Clinics = () => {
             ) : (
               <ul className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-3" aria-label={c("All hospitals and clinics", "全部医院及诊所", "Все больницы и клиники", "Todos los hospitales y clínicas")}>
                 {filteredFacilities.map(({ city, hospital }) => (
-                        <li key={hospital.key} className="flex min-h-36 flex-col overflow-hidden rounded-2xl border border-border/70 bg-card transition-colors hover:border-primary/30">
-                          <HospitalDirectoryPhoto key={hospital.photo?.src ?? "no-photo"} photo={hospital.photo} name={hospital.primary} />
-                          <div className="flex flex-1 flex-col p-5">
-                          <div className="flex items-start gap-3">
-                            <span className="grid size-10 shrink-0 place-items-center rounded-full bg-primary/10 text-primary">
-                              <Building2 className="size-4" />
-                            </span>
-                            <div className="min-w-0">
-                              <h4 className="font-display text-xl font-medium leading-snug text-foreground">
-                                {hospital.primary}
-                              </h4>
-                              {hospital.secondary && <p className="mt-1 text-xs leading-5 text-muted-foreground">{hospital.secondary}</p>}
-                              {hospital.published && (
-                                <span className="mt-2 inline-flex items-center gap-1 rounded-full bg-primary/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.08em] text-primary">
-                                  <BadgeCheck className="size-3" />
-                                  {c("Published expert profile", "关联已发布专家资料", "Есть профиль специалиста", "Perfil de experto publicado")}
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                          <p className="mt-auto flex items-center gap-2 pt-4 text-sm text-muted-foreground">
-                            <MapPin className="size-4 shrink-0 text-primary" />
-                            {lang === "zh" ? city.zh : city.en}{hospital.area ? ` · ${hospital.area}` : ""}
-                          </p>
-                          </div>
-                        </li>
+                  <ClinicCard key={hospital.slug} clinic={hospital} city={city} />
                 ))}
               </ul>
             )}

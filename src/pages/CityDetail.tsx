@@ -7,6 +7,7 @@ import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
 import { countryOf, findCity } from "@/data/cities";
+import { getClinicPath, STATIC_CLINICS } from "@/data/clinicDirectory";
 import { DOCTORS } from "@/data/doctors";
 import { DEMO_CHINA_DOCTORS } from "@/data/demoChinaDoctors";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
@@ -126,6 +127,51 @@ const CityDetail = () => {
           </div>
         </div>
       </section>
+
+      {/* Hospital directory entries for this city */}
+      {city.hospitals.length > 0 && (
+        <section className="container py-10" aria-labelledby="city-hospitals-heading">
+          <h2 id="city-hospitals-heading" className="font-display text-3xl md:text-4xl font-semibold mb-6">
+            {c(`Hospitals in ${city.en}`, `${city.zh}医院`, `Больницы в городе ${city.en}`, `Hospitales en ${city.en}`)}
+          </h2>
+          <ul className="grid gap-4 md:grid-cols-3">
+            {city.hospitals.slice(0, 4).map((hospital) => {
+              const clinic = STATIC_CLINICS.find((entry) =>
+                entry.citySlug === city.slug && (
+                  entry.nameZh === hospital.zh || entry.nameEn === hospital.en
+                ),
+              );
+              const hospitalName = lang === "zh" ? hospital.zh : hospital.en;
+
+              return (
+                <li key={hospital.zh} className="rounded-2xl border border-border/70 bg-card p-5">
+                  <h3 className="font-display text-xl font-medium leading-snug">
+                    {clinic ? (
+                      <Link
+                        to={getClinicPath(clinic)}
+                        className="inline-flex min-h-11 items-start gap-2 rounded-md py-1 text-foreground underline-offset-4 transition-colors hover:text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4"
+                      >
+                        {hospitalName}
+                        <ArrowRight className="mt-1 size-4 shrink-0" aria-hidden="true" />
+                      </Link>
+                    ) : hospitalName}
+                  </h3>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    {lang === "zh" ? hospital.areaZh : hospital.areaEn}
+                  </p>
+                </li>
+              );
+            })}
+          </ul>
+          <Link
+            to={`/clinics?city=${encodeURIComponent(city.slug)}`}
+            className="mt-4 inline-flex min-h-11 items-center gap-2 rounded-md text-sm font-semibold text-foreground underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4"
+          >
+            {c(`View all hospitals in ${city.en}`, `查看${city.zh}全部医院`, `Все больницы в городе ${city.en}`, `Ver todos los hospitales en ${city.en}`)}
+            <ArrowRight className="size-4" aria-hidden="true" />
+          </Link>
+        </section>
+      )}
 
       {/* Surgeons in this city */}
       <section className="container py-10">

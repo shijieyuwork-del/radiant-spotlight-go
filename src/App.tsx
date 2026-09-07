@@ -25,6 +25,7 @@ const DoctorAdmin = lazy(() => import("./pages/DoctorAdmin.tsx"));
 const Cities = lazy(() => import("./pages/Cities.tsx"));
 const CityDetail = lazy(() => import("./pages/CityDetail.tsx"));
 const Clinics = lazy(() => import("./pages/Clinics.tsx"));
+const ClinicDetail = lazy(() => import("./pages/ClinicDetail.tsx"));
 const Packages = lazy(() => import("./pages/Packages.tsx"));
 const Treatments = lazy(() => import("./pages/Treatments.tsx"));
 const TreatmentDetail = lazy(() => import("./pages/TreatmentDetail.tsx"));
@@ -82,6 +83,7 @@ export const AppRoutes = () => (
                     <Route path="/cities" element={<Cities />} />
                     <Route path="/cities/:slug" element={<CityDetail />} />
                     <Route path="/clinics" element={<Clinics />} />
+                    <Route path="/clinics/:slug" element={<ClinicDetail />} />
                     <Route path="/treatments" element={<Treatments />} />
                     <Route path="/treatments/:slug" element={<TreatmentDetail />} />
                     <Route path="/travel-packages" element={<Packages />} />

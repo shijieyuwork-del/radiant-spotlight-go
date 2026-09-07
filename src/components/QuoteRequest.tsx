@@ -15,6 +15,7 @@ import { trackEvent } from "@/lib/analytics";
 
 export interface QuoteContext {
   doctorName?: string;
+  hospitalName?: string;
   procedure?: string;
   city?: string;
   /** Non-sensitive placement label for aggregate funnel measurement. */
@@ -200,6 +201,7 @@ const QuoteDialog = ({
     const message = [
       "Hi CeladonChina, I would like to start a consultation.",
       ctx.doctorName ? `Expert: ${ctx.doctorName}` : "",
+      ctx.hospitalName ? `Hospital: ${ctx.hospitalName}` : "",
       ctx.procedure ? `Procedure: ${ctx.procedure}` : "",
       ctx.city ? `City: ${ctx.city}` : "",
     ].filter(Boolean).join("\n");
@@ -221,6 +223,8 @@ const QuoteDialog = ({
   const expertLabel = ctx.doctorName ?? "";
   const headline = expertLabel
     ? `Ask about ${expertLabel}`
+    : ctx.hospitalName
+    ? `Ask about ${ctx.hospitalName}`
     : ctx.procedure
     ? `Ask about ${ctx.procedure}`
     : "Choose how to contact us";
@@ -248,7 +252,7 @@ const QuoteDialog = ({
       phone,
       country,
       procedure,
-      notes: notes || null,
+      notes: [ctx.hospitalName ? `Hospital: ${ctx.hospitalName}` : "", notes].filter(Boolean).join("\n") || null,
       contact_method: contactMethod,
       expert_name: expertLabel || null,
       city: ctx.city ?? null,
@@ -268,6 +272,7 @@ const QuoteDialog = ({
     const message = [
       "Hi CeladonChina, I would like to start a consultation.",
       expertLabel ? `Expert: ${expertLabel}` : "",
+      ctx.hospitalName ? `Hospital: ${ctx.hospitalName}` : "",
       "Request: Consultation",
       `Name: ${name}`,
       `Preferred contact: ${contactMethod === "email" ? "Email" : "WhatsApp"}`,

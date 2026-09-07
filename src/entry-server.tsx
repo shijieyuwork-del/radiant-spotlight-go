@@ -8,6 +8,7 @@ import TreatmentDetail from "./pages/TreatmentDetail";
 import Cities from "./pages/Cities";
 import CityDetail from "./pages/CityDetail";
 import Clinics from "./pages/Clinics";
+import ClinicDetail from "./pages/ClinicDetail";
 import MedicalTourismArticle from "./pages/MedicalTourismArticle";
 import About from "./pages/About";
 
@@ -30,6 +31,7 @@ export function render(url: string) {
           <Route path="/cities" element={<Cities />} />
           <Route path="/cities/:slug" element={<CityDetail />} />
           <Route path="/clinics" element={<Clinics />} />
+          <Route path="/clinics/:slug" element={<ClinicDetail />} />
           <Route path="/about" element={<About />} />
         </Routes>
       </AppProviders>
