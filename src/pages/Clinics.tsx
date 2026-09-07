@@ -12,6 +12,7 @@ import { localizedField } from "@/lib/i18n-content";
 import { supabase } from "@/integrations/supabase/client";
 import { useRealtimeRefresh } from "@/hooks/use-realtime-refresh";
 import genericClinicImg from "@/assets/clinics/generic-clinic.jpg";
+import { ADDITIONAL_CLINICS } from "@/data/additionalClinics";
 
 const normalize = (value: string) => value.trim().toLocaleLowerCase();
 
@@ -59,7 +60,7 @@ const Clinics = () => {
   useRealtimeRefresh(["doctors"], loadPublishedClinics);
 
   const directory = useMemo(() => CITIES.map((city) => {
-    const hospitals: DirectoryFacility[] = city.hospitals.map((hospital) => ({
+    const hospitals: DirectoryFacility[] = [...city.hospitals, ...(ADDITIONAL_CLINICS[city.slug] ?? [])].map((hospital) => ({
       area: lang === "zh" ? hospital.areaZh : hospital.areaEn,
       key: `guide:${city.slug}:${hospital.en}`,
       primary: lang === "zh" ? hospital.zh : hospital.en,
