@@ -252,18 +252,18 @@ const Packages = () => {
             </div>
 
             <div className="mt-8 flex flex-col gap-4 md:flex-row md:gap-6">
-              <div className="flex flex-1 items-center gap-4 rounded-2xl border border-primary/10 bg-card p-5 shadow-soft">
-                <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-secondary text-primary"><Wallet className="size-5" /></span>
+              <div className="flex flex-1 items-center gap-4 rounded-2xl border border-primary/15 bg-gradient-to-r from-[hsl(156_58%_93%)] to-[hsl(146_48%_86%)] p-5 text-foreground shadow-soft">
+                <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-white/65 text-primary"><Wallet className="size-5" /></span>
                 <div>
-                  <h3 className="font-display text-sm font-semibold tracking-tight">{c("$400 coordination deposit", "400 美元协调押金", "Депозит $400", "Depósito de coordinación de 400 $")}</h3>
-                  <p className="mt-1 text-xs uppercase tracking-tight text-foreground/50">{c("Reserves your date & support package", "保留预约与协调服务", "Бронирует дату и поддержку", "Reserva tu fecha y paquete de apoyo")}</p>
+                  <h3 className="font-display text-sm font-semibold tracking-tight">{c("$200 coordination deposit", "200 美元协调押金", "Депозит $200", "Depósito de coordinación de 200 $")}</h3>
+                  <p className="mt-1 text-xs uppercase tracking-tight text-foreground/55">{c("Reserves your date & support package", "保留预约与协调服务", "Бронирует дату и поддержку", "Reserva tu fecha y paquete de apoyo")}</p>
                 </div>
               </div>
-              <div className="flex flex-1 items-center gap-4 rounded-2xl bg-foreground p-5 text-background shadow-soft">
-                <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-primary text-foreground"><Building2 className="size-5" /></span>
+              <div className="flex flex-1 items-center gap-4 rounded-2xl border border-primary/15 bg-gradient-to-r from-[hsl(156_58%_93%)] to-[hsl(146_48%_86%)] p-5 text-foreground shadow-soft">
+                <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-white/65 text-primary"><Building2 className="size-5" /></span>
                 <div>
                   <h3 className="font-display text-sm font-semibold tracking-tight">{c("Pay the clinic directly", "直接支付给诊所", "Оплата напрямую клинике", "Paga directamente a la clínica")}</h3>
-                  <p className="mt-1 text-xs uppercase tracking-tight text-background/50">{c("Medical fees go straight to the facility", "医疗费用由诊所直接收取", "Медицинские сборы — напрямую в клинику", "Los honorarios médicos van directamente al centro")}</p>
+                  <p className="mt-1 text-xs uppercase tracking-tight text-foreground/55">{c("Medical fees go straight to the facility", "医疗费用由诊所直接收取", "Медицинские сборы — напрямую в клинику", "Los honorarios médicos van directamente al centro")}</p>
                 </div>
               </div>
             </div>
