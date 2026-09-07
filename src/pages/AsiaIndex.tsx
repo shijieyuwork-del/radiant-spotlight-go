@@ -966,7 +966,8 @@ const TreatmentsSectionLegacy = () => {
 };
 
 const TreatmentsSection = () => {
-  const { t, lang } = useAsia();
+  const { lang } = useAsia();
+  const c = (en: string, zh: string, ru: string, es: string) => lang === "zh" ? zh : lang === "ru" ? ru : lang === "es" ? es : en;
   const procedureGoals = [
     {
       key: "nose",
@@ -1093,43 +1094,73 @@ const TreatmentsSection = () => {
       href: "/treatments/male-breast-reduction",
     },
   ];
-  const labelFor = (goal: typeof procedureGoals[number]) => lang === "zh" ? goal.zh : lang === "ru" ? goal.ru : lang === "es" ? goal.es : goal.en;
+  const whyReasons = [
+    {
+      key: "experts",
+      image: procedureRhinoplasty,
+      eyebrow: c("300+ specialists", "300+ 位专家", "Более 300 специалистов", "Más de 300 especialistas"),
+      title: c("More specialist choice", "专家选择更多", "Больше выбор специалистов", "Más especialistas para elegir"),
+      detail: c(
+        "We work with more than 300 cosmetic medicine specialists across China, giving you more relevant experts to compare.",
+        "我们已与中国 300+ 位医美专家建立合作，让你可以比较更多与自身需求相关的专家。",
+        "Мы сотрудничаем с более чем 300 специалистами эстетической медицины по всему Китаю.",
+        "Colaboramos con más de 300 especialistas en medicina estética de toda China.",
+      ),
+    },
+    {
+      key: "network",
+      image: journeyTreatment,
+      eyebrow: c("China · Korea · Japan", "中国 · 韩国 · 日本", "Китай · Корея · Япония", "China · Corea · Japón"),
+      title: c("A wider care network", "覆盖网络更广", "Широкая сеть клиник", "Una red asistencial más amplia"),
+      detail: c(
+        "Our network covers every major tier-one city in China and includes selected clinic partners in South Korea and Japan.",
+        "合作网络覆盖中国主要一线城市，并延伸到韩国和日本的精选合作诊所。",
+        "Наша сеть охватывает крупнейшие города Китая, а также избранные клиники в Южной Корее и Японии.",
+        "Nuestra red cubre las principales ciudades de China e incluye clínicas seleccionadas en Corea del Sur y Japón.",
+      ),
+    },
+    {
+      key: "service",
+      image: journeyGroundSupport,
+      eyebrow: c("One coordinated journey", "一站式行程支持", "Единая координация", "Un viaje coordinado"),
+      title: c("One team from first question to arrival", "从问诊到抵达，全程有人协调", "Одна команда на всём пути", "Un equipo durante todo el viaje"),
+      detail: c(
+        "Get free consultation coordination, plus in-person interpretation, airport pickup and hotel booking support.",
+        "我们提供免费的专家问诊协调，以及线下翻译、机场接送和酒店代订等实际支持。",
+        "Бесплатная координация консультации, очный перевод, встреча в аэропорту и помощь с бронированием отеля.",
+        "Coordinación gratuita de consultas, interpretación presencial, recogida en el aeropuerto y ayuda con la reserva de hotel.",
+      ),
+    },
+  ];
   return (
-    <section id="projects" className="container py-10 md:py-16" aria-labelledby="procedure-goals-title">
+    <section id="projects" className="container py-10 md:py-16" aria-labelledby="why-celadonchina-title">
       <div className="mb-7 grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(300px,0.46fr)] lg:items-end md:mb-10">
         <div>
-          <span className="pill mb-3 bg-accent text-accent-foreground"><Flame className="size-3.5" /> {t("tx.kicker")}</span>
-          <h2 id="procedure-goals-title" className="max-w-3xl font-display text-3xl font-medium leading-[0.98] tracking-tight sm:text-4xl md:text-5xl">
-            {lang === "zh" ? <>从你的目标出发，<em className="not-italic text-primary">了解适合的项目</em></> : lang === "ru" ? <>Начните с вашей цели — <em className="not-italic text-primary">изучите варианты</em></> : lang === "es" ? <>Comienza por tus objetivos. <em className="not-italic text-primary">Explora tus opciones.</em></> : <>Start with your goals. <em className="not-italic text-primary">Explore your options.</em></>}
+          <span className="pill mb-3 bg-accent text-accent-foreground"><ShieldCheck className="size-3.5" /> {c("Why choose us", "为什么选择我们", "Почему выбирают нас", "Por qué elegirnos")}</span>
+          <h2 id="why-celadonchina-title" className="max-w-3xl font-display text-3xl font-medium leading-[0.98] tracking-tight sm:text-4xl md:text-5xl">
+            Why <em className="not-italic text-primary">CeladonChina</em>
           </h2>
         </div>
         <div className="lg:pb-1">
           <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
-            {lang === "zh" ? "不需要提前知道具体术式。先选择你想改善的方向，再查看相关项目与公开专家信息。" : lang === "ru" ? "Не обязательно заранее знать название процедуры. Выберите цель и изучите подходящие варианты и опубликованную информацию об экспертах." : lang === "es" ? "No necesitas conocer el nombre del procedimiento todavía. Elige lo que quieres mejorar y luego revisa las opciones relevantes y la información publicada de expertos." : "You do not need to know the procedure name yet. Choose what you want to improve, then review relevant options and published expert information."}
+            {c("More expert choice, broader geographic coverage and practical support throughout your medical trip.", "更多专家选择、更广的服务覆盖，以及贯穿医美行程的实际协调支持。", "Больше специалистов, шире география и практическая поддержка на всём пути.", "Más especialistas, mayor cobertura y apoyo práctico durante todo el viaje.")}
           </p>
-          <Link to="/treatments" className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-foreground underline decoration-primary/40 underline-offset-4 transition-colors duration-150 hover:text-primary">
-            {lang === "zh" ? "查看全部项目" : lang === "ru" ? "Все процедуры" : lang === "es" ? "Ver todos los procedimientos" : "View all procedures"}<ArrowRight className="size-4" />
-          </Link>
         </div>
       </div>
 
-      <div className="flex touch-pan-x snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain pb-2 scrollbar-hide md:gap-4" aria-label={lang === "zh" ? "12 个项目方向，可横向滑动浏览" : "12 procedure goals, scroll horizontally to explore"}>
-        {procedureGoals.map((goal, index) => (
-          <Link key={goal.key} to={goal.href} className="group relative min-h-[300px] w-[76vw] min-w-[76vw] shrink-0 snap-center overflow-hidden rounded-[1.6rem] bg-foreground shadow-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:w-[44vw] sm:min-w-[44vw] lg:min-h-[340px] lg:w-[calc((100%_-_5rem)/6)] lg:min-w-[calc((100%_-_5rem)/6)] lg:snap-start">
-            <img src={goal.image} alt={labelFor(goal)} loading="lazy" decoding="async" className="absolute inset-0 size-full object-cover transition-transform duration-400 ease-out group-hover:scale-[1.035]" />
+      <div className="grid gap-4 md:grid-cols-3" aria-label={c("Three reasons to choose CeladonChina", "选择 CeladonChina 的三个理由", "Три причины выбрать CeladonChina", "Tres razones para elegir CeladonChina")}>
+        {whyReasons.map((reason, index) => (
+          <article key={reason.key} className="group relative min-h-[360px] overflow-hidden rounded-[1.6rem] bg-foreground shadow-soft">
+            <img src={reason.image} alt="" loading="lazy" decoding="async" className="absolute inset-0 size-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.025]" />
             <div className="absolute inset-0 bg-gradient-to-t from-foreground/95 via-foreground/20 to-transparent" />
-            <div className="relative flex min-h-[300px] flex-col justify-end p-5 text-background lg:min-h-[340px]">
-              <span className="mb-2 text-[10px] font-bold uppercase tracking-[0.18em] text-background/60">{String(index + 1).padStart(2, "0")}</span>
-              <h3 className="font-display text-2xl font-medium leading-[0.95] lg:text-[1.7rem]">{labelFor(goal)}</h3>
-              <p className="mt-3 line-clamp-2 text-xs leading-relaxed text-background/70">{goal.treatments.map(([en, zh]) => lang === "zh" ? zh : en).join(" · ")}</p>
-              <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-background/90">{lang === "zh" ? "查看项目" : lang === "ru" ? "Смотреть" : lang === "es" ? "Explorar" : "Explore"}<ArrowRight className="size-3.5 transition-transform duration-200 group-hover:translate-x-1" /></span>
+            <div className="relative flex min-h-[360px] flex-col justify-end p-6 text-background sm:p-7">
+              <span className="mb-auto inline-flex size-10 items-center justify-center rounded-full border border-background/30 bg-foreground/20 text-sm font-semibold backdrop-blur">0{index + 1}</span>
+              <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-background/65">{reason.eyebrow}</p>
+              <h3 className="max-w-sm font-display text-2xl font-medium leading-[1.02] sm:text-[1.7rem]">{reason.title}</h3>
+              <p className="mt-4 max-w-md text-sm leading-relaxed text-background/78">{reason.detail}</p>
             </div>
-          </Link>
+          </article>
         ))}
-      </div>
-      <div className="mt-3 flex items-center justify-end gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-        <span>{lang === "zh" ? "12 个方向 · 横向滑动浏览" : lang === "ru" ? "12 направлений · листайте вправо" : lang === "es" ? "12 especialidades · desliza para explorar" : "12 specialties · scroll to explore"}</span>
-        <ArrowRight className="size-3.5 text-primary" />
       </div>
     </section>
   );
