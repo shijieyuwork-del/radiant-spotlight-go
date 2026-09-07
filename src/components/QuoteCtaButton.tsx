@@ -5,13 +5,13 @@ import { cn } from "@/lib/utils";
 import { trackEvent } from "@/lib/analytics";
 
 /**
- * 全站统一的 “Get a free quote” CTA 按钮。
+ * 全站统一的 “Start a consultation” CTA 按钮。
  *
  * - 文案唯一来源：asia-i18n 字典 `hero.cta`（随 en/zh/ru 自动切换）。
  *   任何页面不得再内联维护该按钮的三语文案（由 quote-cta-i18n 回归测试守护）。
  * - 样式唯一来源：本组件的 VARIANTS；页面只能通过 className 调整布局
  *   （宽度、圆角、高度等），不得覆盖配色。
- * - 默认打开报价流程，让用户选择通过 Email 或 WhatsApp 继续；
+ * - 默认打开咨询流程，让用户选择通过 Email 或 WhatsApp 继续；
  *   仅在显式传入 href 时直接打开外部链接。
  */
 
@@ -37,6 +37,7 @@ export interface QuoteCtaButtonProps {
   /** arrow：箭头在文案后（默认）；chat：对话图标在文案前 */
   icon?: keyof typeof ICONS;
   className?: string;
+  "data-testid"?: string;
 }
 
 const QuoteCtaButton = ({
@@ -45,6 +46,7 @@ const QuoteCtaButton = ({
   variant = "dark",
   icon = "arrow",
   className,
+  "data-testid": testId,
 }: QuoteCtaButtonProps) => {
   const { t } = useAsia();
   const { open } = useQuote();
@@ -58,7 +60,7 @@ const QuoteCtaButton = ({
 
   if (!href) {
     return (
-      <button type="button" onClick={() => { trackEvent("select_cta", { source: quoteCtx?.source || "quote_button" }); open(quoteCtx); }} className={cls}>
+      <button type="button" data-testid={testId} onClick={() => { trackEvent("select_cta", { source: quoteCtx?.source || "quote_button" }); open(quoteCtx); }} className={cls}>
         {icon === "chat" && <Icon className="size-4" />}
         {label}
         {icon === "arrow" && <Icon className="size-4" />}
@@ -66,7 +68,7 @@ const QuoteCtaButton = ({
     );
   }
   return (
-    <a href={href} target="_blank" rel="noreferrer" onClick={() => trackEvent("whatsapp_handoff", { source: "quote_button" })} className={cls}>
+    <a href={href} target="_blank" rel="noreferrer" data-testid={testId} onClick={() => trackEvent("whatsapp_handoff", { source: "quote_button" })} className={cls}>
       {label}
       <Icon className="size-4" />
     </a>

@@ -17,7 +17,7 @@ const guideCopy = {
     kicker: "China medical travel guide",
     heading: "Medical tourism in China, planned around the care you actually need.",
     intro: "A safe medical trip starts before you book a flight. Use this guide to organize records, verify the treating provider, understand what is and is not included, and plan enough time for assessment, treatment and recovery.",
-    cta: "Start a planning consultation",
+    cta: "Start a consultation",
     sections: [
       { title: "Start with a medical review, not a travel package", body: "Send relevant records and your questions before choosing dates. The treating clinician or hospital should decide whether an in-person consultation is appropriate, what tests are needed and whether travel is reasonable. A coordinator can organize information and logistics, but cannot diagnose you or choose treatment for you." },
       { title: "Verify the clinician and the facility separately", body: "Confirm the clinician's current license, specialty, experience with the procedure and right to practise at the named facility. Then confirm the facility's legal name, address, operating scope, anesthesia arrangements and emergency transfer plan. A polished profile or social account is not evidence of clinical authorization." },

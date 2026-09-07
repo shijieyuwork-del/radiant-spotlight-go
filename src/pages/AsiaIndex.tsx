@@ -265,7 +265,7 @@ const Hero = () => {
             <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-[15px]"><em className="text-primary not-italic sm:hidden">{copy.emphasis} </em>{copy.subtitle}</p>
 
             <div className="mx-auto mt-5 flex max-w-lg flex-col justify-center gap-3 sm:mt-7 sm:flex-row">
-              <QuoteCtaButton className="h-[3.25rem] w-full rounded-2xl border border-foreground px-8 text-[15px] shadow-pop sm:h-12 sm:w-auto sm:rounded-full" />
+              <QuoteCtaButton className="h-[3.25rem] w-full rounded-2xl border border-foreground px-8 text-[15px] shadow-pop sm:h-12 sm:w-auto sm:rounded-full" data-testid="home-hero-cta" />
               <Button asChild size="lg" variant="outline" className="h-[3.25rem] w-full rounded-2xl border-primary/25 bg-card/70 px-8 text-[15px] font-semibold backdrop-blur sm:h-12 sm:w-auto sm:rounded-full">
                 <Link to="/cases">{copy.cases}<ArrowRight className="ml-1.5 size-4" /></Link>
               </Button>
@@ -483,7 +483,7 @@ const PrivateCareHero = () => {
                 </h1>
                 <p className="mt-5 max-w-xl text-[15px] leading-7 text-white/72 sm:text-base sm:leading-7">{copy.subtitle}</p>
                 <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                  <QuoteCtaButton variant="primary" className="min-h-[3.25rem] w-full px-7 sm:w-auto" quoteCtx={{ source: "private_care_hero" }} />
+                  <QuoteCtaButton variant="primary" className="min-h-[3.25rem] w-full px-7 sm:w-auto" quoteCtx={{ source: "private_care_hero" }} data-testid="home-hero-cta" />
                   <Button asChild variant="outline" className="min-h-[3.25rem] w-full rounded-full border-white/30 bg-white/[0.06] px-7 text-sm font-semibold text-white hover:bg-white/[0.12] hover:text-white sm:w-auto">
                     <Link to="/cases">{copy.diaries}<ArrowRight className="ml-1 size-4" /></Link>
                   </Button>
@@ -588,10 +588,10 @@ const TravelBar = () => {
     {
       icon: Video,
       image: journeyConsultation,
-      en: ["Get a free quote", "Tell us your goals and questions so we can help identify suitable specialists"],
-      zh: ["获取免费报价", "告诉我们你的目标和疑问，我们会协助匹配合适的专家"],
-      ru: ["Получить бесплатную оценку", "Расскажите о целях и вопросах, чтобы мы помогли подобрать специалистов"],
-      es: ["Obtén una cotización gratuita", "Cuéntanos tus objetivos y preguntas para ayudarte a identificar especialistas adecuados"],
+      en: ["Start a consultation", "Tell us your goals and questions so we can help identify suitable specialists"],
+      zh: ["开始咨询", "告诉我们你的目标和疑问，我们会协助匹配合适的专家"],
+      ru: ["Начать консультацию", "Расскажите о целях и вопросах, чтобы мы помогли подобрать специалистов"],
+      es: ["Solicita una consulta", "Cuéntanos tus objetivos y preguntas para ayudarte a identificar especialistas adecuados"],
     },
     {
       icon: Plane,
@@ -1122,7 +1122,7 @@ const TreatmentsSection = () => {
       eyebrow: c("One coordinated journey", "一站式行程支持", "Единая координация", "Un viaje coordinado"),
       title: c("One team, start to finish", "一支团队，全程协调", "Одна команда на всём пути", "Un equipo de principio a fin"),
       detail: c(
-        "Free consultation coordination, plus interpretation, airport pickup and hotel booking.",
+        "Consultation coordination, plus interpretation, airport pickup and hotel booking.",
         "免费协调问诊，并提供翻译、接机和酒店预订支持。",
         "Бесплатная координация консультации, а также перевод, трансфер и бронирование отеля.",
         "Coordinación gratuita de consultas, más interpretación, recogida y reserva de hotel.",

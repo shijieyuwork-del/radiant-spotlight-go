@@ -52,8 +52,8 @@ const LANDINGS: Record<TreatmentLandingKind, LandingCopy> = {
   rhinoplasty: {
     slug: "rhinoplasty-china",
     name: "Rhinoplasty",
-    keywordTitle: "Rhinoplasty in China | Cost, Recovery & Free Consultation",
-    description: "Considering rhinoplasty in China? Review realistic cost and recovery ranges, understand travel support, and start with a free, no-obligation consultation.",
+    keywordTitle: "Rhinoplasty in China | Cost, Recovery & Consultation",
+    description: "Considering rhinoplasty in China? Review realistic cost and recovery ranges, understand travel support, and start with a no-obligation consultation.",
     eyebrow: "Rhinoplasty planning in China",
     headline: "Considering rhinoplasty in China?",
     headlineAccent: "Start with clarity, not pressure.",
@@ -74,7 +74,7 @@ const LANDINGS: Record<TreatmentLandingKind, LandingCopy> = {
   blepharoplasty: {
     slug: "blepharoplasty-china",
     name: "Blepharoplasty",
-    keywordTitle: "Blepharoplasty in China | Cost, Recovery & Free Consultation",
+    keywordTitle: "Blepharoplasty in China | Cost, Recovery & Consultation",
     description: "Explore blepharoplasty in China with realistic pricing, recovery guidance, travel coordination, and a free, no-obligation initial consultation.",
     eyebrow: "Eyelid surgery planning in China",
     headline: "Considering blepharoplasty in China?",
@@ -96,8 +96,8 @@ const LANDINGS: Record<TreatmentLandingKind, LandingCopy> = {
   facelift: {
     slug: "facelift-china",
     name: "Facelift",
-    keywordTitle: "Facelift in China | Cost, Recovery & Free Consultation",
-    description: "Considering a facelift in China? Compare realistic cost and recovery ranges, understand travel planning, and begin with a free consultation.",
+    keywordTitle: "Facelift in China | Cost, Recovery & Consultation",
+    description: "Considering a facelift in China? Compare realistic cost and recovery ranges, understand travel planning, and begin with a consultation.",
     eyebrow: "Facelift planning in China",
     headline: "Considering a facelift in China?",
     headlineAccent: "Plan the whole journey, not just surgery day.",
@@ -122,7 +122,7 @@ const LandingHeader = ({ onQuote }: { onQuote: (position: string) => void }) => 
     <div className="container flex min-h-[4.75rem] items-center justify-between gap-4">
       <Link to="/" aria-label="CeladonChina home"><BrandLogo /></Link>
       <button type="button" onClick={() => onQuote("header")} className="cta-primary inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-4 text-sm font-semibold sm:px-6">
-        <span className="hidden sm:inline">Get a free quote</span><span className="sm:hidden">Free quote</span><ArrowRight className="size-4" />
+        <span className="hidden sm:inline">Start a consultation</span><span className="sm:hidden">Consultation</span><ArrowRight className="size-4" />
       </button>
     </div>
   </header>
@@ -137,7 +137,7 @@ const Metric = ({ icon: Icon, label, value }: { icon: typeof BadgeDollarSign; la
 
 const QuoteButton = ({ onClick, position, full = false }: { onClick: (position: string) => void; position: string; full?: boolean }) => (
   <button type="button" onClick={() => onClick(position)} className={`cta-primary inline-flex min-h-14 items-center justify-center gap-2 rounded-full px-7 text-base font-semibold ${full ? "w-full" : ""}`}>
-    Start my free consultation <ArrowRight className="size-4" />
+    Start a consultation <ArrowRight className="size-4" />
   </button>
 );
 

@@ -40,7 +40,7 @@ const JOURNEY_STEPS = [
     icon: Video,
     image: journeyConsultation,
     eyebrow: ["Getting started", "开始咨询", "Начало", "Primeros pasos"],
-    title: ["Get a free quote", "获取免费报价", "Получить бесплатную оценку", "Solicita un presupuesto gratis"],
+    title: ["Start a consultation", "开始咨询", "Начать консультацию", "Solicita una consulta"],
     text: [
       "Tell us your goals and questions so we can help identify suitable specialists.",
       "告诉我们你的目标和疑问，我们会协助匹配合适的专家。",
@@ -164,7 +164,7 @@ const SUPPORT_SERVICES = [
 ] as const;
 
 const Packages = () => {
-  const { lang } = useAsia();
+  const { lang, t } = useAsia();
   const c = <T,>(en: T, zh: T, ru: T, es?: T) => asiaCopy(lang, { en, zh, ru, es });
   const pick = (values: readonly [string, string, string, string?]) => c(values[0], values[1], values[2], values[3]);
 
@@ -222,8 +222,8 @@ const Packages = () => {
                       <h3 className="mt-3 font-display text-[1.35rem] font-semibold leading-tight tracking-tight sm:text-2xl md:mt-4">{pick(step.title)}</h3>
                       <p className="mt-3 text-sm leading-relaxed text-foreground/65">{pick(step.text)}</p>
                       {index === 0 && (
-                        <a href={QUOTE_WHATSAPP_URL} target="_blank" rel="noreferrer" className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary/80">
-                          {c("Start here", "从这里开始", "Начать здесь", "Empieza aquí")}<ArrowRight className="size-4" />
+                        <a href={QUOTE_WHATSAPP_URL} target="_blank" rel="noreferrer" className="mt-5 inline-flex items-center gap-2 whitespace-nowrap text-sm font-semibold text-primary hover:text-primary/80">
+                          {t("hero.cta")}<ArrowRight className="size-4" />
                         </a>
                       )}
                     </div>

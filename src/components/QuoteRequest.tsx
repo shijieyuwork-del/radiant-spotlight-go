@@ -266,7 +266,7 @@ const QuoteDialog = ({
     trackEvent("quote_contact_method_selected", { source: ctx.source || "site_cta", option: contactMethod });
 
     if (contactMethod === "email") {
-      const subject = `Free quote request${procedure ? ` — ${procedure}` : ""}`;
+      const subject = `Consultation request${procedure ? ` — ${procedure}` : ""}`;
       const emailUrl = `mailto:contact@celadonchina.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
       trackEvent("email_handoff", { source: ctx.source || "site_cta", option: intent || "unknown" });
       setLoading(false);
@@ -611,7 +611,7 @@ export const DoctorContactButton = ({ doctorName, city, procedure }: QuoteContex
       </button>
       <div className="hidden md:block absolute bottom-full right-0 mb-2 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity">
         <div className="rounded-2xl bg-foreground text-background text-[11px] py-2 px-3 shadow-pop whitespace-nowrap">
-          Ask a question · Discuss pricing · Get a free quote
+          Ask a question · Discuss pricing · Start a consultation
         </div>
       </div>
     </div>

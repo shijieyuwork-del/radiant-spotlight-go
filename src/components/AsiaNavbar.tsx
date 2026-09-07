@@ -180,10 +180,10 @@ const AsiaNavbar = () => {
             <button
               type="button"
               onClick={() => open({ source: "navbar_desktop" })}
-              className="cta-primary hidden min-h-12 shrink-0 items-center gap-2 rounded-full px-5 text-sm font-semibold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 xl:inline-flex 2xl:px-6"
+              className="cta-primary hidden min-h-12 shrink-0 items-center gap-2 whitespace-nowrap rounded-full px-5 text-sm font-semibold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 xl:inline-flex 2xl:px-6"
             >
               <CalendarDays className="size-4" aria-hidden="true" />
-              {c("Start a consultation", "开始咨询", "Начать консультацию", "Iniciar una consulta")}
+              {t("hero.cta")}
               <ArrowRight className="size-4" aria-hidden="true" />
             </button>
             <div className="ml-auto flex items-center gap-1.5 xl:hidden">
@@ -238,7 +238,7 @@ const AsiaNavbar = () => {
                 className="cta-primary mt-3 flex min-h-12 items-center justify-center gap-2 rounded-2xl px-4 text-sm font-semibold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               >
                 <MessageCircle className="size-4" />
-                {c("Start a consultation", "开始咨询", "Начать консультацию", "Iniciar una consulta")}
+                {t("hero.cta")}
                 <ArrowRight className="size-4" />
               </button>
             </div>
