@@ -483,7 +483,7 @@ const PrivateCareHero = () => {
                 </h1>
                 <p className="mt-5 max-w-xl text-[15px] leading-7 text-white/72 sm:text-base sm:leading-7">{copy.subtitle}</p>
                 <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                  <QuoteCtaButton variant="primary" className="min-h-[3.25rem] w-full px-7 sm:w-auto" quoteCtx={{ source: "private_care_hero" }} />
+                  <QuoteCtaButton variant="primary" className="min-h-[3.25rem] w-full px-7 sm:w-auto" quoteCtx={{ source: "private_care_hero" }} data-testid="home-hero-cta" />
                   <Button asChild variant="outline" className="min-h-[3.25rem] w-full rounded-full border-white/30 bg-white/[0.06] px-7 text-sm font-semibold text-white hover:bg-white/[0.12] hover:text-white sm:w-auto">
                     <Link to="/cases">{copy.diaries}<ArrowRight className="ml-1 size-4" /></Link>
                   </Button>
