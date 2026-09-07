@@ -307,7 +307,7 @@ const Treatments = () => {
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div className="flex items-center gap-2 text-sm font-semibold">
                   <FileText className="size-4 text-primary" />
-                  {copy("CeladonChina Academy", "CeladonChina 医美百科", "Академия CeladonChina")}
+                  {copy("Cosmetics Asia Academy", "Cosmetics Asia 医美百科", "Академия Cosmetics Asia")}
                 </div>
                 <span className="text-xs text-muted-foreground">
                   {copy("9 clinical categories · 56 procedures", "9 个医学分类 · 56 项术式", "9 медицинских категорий · 56 процедур")}
@@ -438,47 +438,6 @@ const Treatments = () => {
               </ol>
             </div>
             <p className="mt-7 border-t border-primary/10 pt-5 text-xs leading-relaxed text-muted-foreground">{zh ? "本页内容仅用于一般科普和行程规划，不构成医疗建议、诊断或个体化治疗方案。请由具备资质的专家完成评估。" : "This page provides general education and planning information only. It is not medical advice, diagnosis or a personalized treatment recommendation. A licensed expert must evaluate your individual circumstances."}</p>
-          </section>
-
-          <section className="mx-auto mt-16 max-w-6xl md:mt-24">
-            <div className="relative overflow-hidden rounded-[2rem] border-2 border-primary/35 bg-card px-5 py-10 text-foreground shadow-glow ring-1 ring-primary/10 md:min-h-[340px] md:px-14 md:py-16">
-              <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary via-emerald-300 to-amber-200" aria-hidden="true" />
-              <div className="pointer-events-none absolute -right-24 -top-32 size-80 rounded-full bg-white/25" />
-              <div className="pointer-events-none absolute -bottom-32 -left-20 size-72 rounded-full bg-primary/10" />
-              <div className="relative flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between md:gap-10">
-                <div className="max-w-4xl">
-                  <span className="pill mb-3 bg-primary px-4 py-2 font-bold text-primary-foreground shadow-soft">
-                    <MessageCircle className="size-3.5" /> {copy("Free online consultation", "免费线上咨询", "Бесплатная онлайн-консультация")}
-                  </span>
-                  <h2 className="font-display text-4xl font-medium leading-[1.02] tracking-tight sm:text-5xl md:text-6xl">
-                    {copy("Ready to get started?", "准备好开始了吗？", "Готовы начать?")}{" "}
-                    <em className="box-decoration-clone rounded-[0.28em] bg-primary/10 px-[0.12em] py-[0.04em] text-primary not-italic">
-                      {copy("Take the first step today", "今天迈出第一步", "Сделайте первый шаг сегодня")}
-                    </em>
-                  </h2>
-                  <p className="mt-4 max-w-2xl text-base leading-relaxed text-foreground/70 md:text-lg">
-                    {lang === "en" ? (
-                      <>
-                        Don’t want to talk? That’s okay — email us at <strong className="font-semibold text-foreground">contact@celadonchina.com</strong> or WhatsApp us at{" "}
-                        <a href="https://wa.me/14708613825" target="_blank" rel="noreferrer" className="font-semibold text-foreground underline decoration-primary/45 underline-offset-2 transition hover:text-primary">+1 470 861 3825</a>.
-                      </>
-                    ) : copy(
-                      "Tell us the procedure, budget and city you have in mind.",
-                      "告诉我们你关注的项目、预算和希望前往的城市。我们会帮你梳理需求，并协助你找到合适的中国专家。",
-                      "Расскажите о процедуре, бюджете и желаемом городе. Мы поможем уточнить ваши потребности и подобрать подходящего эксперта в Китае."
-                    )}
-                  </p>
-                </div>
-                <div className="w-full shrink-0 text-center md:w-auto">
-                  <Button size="lg" onClick={() => open()} className="cta-primary min-h-14 w-full rounded-full px-9 text-base shadow-glow ring-4 ring-primary/15 transition hover:-translate-y-1 md:w-fit">
-                    {t("hero.cta")}<ArrowRight className="ml-2 size-4" />
-                  </Button>
-                  <p className="mt-3 text-xs font-semibold text-foreground/55">
-                    {copy("Free · No obligation", "免费 · 无需承诺", "Бесплатно · Без обязательств")}
-                  </p>
-                </div>
-              </div>
-            </div>
           </section>
 
         </section>

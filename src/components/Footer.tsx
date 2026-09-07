@@ -1,12 +1,15 @@
 import { Instagram, Youtube } from "lucide-react";
 import { Link } from "react-router-dom";
 import BrandLogo from "@/components/BrandLogo";
+import ConsultationCta from "@/components/ConsultationCta";
 import { MedicalDisclaimer } from "@/components/MedicalDisclaimer";
 import { analyticsConfigured, openPrivacyChoices } from "@/lib/analytics";
 
 const Footer = () => {
   return (
-    <footer className="mt-16 md:mt-32 border-t border-border/60 bg-muted/30">
+    <>
+      <ConsultationCta />
+      <footer className="border-t border-border/60 bg-muted/30">
       <div className="container py-10 md:py-16 grid grid-cols-2 gap-8 md:grid-cols-5">
         <div className="space-y-4 col-span-2 md:col-span-1">
           <BrandLogo showTagline />
@@ -42,7 +45,8 @@ const Footer = () => {
           <Youtube className="size-4 hover:text-foreground cursor-pointer" />
         </div>
       </div>
-    </footer>
+      </footer>
+    </>
   );
 };
 

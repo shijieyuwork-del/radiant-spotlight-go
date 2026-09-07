@@ -390,23 +390,6 @@ const Packages = () => {
             </div>
           </section>
 
-          <section className="container pb-16 pt-12 md:pb-24 md:pt-16">
-            <div className="relative overflow-hidden rounded-[2.5rem] bg-foreground px-6 py-10 text-background shadow-pop sm:px-9 md:px-12 md:py-14">
-              <div className="absolute -right-24 -top-24 size-72 rounded-full bg-primary/25 blur-2xl" />
-              <div className="absolute -bottom-32 left-1/3 size-80 rounded-full bg-amber-200/10 blur-3xl" />
-              <div className="relative flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-center">
-                <div className="max-w-3xl">
-                  <p className="text-xs font-bold uppercase tracking-[.16em] text-primary">{c("Start with one conversation", "从一次沟通开始", "Начните с одного разговора", "Empieza con una conversación")}</p>
-                  <h2 className="mt-3 font-display text-4xl font-medium leading-tight tracking-tight md:text-6xl">{c("You do not need every answer before you begin.", "开始之前，你不需要先知道所有答案。", "Необязательно знать все ответы, чтобы начать.", "No necesitas tener todas las respuestas antes de empezar.")}</h2>
-                  <p className="mt-4 max-w-2xl text-sm leading-relaxed text-background/65 sm:text-base">{c("Tell us what you are considering. We will help you turn your questions into a clear next step. It is free and carries no obligation.", "告诉我们你正在考虑什么。我们会帮你把疑问变成清晰的下一步，免费且无需承诺。", "Расскажите, что вы рассматриваете. Мы поможем превратить вопросы в понятный следующий шаг. Это бесплатно и без обязательств.", "Cuéntanos qué estás considerando. Te ayudaremos a convertir tus preguntas en un siguiente paso claro. Es gratis y sin compromiso.")}</p>
-                </div>
-                <div className="w-full shrink-0 lg:w-auto">
-                  <QuoteCtaButton variant="primary" className="min-h-14 w-full px-8 sm:text-base lg:w-auto" />
-                  
-                </div>
-              </div>
-            </div>
-          </section>
         </main>
         <div className="pb-10">
           <MedicalDisclaimer variant="banner" />

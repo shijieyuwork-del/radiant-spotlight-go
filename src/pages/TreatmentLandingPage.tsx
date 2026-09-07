@@ -17,6 +17,7 @@ import {
   Stethoscope,
 } from "lucide-react";
 import BrandLogo from "@/components/BrandLogo";
+import ConsultationCta from "@/components/ConsultationCta";
 import PageMeta from "@/components/PageMeta";
 import { useQuote } from "@/components/QuoteRequest";
 import { findTreatment } from "@/data/treatments";
@@ -284,14 +285,8 @@ const TreatmentLandingPage = ({ kind }: { kind: TreatmentLandingKind }) => {
             </div>
           </section>
 
-          <section className="container py-14 md:py-24">
-            <div className="relative overflow-hidden rounded-[2rem] bg-gradient-hero p-6 shadow-pop md:p-12">
-              <div className="absolute -right-16 -top-20 size-64 rounded-full bg-primary/20 blur-3xl" aria-hidden="true" />
-              <div className="relative grid gap-8 md:grid-cols-[1fr_auto] md:items-center">
-                <div><span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-primary"><MapPin className="size-4" />Your next step</span><h2 className="mt-3 max-w-2xl font-display text-4xl font-medium md:text-5xl">Ready to make the options easier to compare?</h2><p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground">Start with your questions. You do not need to know the exact technique, clinic, city, or travel date.</p></div>
-                <QuoteButton onClick={onQuote} position="final" />
-              </div>
-            </div>
+          <ConsultationCta source={`treatment_landing_${kind}`} />
+          <section className="container pb-14 md:pb-20">
             <p className="mx-auto mt-6 max-w-4xl text-center text-xs leading-relaxed text-muted-foreground">{MEDICAL_DISCLAIMER} Published cost and recovery ranges are general education, not a personal quote or travel clearance.</p>
           </section>
         </main>

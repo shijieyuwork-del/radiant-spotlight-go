@@ -18,21 +18,5 @@
 /cities/:slug/             /cities/:slug                 301
 /treatments/:slug/         /treatments/:slug             301
 
-# Serve the route-specific prerendered head while keeping clean public URLs.
-/travel-packages           /travel-packages.html         200
-/doctors                   /doctors.html                 200
-/cases                     /cases.html                   200
-/cities                    /cities.html                  200
-/clinics                   /clinics.html                 200
-/treatments                /treatments.html              200
-/why-china                 /why-china.html               200
-/privacy                   /privacy.html                 200
-/about                     /about.html                   200
-/provider-verification     /provider-verification.html   200
-/medical-review-policy     /medical-review-policy.html   200
-/editorial-policy          /editorial-policy.html        200
-/lp/:slug                  /lp/:slug.html                200
-/doctors/:slug             /doctors/:slug.html           200
-/cases/:slug               /cases/:slug.html             200
-/cities/:slug              /cities/:slug.html            200
-/treatments/:slug          /treatments/:slug.html        200
+# Cloudflare Pages serves prerendered .html files at their extensionless clean URLs.
+# Explicit clean-URL-to-.html rewrites create a redirect loop and must not be added.
