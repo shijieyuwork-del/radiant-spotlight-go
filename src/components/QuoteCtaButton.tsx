@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { trackEvent } from "@/lib/analytics";
 
 /**
- * 全站统一的 “Get a free quote” CTA 按钮。
+ * 全站统一的 “Start a consultation” CTA 按钮。
  *
  * - 文案唯一来源：asia-i18n 字典 `hero.cta`（随 en/zh/ru 自动切换）。
  *   任何页面不得再内联维护该按钮的三语文案（由 quote-cta-i18n 回归测试守护）。
