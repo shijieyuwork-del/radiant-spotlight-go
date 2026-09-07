@@ -11,18 +11,11 @@ import { asiaCopy } from "@/lib/asia-copy";
 import { localizedField } from "@/lib/i18n-content";
 import { supabase } from "@/integrations/supabase/client";
 import { useRealtimeRefresh } from "@/hooks/use-realtime-refresh";
-import genericClinicImg from "@/assets/clinics/generic-clinic.jpg";
 import { ADDITIONAL_CLINICS } from "@/data/additionalClinics";
+import { findRealHospitalPhoto, type RealHospitalPhoto } from "@/data/realHospitalPhotos";
+import { HospitalDirectoryPhoto } from "@/components/HospitalDirectoryPhoto";
 
 const normalize = (value: string) => value.trim().toLocaleLowerCase();
-
-const GENERATED_CLINIC_COVERS = Object.entries(import.meta.glob("../assets/clinics/generated/*.webp", {
-  eager: true,
-  import: "default",
-  query: "?url",
-}) as Record<string, string>)
-  .sort(([left], [right]) => left.localeCompare(right))
-  .map(([, url]) => url);
 
 type PublishedClinicRow = {
   city: string;
@@ -36,10 +29,7 @@ type DirectoryFacility = {
   primary: string;
   published: boolean;
   secondary: string;
-  img: string;
-  illustrative: boolean;
-  imageCredit?: string;
-  imageSourceUrl?: string;
+  photo?: RealHospitalPhoto;
 };
 
 const Clinics = () => {
@@ -71,22 +61,18 @@ const Clinics = () => {
   useRealtimeRefresh(["doctors"], loadPublishedClinics);
 
   const directory = useMemo(() => {
-    let coverIndex = 0;
     return CITIES.map((city) => {
     const hospitals: DirectoryFacility[] = [...city.hospitals, ...(ADDITIONAL_CLINICS[city.slug] ?? [])].map((hospital) => {
-      const generatedCover = GENERATED_CLINIC_COVERS[coverIndex++ % GENERATED_CLINIC_COVERS.length];
+      const photo = findRealHospitalPhoto(hospital.zh, hospital.en);
       return {
         area: lang === "zh" ? hospital.areaZh : hospital.areaEn,
         key: `guide:${city.slug}:${hospital.en}`,
         primary: lang === "zh" ? hospital.zh : hospital.en,
         published: false,
         secondary: lang === "zh" ? hospital.en : hospital.zh,
-        img: hospital.img ?? generatedCover ?? genericClinicImg,
-        illustrative: !hospital.img,
-        imageCredit: hospital.imageCredit,
-        imageSourceUrl: hospital.imageSourceUrl,
+        photo,
       };
-    });
+    }).sort((a, b) => Number(Boolean(b.photo)) - Number(Boolean(a.photo)));
 
     for (const row of publishedClinics) {
       const rowCity = normalize(row.city);
@@ -98,14 +84,14 @@ const Clinics = () => {
         [hospital.primary, hospital.secondary].some((name) => normalize(name) === normalize(primary) || normalize(name) === normalize(row.hospital)),
       );
       if (!alreadyListed) {
+        const photo = findRealHospitalPhoto(row.hospital, primary, secondary);
         hospitals.unshift({
           area: lang === "zh" ? city.zh : city.en,
           key: `published:${city.slug}:${row.hospital}`,
           primary,
           published: true,
           secondary: secondary === primary ? "" : secondary,
-          img: GENERATED_CLINIC_COVERS[coverIndex++ % GENERATED_CLINIC_COVERS.length] ?? genericClinicImg,
-          illustrative: true,
+          photo,
         });
       }
     }
@@ -235,25 +221,7 @@ const Clinics = () => {
               <ul className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-3" aria-label={c("All hospitals and clinics", "全部医院及诊所", "Все больницы и клиники", "Todos los hospitales y clínicas")}>
                 {filteredFacilities.map(({ city, hospital }) => (
                         <li key={hospital.key} className="flex min-h-36 flex-col overflow-hidden rounded-2xl border border-border/70 bg-card transition-colors hover:border-primary/30">
-                          <div className="relative aspect-[2/1] w-full overflow-hidden bg-muted">
-                            <img
-                              src={hospital.img}
-                              alt={hospital.primary}
-                              loading="lazy"
-                              decoding="async"
-                              className="size-full object-cover"
-                            />
-                            {hospital.illustrative && (
-                              <span className="absolute bottom-3 right-3 rounded-full bg-background/90 px-2.5 py-1 text-[10px] font-semibold text-foreground/70 shadow-sm backdrop-blur">
-                                {c("Illustrative image", "示意图片", "Иллюстрация", "Imagen ilustrativa")}
-                              </span>
-                            )}
-                            {!hospital.illustrative && hospital.imageCredit && hospital.imageSourceUrl && (
-                              <a href={hospital.imageSourceUrl} target="_blank" rel="noreferrer" className="absolute bottom-3 left-3 rounded-full bg-background/90 px-2.5 py-1 text-[10px] font-medium text-foreground/70 shadow-sm backdrop-blur hover:text-primary">
-                                {c(`Photo: ${hospital.imageCredit}`, `图片：${hospital.imageCredit}`, `Фото: ${hospital.imageCredit}`, `Foto: ${hospital.imageCredit}`)}
-                              </a>
-                            )}
-                          </div>
+                          <HospitalDirectoryPhoto key={hospital.photo?.src ?? "no-photo"} photo={hospital.photo} name={hospital.primary} />
                           <div className="flex flex-1 flex-col p-5">
                           <div className="flex items-start gap-3">
                             <span className="grid size-10 shrink-0 place-items-center rounded-full bg-primary/10 text-primary">

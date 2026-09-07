@@ -1,0 +1,149 @@
+[
+  {
+    "hospitalZh": "浙江大学医学院附属第二医院 整形科",
+    "imgPath": "src/assets/real-photos/hangzhou/zju-second.webp",
+    "author": "Yumeto",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:20250419_Zhejiang_Daxue_Yixueyuan_Fushu_Di-Er_Yiyuan.jpg",
+    "description": "Second Affiliated Hospital of Zhejiang University, Jiefang Road campus exterior. Photographed 19 April 2025.",
+    "modifications": "Resized to 1200 pixels wide and converted to WebP; original aspect ratio retained. Card display may crop responsively.",
+    "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/c/ca/20250419_Zhejiang_Daxue_Yixueyuan_Fushu_Di-Er_Yiyuan.jpg"
+  },
+  {
+    "hospitalZh": "浙江省人民医院 整形外科",
+    "imgPath": "src/assets/real-photos/hangzhou/zhejiang-provincial.webp",
+    "objectPosition": "50% 15%",
+    "objectFit": "contain",
+    "author": "Huandy618",
+    "license": "CC0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Zhejiang_Provincial_People's_Hospital_01.jpg",
+    "description": "Zhejiang Provincial People's Hospital, Chaohui campus at night. Photographed 16 January 2025.",
+    "modifications": "Resized to 1200 pixels wide and converted to WebP; original aspect ratio retained. Card display may crop responsively.",
+    "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/b/b7/Zhejiang_Provincial_People%27s_Hospital_01.jpg"
+  },
+  {
+    "hospitalZh": "浙江大学医学院附属第一医院",
+    "imgPath": "src/assets/real-photos/hangzhou/zju-first.webp",
+    "author": "Benteds",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Main_gate_of_Qingchun_Campus%2C_The_First_Affiliated_Hospital_of_Zhejiang_University_School_of_Medicine%2C_202501.jpg",
+    "description": "First Affiliated Hospital of Zhejiang University, Qingchun campus main gate. Photographed 27 January 2025.",
+    "modifications": "Resized to 1200 pixels wide and converted to WebP; original aspect ratio retained. Card display may crop responsively.",
+    "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/d/d1/Main_gate_of_Qingchun_Campus%2C_The_First_Affiliated_Hospital_of_Zhejiang_University_School_of_Medicine%2C_202501.jpg"
+  },
+  {
+    "hospitalZh": "浙江大学医学院附属邵逸夫医院",
+    "imgPath": "src/assets/real-photos/hangzhou/sir-run-run-shaw.webp",
+    "author": "Benteds",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:202407%E9%82%B5%E9%80%B8%E5%A4%AB%E9%86%AB%E9%99%A2%E6%85%B6%E6%98%A5%E9%99%A2%E5%8D%80%E4%B8%BB%E6%A8%93.jpg",
+    "description": "Sir Run Run Shaw Hospital, Qingchun campus main building. Photographed 22 July 2024.",
+    "modifications": "Resized to 1200 pixels wide and converted to WebP; original aspect ratio retained. Card display may crop responsively.",
+    "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/1/14/202407%E9%82%B5%E9%80%B8%E5%A4%AB%E9%86%AB%E9%99%A2%E6%85%B6%E6%98%A5%E9%99%A2%E5%8D%80%E4%B8%BB%E6%A8%93.jpg"
+  },
+  {
+    "hospitalZh": "浙江医院",
+    "imgPath": "src/assets/real-photos/hangzhou/zhejiang-hospital.webp",
+    "author": "Nishino Asuka",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Zhejiang_Hospital%2C_Zhejiang_University_School_of_Medicine.jpg",
+    "description": "Zhejiang Hospital entrance sign at night in Hangzhou. Photographed 18 January 2024.",
+    "modifications": "Resized to 1200 pixels wide and converted to WebP; original aspect ratio retained. Card display may crop responsively.",
+    "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/7/7b/Zhejiang_Hospital%2C_Zhejiang_University_School_of_Medicine.jpg"
+  },
+  {
+    "hospitalZh": "浙江省中医院",
+    "imgPath": "src/assets/real-photos/hangzhou/zhejiang-chinese-medicine.webp",
+    "author": "Huandy618",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Chinese_medicine_hospital_of_zhejiang_province_01.jpg",
+    "description": "Zhejiang Provincial Hospital of Chinese Medicine in Hangzhou. Photographed 2 January 2014.",
+    "modifications": "Resized to 1200 pixels wide and converted to WebP; original aspect ratio retained. Card display may crop responsively.",
+    "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/5/5e/Chinese_medicine_hospital_of_zhejiang_province_01.jpg"
+  },
+  {
+    "hospitalZh": "浙江省肿瘤医院",
+    "imgPath": "src/assets/real-photos/hangzhou/zhejiang-cancer.webp",
+    "objectFit": "contain",
+    "author": "Sanderszhao",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E6%B5%99%E6%B1%9F%E7%9C%81%E8%85%AB%E7%98%A4%E9%86%AB%E9%99%A2%E9%96%80%E7%89%8C.jpg",
+    "description": "Zhejiang Cancer Hospital entrance sign, Banshan. Photographed 13 May 2019.",
+    "modifications": "Resized to 1200 pixels wide and converted to WebP; original aspect ratio retained. Card display may crop responsively.",
+    "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/d/d2/%E6%B5%99%E6%B1%9F%E7%9C%81%E8%85%AB%E7%98%A4%E9%86%AB%E9%99%A2%E9%96%80%E7%89%8C.jpg"
+  },
+  {
+    "hospitalZh": "杭州市第一人民医院",
+    "imgPath": "src/assets/real-photos/hangzhou/hangzhou-first.webp",
+    "author": "Huandy618",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_first_people's_hospital_of_hangzhou_01.jpg",
+    "description": "Hangzhou First People's Hospital in central Hangzhou. Photographed 2 January 2014.",
+    "modifications": "Resized to 1200 pixels wide and converted to WebP; original aspect ratio retained. Card display may crop responsively.",
+    "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/6/6b/The_first_people%27s_hospital_of_hangzhou_01.jpg"
+  },
+  {
+    "hospitalZh": "杭州市第三人民医院",
+    "imgPath": "src/assets/real-photos/hangzhou/hangzhou-third.webp",
+    "author": "Auongkinghe",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E5%B8%82%E4%B8%89%E5%8C%BB%E9%99%A2_20260707_103142.jpg",
+    "description": "Hangzhou Third People's Hospital. Photographed 7 July 2026.",
+    "modifications": "Resized to 1200 pixels wide and converted to WebP; original aspect ratio retained. Card display may crop responsively.",
+    "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/3/31/%E5%B8%82%E4%B8%89%E5%8C%BB%E9%99%A2_20260707_103142.jpg"
+  },
+  {
+    "hospitalZh": "浙江大学医学院附属妇产科医院",
+    "imgPath": "src/assets/real-photos/hangzhou/zju-womens.webp",
+    "author": "Benteds",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Exterior_of_Hubin_Campus%2C_Women's_Hospital_School_of_Medcine_Zhejiang_University%2C_202602.jpg",
+    "description": "Women's Hospital of Zhejiang University, Hubin campus building. Photographed 11 February 2026.",
+    "modifications": "Resized to 1200 pixels wide and converted to WebP; original aspect ratio retained. Card display may crop responsively.",
+    "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/4/44/Exterior_of_Hubin_Campus%2C_Women%27s_Hospital_School_of_Medcine_Zhejiang_University%2C_202602.jpg"
+  },
+  {
+    "hospitalZh": "浙江大学医学院附属儿童医院",
+    "imgPath": "src/assets/real-photos/hangzhou/zju-childrens-binjiang.webp",
+    "author": "Huandy618",
+    "license": "CC0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_Children's_Hospital_of_Zhejiang_Province_02.jpg",
+    "description": "Children's Hospital of Zhejiang University, Binjiang campus. Photographed 12 January 2025.",
+    "modifications": "Resized to 1200 pixels wide and converted to WebP; original aspect ratio retained. Card display may crop responsively.",
+    "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/4/47/The_Children%27s_Hospital_of_Zhejiang_Province_02.jpg"
+  },
+  {
+    "hospitalZh": "浙江大学医学院附属口腔医院",
+    "imgPath": "src/assets/real-photos/hangzhou/zju-stomatology.webp",
+    "objectPosition": "50% 0%",
+    "author": "Huandy618",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Zhejiang_Stomatology_Hospital_03.jpg",
+    "description": "Zhejiang Stomatology Hospital in Hangzhou. Photographed 2 December 2013.",
+    "modifications": "Resized to 1200 pixels wide and converted to WebP; original aspect ratio retained. Card display may crop responsively.",
+    "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/9/9c/Zhejiang_Stomatology_Hospital_03.jpg"
+  },
+  {
+    "hospitalZh": "杭州市萧山区第一人民医院",
+    "imgPath": "src/assets/real-photos/hangzhou/xiaoshan-first.webp",
+    "author": "Huandy618",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Xiaoshan_First_People's_Hospital_01.jpg",
+    "description": "Xiaoshan First People's Hospital in Hangzhou. Photographed 8 December 2014.",
+    "modifications": "Resized to 1200 pixels wide and converted to WebP; original aspect ratio retained. Card display may crop responsively.",
+    "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/7/7a/Xiaoshan_First_People%27s_Hospital_01.jpg"
+  }
+]

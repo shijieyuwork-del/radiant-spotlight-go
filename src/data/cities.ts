@@ -7,21 +7,6 @@ import seoulImg from "@/assets/city-seoul.webp";
 import bangkokImg from "@/assets/city-bangkok.webp";
 import tokyoImg from "@/assets/city-tokyo.webp";
 import singaporeImg from "@/assets/city-singapore.webp";
-import clinicShanghaiHuamei from "@/assets/clinics/shanghai-huamei.jpg";
-import clinicShanghaiNinth from "@/assets/clinics/shanghai-ninth.jpg";
-import clinicShanghaiWeilin from "@/assets/clinics/shanghai-weilin.jpg";
-import clinicBeijingYestar from "@/assets/clinics/beijing-yestar.jpg";
-import clinicBeijingBadachu from "@/assets/clinics/beijing-badachu.jpg";
-import clinicBeijingJiajianmei from "@/assets/clinics/beijing-jiajianmei.jpg";
-import clinicGuangzhouNanfang from "@/assets/clinics/guangzhou-nanfang.jpg";
-import clinicGuangzhouProvincial from "@/assets/clinics/guangzhou-provincial.jpg";
-import clinicGuangzhouHuamei from "@/assets/clinics/guangzhou-huamei.jpg";
-import clinicHainanGeneral from "@/assets/clinics/hainan-general.jpg";
-import clinicHainanMedical from "@/assets/clinics/hainan-medical.jpg";
-import clinicHainanBoao from "@/assets/clinics/hainan-boao.jpg";
-import clinicHangzhouZju2 from "@/assets/clinics/hangzhou-zju2.jpg";
-import clinicHangzhouProvincial from "@/assets/clinics/hangzhou-provincial.jpg";
-import clinicHangzhouPlastic from "@/assets/clinics/hangzhou-plastic.jpg";
 
 export type City = {
   /** URL slug (lowercase English city name) */
@@ -49,7 +34,7 @@ export type City = {
   whyZh: string[];
   whyEn: string[];
   /** Top hospitals (display only) */
-  hospitals: { zh: string; en: string; areaZh: string; areaEn: string; img?: string }[];
+  hospitals: { zh: string; en: string; areaZh: string; areaEn: string }[];
   /** Travel essentials */
   travelZh: { airport: string; visa: string; hotel: string; lang: string };
   travelEn: { airport: string; visa: string; hotel: string; lang: string };
@@ -244,9 +229,9 @@ const CITY_CATALOG: City[] = [
       "Dense cluster of 5-star recovery hotels in the Bund / Jing'an area",
     ],
     hospitals: [
-      { zh: "上海华美医疗美容医院", en: "Shanghai Huamei Plastic Surgery Hospital", areaZh: "徐汇区", areaEn: "Xuhui District", img: clinicShanghaiHuamei },
-      { zh: "上海九院 整形外科", en: "Shanghai Ninth People's Hospital · Plastic Surgery", areaZh: "黄浦区", areaEn: "Huangpu District", img: clinicShanghaiNinth },
-      { zh: "上海薇琳医疗美容医院", en: "Shanghai Weilin Aesthetic Hospital", areaZh: "静安区", areaEn: "Jing'an District", img: clinicShanghaiWeilin },
+      { zh: "上海华美医疗美容医院", en: "Shanghai Huamei Plastic Surgery Hospital", areaZh: "徐汇区", areaEn: "Xuhui District" },
+      { zh: "上海九院 整形外科", en: "Shanghai Ninth People's Hospital · Plastic Surgery", areaZh: "黄浦区", areaEn: "Huangpu District" },
+      { zh: "上海薇琳医疗美容医院", en: "Shanghai Weilin Aesthetic Hospital", areaZh: "静安区", areaEn: "Jing'an District" },
     ],
     travelZh: {
       airport: "PVG / SHA · 直飞欧美 / 东南亚",
@@ -285,9 +270,9 @@ const CITY_CATALOG: City[] = [
       "Sanlitun / CBD luxury hotels integrated with post-op nursing",
     ],
     hospitals: [
-      { zh: "北京艺星医疗美容医院", en: "Beijing Yestar Aesthetic Hospital", areaZh: "朝阳区", areaEn: "Chaoyang District", img: clinicBeijingYestar },
-      { zh: "中国医学科学院整形外科医院 (八大处)", en: "Plastic Surgery Hospital, CAMS (Badachu)", areaZh: "石景山区", areaEn: "Shijingshan District", img: clinicBeijingBadachu },
-      { zh: "北京加减美医疗美容医院", en: "Beijing Jiajianmei Aesthetic Hospital", areaZh: "朝阳区", areaEn: "Chaoyang District", img: clinicBeijingJiajianmei },
+      { zh: "北京艺星医疗美容医院", en: "Beijing Yestar Aesthetic Hospital", areaZh: "朝阳区", areaEn: "Chaoyang District" },
+      { zh: "中国医学科学院整形外科医院 (八大处)", en: "Plastic Surgery Hospital, CAMS (Badachu)", areaZh: "石景山区", areaEn: "Shijingshan District" },
+      { zh: "北京加减美医疗美容医院", en: "Beijing Jiajianmei Aesthetic Hospital", areaZh: "朝阳区", areaEn: "Chaoyang District" },
     ],
     travelZh: {
       airport: "PEK / PKX · 直飞欧美 / 中东",
@@ -316,9 +301,9 @@ const CITY_CATALOG: City[] = [
     whyZh: ["白云机场 CAN 连接国内外主要城市", "正规医美机构密集，粤港澳服务经验丰富", "珠江新城 / 天河住宿与术后护理便利"],
     whyEn: ["Baiyun Airport (CAN) connects major domestic and international cities", "Dense network of licensed hospitals serving the Greater Bay Area", "Convenient recovery stays and nursing in Zhujiang New Town / Tianhe"],
     hospitals: [
-      { zh: "南方医科大学南方医院 整形美容外科", en: "Nanfang Hospital · Plastic Surgery", areaZh: "白云区", areaEn: "Baiyun District", img: clinicGuangzhouNanfang },
-      { zh: "广东省第二人民医院 整形美容科", en: "Guangdong Second Provincial General Hospital · Aesthetic Surgery", areaZh: "海珠区", areaEn: "Haizhu District", img: clinicGuangzhouProvincial },
-      { zh: "广州华美医疗美容医院", en: "Guangzhou Huamei Aesthetic Hospital", areaZh: "天河区", areaEn: "Tianhe District", img: clinicGuangzhouHuamei },
+      { zh: "南方医科大学南方医院 整形美容外科", en: "Nanfang Hospital · Plastic Surgery", areaZh: "白云区", areaEn: "Baiyun District" },
+      { zh: "广东省第二人民医院 整形美容科", en: "Guangdong Second Provincial General Hospital · Aesthetic Surgery", areaZh: "海珠区", areaEn: "Haizhu District" },
+      { zh: "广州华美医疗美容医院", en: "Guangzhou Huamei Aesthetic Hospital", areaZh: "天河区", areaEn: "Tianhe District" },
     ],
     travelZh: { airport: "CAN · 国内外主要航线", visa: "中国签证 / 过境免签政策", hotel: "天河 · 珠江新城 恢复酒店", lang: "普通话 / 粤语 / 英文" },
     travelEn: { airport: "CAN · major domestic and international routes", visa: "China visa or eligible transit policy", hotel: "Recovery hotels in Tianhe / Zhujiang New Town", lang: "Mandarin · Cantonese · English" },
@@ -337,9 +322,9 @@ const CITY_CATALOG: City[] = [
     whyZh: ["海口 HAK / 三亚 SYX 航线便利", "海岛气候与度假酒店适合恢复休养", "博鳌乐城国际医疗资源集中"],
     whyEn: ["Convenient access via Haikou (HAK) and Sanya (SYX)", "Island climate and resort hotels support comfortable recovery", "International medical resources concentrated around Bo'ao Lecheng"],
     hospitals: [
-      { zh: "海南省人民医院 整形美容外科", en: "Hainan General Hospital · Plastic Surgery", areaZh: "海口", areaEn: "Haikou", img: clinicHainanGeneral },
-      { zh: "海南医学院第一附属医院 整形美容外科", en: "First Affiliated Hospital of Hainan Medical University · Plastic Surgery", areaZh: "海口", areaEn: "Haikou", img: clinicHainanMedical },
-      { zh: "博鳌乐城国际医疗旅游先行区", en: "Bo'ao Lecheng International Medical Tourism Pilot Zone", areaZh: "博鳌", areaEn: "Bo'ao", img: clinicHainanBoao },
+      { zh: "海南省人民医院 整形美容外科", en: "Hainan General Hospital · Plastic Surgery", areaZh: "海口", areaEn: "Haikou" },
+      { zh: "海南医学院第一附属医院 整形美容外科", en: "First Affiliated Hospital of Hainan Medical University · Plastic Surgery", areaZh: "海口", areaEn: "Haikou" },
+      { zh: "博鳌乐城国际医疗旅游先行区", en: "Bo'ao Lecheng International Medical Tourism Pilot Zone", areaZh: "博鳌", areaEn: "Bo'ao" },
     ],
     travelZh: { airport: "HAK / SYX · 国内及亚洲航线", visa: "中国签证 / 海南入境政策", hotel: "海口 · 三亚 · 博鳌 康养酒店", lang: "普通话 / 英文" },
     travelEn: { airport: "HAK / SYX · domestic and Asian routes", visa: "China visa or eligible Hainan entry policy", hotel: "Wellness hotels in Haikou / Sanya / Bo'ao", lang: "Mandarin · English" },
@@ -358,9 +343,9 @@ const CITY_CATALOG: City[] = [
     whyZh: ["萧山机场 HGH 与高铁网络便利", "浙大附属医院等公立专科资源丰富", "滨江 / 钱江新城高品质住宿配套成熟"],
     whyEn: ["Convenient air and high-speed rail access via HGH", "Strong public specialists including Zhejiang University affiliated hospitals", "Quality recovery accommodation in Binjiang / Qianjiang New City"],
     hospitals: [
-      { zh: "浙江大学医学院附属第二医院 整形科", en: "Second Affiliated Hospital of Zhejiang University · Plastic Surgery", areaZh: "上城区", areaEn: "Shangcheng District", img: clinicHangzhouZju2 },
-      { zh: "浙江省人民医院 整形外科", en: "Zhejiang Provincial People's Hospital · Plastic Surgery", areaZh: "拱墅区", areaEn: "Gongshu District", img: clinicHangzhouProvincial },
-      { zh: "杭州整形医院", en: "Hangzhou Plastic Surgery Hospital", areaZh: "上城区", areaEn: "Shangcheng District", img: clinicHangzhouPlastic },
+      { zh: "浙江大学医学院附属第二医院 整形科", en: "Second Affiliated Hospital of Zhejiang University · Plastic Surgery", areaZh: "上城区", areaEn: "Shangcheng District" },
+      { zh: "浙江省人民医院 整形外科", en: "Zhejiang Provincial People's Hospital · Plastic Surgery", areaZh: "拱墅区", areaEn: "Gongshu District" },
+      { zh: "杭州整形医院", en: "Hangzhou Plastic Surgery Hospital", areaZh: "上城区", areaEn: "Shangcheng District" },
     ],
     travelZh: { airport: "HGH · 国内及亚洲航线 / 高铁", visa: "中国签证 / 过境政策", hotel: "滨江 · 钱江新城 恢复酒店", lang: "普通话 / 英文" },
     travelEn: { airport: "HGH · domestic and Asian routes / high-speed rail", visa: "China visa or eligible transit policy", hotel: "Recovery hotels in Binjiang / Qianjiang New City", lang: "Mandarin · English" },

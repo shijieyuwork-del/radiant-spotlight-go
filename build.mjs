@@ -23,6 +23,8 @@ const run = (cmd, args) =>
 
 // vite build 之后跑预渲染，为每条路由写一份带专属 head 的 index.html
 try {
+  // Never publish a photo manifest whose assets or attribution are incomplete.
+  await run(process.execPath, ['scripts/audit-hospital-photos.mjs', '--summary']);
   // Use the locally installed vite binary (no network / npx resolution at build time).
   const viteBin = path.join(__dirname, 'node_modules', 'vite', 'bin', 'vite.js');
   await run(process.execPath, [viteBin, 'build']);

@@ -1,6 +1,4 @@
-export type AdditionalClinic = { zh: string; en: string; areaZh: string; areaEn: string; img?: string; imageCredit?: string; imageSourceUrl?: string; imageLicense?: string };
-
-import sysuFirstPhoto from "@/assets/clinics/real/guangzhou-sysu-first.webp";
+export type AdditionalClinic = { zh: string; en: string; areaZh: string; areaEn: string };
 
 export const ADDITIONAL_CLINICS: Record<string, AdditionalClinic[]> = {
   shanghai: [
@@ -42,7 +40,7 @@ export const ADDITIONAL_CLINICS: Record<string, AdditionalClinic[]> = {
     { zh: "航空总医院", en: "Aviation General Hospital", areaZh: "朝阳区", areaEn: "Chaoyang District" },
   ],
   guangzhou: [
-    { zh: "中山大学附属第一医院", en: "First Affiliated Hospital of Sun Yat-sen University", areaZh: "越秀区", areaEn: "Yuexiu District", img: sysuFirstPhoto, imageCredit: "古海岸遗址", imageSourceUrl: "https://commons.wikimedia.org/wiki/File:Guangzhou_Yuexiu_Zhongshan_Daxue_Fushu_Diyi_Yiyuan_2023-12-01_11.23.47.jpg", imageLicense: "CC BY-SA 4.0" },
+    { zh: "中山大学附属第一医院", en: "First Affiliated Hospital of Sun Yat-sen University", areaZh: "越秀区", areaEn: "Yuexiu District" },
     { zh: "中山大学孙逸仙纪念医院", en: "Sun Yat-sen Memorial Hospital, Sun Yat-sen University", areaZh: "越秀区", areaEn: "Yuexiu District" },
     { zh: "中山大学附属第三医院", en: "Third Affiliated Hospital of Sun Yat-sen University", areaZh: "天河区", areaEn: "Tianhe District" },
     { zh: "广东省人民医院", en: "Guangdong Provincial People's Hospital", areaZh: "越秀区", areaEn: "Yuexiu District" },
