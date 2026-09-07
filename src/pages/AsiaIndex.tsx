@@ -5,7 +5,7 @@ import {
   Stethoscope, Building2,
   Flame, Gift, Wallet, Users, Plane,
   Eye,
-  Scale, HelpCircle, HeartPulse, MessageCircle, Video, Map, Mail,
+  Scale, HeartPulse, MessageCircle, Video, Map, Mail,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -341,8 +341,8 @@ const PrivateCareHero = () => {
         procedureValue: "浏览全部项目",
         city: "目的地",
         cityValue: "比较城市选择",
-        planning: "规划阶段",
-        planningValue: "暂时还不确定",
+        clinic: "诊所目录",
+        clinicValue: "查看全部诊所",
         diaries: "真实患者恢复日记",
         diariesTitle: "选择之前，",
         diariesEmphasis: "先看看恢复过程。",
@@ -361,8 +361,8 @@ const PrivateCareHero = () => {
           procedureValue: "Все процедуры",
           city: "Направление",
           cityValue: "Сравнить города",
-          planning: "Этап планирования",
-          planningValue: "Пока не уверен(а)",
+          clinic: "Каталог клиник",
+          clinicValue: "Все клиники",
           diaries: "Истории восстановления",
           diariesTitle: "Посмотрите восстановление",
           diariesEmphasis: "до выбора.",
@@ -381,8 +381,8 @@ const PrivateCareHero = () => {
             procedureValue: "Explorar todas las opciones",
             city: "Destino",
             cityValue: "Comparar ciudades",
-            planning: "Etapa de planificación",
-            planningValue: "Aún no estoy seguro/a",
+            clinic: "Directorio de clínicas",
+            clinicValue: "Ver todas las clínicas",
             diaries: "Diarios de recuperación de pacientes",
             diariesTitle: "Mira los diarios de pacientes",
             diariesEmphasis: "antes de elegir.",
@@ -400,8 +400,8 @@ const PrivateCareHero = () => {
           procedureValue: "Explore all options",
           city: "Destination",
           cityValue: "Compare cities",
-          planning: "Planning stage",
-          planningValue: "Not sure yet",
+          clinic: "Clinic directory",
+          clinicValue: "View all clinics",
           diaries: "Patient recovery diaries",
           diariesTitle: "See patient diaries",
           diariesEmphasis: "before you choose.",
@@ -413,8 +413,8 @@ const PrivateCareHero = () => {
 
   const selectors = [
     { icon: Stethoscope, label: copy.procedure, value: copy.procedureValue, to: "/treatments" },
+    { icon: Building2, label: copy.clinic, value: copy.clinicValue, to: "/clinics" },
     { icon: MapPin, label: copy.city, value: copy.cityValue, to: "/cities" },
-    { icon: HelpCircle, label: copy.planning, value: copy.planningValue, to: "/doctors" },
   ];
   const assurances = [
     {

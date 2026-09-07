@@ -82,6 +82,7 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
         { to: "/doctors", label: t("nav.compliance") },
         { to: "/treatments", label: t("nav.projects") },
         { to: "/travel-packages", label: c("Travel Support", "行程支持", "Поддержка поездки", "Apoyo de viaje") },
+        { to: "/clinics", label: c("Clinics", "诊所", "Клиники", "Clínicas") },
         { to: "/cities", label: t("nav.cities") },
         { to: "/why-china", label: c("Why China", "为什么选中国", "Почему Китай", "Por qué China") },
         { to: "/about", label: c("About", "关于我们", "О нас", "Acerca de") },
@@ -131,7 +132,7 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
         <Link to="/" className="flex min-h-12 shrink-0 items-center gap-2">
           <BrandLogo markClassName="size-8 md:size-9" textClassName="text-lg md:text-xl" />
         </Link>
-        <div className="hidden md:flex items-center gap-0.5 rounded-full bg-muted/60 p-1">
+        <div className="hidden 2xl:flex items-center gap-0.5 rounded-full bg-muted/60 p-1">
           {desktopLinks.map((l) => (
             <Link
               key={l.to}
@@ -142,7 +143,7 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
           ))}
         </div>
         <div className="flex items-center gap-1.5">
-          <div className="hidden md:flex items-center gap-1.5">
+          <div className="hidden 2xl:flex items-center gap-1.5">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="sm" className="rounded-full gap-1.5">
@@ -169,17 +170,17 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-          <div className="hidden md:block">
+          <div className="hidden 2xl:block">
             <AccountMenu lang={lang} />
           </div>
-          <Button asChild variant="ghost" className="md:hidden rounded-full px-3 h-9 text-sm font-medium">
+          <Button asChild variant="ghost" className="2xl:hidden rounded-full px-3 h-9 text-sm font-medium">
             <Link to="/auth?tab=signin">{c("Sign in", "登录", "Войти", "Iniciar sesión")}</Link>
           </Button>
         </div>
 
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="size-12 rounded-full border border-primary/10 bg-card shadow-soft md:hidden" aria-label={c("Open menu", "打开菜单", "Открыть меню", "Abrir menú")}>
+            <Button variant="ghost" size="icon" className="size-12 rounded-full border border-primary/10 bg-card shadow-soft 2xl:hidden" aria-label={c("Open menu", "打开菜单", "Открыть меню", "Abrir menú")}>
               <Menu className="size-5" />
             </Button>
           </SheetTrigger>

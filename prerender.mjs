@@ -61,7 +61,7 @@ const esc = (s) =>
 /** 生成一条路由的 <head> 片段。逻辑必须与 PageMeta.tsx 保持一致。 */
 function createBreadcrumbSchema(p, pageTitle, siteUrl) {
   const sectionLabels = {
-    cases: "Patient Diaries", cities: "Destinations", doctors: "Experts",
+    cases: "Patient Diaries", cities: "Destinations", clinics: "Clinics & Hospitals", doctors: "Experts",
     treatments: "Procedures", "travel-packages": "Travel Support", "why-china": "Why China",
     "medical-tourism-china": "Medical Tourism in China", "plastic-surgery-china": "Plastic Surgery in China",
     about: "About Cosmetics Asia", "provider-verification": "Provider Verification Standards",
@@ -137,6 +137,12 @@ function buildRoutes(d) {
       title: "Top Surgery Destinations in Asia",
       description:
         "Explore Seoul, Shanghai, Bangkok, Tokyo, Singapore and more — Asia's cosmetic surgery hubs with specialties, USD pricing, visa info and travel planning.",
+    },
+    {
+      path: "/clinics",
+      title: "Clinic & Hospital Directory in Asia",
+      description:
+        "Browse clinics and hospitals currently included in Cosmetics Asia destination guides, organized by city and country.",
     },
     {
       path: "/doctors",

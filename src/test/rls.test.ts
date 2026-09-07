@@ -3,7 +3,7 @@
  *
  * 覆盖矩阵：
  *   角色          doctors / videos                profiles                storage
- *   anon          只能读 published；写操作全拒     完全不可读               不能上传；列出的文件为空（无 published 关联文件时）
+ *   anon          只能读 published；写操作全拒     完全不可读               不能上传；只列出 published 关联文件
  *   authenticated 同 anon（非管理员无写权限）      只能读/改自己的那一行     同 anon
  *   admin         全部权限（需真实管理员凭据，见下）
  *
@@ -32,7 +32,6 @@ describe("RLS: anon 匿名角色", () => {
   it("doctors: 只能看到 published 记录", async () => {
     const { data, error } = await anon.from("doctors").select("id,status");
     expect(error).toBeNull();
-    expect(data ?? []).toHaveLength(0); // 当前库无 published 记录；有数据时下行保证过滤正确
     for (const row of data ?? []) expect(row.status).toBe("published");
   });
 
@@ -104,12 +103,20 @@ describe("RLS: anon 匿名角色", () => {
     expect(error).not.toBeNull();
   });
 
-  it("storage: 匿名列表只能看到与 published 记录关联的文件（当前应为空）", async () => {
+  it("storage: 匿名列表只能看到与 published 记录关联的文件", async () => {
+    const publishedDoctors = await anon.from("doctors").select("photo_path").not("photo_path", "is", null);
+    const publishedVideos = await anon.from("videos").select("storage_path").not("storage_path", "is", null);
     const photos = await anon.storage.from("doctor-photos").list();
     const videos = await anon.storage.from("short-videos").list();
-    // 库里目前没有 published 的医生/视频，所以两个桶对匿名都应为空
-    expect(photos.data ?? []).toHaveLength(0);
-    expect(videos.data ?? []).toHaveLength(0);
+    expect(photos.error).toBeNull();
+    expect(videos.error).toBeNull();
+
+    // list() 在桶根目录返回文件名或首级文件夹名；每一项都必须能追溯到
+    // 匿名角色可见（即 published）的医生或视频记录。
+    const allowedPhotoRoots = new Set((publishedDoctors.data ?? []).map((row) => row.photo_path?.split("/")[0]).filter(Boolean));
+    const allowedVideoRoots = new Set((publishedVideos.data ?? []).map((row) => row.storage_path?.split("/")[0]).filter(Boolean));
+    for (const item of photos.data ?? []) expect(allowedPhotoRoots.has(item.name)).toBe(true);
+    for (const item of videos.data ?? []) expect(allowedVideoRoots.has(item.name)).toBe(true);
   });
 
   it("storage: 匿名不能为无 published 关联的文件生成签名 URL", async () => {
