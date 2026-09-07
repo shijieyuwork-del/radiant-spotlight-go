@@ -3,9 +3,5 @@ project_id = "vczghaemqtmsxvgtvbah"
 [functions]
   [functions.auth-email-hook]
     verify_jwt = false
-
   [functions.quote-notification]
-    verify_jwt = false
-
-  [functions.preview-transactional-email]
     verify_jwt = false

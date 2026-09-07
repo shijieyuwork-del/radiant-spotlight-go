@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
-import { ArrowLeft, Building2, Film, Images, Loader2, MessageSquare, Pencil, Plus, Search, Stethoscope, Trash2, UploadCloud } from "lucide-react";
+import { ArrowLeft, Film, Images, Loader2, MessageSquareText, Pencil, Plus, Search, Stethoscope, Trash2, UploadCloud } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@/lib/auth";
 import { useIsAdmin } from "@/hooks/use-is-admin";
@@ -20,10 +20,9 @@ import { PHOTO_RULES, validateMediaFile } from "@/lib/media-validation";
 import { replaceMedia } from "@/lib/upload-media";
 import { useRealtimeRefresh } from "@/hooks/use-realtime-refresh";
 import BeforeAfterAdmin from "@/components/BeforeAfterAdmin";
-import ClinicAdmin from "@/components/ClinicAdmin";
-import QuoteRequestsAdmin from "@/components/QuoteRequestsAdmin";
 import DoctorAdmin from "./DoctorAdmin";
 import VideoAdmin from "./VideoAdmin";
+import QuoteRequestsAdmin, { type QuoteRequestRow } from "@/components/QuoteRequestsAdmin";
 
 type ExpertRow = {
   id: string; name: string; title: string; hospital: string; city: string;
@@ -46,6 +45,7 @@ export default function ContentAdmin() {
   const [loading, setLoading] = useState(true);
   const [experts, setExperts] = useState<ExpertRow[]>([]);
   const [videos, setVideos] = useState<VideoRow[]>([]);
+  const [quoteRequests, setQuoteRequests] = useState<QuoteRequestRow[]>([]);
   const [query, setQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
   const [editingExpert, setEditingExpert] = useState<ExpertRow | null>(null);
@@ -63,12 +63,14 @@ export default function ContentAdmin() {
 
   const load = async () => {
     setLoading(true);
-    const [d, v] = await Promise.all([
+    const [d, v, q] = await Promise.all([
       supabase.from("doctors").select("*").order("created_at", { ascending: false }),
       supabase.from("videos").select("*").order("created_at", { ascending: false }),
+      supabase.from("quote_requests").select("*").order("created_at", { ascending: false }),
     ]);
     if (d.error) toast.error(d.error.message);
     if (v.error) toast.error(v.error.message);
+    if (q.error) toast.error(`咨询请求加载失败：${q.error.message}`);
     const expertRows = (d.data ?? []) as ExpertRow[];
     const videoRows = (v.data ?? []) as VideoRow[];
     const [photoUrls, coverUrls] = await Promise.all([
@@ -77,6 +79,7 @@ export default function ContentAdmin() {
     ]);
     setExperts(expertRows.map((x, i) => ({ ...x, photoUrl: photoUrls[i] })));
     setVideos(videoRows.map((x, i) => ({ ...x, coverUrl: coverUrls[i] })));
+    setQuoteRequests((q.data ?? []) as QuoteRequestRow[]);
     setLoading(false);
   };
 
@@ -85,7 +88,7 @@ export default function ContentAdmin() {
   }, [isAdmin]);
 
   // 后台任何人发布/修改内容后自动同步列表
-  useRealtimeRefresh(isAdmin ? ["doctors", "videos"] : [], () => { void load(); });
+  useRealtimeRefresh(isAdmin ? ["doctors", "videos", "quote_requests"] : [], () => { void load(); });
 
   const match = (row: { status: string }, text: string) =>
     (statusFilter === "all" || row.status === statusFilter) &&
@@ -237,27 +240,21 @@ export default function ContentAdmin() {
 
         <Tabs defaultValue="quotes">
           <TabsList>
-            <TabsTrigger value="quotes"><MessageSquare className="size-4 mr-1.5" />咨询</TabsTrigger>
+            <TabsTrigger value="quotes"><MessageSquareText className="size-4 mr-1.5" />咨询（{quoteRequests.length}）</TabsTrigger>
             <TabsTrigger value="experts"><Stethoscope className="size-4 mr-1.5" />专家（{filteredExperts.length}）</TabsTrigger>
             <TabsTrigger value="videos"><Film className="size-4 mr-1.5" />视频（{filteredVideos.length}）</TabsTrigger>
-            <TabsTrigger value="clinics"><Building2 className="size-4 mr-1.5" />医院</TabsTrigger>
             <TabsTrigger value="before-after"><Images className="size-4 mr-1.5" />术前术后对比</TabsTrigger>
             <TabsTrigger value="new-expert"><Plus className="size-4 mr-1.5" />新增专家</TabsTrigger>
             <TabsTrigger value="new-video"><UploadCloud className="size-4 mr-1.5" />上传视频</TabsTrigger>
           </TabsList>
 
           <TabsContent value="quotes" className="mt-4">
-            <QuoteRequestsAdmin />
-          </TabsContent>
-
-          <TabsContent value="clinics" className="mt-4">
-            <ClinicAdmin />
+            <QuoteRequestsAdmin requests={quoteRequests} />
           </TabsContent>
 
           <TabsContent value="before-after" className="mt-4">
             <BeforeAfterAdmin experts={experts.map((e) => ({ id: e.id, name: e.name }))} />
           </TabsContent>
-
 
           <TabsContent value="new-expert" className="mt-4 max-w-xl">
             <DoctorAdmin embedded />

@@ -1,10 +1,8 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { Loader2, Mail, Phone, Search } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
-import { useRealtimeRefresh } from "@/hooks/use-realtime-refresh";
+import { useMemo, useState } from "react";
+import { CalendarClock, Mail, MapPin, MessageCircle, Phone, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
-type QuoteRow = {
+export type QuoteRequestRow = {
   id: string;
   created_at: string;
   name: string;
@@ -13,116 +11,96 @@ type QuoteRow = {
   phone: string;
   country: string;
   procedure: string;
+  notes: string | null;
   contact_method: string;
   expert_name: string | null;
   city: string | null;
   preferred_slot: string | null;
-  notes: string | null;
   source: string | null;
 };
 
-const Field = ({ label, value }: { label: string; value: string | null }) =>
-  value ? (
-    <div className="text-sm">
-      <span className="text-muted-foreground">{label}：</span>
-      <span className="font-medium">{value}</span>
-    </div>
-  ) : null;
+const formatDate = (value: string) => new Intl.DateTimeFormat("zh-CN", {
+  dateStyle: "medium",
+  timeStyle: "short",
+}).format(new Date(value));
 
-export default function QuoteRequestsAdmin() {
-  const [rows, setRows] = useState<QuoteRow[]>([]);
-  const [loading, setLoading] = useState(true);
+export default function QuoteRequestsAdmin({ requests }: { requests: QuoteRequestRow[] }) {
   const [query, setQuery] = useState("");
-
-  const load = useCallback(async () => {
-    const { data, error } = await supabase
-      .from("quote_requests")
-      .select("*")
-      .order("created_at", { ascending: false });
-    if (error) console.error("quote_requests load failed:", error);
-    setRows((data as QuoteRow[]) ?? []);
-    setLoading(false);
-  }, []);
-
-  useEffect(() => {
-    void load();
-  }, [load]);
-  useRealtimeRefresh(["quote_requests"], load);
-
   const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    if (!q) return rows;
-    return rows.filter((r) =>
-      [r.name, r.email, r.phone, r.country, r.procedure, r.expert_name, r.city, r.notes, r.source]
-        .filter(Boolean)
-        .some((v) => String(v).toLowerCase().includes(q)),
-    );
-  }, [rows, query]);
-
-  if (loading) {
-    return (
-      <div className="flex items-center gap-2 py-10 text-muted-foreground">
-        <Loader2 className="size-4 animate-spin" /> 加载中…
-      </div>
-    );
-  }
+    const needle = query.trim().toLowerCase();
+    if (!needle) return requests;
+    return requests.filter((request) => [
+      request.name,
+      request.email,
+      request.phone,
+      request.country,
+      request.procedure,
+      request.expert_name,
+      request.notes,
+    ].filter(Boolean).join(" ").toLowerCase().includes(needle));
+  }, [query, requests]);
 
   return (
-    <div className="space-y-4">
-      <div className="relative max-w-sm">
-        <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-        <Input
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="搜索姓名、邮箱、电话、项目…"
-          className="pl-9"
-        />
+    <section className="space-y-4" aria-labelledby="quote-requests-title">
+      <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
+        <div>
+          <h2 id="quote-requests-title" className="font-display text-2xl font-semibold">客户咨询请求</h2>
+          <p className="mt-1 text-sm text-muted-foreground">每次客户提交都会保存到这里，最新请求排在最前。</p>
+        </div>
+        <div className="relative w-full sm:max-w-sm">
+          <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            type="search"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="搜索姓名、邮箱、电话或项目…"
+            className="rounded-full pl-9"
+            aria-label="搜索客户咨询请求"
+          />
+        </div>
       </div>
 
-      {filtered.length === 0 ? (
-        <p className="py-8 text-sm text-muted-foreground">暂无咨询记录。</p>
-      ) : (
-        <div className="grid gap-3 lg:grid-cols-2">
-          {filtered.map((r) => {
-            const fullPhone = `${r.phone_prefix ?? ""} ${r.phone}`.trim();
-            return (
-              <article key={r.id} className="rounded-xl border border-border bg-card p-4">
-                <header className="mb-2 flex items-baseline justify-between gap-3">
-                  <h3 className="font-semibold">{r.name}</h3>
-                  <time className="text-xs text-muted-foreground">
-                    {new Date(r.created_at).toLocaleString()}
-                  </time>
-                </header>
-                <div className="space-y-1">
-                  <Field label="项目" value={r.procedure} />
-                  <Field label="国家 / 地区" value={r.country} />
-                  <Field label="联系方式偏好" value={r.contact_method} />
-                  <Field label="专家" value={r.expert_name} />
-                  <Field label="城市" value={r.city} />
-                  <Field label="期望时间" value={r.preferred_slot} />
-                  <Field label="备注" value={r.notes} />
-                  <Field label="来源" value={r.source} />
+      <div className="grid gap-3 lg:grid-cols-2">
+        {filtered.map((request) => {
+          const fullPhone = `${request.phone_prefix ?? ""} ${request.phone}`.trim();
+          return (
+            <article key={request.id} className="rounded-2xl border border-border/70 bg-card p-5 shadow-soft">
+              <div className="flex items-start justify-between gap-4">
+                <div className="min-w-0">
+                  <h3 className="truncate text-lg font-semibold">{request.name}</h3>
+                  <p className="mt-1 font-medium text-primary">{request.procedure}</p>
                 </div>
-                <div className="mt-3 flex flex-wrap gap-3 text-sm">
-                  {r.email && (
-                    <a className="inline-flex items-center gap-1.5 text-primary underline" href={`mailto:${r.email}`}>
-                      <Mail className="size-4" />
-                      {r.email}
-                    </a>
-                  )}
-                  <a
-                    className="inline-flex items-center gap-1.5 text-primary underline"
-                    href={`tel:${fullPhone.replace(/\s+/g, "")}`}
-                  >
-                    <Phone className="size-4" />
-                    {fullPhone}
-                  </a>
+                <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary">
+                  {request.contact_method === "whatsapp" ? <MessageCircle className="size-3" /> : <Mail className="size-3" />}
+                  {request.contact_method === "whatsapp" ? "WhatsApp" : "邮箱"}
+                </span>
+              </div>
+
+              <dl className="mt-4 grid gap-2 text-sm text-foreground/80">
+                <div className="flex items-center gap-2"><CalendarClock className="size-4 shrink-0 text-muted-foreground" /><dt className="sr-only">提交时间</dt><dd>{formatDate(request.created_at)}</dd></div>
+                <div className="flex items-center gap-2"><MapPin className="size-4 shrink-0 text-muted-foreground" /><dt className="sr-only">出发国家</dt><dd>{request.country}{request.city ? ` · 意向城市：${request.city}` : ""}</dd></div>
+                <div className="flex items-center gap-2"><Phone className="size-4 shrink-0 text-muted-foreground" /><dt className="sr-only">电话</dt><dd><a className="underline decoration-primary/40 underline-offset-4 hover:text-primary" href={`tel:${fullPhone.replace(/\s/g, "")}`}>{fullPhone}</a></dd></div>
+                {request.email && <div className="flex items-center gap-2"><Mail className="size-4 shrink-0 text-muted-foreground" /><dt className="sr-only">邮箱</dt><dd className="truncate"><a className="underline decoration-primary/40 underline-offset-4 hover:text-primary" href={`mailto:${request.email}`}>{request.email}</a></dd></div>}
+              </dl>
+
+              {(request.expert_name || request.preferred_slot || request.notes) && (
+                <div className="mt-4 space-y-2 rounded-xl bg-muted/50 p-3 text-sm leading-relaxed">
+                  {request.expert_name && <p><span className="font-semibold">意向专家：</span>{request.expert_name}</p>}
+                  {request.preferred_slot && <p><span className="font-semibold">希望时间：</span>{request.preferred_slot}</p>}
+                  {request.notes && <p className="whitespace-pre-wrap"><span className="font-semibold">客户留言：</span>{request.notes}</p>}
                 </div>
-              </article>
-            );
-          })}
+              )}
+              <p className="mt-3 text-xs text-muted-foreground">来源：{request.source || "site_cta"}</p>
+            </article>
+          );
+        })}
+      </div>
+
+      {filtered.length === 0 && (
+        <div className="rounded-2xl border border-dashed border-border bg-card px-6 py-12 text-center text-sm text-muted-foreground">
+          {requests.length === 0 ? "目前还没有客户咨询请求。" : "没有符合搜索条件的咨询请求。"}
         </div>
       )}
-    </div>
+    </section>
   );
 }

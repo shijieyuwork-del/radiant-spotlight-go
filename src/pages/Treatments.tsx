@@ -1,6 +1,6 @@
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { Activity, ArrowRight, BookOpen, CheckCircle2, Eye, FileText, HeartPulse, MessageCircle, PlayCircle, ScanFace, Scissors, Search, ShieldAlert, Smile, Sparkles, UserRound, WalletCards, WandSparkles } from "lucide-react";
+import { Activity, ArrowRight, BookOpen, CheckCircle2, ClipboardCheck, Clock3, Eye, FileText, HeartPulse, MessageCircle, PlayCircle, ScanFace, Scissors, Search, ShieldAlert, Smile, Sparkles, UserRound, WalletCards, WandSparkles } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
@@ -9,9 +9,7 @@ import TikTokWall from "@/components/TikTokWall";
 import { Button } from "@/components/ui/button";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
 import { useAsia } from "@/lib/asia-i18n";
-import { asiaCopy } from "@/lib/asia-copy";
 import { PROCEDURE_CATEGORIES, procedureSlug } from "@/data/procedureCatalog";
-import { getPlanningMarketingCopy } from "@/lib/planning-marketing-copy";
 
 const PROCEDURE_IMAGES = import.meta.glob("../assets/procedures/*.jpg", {
   eager: true,
@@ -61,87 +59,17 @@ const CATEGORY_STYLES = [
   { panel: "bg-secondary/35", marker: "bg-secondary text-secondary-foreground", title: "text-foreground", link: "hover:bg-secondary/75 hover:text-foreground", dot: "bg-secondary-foreground/45" },
 ] as const;
 
-/**
- * Broad category ranges in CNY for licensed private aesthetic providers in
- * major Chinese cities. These are non-promotional planning references, not
- * hospital quotations; expert-led, revision and imported-material cases can
- * sit above the range.
- * Sources checked 2026-09-07:
- * - https://www.nhsa.gov.cn/art/2025/6/18/art_14_16876.html
- * - https://www.mjktrip.com/zh/services/plastic-surgery
- * - https://www.triphr.com/article/en7f9oou498s07qo3e478ebb.html
- * - https://www.signdo.com/hospital/4403/
- */
 const CATEGORY_META = [
-  { priceLowCny: 10_000, priceHighCny: 100_000, recovery: "1–2 weeks", recoveryZh: "1–2 周", type: "Surgical", typeZh: "手术类", icon: ScanFace },
-  { priceLowCny: 3_000, priceHighCny: 30_000, recovery: "7–14 days", recoveryZh: "7–14 天", type: "Surgical", typeZh: "手术类", icon: Eye },
-  { priceLowCny: 10_000, priceHighCny: 100_000, recovery: "2–4 weeks", recoveryZh: "2–4 周", type: "Surgical", typeZh: "手术类", icon: UserRound },
-  { priceLowCny: 10_000, priceHighCny: 200_000, recovery: "2–4 weeks", recoveryZh: "2–4 周", type: "Surgical", typeZh: "手术类", icon: Sparkles },
-  { priceLowCny: 25_000, priceHighCny: 150_000, recovery: "2–6 weeks", recoveryZh: "2–6 周", type: "Surgical", typeZh: "手术类", icon: HeartPulse },
-  { priceLowCny: 12_000, priceHighCny: 120_000, recovery: "2–6 weeks", recoveryZh: "2–6 周", type: "Surgical", typeZh: "手术类", icon: Activity },
-  { priceLowCny: 10_000, priceHighCny: 80_000, recovery: "7–14 days", recoveryZh: "7–14 天", type: "Surgical", typeZh: "手术类", icon: Scissors },
-  { priceLowCny: 1_000, priceHighCny: 150_000, recovery: "Same day–2 weeks", recoveryZh: "当天–2 周", type: "Mixed care", typeZh: "综合治疗", icon: Smile },
-  { priceLowCny: 500, priceHighCny: 30_000, recovery: "Hours–2 weeks", recoveryZh: "数小时–2 周", type: "Non-surgical", typeZh: "非手术类", icon: WandSparkles },
+  { price: "$2,200–$9,000", recovery: "1–2 weeks", recoveryZh: "1–2 周", type: "Surgical", typeZh: "手术类", icon: ScanFace },
+  { price: "$800–$5,000", recovery: "7–14 days", recoveryZh: "7–14 天", type: "Surgical", typeZh: "手术类", icon: Eye },
+  { price: "$2,500–$15,000", recovery: "2–4 weeks", recoveryZh: "2–4 周", type: "Surgical", typeZh: "手术类", icon: UserRound },
+  { price: "$2,000–$18,000", recovery: "2–4 weeks", recoveryZh: "2–4 周", type: "Surgical", typeZh: "手术类", icon: Sparkles },
+  { price: "$3,500–$14,000", recovery: "2–6 weeks", recoveryZh: "2–6 周", type: "Surgical", typeZh: "手术类", icon: HeartPulse },
+  { price: "$2,500–$18,000", recovery: "2–6 weeks", recoveryZh: "2–6 周", type: "Surgical", typeZh: "手术类", icon: Activity },
+  { price: "$1,500–$7,000", recovery: "7–14 days", recoveryZh: "7–14 天", type: "Surgical", typeZh: "手术类", icon: Scissors },
+  { price: "$300–$15,000", recovery: "Same day–2 weeks", recoveryZh: "当天–2 周", type: "Mixed care", typeZh: "综合治疗", icon: Smile },
+  { price: "$100–$4,000", recovery: "Hours–2 weeks", recoveryZh: "数小时–2 周", type: "Non-surgical", typeZh: "非手术类", icon: WandSparkles },
 ] as const;
-
-const PROCEDURE_PRICE_CNY: Record<string, readonly [number, number]> = {
-  Rhinoplasty: [18_000, 60_000],
-  "Revision Rhinoplasty": [35_000, 100_000],
-  Septorhinoplasty: [25_000, 70_000],
-  "Alar Base Reduction": [6_000, 18_000],
-  "Nasal Tip Surgery": [10_000, 30_000],
-  "Double Eyelid Surgery": [4_000, 16_000],
-  "Upper Blepharoplasty": [6_000, 20_000],
-  "Lower Blepharoplasty": [8_000, 25_000],
-  "Ptosis Correction": [12_000, 30_000],
-  Epicanthoplasty: [3_000, 10_000],
-  "Under-Eye Fat Repositioning": [9_000, 28_000],
-  "Chin Augmentation": [10_000, 35_000],
-  Genioplasty: [25_000, 60_000],
-  "Jaw Contouring": [35_000, 90_000],
-  "Zygoma Reduction": [40_000, 100_000],
-  "Facial Fat Grafting": [15_000, 45_000],
-  Otoplasty: [8_000, 30_000],
-  Facelift: [50_000, 150_000],
-  "Neck Lift": [36_000, 105_000],
-  "Brow Lift": [18_000, 62_000],
-  "Deep-Plane Facelift": [80_000, 200_000],
-  "Mini Facelift": [25_000, 80_000],
-  "Lip Lift": [12_000, 36_000],
-  "Breast Augmentation": [35_000, 120_000],
-  "Breast Lift": [40_000, 110_000],
-  "Breast Reduction": [45_000, 115_000],
-  "Implant Revision": [55_000, 160_000],
-  "Implant Removal": [20_000, 65_000],
-  "Male Breast Reduction": [18_000, 50_000],
-  Liposuction: [18_000, 80_000],
-  "Tummy Tuck": [45_000, 120_000],
-  "Arm Lift": [30_000, 70_000],
-  "Thigh Lift": [35_000, 85_000],
-  "Body Lift": [70_000, 180_000],
-  "Fat Transfer": [20_000, 70_000],
-  "Mommy Makeover": [90_000, 220_000],
-  "FUE Hair Transplant": [15_000, 60_000],
-  "FUT Hair Transplant": [12_000, 45_000],
-  "Hairline Restoration": [10_000, 40_000],
-  "Crown Restoration": [18_000, 65_000],
-  "Eyebrow Transplant": [8_000, 26_000],
-  "Beard Transplant": [12_000, 35_000],
-  "Dental Implants": [6_000, 22_000],
-  "Porcelain Veneers": [3_000, 80_000],
-  "All-Ceramic Crowns": [2_500, 12_000],
-  "Teeth Whitening": [1_000, 6_000],
-  "Clear Aligners": [18_000, 55_000],
-  "Full-Mouth Reconstruction": [80_000, 150_000],
-  "Laser Skin Resurfacing": [1_500, 15_000],
-  "Pigmentation Treatment": [1_000, 12_000],
-  "Acne Scar Treatment": [1_500, 18_000],
-  "RF Microneedling": [3_000, 20_000],
-  "Ultrasound Skin Tightening": [6_000, 30_000],
-  "Botulinum Toxin": [800, 8_000],
-  "Dermal Fillers": [2_000, 25_000],
-  "Regenerative Skin Treatments": [3_000, 30_000],
-};
 
 const CONCERN_LINKS = [
   ["Improve my nose", "改善鼻型", 0],
@@ -318,25 +246,14 @@ const RU_CATEGORY_DESCRIPTIONS = [
 const Treatments = () => {
   const { lang, fmt, t } = useAsia();
   const { open } = useQuote();
-  const marketing = getPlanningMarketingCopy(lang);
-  const searchInput = useRef<HTMLInputElement>(null);
   const zh = lang === "zh";
   const ru = lang === "ru";
   const es = lang === "es";
   const copy = (en: string, cn: string, russian: string, spanish?: string) => zh ? cn : ru ? russian : es ? (spanish ?? en) : en;
   const label = (en: string, cn: string, spanish?: string) => zh ? cn : ru ? (RU_LABELS[en] ?? en) : es ? (ES_LABELS[en] ?? spanish ?? en) : en;
-  const searchLabel = asiaCopy(lang, {
-    en: "Search a procedure, concern or body area", zh: "搜索项目、部位或关注的问题",
-    ru: "Поиск процедуры, зоны или проблемы", es: "Buscar un procedimiento, inquietud o zona corporal",
-    th: "ค้นหาหัตถการ ข้อกังวล หรือบริเวณร่างกาย", ms: "Cari prosedur, kebimbangan atau bahagian badan",
-  });
   const [activeCategory, setActiveCategory] = useState(0);
   const [query, setQuery] = useState("");
   const normalizedQuery = query.trim().toLowerCase();
-  const formatProcedurePrice = (procedure: string) => {
-    const [low, high] = PROCEDURE_PRICE_CNY[procedure];
-    return `${fmt(low)}–${fmt(high)}`;
-  };
   const visibleCategories = useMemo(() => {
     if (!normalizedQuery) return [{ category: PROCEDURE_CATEGORIES[activeCategory], index: activeCategory }];
     return PROCEDURE_CATEGORIES.map((category, index) => ({
@@ -362,45 +279,23 @@ const Treatments = () => {
             </span>
             <h1 className="font-display text-[2.15rem] font-medium leading-[1.04] tracking-tight sm:text-4xl md:text-5xl">
               {copy("Understand it first,", "先了解清楚", "Сначала разберитесь,")}{" "}
-              <em className="text-brand not-italic">{copy("then decide.", "再做决定", "затем решайте.")}</em>
+              <em className="text-primary not-italic">{copy("then decide.", "再做决定", "затем решайте.")}</em>
             </h1>
           </div>
-
-          <nav aria-label={marketing.choosePath} className="mx-auto mb-8 max-w-6xl">
-            <p className="mb-3 text-center text-sm font-semibold text-muted-foreground">{marketing.choosePath}</p>
-            <div className="grid gap-3 md:grid-cols-3">
-              <button type="button" onClick={() => { searchInput.current?.scrollIntoView({ block: "center" }); searchInput.current?.focus({ preventScroll: true }); }} className="group min-w-0 rounded-2xl border border-primary/20 bg-primary/5 p-5 text-left transition hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
-                <span className="flex items-start justify-between gap-3 font-semibold">{marketing.procedure}<Search className="mt-0.5 size-5 shrink-0 text-brand" aria-hidden="true" /></span>
-                <span className="mt-2 block text-sm leading-relaxed text-muted-foreground">{marketing.procedureDetail}</span>
-              </button>
-              <Link to="/clinics" className="group min-w-0 rounded-2xl border border-primary/20 bg-primary/5 p-5 text-left transition hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
-                <span className="flex items-start justify-between gap-3 font-semibold">{marketing.providers}<ArrowRight className="mt-0.5 size-5 shrink-0 text-brand" aria-hidden="true" /></span>
-                <span className="mt-2 block text-sm leading-relaxed text-muted-foreground">{marketing.providersDetail}</span>
-              </Link>
-              <button type="button" onClick={() => open({ intent: "care_plan", source: "treatments_trip_planning" })} className="group min-w-0 rounded-2xl border border-primary/20 bg-primary/5 p-5 text-left transition hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
-                <span className="flex items-start justify-between gap-3 font-semibold">{marketing.trip}<MessageCircle className="mt-0.5 size-5 shrink-0 text-brand" aria-hidden="true" /></span>
-                <span className="mt-2 block text-sm leading-relaxed text-muted-foreground">{marketing.tripDetail}</span>
-              </button>
-            </div>
-          </nav>
 
           <div className="mx-auto mb-7 max-w-4xl">
             <label className="relative block">
               <Search className="absolute left-5 top-1/2 size-5 -translate-y-1/2 text-primary" />
               <input
-                ref={searchInput}
-                id="procedure-search"
-                type="search"
-                aria-label={searchLabel}
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
-                placeholder={searchLabel}
-                className="h-14 min-w-0 w-full rounded-full border border-border/80 bg-card pl-14 pr-5 text-base text-foreground shadow-soft outline-none transition placeholder:text-muted-foreground focus:border-primary/50 focus:ring-4 focus:ring-primary/10 md:h-16"
+                placeholder={copy("Search a procedure, concern or body area", "搜索项目、部位或关注的问题", "Поиск процедуры, зоны или проблемы")}
+                className="h-14 w-full rounded-full border border-border/80 bg-card pl-14 pr-5 text-base shadow-soft outline-none transition placeholder:text-muted-foreground focus:border-primary/50 focus:ring-4 focus:ring-primary/10 md:h-16"
               />
             </label>
             <div className="mt-4 flex snap-x gap-2 overflow-x-auto pb-2 scrollbar-hide" aria-label={copy("Browse by concern", "按需求查找", "Поиск по цели")}>
               {CONCERN_LINKS.map(([en, cn, index]) => (
-                <button key={en} type="button" onClick={() => { setQuery(""); setActiveCategory(index); }} className="min-h-10 shrink-0 snap-start rounded-full border border-border/70 bg-card px-4 text-sm font-semibold transition hover:border-primary/40 hover:bg-primary/5 hover:text-brand">
+                <button key={en} type="button" onClick={() => { setQuery(""); setActiveCategory(index); }} className="min-h-10 shrink-0 snap-start rounded-full border border-border/70 bg-card px-4 text-sm font-semibold transition hover:border-primary/40 hover:bg-primary/5 hover:text-primary">
                   {label(en, cn)}
                 </button>
               ))}
@@ -412,14 +307,7 @@ const Treatments = () => {
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div className="flex items-center gap-2 text-sm font-semibold">
                   <FileText className="size-4 text-primary" />
-                  {asiaCopy(lang, {
-                    en: "CeladonChina procedure guides",
-                    zh: "CeladonChina 项目指南",
-                    ru: "Руководства по процедурам CeladonChina",
-                    es: "Guías de procedimientos de CeladonChina",
-                    th: "คู่มือหัตถการของ CeladonChina",
-                    ms: "Panduan prosedur CeladonChina",
-                  })}
+                  {copy("Cosmetics Asia Academy", "Cosmetics Asia 医美百科", "Академия Cosmetics Asia")}
                 </div>
                 <span className="text-xs text-muted-foreground">
                   {copy("9 clinical categories · 56 procedures", "9 个医学分类 · 56 项术式", "9 медицинских категорий · 56 процедур")}
@@ -427,9 +315,9 @@ const Treatments = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-[16rem_minmax(0,1fr)]">
-              <aside className="min-w-0 border-b border-border/80 bg-muted/20 p-4 lg:border-b-0 lg:border-r lg:p-5">
-                <p className="mb-3 text-label font-bold uppercase tracking-[0.16em] text-muted-foreground">
+            <div className="grid lg:grid-cols-[16rem_minmax(0,1fr)]">
+              <aside className="border-b border-border/80 bg-muted/20 p-4 lg:border-b-0 lg:border-r lg:p-5">
+                <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.16em] text-muted-foreground">
                   {copy("Browse by area", "按部位浏览", "Поиск по зоне")}
                 </p>
                 <nav className="-mx-1 flex snap-x gap-2 overflow-x-auto px-1 pb-2 scrollbar-hide lg:sticky lg:top-24 lg:mx-0 lg:grid lg:gap-1 lg:overflow-visible lg:px-0 lg:pb-0" aria-label={copy("Procedure categories", "项目分类", "Категории процедур")}>
@@ -444,7 +332,7 @@ const Treatments = () => {
                 </nav>
               </aside>
 
-              <div className="min-h-[34rem] min-w-0 px-4 py-5 sm:px-5 sm:py-6 md:px-8 md:py-8">
+              <div className="min-h-[34rem] px-4 py-5 sm:px-5 sm:py-6 md:px-8 md:py-8">
                 {visibleCategories.length === 0 && (
                   <div className="grid min-h-[24rem] place-items-center text-center">
                     <div><Search className="mx-auto size-7 text-primary" /><h2 className="mt-3 font-display text-2xl">{copy("No procedures found", "没有找到相关项目", "Процедуры не найдены")}</h2><p className="mt-2 text-sm text-muted-foreground">{copy("Try another procedure name or body area.", "换一个项目名称或身体部位试试。", "Попробуйте другое название процедуры или зоны тела.")}</p></div>
@@ -457,14 +345,14 @@ const Treatments = () => {
                   >
                     <div className="flex items-start gap-3 sm:gap-4">
                       <span className={`grid size-11 shrink-0 place-items-center rounded-2xl ${CATEGORY_STYLES[categoryIndex].marker}`}>{(() => { const Icon = CATEGORY_META[categoryIndex].icon; return <Icon className="size-5" />; })()}</span>
-                      <div className="min-w-0"><span className="font-mono text-label font-bold text-foreground">{String(categoryIndex + 1).padStart(2, "0")}</span><h2 className="font-display text-[1.7rem] font-medium leading-tight tracking-tight sm:text-3xl">{label(category.en, category.zh)}</h2><p className="mt-1 max-w-xl text-sm leading-relaxed text-muted-foreground [overflow-wrap:anywhere]">{ru ? RU_CATEGORY_DESCRIPTIONS[categoryIndex] : es ? ES_CATEGORY_DESCRIPTIONS[categoryIndex] : CATEGORY_DESCRIPTIONS[categoryIndex][zh ? 1 : 0]}</p></div>
+                      <div><span className="font-mono text-[11px] font-bold text-primary">{String(categoryIndex + 1).padStart(2, "0")}</span><h2 className="font-display text-[1.7rem] font-medium leading-tight tracking-tight sm:text-3xl">{label(category.en, category.zh)}</h2><p className="mt-1 max-w-xl text-sm leading-relaxed text-muted-foreground">{ru ? RU_CATEGORY_DESCRIPTIONS[categoryIndex] : es ? ES_CATEGORY_DESCRIPTIONS[categoryIndex] : CATEGORY_DESCRIPTIONS[categoryIndex][zh ? 1 : 0]}</p></div>
                     </div>
-                    <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    <div className="mt-6 grid gap-3 sm:grid-cols-2">
                         {category.items.map(([en, cn], itemIndex) => (
                           <Link
                             to={`/treatments/${procedureSlug(en)}`}
                             key={en}
-                            className="group grid min-h-[9.5rem] min-w-0 grid-cols-[5rem_minmax(0,1fr)] overflow-hidden rounded-2xl border border-border/70 bg-background/75 transition duration-200 hover:-translate-y-0.5 hover:border-primary/35 hover:bg-card hover:shadow-soft min-[390px]:grid-cols-[6.5rem_minmax(0,1fr)] sm:grid-cols-[7.5rem_minmax(0,1fr)]"
+                            className="group grid min-h-[9.5rem] grid-cols-[6.5rem_minmax(0,1fr)] overflow-hidden rounded-2xl border border-border/70 bg-background/75 transition duration-200 hover:-translate-y-0.5 hover:border-primary/35 hover:bg-card hover:shadow-soft sm:grid-cols-[7.5rem_minmax(0,1fr)]"
                           >
                             <div className="relative min-h-full overflow-hidden bg-muted">
                               <img
@@ -475,10 +363,10 @@ const Treatments = () => {
                               />
                               <div className="absolute inset-0 bg-gradient-to-t from-foreground/30 via-transparent to-transparent" />
                             </div>
-                            <div className="min-w-0 p-3 sm:p-4">
-                              <div className="flex items-start justify-between gap-2"><h3 className="min-w-0 font-semibold leading-normal text-foreground [overflow-wrap:anywhere]">{label(en, cn)}</h3><ArrowRight className="mt-0.5 size-4 shrink-0 text-primary transition group-hover:translate-x-1" /></div>
-                              <div className="mt-3 flex flex-wrap gap-1.5 text-label font-medium text-foreground [&>span]:max-w-full [&>span]:[overflow-wrap:anywhere]"><span className="rounded-full bg-secondary px-2 py-1">{formatProcedurePrice(en)}</span><span className="rounded-full bg-primary/10 px-2 py-1">{zh ? CATEGORY_META[categoryIndex].recoveryZh : CATEGORY_META[categoryIndex].recovery}</span><span className="rounded-full bg-accent/60 px-2 py-1">{zh ? CATEGORY_META[categoryIndex].typeZh : ru ? (CATEGORY_META[categoryIndex].type === "Surgical" ? "Хирургия" : CATEGORY_META[categoryIndex].type === "Non-surgical" ? "Без операции" : "Комплексное лечение") : CATEGORY_META[categoryIndex].type}</span></div>
-                              <p className="mt-3 text-xs font-semibold text-foreground">{copy("Read the full guide", "阅读完整指南", "Читать полное руководство")} <span aria-hidden="true">→</span></p>
+                            <div className="min-w-0 p-4">
+                              <div className="flex items-start justify-between gap-3"><h3 className="font-semibold text-foreground">{label(en, cn)}</h3><ArrowRight className="mt-0.5 size-4 shrink-0 text-primary transition group-hover:translate-x-1" /></div>
+                              <div className="mt-3 flex flex-wrap gap-1.5 text-[10px] font-medium text-muted-foreground"><span className="rounded-full bg-secondary px-2 py-1">{CATEGORY_META[categoryIndex].price}</span><span className="rounded-full bg-primary/10 px-2 py-1 text-primary">{zh ? CATEGORY_META[categoryIndex].recoveryZh : CATEGORY_META[categoryIndex].recovery}</span><span className="rounded-full bg-accent/60 px-2 py-1">{zh ? CATEGORY_META[categoryIndex].typeZh : ru ? (CATEGORY_META[categoryIndex].type === "Surgical" ? "Хирургия" : CATEGORY_META[categoryIndex].type === "Non-surgical" ? "Без операции" : "Комплексное лечение") : CATEGORY_META[categoryIndex].type}</span></div>
+                              <p className="mt-3 text-xs font-semibold text-primary">{copy("Read the full guide", "阅读完整指南", "Читать полное руководство")} <span aria-hidden="true">→</span></p>
                             </div>
                           </Link>
                         ))}
@@ -488,6 +376,23 @@ const Treatments = () => {
               </div>
             </div>
           </div>
+
+          <section className="mx-auto mt-16 max-w-6xl rounded-[2rem] bg-gradient-to-r from-[hsl(155,55%,92%)] via-[hsl(150,48%,91%)] to-[hsl(48,78%,92%)] p-5 shadow-soft sm:p-8 md:mt-24 md:p-10">
+            <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+              <div className="max-w-3xl">
+                <span className="pill bg-card/80"><Clock3 className="size-3.5 text-primary" /> {copy("Recovery at a glance", "恢复时间速览", "Восстановление: краткий обзор")}</span>
+                <h2 className="mt-4 font-display text-3xl font-medium tracking-tight sm:text-4xl">{copy("Plan around the", "提前规划你的", "Планируйте с учётом")} <em className="not-italic text-primary">{copy("recovery window", "恢复期", "периода восстановления")}</em></h2>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{copy("These broad ranges are for trip planning only. Your procedure, health and expert's advice determine your actual recovery.", "以下为大类项目的一般计划参考。具体恢复进度取决于术式、个人健康状况和专家建议。", "Эти сроки предназначены только для планирования поездки. Реальное восстановление зависит от процедуры, вашего здоровья и рекомендаций эксперта.")}</p>
+              </div>
+              <Link to="/cases" className="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-full bg-primary px-5 text-sm font-bold text-primary-foreground shadow-soft">{copy("Watch recovery diaries", "观看真实恢复日记", "Смотреть дневники восстановления")}<ArrowRight className="size-4" /></Link>
+            </div>
+            <div className="mt-7 overflow-x-auto rounded-3xl border border-white/70 bg-card/80 shadow-soft">
+              <table className="w-full min-w-[680px] text-left text-sm">
+                <thead className="border-b border-border/70 text-xs uppercase tracking-wider text-muted-foreground"><tr><th className="p-4">{copy("Procedure group", "项目类别", "Категория")}</th><th className="p-4">{copy("General recovery range", "常见恢复范围", "Обычно восстановление")}</th><th className="p-4">{copy("Planning price range", "参考价格", "Диапазон цен")}</th><th className="p-4">{copy("Type", "类型", "Тип")}</th></tr></thead>
+                <tbody>{PROCEDURE_CATEGORIES.slice(0, 6).map((category, index) => <tr key={category.en} className="border-b border-border/60 last:border-0"><td className="p-4 font-semibold">{label(category.en, category.zh)}</td><td className="p-4 text-muted-foreground">{zh ? CATEGORY_META[index].recoveryZh : CATEGORY_META[index].recovery}</td><td className="p-4 text-muted-foreground">{CATEGORY_META[index].price}</td><td className="p-4"><span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">{zh ? CATEGORY_META[index].typeZh : ru ? "Хирургия" : CATEGORY_META[index].type}</span></td></tr>)}</tbody>
+              </table>
+            </div>
+          </section>
 
           <section className="mx-auto mt-16 grid max-w-6xl gap-5 md:mt-24 lg:grid-cols-2">
             <article className="rounded-[2rem] border border-border/70 bg-card p-6 shadow-soft sm:p-8">
@@ -519,6 +424,20 @@ const Treatments = () => {
               <Link to="/cases" className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full bg-primary px-5 text-sm font-bold text-primary-foreground">{zh ? "浏览全部日记" : "Explore all diaries"}<ArrowRight className="size-4" /></Link>
             </div>
             <div className="mt-7"><TikTokWall items={TIKTOK_CASES.slice(0, 7)} lang={lang} fmtPrice={fmt} variant="preview" /></div>
+          </section>
+
+          <section className="mx-auto mb-4 mt-16 max-w-6xl rounded-[2rem] border border-primary/15 bg-primary/[0.055] p-6 sm:p-8 md:mt-24 md:p-10">
+            <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
+              <div>
+                <span className="pill bg-card"><ClipboardCheck className="size-3.5 text-primary" /> {zh ? "面诊问题清单" : "Consultation checklist"}</span>
+                <h2 className="mt-4 font-display text-3xl font-medium tracking-tight sm:text-4xl">{zh ? "值得向专家确认的问题" : "Questions worth asking your surgeon"}</h2>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{zh ? "好的面诊不仅讨论你想要的结果，也会解释技术选择、风险、恢复和紧急联系安排。" : "A useful consultation should cover technique, risks, recovery and contact arrangements—not only the result you hope to achieve."}</p>
+              </div>
+              <ol className="grid gap-3 sm:grid-cols-2">
+                {(zh ? ["您多久做一次这项手术？", "为什么为我推荐这种技术？", "手术在哪里进行，由谁麻醉？", "最常见的并发症有哪些？", "总报价包含和不包含什么？", "回国后出现问题联系谁？"] : ["How often do you perform this procedure?", "Which technique do you recommend, and why?", "Where is treatment performed, and who provides anesthesia?", "Which complications do you see most often?", "What is included—and excluded—from the quote?", "Who should I contact after returning home?"]).map((item, index) => <li key={item} className="flex min-h-20 gap-3 rounded-2xl border border-border/70 bg-card p-4 text-sm font-semibold"><span className="font-mono text-xs font-bold text-primary">0{index + 1}</span><span>{item}</span></li>)}
+              </ol>
+            </div>
+            <p className="mt-7 border-t border-primary/10 pt-5 text-xs leading-relaxed text-muted-foreground">{zh ? "本页内容仅用于一般科普和行程规划，不构成医疗建议、诊断或个体化治疗方案。请由具备资质的专家完成评估。" : "This page provides general education and planning information only. It is not medical advice, diagnosis or a personalized treatment recommendation. A licensed expert must evaluate your individual circumstances."}</p>
           </section>
 
         </section>

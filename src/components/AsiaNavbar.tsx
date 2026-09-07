@@ -1,20 +1,19 @@
 import { Link, useLocation } from "react-router-dom";
-import { DollarSign, Languages, Menu, ChevronRight, ChevronDown, MessageCircle, ArrowRight, User, LogOut, Phone, Mail, CalendarDays, Heart } from "lucide-react";
+import { DollarSign, Languages, Menu, ChevronRight, Phone, Mail, MessageCircle, ArrowRight, User, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAsia, asiaLangLabel as langLabel, type AsiaLang as Lang } from "@/lib/asia-i18n";
-import { Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import BrandLogo from "@/components/BrandLogo";
 import { asiaCopy } from "@/lib/asia-copy";
 import { useQuote } from "@/components/QuoteRequest";
 import { useAuth } from "@/lib/auth";
 import { useIsAdmin } from "@/hooks/use-is-admin";
-import { getSavedCasesCopy } from "@/lib/saved-cases-copy";
 
-
+type Props = { homeLinks?: boolean };
 
 const AccountMenu = ({ lang, onClose }: { lang: Lang; onClose?: () => void }) => {
   const { user, signOut } = useAuth();
@@ -46,8 +45,8 @@ const AccountMenu = ({ lang, onClose }: { lang: Lang; onClose?: () => void }) =>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-48">
         <DropdownMenuItem asChild>
-          <Link to="/saved" onClick={onClose} className="cursor-pointer flex items-center gap-2">
-            <Heart className="size-4" /> {getSavedCasesCopy(lang).title}
+          <Link to="/profile" onClick={onClose} className="cursor-pointer flex items-center gap-2">
+            <User className="size-4" /> {c("Profile", "个人资料", "Профиль", "Perfil")}
           </Link>
         </DropdownMenuItem>
         {isAdmin && (
@@ -69,48 +68,85 @@ const AccountMenu = ({ lang, onClose }: { lang: Lang; onClose?: () => void }) =>
   );
 };
 
-const AsiaNavbar = () => {
+const AsiaNavbar = ({ homeLinks = true }: Props) => {
   const { t, lang, setLang, currency, setCurrency } = useAsia();
   const { open } = useQuote();
   const { pathname } = useLocation();
   const c = (en: string, zh: string, ru: string, es?: string) => asiaCopy(lang, { en, zh, ru, es });
   const isActive = (to: string) => to === "/" ? pathname === "/" : pathname === to || pathname.startsWith(`${to}/`);
-  const links = [
-    { to: "/", label: c("Home", "首页", "Главная", "Inicio") },
-    { to: "/cases", label: t("nav.cases") },
-    { to: "/before-after", label: c("Before & after", "术前术后", "До и после", "Antes y después") },
-    { to: "/doctors", label: t("nav.compliance") },
-    { to: "/clinics", label: c("Clinics", "诊所", "Клиники", "Clínicas") },
-    { to: "/travel-packages", label: asiaCopy(lang, { en: "Travel support", zh: "行程支持", ru: "Поддержка поездки", es: "Apoyo de viaje", th: "สนับสนุนการเดินทาง", ms: "Sokongan Perjalanan" }) },
-    { to: "/treatments", label: t("nav.projects") },
-    { to: "/cities", label: t("nav.cities") },
-    { to: "/why-china", label: c("Why China", "为什么选中国", "Почему Китай", "Por qué China") },
-    { to: "/about", label: c("About", "关于我们", "О нас", "Acerca de") },
-    { to: "/provider-verification", label: c("Standards", "审核标准", "Стандарты", "Estándares") },
-  ];
-  const compactDesktopLinks = links.slice(0, 6);
-  const moreDesktopLinks = links.slice(6);
-  const moreIsActive = moreDesktopLinks.some((link) => isActive(link.to));
+  const links = homeLinks
+      ? [
+        { to: "/", label: c("Home", "首页", "Главная", "Inicio") },
+        { to: "/cases", label: t("nav.cases") },
+        { to: "/before-after", label: c("Before & after", "术前术后", "До и после", "Antes y después") },
+        { to: "/doctors", label: t("nav.compliance") },
+        { to: "/treatments", label: t("nav.projects") },
+        { to: "/travel-packages", label: c("Travel Support", "行程支持", "Поддержка поездки", "Apoyo de viaje") },
+        { to: "/clinics", label: c("Clinics", "诊所", "Клиники", "Clínicas") },
+        { to: "/cities", label: t("nav.cities") },
+        { to: "/why-china", label: c("Why China", "为什么选中国", "Почему Китай", "Por qué China") },
+        { to: "/about", label: c("About", "关于我们", "О нас", "Acerca de") },
+        { to: "/provider-verification", label: c("Standards", "审核标准", "Стандарты", "Estándares") },
+      ]
+    : [
+        { to: "/", label: c("Home", "首页", "Главная", "Inicio") },
+        { to: "/cases", label: t("nav.cases") },
+      ];
+  const desktopLinks = links;
   return (
     <>
       <div className="fixed inset-x-0 top-0 z-[70]">
-        <div className="hidden h-11 bg-[hsl(var(--brand-emerald))] text-foreground xl:block">
-          <div className="container flex h-full items-center justify-between gap-8 text-sm font-medium">
-            <div className="flex items-center gap-6">
-              <a href="https://wa.me/14708613825" target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center gap-2 text-foreground/90 transition hover:text-foreground">
-                <Phone className="size-4" aria-hidden="true" />
-                <span>+1 470 861 3825</span>
-              </a>
-              <span className="h-5 w-px bg-foreground/20" aria-hidden="true" />
-              <a href="mailto:contact@celadonchina.com" className="inline-flex min-h-11 items-center gap-2 text-foreground/90 transition hover:text-foreground">
-                <Mail className="size-4" aria-hidden="true" />
-                <span>contact@celadonchina.com</span>
-              </a>
-            </div>
-            <div className="flex items-center gap-1 text-foreground">
+      <div className="h-12 border-b border-primary bg-primary text-primary-foreground shadow-sm md:h-9">
+        <div className="container flex h-full items-center justify-between gap-3 text-xs">
+          <div className="flex min-w-0 items-center gap-2.5 sm:gap-5">
+            <a
+              href="https://wa.me/14708613825?text=Hi%20Cosmetics%20Asia%2C%20I%20would%20like%20to%20ask%20about%20your%20services."
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Contact Cosmetics Asia on WhatsApp"
+              className="inline-flex min-h-12 shrink-0 items-center gap-1.5 rounded-full bg-white/10 px-2.5 font-bold tracking-[0.01em] text-white transition hover:bg-white/20 md:min-h-9"
+            >
+              <Phone className="size-3.5" />
+              <span className="hidden sm:inline">+1 470 861 3825</span>
+              <span className="sm:hidden">WhatsApp</span>
+            </a>
+            <a href="mailto:contact@celadonchina.com" className="hidden min-h-12 min-w-0 items-center gap-1.5 rounded-full px-2 font-semibold tracking-[0.01em] text-white/95 transition hover:bg-white/10 hover:text-white sm:inline-flex md:min-h-9">
+              <Mail className="size-3.5 shrink-0" />
+              <span className="hidden truncate sm:inline">contact@celadonchina.com</span>
+            </a>
+          </div>
+          <button
+            type="button"
+            onClick={() => open({ source: "navbar_top" })}
+            aria-label={c("Start a consultation", "开始咨询", "Начать консультацию", "Iniciar una consulta")}
+            className="inline-flex min-h-12 shrink-0 items-center gap-1.5 rounded-full border border-white/35 bg-foreground/15 px-3 font-semibold text-white transition hover:bg-foreground/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-primary md:min-h-9"
+          >
+            <MessageCircle className="size-3.5" />
+            <span>{c("Start a consultation", "开始咨询", "Начать консультацию", "Iniciar una consulta")}</span>
+            <ArrowRight className="hidden size-3.5 sm:block" />
+          </button>
+        </div>
+      </div>
+      <header className="border-b border-border/60 bg-background/95 shadow-[0_4px_18px_rgba(16,42,36,0.04)] backdrop-blur-xl">
+      <nav className="container flex h-[3.75rem] md:h-16 items-center justify-between gap-3">
+        <Link to="/" className="flex min-h-12 shrink-0 items-center gap-2">
+          <BrandLogo markClassName="size-8 md:size-9" textClassName="text-lg md:text-xl" />
+        </Link>
+        <div className="hidden 2xl:flex items-center gap-0.5 rounded-full bg-muted/60 p-1">
+          {desktopLinks.map((l) => (
+            <Link
+              key={l.to}
+              to={l.to}
+              aria-current={isActive(l.to) ? "page" : undefined}
+              className={`whitespace-nowrap rounded-full px-2 py-1.5 text-[12px] font-medium transition-all xl:px-3 xl:text-[13px] ${isActive(l.to) ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:bg-primary/10 hover:text-foreground"}`}
+            >{l.label}</Link>
+          ))}
+        </div>
+        <div className="flex items-center gap-1.5">
+          <div className="hidden 2xl:flex items-center gap-1.5">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="gap-1.5 text-foreground hover:bg-white/20 hover:text-foreground">
+                <Button variant="ghost" size="sm" className="rounded-full gap-1.5">
                   <DollarSign className="size-3.5" /> {currency}
                 </Button>
               </DropdownMenuTrigger>
@@ -121,7 +157,7 @@ const AsiaNavbar = () => {
             </DropdownMenu>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="gap-1.5 text-foreground hover:bg-white/20 hover:text-foreground">
+                <Button variant="ghost" size="sm" className="rounded-full gap-1.5">
                   <Languages className="size-3.5" /> {langLabel[lang].flag} {langLabel[lang].label}
                 </Button>
               </DropdownMenuTrigger>
@@ -133,69 +169,18 @@ const AsiaNavbar = () => {
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
-              <span className="mx-3 h-5 w-px bg-foreground/20" aria-hidden="true" />
-              <Link to="/saved" aria-current={pathname === "/saved" ? "page" : undefined} className="inline-flex min-h-11 items-center gap-2 px-3 text-sm font-semibold"><Heart className="size-4" aria-hidden="true" />{getSavedCasesCopy(lang).title}</Link>
-              <AccountMenu lang={lang} />
-            </div>
           </div>
-        </div>
-        <header className="border-b border-border/70 bg-background/95 shadow-[0_5px_18px_rgba(16,42,36,0.07)] backdrop-blur-xl">
-          <nav className="container flex h-16 items-center gap-4 xl:h-[5.25rem]" aria-label={c("Primary navigation", "主导航", "Основная навигация", "Navegación principal")}>
-            <Link to="/" className="flex min-h-12 shrink-0 items-center">
-              <BrandLogo markClassName="size-8 xl:size-10" textClassName="text-lg xl:text-xl" />
-            </Link>
-            <div className="hidden min-w-0 flex-1 items-stretch justify-center self-stretch xl:flex">
-              {compactDesktopLinks.map((l) => (
-                <Link
-                  key={l.to}
-                  to={l.to}
-                  aria-current={isActive(l.to) ? "page" : undefined}
-                  className={`relative flex items-center whitespace-nowrap px-2.5 text-nav font-semibold transition-colors ${isActive(l.to) ? "text-brand" : "text-muted-foreground hover:text-brand"}`}
-                >
-                  {l.label}
-                  {isActive(l.to) && <span className="absolute inset-x-2.5 bottom-0 h-1 rounded-t-full bg-primary" aria-hidden="true" />}
-                </Link>
-              ))}
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <button
-                    type="button"
-                    className={`relative inline-flex items-center gap-1 whitespace-nowrap px-2.5 text-nav font-semibold transition-colors ${moreIsActive ? "text-brand" : "text-muted-foreground hover:text-brand"}`}
-                    aria-label={c("Open more navigation links", "打开更多导航", "Открыть дополнительные ссылки", "Abrir más enlaces")}
-                  >
-                    {c("More", "更多", "Ещё", "Más")}
-                    <ChevronDown className="size-3.5" aria-hidden="true" />
-                    {moreIsActive && <span className="absolute inset-x-2.5 bottom-0 h-1 rounded-t-full bg-primary" aria-hidden="true" />}
-                  </button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="center" className="w-52 rounded-xl p-2">
-                  {moreDesktopLinks.map((l) => (
-                    <DropdownMenuItem key={l.to} asChild className="rounded-lg text-nav font-semibold">
-                      <Link to={l.to} aria-current={isActive(l.to) ? "page" : undefined} className={isActive(l.to) ? "text-brand" : "text-muted-foreground"}>
-                        {l.label}
-                      </Link>
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-            <button
-              type="button"
-              onClick={() => open({ source: "navbar_desktop" })}
-              className="cta-primary hidden min-h-12 max-w-60 shrink-0 items-center justify-center gap-2 whitespace-normal rounded-full px-5 py-2 text-center text-sm font-semibold leading-snug text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 xl:inline-flex 2xl:px-6"
-            >
-              <CalendarDays className="size-4 shrink-0" aria-hidden="true" />
-              <span>{t("hero.cta")}</span>
-              <ArrowRight className="size-4 shrink-0" aria-hidden="true" />
-            </button>
-            <div className="ml-auto flex shrink-0 items-center gap-1.5 xl:hidden">
-          <Button asChild variant="ghost" className="min-h-11 min-w-11 rounded-full px-3 text-sm font-medium xl:hidden">
-            <Link to="/saved" aria-label={getSavedCasesCopy(lang).title} aria-current={pathname === "/saved" ? "page" : undefined}><Heart className="size-5" aria-hidden="true" /><span className="sr-only sm:not-sr-only sm:ml-2">{getSavedCasesCopy(lang).title}</span></Link>
+          <div className="hidden 2xl:block">
+            <AccountMenu lang={lang} />
+          </div>
+          <Button asChild variant="ghost" className="2xl:hidden rounded-full px-3 h-9 text-sm font-medium">
+            <Link to="/auth?tab=signin">{c("Sign in", "登录", "Войти", "Iniciar sesión")}</Link>
           </Button>
+        </div>
 
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="size-12 rounded-full border border-primary/10 bg-card shadow-soft xl:hidden" aria-label={c("Open menu", "打开菜单", "Открыть меню", "Abrir menú")}>
+            <Button variant="ghost" size="icon" className="size-12 rounded-full border border-primary/10 bg-card shadow-soft 2xl:hidden" aria-label={c("Open menu", "打开菜单", "Открыть меню", "Abrir menú")}>
               <Menu className="size-5" />
             </Button>
           </SheetTrigger>
@@ -208,7 +193,6 @@ const AsiaNavbar = () => {
             </SheetHeader>
             <div className="flex h-[calc(100%-73px)] flex-col overflow-y-auto p-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
               <div className="space-y-1">
-                <SheetClose asChild><Link to="/saved" aria-current={pathname === "/saved" ? "page" : undefined} className="flex min-h-12 items-center gap-2 rounded-2xl px-4 text-base font-semibold hover:bg-muted"><Heart className="size-4" aria-hidden="true" />{getSavedCasesCopy(lang).title}</Link></SheetClose>
                 {links.map((l) => (
                   <Link
                     key={l.to}
@@ -238,20 +222,19 @@ const AsiaNavbar = () => {
               <button
                 type="button"
                 onClick={() => open({ source: "mobile_navigation" })}
-                className="cta-primary mt-3 flex min-h-12 items-center justify-center gap-2 rounded-2xl px-4 py-3 text-center text-sm font-semibold leading-snug text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                className="mt-3 flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-primary px-4 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               >
-                <MessageCircle className="size-4 shrink-0" aria-hidden="true" />
-                <span>{t("hero.cta")}</span>
-                <ArrowRight className="size-4 shrink-0" aria-hidden="true" />
+                <MessageCircle className="size-4" />
+                {c("Start a consultation", "开始咨询", "Начать консультацию", "Iniciar una consulta")}
+                <ArrowRight className="size-4" />
               </button>
             </div>
           </SheetContent>
         </Sheet>
-            </div>
-          </nav>
-        </header>
+      </nav>
+      </header>
       </div>
-      <div className="h-16 xl:h-32" aria-hidden="true" />
+      <div className="h-[6.75rem] md:h-[6.25rem]" aria-hidden="true" />
     </>
   );
 };

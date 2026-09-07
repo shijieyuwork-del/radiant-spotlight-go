@@ -1,7 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import { useQuote } from "@/components/QuoteRequest";
 import { useAsia } from "@/lib/asia-i18n";
-import { translatedUiText } from "@/lib/locale-text";
 import { trackEvent } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
@@ -11,10 +10,10 @@ type ConsultationCtaProps = {
 };
 
 const ConsultationCta = ({ className, source = "page_footer_cta" }: ConsultationCtaProps) => {
-  const { lang, t } = useAsia();
+  const { lang } = useAsia();
   const { open } = useQuote();
   const c = (en: string, zh: string, ru: string, es: string) =>
-    lang === "zh" ? zh : lang === "ru" ? ru : lang === "es" ? es : translatedUiText(lang, en);
+    lang === "zh" ? zh : lang === "ru" ? ru : lang === "es" ? es : en;
 
   const handleClick = () => {
     trackEvent("select_cta", { source });
@@ -23,7 +22,6 @@ const ConsultationCta = ({ className, source = "page_footer_cta" }: Consultation
 
   return (
     <section
-      data-consultation-cta
       className={cn("container py-12 md:py-20", className)}
       aria-labelledby={`${source}-title`}
     >
@@ -45,10 +43,10 @@ const ConsultationCta = ({ className, source = "page_footer_cta" }: Consultation
           <button
             type="button"
             onClick={handleClick}
-            className="inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-full bg-primary px-8 py-3 text-center text-base font-semibold leading-snug text-primary-foreground shadow-glow transition hover:-translate-y-0.5 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4 focus-visible:ring-offset-foreground lg:w-auto lg:max-w-80"
+            className="inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-full bg-primary px-8 text-base font-semibold text-primary-foreground shadow-glow transition hover:-translate-y-0.5 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4 focus-visible:ring-offset-foreground lg:w-auto lg:min-w-64"
           >
-            <span>{t("hero.cta")}</span>
-            <ArrowRight className="size-4 shrink-0" aria-hidden="true" />
+            {c("Get a free quote", "获取免费报价", "Получить бесплатную оценку", "Solicita un presupuesto gratis")}
+            <ArrowRight className="size-4" aria-hidden="true" />
           </button>
         </div>
       </div>
