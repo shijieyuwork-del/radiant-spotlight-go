@@ -4,7 +4,7 @@
  */
 
 // 当前已发布域名；接入自定义域名后只需改这一处（或设置 VITE_SITE_URL）
-export const SITE_URL = import.meta.env.VITE_SITE_URL || "https://cosmetics-asia.com";
+export const SITE_URL = import.meta.env.VITE_SITE_URL || "https://celadonchina.com";
 
 export const SITE_NAME = "Cosmetics Asia";
 export const SITE_DESCRIPTION =

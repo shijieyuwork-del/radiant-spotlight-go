@@ -3,6 +3,7 @@ import { SITE_URL, SITE_NAME, OG_IMAGE, TWITTER_HANDLE } from "@/lib/seo-config"
 
 interface PageMetaProps {
   title: string;
+  absoluteTitle?: boolean;
   description: string;
   path?: string;
   image?: string;
@@ -85,6 +86,7 @@ function setLink(rel: string, href: string) {
  */
 export const PageMeta = ({
   title,
+  absoluteTitle = false,
   description,
   path = "/",
   image = OG_IMAGE,
@@ -93,7 +95,7 @@ export const PageMeta = ({
   robots = "index, follow, max-image-preview:large",
 }: PageMetaProps) => {
   const url = `${SITE_URL}${path}`;
-  const fullTitle = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
+  const fullTitle = absoluteTitle || title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
   const breadcrumb = createBreadcrumbSchema(path, fullTitle);
   const schemas = [
     ...(Array.isArray(structuredData) ? structuredData : structuredData ? [structuredData] : []),

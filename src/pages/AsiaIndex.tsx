@@ -216,9 +216,9 @@ const Hero = () => {
           }
         : {
           badge: "Cosmetic care in China, made clearer",
-          title: "See real recovery before you choose.",
-          emphasis: "Find the right cosmetic care in China.",
-          subtitle: "Explore patient journeys, published expert information and practical support for consultation, travel and follow-up.",
+          title: "Your cosmetic care journey,",
+          emphasis: "all in one place.",
+          subtitle: "Compare cosmetic surgeons in China, book online consultations, and coordinate travel, translation and aftercare.",
           cases: "Watch patient recovery videos",
           consultation: "Online consultation",
           consultationDetail: "Meet your expert online before you travel (not providing medical advice)",
@@ -393,9 +393,9 @@ const PrivateCareHero = () => {
           }
         : {
           badge: "Private care coordination in China",
-          title: "Choose with evidence.",
-          emphasis: "Travel with a clear plan.",
-          subtitle: "Compare recovery diaries and published expert information, then receive discreet support from your first consultation through follow-up at home.",
+          title: "Your cosmetic care journey,",
+          emphasis: "all in one place.",
+          subtitle: "Compare cosmetic surgeons in China, book online consultations, and coordinate travel, translation and aftercare.",
           procedure: "Procedure",
           procedureValue: "Explore all options",
           city: "Destination",
@@ -1437,8 +1437,9 @@ const AsiaIndex = () => {
   return (
     <>
       <PageMeta
-        title="Cosmetic Surgery in Asia | Patient Diaries"
-        description="Explore published cosmetic expert profiles, patient journey previews, procedure guides, and practical travel and aftercare support for cosmetic care in China."
+        title="Cosmetic Surgery in China | Doctors & Travel Support | Celadon China"
+        absoluteTitle
+        description="Compare cosmetic surgeons in China, book online consultations, and coordinate travel, translation and aftercare."
         path="/"
         structuredData={ORGANIZATION_SCHEMA}
       />

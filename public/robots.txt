@@ -6,7 +6,7 @@ Disallow: /auth
 Disallow: /upload
 
 # Sitemap for search engines
-Sitemap: https://cosmetics-asia.com/sitemap.xml
+Sitemap: https://celadonchina.com/sitemap.xml
 
 # Crawl delay (optional, prevents overwhelming the server)
 Crawl-delay: 1

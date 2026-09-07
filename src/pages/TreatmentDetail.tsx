@@ -407,7 +407,7 @@ const CatalogProcedureDetail = ({
     about: { "@type": "MedicalProcedure", name: procedure.en },
     audience: { "@type": "Patient" },
     dateModified: "2026-08-30",
-    publisher: { "@id": "https://cosmetics-asia.com/#organization" },
+    publisher: { "@id": "https://celadonchina.com/#organization" },
   };
 
   return (
