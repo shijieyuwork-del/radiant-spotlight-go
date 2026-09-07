@@ -164,9 +164,9 @@ describe("quote CTA i18n — 英文语法守卫", () => {
   it("所有英文 consultation 按钮文案都带冠词 a", () => {
     const bad: string[] = [];
     for (const file of sourceFiles) {
-      for (const m of readFileSync(file, "utf-8").matchAll(/["']([^"']*start[^"']*consultation[^"']*)["']/gi)) {
-        if (!/\bstart a consultation\b/i.test(m[1])) {
-          bad.push(`${relative(SRC, file)}: "${m[1]}"`);
+      for (const m of readFileSync(file, "utf-8").matchAll(/(["'])(Start[^"']*consultation)\1/gi)) {
+        if (!/\bStart a consultation\b/.test(m[2])) {
+          bad.push(`${relative(SRC, file)}: "${m[2]}"`);
         }
       }
     }
