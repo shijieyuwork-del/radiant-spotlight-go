@@ -352,10 +352,9 @@ const CITY_CATALOG: City[] = [
   },
 ];
 
-// 国内城市在前（延续既有首页顺序），国际城市随后
+// 只展示中国城市（平台聚焦中国目的地，非中国城市已下线）
 const ASIA_CITY_ORDER = [
   "shanghai", "guangzhou", "beijing", "hainan", "hangzhou",
-  "seoul", "bangkok", "tokyo", "singapore",
 ];
 
 export const CITIES: City[] = ASIA_CITY_ORDER.map((slug) =>
