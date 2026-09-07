@@ -20,16 +20,12 @@ const patientStories: PatientStory[] = [
     country: "United States",
     countryZh: "美国",
     story: [
-      "I had always wanted to travel to China. When I came across CeladonChina, I realized I could finally plan the cosmetic treatments I had been considering alongside the trip.",
-      "The whole experience was smoother than I expected. When I arrived, a Celadon coordinator was waiting with a sign bearing my name and flowers—a thoughtful welcome that meant a lot in an unfamiliar city. The following day, they accompanied me to meet the doctor, and I went ahead with rhinoplasty, double-eyelid surgery and lip enhancement.",
-      "During recovery, Celadon arranged gentle outings to parks around Shanghai, so I could rest while still experiencing the city. I barely encountered any language barriers; the interpreter was professional, patient and made me feel cared for and secure throughout.",
-      "This trip fulfilled my dream of visiting China and gave me the change I had long hoped for. It felt easy, reassuring and far warmer than I imagined.",
+      "I had always wanted to visit China, and CeladonChina helped me combine that trip with rhinoplasty, double-eyelid surgery and lip enhancement.",
+      "A coordinator met me at the airport with a sign bearing my name and flowers, then supported me through the consultation, interpretation and recovery. I felt safe and cared for while still getting to enjoy Shanghai.",
     ],
     storyZh: [
-      "我一直想去中国旅行，偶然发现了这个平台，才意识到可以在旅行的同时，把一直想做的医美项目也安排上。",
-      "整个过程比我想象中顺利得多。落地时，Celadon 的工作人员举着写有我名字的接机牌，还准备了鲜花，让刚到陌生城市的我特别感动。第二天，他们便陪我完成了医生面诊，并顺利进行了隆鼻、双眼皮和丰唇项目。",
-      "恢复期间，Celadon 还贴心地为我安排了上海的公园和轻松行程，让我可以一边休养，一边感受这座城市。整个过程中，我几乎没有遇到任何语言沟通上的困难，翻译人员既专业又耐心，给了我很多照顾和安全感。",
-      "这次经历不仅圆了我的中国旅行梦，也让我完成了期待已久的改变，整个旅程轻松、安心，也比想象中更加温暖。",
+      "我一直想去中国旅行，CeladonChina 帮我把这趟旅程与隆鼻、双眼皮和丰唇项目安排在一起。",
+      "落地时，协调员举着写有我名字的接机牌和鲜花迎接我，之后陪我完成面诊、翻译和恢复安排。整个过程安心又温暖，我也能在休养中感受上海。",
     ],
   },
   {
@@ -38,16 +34,12 @@ const patientStories: PatientStory[] = [
     country: "Canada",
     countryZh: "加拿大",
     story: [
-      "A friend of mine had a hair transplant in China with excellent results, but he also ran into travel-service problems, including difficulty getting around and language barriers. That led me to CeladonChina while researching services on Google.",
-      "I was surprised to learn that they provide airport transfers, interpretation and hotel-booking support at no charge. They also introduced me to several established hair-transplant groups with clinics across China, so I could compare options based on my budget and priorities.",
-      "I am still in recovery, but I can already see a noticeable difference in my appearance. Without CeladonChina, the cost questions and travel complications would probably have kept me hesitating for several more years.",
-      "Thank you, CeladonChina, for making the whole experience easier, safer and much smoother than I expected.",
+      "A friend had a great hair transplant result in China, but his travel and language difficulties made me hesitate. CeladonChina introduced me to several established clinic groups, so I could compare options by budget and priorities.",
+      "They arranged airport transfers, interpretation and hotel booking at no charge. I am still recovering, but I can already see the difference. Their support made the decision and the journey much easier.",
     ],
     storyZh: [
-      "我有个朋友去中国做了植发，效果非常好，但他也遇到了不少行程服务方面的问题，比如打车不方便、语言沟通困难等。因此，我在 Google 上搜索相关服务时发现了 CeladonChina。",
-      "让我惊喜的是，他们免费提供接送、翻译和酒店预订等服务，还为我推荐了几家在中国拥有多家分院的植发机构，让我可以根据预算和需求进行比较和选择。",
-      "虽然我目前还处于恢复期，但已经能明显感受到外形上的变化。如果没有 CeladonChina 的帮助，考虑到价格和各种行程上的不便，我可能还要再犹豫好几年才会真正决定去做植发。",
-      "感谢 CeladonChina，让整个过程比我想象中轻松、安心，也更顺利！",
+      "朋友在中国做植发的效果很好，但他遇到的出行和语言问题让我一直犹豫。CeladonChina 推荐了几家成熟的连锁植发机构，让我可以按预算和需求比较。",
+      "他们还免费安排接送、翻译和酒店预订。我仍在恢复期，但已经能看到变化。有了这些支持，做决定和完成旅程都轻松了许多。",
     ],
   },
   {
@@ -56,16 +48,12 @@ const patientStories: PatientStory[] = [
     country: "Malaysia",
     countryZh: "马来西亚",
     story: [
-      "I am a K-pop fan and have always loved the naturally refined, slightly doll-like aesthetic often associated with Korean cosmetic medicine. Because I travel to China frequently, I had known about CeladonChina for some time. I did not expect much when I first mentioned the idea—I assumed they only worked with providers based in China. To my surprise, they explained that they also collaborate with many well-known Korean doctors.",
-      "Popular doctors can be difficult to book in Korea, but some occasionally visit China to see patients. CeladonChina booked me with a Korean doctor whose aesthetic approach matched mine, two months in advance, and arranged my double-eyelid surgery during his visit to China.",
-      "It has now been two months since surgery. My eyelids look very natural and the shape has largely settled. Friends say the change is noticeable: I look prettier, brighter and more refreshed.",
-      "I am genuinely delighted with the experience. CeladonChina helped me achieve a change I had wanted for a long time and regain confidence. For me, it feels like a new beginning. I am deeply grateful to CeladonChina.",
+      "I love the natural, refined look of Korean cosmetic medicine, but I assumed CeladonChina only worked with doctors in China. They matched me with a Korean doctor whose aesthetic approach felt right and booked him two months ahead during his China visit.",
+      "Two months after double-eyelid surgery, the shape looks natural and has nearly settled. Friends say I look brighter and more refreshed. I love the result and feel much more confident.",
     ],
     storyZh: [
-      "我是一个 K-pop 粉丝，也一直很喜欢韩国那种自然精致、又带一点芭比感的医美风格。我经常往返中国，所以一直了解 CeladonChina 这个平台。刚和 CeladonChina 提起这个想法时，我其实没抱太大希望，因为我原以为他们只提供中国本土的医美服务。让我惊喜的是，CeladonChina 告诉我，他们还对接了许多韩国知名医生。",
-      "一些热门医生在韩国很难预约，但偶尔会来中国出诊。CeladonChina 提前两个月帮我预约到了一位审美理念与我非常契合的韩国医生，并安排我在他来中国出诊期间完成了双眼皮手术。",
-      "现在术后已经两个月了，我的双眼皮恢复得非常自然，形态也基本稳定。身边的朋友都说我的变化很明显，整个人不仅漂亮了许多，看起来也更有精神。",
-      "我对这次体验真的非常满意。CeladonChina 不仅帮我实现了期待已久的改变，也让我找回了更多自信——对我来说，这就像一次新生。真的非常感谢 CeladonChina！",
+      "我喜欢韩式医美自然精致的风格，但原以为 CeladonChina 只对接中国医生。他们根据我的审美匹配了一位韩国医生，并提前两个月预约了医生来中国出诊的时间。",
+      "双眼皮术后两个月，形态已经基本稳定，看起来很自然。朋友们都说我更漂亮、更有精神，这次改变也让我找回了更多自信。",
     ],
   },
   {
