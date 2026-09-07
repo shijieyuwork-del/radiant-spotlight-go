@@ -6,6 +6,7 @@ import PageMeta from "@/components/PageMeta";
 import { Button } from "@/components/ui/button";
 import { useQuote } from "@/components/QuoteRequest";
 import { SITE_URL } from "@/lib/seo-config";
+import { MEDICAL_TOURISM_GUIDES, medicalTourismGuidePath } from "@/data/medicalTourismGuides";
 
 type GuideKind = "medical-tourism" | "plastic-surgery";
 
@@ -127,6 +128,29 @@ const ChinaSeoGuide = ({ kind }: { kind: GuideKind }) => {
             <div className="grid gap-4 sm:grid-cols-3">
               {[{ icon: Stethoscope, label: "Clinical review first" }, { icon: ShieldCheck, label: "Provider checks" }, { icon: Plane, label: "Recovery-led travel" }].map(({ icon: Icon, label }) => <div key={label} className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4 text-sm font-semibold"><Icon className="size-5 text-primary" />{label}</div>)}
             </div>
+            {kind === "medical-tourism" && (
+              <section className="mt-12 border-y border-border py-10" aria-labelledby="planning-guides-heading">
+                <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+                  <div>
+                    <span className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Detailed planning guides</span>
+                    <h2 id="planning-guides-heading" className="mt-3 font-display text-3xl font-medium md:text-4xl">Plan one decision at a time.</h2>
+                  </div>
+                  <p className="max-w-md text-sm leading-6 text-muted-foreground">Use focused guides for costs, safety, entry, provider selection and recovery, then return to this page for the complete journey.</p>
+                </div>
+                <div className="mt-8 grid gap-x-8 gap-y-0 md:grid-cols-2">
+                  {MEDICAL_TOURISM_GUIDES.map((guide, index) => (
+                    <Link key={guide.slug} to={medicalTourismGuidePath(guide.slug)} className="group flex min-h-28 items-start gap-4 border-t border-border py-5 first:border-t-0 md:[&:nth-child(2)]:border-t-0">
+                      <span className="font-display text-xl text-primary/65">0{index + 1}</span>
+                      <span className="min-w-0 flex-1">
+                        <span className="block font-display text-xl font-medium leading-tight group-hover:text-primary">{guide.title.replace(/:.*$/, "")}</span>
+                        <span className="mt-2 line-clamp-2 block text-sm leading-6 text-muted-foreground">{guide.description}</span>
+                      </span>
+                      <ArrowRight className="mt-1 size-4 shrink-0 transition group-hover:translate-x-0.5" />
+                    </Link>
+                  ))}
+                </div>
+              </section>
+            )}
             {kind === "plastic-surgery" && (
               <nav aria-label="On this page" className="mt-8 rounded-3xl border border-border bg-card p-6">
                 <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">On this page</p>

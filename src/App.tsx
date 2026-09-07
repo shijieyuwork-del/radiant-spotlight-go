@@ -43,6 +43,7 @@ const EditorialPolicy = lazy(() => import("./pages/EditorialPolicy.tsx"));
 const TreatmentLandingPage = lazy(() => import("./pages/TreatmentLandingPage.tsx"));
 const ProcedureCityLandingPage = lazy(() => import("./pages/ProcedureCityLandingPage.tsx"));
 const ChinaSeoGuide = lazy(() => import("./pages/ChinaSeoGuide.tsx"));
+const MedicalTourismArticle = lazy(() => import("./pages/MedicalTourismArticle.tsx"));
 
 const RouteFallback = () => <div className="min-h-[55vh] bg-background" aria-live="polite" aria-label="Loading page" />;
 
@@ -87,6 +88,8 @@ export const AppRoutes = () => (
                     <Route path="/packages" element={<Navigate to="/travel-packages" replace />} />
                     <Route path="/why-china" element={<WhyChina />} />
                     <Route path="/medical-tourism-china" element={<ChinaSeoGuide kind="medical-tourism" />} />
+                    <Route path="/medical-tourism-china/:slug" element={<MedicalTourismArticle />} />
+                    <Route path="/china-vs-korea-cosmetic-surgery" element={<MedicalTourismArticle guideSlug="china-vs-korea-cosmetic-surgery" />} />
                     <Route path="/plastic-surgery-china" element={<ChinaSeoGuide kind="plastic-surgery" />} />
                     <Route path="/privacy" element={<Privacy />} />
                     <Route path="/about" element={<About />} />

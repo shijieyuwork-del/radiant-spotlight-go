@@ -32,6 +32,7 @@ async function loadAppData() {
         export { TIKTOK_CASES } from "@/data/tiktokCases";
         export { TREATMENTS } from "@/data/treatments";
         export { PROCEDURE_CATALOG } from "@/data/procedureCatalog";
+        export { MEDICAL_TOURISM_GUIDES, medicalTourismGuidePath } from "@/data/medicalTourismGuides";
         export { SITE_URL, SITE_NAME, OG_IMAGE, TWITTER_HANDLE, ORGANIZATION_SCHEMA } from "@/lib/seo-config";
       `,
       resolveDir: __dirname,
@@ -230,6 +231,40 @@ function buildRoutes(d) {
       "Explore cosmetic procedures in China, including plastic surgery, hair restoration, cosmetic dentistry, skin and non-surgical treatments, with detailed recovery and risk guides.",
   });
 
+  for (const guide of d.MEDICAL_TOURISM_GUIDES) {
+    const guidePath = d.medicalTourismGuidePath(guide.slug);
+    routes.push({
+      path: guidePath,
+      title: guide.title,
+      description: guide.description,
+      type: "article",
+      schema: [
+        {
+          "@context": "https://schema.org",
+          "@type": "MedicalWebPage",
+          name: guide.title,
+          description: guide.description,
+          url: `${d.SITE_URL}${guidePath}`,
+          datePublished: "2026-09-07",
+          dateModified: "2026-09-07",
+          author: { "@type": "Organization", name: "CeladonChina Editorial Team", url: `${d.SITE_URL}/editorial-policy` },
+          publisher: { "@id": `${d.SITE_URL}/#organization` },
+          audience: { "@type": "Patient" },
+          citation: guide.sources.map((source) => source.url),
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: guide.faqs.map(([question, answer]) => ({
+            "@type": "Question",
+            name: question,
+            acceptedAnswer: { "@type": "Answer", text: answer },
+          })),
+        },
+      ],
+    });
+  }
+
   const richTreatments = new Map(d.TREATMENTS.map((t) => [t.slug, t]));
   for (const procedure of d.PROCEDURE_CATALOG) {
     const t = richTreatments.get(procedure.slug);
@@ -332,6 +367,8 @@ async function main() {
       `<!--SEO-->\n${renderMeta(r, cfg)}\n    <!--/SEO-->`
     );
     const isSsgRoute = r.path === "/medical-tourism-china" ||
+      r.path.startsWith("/medical-tourism-china/") ||
+      r.path === "/china-vs-korea-cosmetic-surgery" ||
       r.path === "/plastic-surgery-china" ||
       r.path === "/treatments" || r.path.startsWith("/treatments/") ||
       r.path === "/cities" || r.path.startsWith("/cities/");
