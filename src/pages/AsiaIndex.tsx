@@ -588,10 +588,10 @@ const TravelBar = () => {
     {
       icon: Video,
       image: journeyConsultation,
-      en: ["Get a free quote", "Tell us your goals and questions so we can help identify suitable specialists"],
-      zh: ["获取免费报价", "告诉我们你的目标和疑问，我们会协助匹配合适的专家"],
-      ru: ["Получить бесплатную оценку", "Расскажите о целях и вопросах, чтобы мы помогли подобрать специалистов"],
-      es: ["Obtén una cotización gratuita", "Cuéntanos tus objetivos y preguntas para ayudarte a identificar especialistas adecuados"],
+      en: ["Start a consultation", "Tell us your goals and questions so we can help identify suitable specialists"],
+      zh: ["开始咨询", "告诉我们你的目标和疑问，我们会协助匹配合适的专家"],
+      ru: ["Начать консультацию", "Расскажите о целях и вопросах, чтобы мы помогли подобрать специалистов"],
+      es: ["Solicita una consulta", "Cuéntanos tus objetivos y preguntas para ayudarte a identificar especialistas adecuados"],
     },
     {
       icon: Plane,

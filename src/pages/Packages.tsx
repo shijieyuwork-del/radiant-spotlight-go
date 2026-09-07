@@ -40,7 +40,7 @@ const JOURNEY_STEPS = [
     icon: Video,
     image: journeyConsultation,
     eyebrow: ["Getting started", "开始咨询", "Начало", "Primeros pasos"],
-    title: ["Get a free quote", "获取免费报价", "Получить бесплатную оценку", "Solicita un presupuesto gratis"],
+    title: ["Start a consultation", "开始咨询", "Начать консультацию", "Solicita una consulta"],
     text: [
       "Tell us your goals and questions so we can help identify suitable specialists.",
       "告诉我们你的目标和疑问，我们会协助匹配合适的专家。",

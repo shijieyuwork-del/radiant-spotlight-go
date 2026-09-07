@@ -122,7 +122,7 @@ const LandingHeader = ({ onQuote }: { onQuote: (position: string) => void }) => 
     <div className="container flex min-h-[4.75rem] items-center justify-between gap-4">
       <Link to="/" aria-label="CeladonChina home"><BrandLogo /></Link>
       <button type="button" onClick={() => onQuote("header")} className="cta-primary inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-4 text-sm font-semibold sm:px-6">
-        <span className="hidden sm:inline">Get a free quote</span><span className="sm:hidden">Free quote</span><ArrowRight className="size-4" />
+        <span className="hidden sm:inline">Start a consultation</span><span className="sm:hidden">Consultation</span><ArrowRight className="size-4" />
       </button>
     </div>
   </header>

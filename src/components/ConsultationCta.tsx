@@ -45,7 +45,7 @@ const ConsultationCta = ({ className, source = "page_footer_cta" }: Consultation
             onClick={handleClick}
             className="inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-full bg-primary px-8 text-base font-semibold text-primary-foreground shadow-glow transition hover:-translate-y-0.5 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4 focus-visible:ring-offset-foreground lg:w-auto lg:min-w-64"
           >
-            {c("Get a free quote", "获取免费报价", "Получить бесплатную оценку", "Solicita un presupuesto gratis")}
+            {c("Start a consultation", "开始咨询", "Начать консультацию", "Solicita una consulta")}
             <ArrowRight className="size-4" aria-hidden="true" />
           </button>
         </div>
