@@ -93,23 +93,23 @@ const AsiaNavbar = () => {
   return (
     <>
       <div className="fixed inset-x-0 top-0 z-[70]">
-        <div className="hidden h-11 bg-gradient-to-r from-primary via-primary to-sky-700 text-primary-foreground xl:block">
+        <div className="hidden h-11 [background:var(--gradient-brand-bar)] text-foreground xl:block">
           <div className="container flex h-full items-center justify-between gap-8 text-sm font-medium">
             <div className="flex items-center gap-6">
-              <a href="https://wa.me/14708613825" target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center gap-2 text-white/95 transition hover:text-white">
+              <a href="https://wa.me/14708613825" target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center gap-2 text-foreground/90 transition hover:text-foreground">
                 <Phone className="size-4" aria-hidden="true" />
                 <span>+1 470 861 3825</span>
               </a>
-              <span className="h-5 w-px bg-white/30" aria-hidden="true" />
-              <a href="mailto:contact@celadonchina.com" className="inline-flex min-h-11 items-center gap-2 text-white/95 transition hover:text-white">
+              <span className="h-5 w-px bg-foreground/20" aria-hidden="true" />
+              <a href="mailto:contact@celadonchina.com" className="inline-flex min-h-11 items-center gap-2 text-foreground/90 transition hover:text-foreground">
                 <Mail className="size-4" aria-hidden="true" />
                 <span>contact@celadonchina.com</span>
               </a>
             </div>
-            <div className="flex items-center gap-1 text-white">
+            <div className="flex items-center gap-1 text-foreground">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="gap-1.5 text-white hover:bg-white/10 hover:text-white">
+                <Button variant="ghost" size="sm" className="gap-1.5 text-foreground hover:bg-white/20 hover:text-foreground">
                   <DollarSign className="size-3.5" /> {currency}
                 </Button>
               </DropdownMenuTrigger>
@@ -120,7 +120,7 @@ const AsiaNavbar = () => {
             </DropdownMenu>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="gap-1.5 text-white hover:bg-white/10 hover:text-white">
+                <Button variant="ghost" size="sm" className="gap-1.5 text-foreground hover:bg-white/20 hover:text-foreground">
                   <Languages className="size-3.5" /> {langLabel[lang].flag} {langLabel[lang].label}
                 </Button>
               </DropdownMenuTrigger>
@@ -132,7 +132,7 @@ const AsiaNavbar = () => {
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
-              <span className="mx-3 h-5 w-px bg-white/30" aria-hidden="true" />
+              <span className="mx-3 h-5 w-px bg-foreground/20" aria-hidden="true" />
               <AccountMenu lang={lang} />
             </div>
           </div>
@@ -180,7 +180,7 @@ const AsiaNavbar = () => {
             <button
               type="button"
               onClick={() => open({ source: "navbar_desktop" })}
-              className="hidden min-h-12 shrink-0 items-center gap-2 rounded-full bg-gradient-to-r from-primary to-sky-700 px-5 text-sm font-semibold text-white shadow-[0_7px_16px_rgba(18,121,113,0.2)] transition hover:-translate-y-0.5 hover:shadow-[0_9px_20px_rgba(18,121,113,0.26)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 xl:inline-flex 2xl:px-6"
+              className="hidden min-h-12 shrink-0 items-center gap-2 rounded-full [background:var(--gradient-brand-bar)] px-5 text-sm font-semibold text-foreground shadow-[0_7px_16px_rgba(123,145,62,0.22)] transition hover:-translate-y-0.5 hover:brightness-[0.97] hover:shadow-[0_9px_20px_rgba(123,145,62,0.3)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 xl:inline-flex 2xl:px-6"
             >
               <CalendarDays className="size-4" aria-hidden="true" />
               {c("Start a consultation", "开始咨询", "Начать консультацию", "Iniciar una consulta")}
