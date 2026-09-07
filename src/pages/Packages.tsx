@@ -235,12 +235,11 @@ const Packages = () => {
 
           <section id="support" className="container scroll-mt-24 py-10 md:py-20">
             <div className="overflow-hidden rounded-[2.5rem] border border-primary/15 bg-gradient-to-br from-[hsl(158,58%,90%)] via-[hsl(145,48%,92%)] to-[hsl(50,80%,91%)] shadow-pop">
-              <div className="grid gap-5 px-5 py-7 sm:px-9 sm:py-9 md:px-12 md:py-12 lg:grid-cols-[.85fr_1.15fr] lg:items-end lg:gap-8">
+              <div className="px-5 py-7 sm:px-9 sm:py-9 md:px-12 md:py-12">
                 <div>
                   <span className="pill bg-white/80 text-foreground shadow-soft"><ShieldCheck className="size-3.5 text-primary" />{c("Free coordination support", "免费协调支持", "Бесплатная координационная поддержка", "Apoyo de coordinación gratuito")}</span>
-                  <h2 className="mt-4 font-display text-[2.2rem] font-medium leading-[1.08] tracking-tight sm:text-4xl md:text-5xl">{c("What services does Celadon provide for free?", "Celadon 免费提供哪些服务？", "Какие услуги Celadon предоставляет бесплатно?", "¿Qué servicios ofrece Celadon gratis?")}</h2>
+                  <h2 className="mt-4 max-w-3xl font-display text-[2.2rem] font-medium leading-[1.08] tracking-tight sm:text-4xl md:text-5xl">{c("Services Celadon Provides for Free", "Celadon 免费提供的服务", "Бесплатные услуги Celadon", "Servicios gratuitos de Celadon")}</h2>
                 </div>
-                <p className="max-w-2xl text-base leading-relaxed text-foreground/65 md:text-lg">{c("Support is confirmed around your actual appointment and itinerary. Before you travel, you receive a clear summary of what is included, optional or paid separately.", "支持内容会根据实际预约和行程确认。出发前，你会收到清晰说明，了解哪些已包含、哪些可选、哪些需另行支付。", "Поддержка подтверждается с учётом вашей записи и маршрута. До поездки вы получите ясное описание включённых, дополнительных и отдельно оплачиваемых услуг.", "El apoyo se confirma según tu cita e itinerario reales. Antes de viajar, recibirás un resumen claro de lo incluido, lo opcional y lo que se paga aparte.")}</p>
               </div>
               <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto bg-white/60 p-4 scrollbar-hide sm:p-6 md:grid md:grid-cols-2 md:overflow-visible lg:grid-cols-6 lg:p-8">
                 {SUPPORT_SERVICES.map((service, index) => {
