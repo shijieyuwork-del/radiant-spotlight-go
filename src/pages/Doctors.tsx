@@ -265,7 +265,7 @@ const Experts = () => {
                       <Link to={d.demo ? "/doctors" : `/doctors/profile/${d.id}`} className="flex min-h-12 items-center justify-center rounded-xl border border-primary/30 px-3 py-3 text-center text-xs font-semibold text-primary hover:bg-primary/10">
                         {c("Expert & cases", "专家与案例", "Эксперт и истории пациентов", "Experto y casos")}
                       </Link>
-                      <QuoteCtaButton quoteCtx={{ doctorName: d.name, city: d.city }} className="min-h-12 rounded-xl px-3 py-3 text-center text-[13px] leading-tight" />
+                      <QuoteCtaButton quoteCtx={{ doctorName: d.name, city: d.city }} className="min-h-12 rounded-xl px-3 py-3 text-center text-[13px] leading-tight" data-testid="doctor-card-cta" />
                     </div>
                   </article>
                 );
