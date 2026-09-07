@@ -82,6 +82,65 @@ const CATEGORY_META = [
   { priceLowCny: 500, priceHighCny: 30_000, recovery: "Hours–2 weeks", recoveryZh: "数小时–2 周", type: "Non-surgical", typeZh: "非手术类", icon: WandSparkles },
 ] as const;
 
+const PROCEDURE_PRICE_CNY: Record<string, readonly [number, number]> = {
+  Rhinoplasty: [18_000, 60_000],
+  "Revision Rhinoplasty": [35_000, 100_000],
+  Septorhinoplasty: [25_000, 70_000],
+  "Alar Base Reduction": [6_000, 18_000],
+  "Nasal Tip Surgery": [10_000, 30_000],
+  "Double Eyelid Surgery": [4_000, 16_000],
+  "Upper Blepharoplasty": [6_000, 20_000],
+  "Lower Blepharoplasty": [8_000, 25_000],
+  "Ptosis Correction": [12_000, 30_000],
+  Epicanthoplasty: [3_000, 10_000],
+  "Under-Eye Fat Repositioning": [9_000, 28_000],
+  "Chin Augmentation": [10_000, 35_000],
+  Genioplasty: [25_000, 60_000],
+  "Jaw Contouring": [35_000, 90_000],
+  "Zygoma Reduction": [40_000, 100_000],
+  "Facial Fat Grafting": [15_000, 45_000],
+  Otoplasty: [8_000, 30_000],
+  Facelift: [50_000, 150_000],
+  "Neck Lift": [36_000, 105_000],
+  "Brow Lift": [18_000, 62_000],
+  "Deep-Plane Facelift": [80_000, 200_000],
+  "Mini Facelift": [25_000, 80_000],
+  "Lip Lift": [12_000, 36_000],
+  "Breast Augmentation": [35_000, 120_000],
+  "Breast Lift": [40_000, 110_000],
+  "Breast Reduction": [45_000, 115_000],
+  "Implant Revision": [55_000, 160_000],
+  "Implant Removal": [20_000, 65_000],
+  "Male Breast Reduction": [18_000, 50_000],
+  Liposuction: [18_000, 80_000],
+  "Tummy Tuck": [45_000, 120_000],
+  "Arm Lift": [30_000, 70_000],
+  "Thigh Lift": [35_000, 85_000],
+  "Body Lift": [70_000, 180_000],
+  "Fat Transfer": [20_000, 70_000],
+  "Mommy Makeover": [90_000, 220_000],
+  "FUE Hair Transplant": [15_000, 60_000],
+  "FUT Hair Transplant": [12_000, 45_000],
+  "Hairline Restoration": [10_000, 40_000],
+  "Crown Restoration": [18_000, 65_000],
+  "Eyebrow Transplant": [8_000, 26_000],
+  "Beard Transplant": [12_000, 35_000],
+  "Dental Implants": [6_000, 22_000],
+  "Porcelain Veneers": [3_000, 80_000],
+  "All-Ceramic Crowns": [2_500, 12_000],
+  "Teeth Whitening": [1_000, 6_000],
+  "Clear Aligners": [18_000, 55_000],
+  "Full-Mouth Reconstruction": [80_000, 150_000],
+  "Laser Skin Resurfacing": [1_500, 15_000],
+  "Pigmentation Treatment": [1_000, 12_000],
+  "Acne Scar Treatment": [1_500, 18_000],
+  "RF Microneedling": [3_000, 20_000],
+  "Ultrasound Skin Tightening": [6_000, 30_000],
+  "Botulinum Toxin": [800, 8_000],
+  "Dermal Fillers": [2_000, 25_000],
+  "Regenerative Skin Treatments": [3_000, 30_000],
+};
+
 const CONCERN_LINKS = [
   ["Improve my nose", "改善鼻型", 0],
   ["Look less tired", "改善疲惫感", 1],
@@ -269,6 +328,10 @@ const Treatments = () => {
     const category = CATEGORY_META[index];
     return `${fmt(category.priceLowCny)}–${fmt(category.priceHighCny)}`;
   };
+  const formatProcedurePrice = (procedure: string) => {
+    const [low, high] = PROCEDURE_PRICE_CNY[procedure];
+    return `${fmt(low)}–${fmt(high)}`;
+  };
   const visibleCategories = useMemo(() => {
     if (!normalizedQuery) return [{ category: PROCEDURE_CATEGORIES[activeCategory], index: activeCategory }];
     return PROCEDURE_CATEGORIES.map((category, index) => ({
@@ -380,7 +443,7 @@ const Treatments = () => {
                             </div>
                             <div className="min-w-0 p-4">
                               <div className="flex items-start justify-between gap-3"><h3 className="font-semibold text-foreground">{label(en, cn)}</h3><ArrowRight className="mt-0.5 size-4 shrink-0 text-primary transition group-hover:translate-x-1" /></div>
-                              <div className="mt-3 flex flex-wrap gap-1.5 text-[10px] font-medium text-muted-foreground"><span className="rounded-full bg-secondary px-2 py-1">{formatCategoryPrice(categoryIndex)}</span><span className="rounded-full bg-primary/10 px-2 py-1 text-primary">{zh ? CATEGORY_META[categoryIndex].recoveryZh : CATEGORY_META[categoryIndex].recovery}</span><span className="rounded-full bg-accent/60 px-2 py-1">{zh ? CATEGORY_META[categoryIndex].typeZh : ru ? (CATEGORY_META[categoryIndex].type === "Surgical" ? "Хирургия" : CATEGORY_META[categoryIndex].type === "Non-surgical" ? "Без операции" : "Комплексное лечение") : CATEGORY_META[categoryIndex].type}</span></div>
+                              <div className="mt-3 flex flex-wrap gap-1.5 text-[10px] font-medium text-muted-foreground"><span className="rounded-full bg-secondary px-2 py-1">{formatProcedurePrice(en)}</span><span className="rounded-full bg-primary/10 px-2 py-1 text-primary">{zh ? CATEGORY_META[categoryIndex].recoveryZh : CATEGORY_META[categoryIndex].recovery}</span><span className="rounded-full bg-accent/60 px-2 py-1">{zh ? CATEGORY_META[categoryIndex].typeZh : ru ? (CATEGORY_META[categoryIndex].type === "Surgical" ? "Хирургия" : CATEGORY_META[categoryIndex].type === "Non-surgical" ? "Без операции" : "Комплексное лечение") : CATEGORY_META[categoryIndex].type}</span></div>
                               <p className="mt-3 text-xs font-semibold text-primary">{copy("Read the full guide", "阅读完整指南", "Читать полное руководство")} <span aria-hidden="true">→</span></p>
                             </div>
                           </Link>
