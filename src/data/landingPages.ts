@@ -11,7 +11,7 @@
  */
 import { DOCTORS } from "@/data/doctors";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
-import { findCity, CITIES } from "@/data/cities";
+import { findCity, CITIES, COUNTRY_BY_CITY } from "@/data/cities";
 
 export type LandingProcedureKey =
   | "rhinoplasty"
