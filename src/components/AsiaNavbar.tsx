@@ -87,7 +87,6 @@ const AsiaNavbar = () => {
     { to: "/about", label: c("About", "关于我们", "О нас", "Acerca de") },
     { to: "/provider-verification", label: c("Standards", "审核标准", "Стандарты", "Estándares") },
   ];
-  const desktopLinks = links;
   const compactDesktopLinks = links.slice(0, 6);
   const moreDesktopLinks = links.slice(6);
   const moreIsActive = moreDesktopLinks.some((link) => isActive(link.to));
@@ -143,20 +142,7 @@ const AsiaNavbar = () => {
             <Link to="/" className="flex min-h-12 shrink-0 items-center">
               <BrandLogo showTagline markClassName="size-8 xl:size-10" textClassName="text-lg xl:text-xl" />
             </Link>
-            <div className="hidden min-w-0 flex-1 items-stretch justify-center self-stretch min-[1800px]:flex">
-              {desktopLinks.map((l) => (
-                <Link
-                  key={l.to}
-                  to={l.to}
-                  aria-current={isActive(l.to) ? "page" : undefined}
-                  className={`relative flex items-center whitespace-nowrap px-2 text-[11px] font-semibold uppercase tracking-[0.025em] transition-colors 2xl:px-3 2xl:text-xs ${isActive(l.to) ? "text-primary" : "text-foreground/70 hover:text-primary"}`}
-                >
-                  {l.label}
-                  {isActive(l.to) && <span className="absolute inset-x-2 bottom-0 h-1 rounded-t-full bg-primary 2xl:inset-x-3" aria-hidden="true" />}
-                </Link>
-              ))}
-            </div>
-            <div className="hidden min-w-0 flex-1 items-stretch justify-center self-stretch xl:flex min-[1800px]:hidden">
+            <div className="hidden min-w-0 flex-1 items-stretch justify-center self-stretch xl:flex">
               {compactDesktopLinks.map((l) => (
                 <Link
                   key={l.to}
