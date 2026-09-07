@@ -81,14 +81,20 @@ const Auth = () => {
 
   const handleGoogle = async () => {
     setLoading(true);
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: `${window.location.origin}/auth?next=${encodeURIComponent(nextPath)}`,
-      },
-    });
-    if (error) {
-      toast.error(error.message ?? t("Google sign-in failed.", "Google 登录失败。"));
+    try {
+      sessionStorage.setItem("auth_next", nextPath);
+      const result = await lovable.auth.signInWithOAuth("google", {
+        redirect_uri: window.location.origin,
+      });
+      if (result.redirected) return; // browser is heading to Google
+      if (result.error) throw result.error;
+      // Tokens received and session set — navigate to intended destination
+      const dest = sessionStorage.getItem("auth_next") ?? "/";
+      sessionStorage.removeItem("auth_next");
+      navigate(dest.startsWith("/") ? dest : "/", { replace: true });
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : t("Google sign-in failed.", "Google 登录失败。"));
+    } finally {
       setLoading(false);
     }
   };
