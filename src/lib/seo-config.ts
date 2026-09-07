@@ -19,37 +19,56 @@ export const OG_IMAGE = `${SITE_URL}/og-image.jpg`;
 // Add a verified brand handle here after the account exists.
 export const TWITTER_HANDLE = "";
 
-// JSON-LD Organization Schema
+export const ORGANIZATION_ENTITY = {
+  "@type": "Organization",
+  "@id": `${SITE_URL}/#organization`,
+  name: SITE_NAME,
+  alternateName: ["Celadon China", "CeladonChina Medical Travel"],
+  description: SITE_DESCRIPTION,
+  url: SITE_URL,
+  logo: {
+    "@type": "ImageObject",
+    url: `${SITE_URL}/ca-favicon.svg`,
+  },
+  email: "contact@celadonchina.com",
+  telephone: "+1-470-861-3825",
+  areaServed: {
+    "@type": "Country",
+    name: "China",
+  },
+  knowsAbout: [
+    "Medical tourism in China",
+    "Cosmetic surgery in China",
+    "Plastic surgery in China",
+    "International patient travel planning",
+    "Medical interpretation and non-clinical care coordination",
+  ],
+  publishingPrinciples: `${SITE_URL}/editorial-policy`,
+  contactPoint: {
+    "@type": "ContactPoint",
+    contactType: "Customer Service",
+    telephone: "+1-470-861-3825",
+    email: "contact@celadonchina.com",
+    availableLanguage: ["English", "Chinese", "Russian", "Spanish"],
+  },
+};
+
+export const WEBSITE_ENTITY = {
+  "@type": "WebSite",
+  "@id": `${SITE_URL}/#website`,
+  url: SITE_URL,
+  name: SITE_NAME,
+  alternateName: ["Celadon China", "CeladonChina Medical Travel"],
+  description: SITE_DESCRIPTION,
+  publisher: { "@id": `${SITE_URL}/#organization` },
+  about: { "@id": `${SITE_URL}/#organization` },
+  inLanguage: ["en", "zh", "ru", "es"],
+};
+
+// JSON-LD entity graph shared by the homepage and key trust pages.
 export const ORGANIZATION_SCHEMA = {
   "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Organization",
-      "@id": `${SITE_URL}/#organization`,
-      name: SITE_NAME,
-      description: SITE_DESCRIPTION,
-      url: SITE_URL,
-      logo: `${SITE_URL}/ca-favicon.svg`,
-      email: "contact@celadonchina.com",
-      telephone: "+1-470-861-3825",
-      contactPoint: {
-        "@type": "ContactPoint",
-        contactType: "Customer Service",
-        telephone: "+1-470-861-3825",
-        email: "contact@celadonchina.com",
-        availableLanguage: ["English", "Chinese", "Russian"],
-      },
-    },
-    {
-      "@type": "WebSite",
-      "@id": `${SITE_URL}/#website`,
-      url: SITE_URL,
-      name: SITE_NAME,
-      alternateName: ["Celadon China", "CeladonChina Medical Travel"],
-      publisher: { "@id": `${SITE_URL}/#organization` },
-      inLanguage: ["en", "zh", "ru", "es"],
-    },
-  ],
+  "@graph": [ORGANIZATION_ENTITY, WEBSITE_ENTITY],
 };
 
 // 医疗信息补充说明（医疗类 SEO 需要这个）

@@ -5,6 +5,28 @@ Disallow: /admin/
 Disallow: /auth
 Disallow: /upload
 
+# OpenAI search crawler: allows CeladonChina pages to be considered for
+# citations and results in ChatGPT Search.
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /admin/
+Disallow: /auth
+Disallow: /upload
+
+# OpenAI model crawler. This is independent from ChatGPT Search.
+User-agent: GPTBot
+Allow: /
+Disallow: /admin/
+Disallow: /auth
+Disallow: /upload
+
+# User-initiated page visits from ChatGPT and Custom GPTs.
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /admin/
+Disallow: /auth
+Disallow: /upload
+
 # Sitemap for search engines
 Sitemap: https://celadonchina.com/sitemap.xml
 

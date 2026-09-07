@@ -2,14 +2,54 @@ import { ArrowRight, HeartHandshake } from "lucide-react";
 import { Link } from "react-router-dom";
 import PageMeta from "@/components/PageMeta";
 import TrustPageLayout, { TrustList, TrustSection } from "@/components/TrustPageLayout";
+import { ORGANIZATION_ENTITY, SITE_URL, WEBSITE_ENTITY } from "@/lib/seo-config";
 
 const About = () => {
-  const schema = {
-    "@context": "https://schema.org",
-    "@type": "AboutPage",
-    name: "About CeladonChina",
-    description: "How CeladonChina helps people research and coordinate cosmetic medical travel in China, including the limits of our role.",
-  };
+  const questions = [
+    {
+      question: "What is CeladonChina?",
+      answer: "CeladonChina is a China-focused cosmetic medical travel information and non-clinical coordination platform for international patients considering cosmetic care in China.",
+    },
+    {
+      question: "Does CeladonChina provide medical treatment or medical advice?",
+      answer: "No. CeladonChina is not a hospital, clinic or medical practice. It does not diagnose, prescribe, select a procedure for a patient, control clinical care or guarantee an outcome.",
+    },
+    {
+      question: "How can CeladonChina help an international patient?",
+      answer: "CeladonChina can help people compare published provider and procedure information, prepare consultation questions, organize records, and coordinate appointments, translation and practical travel support when confirmed.",
+    },
+    {
+      question: "Who is responsible for the medical care?",
+      answer: "The treating clinician and licensed medical facility are responsible for medical assessment, informed consent, treatment, anesthesia and clinical aftercare. Patients should independently verify current credentials and facility licensing before payment or travel.",
+    },
+  ];
+
+  const schema = [
+    {
+      "@context": "https://schema.org",
+      "@type": "AboutPage",
+      "@id": `${SITE_URL}/about#page`,
+      url: `${SITE_URL}/about`,
+      name: "About CeladonChina",
+      description: "How CeladonChina helps people research and coordinate cosmetic medical travel in China, including the limits of our role.",
+      mainEntity: { "@id": `${SITE_URL}/#organization` },
+      publisher: { "@id": `${SITE_URL}/#organization` },
+      dateModified: "2026-09-07",
+    },
+    {
+      "@context": "https://schema.org",
+      "@graph": [ORGANIZATION_ENTITY, WEBSITE_ENTITY],
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: questions.map(({ question, answer }) => ({
+        "@type": "Question",
+        name: question,
+        acceptedAnswer: { "@type": "Answer", text: answer },
+      })),
+    },
+  ];
 
   return (
     <>
@@ -20,11 +60,28 @@ const About = () => {
         structuredData={schema}
       />
       <TrustPageLayout
+        effectiveDate="September 7, 2026"
         eyebrow="About CeladonChina"
         icon={HeartHandshake}
         title="A clearer way to prepare for cosmetic care in China."
         intro="CeladonChina brings provider information, practical questions, and travel coordination into one place, so you can prepare before making a medical decision."
       >
+        <TrustSection title="CeladonChina at a glance">
+          <dl className="grid gap-4 sm:grid-cols-2">
+            {[
+              ["What it is", "A China-focused information and non-clinical coordination platform for international patients."],
+              ["What it covers", "Cosmetic surgery in China, provider research, consultation preparation, travel logistics, translation and follow-up coordination."],
+              ["Who delivers care", "Independent treating clinicians and licensed medical facilities—not CeladonChina."],
+              ["How to contact us", "Email contact@celadonchina.com or use WhatsApp at +1 470 861 3825."],
+            ].map(([term, detail]) => (
+              <div key={term} className="rounded-2xl border border-border bg-muted/35 p-4">
+                <dt className="font-semibold text-foreground">{term}</dt>
+                <dd className="mt-1 text-sm leading-6 text-muted-foreground">{detail}</dd>
+              </div>
+            ))}
+          </dl>
+        </TrustSection>
+
         <TrustSection title="What we do">
           <p>We help international patients organize the non-clinical parts of exploring cosmetic care in China. That can include finding published provider information, preparing consultation questions, organizing records, and planning translation or travel support.</p>
           <TrustList items={[
@@ -50,6 +107,17 @@ const About = () => {
               <Link key={to} to={to} className="group flex min-h-20 items-center justify-between rounded-2xl border border-border bg-muted/35 p-4 font-semibold text-foreground transition hover:border-primary/35">
                 {label}<ArrowRight className="size-4 text-primary transition-transform group-hover:translate-x-1" />
               </Link>
+            ))}
+          </div>
+        </TrustSection>
+
+        <TrustSection title="Questions people ask">
+          <div className="divide-y divide-border">
+            {questions.map(({ question, answer }) => (
+              <div key={question} className="py-5 first:pt-0 last:pb-0">
+                <h3 className="font-semibold text-foreground">{question}</h3>
+                <p className="mt-2">{answer}</p>
+              </div>
             ))}
           </div>
         </TrustSection>

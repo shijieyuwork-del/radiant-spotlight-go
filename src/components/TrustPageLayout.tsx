@@ -13,13 +13,14 @@ export const trustLinks = [
 
 type TrustPageLayoutProps = {
   children: React.ReactNode;
+  effectiveDate?: string;
   eyebrow: string;
   icon: LucideIcon;
   intro: string;
   title: string;
 };
 
-const TrustPageLayout = ({ children, eyebrow, icon: Icon, intro, title }: TrustPageLayoutProps) => {
+const TrustPageLayout = ({ children, effectiveDate = "August 29, 2026", eyebrow, icon: Icon, intro, title }: TrustPageLayoutProps) => {
   const { pathname } = useLocation();
 
   return (
@@ -35,7 +36,7 @@ const TrustPageLayout = ({ children, eyebrow, icon: Icon, intro, title }: TrustP
               <span className="pill bg-card/85"><Icon className="size-3.5 text-primary" /> {eyebrow}</span>
               <h1 className="mt-5 max-w-3xl font-display text-4xl font-medium leading-[1.04] tracking-tight md:text-6xl">{title}</h1>
               <p className="mt-5 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">{intro}</p>
-              <p className="mt-4 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">Effective August 29, 2026</p>
+              <p className="mt-4 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">Effective {effectiveDate}</p>
             </div>
           </div>
         </section>

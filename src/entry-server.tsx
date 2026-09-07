@@ -9,6 +9,7 @@ import Cities from "./pages/Cities";
 import CityDetail from "./pages/CityDetail";
 import Clinics from "./pages/Clinics";
 import MedicalTourismArticle from "./pages/MedicalTourismArticle";
+import About from "./pages/About";
 
 /** Build-time renderer for the indexable SEO core. */
 export function render(url: string) {
@@ -29,6 +30,7 @@ export function render(url: string) {
           <Route path="/cities" element={<Cities />} />
           <Route path="/cities/:slug" element={<CityDetail />} />
           <Route path="/clinics" element={<Clinics />} />
+          <Route path="/about" element={<About />} />
         </Routes>
       </AppProviders>
     </StaticRouter>,

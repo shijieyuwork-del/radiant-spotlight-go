@@ -33,7 +33,7 @@ async function loadAppData() {
         export { TREATMENTS } from "@/data/treatments";
         export { PROCEDURE_CATALOG } from "@/data/procedureCatalog";
         export { MEDICAL_TOURISM_GUIDES, medicalTourismGuidePath } from "@/data/medicalTourismGuides";
-        export { SITE_URL, SITE_NAME, OG_IMAGE, TWITTER_HANDLE, ORGANIZATION_SCHEMA } from "@/lib/seo-config";
+        export { SITE_URL, SITE_NAME, OG_IMAGE, TWITTER_HANDLE, ORGANIZATION_SCHEMA, ORGANIZATION_ENTITY, WEBSITE_ENTITY } from "@/lib/seo-config";
       `,
       resolveDir: __dirname,
       loader: "ts",
@@ -193,7 +193,30 @@ function buildRoutes(d) {
       path: "/about",
       title: "About CeladonChina",
       description: "Learn how CeladonChina supports cosmetic medical travel research and coordination, what we check, and where our role ends.",
-      schema: { "@context": "https://schema.org", "@type": "AboutPage", name: "About CeladonChina" },
+      schema: [
+        {
+          "@context": "https://schema.org",
+          "@type": "AboutPage",
+          "@id": `${d.SITE_URL}/about#page`,
+          url: `${d.SITE_URL}/about`,
+          name: "About CeladonChina",
+          description: "How CeladonChina helps people research and coordinate cosmetic medical travel in China, including the limits of our role.",
+          mainEntity: { "@id": `${d.SITE_URL}/#organization` },
+          publisher: { "@id": `${d.SITE_URL}/#organization` },
+          dateModified: "2026-09-07",
+        },
+        { "@context": "https://schema.org", "@graph": [d.ORGANIZATION_ENTITY, d.WEBSITE_ENTITY] },
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: [
+            ["What is CeladonChina?", "CeladonChina is a China-focused cosmetic medical travel information and non-clinical coordination platform for international patients considering cosmetic care in China."],
+            ["Does CeladonChina provide medical treatment or medical advice?", "No. CeladonChina is not a hospital, clinic or medical practice. It does not diagnose, prescribe, select a procedure for a patient, control clinical care or guarantee an outcome."],
+            ["How can CeladonChina help an international patient?", "CeladonChina can help people compare published provider and procedure information, prepare consultation questions, organize records, and coordinate appointments, translation and practical travel support when confirmed."],
+            ["Who is responsible for the medical care?", "The treating clinician and licensed medical facility are responsible for medical assessment, informed consent, treatment, anesthesia and clinical aftercare. Patients should independently verify current credentials and facility licensing before payment or travel."],
+          ].map(([name, text]) => ({ "@type": "Question", name, acceptedAnswer: { "@type": "Answer", text } })),
+        },
+      ],
     },
     {
       path: "/provider-verification",
@@ -378,6 +401,7 @@ async function main() {
       r.path === "/choose-plastic-surgeon-china" ||
       r.path === "/cosmetic-surgery-recovery-china" ||
       r.path === "/plastic-surgery-china" ||
+      r.path === "/about" ||
       r.path === "/treatments" || r.path.startsWith("/treatments/") ||
       r.path === "/cities" || r.path.startsWith("/cities/");
     if (isSsgRoute) {
