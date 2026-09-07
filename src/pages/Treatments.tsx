@@ -60,24 +60,26 @@ const CATEGORY_STYLES = [
 ] as const;
 
 /**
- * Broad category ranges in CNY, consolidated from public 2025–2026 Badachu
- * pricing roundups. These are planning references, not hospital quotations.
+ * Broad category ranges in CNY for licensed private aesthetic providers in
+ * major Chinese cities. These are non-promotional planning references, not
+ * hospital quotations; expert-led, revision and imported-material cases can
+ * sit above the range.
  * Sources checked 2026-09-07:
- * - https://www.51aimei.com/news/world/11327.html
- * - https://www.aimei.com/community/16285.html
- * - https://www.59w.net/news/15950.html
- * - https://www.yadoo.cn/news_detail/1575.html
+ * - https://www.nhsa.gov.cn/art/2025/6/18/art_14_16876.html
+ * - https://www.mjktrip.com/zh/services/plastic-surgery
+ * - https://www.triphr.com/article/en7f9oou498s07qo3e478ebb.html
+ * - https://www.signdo.com/hospital/4403/
  */
 const CATEGORY_META = [
-  { priceLowCny: 4_000, priceHighCny: 89_000, recovery: "1–2 weeks", recoveryZh: "1–2 周", type: "Surgical", typeZh: "手术类", icon: ScanFace },
-  { priceLowCny: 3_000, priceHighCny: 50_000, recovery: "7–14 days", recoveryZh: "7–14 天", type: "Surgical", typeZh: "手术类", icon: Eye },
-  { priceLowCny: 5_000, priceHighCny: 80_000, recovery: "2–4 weeks", recoveryZh: "2–4 周", type: "Surgical", typeZh: "手术类", icon: UserRound },
-  { priceLowCny: 15_000, priceHighCny: 150_000, recovery: "2–4 weeks", recoveryZh: "2–4 周", type: "Surgical", typeZh: "手术类", icon: Sparkles },
-  { priceLowCny: 8_000, priceHighCny: 255_000, recovery: "2–6 weeks", recoveryZh: "2–6 周", type: "Surgical", typeZh: "手术类", icon: HeartPulse },
-  { priceLowCny: 5_000, priceHighCny: 100_000, recovery: "2–6 weeks", recoveryZh: "2–6 周", type: "Surgical", typeZh: "手术类", icon: Activity },
-  { priceLowCny: 5_000, priceHighCny: 60_000, recovery: "7–14 days", recoveryZh: "7–14 天", type: "Surgical", typeZh: "手术类", icon: Scissors },
-  { priceLowCny: 1_000, priceHighCny: 45_000, recovery: "Same day–2 weeks", recoveryZh: "当天–2 周", type: "Mixed care", typeZh: "综合治疗", icon: Smile },
-  { priceLowCny: 1_000, priceHighCny: 50_000, recovery: "Hours–2 weeks", recoveryZh: "数小时–2 周", type: "Non-surgical", typeZh: "非手术类", icon: WandSparkles },
+  { priceLowCny: 10_000, priceHighCny: 100_000, recovery: "1–2 weeks", recoveryZh: "1–2 周", type: "Surgical", typeZh: "手术类", icon: ScanFace },
+  { priceLowCny: 3_000, priceHighCny: 30_000, recovery: "7–14 days", recoveryZh: "7–14 天", type: "Surgical", typeZh: "手术类", icon: Eye },
+  { priceLowCny: 10_000, priceHighCny: 100_000, recovery: "2–4 weeks", recoveryZh: "2–4 周", type: "Surgical", typeZh: "手术类", icon: UserRound },
+  { priceLowCny: 10_000, priceHighCny: 200_000, recovery: "2–4 weeks", recoveryZh: "2–4 周", type: "Surgical", typeZh: "手术类", icon: Sparkles },
+  { priceLowCny: 25_000, priceHighCny: 150_000, recovery: "2–6 weeks", recoveryZh: "2–6 周", type: "Surgical", typeZh: "手术类", icon: HeartPulse },
+  { priceLowCny: 12_000, priceHighCny: 120_000, recovery: "2–6 weeks", recoveryZh: "2–6 周", type: "Surgical", typeZh: "手术类", icon: Activity },
+  { priceLowCny: 10_000, priceHighCny: 80_000, recovery: "7–14 days", recoveryZh: "7–14 天", type: "Surgical", typeZh: "手术类", icon: Scissors },
+  { priceLowCny: 1_000, priceHighCny: 150_000, recovery: "Same day–2 weeks", recoveryZh: "当天–2 周", type: "Mixed care", typeZh: "综合治疗", icon: Smile },
+  { priceLowCny: 500, priceHighCny: 30_000, recovery: "Hours–2 weeks", recoveryZh: "数小时–2 周", type: "Non-surgical", typeZh: "非手术类", icon: WandSparkles },
 ] as const;
 
 const CONCERN_LINKS = [
