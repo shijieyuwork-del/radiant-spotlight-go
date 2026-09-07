@@ -1099,36 +1099,36 @@ const TreatmentsSection = () => {
       key: "experts",
       image: procedureRhinoplasty,
       eyebrow: c("300+ specialists", "300+ 位专家", "Более 300 специалистов", "Más de 300 especialistas"),
-      title: c("More specialist choice", "专家选择更多", "Больше выбор специалистов", "Más especialistas para elegir"),
+      title: c("More experts to compare", "更多专家可比较", "Больше специалистов на выбор", "Más especialistas para comparar"),
       detail: c(
-        "We work with more than 300 cosmetic medicine specialists across China, giving you more relevant experts to compare.",
-        "我们已与中国 300+ 位医美专家建立合作，让你可以比较更多与自身需求相关的专家。",
-        "Мы сотрудничаем с более чем 300 специалистами эстетической медицины по всему Китаю.",
-        "Colaboramos con más de 300 especialistas en medicina estética de toda China.",
+        "Compare 300+ cosmetic medicine specialists across China.",
+        "比较遍布中国的 300 多位医美专家。",
+        "Сравните более 300 специалистов эстетической медицины по всему Китаю.",
+        "Compara más de 300 especialistas en medicina estética de toda China.",
       ),
     },
     {
       key: "network",
       image: "/generated/clinic-network-asia-v2.png",
       eyebrow: c("China · Korea · Japan", "中国 · 韩国 · 日本", "Китай · Корея · Япония", "China · Corea · Japón"),
-      title: c("A wider care network", "覆盖网络更广", "Широкая сеть клиник", "Una red asistencial más amplia"),
+      title: c("Care across three countries", "覆盖中日韩", "Помощь в трёх странах", "Atención en tres países"),
       detail: c(
-        "Our network covers every major tier-one city in China and includes selected clinic partners in South Korea and Japan.",
-        "合作网络覆盖中国主要一线城市，并延伸到韩国和日本的精选合作诊所。",
-        "Наша сеть охватывает крупнейшие города Китая, а также избранные клиники в Южной Корее и Японии.",
-        "Nuestra red cubre las principales ciudades de China e incluye clínicas seleccionadas en Corea del Sur y Japón.",
+        "Find partner clinics in China, South Korea and Japan.",
+        "对接中国、韩国和日本的合作诊所。",
+        "Клиники-партнёры в Китае, Южной Корее и Японии.",
+        "Clínicas asociadas en China, Corea del Sur y Japón.",
       ),
     },
     {
       key: "service",
       image: journeyGroundSupport,
       eyebrow: c("One coordinated journey", "一站式行程支持", "Единая координация", "Un viaje coordinado"),
-      title: c("One team from first question to arrival", "从问诊到抵达，全程有人协调", "Одна команда на всём пути", "Un equipo durante todo el viaje"),
+      title: c("One team, start to finish", "一支团队，全程协调", "Одна команда на всём пути", "Un equipo de principio a fin"),
       detail: c(
-        "Get free consultation coordination, plus in-person interpretation, airport pickup and hotel booking support.",
-        "我们提供免费的专家问诊协调，以及线下翻译、机场接送和酒店代订等实际支持。",
-        "Бесплатная координация консультации, очный перевод, встреча в аэропорту и помощь с бронированием отеля.",
-        "Coordinación gratuita de consultas, interpretación presencial, recogida en el aeropuerto y ayuda con la reserva de hotel.",
+        "Free consultation coordination, plus interpretation, airport pickup and hotel booking.",
+        "免费协调问诊，并提供翻译、接机和酒店预订支持。",
+        "Бесплатная координация консультации, а также перевод, трансфер и бронирование отеля.",
+        "Coordinación gratuita de consultas, más interpretación, recogida y reserva de hotel.",
       ),
     },
   ];
@@ -1143,7 +1143,7 @@ const TreatmentsSection = () => {
         </div>
         <div className="lg:pb-1">
           <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
-            {c("More expert choice, broader geographic coverage and practical support throughout your medical trip.", "更多专家选择、更广的服务覆盖，以及贯穿医美行程的实际协调支持。", "Больше специалистов, шире география и практическая поддержка на всём пути.", "Más especialistas, mayor cobertura y apoyo práctico durante todo el viaje.")}
+            {c("More experts, more destinations and one coordinated journey.", "更多专家、更多目的地，一站式行程协调。", "Больше специалистов и направлений, одна команда на всём пути.", "Más especialistas y destinos, con un solo equipo durante todo el viaje.")}
           </p>
         </div>
       </div>
