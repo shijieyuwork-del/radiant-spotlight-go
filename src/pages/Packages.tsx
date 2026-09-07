@@ -31,11 +31,6 @@ import journeyGroundSupport from "@/assets/journey-premium-natural-concierge-v5.
 import journeyTreatment from "@/assets/journey-premium-clinic-v6.webp";
 import journeyRecovery from "@/assets/journey-premium-natural-recovery-v5.webp";
 import journeyFollowUp from "@/assets/journey-premium-natural-followup-v5.webp";
-import supportAirport from "@/assets/packages-quiet-luxury-support-airport-v3.webp";
-import supportTranslation from "@/assets/packages-quiet-luxury-support-translation-v3.webp";
-import supportAccommodation from "@/assets/packages-quiet-luxury-support-accommodation-v3.webp";
-import supportRecords from "@/assets/packages-quiet-luxury-support-records-v3.webp";
-import supportConcierge from "@/assets/packages-quiet-luxury-support-concierge-v3.webp";
 
 
 
@@ -118,7 +113,6 @@ const JOURNEY_STEPS = [
 const SUPPORT_SERVICES = [
   {
     icon: Plane,
-    image: supportAirport,
     title: ["Airport pickup & drop-off", "机场接送", "Трансфер из аэропорта", "Recogida y traslado al aeropuerto"],
     text: [
       "Direct transfer between the airport and your confirmed hotel or clinic, coordinated around your arrival details.",
@@ -129,7 +123,6 @@ const SUPPORT_SERVICES = [
   },
   {
     icon: Languages,
-    image: supportTranslation,
     title: ["In-clinic translation", "院内翻译", "Перевод в клинике", "Traducción en la clínica"],
     text: [
       "Bilingual communication support for questions, care instructions and practical next steps during included visits.",
@@ -140,7 +133,6 @@ const SUPPORT_SERVICES = [
   },
   {
     icon: Hotel,
-    image: supportAccommodation,
     title: ["Accommodation guidance", "住宿建议", "Помощь с проживанием", "Orientación de alojamiento"],
     text: [
       "Hotel options shortlisted around your clinic, dates, budget and recovery needs. Hotel charges are paid separately.",
@@ -151,7 +143,6 @@ const SUPPORT_SERVICES = [
   },
   {
     icon: Files,
-    image: supportRecords,
     title: ["Records organization", "病历整理", "Подготовка документов", "Organización de historial médico"],
     text: [
       "The records you provide are organized into a clearer review file; relevant information can be translated for care coordination.",
@@ -162,7 +153,6 @@ const SUPPORT_SERVICES = [
   },
   {
     icon: Headphones,
-    image: supportConcierge,
     title: ["Online concierge support", "在线管家支持", "Онлайн-поддержка", "Asistencia de conserjería en línea"],
     text: [
       "Message your coordinator for itinerary, booking and service questions during the confirmed support period.",
@@ -311,17 +301,10 @@ const Packages = () => {
                   const Icon = service.icon;
                   const wide = index < 2 ? "lg:col-span-3" : "lg:col-span-2";
                   return (
-                    <article key={service.title[0]} className={`group min-w-[82vw] snap-center overflow-hidden rounded-3xl border border-white/90 bg-card shadow-soft sm:min-w-[68vw] md:min-w-0 ${wide}`}>
-                      <div className="grid min-h-full md:grid-cols-[9rem_1fr] lg:grid-cols-[10rem_1fr]">
-                        <div className="relative aspect-[16/9] overflow-hidden bg-muted md:aspect-auto md:min-h-full">
-                          <img src={service.image} alt={pick(service.title)} loading={index < 2 ? "eager" : "lazy"} decoding="async" className="absolute inset-0 size-full object-cover transition duration-700 group-hover:scale-105" />
-                          <span className="absolute left-3 top-3 grid size-9 place-items-center rounded-xl bg-white/90 text-primary shadow-soft backdrop-blur"><Icon className="size-4" /></span>
-                        </div>
-                        <div className="p-4 sm:p-5">
-                          <h3 className="font-display text-[1.2rem] font-semibold leading-tight tracking-tight sm:text-xl">{pick(service.title)}</h3>
-                          <p className="mt-3 text-sm leading-relaxed text-foreground/65">{pick(service.text)}</p>
-                        </div>
-                      </div>
+                    <article key={service.title[0]} className={`group min-w-[82vw] snap-center rounded-3xl border border-white/90 bg-card p-5 shadow-soft sm:min-w-[68vw] sm:p-6 md:min-w-0 ${wide}`}>
+                      <span className="grid size-10 place-items-center rounded-2xl bg-primary/10 text-primary"><Icon className="size-4" /></span>
+                      <h3 className="mt-5 font-display text-[1.2rem] font-semibold leading-tight tracking-tight sm:text-xl">{pick(service.title)}</h3>
+                      <p className="mt-3 text-sm leading-relaxed text-foreground/65">{pick(service.text)}</p>
                     </article>
                   );
                  })}
