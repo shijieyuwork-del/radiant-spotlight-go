@@ -34,7 +34,6 @@ const CANONICAL = {
 /** 渲染该按钮的页面/组件（必须走 QuoteCtaButton，不得内联文案） */
 const BUTTON_CONSUMERS = [
   "pages/AsiaIndex.tsx",
-  "pages/Packages.tsx",
   "pages/Doctors.tsx",
   "components/DoctorProfile.tsx",
 ];
