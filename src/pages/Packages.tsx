@@ -302,7 +302,7 @@ const Packages = () => {
               <div className="grid gap-5 px-5 py-7 sm:px-9 sm:py-9 md:px-12 md:py-12 lg:grid-cols-[.85fr_1.15fr] lg:items-end lg:gap-8">
                 <div>
                   <span className="pill bg-white/80 text-foreground shadow-soft"><ShieldCheck className="size-3.5 text-primary" />{c("Free coordination support", "免费协调支持", "Бесплатная координационная поддержка", "Apoyo de coordinación gratuito")}</span>
-                  <h2 className="mt-4 font-display text-[2.2rem] font-medium leading-[1.08] tracking-tight sm:text-4xl md:text-5xl">{c("Practical details, handled with you.", "实际细节，有人和你一起处理。", "Практические детали решаются вместе с вами.", "Detalles prácticos, resueltos contigo.")}</h2>
+                  <h2 className="mt-4 font-display text-[2.2rem] font-medium leading-[1.08] tracking-tight sm:text-4xl md:text-5xl">{c("What services does Celadon provide for free?", "Celadon 免费提供哪些服务？", "Какие услуги Celadon предоставляет бесплатно?", "¿Qué servicios ofrece Celadon gratis?")}</h2>
                 </div>
                 <p className="max-w-2xl text-base leading-relaxed text-foreground/65 md:text-lg">{c("Support is confirmed around your actual appointment and itinerary. Before you travel, you receive a clear summary of what is included, optional or paid separately.", "支持内容会根据实际预约和行程确认。出发前，你会收到清晰说明，了解哪些已包含、哪些可选、哪些需另行支付。", "Поддержка подтверждается с учётом вашей записи и маршрута. До поездки вы получите ясное описание включённых, дополнительных и отдельно оплачиваемых услуг.", "El apoyo se confirma según tu cita e itinerario reales. Antes de viajar, recibirás un resumen claro de lo incluido, lo opcional y lo que se paga aparte.")}</p>
               </div>
