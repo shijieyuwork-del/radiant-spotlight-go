@@ -17,19 +17,19 @@
 }
 
 /* CeladonChina — Global Medical Aesthetics Platform
-   Cream + Mint design system. All colors HSL.
+   White + Mint design system. All colors HSL.
 */
 
 @layer base {
   :root {
     /* Core surfaces */
-    --background: 50 50% 97%;          /* warm cream */
+    --background: 0 0% 100%;           /* clean white */
     --foreground: 162 44% 16%;         /* #173B32 softened forest ink */
 
-    --card: 48 60% 99%;
+    --card: 0 0% 100%;
     --card-foreground: 162 44% 16%;
 
-    --popover: 48 60% 99%;
+    --popover: 0 0% 100%;
     --popover-foreground: 162 44% 16%;
 
     /* Brand */
@@ -75,7 +75,7 @@
     /* Motion */
     --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
 
-    --sidebar-background: 50 50% 97%;
+    --sidebar-background: 0 0% 100%;
     --sidebar-foreground: 162 44% 16%;
     --sidebar-primary: 158 45% 55%;
     --sidebar-primary-foreground: 50 50% 98%;
@@ -89,12 +89,7 @@
     position: relative;
     isolation: isolate;
     overflow: hidden;
-    background:
-      radial-gradient(circle at -8% 12%, hsl(155 70% 88% / 0.20), transparent 28%),
-      radial-gradient(circle at 108% 39%, hsl(var(--primary) / 0.10), transparent 30%),
-      radial-gradient(circle at 4% 68%, hsl(50 82% 88% / 0.15), transparent 27%),
-      radial-gradient(circle at 96% 91%, hsl(48 82% 88% / 0.13), transparent 26%),
-      hsl(var(--background));
+    background: hsl(var(--background));
   }
 
   /* Conversion actions use one unmistakable, high-contrast treatment. */
