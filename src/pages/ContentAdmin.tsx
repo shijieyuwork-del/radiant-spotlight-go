@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
-import { ArrowLeft, Film, Images, Loader2, Pencil, Plus, Search, Stethoscope, Trash2, UploadCloud } from "lucide-react";
+import { ArrowLeft, Film, Images, Loader2, MessageSquare, Pencil, Plus, Search, Stethoscope, Trash2, UploadCloud } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@/lib/auth";
 import { useIsAdmin } from "@/hooks/use-is-admin";
@@ -20,6 +20,7 @@ import { PHOTO_RULES, validateMediaFile } from "@/lib/media-validation";
 import { replaceMedia } from "@/lib/upload-media";
 import { useRealtimeRefresh } from "@/hooks/use-realtime-refresh";
 import BeforeAfterAdmin from "@/components/BeforeAfterAdmin";
+import QuoteRequestsAdmin from "@/components/QuoteRequestsAdmin";
 import DoctorAdmin from "./DoctorAdmin";
 import VideoAdmin from "./VideoAdmin";
 
