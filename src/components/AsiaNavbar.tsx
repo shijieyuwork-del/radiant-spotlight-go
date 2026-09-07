@@ -127,16 +127,6 @@ const AsiaNavbar = () => {
         <Link to="/" className="flex min-h-12 shrink-0 items-center gap-2">
           <BrandLogo showTagline markClassName="size-8 md:size-9" textClassName="text-lg md:text-xl" />
         </Link>
-        <div className="hidden xl:flex items-center gap-0.5 rounded-full bg-muted/60 p-1">
-          {desktopLinks.map((l) => (
-            <Link
-              key={l.to}
-              to={l.to}
-              aria-current={isActive(l.to) ? "page" : undefined}
-              className={`whitespace-nowrap rounded-full px-2 py-1.5 text-[12px] font-medium transition-all xl:px-3 xl:text-[13px] ${isActive(l.to) ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:bg-primary/10 hover:text-foreground"}`}
-            >{l.label}</Link>
-          ))}
-        </div>
         <div className="flex items-center gap-1.5">
           <div className="hidden xl:flex items-center gap-1.5">
             <DropdownMenu>
@@ -227,9 +217,21 @@ const AsiaNavbar = () => {
           </SheetContent>
         </Sheet>
       </nav>
+      <div className="hidden border-t border-border/50 xl:block">
+        <nav className="container flex h-11 items-center justify-center gap-0.5" aria-label={c("Primary navigation", "主导航", "Основная навигация", "Navegación principal")}>
+          {desktopLinks.map((l) => (
+            <Link
+              key={l.to}
+              to={l.to}
+              aria-current={isActive(l.to) ? "page" : undefined}
+              className={`whitespace-nowrap rounded-full px-3 py-1.5 text-[13px] font-medium transition-all ${isActive(l.to) ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:bg-primary/10 hover:text-foreground"}`}
+            >{l.label}</Link>
+          ))}
+        </nav>
+      </div>
       </header>
       </div>
-      <div className="h-[6.75rem] md:h-[6.25rem]" aria-hidden="true" />
+      <div className="h-[6.75rem] md:h-[6.25rem] xl:h-[9rem]" aria-hidden="true" />
     </>
   );
 };
