@@ -78,10 +78,10 @@ export const CitySearchBar = ({ filter }: { filter: CityFilter }) => {
             value={filter.query}
             onChange={(e) => filter.setQuery(e.target.value)}
             placeholder={c(
-              "Search a city, country or procedure — e.g. Seoul, Korea, nose…",
-              "搜索城市、国家或项目 —— 如首尔、韩国、隆鼻…",
-              "Поиск по городу, стране или процедуре — Сеул, Корея, нос…",
-              "Busca una ciudad, país o procedimiento — p. ej. Seúl, Corea, nariz…",
+              "Search a city or procedure — e.g. Shanghai, nose…",
+              "搜索城市或项目 —— 如上海、隆鼻…",
+              "Поиск по городу или процедуре — Шанхай, нос…",
+              "Busca una ciudad o procedimiento — p. ej. Shanghái, nariz…",
             )}
             className="h-12 w-full rounded-full border border-border/70 bg-background pl-11 pr-12 text-base outline-none transition focus:border-primary/50 focus:ring-4 focus:ring-primary/10 sm:text-sm"
           />
