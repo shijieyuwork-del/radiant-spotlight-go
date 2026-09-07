@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { DollarSign, Languages, Menu, ChevronRight, Phone, Mail, MessageCircle, ArrowRight, User, LogOut } from "lucide-react";
+import { DollarSign, Languages, Menu, ChevronRight, MessageCircle, ArrowRight, User, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
@@ -91,39 +91,8 @@ const AsiaNavbar = () => {
   return (
     <>
       <div className="fixed inset-x-0 top-0 z-[70]">
-      <div className="h-12 border-b border-primary bg-primary text-primary-foreground shadow-sm md:h-9">
-        <div className="container flex h-full items-center justify-between gap-3 text-xs">
-          <div className="flex min-w-0 items-center gap-2.5 sm:gap-5">
-            <a
-              href="https://wa.me/14708613825?text=Hi%20CeladonChina%2C%20I%20would%20like%20to%20ask%20about%20your%20services."
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Contact CeladonChina on WhatsApp"
-              className="inline-flex min-h-12 shrink-0 items-center gap-1.5 rounded-full bg-white/10 px-2.5 font-bold tracking-[0.01em] text-white transition hover:bg-white/20 md:min-h-9"
-            >
-              <Phone className="size-3.5" />
-              <span className="hidden sm:inline">+1 470 861 3825</span>
-              <span className="sm:hidden">WhatsApp</span>
-            </a>
-            <a href="mailto:contact@celadonchina.com" className="hidden min-h-12 min-w-0 items-center gap-1.5 rounded-full px-2 font-semibold tracking-[0.01em] text-white/95 transition hover:bg-white/10 hover:text-white sm:inline-flex md:min-h-9">
-              <Mail className="size-3.5 shrink-0" />
-              <span className="hidden truncate sm:inline">contact@celadonchina.com</span>
-            </a>
-          </div>
-          <button
-            type="button"
-            onClick={() => open({ source: "navbar_top" })}
-            aria-label={c("Start a consultation", "开始咨询", "Начать консультацию", "Iniciar una consulta")}
-            className="inline-flex min-h-12 shrink-0 items-center gap-1.5 rounded-full border border-white/35 bg-foreground/15 px-3 font-semibold text-white transition hover:bg-foreground/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-primary md:min-h-9"
-          >
-            <MessageCircle className="size-3.5" />
-            <span>{c("Start a consultation", "开始咨询", "Начать консультацию", "Iniciar una consulta")}</span>
-            <ArrowRight className="hidden size-3.5 sm:block" />
-          </button>
-        </div>
-      </div>
       <header className="border-b border-border/60 bg-background/95 shadow-[0_4px_18px_rgba(16,42,36,0.04)] backdrop-blur-xl">
-      <nav className="container flex h-[3.75rem] md:h-16 items-center justify-between gap-3">
+      <nav className="container flex h-16 items-center justify-between gap-3 md:h-[4.5rem]">
         <Link to="/" className="flex min-h-12 shrink-0 items-center gap-2">
           <BrandLogo showTagline markClassName="size-8 md:size-9" textClassName="text-lg md:text-xl" />
         </Link>
@@ -218,20 +187,31 @@ const AsiaNavbar = () => {
         </Sheet>
       </nav>
       <div className="hidden border-t border-border/50 xl:block">
-        <nav className="container flex h-11 items-center justify-center gap-0.5" aria-label={c("Primary navigation", "主导航", "Основная навигация", "Navegación principal")}>
-          {desktopLinks.map((l) => (
-            <Link
-              key={l.to}
-              to={l.to}
-              aria-current={isActive(l.to) ? "page" : undefined}
-              className={`whitespace-nowrap rounded-full px-3 py-1.5 text-[13px] font-medium transition-all ${isActive(l.to) ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:bg-primary/10 hover:text-foreground"}`}
-            >{l.label}</Link>
-          ))}
+        <nav className="container flex h-14 items-center gap-3" aria-label={c("Primary navigation", "主导航", "Основная навигация", "Navegación principal")}>
+          <div className="flex min-w-0 flex-1 items-center justify-start gap-0.5">
+            {desktopLinks.map((l) => (
+              <Link
+                key={l.to}
+                to={l.to}
+                aria-current={isActive(l.to) ? "page" : undefined}
+                className={`whitespace-nowrap rounded-full px-2.5 py-2 text-[12px] font-medium transition-all 2xl:px-3 2xl:text-[13px] ${isActive(l.to) ? "bg-primary/12 text-foreground" : "text-muted-foreground hover:bg-primary/10 hover:text-foreground"}`}
+              >{l.label}</Link>
+            ))}
+          </div>
+          <button
+            type="button"
+            onClick={() => open({ source: "navbar_desktop" })}
+            className="inline-flex min-h-10 shrink-0 items-center gap-2 rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground shadow-soft transition hover:-translate-y-0.5 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+          >
+            <MessageCircle className="size-4" />
+            {c("Start a consultation", "开始咨询", "Начать консультацию", "Iniciar una consulta")}
+            <ArrowRight className="size-4" />
+          </button>
         </nav>
       </div>
       </header>
       </div>
-      <div className="h-[6.75rem] md:h-[6.25rem] xl:h-[9rem]" aria-hidden="true" />
+      <div className="h-16 md:h-[4.5rem] xl:h-32" aria-hidden="true" />
     </>
   );
 };
