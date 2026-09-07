@@ -180,7 +180,7 @@ const AsiaNavbar = () => {
             <button
               type="button"
               onClick={() => open({ source: "navbar_desktop" })}
-              className="hidden min-h-12 shrink-0 items-center gap-2 rounded-full bg-[hsl(var(--brand-emerald))] px-5 text-sm font-semibold text-foreground shadow-[0_7px_16px_rgba(74,176,140,0.2)] transition hover:-translate-y-0.5 hover:brightness-[0.97] hover:shadow-[0_9px_20px_rgba(74,176,140,0.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 xl:inline-flex 2xl:px-6"
+              className="cta-primary hidden min-h-12 shrink-0 items-center gap-2 rounded-full px-5 text-sm font-semibold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 xl:inline-flex 2xl:px-6"
             >
               <CalendarDays className="size-4" aria-hidden="true" />
               {c("Start a consultation", "开始咨询", "Начать консультацию", "Iniciar una consulta")}
@@ -235,7 +235,7 @@ const AsiaNavbar = () => {
               <button
                 type="button"
                 onClick={() => open({ source: "mobile_navigation" })}
-                className="mt-3 flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-primary px-4 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                className="cta-primary mt-3 flex min-h-12 items-center justify-center gap-2 rounded-2xl px-4 text-sm font-semibold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               >
                 <MessageCircle className="size-4" />
                 {c("Start a consultation", "开始咨询", "Начать консультацию", "Iniciar una consulta")}
