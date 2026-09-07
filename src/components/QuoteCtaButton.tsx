@@ -11,7 +11,7 @@ import { trackEvent } from "@/lib/analytics";
  *   任何页面不得再内联维护该按钮的三语文案（由 quote-cta-i18n 回归测试守护）。
  * - 样式唯一来源：本组件的 VARIANTS；页面只能通过 className 调整布局
  *   （宽度、圆角、高度等），不得覆盖配色。
- * - 默认打开报价流程，让用户选择通过 Email 或 WhatsApp 继续；
+ * - 默认打开咨询流程，让用户选择通过 Email 或 WhatsApp 继续；
  *   仅在显式传入 href 时直接打开外部链接。
  */
 
