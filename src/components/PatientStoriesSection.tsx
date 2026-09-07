@@ -173,8 +173,8 @@ const PatientStoriesSection = () => {
           </div>
           <p className="max-w-2xl text-base leading-7 text-muted-foreground md:justify-self-end">
             {zh
-              ? "从第一次咨询、抵达中国，到治疗与恢复，400+ 位患者选择由 CeladonChina 陪伴他们完成整个旅程。"
-              : "From the first conversation and arrival in China to treatment and recovery, 400+ patients have trusted CeladonChina to support their journey."}
+              ? "已有 400 多位患者信任 CeladonChina 为他们的旅程提供支持。"
+              : "400+ patients have trusted CeladonChina to support their journey."}
           </p>
         </div>
 
