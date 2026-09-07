@@ -75,6 +75,7 @@ Deno.serve(async (req) => {
     .from('email_send_log')
     .select('id')
     .eq('message_id', messageId)
+    .in('status', ['pending', 'sent'])
     .limit(1)
     .maybeSingle()
 
@@ -121,6 +122,28 @@ ${fields
 
   const customerEmail = typeof row.email === 'string' && row.email.includes('@') ? row.email : null
 
+  // The send API requires an unsubscribe token for transactional mail.
+  let unsubscribeToken: string | null = null
+  {
+    const { data: tokenRow } = await supabase
+      .from('email_unsubscribe_tokens')
+      .select('token')
+      .eq('email', ADMIN_EMAIL)
+      .maybeSingle()
+    if (tokenRow?.token) {
+      unsubscribeToken = tokenRow.token as string
+    } else {
+      const fresh = crypto.randomUUID().replace(/-/g, '')
+      const { data: inserted, error: tokenError } = await supabase
+        .from('email_unsubscribe_tokens')
+        .insert({ email: ADMIN_EMAIL, token: fresh })
+        .select('token')
+        .maybeSingle()
+      if (tokenError) console.error('quote-notification: unsubscribe token failed', tokenError.message)
+      unsubscribeToken = (inserted?.token as string | undefined) ?? fresh
+    }
+  }
+
   await supabase.from('email_send_log').insert({
     message_id: messageId,
     template_name: 'quote_request',
@@ -137,6 +160,7 @@ ${fields
       from: FROM_ADDRESS,
       sender_domain: SENDER_DOMAIN,
       reply_to: customerEmail,
+      unsubscribe_token: unsubscribeToken,
       subject: `New consultation request — ${row.name ?? 'Unknown'}${row.procedure ? ` (${row.procedure})` : ''}`,
       html,
       text,
@@ -153,7 +177,29 @@ ${fields
       code: enqueueError.code,
       message: enqueueError.message,
     })
-    await supabase.from('email_send_log').insert({
+    // The send API requires an unsubscribe token for transactional mail.
+  let unsubscribeToken: string | null = null
+  {
+    const { data: tokenRow } = await supabase
+      .from('email_unsubscribe_tokens')
+      .select('token')
+      .eq('email', ADMIN_EMAIL)
+      .maybeSingle()
+    if (tokenRow?.token) {
+      unsubscribeToken = tokenRow.token as string
+    } else {
+      const fresh = crypto.randomUUID().replace(/-/g, '')
+      const { data: inserted, error: tokenError } = await supabase
+        .from('email_unsubscribe_tokens')
+        .insert({ email: ADMIN_EMAIL, token: fresh })
+        .select('token')
+        .maybeSingle()
+      if (tokenError) console.error('quote-notification: unsubscribe token failed', tokenError.message)
+      unsubscribeToken = (inserted?.token as string | undefined) ?? fresh
+    }
+  }
+
+  await supabase.from('email_send_log').insert({
       message_id: messageId,
       template_name: 'quote_request',
       recipient_email: ADMIN_EMAIL,
