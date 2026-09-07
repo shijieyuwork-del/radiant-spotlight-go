@@ -588,7 +588,7 @@ const TravelBar = () => {
     {
       icon: Video,
       image: journeyConsultation,
-      en: ["Start a consultation", "Tell us your goals and questions so we can help identify suitable specialists"],
+      en: ["Start a consultation", "Connect with us by message or video call. We’ll walk you through every detail, answer your questions and help you plan your next step."],
       zh: ["开始咨询", "告诉我们你的目标和疑问，我们会协助匹配合适的专家"],
       ru: ["Начать консультацию", "Расскажите о целях и вопросах, чтобы мы помогли подобрать специалистов"],
       es: ["Solicita una consulta", "Cuéntanos tus objetivos y preguntas para ayudarte a identificar especialistas adecuados"],

@@ -42,7 +42,7 @@ const JOURNEY_STEPS = [
     eyebrow: ["Getting started", "开始咨询", "Начало", "Primeros pasos"],
     title: ["Start a consultation", "开始咨询", "Начать консультацию", "Solicita una consulta"],
     text: [
-      "Tell us your goals and questions so we can help identify suitable specialists.",
+      "Connect with us by message or video call. We’ll walk you through every detail, answer your questions and help you plan your next step.",
       "告诉我们你的目标和疑问，我们会协助匹配合适的专家。",
       "Расскажите о целях и вопросах, чтобы мы помогли подобрать специалистов.",
       "Cuéntanos tus objetivos y dudas para ayudarte a identificar a los expertos adecuados.",
