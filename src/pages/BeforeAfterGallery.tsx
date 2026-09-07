@@ -55,7 +55,7 @@ const BeforeAfterGallery = () => {
       <div className="min-h-screen bg-background">
         <AsiaNavbar />
         <main className="container py-10 max-w-6xl">
-          <header className="max-w-2xl">
+          <header className="mx-auto max-w-2xl text-center">
             <span className="pill bg-accent text-accent-foreground">
               <Images className="size-3.5" />
               {c("Photo results", "图片对比", "Фотографии", "Fotos")}
@@ -73,14 +73,14 @@ const BeforeAfterGallery = () => {
             </p>
           </header>
 
-          <div className="flex flex-wrap gap-3 mt-8">
+          <div className="mx-auto mt-8 flex max-w-4xl flex-wrap justify-center gap-3">
             <Input
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder={c("Search procedure, city or expert", "搜索项目、城市或专家", "Поиск процедуры, города или эксперта", "Buscar procedimiento, ciudad o experto")}
-              className="max-w-xs rounded-full"
+              className="w-full max-w-xs rounded-full"
             />
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap justify-center gap-2">
               <Button variant={procedure ? "outline" : "default"} size="sm" className="rounded-full" onClick={() => setProcedure(null)}>
                 {c("All", "全部", "Все", "Todos")}
               </Button>
