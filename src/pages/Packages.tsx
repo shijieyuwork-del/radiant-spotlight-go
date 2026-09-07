@@ -222,8 +222,8 @@ const Packages = () => {
                       <h3 className="mt-3 font-display text-[1.35rem] font-semibold leading-tight tracking-tight sm:text-2xl md:mt-4">{pick(step.title)}</h3>
                       <p className="mt-3 text-sm leading-relaxed text-foreground/65">{pick(step.text)}</p>
                       {index === 0 && (
-                        <a href={QUOTE_WHATSAPP_URL} target="_blank" rel="noreferrer" className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary/80">
-                          {c("Start here", "从这里开始", "Начать здесь", "Empieza aquí")}<ArrowRight className="size-4" />
+                        <a href={QUOTE_WHATSAPP_URL} target="_blank" rel="noreferrer" className="mt-5 inline-flex items-center gap-2 whitespace-nowrap text-sm font-semibold text-primary hover:text-primary/80">
+                          {t("hero.cta")}<ArrowRight className="size-4" />
                         </a>
                       )}
                     </div>
