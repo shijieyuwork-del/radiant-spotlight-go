@@ -115,48 +115,48 @@ const SUPPORT_SERVICES = [
     icon: Plane,
     title: ["Airport pickup & drop-off", "机场接送", "Трансфер из аэропорта", "Recogida y traslado al aeropuerto"],
     text: [
-      "Direct transfer between the airport and your confirmed hotel or clinic, coordinated around your arrival details.",
-      "根据抵达信息，协调机场与已确认酒店或诊所之间的点对点接送。",
+      "A friendly face at arrivals. A ride to your hotel or clinic, and back to the airport.",
+      "落地有人迎接，往返机场与酒店或诊所，有我们接送。",
       "Прямой трансфер между аэропортом и подтверждённым отелем или клиникой с учётом деталей прибытия.",
       "Traslado directo entre el aeropuerto y tu hotel o clínica confirmados, coordinado según tus datos de llegada.",
     ],
   },
   {
     icon: Languages,
-    title: ["In-clinic translation", "院内翻译", "Перевод в клинике", "Traducción en la clínica"],
+    title: ["Your voice, understood", "让你的想法被听懂", "Перевод в клинике", "Traducción en la clínica"],
     text: [
-      "Bilingual communication support for questions, care instructions and practical next steps during included visits.",
-      "在包含的诊所行程中，协助问题沟通、护理说明和实际后续安排。",
+      "Ask your questions. Understand your care. We translate during included clinic visits.",
+      "问清疑惑，听懂护理建议。约定就诊期间，我们为你翻译。",
       "Двуязычная помощь при вопросах, инструкциях по уходу и дальнейших шагах во время включённых визитов.",
       "Apoyo de comunicación bilingüe para preguntas, instrucciones de cuidado y próximos pasos durante las visitas incluidas.",
     ],
   },
   {
     icon: Hotel,
-    title: ["Accommodation guidance", "住宿建议", "Помощь с проживанием", "Orientación de alojamiento"],
+    title: ["Find your place to rest", "找到安心休息的住处", "Помощь с проживанием", "Orientación de alojamiento"],
     text: [
-      "Hotel options shortlisted around your clinic, dates, budget and recovery needs. Hotel charges are paid separately.",
-      "根据诊所位置、日期、预算和恢复需求筛选酒店；住宿费用需另行支付。",
+      "Hotel options that fit your stay, budget and recovery needs. Hotel costs paid separately.",
+      "按行程、预算与恢复需求，帮你挑选酒店。住宿费用另付。",
       "Подбор отелей рядом с клиникой с учётом дат, бюджета и восстановления. Проживание оплачивается отдельно.",
       "Opciones de hotel preseleccionadas según tu clínica, fechas, presupuesto y necesidades de recuperación. Los gastos de hotel se pagan por separado.",
     ],
   },
   {
     icon: Files,
-    title: ["Records organization", "病历整理", "Подготовка документов", "Organización de historial médico"],
+    title: ["Your records, ready to share", "病历备好，沟通更清楚", "Подготовка документов", "Organización de historial médico"],
     text: [
-      "The records you provide are organized into a clearer review file; relevant information can be translated for care coordination.",
-      "将你提供的病历整理成便于审核的文件，并可为就医协调翻译相关信息。",
+      "We organize the records you provide and help translate key details for your clinic.",
+      "整理你提供的病历，协助翻译关键信息，方便与诊所沟通。",
       "Предоставленные документы систематизируются в понятный файл; важная информация может быть переведена для координации лечения.",
       "Los documentos que proporcionas se organizan en un expediente más claro; la información relevante puede traducirse para coordinar la atención.",
     ],
   },
   {
     icon: Headphones,
-    title: ["Online concierge support", "在线管家支持", "Онлайн-поддержка", "Asistencia de conserjería en línea"],
+    title: ["Your coordinator, a message away", "你的管家，发条消息就能联系", "Онлайн-поддержка", "Asistencia de conserjería en línea"],
     text: [
-      "Message your coordinator for itinerary, booking and service questions during the confirmed support period.",
-      "在已确认的支持时段内，可联系协调员咨询行程、预订和服务问题。",
+      "Travel or booking questions? Message us during your agreed support period.",
+      "行程、预订有疑问？约定服务期间，随时给我们留言。",
       "Связывайтесь с координатором по вопросам маршрута, бронирования и услуг в подтверждённый период поддержки.",
       "Escribe a tu coordinador por dudas de itinerario, reservas y servicios durante el periodo de apoyo confirmado.",
     ],
@@ -238,7 +238,7 @@ const Packages = () => {
               <div className="px-5 py-7 sm:px-9 sm:py-9 md:px-12 md:py-12">
                 <div>
                   <span className="pill bg-white/80 text-foreground shadow-soft"><ShieldCheck className="size-3.5 text-primary" />{c("Free coordination support", "免费协调支持", "Бесплатная координационная поддержка", "Apoyo de coordinación gratuito")}</span>
-                  <h2 className="mt-4 max-w-3xl font-display text-[2.2rem] font-medium leading-[1.08] tracking-tight sm:text-4xl md:text-5xl">{c("Services Celadon Provides for Free", "Celadon 免费提供的服务", "Бесплатные услуги Celadon", "Servicios gratuitos de Celadon")}</h2>
+                  <h2 className="mt-4 max-w-3xl font-display text-[2.2rem] font-medium leading-[1.08] tracking-tight sm:text-4xl md:text-5xl">{c("Your journey. Our support.", "你的旅程，我们相伴。", "Бесплатные услуги Celadon", "Servicios gratuitos de Celadon")}</h2>
                 </div>
               </div>
               <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto bg-white/60 p-4 scrollbar-hide sm:p-6 md:grid md:grid-cols-2 md:overflow-visible lg:grid-cols-6 lg:p-8">
