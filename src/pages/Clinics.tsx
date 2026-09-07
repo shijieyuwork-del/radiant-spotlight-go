@@ -38,6 +38,8 @@ type DirectoryFacility = {
   secondary: string;
   img: string;
   illustrative: boolean;
+  imageCredit?: string;
+  imageSourceUrl?: string;
 };
 
 const Clinics = () => {
@@ -81,6 +83,8 @@ const Clinics = () => {
         secondary: lang === "zh" ? hospital.en : hospital.zh,
         img: hospital.img ?? generatedCover ?? genericClinicImg,
         illustrative: !hospital.img,
+        imageCredit: hospital.imageCredit,
+        imageSourceUrl: hospital.imageSourceUrl,
       };
     });
 
@@ -243,6 +247,11 @@ const Clinics = () => {
                               <span className="absolute bottom-3 right-3 rounded-full bg-background/90 px-2.5 py-1 text-[10px] font-semibold text-foreground/70 shadow-sm backdrop-blur">
                                 {c("Illustrative image", "示意图片", "Иллюстрация", "Imagen ilustrativa")}
                               </span>
+                            )}
+                            {!hospital.illustrative && hospital.imageCredit && hospital.imageSourceUrl && (
+                              <a href={hospital.imageSourceUrl} target="_blank" rel="noreferrer" className="absolute bottom-3 left-3 rounded-full bg-background/90 px-2.5 py-1 text-[10px] font-medium text-foreground/70 shadow-sm backdrop-blur hover:text-primary">
+                                {c(`Photo: ${hospital.imageCredit}`, `图片：${hospital.imageCredit}`, `Фото: ${hospital.imageCredit}`, `Foto: ${hospital.imageCredit}`)}
+                              </a>
                             )}
                           </div>
                           <div className="flex flex-1 flex-col p-5">
