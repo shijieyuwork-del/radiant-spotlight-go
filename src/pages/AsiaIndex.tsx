@@ -588,8 +588,8 @@ const TravelBar = () => {
     {
       icon: Video,
       image: journeyConsultation,
-      en: ["Start a consultation", "Connect with us by message or video call. We’ll walk you through every detail, answer your questions and help you plan your next step."],
-      zh: ["开始咨询", "告诉我们你的目标和疑问，我们会协助匹配合适的专家"],
+      en: ["Start a consultation", "Connect with us by message or video call. We’ll walk you through every detail, answer your questions and help you plan your next step. We’ll also help book your in-person consultation and surgery."],
+      zh: ["开始咨询", "通过文字或视频与我们线上沟通。我们为你讲解每个细节、解答疑问，陪你规划下一步，并协助预约面诊和手术。"],
       ru: ["Начать консультацию", "Расскажите о целях и вопросах, чтобы мы помогли подобрать специалистов"],
       es: ["Solicita una consulta", "Cuéntanos tus objetivos y preguntas para ayudarte a identificar especialistas adecuados"],
     },
@@ -604,8 +604,8 @@ const TravelBar = () => {
     {
       icon: MapPin,
       image: journeyGroundSupport,
-      en: ["A warm welcome, from the moment you land", "A new country, a friendly face waiting for you. Our team meets you at the airport and takes you to your hotel or straight to the clinic."],
-      zh: ["落地的第一刻，就有人迎接你", "初到中国，迎接你的是我们熟悉行程的接机团队。与我们会合后，前往酒店休息，或直接前往诊所。"],
+      en: ["A warm welcome, from the moment you land", "A new country, a friendly face waiting for you. Our team meets you at the airport and takes you to your hotel or straight to the clinic. Haven’t booked a hotel yet? No worries. Bring your passport, and we’ll help you find a place to stay and get checked in."],
+      zh: ["落地的第一刻，就有人迎接你", "初到中国，迎接你的是我们熟悉行程的接机团队。与我们会合后，前往酒店休息，或直接前往诊所。还没订酒店？没关系。带好护照，我们会帮你寻找住宿并协助办理入住。"],
       ru: ["Прибудьте в Китай и встретьтесь с нашей командой", "Наша команда встретит вас в аэропорту и отвезёт в отель или прямо в клинику"],
       es: ["Llega a China y reúnete con nuestro equipo", "Nuestro equipo te recibirá en el aeropuerto y te llevará al hotel o directamente a la clínica"],
     },
