@@ -112,6 +112,8 @@ const Clinics = () => {
   }, [cityFilter, directory, query]);
 
   const visibleCount = filteredFacilities.length;
+  const selectedCity = CITIES.find((city) => city.slug === cityFilter);
+  const locationName = selectedCity ? (lang === "zh" ? selectedCity.zh : selectedCity.en) : c("China", "中国", "Китае", "China");
   const updateFilter = (key: "q" | "city", value: string) => {
     const next = new URLSearchParams(searchParams);
     if (!value || value === "all") next.delete(key);
@@ -180,10 +182,10 @@ const Clinics = () => {
                 </p>
                 <h2 id="clinic-directory-title" className="mt-2 font-display text-3xl font-medium tracking-tight sm:text-4xl">
                   {c(
-                    `${visibleCount} ${visibleCount === 1 ? "facility" : "facilities"}`,
-                    `${visibleCount} 家医院及诊所`,
-                    `${visibleCount} учреждений`,
-                    `${visibleCount} centros`,
+                    `${visibleCount} ${visibleCount === 1 ? "facility" : "facilities"} in ${locationName}`,
+                    `${visibleCount} 家医院及诊所，位于${locationName}`,
+                    `${visibleCount} учреждений в ${locationName}`,
+                    `${visibleCount} centros en ${locationName}`,
                   )}
                 </h2>
               </div>
