@@ -309,8 +309,8 @@ const Hero = () => {
                   <Sparkles className="size-3.5" /> {lang === "zh" ? "我们的核心优势" : lang === "ru" ? "Наше главное отличие" : lang === "es" ? "Nuestra mayor diferencia" : "Our biggest difference"}
                 </span>
                 <h2 className="mt-2 max-w-4xl font-display text-3xl font-medium leading-tight tracking-tight sm:text-4xl md:text-5xl">
-                  {lang === "zh" ? "患者恢复日记，" : lang === "ru" ? "Дневники восстановления пациентов — " : lang === "es" ? "Diarios de recuperación de pacientes, " : "Patient recovery diaries, "}
-                  <em className="not-italic text-primary">{lang === "zh" ? "帮助你做功课" : lang === "ru" ? "изучите до выбора" : lang === "es" ? "antes de elegir" : "before you choose"}</em>
+                  {lang === "zh" ? "患者恢复日记，" : lang === "ru" ? "Дневники восстановления пациентов — " : lang === "es" ? "Diarios de recuperación de pacientes, " : "Patient recovery diaries"}
+                  {lang !== "en" && <em className="not-italic text-primary">{lang === "zh" ? "帮助你做功课" : lang === "ru" ? "изучите до выбора" : "antes de elegir"}</em>}
                 </h2>
               </div>
               <Link
@@ -405,7 +405,7 @@ const PrivateCareHero = () => {
           clinicValue: "View all clinics",
           diaries: "Patient recovery diaries",
           diariesTitle: "See patient diaries",
-          diariesEmphasis: "before you choose.",
+          diariesEmphasis: "",
           benefitCta: "See how support works",
           servicesEyebrow: "Four essentials",
           servicesTitle: "Practical support,",
@@ -562,7 +562,7 @@ const PrivateCareHero = () => {
           <div className="mb-7 md:mb-9">
             <span className="pill mb-3 bg-accent text-accent-foreground"><Eye className="size-3.5" />{copy.diaries}</span>
             <h2 className="max-w-4xl font-display text-3xl font-medium leading-[1.03] tracking-tight sm:text-4xl md:text-5xl">
-              {copy.diariesTitle} <em className="not-italic text-primary">{copy.diariesEmphasis}</em>
+              {copy.diariesTitle}{copy.diariesEmphasis && <> <em className="not-italic text-primary">{copy.diariesEmphasis}</em></>}
             </h2>
           </div>
           <HeroVideoGallery items={diaryItems.slice(0, 10)} lang={lang} fmtPrice={fmt} size="large" />
