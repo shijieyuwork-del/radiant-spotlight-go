@@ -170,8 +170,8 @@ const PatientStoriesSection = () => {
             </span>
             <h2 id="patient-stories-title" className="mt-4 font-display text-4xl font-medium leading-[1.08] sm:text-5xl">
               {zh
-                ? "已有 400 多位患者信任 CeladonChina 为他们的旅程提供支持。"
-                : "400+ patients have trusted CeladonChina to support their journey."}
+                ? "400+ 位患者信任 CeladonChina。"
+                : "400+ patients trust CeladonChina."}
             </h2>
           </div>
         </div>
