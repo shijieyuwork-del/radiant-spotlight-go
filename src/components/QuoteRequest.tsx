@@ -195,11 +195,27 @@ const QuoteDialog = ({
   }, [isOpen, ctx.procedure]);
 
   const pickContactMethod = (method: ContactMethod) => {
-    setContactMethod(method);
-    setIntent("consultation");
-    setStep(2);
     trackEvent("quote_contact_method_selected", { source: ctx.source || "site_cta", option: method });
     trackEvent("quote_step_completed", { source: ctx.source || "site_cta", step: 1 });
+    const message = [
+      "Hi CeladonChina, I would like to start a consultation.",
+      ctx.doctorName ? `Expert: ${ctx.doctorName}` : "",
+      ctx.procedure ? `Procedure: ${ctx.procedure}` : "",
+      ctx.city ? `City: ${ctx.city}` : "",
+    ].filter(Boolean).join("\n");
+
+    onOpenChange(false);
+    if (method === "email") {
+      const subject = `Consultation request${ctx.procedure ? ` — ${ctx.procedure}` : ""}`;
+      trackEvent("email_handoff", { source: ctx.source || "site_cta", option: "consultation" });
+      window.location.href = `mailto:contact@celadonchina.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+      return;
+    }
+
+    trackEvent("whatsapp_handoff", { source: ctx.source || "site_cta", option: "consultation" });
+    const whatsappUrl = `https://wa.me/14708613825?text=${encodeURIComponent(message)}`;
+    const opened = window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+    if (!opened) window.location.href = whatsappUrl;
   };
 
   const expertLabel = ctx.doctorName ?? "";
@@ -209,7 +225,7 @@ const QuoteDialog = ({
     ? `Ask about ${ctx.procedure}`
     : "Choose how to contact us";
 
-  const subline = "Choose email or WhatsApp. We’ll prepare your message in the next step.";
+  const subline = "Choose email or WhatsApp to open the app and start your message.";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -308,10 +324,6 @@ const QuoteDialog = ({
                 <span className="pill bg-background/80 backdrop-blur shadow-soft">
                   <Sparkles className="size-3 text-primary" /> Free · No obligation
                 </span>
-                <span className="text-[11px] font-semibold text-foreground/60 uppercase tracking-wider">
-                  <span className="hidden min-[360px]:inline">Step {step} of 2</span>
-                  <span className="min-[360px]:hidden">{step} / 2</span>
-                </span>
               </div>
               <DialogTitle className="font-display text-2xl md:text-[26px] font-semibold tracking-tight mt-3 leading-tight">
                 {step === 1 ? headline : "Tell us a little about you"}
@@ -323,10 +335,6 @@ const QuoteDialog = ({
                   ? "Share a few details and we’ll prepare an email for you to send."
                   : "Share a few details and we’ll prepare a WhatsApp message for you to send."}
               </DialogDescription>
-              <div className="flex items-center gap-1.5 mt-4">
-                <span className="h-1.5 rounded-full w-8 bg-foreground" />
-                <span className={`h-1.5 rounded-full transition-all ${step === 2 ? "w-8 bg-foreground" : "w-6 bg-foreground/20"}`} />
-              </div>
             </div>
 
             {step === 1 ? (
@@ -453,6 +461,7 @@ const ContactChannelStep = ({ onPick, doctorName }: { onPick: (method: ContactMe
       {options.map((o) => (
         <button
           key={o.id}
+          type="button"
           onClick={() => onPick(o.id)}
           className="group w-full text-left rounded-2xl border border-border bg-card p-4 hover:border-foreground hover:shadow-pop transition-all flex items-start gap-4"
         >
