@@ -39,7 +39,7 @@ const DoctorDetail = () => {
           path={`/doctors/${id}`}
         />
         <div className="min-h-screen bg-background">
-          <AsiaNavbar homeLinks={false} />
+          <AsiaNavbar />
           <div className="container py-24 text-center">
             <p className="text-muted-foreground">
               {c("Expert profile not found.", "专家档案不存在。", "Профиль эксперта не найден.", "Perfil de experto no encontrado.")}
@@ -92,7 +92,7 @@ const DoctorDetail = () => {
         robots="noindex, follow"
       />
       <div className="min-h-screen bg-background">
-      <AsiaNavbar homeLinks={false} />
+      <AsiaNavbar />
 
       <section className="container py-8 md:py-12">
         <Link to="/doctors" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-6">

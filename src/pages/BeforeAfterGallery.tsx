@@ -53,7 +53,7 @@ const BeforeAfterGallery = () => {
         path="/before-after"
       />
       <div className="min-h-screen bg-background">
-        <AsiaNavbar homeLinks={false} />
+        <AsiaNavbar />
         <main className="container py-10 max-w-6xl">
           <header className="max-w-2xl">
             <span className="pill bg-accent text-accent-foreground">

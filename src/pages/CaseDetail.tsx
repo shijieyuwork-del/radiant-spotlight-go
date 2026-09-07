@@ -112,7 +112,7 @@ const CaseDetail = () => {
           path={`/cases/${id}`}
         />
         <div className="min-h-screen bg-background">
-          <AsiaNavbar homeLinks={false} />
+          <AsiaNavbar />
           <div className="container py-24 text-center">
             <p className="text-muted-foreground">
               {lang === "zh" ? "案例不存在。" : lang === "ru" ? "История не найдена." : lang === "es" ? "No se encontró el caso." : "Case not found."}
@@ -162,7 +162,7 @@ const CaseDetail = () => {
         robots="noindex, follow"
       />
       <div className="min-h-screen bg-background">
-      <AsiaNavbar homeLinks={false} />
+      <AsiaNavbar />
 
       <section className="container py-8 md:py-12">
         <Link to="/cases" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-4">

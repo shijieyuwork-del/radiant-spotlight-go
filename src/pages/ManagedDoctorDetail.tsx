@@ -167,7 +167,7 @@ const ManagedDoctorDetail = () => {
         structuredData={doctorSchema}
       />
       <div className="min-h-screen bg-background">
-        <AsiaNavbar homeLinks={false} />
+        <AsiaNavbar />
         <main className="container py-10 max-w-6xl">
           <Link
             to="/doctors"
