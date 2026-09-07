@@ -160,7 +160,7 @@ const PatientStoriesSection = () => {
   const zh = lang === "zh";
 
   return (
-    <section className="border-t border-border/70 bg-background py-16 sm:py-20 md:py-24" aria-labelledby="patient-stories-title">
+    <section className="border-t border-primary/15 bg-gradient-to-r from-[hsl(158,58%,90%)] via-[hsl(145,48%,91%)] to-[hsl(50,80%,91%)] py-16 sm:py-20 md:py-24" aria-labelledby="patient-stories-title">
       <div className="container">
         <div className="max-w-5xl">
           <div>

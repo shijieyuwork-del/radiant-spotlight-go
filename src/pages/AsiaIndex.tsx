@@ -789,7 +789,7 @@ const CitiesSection = () => {
         onPointerUp={() => { cityRailPausedRef.current = false; }}
         onFocusCapture={() => { cityRailPausedRef.current = true; }}
         onBlurCapture={() => { cityRailPausedRef.current = false; }}
-        className="flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain scroll-smooth rounded-[2rem] bg-gradient-to-r from-[hsl(158,58%,90%)] via-[hsl(145,48%,91%)] to-[hsl(50,80%,91%)] px-4 py-5 shadow-pop scrollbar-hide md:gap-6 md:px-6 md:py-7"
+        className="flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain scroll-smooth py-1 scrollbar-hide md:gap-6"
       >
         {cities.map((c) => (
           <Link key={c.slug} to={`/cities/${c.slug}`} className="group block min-w-[82vw] snap-center sm:min-w-[62vw] md:min-w-[calc((100%_-_3rem)/3)] md:max-w-[calc((100%_-_3rem)/3)]">
@@ -1224,7 +1224,7 @@ const DoctorsSection = () => {
         onPointerUp={() => { doctorRailPausedRef.current = false; }}
         onFocusCapture={() => { doctorRailPausedRef.current = true; }}
         onBlurCapture={() => { doctorRailPausedRef.current = false; }}
-className="flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain scroll-smooth rounded-[2rem] bg-gradient-to-r from-[hsl(158,58%,90%)] via-[hsl(145,48%,91%)] to-[hsl(50,80%,91%)] px-4 py-4 shadow-pop scrollbar-hide md:gap-5 md:px-6 md:py-5"
+className="flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain scroll-smooth py-1 scrollbar-hide md:gap-5"
       >
         {displayedDoctors.map((d) => {
           const photo = d.photo;
