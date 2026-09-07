@@ -36,7 +36,6 @@ import supportTranslation from "@/assets/packages-quiet-luxury-support-translati
 import supportAccommodation from "@/assets/packages-quiet-luxury-support-accommodation-v3.webp";
 import supportRecords from "@/assets/packages-quiet-luxury-support-records-v3.webp";
 import supportConcierge from "@/assets/packages-quiet-luxury-support-concierge-v3.webp";
-import travelSupportCareTeam from "@/assets/travel-support-asian-care-team-v2.webp";
 
 
 
@@ -243,64 +242,6 @@ const Packages = () => {
       <div className="min-h-screen bg-background">
         <AsiaNavbar />
         <main>
-          <section className="relative overflow-hidden border-b border-primary/10">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_15%,hsl(158_58%_88%/.85),transparent_34%),radial-gradient(circle_at_88%_18%,hsl(48_80%_89%/.8),transparent_32%),linear-gradient(135deg,hsl(45_30%_98%),hsl(150_28%_97%))]" />
-            <div className="container relative grid items-center gap-10 py-12 md:py-16 lg:grid-cols-[1.02fr_.98fr] lg:gap-14 lg:py-20">
-              <div>
-                <span className="pill bg-white/85 text-foreground shadow-soft backdrop-blur">
-                  <ShieldCheck className="size-3.5 text-primary" />
-                  {c("Complete care journey", "全程协调支持", "Полная координация", "Recorrido de atención completo")}
-                </span>
-                <h1 className="mt-5 max-w-2xl font-display text-4xl font-medium leading-[1.06] tracking-tight sm:text-5xl lg:text-6xl">
-                  {c("Seamless care", "中国就医，", "Лечение в Китае —", "Atención sin complicaciones")}
-                  <br />
-                  <em className="not-italic text-primary">
-                    {c("in China", "全程协调无忧", "под ключ", "en China")}
-                  </em>
-                </h1>
-                <p className="mt-5 max-w-md text-base leading-relaxed text-foreground/70 sm:text-lg">
-                  {c(
-                    "Professional coordination for your medical trip, from arrival to recovery.",
-                    "从抵达到恢复，专业团队全程协调你的就医行程。",
-                    "Профессиональная координация поездки — от прибытия до восстановления."
-                  , "Coordinación profesional de tu viaje médico, desde la llegada hasta la recuperación.")}
-                </p>
-                <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-                  <QuoteCtaButton className="min-h-14 sm:text-base" />
-                  <a href="#journey" className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full border border-primary/25 bg-white/75 px-7 text-sm font-semibold text-foreground shadow-soft backdrop-blur transition hover:-translate-y-1 hover:border-primary sm:text-base">
-                    {c("See how the journey works", "查看六步流程", "Посмотреть этапы", "Ver cómo funciona el recorrido")}
-                    <ChevronRight className="size-4" />
-                  </a>
-                </div>
-
-              </div>
-
-              <div className="relative mx-auto w-full max-w-2xl pb-5 lg:max-w-none">
-                <div className="overflow-hidden rounded-[2.25rem] border-4 border-white/80 bg-card shadow-pop">
-                  <img src={travelSupportCareTeam} alt={c("Asian medical and guest-services care team", "亚洲医疗与服务协调团队", "Азиатская медицинская и сервисная команда", "Equipo asiático de atención médica y de servicios")} className="aspect-[4/3] w-full object-cover" />
-                </div>
-                <div className="absolute -bottom-1 left-4 right-4 rounded-2xl border border-white/80 bg-white/90 p-3 shadow-pop backdrop-blur-md sm:left-6 sm:right-auto sm:p-4">
-                  <p className="text-[10px] font-bold uppercase tracking-[.16em] text-foreground/40">{c("Coordinated support", "协调支持", "Координация", "Apoyo coordinado")}</p>
-                  <div className="mt-2 flex gap-2">
-                    {[
-                      [Plane, c("Pickup", "接送", "Трансфер", "Traslado")],
-                      [Languages, c("Translate", "翻译", "Перевод", "Traducción")],
-                      [MessageCircle, c("Follow-up", "随访", "Наблюдение", "Seguimiento")],
-                    ].map(([Icon, label]) => {
-                      const SupportIcon = Icon as typeof Plane;
-                      return (
-                        <span key={String(label)} className="flex min-w-14 flex-col items-center gap-1 rounded-xl bg-secondary/60 px-2 py-2 text-[9px] font-bold text-foreground/75">
-                          <SupportIcon className="size-4 text-primary" />
-                          {label as string}
-                        </span>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
           <section className="container py-8 md:py-10">
             <div className="flex flex-col gap-4 md:flex-row md:gap-6">
               <div className="flex flex-1 items-center gap-4 rounded-2xl border border-primary/10 bg-card p-5 shadow-soft">
