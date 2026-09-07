@@ -10,32 +10,32 @@ type BrandLogoProps = {
 const BrandLogo = ({ className, markClassName, textClassName, showTagline = false }: BrandLogoProps) => (
   <span className={cn("inline-flex items-center gap-2.5", className)} aria-label="CeladonChina — Your cosmetic care journey, all in one place.">
     <svg
-      viewBox="0 0 48 48"
+      viewBox="0 0 120 120"
       aria-hidden="true"
       className={cn("size-9 shrink-0 overflow-visible", markClassName)}
     >
       <path
-        d="M26.5 8.5C16.1 8.5 8.5 14.8 8.5 24s7.6 15.5 18 15.5"
+        d="M88 19A45 45 0 1 0 88 101"
         fill="none"
         stroke="#102A24"
-        strokeWidth="5"
+        strokeWidth="10"
         strokeLinecap="round"
       />
       <path
-        d="M26.5 38.5 35 9.5l9 29"
-        fill="none"
-        stroke="#102A24"
-        strokeWidth="4.2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M30.2 28.2h9.8"
+        d="M80 32A31 31 0 1 0 80 88"
         fill="none"
         stroke="#55BE98"
-        strokeWidth="4.2"
+        strokeWidth="8"
         strokeLinecap="round"
       />
+      <path
+        d="M32 64C47 54 64 54 82 62"
+        fill="none"
+        stroke="#55BE98"
+        strokeWidth="6"
+        strokeLinecap="round"
+      />
+      <circle cx="93" cy="64" r="7" fill="#55BE98" />
     </svg>
     <span className="inline-flex min-w-0 flex-col justify-center">
       <span className={cn("whitespace-nowrap font-display text-xl font-semibold leading-none tracking-[-0.04em] text-[#102A24]", textClassName)}>

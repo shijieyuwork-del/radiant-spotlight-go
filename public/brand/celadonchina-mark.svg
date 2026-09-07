@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-labelledby="title desc">
+  <title id="title">CeladonChina mark</title>
+  <desc id="desc">An open celadon ring with a coordinated journey point.</desc>
+  <g fill="none" stroke-linecap="round">
+    <path d="M88 19A45 45 0 1 0 88 101" stroke="#102A24" stroke-width="10"/>
+    <path d="M80 32A31 31 0 1 0 80 88" stroke="#55BE98" stroke-width="8"/>
+    <path d="M32 64C47 54 64 54 82 62" stroke="#55BE98" stroke-width="6"/>
+  </g>
+  <circle cx="93" cy="64" r="7" fill="#55BE98"/>
+</svg>
