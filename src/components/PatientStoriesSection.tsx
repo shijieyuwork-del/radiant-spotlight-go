@@ -1,6 +1,4 @@
 import { Quote } from "lucide-react";
-import "@fontsource/lora/500.css";
-import "@fontsource-variable/nunito-sans";
 
 import { useAsia } from "@/lib/asia-i18n";
 
@@ -83,11 +81,11 @@ const PatientStoriesSection = () => {
               <Quote className="size-4 fill-primary/15" aria-hidden="true" />
               {zh ? "真实患者经历" : "Patient stories"}
             </span>
-            <h2 id="patient-stories-title" className="mt-4 text-4xl font-medium leading-[1.08] sm:text-5xl" style={{ fontFamily: "Lora, Georgia, serif" }}>
+            <h2 id="patient-stories-title" className="mt-4 font-display text-4xl font-medium leading-[1.08] sm:text-5xl">
               {zh ? "他们的中国医美旅程" : "Care that travels with you."}
             </h2>
           </div>
-          <p className="max-w-2xl text-base leading-7 text-muted-foreground md:justify-self-end" style={{ fontFamily: "'Nunito Sans Variable', sans-serif" }}>
+          <p className="max-w-2xl text-base leading-7 text-muted-foreground md:justify-self-end">
             {zh
               ? "从第一次咨询、抵达中国，到治疗与恢复，听三位患者讲述 CeladonChina 如何陪伴他们完成整个旅程。"
               : "From the first conversation and arrival in China to treatment and recovery, three patients share how CeladonChina supported their journey."}
@@ -101,9 +99,8 @@ const PatientStoriesSection = () => {
               <article
                 key={story.name}
                 className="group relative flex h-full flex-col overflow-hidden rounded-[8px] border border-primary/15 bg-card p-6 shadow-soft transition duration-500 hover:-translate-y-1 hover:border-primary/30 hover:shadow-pop sm:p-8"
-                style={{ fontFamily: "'Nunito Sans Variable', sans-serif" }}
               >
-                <span className="pointer-events-none absolute -right-1 -top-7 select-none text-[8rem] font-medium leading-none text-primary/10 transition-colors duration-500 group-hover:text-primary/15" style={{ fontFamily: "Lora, Georgia, serif" }} aria-hidden="true">
+                <span className="pointer-events-none absolute -right-1 -top-7 select-none font-display text-[8rem] font-medium leading-none text-primary/10 transition-colors duration-500 group-hover:text-primary/15" aria-hidden="true">
                   “
                 </span>
 
@@ -112,7 +109,7 @@ const PatientStoriesSection = () => {
                     {story.name.slice(0, 1)}
                   </div>
                   <div className="min-w-0 flex-1">
-                    <h3 className="text-2xl font-medium leading-tight text-foreground" style={{ fontFamily: "Lora, Georgia, serif" }}>{story.name}</h3>
+                    <h3 className="font-display text-2xl font-medium leading-tight text-foreground">{story.name}</h3>
                     <p className="mt-1 text-xs font-bold uppercase text-muted-foreground">
                       {zh ? `${story.age} 岁 · ${story.countryZh}` : `Age ${story.age} · ${story.country}`}
                     </p>
