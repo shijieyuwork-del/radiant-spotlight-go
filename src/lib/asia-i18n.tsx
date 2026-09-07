@@ -363,7 +363,7 @@ export const AsiaI18nProvider = ({ children }: { children: ReactNode }) => {
   const t: AsiaI18nState["t"] = (k) => dict[lang][k] ?? dict.en[k] ?? (k as string);
   const fmt = (cny: number) => {
     if (currency === "CNY") return `¥${cny.toLocaleString("en-US")}`;
-    const usd = Math.round(cny / RATE);
+    const usd = Math.round(cny / RATE / 100) * 100;
     return `$${usd.toLocaleString("en-US")}`;
   };
 
