@@ -222,7 +222,9 @@ const QuoteDialog = ({
     setLoading(true);
 
     // Persist the lead before any handoff so no request is lost.
+    const requestId = crypto.randomUUID();
     const { error: saveError } = await supabase.from("quote_requests").insert({
+      id: requestId,
       user_id: user?.id ?? null,
       name,
       email: email || null,
@@ -243,6 +245,10 @@ const QuoteDialog = ({
       toast.error("Could not send your request. Please check your connection and try again.");
       return;
     }
+    // Notify the team. Failures are logged server-side and never block the handoff.
+    void supabase.functions
+      .invoke("quote-notification", { body: { requestId } })
+      .catch((err) => console.error("quote-notification invoke failed:", err));
     const message = [
       "Hi CeladonChina, I would like to start a consultation.",
       expertLabel ? `Expert: ${expertLabel}` : "",
