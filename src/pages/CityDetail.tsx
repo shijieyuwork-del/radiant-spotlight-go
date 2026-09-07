@@ -179,9 +179,6 @@ const CityDetail = () => {
                   <p className="text-xs text-muted-foreground">
                     {lang === "zh" ? d.titleZh : d.titleEn}
                   </p>
-                  <p className="text-xs text-muted-foreground">
-                    {lang === "zh" ? d.clinicZh : d.clinicEn}
-                  </p>
                   <div className="flex items-center gap-3 text-xs text-foreground/70 pt-1">
                     <span className="flex items-center gap-1">
                       <Star className="size-3 text-primary fill-primary" />

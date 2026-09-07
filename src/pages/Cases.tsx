@@ -95,7 +95,7 @@ const Cases = () => {
       if (activeStage && stageFor(c.caption.en) !== activeStage) return false;
       if (!q.trim()) return true;
       const city = caseCity.get(c.id);
-      const hay = `${c.user.en} ${c.user.zh} ${c.caption.en} ${c.caption.zh} ${c.clinic.en} ${c.clinic.zh} ${c.treatment.en} ${c.treatment.zh} ${city?.en || ""} ${city?.zh || ""} ${stageFor(c.caption.en)}`.toLowerCase();
+      const hay = `${c.user.en} ${c.user.zh} ${c.caption.en} ${c.caption.zh} ${c.treatment.en} ${c.treatment.zh} ${city?.en || ""} ${city?.zh || ""} ${stageFor(c.caption.en)}`.toLowerCase();
       return hay.includes(q.toLowerCase());
     });
   }, [ALL_CASES, q, activeTreatment, activeCity, activeStage, caseCity]);

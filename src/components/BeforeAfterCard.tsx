@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { ShieldCheck, MapPin, EyeOff, Eye, Sparkles } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 
 interface BeforeAfterCardProps {
   before: string;
@@ -23,6 +24,7 @@ const BeforeAfterCard = ({
 }: BeforeAfterCardProps) => {
   const [pos, setPos] = useState(50);
   const [blur, setBlur] = useState(defaultBlur);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   const move = (clientX: number) => {
@@ -36,7 +38,7 @@ const BeforeAfterCard = ({
     <div className="rounded-[2rem] overflow-hidden glow-card bg-card">
       {/* Swipe reveal area */}
       {single ? (
-        <div className="relative aspect-[4/5] select-none">
+        <div className="relative aspect-[4/5] cursor-zoom-in select-none" onClick={() => setLightboxOpen(true)}>
           <img src={before} alt={`${procedure} before and after`} className={`absolute inset-0 size-full object-cover ${blur ? "blur-[14px] scale-110" : ""}`} />
           <span className="absolute top-3 left-3 pill bg-background/90 backdrop-blur shadow-soft text-foreground">Before · After</span>
           <span className="absolute bottom-3 left-3 pill bg-primary text-primary-foreground shadow-pop">
@@ -107,6 +109,16 @@ const BeforeAfterCard = ({
           <MapPin className="size-3" /> {city}
         </p>
       </div>
+      <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>
+        <DialogContent className="w-[calc(100vw-1.5rem)] max-w-5xl overflow-hidden border-white/15 bg-[#102f28] p-0 text-white sm:rounded-[2rem]">
+          <DialogTitle className="sr-only">{procedure} before and after photo</DialogTitle>
+          <DialogDescription className="sr-only">Enlarged verified patient before and after photo.</DialogDescription>
+          <div className="relative h-[82vh] bg-black/20">
+            <img src={before} alt={`${procedure} before and after, enlarged`} className={`size-full object-contain ${blur ? "blur-[18px] scale-105" : ""}`} />
+            <span className="absolute left-4 top-4 pill bg-background/90 text-foreground shadow-soft">Before · After</span>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

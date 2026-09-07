@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
-  ArrowLeft, ArrowRight, BadgeCheck, Building2, FileCheck2, GraduationCap,
+  ArrowLeft, ArrowRight, BadgeCheck, FileCheck2, GraduationCap,
   Languages, MapPin, ShieldCheck, Star, Stethoscope, Trophy, MessageCircle,
 } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
@@ -66,7 +66,7 @@ const DoctorDetail = () => {
     image: doctor.img,
     workLocation: {
       "@type": "Place",
-      name: lang === "zh" ? doctor.clinicZh : doctor.clinicEn,
+      name: lang === "zh" ? doctor.cityZh : doctor.cityEn,
       address: {
         "@type": "PostalAddress",
         addressCountry: countryOf(doctor.cityEn),
@@ -85,7 +85,7 @@ const DoctorDetail = () => {
     <>
       <PageMeta
         title={`${doctorName} - ${doctorTitle} in ${doctorCity}`}
-        description={`View a published profile for ${doctorName} in ${doctorCity}, including listed specialties, languages and clinic information. Confirm current credentials directly before treatment.`}
+        description={`View a published profile for ${doctorName} in ${doctorCity}, including listed specialties, languages and credentials. Confirm current credentials directly before treatment.`}
         path={`/doctors/${id}`}
         image={doctor.img}
         structuredData={doctorSchema}
@@ -117,10 +117,6 @@ const DoctorDetail = () => {
             </h1>
             <p className="text-sm text-muted-foreground">
               {lang === "zh" ? doctor.titleZh : doctor.titleEn}
-            </p>
-            <p className="text-sm flex items-center gap-1.5">
-              <Building2 className="size-4 text-primary" />
-              {lang === "zh" ? doctor.clinicZh : doctor.clinicEn}
             </p>
             <p className="text-sm flex items-center gap-1.5 text-muted-foreground">
               <MapPin className="size-4 text-primary" />

@@ -215,7 +215,6 @@ const TikTokCard = ({
       <div className="absolute left-3 right-16 bottom-3 text-white">
         <p className="text-xs font-semibold opacity-95"><Highlight text={item.user[lang]} query={highlight} className={MARK_CLASS} /></p>
         <p className="text-[12px] mt-1 leading-snug line-clamp-2"><Highlight text={item.caption[lang]} query={highlight} className={MARK_CLASS} /></p>
-        {!discovery && <p className="text-[11px] opacity-80 mt-1"><Highlight text={item.clinic[lang]} query={highlight} className={MARK_CLASS} /></p>}
         {item.city && (
           <p className="mt-1 flex items-center gap-1 text-[11px] font-medium text-white/90">
             <MapPin className="size-3" /> <Highlight text={item.city[lang]} query={highlight} className={MARK_CLASS} />

@@ -1,5 +1,5 @@
 import {
-  ShieldCheck, Award, Languages, Hospital, MessageCircle, Clock, Scissors, MapPin, BadgeCheck, Stethoscope,
+  ShieldCheck, Award, Languages, MessageCircle, Clock, Scissors, MapPin, BadgeCheck, Stethoscope,
 } from "lucide-react";
 import SafetyIndicator from "./SafetyIndicator";
 import TypicalPricing, { type PricingRow } from "./TypicalPricing";
@@ -124,19 +124,6 @@ const DoctorProfile = ({ d }: { d: DoctorProfileData }) => {
           </div>
         </div>
 
-        {/* Hospitals */}
-        <div className="rounded-2xl border border-border p-4 md:col-span-2">
-          <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold flex items-center gap-1.5">
-            <Hospital className="size-3 text-primary" /> Hospital affiliations
-          </p>
-          <div className="flex flex-wrap gap-2 mt-2">
-            {d.hospitals.map((h) => (
-              <span key={h} className="pill bg-accent text-accent-foreground">
-                <Hospital className="size-3" /> {h}
-              </span>
-            ))}
-          </div>
-        </div>
       </div>
 
       <div className="px-7 pb-7">

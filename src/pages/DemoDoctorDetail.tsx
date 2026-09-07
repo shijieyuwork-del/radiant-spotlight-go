@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
-import { ArrowLeft, Building2, Clock, MapPin, MessageCircle, Stethoscope } from "lucide-react";
+import { ArrowLeft, Clock, MapPin, MessageCircle, Stethoscope } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
@@ -56,8 +56,7 @@ const DemoDoctorDetail = () => {
               <h1 className="mt-4 font-display text-3xl font-semibold tracking-tight md:text-5xl">{doctor.name}</h1>
               <p className="mt-2 text-sm font-bold uppercase tracking-[0.13em] text-primary">{doctor.roleLabel}</p>
               <p className="mt-2 text-lg text-muted-foreground">{doctor.title}</p>
-              <p className="mt-5 flex items-center gap-2 text-sm"><Building2 className="size-4 text-primary" />{doctor.hospital}</p>
-              <Link to={`/cities/${doctor.city.toLowerCase()}`} className="mt-2 flex items-center gap-2 text-sm transition hover:text-primary"><MapPin className="size-4 text-primary" />{doctor.city}, China</Link>
+              <Link to={`/cities/${doctor.city.toLowerCase()}`} className="mt-5 flex items-center gap-2 text-sm transition hover:text-primary"><MapPin className="size-4 text-primary" />{doctor.city}, China</Link>
               <p className="mt-2 flex items-center gap-2 text-sm text-muted-foreground"><Clock className="size-4 text-primary" />{lang === "zh" ? `${doctor.city}当地时间 ${tz.offset}（${tz.label.zh}）· 现在约 ${cityNow}，咨询预约以此时区为准` : lang === "ru" ? `Местное время в г. ${doctor.city}: ${cityNow} (${tz.offset} · ${tz.label.ru}) — консультации назначаются по этому времени` : lang === "es" ? `Hora local en ${doctor.city}: ${cityNow} (${tz.offset} · ${tz.label.en}) — las consultas se agendan en este huso horario` : `Local time in ${doctor.city}: ${cityNow} (${tz.offset} · ${tz.label.en}) — consultations are booked in this timezone`}</p>
               <p className="mt-5 max-w-2xl leading-relaxed text-muted-foreground">{doctor.bio}</p>
               <div className="mt-5 flex flex-wrap gap-2">{doctor.specialties.map((specialty) => <span key={specialty} className="rounded-full bg-secondary px-3 py-1.5 text-xs font-semibold">{specialty}</span>)}</div>

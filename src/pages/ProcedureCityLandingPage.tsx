@@ -271,7 +271,6 @@ const onQuote = (position: string) => {
                       </div>
                       <ArrowRight className="mt-1 size-4 shrink-0 text-muted-foreground transition group-hover:translate-x-0.5 group-hover:text-primary" />
                     </div>
-                    <p className="mt-4 flex items-center gap-1.5 border-t border-border pt-4 text-xs text-muted-foreground"><Stethoscope className="size-3.5 shrink-0 text-primary" />{doctor.clinicEn}</p>
                     <div className="mt-3 flex flex-wrap gap-1.5">
                       {doctor.specEn.slice(0, 3).map((spec) => (
                         <span key={spec} className="rounded-full bg-primary/10 px-2.5 py-1 text-[11px] font-semibold text-primary">{spec}</span>

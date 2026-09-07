@@ -13,7 +13,7 @@ const Footer = () => {
           <p className="text-sm text-muted-foreground max-w-xs">China-focused cosmetic medical travel guidance. Published provider information. Coordinated care and practical travel support.</p>
         </div>
         {[
-          { title: "Explore", items: [{ label: "Patient Diaries", to: "/cases" }, { label: "Experts in China", to: "/doctors" }, { label: "Clinics & Hospitals", to: "/clinics" }, { label: "Procedure Academy", to: "/treatments" }, { label: "China Destinations", to: "/cities" }] },
+          { title: "Explore", items: [{ label: "Patient Diaries", to: "/cases" }, { label: "Experts in China", to: "/doctors" }, { label: "Procedure Academy", to: "/treatments" }, { label: "China Destinations", to: "/cities" }] },
           { title: "Plan Your Trip", items: [{ label: "Medical Tourism China", to: "/medical-tourism-china" }, { label: "Travel Support", to: "/travel-packages" }, { label: "Why China", to: "/why-china" }, { label: "Shanghai", to: "/cities/shanghai" }] },
           { title: "Popular Guides", items: [{ label: "Plastic Surgery China", to: "/plastic-surgery-china" }, { label: "Rhinoplasty", to: "/treatments/rhinoplasty" }, { label: "Eyelid Surgery", to: "/treatments/blepharoplasty" }, { label: "Facelift", to: "/treatments/facelift" }] },
           { title: "Trust & Policies", items: [{ label: "About Us", to: "/about" }, { label: "Provider Verification", to: "/provider-verification" }, { label: "Medical Review Policy", to: "/medical-review-policy" }, { label: "Editorial Policy", to: "/editorial-policy" }] },

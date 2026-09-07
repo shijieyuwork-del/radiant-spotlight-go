@@ -139,12 +139,6 @@ function buildRoutes(d) {
         "Explore Seoul, Shanghai, Bangkok, Tokyo, Singapore and more — Asia's cosmetic surgery hubs with specialties, USD pricing, visa info and travel planning.",
     },
     {
-      path: "/clinics",
-      title: "Clinic & Hospital Directory in Asia",
-      description:
-        "Browse clinics and hospitals currently included in Cosmetics Asia destination guides, organized by city and country.",
-    },
-    {
       path: "/doctors",
       title: "Cosmetic Expert Profiles in Asia",
       description:
@@ -275,7 +269,7 @@ function buildRoutes(d) {
       includeInSitemap: false,
       robots: "noindex, follow",
       title: `${doc.en} - ${doc.titleEn} in ${doc.cityEn}`,
-      description: `View a published profile for ${doc.en} in ${doc.cityEn}, including listed specialties, languages and clinic information. Confirm current credentials directly before treatment.`,
+      description: `View a published profile for ${doc.en} in ${doc.cityEn}, including listed specialties, languages and credentials. Confirm current credentials directly before treatment.`,
       schema: {
         "@context": "https://schema.org",
         "@type": "Physician",
@@ -283,7 +277,6 @@ function buildRoutes(d) {
         jobTitle: doc.titleEn,
         workLocation: {
           "@type": "Place",
-          name: doc.clinicEn,
           address: { "@type": "PostalAddress", addressCountry: d.countryOf(doc.cityEn), addressLocality: doc.cityEn },
         },
         ...(doc.languages ? { knowsLanguage: doc.languages } : {}),

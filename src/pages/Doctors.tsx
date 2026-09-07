@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import {
-  Search, Filter, Stethoscope, BadgeCheck, Building2, FileCheck2, Star, ArrowRight, MapPin, MessageCircle, Navigation,
+  Search, Filter, Stethoscope, BadgeCheck, FileCheck2, Star, ArrowRight, MapPin, MessageCircle, Navigation,
 } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
@@ -37,7 +37,7 @@ const Experts = () => {
   const [spec, setSpec] = useState<string>("all");
   const [managedDoctors, setManagedDoctors] = useState<ManagedDoctor[]>([]);
   
-  const loadManagedDoctors = useCallback(()=>{supabase.from("doctors").select("id,name,title,hospital,city,specialties,bio,photo_path,created_at,i18n").eq("status","published").order("created_at",{ascending:false}).then(async ({data})=>{
+  const loadManagedDoctors = useCallback(()=>{supabase.from("doctors").select("id,name,title,city,specialties,bio,photo_path,created_at,i18n").eq("status","published").order("created_at",{ascending:false}).then(async ({data})=>{
     const chinaCities = ["shanghai", "beijing", "guangzhou", "hangzhou", "hainan", "上海", "北京", "广州", "杭州", "海南"];
     const rows = ((data??[]) as ManagedDoctor[]).filter((doctor)=>chinaCities.some((cityName)=>doctor.city?.toLowerCase().includes(cityName)));
     const photos = await signedUrls("doctor-photos", rows.map((doctor)=>doctor.photo_path));
@@ -73,7 +73,7 @@ const Experts = () => {
     return directoryDoctors.filter((d) => {
       if (city !== "all" && !matchesCity(d.city, city)) return false;
       if (!query) return true;
-      const hay = `${d.name} ${d.title} ${d.hospital} ${d.city} ${d.specialties.join(" ")} ${d.bio ?? ""}`.toLowerCase();
+      const hay = `${d.name} ${d.title} ${d.city} ${d.specialties.join(" ")} ${d.bio ?? ""}`.toLowerCase();
       return hay.includes(query);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -137,7 +137,7 @@ const Experts = () => {
       if (city !== "all" && d.cityEn !== city) return false;
       if (spec !== "all" && !d.specEn.includes(spec)) return false;
       if (!q.trim()) return true;
-      const hay = `${d.en} ${d.zh} ${d.clinicEn} ${d.clinicZh} ${d.specEn.join(" ")} ${d.specZh.join(" ")}`.toLowerCase();
+      const hay = `${d.en} ${d.zh} ${d.specEn.join(" ")} ${d.specZh.join(" ")}`.toLowerCase();
       return hay.includes(q.toLowerCase());
     });
   }, [q, city, spec, publicDoctors]);
@@ -172,7 +172,7 @@ const Experts = () => {
               value={q}
               onChange={(e) => setQ(e.target.value)}
               className="w-full bg-transparent text-base font-medium outline-none sm:text-sm"
-              placeholder={c("Search by name, clinic or specialty…", "搜索专家、机构或擅长项目…", "Поиск по имени, клинике или специализации…", "Buscar por nombre, clínica o especialidad…")}
+              placeholder={c("Search by name or specialty…", "搜索专家或擅长项目…", "Поиск по имени или специализации…", "Buscar por nombre o especialidad…")}
             />
           </div>
         </div>
@@ -259,7 +259,6 @@ const Experts = () => {
                         {d.demo && <span className="mt-2 inline-flex rounded-full bg-accent px-2.5 py-1 text-[10px] font-semibold text-accent-foreground">{c("Sample profile", "示例资料", "Демо-профиль", "Perfil de muestra")}</span>}
                       </div>
                     </div>
-                    <p className="mt-5 text-sm text-muted-foreground"><Building2 className="mr-1 inline size-4 text-primary" /><Highlight text={d.hospital} query={q} /></p>
                     {d.bio && <p className="mt-4 line-clamp-2 text-sm leading-relaxed text-muted-foreground"><Highlight text={d.bio} query={q} /></p>}
                     <div className="mt-4 flex flex-wrap gap-1.5">{d.specialties.map((s) => <span key={s} className="rounded-full bg-accent px-2.5 py-1 text-[11px]"><Highlight text={s} query={q} /></span>)}</div>
                     <div className="mt-auto grid gap-2 pt-6 min-[430px]:grid-cols-[0.9fr_1.1fr]">
@@ -302,11 +301,6 @@ const Experts = () => {
                     </p>
                   </div>
                 </div>
-
-                <p className="text-sm text-muted-foreground mt-4 flex items-center gap-1">
-                  <Building2 className="size-3.5 shrink-0" />
-                  <span className="truncate">{lang === "zh" ? d.clinicZh : d.clinicEn}</span>
-                </p>
 
                 <div className="mt-4 rounded-2xl bg-muted/40 p-3 space-y-1.5 text-[11px]">
                   <div className="flex items-center gap-1.5 text-muted-foreground">

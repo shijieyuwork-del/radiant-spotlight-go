@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
   ArrowLeft, ArrowRight, Heart, MessageCircle, Share2, Volume2, VolumeX, Play,
-  BadgeCheck, Building2, Calendar, ShieldCheck, Maximize2, Images, MapPin,
+  BadgeCheck, Calendar, ShieldCheck, Maximize2, Images, MapPin,
 } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
@@ -23,7 +23,7 @@ import { toTikTokItem } from "@/hooks/use-published-videos";
 import type { TikTokItem } from "@/components/TikTokWall";
 
 type LinkedExpert = {
-  id: string; name: string; title: string; hospital: string; city: string;
+  id: string; name: string; title: string; city: string;
   bio: string; specialties: string[]; photoUrl: string | null;
 };
 
@@ -55,18 +55,18 @@ const CaseDetail = () => {
       if (data.doctor_id) {
         const { data: doc } = await supabase
           .from("doctors")
-          .select("id,name,title,hospital,city,bio,specialties,photo_path,i18n")
+          .select("id,name,title,city,bio,specialties,photo_path,i18n")
           .eq("id", data.doctor_id)
           .eq("status", "published")
           .maybeSingle();
         if (!doc || !active) return;
         const d = localizeDoctorRow(doc as unknown as Record<string, unknown>, lang) as unknown as {
-          id: string; name: string; title: string; hospital: string; city: string;
+          id: string; name: string; title: string; city: string;
           bio: string; specialties: string[] | null; photo_path: string | null;
         };
         const photoUrl = d.photo_path ? await signedUrl("doctor-photos", d.photo_path) : null;
         if (active) setLinkedExpert({
-          id: d.id, name: d.name, title: d.title, hospital: d.hospital, city: d.city,
+          id: d.id, name: d.name, title: d.title, city: d.city,
           bio: d.bio, specialties: d.specialties ?? [], photoUrl,
         });
       }
@@ -277,7 +277,6 @@ const CaseDetail = () => {
             </div>
 
             <div className="rounded-3xl bg-card shadow-soft p-5 space-y-3">
-              <p className="text-sm flex items-center gap-2"><Building2 className="size-4 text-primary" /> {item.clinic[lang]}</p>
               {item.city && (
                 <Link to={`/cities/${item.city.en.toLowerCase()}`} className="flex items-center gap-2 text-sm transition hover:text-primary"><MapPin className="size-4 text-primary" /> {item.city[lang]}, China · {lang === "zh" ? "查看城市指南" : lang === "ru" ? "Гид по городу" : lang === "es" ? "Ver guía de la ciudad" : "View city guide"}</Link>
               )}
@@ -301,7 +300,6 @@ const CaseDetail = () => {
                   <div className="min-w-0 flex-1">
                     <h2 className="font-display text-xl font-semibold leading-tight sm:text-2xl">{linkedExpert.name}</h2>
                     <p className="mt-1 text-sm text-muted-foreground">{linkedExpert.title}</p>
-                    <p className="mt-2 flex items-start gap-1.5 text-xs leading-relaxed text-muted-foreground"><Building2 className="mt-0.5 size-3.5 shrink-0 text-primary" />{linkedExpert.hospital}</p>
                     <p className="mt-1 flex items-center gap-1.5 text-xs text-muted-foreground"><MapPin className="size-3.5 shrink-0 text-primary" />{linkedExpert.city}</p>
                   </div>
                 </div>
@@ -335,7 +333,6 @@ const CaseDetail = () => {
                 <div className="min-w-0 flex-1">
                   <h2 className="font-display text-xl font-semibold leading-tight sm:text-2xl">{caseDoctor.name}</h2>
                   <p className="mt-1 text-sm text-muted-foreground">{caseDoctor.title}</p>
-                  <p className="mt-2 flex items-start gap-1.5 text-xs leading-relaxed text-muted-foreground"><Building2 className="mt-0.5 size-3.5 shrink-0 text-primary" />{caseDoctor.hospital}</p>
                   <p className="mt-1 flex items-center gap-1.5 text-xs text-muted-foreground"><MapPin className="size-3.5 shrink-0 text-primary" />{caseDoctor.city}, China</p>
                 </div>
               </div>
