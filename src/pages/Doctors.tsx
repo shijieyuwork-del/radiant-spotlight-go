@@ -243,7 +243,25 @@ const Experts = () => {
                 </p>
               )}
             </div>
-            {visibleDirectoryDoctors.length === 0 ? (
+            {!doctorsLoaded ? (
+              <div className="grid gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3" aria-busy="true">
+                {[0, 1, 2].map((i) => (
+                  <div key={i} className="min-h-[20rem] animate-pulse rounded-3xl bg-card p-6 shadow-pop md:min-h-[25rem]">
+                    <div className="flex gap-4">
+                      <div className="size-24 shrink-0 rounded-full bg-muted" />
+                      <div className="flex-1 space-y-2 pt-2">
+                        <div className="h-4 w-2/3 rounded bg-muted" />
+                        <div className="h-3 w-1/2 rounded bg-muted" />
+                      </div>
+                    </div>
+                    <div className="mt-6 space-y-2">
+                      <div className="h-3 w-full rounded bg-muted" />
+                      <div className="h-3 w-4/5 rounded bg-muted" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : visibleDirectoryDoctors.length === 0 ? (
               <p className="rounded-3xl border border-dashed border-border bg-card/60 px-6 py-8 text-center text-sm text-muted-foreground">
                 {c("No experts in this city yet — try another city or ask us for a match.", "该城市暂无专家资料 —— 换个城市试试，或让我们帮你匹配。", "В этом городе пока нет экспертов — попробуйте другой город или напишите нам.", "Todavía no hay expertos en esta ciudad — prueba otra ciudad o pídenos ayuda para encontrar una opción.")}
               </p>
