@@ -57,6 +57,7 @@ export const ADDITIONAL_CLINICS: Record<string, AdditionalClinic[]> = {
     { zh: "广州市花都区人民医院", en: "Huadu District People's Hospital", areaZh: "花都区", areaEn: "Huadu District" },
     { zh: "广州市皮肤病医院", en: "Guangzhou Dermatology Hospital", areaZh: "越秀区", areaEn: "Yuexiu District" },
     { zh: "广东省口腔医院", en: "Guangdong Provincial Stomatological Hospital", areaZh: "海珠区", areaEn: "Haizhu District" },
+    { zh: "南方医科大学珠江医院", en: "Zhujiang Hospital of Southern Medical University", areaZh: "海珠区", areaEn: "Haizhu District" },
   ],
   hainan: [
     { zh: "海南省人民医院", en: "Hainan General Hospital", areaZh: "海口市", areaEn: "Haikou" },
