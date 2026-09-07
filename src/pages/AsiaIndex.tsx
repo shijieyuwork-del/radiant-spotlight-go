@@ -413,6 +413,7 @@ const PrivateCareHero = () => {
 
   const selectors = [
     { icon: Stethoscope, label: copy.procedure, value: copy.procedureValue, to: "/treatments" },
+    { icon: Building2, label: copy.clinic, value: copy.clinicValue, to: "/clinics" },
     { icon: MapPin, label: copy.city, value: copy.cityValue, to: "/cities" },
   ];
   const assurances = [

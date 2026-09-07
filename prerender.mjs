@@ -139,6 +139,12 @@ function buildRoutes(d) {
         "Explore Seoul, Shanghai, Bangkok, Tokyo, Singapore and more — Asia's cosmetic surgery hubs with specialties, USD pricing, visa info and travel planning.",
     },
     {
+      path: "/clinics",
+      title: "Clinic & Hospital Directory in Asia",
+      description:
+        "Browse clinics and hospitals currently included in Cosmetics Asia destination guides, organized by city and country.",
+    },
+    {
       path: "/doctors",
       title: "Cosmetic Expert Profiles in Asia",
       description:

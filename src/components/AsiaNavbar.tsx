@@ -82,6 +82,7 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
         { to: "/doctors", label: t("nav.compliance") },
         { to: "/treatments", label: t("nav.projects") },
         { to: "/travel-packages", label: c("Travel Support", "行程支持", "Поддержка поездки", "Apoyo de viaje") },
+        { to: "/clinics", label: c("Clinics", "诊所", "Клиники", "Clínicas") },
         { to: "/cities", label: t("nav.cities") },
         { to: "/why-china", label: c("Why China", "为什么选中国", "Почему Китай", "Por qué China") },
         { to: "/about", label: c("About", "关于我们", "О нас", "Acerca de") },
