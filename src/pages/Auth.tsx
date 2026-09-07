@@ -3,6 +3,7 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Sparkles, Mail, Lock, ArrowRight, Loader2, Eye, EyeOff, CheckCircle2, Heart } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { lovable } from "@/integrations/lovable/index";
 import { useAuth } from "@/lib/auth";
 import { useAsia } from "@/lib/asia-i18n";
 import BrandLogo from "@/components/BrandLogo";
