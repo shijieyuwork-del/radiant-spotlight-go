@@ -97,7 +97,7 @@ const LANDINGS: Record<TreatmentLandingKind, LandingCopy> = {
     slug: "facelift-china",
     name: "Facelift",
     keywordTitle: "Facelift in China | Cost, Recovery & Consultation",
-    description: "Considering a facelift in China? Compare realistic cost and recovery ranges, understand travel planning, and begin with a free consultation.",
+    description: "Considering a facelift in China? Compare realistic cost and recovery ranges, understand travel planning, and begin with a consultation.",
     eyebrow: "Facelift planning in China",
     headline: "Considering a facelift in China?",
     headlineAccent: "Plan the whole journey, not just surgery day.",
