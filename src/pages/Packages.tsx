@@ -63,13 +63,13 @@ const JOURNEY_STEPS = [
   {
     icon: MapPin,
     image: journeyGroundSupport,
-    eyebrow: ["On-ground support", "落地支持", "Поддержка на месте", "Apoyo en destino"],
-    title: ["Choose your on-ground support", "选择落地支持服务", "Выберите поддержку на месте", "Elige tu apoyo en destino"],
+    eyebrow: ["Arrival & airport pickup", "抵达与接机", "Прибытие и встреча в аэропорту", "Llegada y recogida en el aeropuerto"],
+    title: ["Arrive in China and meet our team", "抵达中国，与接机团队会合", "Прибудьте в Китай и встретьтесь с нашей командой", "Llega a China y reúnete con nuestro equipo"],
     text: [
-      "Select pickup, accommodation guidance, translation and coordination.",
-      "按需选择接机、住宿建议、翻译与行程协调。",
-      "Выберите трансфер, помощь с проживанием, перевод и координацию.",
-      "Elige recogida, orientación de alojamiento, traducción y coordinación.",
+      "Meet our airport pickup team, then head to your hotel or directly to the clinic.",
+      "与我们的接机团队会合后，前往酒店或直接前往诊所。",
+      "Наша команда встретит вас в аэропорту и отвезёт в отель или прямо в клинику.",
+      "Nuestro equipo te recibirá en el aeropuerto y te llevará al hotel o directamente a la clínica.",
     ],
   },
   {

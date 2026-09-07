@@ -604,10 +604,10 @@ const TravelBar = () => {
     {
       icon: MapPin,
       image: journeyGroundSupport,
-      en: ["Choose your on-ground support", "Select pickup, accommodation guidance, translation and coordination"],
-      zh: ["选择落地支持服务", "按需选择接机、住宿建议、翻译与行程协调"],
-      ru: ["Выберите поддержку на месте", "Выберите трансфер, помощь с проживанием, перевод и координацию"],
-      es: ["Elige tu apoyo en destino", "Selecciona traslado, orientación de alojamiento, traducción y coordinación"],
+      en: ["Arrive in China and meet our team", "Meet our airport pickup team, then head to your hotel or directly to the clinic"],
+      zh: ["抵达中国，与接机团队会合", "与我们的接机团队会合后，前往酒店或直接前往诊所"],
+      ru: ["Прибудьте в Китай и встретьтесь с нашей командой", "Наша команда встретит вас в аэропорту и отвезёт в отель или прямо в клинику"],
+      es: ["Llega a China y reúnete con nuestro equipo", "Nuestro equipo te recibirá en el aeropuerto y te llevará al hotel o directamente a la clínica"],
     },
     {
       icon: HeartPulse,
