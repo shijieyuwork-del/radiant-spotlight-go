@@ -1,28 +1,29 @@
 import { test, expect, type Page } from "@playwright/test";
 
 /**
- * “Get a free quote” 按钮文案 + 截图回归（首页 / 专家页 / 套餐页）。
+ * “Start a consultation” 按钮文案 + 截图回归（首页 / 专家页 / 套餐页）。
  *
  * 防回滚目标：
- * - 三语按钮文案必须为字典 canonical 值：Get a free quote / 获取免费报价 / Получить бесплатную оценку
- * - 旧变体一律不得复活：Get free quote、Book your free consultation、Start your free consultation 等
+ * - 四语按钮文案必须为字典 canonical 值：Start a consultation / 开始咨询 / Начать консультацию / Solicita una consulta
+ * - 旧变体一律不得复活：Get a free quote、Free quote、Book your free consultation、Start your free consultation 等
  * - 按钮外观（深林绿 dark / 薄荷 primary 两变体）以基线截图锁定，任何样式/文案改动都会使比对失败
  *
  * 基线更新：bunx playwright test e2e/quote-cta.spec.ts --update-snapshots
  * 基线位置：e2e/quote-cta.spec.ts-snapshots/
  */
 
-type Lang = "en" | "zh" | "ru";
+type Lang = "en" | "zh" | "ru" | "es";
 
 const CTA: Record<Lang, string> = {
-  en: "Get a free quote",
-  zh: "获取免费报价",
-  ru: "Получить бесплатную оценку",
+  en: "Start a consultation",
+  zh: "开始咨询",
+  ru: "Начать консультацию",
+  es: "Solicita una consulta",
 };
 
-/** 已废弃的旧文案变体（子串匹配即失败；注意大小写敏感，"Get a free quote" 不含大写 "Free quote"） */
+/** 已废弃的旧文案变体（子串匹配即失败；注意大小写敏感，"Start a consultation" 不含大写 "Consultation" 单独出现） */
 const FORBIDDEN = [
-  "Get free quote",
+  "Get a free quote",
   "Free quote",
   "Book your free consultation",
   "Book a Free Video Consultation",
@@ -30,7 +31,7 @@ const FORBIDDEN = [
   "免费预约面诊",
 ];
 
-const LANGS: Lang[] = ["en", "zh", "ru"];
+const LANGS: Lang[] = ["en", "zh", "ru", "es"];
 
 /** 进入页面并写入目标语言（与 asia-i18n 的 STORE 键一致），等待字体就绪保证截图稳定 */
 const gotoWithLang = async (page: Page, path: string, lang: Lang) => {
