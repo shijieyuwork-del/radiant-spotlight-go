@@ -7,6 +7,21 @@ import seoulImg from "@/assets/city-seoul.webp";
 import bangkokImg from "@/assets/city-bangkok.webp";
 import tokyoImg from "@/assets/city-tokyo.webp";
 import singaporeImg from "@/assets/city-singapore.webp";
+import clinicShanghaiHuamei from "@/assets/clinics/shanghai-huamei.jpg";
+import clinicShanghaiNinth from "@/assets/clinics/shanghai-ninth.jpg";
+import clinicShanghaiWeilin from "@/assets/clinics/shanghai-weilin.jpg";
+import clinicBeijingYestar from "@/assets/clinics/beijing-yestar.jpg";
+import clinicBeijingBadachu from "@/assets/clinics/beijing-badachu.jpg";
+import clinicBeijingJiajianmei from "@/assets/clinics/beijing-jiajianmei.jpg";
+import clinicGuangzhouNanfang from "@/assets/clinics/guangzhou-nanfang.jpg";
+import clinicGuangzhouProvincial from "@/assets/clinics/guangzhou-provincial.jpg";
+import clinicGuangzhouHuamei from "@/assets/clinics/guangzhou-huamei.jpg";
+import clinicHainanGeneral from "@/assets/clinics/hainan-general.jpg";
+import clinicHainanMedical from "@/assets/clinics/hainan-medical.jpg";
+import clinicHainanBoao from "@/assets/clinics/hainan-boao.jpg";
+import clinicHangzhouZju2 from "@/assets/clinics/hangzhou-zju2.jpg";
+import clinicHangzhouProvincial from "@/assets/clinics/hangzhou-provincial.jpg";
+import clinicHangzhouPlastic from "@/assets/clinics/hangzhou-plastic.jpg";
 
 export type City = {
   /** URL slug (lowercase English city name) */
@@ -34,7 +49,7 @@ export type City = {
   whyZh: string[];
   whyEn: string[];
   /** Top hospitals (display only) */
-  hospitals: { zh: string; en: string; areaZh: string; areaEn: string }[];
+  hospitals: { zh: string; en: string; areaZh: string; areaEn: string; img?: string }[];
   /** Travel essentials */
   travelZh: { airport: string; visa: string; hotel: string; lang: string };
   travelEn: { airport: string; visa: string; hotel: string; lang: string };
