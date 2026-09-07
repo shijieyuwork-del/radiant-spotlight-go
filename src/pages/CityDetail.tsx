@@ -20,7 +20,11 @@ const CityDetail = () => {
 
   if (!city) return <Navigate to="/cities" replace />;
 
-  const cityDoctors = DOCTORS.filter(() => false);
+  const cityDoctors = DOCTORS.filter(
+    (d) =>
+      d.cityEn.toLowerCase() === city.en.toLowerCase() ||
+      d.cityZh === city.zh,
+  );
   const cityDemoDoctors = DEMO_CHINA_DOCTORS.filter((doctor) => doctor.city.toLowerCase() === city.en.toLowerCase());
   const cityCases = TIKTOK_CASES.filter((item) => item.city?.en.toLowerCase() === city.en.toLowerCase());
   const travel = lang === "zh" ? city.travelZh : city.travelEn;
@@ -147,7 +151,7 @@ const CityDetail = () => {
           <p className="text-sm text-muted-foreground">
             {c("No Cosmetics Asia-listed surgeons yet for this city — request a match below.", "本城市暂无平台主推专家，可在下方提交匹配申请。", "В этом городе пока нет опубликованных экспертов Cosmetics Asia — отправьте запрос на подбор ниже.", "Aún no hay expertos listados por Cosmetics Asia en esta ciudad — solicita una recomendación abajo.")}
           </p>
-        ) : cityDemoDoctors.length > 0 ? (
+        ) : cityDoctors.length === 0 ? (
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {cityDemoDoctors.map((doctor) => (
               <Link key={doctor.id} to={`/doctors/demo/${doctor.id}`} className="group overflow-hidden rounded-3xl border border-border/70 bg-card shadow-soft transition hover:-translate-y-1 hover:border-primary/30 hover:shadow-pop">
