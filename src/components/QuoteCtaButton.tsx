@@ -60,7 +60,7 @@ const QuoteCtaButton = ({
 
   if (!href) {
     return (
-      <button type="button" onClick={() => { trackEvent("select_cta", { source: quoteCtx?.source || "quote_button" }); open(quoteCtx); }} className={cls}>
+      <button type="button" data-testid={testId} onClick={() => { trackEvent("select_cta", { source: quoteCtx?.source || "quote_button" }); open(quoteCtx); }} className={cls}>
         {icon === "chat" && <Icon className="size-4" />}
         {label}
         {icon === "arrow" && <Icon className="size-4" />}
@@ -68,7 +68,7 @@ const QuoteCtaButton = ({
     );
   }
   return (
-    <a href={href} target="_blank" rel="noreferrer" onClick={() => trackEvent("whatsapp_handoff", { source: "quote_button" })} className={cls}>
+    <a href={href} target="_blank" rel="noreferrer" data-testid={testId} onClick={() => trackEvent("whatsapp_handoff", { source: "quote_button" })} className={cls}>
       {label}
       <Icon className="size-4" />
     </a>
