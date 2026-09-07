@@ -74,24 +74,19 @@ const AsiaNavbar = () => {
   const { pathname } = useLocation();
   const c = (en: string, zh: string, ru: string, es?: string) => asiaCopy(lang, { en, zh, ru, es });
   const isActive = (to: string) => to === "/" ? pathname === "/" : pathname === to || pathname.startsWith(`${to}/`);
-  const links = homeLinks
-      ? [
-        { to: "/", label: c("Home", "首页", "Главная", "Inicio") },
-        { to: "/cases", label: t("nav.cases") },
-        { to: "/before-after", label: c("Before & after", "术前术后", "До и после", "Antes y después") },
-        { to: "/doctors", label: t("nav.compliance") },
-        { to: "/treatments", label: t("nav.projects") },
-        { to: "/travel-packages", label: c("Travel Support", "行程支持", "Поддержка поездки", "Apoyo de viaje") },
-        { to: "/clinics", label: c("Clinics", "诊所", "Клиники", "Clínicas") },
-        { to: "/cities", label: t("nav.cities") },
-        { to: "/why-china", label: c("Why China", "为什么选中国", "Почему Китай", "Por qué China") },
-        { to: "/about", label: c("About", "关于我们", "О нас", "Acerca de") },
-        { to: "/provider-verification", label: c("Standards", "审核标准", "Стандарты", "Estándares") },
-      ]
-    : [
-        { to: "/", label: c("Home", "首页", "Главная", "Inicio") },
-        { to: "/cases", label: t("nav.cases") },
-      ];
+  const links = [
+    { to: "/", label: c("Home", "首页", "Главная", "Inicio") },
+    { to: "/cases", label: t("nav.cases") },
+    { to: "/before-after", label: c("Before & after", "术前术后", "До и после", "Antes y después") },
+    { to: "/doctors", label: t("nav.compliance") },
+    { to: "/treatments", label: t("nav.projects") },
+    { to: "/travel-packages", label: c("Travel Support", "行程支持", "Поддержка поездки", "Apoyo de viaje") },
+    { to: "/clinics", label: c("Clinics", "诊所", "Клиники", "Clínicas") },
+    { to: "/cities", label: t("nav.cities") },
+    { to: "/why-china", label: c("Why China", "为什么选中国", "Почему Китай", "Por qué China") },
+    { to: "/about", label: c("About", "关于我们", "О нас", "Acerca de") },
+    { to: "/provider-verification", label: c("Standards", "审核标准", "Стандарты", "Estándares") },
+  ];
   const desktopLinks = links;
   return (
     <>
