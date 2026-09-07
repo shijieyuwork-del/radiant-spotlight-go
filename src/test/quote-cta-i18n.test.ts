@@ -1,20 +1,20 @@
 /**
- * "Get a free quote" 按钮 i18n 回归测试。
+ * "Start a consultation" 按钮 i18n 回归测试。
  *
  * 架构约定（防止再次出现多位置文案 drift）：
  *   - 按钮组件唯一实现：components/QuoteCtaButton.tsx
- *   - 文案唯一来源：lib/asia-i18n.tsx 字典键 hero.cta（en/zh/ru）
+ *   - 文案唯一来源：lib/asia-i18n.tsx 字典键 hero.cta（en/zh/ru/es）
  *   - 各页面/组件一律渲染 <QuoteCtaButton>，不得内联维护三语文案；
  *     悬浮咨询入口 FloatingQuoteCTA 的标签同样取自 hero.cta。
  *
  * 这些用例确保：
- *   - 三个语言都不会漏改（字典值与规范文案逐字一致、键集合齐全）；
- *   - 英文语法不会回退（必须是 "Get a free quote"，带冠词 a；
- *     "Get free quote" 语法错误，全站禁止）；
+ *   - 四个语言都不会漏改（字典值与规范文案逐字一致、键集合齐全）；
+ *   - 英文语法不会回退（必须是 "Start a consultation"，带冠词 a；
+ *     "Start consultation" 语法错误，全站禁止）；
  *   - 字典键受 AsiaDictKey = keyof typeof dict.en 类型约束，
  *     缺键会在构建/typecheck 阶段直接失败；
- *   - 不使用 QuoteCtaButton 的按钮（Treatments / DoctorDetail / 弹窗标题）
- *     也必须从字典 hero.cta 取文案；旧的 consultation 按钮文案全站禁止。
+ *   - 不使用 QuoteCtaButton 的按钮（Treatments / DoctorDetail / QuoteRequest 的按钮与弹窗标题）
+ *     也必须从字典 hero.cta 取文案；旧的 "free quote" 文案全站禁止。
  */
 import { describe, it, expect } from "vitest";
 import { readFileSync, readdirSync } from "node:fs";
@@ -23,12 +23,12 @@ import { join, relative } from "node:path";
 const SRC = join(__dirname, "..");
 const read = (rel: string) => readFileSync(join(SRC, rel), "utf-8");
 
-/** 用户确认的唯一规范文案（"Get a free quote" 为正确语法，必须带冠词 a） */
+/** 用户确认的唯一规范文案（"Start a consultation" 为正确语法，必须带冠词 a） */
 const CANONICAL = {
-  en: "Get a free quote",
-  zh: "获取免费报价",
-  ru: "Получить бесплатную оценку",
-  es: "Solicita un presupuesto gratis",
+  en: "Start a consultation",
+  zh: "开始咨询",
+  ru: "Начать консультацию",
+  es: "Solicita una consulta",
 } as const;
 
 /** 渲染该按钮的页面/组件（必须走 QuoteCtaButton，不得内联文案） */
@@ -70,31 +70,29 @@ const dictKeys = (block: string): string[] =>
 
 /* ---------------- 1. 字典键 hero.cta（唯一文案来源） ---------------- */
 describe("quote CTA i18n — 字典键 hero.cta（唯一文案来源）", () => {
-  it("en/zh/ru 三个语言块都存在 hero.cta（不漏翻译）", () => {
+  it("en/zh/ru/es 四个语言块都存在 hero.cta（不漏翻译）", () => {
     for (const lang of ["en", "zh", "ru", "es"] as const) {
       expect(dictValue(langBlock(lang), "hero.cta"), `hero.cta 缺少 ${lang} 翻译`).not.toBeNull();
     }
   });
 
-  it("英文为正确语法：Get a free quote（带冠词 a）", () => {
+  it("英文为正确语法：Start a consultation（带冠词 a）", () => {
     expect(dictValue(langBlock("en"), "hero.cta")).toBe(CANONICAL.en);
   });
 
-  it("中文与规范文案逐字一致且包含“免费报价”语义", () => {
+  it("中文与规范文案逐字一致且包含“咨询”语义", () => {
     const zh = dictValue(langBlock("zh"), "hero.cta") ?? "";
     expect(zh).toBe(CANONICAL.zh);
-    expect(zh).toContain("免费");
-    expect(zh).toContain("报价");
+    expect(zh).toContain("咨询");
   });
 
-  it("俄文与规范文案逐字一致且包含“免费”与“报价/估算”语义", () => {
+  it("俄文与规范文案逐字一致且包含“咨询”语义", () => {
     const ru = dictValue(langBlock("ru"), "hero.cta") ?? "";
     expect(ru).toBe(CANONICAL.ru);
-    expect(ru).toMatch(/бесплатн/);
-    expect(ru).toMatch(/оценк|расчёт|смет/i);
+    expect(ru).toMatch(/консультаци/i);
   });
 
-  it("zh/ru 字典键集合与 en 完全一致（任何语言都不漏键）", () => {
+  it("zh/ru/es 字典键集合与 en 完全一致（任何语言都不漏键）", () => {
     const enKeys = dictKeys(langBlock("en"));
     expect(enKeys.length).toBeGreaterThan(0);
     expect(dictKeys(langBlock("zh"))).toEqual(enKeys);
@@ -108,7 +106,7 @@ describe("quote CTA — 统一组件 QuoteCtaButton", () => {
   it("组件存在且文案取自字典 hero.cta（不内联三语文案）", () => {
     const src = read("components/QuoteCtaButton.tsx");
     expect(src).toContain('t("hero.cta")');
-    expect(src).not.toMatch(/获取免费报价|Получить бесплатную/);
+    expect(src).not.toMatch(/开始咨询|Начать консультацию/);
   });
 
   it("各页面/组件通过 QuoteCtaButton 渲染该按钮", () => {
@@ -137,10 +135,10 @@ describe("quote CTA — 统一组件 QuoteCtaButton", () => {
 
 /* ---------------- 3. 首页 How-it-works 步骤标题 ---------------- */
 describe("quote CTA i18n — 首页 How-it-works 步骤", () => {
-  it("第一步标题三语同步（en 为 quote 时 zh/ru 不得仍是“咨询”旧文案）", () => {
+  it("第一步标题四语同步（en 为 consultation 时 zh/ru 不得仍是“报价”旧文案）", () => {
     const asia = read("pages/AsiaIndex.tsx");
     const m = asia.match(
-      /en:\s*\["Get a free quote"[\s\S]{0,400}?zh:\s*\["([^"]+)"[\s\S]{0,400}?ru:\s*\["([^"]+)"/,
+      /en:\s*\["Start a consultation"[\s\S]{0,400}?zh:\s*\["([^"]+)"[\s\S]{0,400}?ru:\s*\["([^"]+)"/,
     );
     expect(m, "未找到第一步的 en/zh/ru 三语标题").not.toBeNull();
     expect(m![1]).toBe(CANONICAL.zh);
@@ -150,13 +148,13 @@ describe("quote CTA i18n — 首页 How-it-works 步骤", () => {
 
 /* ---------------- 4. 英文语法守卫（全站扫描） ---------------- */
 describe("quote CTA i18n — 英文语法守卫", () => {
-  it("全站不得出现缺少冠词的 “Get free quote”（语法错误）", () => {
+  it("全站不得出现缺少冠词的 “Start consultation”（语法错误）", () => {
     const bad: string[] = [];
     for (const file of sourceFiles) {
       readFileSync(file, "utf-8")
         .split("\n")
         .forEach((line, i) => {
-          if (/\bget free quote\b/i.test(line)) {
+          if (/\bstart consultation\b/i.test(line)) {
             bad.push(`${relative(SRC, file)}:${i + 1} ${line.trim().slice(0, 100)}`);
           }
         });
@@ -164,11 +162,11 @@ describe("quote CTA i18n — 英文语法守卫", () => {
     expect(bad).toEqual([]);
   });
 
-  it("所有英文 quote 按钮文案都带限定词（a / your）", () => {
+  it("所有英文 consultation 按钮文案都带冠词 a", () => {
     const bad: string[] = [];
     for (const file of sourceFiles) {
-      for (const m of readFileSync(file, "utf-8").matchAll(/["']([^"']*get[^"']*free quote[^"']*)["']/gi)) {
-        if (!/\bget (a|your) free quote\b/i.test(m[1])) {
+      for (const m of readFileSync(file, "utf-8").matchAll(/["']([^"']*start[^"']*consultation[^"']*)["']/gi)) {
+        if (!/\bstart a consultation\b/i.test(m[1])) {
           bad.push(`${relative(SRC, file)}: "${m[1]}"`);
         }
       }
@@ -198,7 +196,7 @@ describe("quote CTA — 无遗留 consultation/quote 变体", () => {
     for (const file of sourceFiles) {
       const content = readFileSync(file, "utf-8");
       // 只匹配完整字符串字面量，避免误伤正文里包含相同短语的句子
-      for (const m of content.matchAll(/[(\[,]\s*"([^"]+)"/g)) {
+      for (const m of content.matchAll(/[\(\[,]\s*"([^"]+)"/g)) {
         if (LEGACY.includes(m[1])) bad.push(`${relative(SRC, file)}: "${m[1]}"`);
       }
     }
