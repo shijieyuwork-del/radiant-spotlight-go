@@ -1,6 +1,6 @@
 import { ArrowRight, MapPin, MessageCircle, Play, Search, Smartphone, Star } from "lucide-react";
 
-const WAITLIST_URL = "https://wa.me/14708613825?text=Hi%2C%20please%20add%20me%20to%20the%20Cosmetics%20Asia%20app%20launch%20list.";
+const WAITLIST_URL = "https://wa.me/14708613825?text=Hi%2C%20please%20add%20me%20to%20the%20CeladonChina%20app%20launch%20list.";
 
 const AppPromoSection = () => (
   <section className="container py-12 md:py-16">
@@ -32,7 +32,7 @@ const AppPromoSection = () => (
             <div className="absolute left-1/2 top-2 z-20 h-6 w-24 -translate-x-1/2 rounded-full bg-foreground" />
             <div className="h-[430px] w-[225px] overflow-hidden rounded-[2.15rem] bg-[#fbfaf5] sm:h-[480px] sm:w-[250px]">
               <div className="bg-primary px-4 pb-4 pt-10 text-primary-foreground">
-                <div className="flex items-center justify-between text-xs font-semibold"><span className="font-display text-lg">Cosmetics Asia</span><span>•••</span></div>
+                <div className="flex items-center justify-between text-xs font-semibold"><span className="font-display text-lg">CeladonChina</span><span>•••</span></div>
                 <div className="mt-4 flex items-center gap-2 rounded-full bg-white px-3 py-2.5 text-[10px] text-foreground"><Search className="size-3.5 text-primary" /> Search experts</div>
               </div>
               <div className="p-3">

@@ -307,7 +307,7 @@ const Treatments = () => {
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div className="flex items-center gap-2 text-sm font-semibold">
                   <FileText className="size-4 text-primary" />
-                  {copy("Cosmetics Asia Academy", "Cosmetics Asia 医美百科", "Академия Cosmetics Asia")}
+                  {copy("CeladonChina Academy", "CeladonChina 医美百科", "Академия CeladonChina")}
                 </div>
                 <span className="text-xs text-muted-foreground">
                   {copy("9 clinical categories · 56 procedures", "9 个医学分类 · 56 项术式", "9 медицинских категорий · 56 процедур")}

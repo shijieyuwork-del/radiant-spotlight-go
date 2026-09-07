@@ -4,10 +4,11 @@ type BrandLogoProps = {
   className?: string;
   markClassName?: string;
   textClassName?: string;
+  showTagline?: boolean;
 };
 
-const BrandLogo = ({ className, markClassName, textClassName }: BrandLogoProps) => (
-  <span className={cn("inline-flex items-center gap-2.5", className)} aria-label="Cosmetic surgeries in Asia">
+const BrandLogo = ({ className, markClassName, textClassName, showTagline = false }: BrandLogoProps) => (
+  <span className={cn("inline-flex items-center gap-2.5", className)} aria-label="CeladonChina — Your cosmetic care journey, all in one place.">
     <svg
       viewBox="0 0 48 48"
       aria-hidden="true"
@@ -36,9 +37,15 @@ const BrandLogo = ({ className, markClassName, textClassName }: BrandLogoProps) 
         strokeLinecap="round"
       />
     </svg>
-    <span className={cn("inline-flex items-baseline whitespace-nowrap font-display text-xl leading-none tracking-[-0.04em]", textClassName)}>
-      <span className="font-semibold text-[#102A24]">Cosmetic surgeries</span>
-      <span className="ml-[0.24em] font-semibold text-[#4EB58F]">in Asia</span>
+    <span className="inline-flex min-w-0 flex-col justify-center">
+      <span className={cn("whitespace-nowrap font-display text-xl font-semibold leading-none tracking-[-0.04em] text-[#102A24]", textClassName)}>
+        Celadon<span className="text-[#4EB58F]">China</span>
+      </span>
+      {showTagline && (
+        <span className="mt-1 hidden whitespace-nowrap text-[9px] font-medium leading-none tracking-[0.025em] text-[#49645c] lg:block">
+          Your cosmetic care journey, all in one place.
+        </span>
+      )}
     </span>
   </span>
 );

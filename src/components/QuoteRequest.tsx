@@ -244,7 +244,7 @@ const QuoteDialog = ({
       return;
     }
     const message = [
-      "Hi Cosmetics Asia, I would like to start a consultation.",
+      "Hi CeladonChina, I would like to start a consultation.",
       expertLabel ? `Expert: ${expertLabel}` : "",
       "Request: Consultation",
       `Name: ${name}`,

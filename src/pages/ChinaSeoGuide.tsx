@@ -28,7 +28,7 @@ const guideCopy = {
     faqs: [
       ["Is medical tourism in China safe?", "Safety depends on the individual clinician, facility, procedure, anesthesia plan and follow-up arrangements. Verify each provider and discuss your personal risks with a qualified clinician before travel."],
       ["Do I need a special visa for medical treatment in China?", "Entry requirements vary by nationality, itinerary, length of stay and purpose. Check the latest official Chinese government guidance and confirm documentation with the treating institution before booking."],
-      ["Can Cosmetics Asia recommend a treatment?", "No. Cosmetics Asia provides information and coordination. Diagnosis, treatment selection, consent and medical decisions remain between the patient and licensed medical professionals."],
+      ["Can CeladonChina recommend a treatment?", "No. CeladonChina provides information and coordination. Diagnosis, treatment selection, consent and medical decisions remain between the patient and licensed medical professionals."],
       ["What documents should I bring?", "Ask the provider which records are relevant. Common items include medical history, medication and allergy lists, recent reports, imaging, prescriptions, passport details and the clinic's written appointment confirmation."],
     ],
   },
@@ -49,7 +49,7 @@ const guideCopy = {
     ],
     faqs: [
       ["How much does plastic surgery in China cost?", "Cost depends on the procedure, surgeon, facility, anesthesia, tests and recovery needs. Obtain an individualized written estimate after clinical review rather than relying on a headline package price."],
-      ["How do I find a plastic surgeon in China?", "Start with published profiles, then independently confirm identity, license, specialty, facility privileges and the evidence behind experience claims. Cosmetics Asia explains its profile checks in its Provider Verification Standards."],
+      ["How do I find a plastic surgeon in China?", "Start with published profiles, then independently confirm identity, license, specialty, facility privileges and the evidence behind experience claims. CeladonChina explains its profile checks in its Provider Verification Standards."],
       ["Can I fly home immediately after surgery?", "Not necessarily. Flying and long-distance travel can add risk after some procedures. The treating surgeon should set the timing based on your operation, recovery and health."],
       ["Are results guaranteed?", "No. Cosmetic surgery has risks and outcomes vary. A responsible provider should discuss limitations, alternatives, likely recovery and possible complications before consent."],
     ],
@@ -75,7 +75,7 @@ const ChinaSeoGuide = ({ kind }: { kind: GuideKind }) => {
     description: copy.description,
     url: `${SITE_URL}${copy.path}`,
     dateModified: "2026-08-31",
-    author: { "@type": "Organization", name: "Cosmetics Asia Editorial Team" },
+    author: { "@type": "Organization", name: "CeladonChina Editorial Team" },
     publisher: { "@id": `${SITE_URL}/#organization` },
     audience: { "@type": "Patient" },
   };

@@ -6,10 +6,10 @@
 // 当前已发布域名；接入自定义域名后只需改这一处（或设置 VITE_SITE_URL）
 export const SITE_URL = import.meta.env.VITE_SITE_URL || "https://celadonchina.com";
 
-export const SITE_NAME = "Cosmetics Asia";
+export const SITE_NAME = "CeladonChina";
 export const SITE_DESCRIPTION =
-  "Cosmetics Asia helps international patients explore published cosmetic expert profiles, patient journey previews, procedure guides, and practical travel and aftercare support in China.";
-export const SITE_AUTHOR = "Cosmetics Asia";
+  "Explore cosmetic surgery in China with published doctor profiles, online consultations, procedure guidance, and coordinated travel, translation and aftercare from CeladonChina.";
+export const SITE_AUTHOR = "CeladonChina";
 
 // OG 分享卡片：public/og-image.jpg（1200×630），发布后可被社交平台抓取
 export const OG_IMAGE = `${SITE_URL}/og-image.jpg`;
@@ -45,7 +45,7 @@ export const ORGANIZATION_SCHEMA = {
       "@id": `${SITE_URL}/#website`,
       url: SITE_URL,
       name: SITE_NAME,
-      alternateName: "Cosmetics Asia China Medical Travel",
+      alternateName: ["Celadon China", "CeladonChina Medical Travel"],
       publisher: { "@id": `${SITE_URL}/#organization` },
       inLanguage: ["en", "zh", "ru", "es"],
     },

@@ -6,9 +6,9 @@ const EditorialPolicy = () => (
   <>
     <PageMeta
       title="Editorial Policy"
-      description="The sourcing, labeling, correction, translation, and commercial disclosure standards used by Cosmetics Asia."
+      description="The sourcing, labeling, correction, translation, and commercial disclosure standards used by CeladonChina."
       path="/editorial-policy"
-      structuredData={{ "@context": "https://schema.org", "@type": "WebPage", name: "Cosmetics Asia Editorial Policy" }}
+      structuredData={{ "@context": "https://schema.org", "@type": "WebPage", name: "CeladonChina Editorial Policy" }}
     />
     <TrustPageLayout
       eyebrow="Editorial policy"

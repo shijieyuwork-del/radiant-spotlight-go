@@ -67,7 +67,7 @@ const LANDINGS: Record<TreatmentLandingKind, LandingCopy> = {
     faq: [
       { question: "What does the published price range include?", answer: "The range is a general market reference for primary surgery and may include the surgeon, anaesthesia, and facility. Revision work, cartilage grafting, tests, travel, accommodation, and later procedures can change the total. A clinic must provide the final quote." },
       { question: "When can I fly after rhinoplasty?", answer: "There is no universal flight date. Your treating clinician must assess swelling, bleeding risk, breathing, and your flight length before clearing travel." },
-      { question: "Can Cosmetics Asia recommend a specific surgical plan?", answer: "No. We can help you organize questions, compare published provider information, and coordinate communication. Only a licensed clinician who evaluates you can recommend a plan." },
+      { question: "Can CeladonChina recommend a specific surgical plan?", answer: "No. We can help you organize questions, compare published provider information, and coordinate communication. Only a licensed clinician who evaluates you can recommend a plan." },
     ],
   },
   blepharoplasty: {
@@ -119,7 +119,7 @@ const LANDINGS: Record<TreatmentLandingKind, LandingCopy> = {
 const LandingHeader = ({ onQuote }: { onQuote: (position: string) => void }) => (
   <header className="border-b border-primary/15 bg-background/95 backdrop-blur-xl">
     <div className="container flex min-h-[4.75rem] items-center justify-between gap-4">
-      <Link to="/" aria-label="Cosmetics Asia home"><BrandLogo /></Link>
+      <Link to="/" aria-label="CeladonChina home"><BrandLogo /></Link>
       <button type="button" onClick={() => onQuote("header")} className="cta-primary inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-4 text-sm font-semibold sm:px-6">
         <span className="hidden sm:inline">Get a free quote</span><span className="sm:hidden">Free quote</span><ArrowRight className="size-4" />
       </button>

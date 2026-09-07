@@ -89,8 +89,8 @@ const dict: Record<AsiaLang, Dict> = {
     "case.back": "Back",
     "case.related": "Related cases",
     "case.book": "Book this treatment",
-    "disclaimer.text": "Cosmetics Asia is an information and travel-coordination platform, not a medical provider. We do not offer medical advice, diagnosis, or treatment. All medical decisions are made directly between you and licensed medical institutions.",
-    "disclaimer.short": "Not medical advice — Cosmetics Asia provides information and coordination only. All medical decisions are made between you and licensed medical institutions.",
+    "disclaimer.text": "CeladonChina is an information and travel-coordination platform, not a medical provider. We do not offer medical advice, diagnosis, or treatment. All medical decisions are made directly between you and licensed medical institutions.",
+    "disclaimer.short": "Not medical advice — CeladonChina provides information and coordination only. All medical decisions are made between you and licensed medical institutions.",
   },
   zh: {
     "brand.suffix": "亚洲医美",
@@ -247,8 +247,8 @@ const dict: Record<AsiaLang, Dict> = {
     "case.back": "Назад",
     "case.related": "Похожие кейсы",
     "case.book": "Записаться на эту процедуру",
-    "disclaimer.text": "Cosmetics Asia — информационная и координационная платформа, а не медицинское учреждение. Мы не предоставляем медицинских советов, диагностики или лечения. Все медицинские решения принимаются напрямую между вами и лицензированными медицинскими учреждениями.",
-    "disclaimer.short": "Не является медицинской консультацией — Cosmetics Asia предоставляет только информацию и координацию. Все медицинские решения принимаются между вами и лицензированными медицинскими учреждениями.",
+    "disclaimer.text": "CeladonChina — информационная и координационная платформа, а не медицинское учреждение. Мы не предоставляем медицинских советов, диагностики или лечения. Все медицинские решения принимаются напрямую между вами и лицензированными медицинскими учреждениями.",
+    "disclaimer.short": "Не является медицинской консультацией — CeladonChina предоставляет только информацию и координацию. Все медицинские решения принимаются между вами и лицензированными медицинскими учреждениями.",
   },
   es: {
     "brand.suffix": "Asia",
@@ -326,8 +326,8 @@ const dict: Record<AsiaLang, Dict> = {
     "case.back": "Volver",
     "case.related": "Casos relacionados",
     "case.book": "Reservar este tratamiento",
-    "disclaimer.text": "Cosmetics Asia es una plataforma de información y coordinación de viajes, no un proveedor médico. No ofrecemos consejo médico, diagnóstico ni tratamiento. Todas las decisiones médicas se toman directamente entre usted y las instituciones médicas autorizadas.",
-    "disclaimer.short": "No es consejo médico: Cosmetics Asia solo ofrece información y coordinación. Todas las decisiones médicas se toman entre usted y las instituciones médicas autorizadas.",
+    "disclaimer.text": "CeladonChina es una plataforma de información y coordinación de viajes, no un proveedor médico. No ofrecemos consejo médico, diagnóstico ni tratamiento. Todas las decisiones médicas se toman directamente entre usted y las instituciones médicas autorizadas.",
+    "disclaimer.short": "No es consejo médico: CeladonChina solo ofrece información y coordinación. Todas las decisiones médicas se toman entre usted y las instituciones médicas autorizadas.",
   },
 };
 

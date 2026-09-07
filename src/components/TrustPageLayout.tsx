@@ -5,7 +5,7 @@ import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 
 export const trustLinks = [
-  { label: "About Cosmetics Asia", to: "/about" },
+  { label: "About CeladonChina", to: "/about" },
   { label: "Provider verification", to: "/provider-verification" },
   { label: "Medical review policy", to: "/medical-review-policy" },
   { label: "Editorial policy", to: "/editorial-policy" },

@@ -6,7 +6,7 @@ const MedicalReviewPolicy = () => (
   <>
     <PageMeta
       title="Medical Review Policy"
-      description="How Cosmetics Asia labels, sources, reviews, and updates medical information, including when content is not medically reviewed."
+      description="How CeladonChina labels, sources, reviews, and updates medical information, including when content is not medically reviewed."
       path="/medical-review-policy"
       structuredData={{ "@context": "https://schema.org", "@type": "MedicalWebPage", name: "Medical Review Policy", audience: { "@type": "Patient" } }}
     />
@@ -18,7 +18,7 @@ const MedicalReviewPolicy = () => (
     >
       <TrustSection title="When we use the words medically reviewed">
         <p>A page may be labeled medically reviewed only when a qualified clinician has reviewed the relevant medical claims and the page displays that person's name, professional credentials, review date, and scope of review.</p>
-        <p>If those details are absent, the page should be treated as editorially researched information, not medically reviewed content. Cosmetics Asia does not use a general disclaimer as a substitute for named clinical review.</p>
+        <p>If those details are absent, the page should be treated as editorially researched information, not medically reviewed content. CeladonChina does not use a general disclaimer as a substitute for named clinical review.</p>
       </TrustSection>
 
       <TrustSection title="Content that requires medical review">
@@ -45,7 +45,7 @@ const MedicalReviewPolicy = () => (
 
       <TrustSection title="Not personal medical advice">
         <p>Website content cannot account for your medical history, examination, medications, or treatment setting. It is general education and does not replace advice from a licensed clinician who has assessed you.</p>
-        <p>If you may be experiencing a medical emergency or a serious complication, contact local emergency services or the treating facility immediately. Do not wait for a reply from Cosmetics Asia.</p>
+        <p>If you may be experiencing a medical emergency or a serious complication, contact local emergency services or the treating facility immediately. Do not wait for a reply from CeladonChina.</p>
       </TrustSection>
     </TrustPageLayout>
   </>

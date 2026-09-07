@@ -56,7 +56,7 @@ const usd = (value: number) => `$${Math.round(value).toLocaleString("en-US")}`;
 const LandingHeader = ({ onQuote }: { onQuote: (position: string) => void }) => (
   <header className="border-b border-primary/15 bg-background/95 backdrop-blur-xl">
     <div className="container flex min-h-[4.75rem] items-center justify-between gap-4">
-      <Link to="/" aria-label="Cosmetics Asia home"><BrandLogo /></Link>
+      <Link to="/" aria-label="CeladonChina home"><BrandLogo /></Link>
       <button type="button" onClick={() => onQuote("header")} className="cta-primary inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-4 text-sm font-semibold sm:px-6">
         <span className="hidden sm:inline">Get a free quote</span><span className="sm:hidden">Free quote</span><ArrowRight className="size-4" />
       </button>
@@ -251,7 +251,7 @@ const onQuote = (position: string) => {
                 <div>
                   <span className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Verified experts</span>
                   <h2 className="mt-3 font-display text-4xl font-medium md:text-5xl">Experts in {city.en}</h2>
-                  <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground">Licensed specialists published on Cosmetics Asia. Ask them directly about technique, quotes, and follow-up.</p>
+                  <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground">Licensed specialists published on CeladonChina. Ask them directly about technique, quotes, and follow-up.</p>
                 </div>
                 <Link to={`/doctors?city=${city.en}`} className="inline-flex items-center gap-2 text-sm font-semibold underline decoration-primary/60 underline-offset-4">All experts in {city.en} <ArrowRight className="size-4" /></Link>
               </div>

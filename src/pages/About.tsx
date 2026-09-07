@@ -7,23 +7,23 @@ const About = () => {
   const schema = {
     "@context": "https://schema.org",
     "@type": "AboutPage",
-    name: "About Cosmetics Asia",
-    description: "How Cosmetics Asia helps people research and coordinate cosmetic medical travel in China, including the limits of our role.",
+    name: "About CeladonChina",
+    description: "How CeladonChina helps people research and coordinate cosmetic medical travel in China, including the limits of our role.",
   };
 
   return (
     <>
       <PageMeta
-        title="About Cosmetics Asia"
-        description="Learn how Cosmetics Asia supports cosmetic medical travel research and coordination, what we check, and where our role ends."
+        title="About CeladonChina"
+        description="Learn how CeladonChina supports cosmetic medical travel research and coordination, what we check, and where our role ends."
         path="/about"
         structuredData={schema}
       />
       <TrustPageLayout
-        eyebrow="About Cosmetics Asia"
+        eyebrow="About CeladonChina"
         icon={HeartHandshake}
         title="A clearer way to prepare for cosmetic care in China."
-        intro="Cosmetics Asia brings provider information, practical questions, and travel coordination into one place, so you can prepare before making a medical decision."
+        intro="CeladonChina brings provider information, practical questions, and travel coordination into one place, so you can prepare before making a medical decision."
       >
         <TrustSection title="What we do">
           <p>We help international patients organize the non-clinical parts of exploring cosmetic care in China. That can include finding published provider information, preparing consultation questions, organizing records, and planning translation or travel support.</p>
@@ -35,7 +35,7 @@ const About = () => {
         </TrustSection>
 
         <TrustSection title="Where our role ends">
-          <p>Cosmetics Asia is not a hospital, clinic, medical practice, or emergency service. We do not diagnose, prescribe, select a procedure for you, control clinical care, or guarantee an outcome.</p>
+          <p>CeladonChina is not a hospital, clinic, medical practice, or emergency service. We do not diagnose, prescribe, select a procedure for you, control clinical care, or guarantee an outcome.</p>
           <p>Your treating clinician and licensed medical facility are responsible for medical assessment, informed consent, treatment, anesthesia, and aftercare. You should independently confirm their credentials and decide whether the proposed care is right for you.</p>
         </TrustSection>
 

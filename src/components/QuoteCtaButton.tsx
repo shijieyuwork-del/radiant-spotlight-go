@@ -17,7 +17,7 @@ import { trackEvent } from "@/lib/analytics";
 
 /** 默认跳转：WhatsApp 起始对话（全站唯一来源） */
 export const QUOTE_WHATSAPP_URL =
-  "https://wa.me/14708613825?text=Hi%20Cosmetics%20Asia%2C%20I%20would%20like%20to%20book%20a%20free%20consultation%20and%20plan%20my%20care%20journey%20to%20China.";
+  "https://wa.me/14708613825?text=Hi%20CeladonChina%2C%20I%20would%20like%20to%20book%20a%20free%20consultation%20and%20plan%20my%20care%20journey%20to%20China.";
 
 const VARIANTS = {
   /** 深绿药丸（默认，与首页 Hero 截图一致） */

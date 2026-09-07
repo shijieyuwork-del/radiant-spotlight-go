@@ -34,7 +34,7 @@ const DemoDoctorDetail = () => {
     return <div className="min-h-screen bg-background"><AsiaNavbar homeLinks={false} /><main className="container py-24 text-center"><p>{lang === "zh" ? "专家资料不存在。" : lang === "ru" ? "Профиль эксперта не найден." : lang === "es" ? "No se encontró el perfil del experto." : "Doctor profile not found."}</p><Link to="/doctors" className="mt-4 inline-block text-primary underline">{lang === "zh" ? "返回专家列表" : lang === "ru" ? "Вернуться к экспертам" : lang === "es" ? "Volver a los expertos" : "Back to doctors"}</Link></main></div>;
   }
 
-  const whatsapp = `https://wa.me/14708613825?text=${encodeURIComponent(`Hi Cosmetics Asia, I’d like to ask about ${doctor.name} and available consultation options.`)}`;
+  const whatsapp = `https://wa.me/14708613825?text=${encodeURIComponent(`Hi CeladonChina, I’d like to ask about ${doctor.name} and available consultation options.`)}`;
   return (
     <>
       <PageMeta title={`${doctor.name} | Sample Doctor Profile`} description={`${doctor.name}, a sample ${doctor.title} profile in ${doctor.city}.`} path={`/doctors/demo/${doctor.id}`} robots="noindex, nofollow" />

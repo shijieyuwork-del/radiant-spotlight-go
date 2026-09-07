@@ -70,14 +70,14 @@ export const analyticsPagePath = (pathname: string) => {
 export const analyticsPageTitle = (pathname: string) => {
   const group = pageGroup(pathname);
   const titles: Record<string, string> = {
-    treatment_landing: "Treatment consultation | Cosmetics Asia",
-    treatment_education: "Procedure guide | Cosmetics Asia",
-    provider_profile: "Provider profile | Cosmetics Asia",
-    recovery_diary: "Recovery diary | Cosmetics Asia",
-    privacy: "Privacy notice | Cosmetics Asia",
-    home: "Cosmetics Asia",
+    treatment_landing: "Treatment consultation | CeladonChina",
+    treatment_education: "Procedure guide | CeladonChina",
+    provider_profile: "Provider profile | CeladonChina",
+    recovery_diary: "Recovery diary | CeladonChina",
+    privacy: "Privacy notice | CeladonChina",
+    home: "CeladonChina",
   };
-  return titles[group] || "Cosmetics Asia";
+  return titles[group] || "CeladonChina";
 };
 
 export const analyticsConfigured = () => hasGtm || hasGa4;

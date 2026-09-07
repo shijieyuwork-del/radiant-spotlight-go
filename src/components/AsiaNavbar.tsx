@@ -100,10 +100,10 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
         <div className="container flex h-full items-center justify-between gap-3 text-xs">
           <div className="flex min-w-0 items-center gap-2.5 sm:gap-5">
             <a
-              href="https://wa.me/14708613825?text=Hi%20Cosmetics%20Asia%2C%20I%20would%20like%20to%20ask%20about%20your%20services."
+              href="https://wa.me/14708613825?text=Hi%20CeladonChina%2C%20I%20would%20like%20to%20ask%20about%20your%20services."
               target="_blank"
               rel="noreferrer"
-              aria-label="Contact Cosmetics Asia on WhatsApp"
+              aria-label="Contact CeladonChina on WhatsApp"
               className="inline-flex min-h-12 shrink-0 items-center gap-1.5 rounded-full bg-white/10 px-2.5 font-bold tracking-[0.01em] text-white transition hover:bg-white/20 md:min-h-9"
             >
               <Phone className="size-3.5" />
@@ -130,7 +130,7 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
       <header className="border-b border-border/60 bg-background/95 shadow-[0_4px_18px_rgba(16,42,36,0.04)] backdrop-blur-xl">
       <nav className="container flex h-[3.75rem] md:h-16 items-center justify-between gap-3">
         <Link to="/" className="flex min-h-12 shrink-0 items-center gap-2">
-          <BrandLogo markClassName="size-8 md:size-9" textClassName="text-lg md:text-xl" />
+          <BrandLogo showTagline markClassName="size-8 md:size-9" textClassName="text-lg md:text-xl" />
         </Link>
         <div className="hidden 2xl:flex items-center gap-0.5 rounded-full bg-muted/60 p-1">
           {desktopLinks.map((l) => (

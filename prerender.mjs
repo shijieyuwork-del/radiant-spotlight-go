@@ -48,7 +48,7 @@ async function loadAppData() {
       ".mp4": "empty", ".css": "empty",
     },
     // seo-config 读 import.meta.env，Node 下没有，喂一个等价值进去
-    define: { "import.meta.env.VITE_SITE_URL": JSON.stringify(process.env.VITE_SITE_URL || "https://cosmetics-asia.com") },
+    define: { "import.meta.env.VITE_SITE_URL": JSON.stringify(process.env.VITE_SITE_URL || "https://celadonchina.com") },
     logLevel: "silent",
   });
   return import(pathToFileURL(TMP).href + "?t=" + Date.now());
@@ -64,7 +64,7 @@ function createBreadcrumbSchema(p, pageTitle, siteUrl) {
     cases: "Patient Diaries", cities: "Destinations", clinics: "Clinics & Hospitals", doctors: "Experts",
     treatments: "Procedures", "travel-packages": "Travel Support", "why-china": "Why China",
     "medical-tourism-china": "Medical Tourism in China", "plastic-surgery-china": "Plastic Surgery in China",
-    about: "About Cosmetics Asia", "provider-verification": "Provider Verification Standards",
+    about: "About CeladonChina", "provider-verification": "Provider Verification Standards",
     "medical-review-policy": "Medical Review Policy", "editorial-policy": "Editorial Policy",
   };
   const segments = p.split("?")[0].split("/").filter(Boolean);
@@ -85,10 +85,10 @@ function createBreadcrumbSchema(p, pageTitle, siteUrl) {
   return { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement };
 }
 
-function renderMeta({ title, description, path: p, image, type = "website", schema, robots = "index, follow, max-image-preview:large" }, cfg) {
+function renderMeta({ title, absoluteTitle = false, description, path: p, image, type = "website", schema, robots = "index, follow, max-image-preview:large" }, cfg) {
   const { SITE_URL, SITE_NAME, OG_IMAGE, TWITTER_HANDLE } = cfg;
   const url = `${SITE_URL}${p}`;
-  const full = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
+  const full = absoluteTitle || title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
   const img = image && !image.startsWith("data:") && !image.startsWith("/src/") ? image : OG_IMAGE;
 
   const tags = [
@@ -127,9 +127,10 @@ function buildRoutes(d) {
   const routes = [
     {
       path: "/",
-      title: "Cosmetic Surgery in Asia | Patient Diaries",
+      title: "Cosmetic Surgery in China | Doctors & Travel Support | Celadon China",
+      absoluteTitle: true,
       description:
-        "Explore published cosmetic expert profiles, patient journey previews, procedure guides, and practical travel and aftercare support for cosmetic care in China.",
+        "Explore cosmetic surgery in China with published doctor profiles, online consultations, procedure guidance, and coordinated travel, translation and aftercare from CeladonChina.",
       schema: d.ORGANIZATION_SCHEMA,
     },
     {
@@ -142,7 +143,7 @@ function buildRoutes(d) {
       path: "/clinics",
       title: "Clinic & Hospital Directory in Asia",
       description:
-        "Browse clinics and hospitals currently included in Cosmetics Asia destination guides, organized by city and country.",
+        "Browse clinics and hospitals currently included in CeladonChina destination guides, organized by city and country.",
     },
     {
       path: "/doctors",
@@ -181,29 +182,29 @@ function buildRoutes(d) {
     {
       path: "/privacy",
       title: "Privacy Notice",
-      description: "How Cosmetics Asia uses essential storage, optional analytics, and the information you choose to share.",
+      description: "How CeladonChina uses essential storage, optional analytics, and the information you choose to share.",
     },
     {
       path: "/about",
-      title: "About Cosmetics Asia",
-      description: "Learn how Cosmetics Asia supports cosmetic medical travel research and coordination, what we check, and where our role ends.",
-      schema: { "@context": "https://schema.org", "@type": "AboutPage", name: "About Cosmetics Asia" },
+      title: "About CeladonChina",
+      description: "Learn how CeladonChina supports cosmetic medical travel research and coordination, what we check, and where our role ends.",
+      schema: { "@context": "https://schema.org", "@type": "AboutPage", name: "About CeladonChina" },
     },
     {
       path: "/provider-verification",
       title: "Provider Verification Standards",
-      description: "The checks, labels, evidence, and limits behind provider profiles published by Cosmetics Asia.",
+      description: "The checks, labels, evidence, and limits behind provider profiles published by CeladonChina.",
     },
     {
       path: "/medical-review-policy",
       title: "Medical Review Policy",
-      description: "How Cosmetics Asia labels, sources, reviews, and updates medical information, including when content is not medically reviewed.",
+      description: "How CeladonChina labels, sources, reviews, and updates medical information, including when content is not medically reviewed.",
       schema: { "@context": "https://schema.org", "@type": "MedicalWebPage", name: "Medical Review Policy" },
     },
     {
       path: "/editorial-policy",
       title: "Editorial Policy",
-      description: "The sourcing, labeling, correction, translation, and commercial disclosure standards used by Cosmetics Asia.",
+      description: "The sourcing, labeling, correction, translation, and commercial disclosure standards used by CeladonChina.",
     },
     {
       path: "/lp/rhinoplasty-china",

@@ -23,7 +23,7 @@ export type City = {
   img: string;
   /** Verified hospital count */
   clinics: number;
-  /** Listed surgeons on Cosmetics Asia in this city */
+  /** Listed surgeons on CeladonChina in this city */
   doctorsCount: number;
   /** Avg savings vs US comparable */
   savings: string;

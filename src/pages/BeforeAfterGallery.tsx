@@ -39,10 +39,10 @@ const BeforeAfterGallery = () => {
     <>
       <PageMeta
         title={c(
-          "Before & after photo results | Cosmetics Asia",
-          "术前术后对比图集 | Cosmetics Asia",
-          "Фото до и после | Cosmetics Asia",
-          "Fotos antes y después | Cosmetics Asia"
+          "Before & after photo results | CeladonChina",
+          "术前术后对比图集 | CeladonChina",
+          "Фото до и после | CeladonChina",
+          "Fotos antes y después | CeladonChina"
         )}
         description={c(
           "Swipe through verified before and after photo sets from published experts across Asia.",

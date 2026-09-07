@@ -6,7 +6,7 @@ const ProviderVerification = () => (
   <>
     <PageMeta
       title="Provider Verification Standards"
-      description="The checks, labels, evidence, and limits behind provider profiles published by Cosmetics Asia."
+      description="The checks, labels, evidence, and limits behind provider profiles published by CeladonChina."
       path="/provider-verification"
       structuredData={{ "@context": "https://schema.org", "@type": "WebPage", name: "Provider Verification Standards" }}
     />
@@ -14,12 +14,12 @@ const ProviderVerification = () => (
       eyebrow="Provider verification standards"
       icon={BadgeCheck}
       title="What we check, what we label, and what remains yours to confirm."
-      intro="A provider profile should make its evidence visible. These standards explain the checks required before Cosmetics Asia describes a provider as verified."
+      intro="A provider profile should make its evidence visible. These standards explain the checks required before CeladonChina describes a provider as verified."
     >
       <TrustSection title="Our profile labels">
         <TrustList items={[
           "Sample profile means the person and details are demonstration content. Sample pages must not be treated as real provider recommendations and are excluded from search indexing.",
-          "Published profile means information is displayed on Cosmetics Asia. Publication alone does not mean every claim has been independently verified.",
+          "Published profile means information is displayed on CeladonChina. Publication alone does not mean every claim has been independently verified.",
           "Verified facts are individual details checked against acceptable evidence. A profile may only use a broader verified label when the required checks below are complete and dated.",
         ]} />
       </TrustSection>

@@ -23,7 +23,7 @@ const SECTION_LABELS: Record<string, string> = {
   "why-china": "Why China",
   "medical-tourism-china": "Medical Tourism in China",
   "plastic-surgery-china": "Plastic Surgery in China",
-  about: "About Cosmetics Asia",
+  about: "About CeladonChina",
   "provider-verification": "Provider Verification Standards",
   "medical-review-policy": "Medical Review Policy",
   "editorial-policy": "Editorial Policy",

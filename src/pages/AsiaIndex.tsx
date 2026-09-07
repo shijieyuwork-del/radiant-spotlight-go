@@ -1322,8 +1322,8 @@ const HomeFaq = () => {
   const c = (en: string, cn: string, Russian: string, Spanish: string) => zh ? cn : ru ? Russian : es ? Spanish : en;
   const questions = [
     {
-      q: c("Do I need to pay Cosmetics Asia?", "我需要向 Cosmetics Asia 支付费用吗？", "Нужно ли платить Cosmetics Asia?", "¿Necesito pagarle a Cosmetics Asia?"),
-      a: c("Medical fees are paid directly to the treating clinic or hospital; Cosmetics Asia does not collect them. We collect a $400 coordination deposit to reserve your procedure appointment and coordinate airport pickup and in-clinic translation. It remains valid for 12 months and is refunded when you pay the clinic for treatment.", "医疗费用全部由诊所或医院直接收取，Cosmetics Asia 不代收。我们收取 400 美元协调押金，用于保留手术预约，并协调机场接送和院内翻译。押金在 12 个月内有效，并在你向诊所支付治疗费用时退还。", "Медицинские услуги оплачиваются напрямую клинике или больнице; Cosmetics Asia их не принимает. Мы взимаем координационный депозит $400, чтобы закрепить время процедуры и организовать трансфер и перевод в клинике. Он действует 12 месяцев и возвращается после оплаты лечения в клинике.", "Los honorarios médicos se pagan directamente a la clínica u hospital tratante; Cosmetics Asia no los cobra. Cobramos un depósito de coordinación de $400 para reservar tu cita del procedimiento y coordinar el traslado del aeropuerto y la traducción en la clínica. Es válido durante 12 meses y se reembolsa cuando pagas el tratamiento a la clínica."),
+      q: c("Do I need to pay CeladonChina?", "我需要向 CeladonChina 支付费用吗？", "Нужно ли платить CeladonChina?", "¿Necesito pagarle a CeladonChina?"),
+      a: c("Medical fees are paid directly to the treating clinic or hospital; CeladonChina does not collect them. We collect a $400 coordination deposit to reserve your procedure appointment and coordinate airport pickup and in-clinic translation. It remains valid for 12 months and is refunded when you pay the clinic for treatment.", "医疗费用全部由诊所或医院直接收取，CeladonChina 不代收。我们收取 400 美元协调押金，用于保留手术预约，并协调机场接送和院内翻译。押金在 12 个月内有效，并在你向诊所支付治疗费用时退还。", "Медицинские услуги оплачиваются напрямую клинике или больнице; CeladonChina их не принимает. Мы взимаем координационный депозит $400, чтобы закрепить время процедуры и организовать трансфер и перевод в клинике. Он действует 12 месяцев и возвращается после оплаты лечения в клинике.", "Los honorarios médicos se pagan directamente a la clínica u hospital tratante; CeladonChina no los cobra. Cobramos un depósito de coordinación de $400 para reservar tu cita del procedimiento y coordinar el traslado del aeropuerto y la traducción en la clínica. Es válido durante 12 meses y se reembolsa cuando pagas el tratamiento a la clínica."),
     },
     {
       q: c("What is the $400 deposit for?", "400 美元押金是做什么用的？", "Для чего нужен депозит $400?", "¿Para qué es el depósito de $400?"),
@@ -1331,7 +1331,7 @@ const HomeFaq = () => {
     },
     {
       q: c("Who receives my medical payment?", "手术和治疗费用支付给谁？", "Кому оплачиваются медицинские услуги?", "¿Quién recibe mi pago médico?"),
-      a: c("All surgery, examination, anesthesia and other medical fees are charged directly by the clinic or hospital. Cosmetics Asia does not collect your medical payment.", "全部手术、检查、麻醉及其他医疗费用均由诊所或医院直接收取。Cosmetics Asia 不代收医疗费用。", "Операция, обследования, анестезия и другие медицинские услуги оплачиваются напрямую клинике или больнице. Cosmetics Asia не принимает медицинские платежи.", "Todos los honorarios de cirugía, exámenes, anestesia y otros servicios médicos son cobrados directamente por la clínica u hospital. Cosmetics Asia no cobra tu pago médico."),
+      a: c("All surgery, examination, anesthesia and other medical fees are charged directly by the clinic or hospital. CeladonChina does not collect your medical payment.", "全部手术、检查、麻醉及其他医疗费用均由诊所或医院直接收取。CeladonChina 不代收医疗费用。", "Операция, обследования, анестезия и другие медицинские услуги оплачиваются напрямую клинике или больнице. CeladonChina не принимает медицинские платежи.", "Todos los honorarios de cirugía, exámenes, anestesia y otros servicios médicos son cobrados directamente por la clínica u hospital. CeladonChina no cobra tu pago médico."),
     },
     {
       q: c("Can my consultation be conducted in English?", "线上咨询可以使用英语吗？", "Можно ли провести консультацию на английском?", "¿Puede realizarse mi consulta en inglés?"),
@@ -1370,7 +1370,7 @@ const HomeFaq = () => {
                 <h3 className="mt-1 font-display text-xl font-medium leading-tight text-foreground sm:text-2xl">{c("Pay the clinic directly", "直接支付给诊所或医院", "Оплачивайте напрямую клинике", "Paga directamente a la clínica")}</h3>
               </div>
             </div>
-            <p className="relative mt-5 max-w-xl text-[15px] leading-7 text-foreground/70 sm:text-base">{c("Your clinic or hospital collects all surgery, examination and anesthesia fees. Cosmetics Asia does not collect your medical payment.", "手术、检查和麻醉等医疗费用均由诊所或医院直接收取，Cosmetics Asia 不代收。", "Операция, обследования и анестезия оплачиваются напрямую клинике или больнице. Cosmetics Asia не принимает медицинские платежи.", "Tu clínica u hospital cobra todos los honorarios de cirugía, exámenes y anestesia. Cosmetics Asia no cobra tu pago médico.")}</p>
+            <p className="relative mt-5 max-w-xl text-[15px] leading-7 text-foreground/70 sm:text-base">{c("Your clinic or hospital collects all surgery, examination and anesthesia fees. CeladonChina does not collect your medical payment.", "手术、检查和麻醉等医疗费用均由诊所或医院直接收取，CeladonChina 不代收。", "Операция, обследования и анестезия оплачиваются напрямую клинике или больнице. CeladonChina не принимает медицинские платежи.", "Tu clínica u hospital cobra todos los honorarios de cirugía, exámenes y anestesia. CeladonChina no cobra tu pago médico.")}</p>
           </article>
 
           <article className="group relative overflow-hidden rounded-[1.75rem] border border-[hsl(43_70%_72%/.65)] bg-[hsl(48_82%_94%)] p-5 shadow-soft transition-[transform,box-shadow,border-color] duration-150 hover:-translate-y-0.5 hover:border-[hsl(43_70%_62%/.8)] hover:shadow-pop sm:p-7">
@@ -1439,7 +1439,7 @@ const AsiaIndex = () => {
       <PageMeta
         title="Cosmetic Surgery in China | Doctors & Travel Support | Celadon China"
         absoluteTitle
-        description="Compare cosmetic surgeons in China, book online consultations, and coordinate travel, translation and aftercare."
+        description="Explore cosmetic surgery in China with published doctor profiles, online consultations, procedure guidance, and coordinated travel, translation and aftercare from CeladonChina."
         path="/"
         structuredData={ORGANIZATION_SCHEMA}
       />

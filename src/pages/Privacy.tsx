@@ -9,7 +9,7 @@ const Privacy = () => (
   <>
     <PageMeta
       title="Privacy Notice"
-      description="How Cosmetics Asia uses essential storage, optional analytics, and the information you choose to share."
+      description="How CeladonChina uses essential storage, optional analytics, and the information you choose to share."
       path="/privacy"
     />
     <div className="min-h-screen bg-background">
@@ -73,7 +73,7 @@ const Privacy = () => (
               Questions about privacy or a request concerning information you shared with us? Email
               {" "}<a className="font-semibold text-foreground underline decoration-primary/50 underline-offset-4" href="mailto:contact@celadonchina.com">contact@celadonchina.com</a>.
             </p>
-            <a href="mailto:contact@celadonchina.com" className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-foreground"><Mail className="size-4 text-primary" /> Email Cosmetics Asia</a>
+            <a href="mailto:contact@celadonchina.com" className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-foreground"><Mail className="size-4 text-primary" /> Email CeladonChina</a>
           </section>
         </div>
       </main>

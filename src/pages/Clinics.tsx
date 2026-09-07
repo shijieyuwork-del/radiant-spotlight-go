@@ -134,7 +134,7 @@ const Clinics = () => {
     <>
       <PageMeta
         title="Clinic & Hospital Directory in Asia"
-        description="Browse clinics and hospitals currently included in Cosmetics Asia destination guides, organized by city and country."
+        description="Browse clinics and hospitals currently included in CeladonChina destination guides, organized by city and country."
         path="/clinics"
       />
       <div className="min-h-screen bg-background">
