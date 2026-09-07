@@ -43,6 +43,7 @@ import procedureSkin from "@/assets/procedures/laser-skin-resurfacing.jpg";
 import procedureLips from "@/assets/procedures/lip-lift.jpg";
 import procedureWeightLoss from "@/assets/procedures/body-lift.jpg";
 import procedureMen from "@/assets/procedures/male-breast-reduction.jpg";
+import chineseDoctorTeam from "@/assets/chinese-doctor-team-candid-v1.webp";
 import PatientStoriesSection from "@/components/PatientStoriesSection";
 import { supabase } from "@/integrations/supabase/client";
 import { useRealtimeRefresh } from "@/hooks/use-realtime-refresh";
@@ -971,7 +972,7 @@ const TreatmentsSection = () => {
   const procedureGoals = [
     {
       key: "nose",
-      image: procedureRhinoplasty,
+      image: chineseDoctorTeam,
       en: "Refine your profile",
       zh: "改善面部侧颜",
       ru: "Гармоничный профиль",
