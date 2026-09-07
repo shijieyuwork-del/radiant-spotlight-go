@@ -59,16 +59,25 @@ const CATEGORY_STYLES = [
   { panel: "bg-secondary/35", marker: "bg-secondary text-secondary-foreground", title: "text-foreground", link: "hover:bg-secondary/75 hover:text-foreground", dot: "bg-secondary-foreground/45" },
 ] as const;
 
+/**
+ * Broad category ranges in CNY, consolidated from public 2025–2026 Badachu
+ * pricing roundups. These are planning references, not hospital quotations.
+ * Sources checked 2026-09-07:
+ * - https://www.51aimei.com/news/world/11327.html
+ * - https://www.aimei.com/community/16285.html
+ * - https://www.59w.net/news/15950.html
+ * - https://www.yadoo.cn/news_detail/1575.html
+ */
 const CATEGORY_META = [
-  { price: "$2,200–$9,000", recovery: "1–2 weeks", recoveryZh: "1–2 周", type: "Surgical", typeZh: "手术类", icon: ScanFace },
-  { price: "$800–$5,000", recovery: "7–14 days", recoveryZh: "7–14 天", type: "Surgical", typeZh: "手术类", icon: Eye },
-  { price: "$2,500–$15,000", recovery: "2–4 weeks", recoveryZh: "2–4 周", type: "Surgical", typeZh: "手术类", icon: UserRound },
-  { price: "$2,000–$18,000", recovery: "2–4 weeks", recoveryZh: "2–4 周", type: "Surgical", typeZh: "手术类", icon: Sparkles },
-  { price: "$3,500–$14,000", recovery: "2–6 weeks", recoveryZh: "2–6 周", type: "Surgical", typeZh: "手术类", icon: HeartPulse },
-  { price: "$2,500–$18,000", recovery: "2–6 weeks", recoveryZh: "2–6 周", type: "Surgical", typeZh: "手术类", icon: Activity },
-  { price: "$1,500–$7,000", recovery: "7–14 days", recoveryZh: "7–14 天", type: "Surgical", typeZh: "手术类", icon: Scissors },
-  { price: "$300–$15,000", recovery: "Same day–2 weeks", recoveryZh: "当天–2 周", type: "Mixed care", typeZh: "综合治疗", icon: Smile },
-  { price: "$100–$4,000", recovery: "Hours–2 weeks", recoveryZh: "数小时–2 周", type: "Non-surgical", typeZh: "非手术类", icon: WandSparkles },
+  { priceLowCny: 4_000, priceHighCny: 89_000, recovery: "1–2 weeks", recoveryZh: "1–2 周", type: "Surgical", typeZh: "手术类", icon: ScanFace },
+  { priceLowCny: 3_000, priceHighCny: 50_000, recovery: "7–14 days", recoveryZh: "7–14 天", type: "Surgical", typeZh: "手术类", icon: Eye },
+  { priceLowCny: 5_000, priceHighCny: 80_000, recovery: "2–4 weeks", recoveryZh: "2–4 周", type: "Surgical", typeZh: "手术类", icon: UserRound },
+  { priceLowCny: 15_000, priceHighCny: 150_000, recovery: "2–4 weeks", recoveryZh: "2–4 周", type: "Surgical", typeZh: "手术类", icon: Sparkles },
+  { priceLowCny: 8_000, priceHighCny: 255_000, recovery: "2–6 weeks", recoveryZh: "2–6 周", type: "Surgical", typeZh: "手术类", icon: HeartPulse },
+  { priceLowCny: 5_000, priceHighCny: 100_000, recovery: "2–6 weeks", recoveryZh: "2–6 周", type: "Surgical", typeZh: "手术类", icon: Activity },
+  { priceLowCny: 5_000, priceHighCny: 60_000, recovery: "7–14 days", recoveryZh: "7–14 天", type: "Surgical", typeZh: "手术类", icon: Scissors },
+  { priceLowCny: 1_000, priceHighCny: 45_000, recovery: "Same day–2 weeks", recoveryZh: "当天–2 周", type: "Mixed care", typeZh: "综合治疗", icon: Smile },
+  { priceLowCny: 1_000, priceHighCny: 50_000, recovery: "Hours–2 weeks", recoveryZh: "数小时–2 周", type: "Non-surgical", typeZh: "非手术类", icon: WandSparkles },
 ] as const;
 
 const CONCERN_LINKS = [
@@ -254,6 +263,10 @@ const Treatments = () => {
   const [activeCategory, setActiveCategory] = useState(0);
   const [query, setQuery] = useState("");
   const normalizedQuery = query.trim().toLowerCase();
+  const formatCategoryPrice = (index: number) => {
+    const category = CATEGORY_META[index];
+    return `${fmt(category.priceLowCny)}–${fmt(category.priceHighCny)}`;
+  };
   const visibleCategories = useMemo(() => {
     if (!normalizedQuery) return [{ category: PROCEDURE_CATEGORIES[activeCategory], index: activeCategory }];
     return PROCEDURE_CATEGORIES.map((category, index) => ({
@@ -365,7 +378,7 @@ const Treatments = () => {
                             </div>
                             <div className="min-w-0 p-4">
                               <div className="flex items-start justify-between gap-3"><h3 className="font-semibold text-foreground">{label(en, cn)}</h3><ArrowRight className="mt-0.5 size-4 shrink-0 text-primary transition group-hover:translate-x-1" /></div>
-                              <div className="mt-3 flex flex-wrap gap-1.5 text-[10px] font-medium text-muted-foreground"><span className="rounded-full bg-secondary px-2 py-1">{CATEGORY_META[categoryIndex].price}</span><span className="rounded-full bg-primary/10 px-2 py-1 text-primary">{zh ? CATEGORY_META[categoryIndex].recoveryZh : CATEGORY_META[categoryIndex].recovery}</span><span className="rounded-full bg-accent/60 px-2 py-1">{zh ? CATEGORY_META[categoryIndex].typeZh : ru ? (CATEGORY_META[categoryIndex].type === "Surgical" ? "Хирургия" : CATEGORY_META[categoryIndex].type === "Non-surgical" ? "Без операции" : "Комплексное лечение") : CATEGORY_META[categoryIndex].type}</span></div>
+                              <div className="mt-3 flex flex-wrap gap-1.5 text-[10px] font-medium text-muted-foreground"><span className="rounded-full bg-secondary px-2 py-1">{formatCategoryPrice(categoryIndex)}</span><span className="rounded-full bg-primary/10 px-2 py-1 text-primary">{zh ? CATEGORY_META[categoryIndex].recoveryZh : CATEGORY_META[categoryIndex].recovery}</span><span className="rounded-full bg-accent/60 px-2 py-1">{zh ? CATEGORY_META[categoryIndex].typeZh : ru ? (CATEGORY_META[categoryIndex].type === "Surgical" ? "Хирургия" : CATEGORY_META[categoryIndex].type === "Non-surgical" ? "Без операции" : "Комплексное лечение") : CATEGORY_META[categoryIndex].type}</span></div>
                               <p className="mt-3 text-xs font-semibold text-primary">{copy("Read the full guide", "阅读完整指南", "Читать полное руководство")} <span aria-hidden="true">→</span></p>
                             </div>
                           </Link>
@@ -382,14 +395,14 @@ const Treatments = () => {
               <div className="max-w-3xl">
                 <span className="pill bg-card/80"><Clock3 className="size-3.5 text-primary" /> {copy("Recovery at a glance", "恢复时间速览", "Восстановление: краткий обзор")}</span>
                 <h2 className="mt-4 font-display text-3xl font-medium tracking-tight sm:text-4xl">{copy("Plan around the", "提前规划你的", "Планируйте с учётом")} <em className="not-italic text-primary">{copy("recovery window", "恢复期", "периода восстановления")}</em></h2>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{copy("These broad ranges are for trip planning only. Your procedure, health and expert's advice determine your actual recovery.", "以下为大类项目的一般计划参考。具体恢复进度取决于术式、个人健康状况和专家建议。", "Эти сроки предназначены только для планирования поездки. Реальное восстановление зависит от процедуры, вашего здоровья и рекомендаций эксперта.")}</p>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{copy("Recovery ranges are for trip planning. Prices use public 2025–2026 reference information for Beijing Badachu; they are not hospital quotations. The actual plan, surgeon, materials and facility fees determine the final amount.", "恢复时间仅用于行程规划。价格根据北京八大处 2025–2026 年公开资料整理，不是医院报价；最终费用取决于面诊方案、专家、材料及院方收费。", "Сроки даны для планирования поездки. Цены основаны на открытых справочных данных Beijing Badachu за 2025–2026 годы и не являются ценовым предложением больницы.")}</p>
               </div>
               <Link to="/cases" className="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-full bg-primary px-5 text-sm font-bold text-primary-foreground shadow-soft">{copy("Watch recovery diaries", "观看真实恢复日记", "Смотреть дневники восстановления")}<ArrowRight className="size-4" /></Link>
             </div>
             <div className="mt-7 overflow-x-auto rounded-3xl border border-white/70 bg-card/80 shadow-soft">
               <table className="w-full min-w-[680px] text-left text-sm">
-                <thead className="border-b border-border/70 text-xs uppercase tracking-wider text-muted-foreground"><tr><th className="p-4">{copy("Procedure group", "项目类别", "Категория")}</th><th className="p-4">{copy("General recovery range", "常见恢复范围", "Обычно восстановление")}</th><th className="p-4">{copy("Planning price range", "参考价格", "Диапазон цен")}</th><th className="p-4">{copy("Type", "类型", "Тип")}</th></tr></thead>
-                <tbody>{PROCEDURE_CATEGORIES.slice(0, 6).map((category, index) => <tr key={category.en} className="border-b border-border/60 last:border-0"><td className="p-4 font-semibold">{label(category.en, category.zh)}</td><td className="p-4 text-muted-foreground">{zh ? CATEGORY_META[index].recoveryZh : CATEGORY_META[index].recovery}</td><td className="p-4 text-muted-foreground">{CATEGORY_META[index].price}</td><td className="p-4"><span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">{zh ? CATEGORY_META[index].typeZh : ru ? "Хирургия" : CATEGORY_META[index].type}</span></td></tr>)}</tbody>
+                <thead className="border-b border-border/70 text-xs uppercase tracking-wider text-muted-foreground"><tr><th className="p-4">{copy("Procedure group", "项目类别", "Категория")}</th><th className="p-4">{copy("General recovery range", "常见恢复范围", "Обычно восстановление")}</th><th className="p-4">{copy("Badachu reference range", "八大处公开资料参考", "Ориентир Badachu")}</th><th className="p-4">{copy("Type", "类型", "Тип")}</th></tr></thead>
+                <tbody>{PROCEDURE_CATEGORIES.slice(0, 6).map((category, index) => <tr key={category.en} className="border-b border-border/60 last:border-0"><td className="p-4 font-semibold">{label(category.en, category.zh)}</td><td className="p-4 text-muted-foreground">{zh ? CATEGORY_META[index].recoveryZh : CATEGORY_META[index].recovery}</td><td className="p-4 font-semibold text-foreground">{formatCategoryPrice(index)}</td><td className="p-4"><span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">{zh ? CATEGORY_META[index].typeZh : ru ? "Хирургия" : CATEGORY_META[index].type}</span></td></tr>)}</tbody>
               </table>
             </div>
           </section>
