@@ -628,8 +628,8 @@ const TravelBar = () => {
     {
       icon: MessageCircle,
       image: journeyFollowUp,
-      en: ["Stay connected after you return", "Coordinate remote follow-up and translation when your expert recommends it"],
-      zh: ["回国后保持联系", "专家建议复诊时，我们协助协调远程随访与翻译"],
+      en: ["Back home, still by your side", "Your journey with us doesn’t end at the airport. We help you stay connected with your clinic for recommended follow-ups, with translation support along the way."],
+      zh: ["回到家，陪伴仍在", "旅程结束，关怀继续。我们协助你与诊所保持联系，安排建议的远程复诊，并提供翻译支持。"],
       ru: ["Оставайтесь на связи после возвращения", "Мы поможем организовать онлайн-наблюдение и перевод по рекомендации эксперта"],
       es: ["Mantente en contacto después de regresar", "Coordinamos el seguimiento remoto y la traducción cuando tu experto lo recomiende"],
     },

@@ -100,10 +100,10 @@ const JOURNEY_STEPS = [
     icon: MessageCircle,
     image: journeyFollowUp,
     eyebrow: ["Follow-up", "后续随访", "Наблюдение", "Seguimiento"],
-    title: ["Stay connected after you return", "回国后保持联系", "Оставайтесь на связи после возвращения", "Mantente en contacto tras tu regreso"],
+    title: ["Back home, still by your side", "回到家，陪伴仍在", "Оставайтесь на связи после возвращения", "Mantente en contacto tras tu regreso"],
     text: [
-      "Coordinate remote follow-up and translation when your expert recommends it.",
-      "专家建议复诊时，我们协助协调远程随访与翻译。",
+      "Your journey with us doesn’t end at the airport. We help you stay connected with your clinic for recommended follow-ups, with translation support along the way.",
+      "旅程结束，关怀继续。我们协助你与诊所保持联系，安排建议的远程复诊，并提供翻译支持。",
       "Мы поможем организовать онлайн-наблюдение и перевод по рекомендации эксперта.",
       "Coordinamos el seguimiento remoto y la traducción cuando tu experto lo recomiende.",
     ],
