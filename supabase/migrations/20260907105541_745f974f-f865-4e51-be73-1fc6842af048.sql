@@ -1,0 +1,1 @@
+REVOKE EXECUTE ON FUNCTION public.rate_limit_quote_requests() FROM PUBLIC, anon, authenticated;
