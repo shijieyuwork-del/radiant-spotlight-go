@@ -17,7 +17,7 @@ const BrandLogo = ({ className, markClassName, textClassName, showTagline = fals
       <path
         d="M88 19A45 45 0 1 0 88 101"
         fill="none"
-        stroke="#102A24"
+        stroke="#1C5A49"
         strokeWidth="10"
         strokeLinecap="round"
       />
@@ -38,7 +38,10 @@ const BrandLogo = ({ className, markClassName, textClassName, showTagline = fals
       <circle cx="93" cy="64" r="7" fill="#55BE98" />
     </svg>
     <span className="inline-flex min-w-0 flex-col justify-center">
-      <span className={cn("whitespace-nowrap font-display text-xl font-semibold leading-none tracking-[-0.04em] text-[#102A24]", textClassName)}>
+      <span
+        className={cn("whitespace-nowrap text-xl font-extrabold leading-none tracking-[-0.025em] text-[#1C5A49]", textClassName)}
+        style={{ fontFamily: "'Nunito Sans', 'Manrope', system-ui, sans-serif" }}
+      >
         Celadon<span className="text-[#4EB58F]">China</span>
       </span>
       {showTagline && (

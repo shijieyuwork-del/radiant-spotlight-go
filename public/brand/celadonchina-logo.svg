@@ -2,12 +2,12 @@
   <title id="title">CeladonChina</title>
   <desc id="desc">CeladonChina logo with an open celadon ring and a coordinated journey point.</desc>
   <g fill="none" stroke-linecap="round">
-    <path d="M101 30A48 48 0 1 0 101 114" stroke="#102A24" stroke-width="10"/>
+    <path d="M101 30A48 48 0 1 0 101 114" stroke="#1C5A49" stroke-width="10"/>
     <path d="M92 43A34 34 0 1 0 92 101" stroke="#55BE98" stroke-width="8"/>
     <path d="M42 77C57 67 76 66 94 75" stroke="#55BE98" stroke-width="6"/>
   </g>
   <circle cx="105" cy="77" r="7" fill="#55BE98"/>
-  <text x="140" y="94" font-family="Newsreader, Georgia, 'Times New Roman', serif" font-size="72" font-weight="600" letter-spacing="-2.2">
-    <tspan fill="#102A24">Celadon</tspan><tspan fill="#55BE98">China</tspan>
+  <text x="140" y="94" font-family="'Nunito Sans', 'Arial Rounded MT Bold', Arial, sans-serif" font-size="68" font-weight="800" letter-spacing="-1.4">
+    <tspan fill="#1C5A49">Celadon</tspan><tspan fill="#55BE98">China</tspan>
   </text>
 </svg>
