@@ -127,7 +127,7 @@ const AsiaNavbar = () => {
         <Link to="/" className="flex min-h-12 shrink-0 items-center gap-2">
           <BrandLogo showTagline markClassName="size-8 md:size-9" textClassName="text-lg md:text-xl" />
         </Link>
-        <div className="hidden 2xl:flex items-center gap-0.5 rounded-full bg-muted/60 p-1">
+        <div className="hidden xl:flex items-center gap-0.5 rounded-full bg-muted/60 p-1">
           {desktopLinks.map((l) => (
             <Link
               key={l.to}
@@ -138,7 +138,7 @@ const AsiaNavbar = () => {
           ))}
         </div>
         <div className="flex items-center gap-1.5">
-          <div className="hidden 2xl:flex items-center gap-1.5">
+          <div className="hidden xl:flex items-center gap-1.5">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="sm" className="rounded-full gap-1.5">
@@ -165,17 +165,17 @@ const AsiaNavbar = () => {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-          <div className="hidden 2xl:block">
+          <div className="hidden xl:block">
             <AccountMenu lang={lang} />
           </div>
-          <Button asChild variant="ghost" className="2xl:hidden rounded-full px-3 h-9 text-sm font-medium">
+          <Button asChild variant="ghost" className="xl:hidden rounded-full px-3 h-9 text-sm font-medium">
             <Link to="/auth?tab=signin">{c("Sign in", "登录", "Войти", "Iniciar sesión")}</Link>
           </Button>
         </div>
 
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="size-12 rounded-full border border-primary/10 bg-card shadow-soft 2xl:hidden" aria-label={c("Open menu", "打开菜单", "Открыть меню", "Abrir menú")}>
+            <Button variant="ghost" size="icon" className="size-12 rounded-full border border-primary/10 bg-card shadow-soft xl:hidden" aria-label={c("Open menu", "打开菜单", "Открыть меню", "Abrir menú")}>
               <Menu className="size-5" />
             </Button>
           </SheetTrigger>
