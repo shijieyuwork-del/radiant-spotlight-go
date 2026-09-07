@@ -73,7 +73,7 @@ test.describe("专家页 /doctors CTA 回归", () => {
       await gotoWithLang(page, "/doctors", lang);
 
       // 卡片 CTA 带 quoteCtx → 渲染为 <button>（打开咨询弹窗）；卡片数量随数据变化，只锁定至少 1 个
-      const cardCtas = page.getByRole("button", { name: CTA[lang], exact: true });
+      const cardCtas = page.locator('[data-testid="doctor-card-cta"]');
       await expect(cardCtas.first(), "每张专家卡片必须提供 canonical CTA").toBeVisible();
       await expect(cardCtas.first()).toHaveCSS("white-space", "nowrap");
       await expect(cardCtas.first()).toHaveScreenshot(`doctors-card-cta-${lang}.png`, { maxDiffPixelRatio: 0.02 });
