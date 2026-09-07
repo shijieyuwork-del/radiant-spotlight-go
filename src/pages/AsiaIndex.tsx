@@ -1109,7 +1109,7 @@ const TreatmentsSection = () => {
     },
     {
       key: "network",
-      image: journeyTreatment,
+      image: "/generated/clinic-network-asia-v2.png",
       eyebrow: c("China · Korea · Japan", "中国 · 韩国 · 日本", "Китай · Корея · Япония", "China · Corea · Japón"),
       title: c("A wider care network", "覆盖网络更广", "Широкая сеть клиник", "Una red asistencial más amplia"),
       detail: c(
