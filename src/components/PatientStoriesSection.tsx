@@ -1,4 +1,6 @@
 import { Quote } from "lucide-react";
+import "@fontsource/lora/500.css";
+import "@fontsource-variable/nunito-sans";
 
 import { useAsia } from "@/lib/asia-i18n";
 
@@ -73,47 +75,60 @@ const PatientStoriesSection = () => {
   const zh = lang === "zh";
 
   return (
-    <section className="border-t border-border/70 bg-card/45 py-14 sm:py-16 md:py-20" aria-labelledby="patient-stories-title">
+    <section className="border-t border-border/70 bg-background py-16 sm:py-20 md:py-24" aria-labelledby="patient-stories-title">
       <div className="container">
-        <div className="grid gap-6 border-b border-border/80 pb-8 md:grid-cols-[0.8fr_1.2fr] md:items-end md:gap-12">
-          <div>
-            <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-primary">
-              <Quote className="size-4" aria-hidden="true" />
+        <div className="grid gap-6 md:grid-cols-[0.9fr_1.1fr] md:items-end md:gap-16">
+          <div className="max-w-xl">
+            <span className="inline-flex items-center gap-2 text-xs font-bold uppercase text-primary">
+              <Quote className="size-4 fill-primary/15" aria-hidden="true" />
               {zh ? "真实患者经历" : "Patient stories"}
             </span>
-            <h2 id="patient-stories-title" className="mt-3 font-display text-4xl font-medium leading-[1.03] tracking-tight sm:text-5xl">
+            <h2 id="patient-stories-title" className="mt-4 text-4xl font-medium leading-[1.08] sm:text-5xl" style={{ fontFamily: "Lora, Georgia, serif" }}>
               {zh ? "他们的中国医美旅程" : "Care that travels with you."}
             </h2>
           </div>
-          <p className="max-w-2xl text-sm leading-7 text-muted-foreground sm:text-base">
+          <p className="max-w-2xl text-base leading-7 text-muted-foreground md:justify-self-end" style={{ fontFamily: "'Nunito Sans Variable', sans-serif" }}>
             {zh
               ? "从第一次咨询、抵达中国，到治疗与恢复，听三位患者讲述 CeladonChina 如何陪伴他们完成整个旅程。"
               : "From the first conversation and arrival in China to treatment and recovery, three patients share how CeladonChina supported their journey."}
           </p>
         </div>
 
-        <div className="divide-y divide-border/80 lg:grid lg:grid-cols-3 lg:divide-x lg:divide-y-0">
+        <div className="mt-10 grid gap-5 lg:grid-cols-3 lg:gap-6">
           {patientStories.map((story, index) => {
             const paragraphs = zh ? story.storyZh : story.story;
             return (
-              <article key={story.name} className="py-8 first:pt-8 lg:px-7 lg:py-10 lg:first:pl-0 lg:last:pr-0">
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <h3 className="font-display text-2xl font-medium leading-none">{story.name}</h3>
-                    <p className="mt-2 text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+              <article
+                key={story.name}
+                className="group relative flex h-full flex-col overflow-hidden rounded-[8px] border border-primary/15 bg-card p-6 shadow-soft transition duration-500 hover:-translate-y-1 hover:border-primary/30 hover:shadow-pop sm:p-8"
+                style={{ fontFamily: "'Nunito Sans Variable', sans-serif" }}
+              >
+                <span className="pointer-events-none absolute -right-1 -top-7 select-none text-[8rem] font-medium leading-none text-primary/10 transition-colors duration-500 group-hover:text-primary/15" style={{ fontFamily: "Lora, Georgia, serif" }} aria-hidden="true">
+                  “
+                </span>
+
+                <div className="relative flex items-center gap-4 border-b border-primary/10 pb-6">
+                  <div className="flex size-14 shrink-0 items-center justify-center rounded-[8px] border border-primary/15 bg-secondary text-lg font-bold text-foreground shadow-sm" aria-hidden="true">
+                    {story.name.slice(0, 1)}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="text-2xl font-medium leading-tight text-foreground" style={{ fontFamily: "Lora, Georgia, serif" }}>{story.name}</h3>
+                    <p className="mt-1 text-xs font-bold uppercase text-muted-foreground">
                       {zh ? `${story.age} 岁 · ${story.countryZh}` : `Age ${story.age} · ${story.country}`}
                     </p>
                   </div>
-                  <span className="font-display text-5xl leading-none text-primary/15" aria-hidden="true">
+                  <span className="self-start text-sm font-bold text-primary/55" aria-hidden="true">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                 </div>
 
-                <blockquote className="mt-6 space-y-4 border-l-2 border-primary/25 pl-5 text-[15px] leading-7 text-foreground/75">
+                <blockquote className="relative mt-7 flex-1 space-y-5 text-[15px] leading-7 text-foreground/75">
                   {paragraphs.map((paragraph) => (
                     <p key={paragraph}>{paragraph}</p>
                   ))}
                 </blockquote>
+
+                <div className="mt-8 h-1 w-12 rounded-full bg-primary/45 transition-all duration-500 group-hover:w-20 group-hover:bg-primary" aria-hidden="true" />
               </article>
             );
           })}
