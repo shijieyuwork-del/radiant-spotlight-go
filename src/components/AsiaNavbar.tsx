@@ -79,9 +79,9 @@ const AsiaNavbar = () => {
     { to: "/cases", label: t("nav.cases") },
     { to: "/before-after", label: c("Before & after", "术前术后", "До и после", "Antes y después") },
     { to: "/doctors", label: t("nav.compliance") },
-    { to: "/treatments", label: t("nav.projects") },
-    { to: "/travel-packages", label: c("Travel Support", "行程支持", "Поддержка поездки", "Apoyo de viaje") },
     { to: "/clinics", label: c("Clinics", "诊所", "Клиники", "Clínicas") },
+    { to: "/travel-packages", label: c("Travel Support", "行程支持", "Поддержка поездки", "Apoyo de viaje") },
+    { to: "/treatments", label: t("nav.projects") },
     { to: "/cities", label: t("nav.cities") },
     { to: "/why-china", label: c("Why China", "为什么选中国", "Почему Китай", "Por qué China") },
     { to: "/about", label: c("About", "关于我们", "О нас", "Acerca de") },
@@ -148,7 +148,7 @@ const AsiaNavbar = () => {
                   key={l.to}
                   to={l.to}
                   aria-current={isActive(l.to) ? "page" : undefined}
-                  className={`relative flex items-center whitespace-nowrap px-2.5 text-[11px] font-semibold uppercase tracking-[0.025em] transition-colors ${isActive(l.to) ? "text-primary" : "text-foreground/70 hover:text-primary"}`}
+                  className={`relative flex items-center whitespace-nowrap px-2.5 text-[11px] font-semibold uppercase tracking-[0.025em] transition-colors ${isActive(l.to) ? "text-primary" : "text-foreground hover:text-primary"}`}
                 >
                   {l.label}
                   {isActive(l.to) && <span className="absolute inset-x-2.5 bottom-0 h-1 rounded-t-full bg-primary" aria-hidden="true" />}
@@ -158,7 +158,7 @@ const AsiaNavbar = () => {
                 <DropdownMenuTrigger asChild>
                   <button
                     type="button"
-                    className={`relative inline-flex items-center gap-1 px-2.5 text-[11px] font-semibold uppercase tracking-[0.025em] transition-colors ${moreIsActive ? "text-primary" : "text-foreground/70 hover:text-primary"}`}
+                    className={`relative inline-flex items-center gap-1 px-2.5 text-[11px] font-semibold uppercase tracking-[0.025em] transition-colors ${moreIsActive ? "text-primary" : "text-foreground hover:text-primary"}`}
                     aria-label={c("Open more navigation links", "打开更多导航", "Открыть дополнительные ссылки", "Abrir más enlaces")}
                   >
                     {c("More", "更多", "Ещё", "Más")}
