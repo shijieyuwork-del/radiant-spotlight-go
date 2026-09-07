@@ -6,6 +6,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import "./index.css";
 import "./city-index-cta.css";
 import { bootstrapAnalytics } from "@/lib/analytics";
+import { Capacitor } from "@capacitor/core";
 
 // 开发模式下，HMR 替换模块时若导出结构变化（新增/删除/重命名组件），
 // 旧的引用关系会让应用进入陈旧状态 —— 直接整页刷新，拿到一致的模块图。
@@ -20,7 +21,12 @@ if (import.meta.hot) {
 
 bootstrapAnalytics();
 
-if (import.meta.env.PROD && "serviceWorker" in navigator) {
+if (Capacitor.isNativePlatform()) {
+  document.body.classList.add("ca-native-platform");
+  if (window.location.pathname === "/") window.history.replaceState(null, "", "/app");
+}
+
+if (import.meta.env.PROD && !Capacitor.isNativePlatform() && "serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     void navigator.serviceWorker.register("/app-sw.js");
   });

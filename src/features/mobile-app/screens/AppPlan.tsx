@@ -1,15 +1,18 @@
-import { Check, ChevronRight, Circle, FileText, MessageCircle, Plane, ShieldCheck, Stethoscope, UserRoundSearch } from "lucide-react";
+import { useState } from "react";
+import { Check, ChevronRight, Circle, FileText, MessageCircle, Plane, Share2, ShieldCheck, Stethoscope, UserRoundSearch } from "lucide-react";
 import { CITIES } from "@/data/cities";
 import { useAsia } from "@/lib/asia-i18n";
 import { asiaCopy } from "@/lib/asia-copy";
 import { useCarePlan } from "../CarePlanContext";
 import InstallAppButton from "../InstallAppButton";
+import { shareCarePlan, tapFeedback } from "../native";
 
 const PROCEDURES = ["Rhinoplasty", "Blepharoplasty", "Facelift", "Liposuction", "Breast augmentation", "Hair restoration", "Dental implants", "Skin treatment"];
 
 const AppPlan = () => {
   const { lang } = useAsia();
   const { plan, progress, setDestination, setProcedure, toggleTask } = useCarePlan();
+  const [shareUnavailable, setShareUnavailable] = useState(false);
   const c = <T,>(en: T, zh: T, ru: T, es?: T) => asiaCopy(lang, { en, zh, ru, es });
 
   const tasks = [
@@ -20,6 +23,17 @@ const AppPlan = () => {
   ];
 
   const whatsapp = `https://wa.me/14708613825?text=${encodeURIComponent(`Hi Cosmetics Asia, I am considering ${plan.procedure} in ${plan.destination}. I would like help reviewing my options.`)}`;
+
+  const sharePlan = async () => {
+    setShareUnavailable(false);
+    await tapFeedback();
+    try {
+      const shared = await shareCarePlan(plan.procedure, plan.destination);
+      setShareUnavailable(!shared);
+    } catch {
+      /* Closing the native share sheet is not an error for the user. */
+    }
+  };
 
   return (
     <div className="px-4 pb-8 pt-2">
@@ -58,8 +72,10 @@ const AppPlan = () => {
       <section className="mt-5 rounded-[1.5rem] bg-secondary p-4"><div className="flex gap-3"><ShieldCheck className="mt-0.5 size-5 shrink-0 text-primary" /><div><h2 className="text-sm font-semibold">{c("What to confirm before you decide", "决定前需要确认", "Что проверить", "Qué confirmar")}</h2><p className="mt-1 text-xs leading-5 text-muted-foreground">{c("Current credentials, facility privileges, treatment responsibility, risks, recovery and the final itemized price.", "当前资质、机构权限、治疗责任、风险、恢复期和最终明细价格。", "Документы, права, ответственность, риски, восстановление и итоговую цену.", "Credenciales, privilegios, responsabilidad, riesgos, recuperación y precio final.")}</p></div></div></section>
 
       <a href={whatsapp} target="_blank" rel="noreferrer" className="mt-5 flex min-h-14 items-center justify-between rounded-full bg-foreground px-5 text-sm font-semibold text-background shadow-soft"><span className="flex items-center gap-2"><MessageCircle className="size-5 text-primary" />{c("Review my plan with a coordinator", "和协调员一起检查行程", "Обсудить план", "Revisar mi plan")}</span><ChevronRight className="size-4" /></a>
+      <button type="button" onClick={sharePlan} className="mt-3 flex min-h-12 w-full items-center justify-center gap-2 rounded-full border border-foreground/20 bg-card px-5 text-sm font-semibold text-foreground"><Share2 className="size-4 text-primary" />{c("Share my plan", "分享我的行程", "Поделиться планом", "Compartir mi plan")}</button>
+      {shareUnavailable && <p role="status" className="mt-2 text-center text-xs text-muted-foreground">{c("Sharing is not available on this device.", "当前设备暂不支持分享。", "Функция недоступна на этом устройстве.", "Compartir no está disponible en este dispositivo.")}</p>}
       <InstallAppButton className="mt-3 flex min-h-12 w-full items-center justify-center gap-2 rounded-full border border-foreground/20 bg-card px-5 text-sm font-semibold text-foreground" />
-      <p className="mt-3 text-center text-[10px] leading-4 text-muted-foreground">{c("Information and coordination only — not medical advice.", "仅提供信息与协调服务，不构成医疗建议。", "Только информация и координация — не медицинская консультация.", "Solo información y coordinación; no es consejo médico.")}</p>
+      <p className="mt-3 text-center text-[10px] leading-4 text-muted-foreground">{c("Information and coordination only — not medical advice.", "仅提供信息与协调服务，不构成医疗建议。", "Только информация и координация — не медицинская консультация.", "Solo información y coordinación; no es consejo médico.")} <a href="https://cosmetics-asia.com/privacy" target="_blank" rel="noreferrer" className="font-semibold underline underline-offset-2">{c("Privacy", "隐私", "Конфиденциальность", "Privacidad")}</a></p>
     </div>
   );
 };

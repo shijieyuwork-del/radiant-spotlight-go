@@ -1,6 +1,10 @@
 import { useEffect, type ReactNode } from "react";
 import { BookOpenText, Building2, Compass, Home, MapPinned, Stethoscope } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+import { App as CapacitorApp } from "@capacitor/app";
+import { Capacitor, type PluginListenerHandle } from "@capacitor/core";
+import { SplashScreen } from "@capacitor/splash-screen";
+import { StatusBar, Style } from "@capacitor/status-bar";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import PageMeta from "@/components/PageMeta";
 import { asiaLangLabel, useAsia, type AsiaLang } from "@/lib/asia-i18n";
 import { asiaCopy } from "@/lib/asia-copy";
@@ -12,6 +16,7 @@ import AppExperts from "./screens/AppExperts";
 import AppHome from "./screens/AppHome";
 import AppPlan from "./screens/AppPlan";
 import type { AppSection } from "./types";
+import { tapFeedback } from "./native";
 
 const sectionFromPath = (pathname: string): AppSection => {
   const section = pathname.split("/")[2] as AppSection | undefined;
@@ -20,6 +25,7 @@ const sectionFromPath = (pathname: string): AppSection => {
 
 const MobileApp = () => {
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   const { lang, setLang } = useAsia();
   const c = <T,>(en: T, zh: T, ru: T, es?: T) => asiaCopy(lang, { en, zh, ru, es });
   const section = sectionFromPath(pathname);
@@ -42,6 +48,32 @@ const MobileApp = () => {
     document.body.classList.add("ca-mobile-app");
     return () => document.body.classList.remove("ca-mobile-app");
   }, []);
+
+  useEffect(() => {
+    if (!Capacitor.isNativePlatform()) return;
+    void (async () => {
+      try {
+        await StatusBar.setStyle({ style: Style.Dark });
+        await StatusBar.setBackgroundColor({ color: "#fbfaf5" });
+        await StatusBar.setOverlaysWebView({ overlay: false });
+        await SplashScreen.hide();
+      } catch {
+        // Some status-bar controls are unavailable on newer platform versions.
+      }
+    })();
+
+    let backHandle: PluginListenerHandle | undefined;
+    void CapacitorApp.addListener("backButton", () => {
+      if (pathname !== "/app") navigate(-1);
+      else void CapacitorApp.exitApp();
+    }).then((handle) => {
+      backHandle = handle;
+    }).catch(() => undefined);
+
+    return () => {
+      void backHandle?.remove();
+    };
+  }, [navigate, pathname]);
 
   return (
     <CarePlanProvider>
@@ -75,7 +107,7 @@ const MobileApp = () => {
               <div className="grid grid-cols-5">
                 {nav.map(({ id, icon: Icon, label, to }) => {
                   const active = section === id;
-                  return <Link key={id} to={to} aria-current={active ? "page" : undefined} className={`flex min-h-[4.8rem] flex-col items-center justify-center gap-1 rounded-2xl text-[9px] font-semibold transition active:scale-[.96] ${active ? "text-foreground" : "text-muted-foreground"}`}><span className={`grid size-8 place-items-center rounded-full transition ${active ? "bg-secondary" : ""}`}><Icon className={`size-[18px] ${active ? "text-primary" : ""}`} strokeWidth={active ? 2.5 : 2} /></span>{label}</Link>;
+                  return <Link key={id} to={to} onClick={() => void tapFeedback()} aria-current={active ? "page" : undefined} className={`flex min-h-[4.8rem] flex-col items-center justify-center gap-1 rounded-2xl text-[9px] font-semibold transition active:scale-[.96] ${active ? "text-foreground" : "text-muted-foreground"}`}><span className={`grid size-8 place-items-center rounded-full transition ${active ? "bg-secondary" : ""}`}><Icon className={`size-[18px] ${active ? "text-primary" : ""}`} strokeWidth={active ? 2.5 : 2} /></span>{label}</Link>;
                 })}
               </div>
             </nav>

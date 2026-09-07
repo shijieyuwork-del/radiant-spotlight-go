@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Download, Share, X } from "lucide-react";
 import { useAsia } from "@/lib/asia-i18n";
 import { asiaCopy } from "@/lib/asia-copy";
+import { isNativeApp } from "./native";
 
 type InstallPromptEvent = Event & {
   prompt: () => Promise<void>;
@@ -37,6 +38,8 @@ const InstallAppButton = ({ className = "" }: { className?: string }) => {
     const choice = await promptEvent.userChoice;
     if (choice.outcome === "accepted") setPromptEvent(null);
   };
+
+  if (isNativeApp()) return null;
 
   return (
     <>

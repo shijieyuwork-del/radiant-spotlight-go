@@ -68,6 +68,12 @@ const Privacy = () => (
             )}
           </section>
           <section>
+            <h2 className="font-display text-2xl font-semibold">Mobile app storage</h2>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+              The Cosmetics Asia mobile app can save your selected procedure, destination and preparation checklist on your device. This care-plan information is not uploaded to our servers. You can remove it by clearing the app’s storage or uninstalling the app.
+            </p>
+          </section>
+          <section>
             <h2 className="font-display text-2xl font-semibold">Contact</h2>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
               Questions about privacy or a request concerning information you shared with us? Email

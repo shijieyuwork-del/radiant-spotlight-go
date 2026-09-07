@@ -1,0 +1,13 @@
+Cosmetics Asia is an informational and travel-coordination companion for adults considering cosmetic care in Asia.
+
+No account is required. All primary tabs are available immediately after launch. The care-plan checklist is stored locally on the device and is not uploaded to Cosmetics Asia. External contact actions are user initiated and open the device's chosen communication service.
+
+The app is not a medical device, does not diagnose or recommend treatment, and does not replace a licensed healthcare professional. Published profiles and directory entries are clearly presented as information rather than rankings or endorsements.
+
+Suggested review path:
+1. Open Experts and view a published profile.
+2. Open Clinics and search for Shanghai.
+3. Open Diaries and play a journey preview.
+4. Open My plan, select a procedure and destination, complete one checklist item, then use Share my plan.
+
+Contact: hello@cosmetics-asia.com

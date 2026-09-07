@@ -22,6 +22,33 @@ body.ca-mobile-app .consult-blink {
   display: none;
 }
 
+body.ca-native-platform .mobile-app-stage,
+body.ca-native-platform .mobile-app-stage > div {
+  display: block;
+  min-height: 100dvh;
+  height: 100dvh;
+  max-height: none;
+  max-width: none;
+  padding: 0;
+}
+
+body.ca-native-platform .mobile-app-stage aside {
+  display: none;
+}
+
+body.ca-native-platform .mobile-app-device {
+  height: 100dvh;
+  min-height: 100dvh;
+  max-width: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+body.ca-native-platform .mobile-app-nav {
+  position: fixed;
+}
+
 @keyframes mobile-app-section-enter {
   from {
     opacity: 0;

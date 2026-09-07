@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="500" viewBox="0 0 1024 500" role="img" aria-label="Cosmetics Asia feature graphic">
+  <rect width="1024" height="500" fill="#102c24"/>
+  <circle cx="890" cy="80" r="170" fill="#63c6a2" opacity="0.12"/>
+  <circle cx="778" cy="454" r="260" fill="#fbfaf5" opacity="0.06"/>
+  <rect x="690" y="54" width="214" height="392" rx="42" fill="#fbfaf5"/>
+  <rect x="707" y="86" width="180" height="180" rx="28" fill="#183b31"/>
+  <circle cx="735" cy="112" r="7" fill="#63c6a2"/>
+  <rect x="725" y="292" width="144" height="16" rx="8" fill="#dcefe7"/>
+  <rect x="725" y="325" width="112" height="12" rx="6" fill="#e9e7dc"/>
+  <rect x="725" y="360" width="144" height="48" rx="24" fill="#102c24"/>
+  <circle cx="96" cy="86" r="35" fill="#fbfaf5"/>
+  <text x="96" y="98" fill="#102c24" font-family="Georgia, serif" font-size="31" text-anchor="middle">CA</text>
+  <text x="150" y="96" fill="#fbfaf5" font-family="Arial, sans-serif" font-size="26" font-weight="700">Cosmetics Asia</text>
+  <text x="66" y="210" fill="#fbfaf5" font-family="Georgia, serif" font-size="58">Private care,</text>
+  <text x="66" y="275" fill="#63c6a2" font-family="Georgia, serif" font-size="58">clearly planned.</text>
+  <text x="66" y="334" fill="#fbfaf5" opacity="0.68" font-family="Arial, sans-serif" font-size="20">Experts · Clinics · Journey previews · My plan</text>
+  <rect x="66" y="382" width="220" height="54" rx="27" fill="#fbfaf5"/>
+  <text x="176" y="416" fill="#102c24" font-family="Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle">CARE ACROSS ASIA</text>
+</svg>
