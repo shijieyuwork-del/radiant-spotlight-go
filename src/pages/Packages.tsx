@@ -290,8 +290,8 @@ const Packages = () => {
           </section>
 
         </main>
-        <div className="pb-10">
-          <MedicalDisclaimer variant="banner" />
+        <div className="container pb-10">
+          <MedicalDisclaimer variant="banner" className="mx-auto max-w-5xl" />
         </div>
         <Footer />
       </div>
