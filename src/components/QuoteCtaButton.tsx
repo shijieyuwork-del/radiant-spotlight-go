@@ -46,6 +46,7 @@ const QuoteCtaButton = ({
   variant = "dark",
   icon = "arrow",
   className,
+  "data-testid": testId,
 }: QuoteCtaButtonProps) => {
   const { t } = useAsia();
   const { open } = useQuote();
