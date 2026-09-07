@@ -17,7 +17,7 @@ import { usePublishedVideos } from "@/hooks/use-published-videos";
 import PageMeta from "@/components/PageMeta";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
 import { CITIES } from "@/data/cities";
-import { CitySearchBar, CityQuickResults, useCityFilter } from "@/components/CitySearch";
+
 import { useAsia } from "@/lib/asia-i18n";
 import { localizeDoctorRow } from "@/lib/i18n-content";
 import QuoteCtaButton from "@/components/QuoteCtaButton";
