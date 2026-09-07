@@ -3,9 +3,9 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Sparkles, Mail, Lock, ArrowRight, Loader2, Eye, EyeOff, CheckCircle2, Heart } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { lovable } from "@/integrations/lovable/index";
 import { useAuth } from "@/lib/auth";
 import { useAsia } from "@/lib/asia-i18n";
+import BrandLogo from "@/components/BrandLogo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -81,16 +81,16 @@ const Auth = () => {
 
   const handleGoogle = async () => {
     setLoading(true);
-    const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: `${window.location.origin}${nextPath}`,
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/auth?next=${encodeURIComponent(nextPath)}`,
+      },
     });
-    if (result.error) {
-      toast.error(result.error.message ?? t("Google sign-in failed.", "Google 登录失败。"));
+    if (error) {
+      toast.error(error.message ?? t("Google sign-in failed.", "Google 登录失败。"));
       setLoading(false);
-      return;
     }
-    if (result.redirected) return;
-    navigate(nextPath, { replace: true });
   };
 
   const handleForgotPassword = async (e: React.FormEvent) => {
@@ -120,13 +120,8 @@ const Auth = () => {
   return (
     <div className="min-h-screen bg-gradient-mint grid place-items-center px-4 py-10">
       <div className="w-full max-w-md">
-        <Link to="/" className="flex items-center gap-2 justify-center mb-6">
-          <div className="grid place-items-center size-10 rounded-2xl bg-background shadow-soft">
-            <Sparkles className="size-5 text-primary" />
-          </div>
-          <span className="font-display text-2xl font-semibold tracking-tight">
-            cosmetics<span className="text-primary">·Asia</span>
-          </span>
+        <Link to="/" className="flex items-center justify-center mb-6">
+          <BrandLogo showTagline markClassName="size-10" textClassName="text-2xl" />
         </Link>
 
         <div className="rounded-3xl bg-card shadow-pop p-6 md:p-8">
