@@ -44,6 +44,7 @@ const Experts = () => {
     const rows = ((data??[]) as unknown as ManagedDoctor[]).filter((doctor)=>chinaCities.some((cityName)=>doctor.city?.toLowerCase().includes(cityName)));
     const photos = await signedUrls("doctor-photos", rows.map((doctor)=>doctor.photo_path));
     setManagedDoctors(rows.map((doctor, index)=>localizeDoctorRow({ ...doctor, photo: photos[index] }, lang)));
+    setDoctorsLoaded(true);
   })},[lang]);
   useEffect(()=>{loadManagedDoctors();},[loadManagedDoctors]);
   // 后台发布新专家后前台自动更新
@@ -52,7 +53,9 @@ const Experts = () => {
   const publicDoctors = useMemo(() => DOCTORS.filter(() => false), []);
   const directoryDoctors: DirectoryDoctor[] = managedDoctors.length > 0
     ? managedDoctors.map((doctor) => ({ ...doctor, demo: false, photo: doctor.photo ?? "" }))
-    : DEMO_CHINA_DOCTORS.map((doctor) => ({ ...doctor, photo_path: null, credentials: null }) as DirectoryDoctor);
+    : doctorsLoaded
+      ? DEMO_CHINA_DOCTORS.map((doctor) => ({ ...doctor, photo_path: null, credentials: null }) as DirectoryDoctor)
+      : [];
   const cities = useMemo(() => {
     const set = new Map<string, string>();
     publicDoctors.forEach((d) => set.set(d.cityEn, d[lang === "zh" ? "cityZh" : "cityEn"]));
