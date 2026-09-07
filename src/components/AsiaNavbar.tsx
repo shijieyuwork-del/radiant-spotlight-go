@@ -93,7 +93,7 @@ const AsiaNavbar = () => {
   return (
     <>
       <div className="fixed inset-x-0 top-0 z-[70]">
-        <div className="hidden h-11 bg-primary text-foreground xl:block">
+        <div className="hidden h-11 bg-[hsl(var(--brand-emerald))] text-foreground xl:block">
           <div className="container flex h-full items-center justify-between gap-8 text-sm font-medium">
             <div className="flex items-center gap-6">
               <a href="https://wa.me/14708613825" target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center gap-2 text-foreground/90 transition hover:text-foreground">
@@ -180,7 +180,7 @@ const AsiaNavbar = () => {
             <button
               type="button"
               onClick={() => open({ source: "navbar_desktop" })}
-              className="hidden min-h-12 shrink-0 items-center gap-2 rounded-full bg-primary px-5 text-sm font-semibold text-foreground shadow-[0_7px_16px_rgba(63,156,126,0.2)] transition hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-[0_9px_20px_rgba(63,156,126,0.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 xl:inline-flex 2xl:px-6"
+              className="hidden min-h-12 shrink-0 items-center gap-2 rounded-full bg-[hsl(var(--brand-emerald))] px-5 text-sm font-semibold text-foreground shadow-[0_7px_16px_rgba(74,176,140,0.2)] transition hover:-translate-y-0.5 hover:brightness-[0.97] hover:shadow-[0_9px_20px_rgba(74,176,140,0.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 xl:inline-flex 2xl:px-6"
             >
               <CalendarDays className="size-4" aria-hidden="true" />
               {c("Start a consultation", "开始咨询", "Начать консультацию", "Iniciar una consulta")}
