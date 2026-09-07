@@ -385,10 +385,6 @@ export const findCity = (slug: string) =>
  * key 用小写英文城市名（与 slug 一致），专家页按 cityEn 查同一张表。
  */
 export const COUNTRY_BY_CITY: Record<string, string> = {
-  seoul: "KR",
-  bangkok: "TH",
-  tokyo: "JP",
-  singapore: "SG",
   shanghai: "CN",
   guangzhou: "CN",
   beijing: "CN",
@@ -403,8 +399,4 @@ export const countryOf = (city: string): string =>
 /** 国家代码 → 展示名（三语 + 旗帜），供城市搜索的国家筛选使用 */
 export const COUNTRY_META: Record<string, { en: string; zh: string; ru: string; es: string; flag: string }> = {
   CN: { en: "China", zh: "中国", ru: "Китай", es: "China", flag: "🇨🇳" },
-  KR: { en: "South Korea", zh: "韩国", ru: "Южная Корея", es: "Corea del Sur", flag: "🇰🇷" },
-  TH: { en: "Thailand", zh: "泰国", ru: "Таиланд", es: "Tailandia", flag: "🇹🇭" },
-  JP: { en: "Japan", zh: "日本", ru: "Япония", es: "Japón", flag: "🇯🇵" },
-  SG: { en: "Singapore", zh: "新加坡", ru: "Сингапур", es: "Singapur", flag: "🇸🇬" },
 };
