@@ -3,6 +3,7 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Sparkles, Mail, Lock, ArrowRight, Loader2, Eye, EyeOff, CheckCircle2, Heart } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { lovable } from "@/integrations/lovable/index";
 import { useAuth } from "@/lib/auth";
 import { useAsia } from "@/lib/asia-i18n";
 import BrandLogo from "@/components/BrandLogo";
@@ -81,14 +82,17 @@ const Auth = () => {
 
   const handleGoogle = async () => {
     setLoading(true);
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: `${window.location.origin}/auth?next=${encodeURIComponent(nextPath)}`,
-      },
-    });
-    if (error) {
-      toast.error(error.message ?? t("Google sign-in failed.", "Google 登录失败。"));
+    try {
+      const result = await lovable.auth.signInWithOAuth("google", {
+        redirect_uri: `${window.location.origin}/auth?next=${encodeURIComponent(nextPath)}`,
+      });
+      if (result.redirected) return; // browser is heading to Google
+      if (result.error) throw result.error;
+      // Tokens received and session already set — go to intended destination
+      navigate(nextPath, { replace: true });
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : t("Google sign-in failed.", "Google 登录失败。"));
+    } finally {
       setLoading(false);
     }
   };
