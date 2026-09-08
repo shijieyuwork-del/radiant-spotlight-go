@@ -4,6 +4,8 @@ import {
   ArrowLeft,
   BadgeCheck,
   Clock,
+  ChevronDown,
+  ArrowRight,
   Languages,
   Loader2,
   MapPin,
@@ -16,6 +18,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { localizeDoctorRow, localizeVideoRow } from "@/lib/i18n-content";
 import { signedUrl, signedUrls } from "@/lib/storage-urls";
 import { formatCityTime, getCityTimezone } from "@/lib/timezones";
+import QuoteCtaButton from "@/components/QuoteCtaButton";
 import CoverVideo from "@/components/CoverVideo";
 import { useAsia } from "@/lib/asia-i18n";
 import BeforeAfterCard from "@/components/BeforeAfterCard";
@@ -26,6 +29,7 @@ type Doctor = {
   name: string;
   title: string;
   city: string;
+  hospital?: string;
   specialties: string[];
   bio: string;
   credentials: string | null;
@@ -50,31 +54,35 @@ const ManagedDoctorDetail = () => {
   const [loading, setLoading] = useState(true);
   const [photo, setPhoto] = useState("");
   useEffect(() => {
-    (async () => {
-      const { data } = await supabase
-        .from("doctors")
-        .select(
-          "id,name,title,city,specialties,bio,credentials,languages,photo_path,i18n",
-        )
-        .eq("id", id)
-        .eq("status", "published")
-        .maybeSingle();
-      setDoctor(
-        data
-          ? (localizeDoctorRow(
-              data as Record<string, unknown>,
-              lang,
-            ) as unknown as Doctor)
-          : null,
-      );
-      if (data) {
-        setPhoto(await signedUrl("doctor-photos", (data as Doctor).photo_path));
+    let cancelled = false;
+    setLoading(true);
+    setDoctor(null);
+    setVideos([]);
+    setPhoto("");
+    void (async () => {
+      try {
+        const { data, error } = await supabase
+          .from("doctors")
+          .select(
+            "id,name,title,hospital,city,specialties,bio,credentials,languages,photo_path,i18n",
+          )
+          .eq("id", id)
+          .eq("status", "published")
+          .maybeSingle();
+        if (cancelled || error || !data) return;
+        const nextDoctor = localizeDoctorRow(
+          data as Record<string, unknown>,
+          lang,
+        ) as unknown as Doctor;
+        const nextPhoto = await signedUrl("doctor-photos", (data as Doctor).photo_path);
+        if (cancelled) return;
         const r = await supabase
           .from("videos")
           .select("id,title,caption,storage_path,cover_path,i18n")
           .eq("doctor_id", id)
           .eq("status", "published")
           .order("created_at", { ascending: false });
+        if (cancelled) return;
         const rows = (r.data ?? []) as Video[];
         const [urls, coverUrls] = await Promise.all([
           signedUrls(
@@ -86,6 +94,9 @@ const ManagedDoctorDetail = () => {
             rows.map((v) => v.cover_path),
           ),
         ]);
+        if (cancelled) return;
+        setDoctor(nextDoctor);
+        setPhoto(nextPhoto);
         setVideos(
           rows.map(
             (v, i) =>
@@ -98,9 +109,15 @@ const ManagedDoctorDetail = () => {
               ) as unknown as Video,
           ),
         );
+      } catch {
+        if (!cancelled) setDoctor(null);
+      } finally {
+        if (!cancelled) setLoading(false);
       }
-      setLoading(false);
     })();
+    return () => {
+      cancelled = true;
+    };
   }, [id, lang]);
   const c = (en: string, zh: string, ru: string, es: string) =>
     lang === "zh" ? zh : lang === "ru" ? ru : lang === "es" ? es : en;
@@ -122,7 +139,7 @@ const ManagedDoctorDetail = () => {
             "Perfil de experto no encontrado.",
           )}
           <br />
-          <Link to="/doctors" className="text-primary">
+          <Link to="/doctors" className="text-brand underline underline-offset-4">
             {c(
               "Back to experts",
               "返回专家列表",
@@ -176,36 +193,63 @@ const ManagedDoctorDetail = () => {
             <ArrowLeft className="size-4" />
             {c("All experts", "全部专家", "Все эксперты", "Todos los expertos")}
           </Link>
-          <section className="mt-6 rounded-3xl bg-card shadow-pop p-6 md:p-8 grid md:grid-cols-[260px_1fr] gap-8">
-            {photo ? (
-              <img
-                src={photo}
-                alt={doctor.name}
-                className="w-full aspect-square rounded-3xl object-cover"
-              />
-            ) : (
-              <div className="aspect-square rounded-3xl bg-muted grid place-items-center">
-                <Stethoscope className="size-12 text-muted-foreground" />
+          <section className="mt-6 rounded-3xl bg-card p-5 shadow-pop sm:p-6 md:p-8">
+            <div className="grid grid-cols-[6rem_minmax(0,1fr)] gap-4 sm:grid-cols-[10rem_minmax(0,1fr)] sm:gap-6 md:grid-cols-[220px_minmax(0,1fr)]">
+              {photo ? (
+                <img src={photo} alt={doctor.name} className="aspect-square w-full rounded-2xl object-cover" />
+              ) : (
+                <div className="grid aspect-square place-items-center rounded-2xl bg-muted">
+                  <Stethoscope className="size-10 text-foreground" />
+                </div>
+              )}
+              <div className="min-w-0">
+                <p className="inline-flex items-center gap-1.5 text-xs font-semibold text-foreground">
+                  <BadgeCheck className="size-3.5 shrink-0" />
+                  {c("Published expert profile", "已发布专家资料", "Опубликованный профиль эксперта", "Perfil de experto publicado")}
+                </p>
+                <h1 className="mt-2 break-words font-display text-3xl leading-tight sm:text-4xl">{doctor.name}</h1>
+                <p className="mt-2 text-sm text-foreground sm:text-base">{doctor.title}</p>
+                {doctor.hospital && <p className="mt-3 text-sm font-semibold text-foreground">{doctor.hospital}</p>}
+                <p className="mt-2 flex items-center gap-1.5 text-sm text-foreground">
+                  <MapPin className="size-4 shrink-0" />{doctor.city}
+                </p>
+              </div>
+            </div>
+
+            {doctor.specialties.length > 0 && (
+              <div className="mt-6">
+                <h2 className="text-sm font-semibold text-foreground">{c("Specialties", "擅长项目", "Специализации", "Especialidades")}</h2>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {doctor.specialties.slice(0, 3).map((specialty) => <span key={specialty} className="rounded-full bg-accent px-3 py-1.5 text-sm text-foreground">{specialty}</span>)}
+                </div>
+                {doctor.specialties.length > 3 && (
+                  <details className="group mt-3">
+                    <summary className="flex min-h-11 w-fit cursor-pointer list-none items-center gap-2 rounded-lg px-1 text-sm font-semibold text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground [&::-webkit-details-marker]:hidden">
+                      {c(`View all specialties (${doctor.specialties.length})`, `查看全部擅长项目（${doctor.specialties.length}）`, `Все специализации (${doctor.specialties.length})`, `Ver todas las especialidades (${doctor.specialties.length})`)}
+                      <ChevronDown className="size-4 transition-transform group-open:rotate-180" />
+                    </summary>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {doctor.specialties.slice(3).map((specialty) => <span key={specialty} className="rounded-full bg-accent px-3 py-1.5 text-sm text-foreground">{specialty}</span>)}
+                    </div>
+                  </details>
+                )}
               </div>
             )}
-            <div>
-              <span className="pill bg-accent text-accent-foreground">
-                <BadgeCheck className="size-3.5" />
-                {c(
-                  "Platform expert profile",
-                  "平台专家资料",
-                  "Профиль эксперта платформы",
-                  "Perfil de experto de la plataforma",
-                )}
-              </span>
-              <h1 className="font-display text-4xl mt-4">{doctor.name}</h1>
-              <p className="text-muted-foreground mt-1">{doctor.title}</p>
-              <p className="flex gap-2 mt-4">
-                <MapPin className="size-4 text-primary" />
-                {doctor.city}
-              </p>
-              <p className="flex gap-2 mt-2 text-sm text-muted-foreground">
-                <Clock className="size-4 text-primary" />
+
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+              <QuoteCtaButton quoteCtx={{ doctorName: doctor.name, city: doctor.city, source: "expert_profile" }} className="w-full whitespace-normal px-5 sm:w-auto" data-testid="expert-profile-consultation" />
+              <a href="#expert-cases" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-foreground/25 px-5 text-sm font-semibold text-foreground hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground">
+                {c(`View cases (${videos.length + beforeAfter.length})`, `查看案例（${videos.length + beforeAfter.length}）`, `Смотреть случаи (${videos.length + beforeAfter.length})`, `Ver casos (${videos.length + beforeAfter.length})`)}<ArrowRight className="size-4" />
+              </a>
+            </div>
+
+            <details className="group mt-5 border-t border-border pt-3">
+              <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 text-sm font-semibold text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground [&::-webkit-details-marker]:hidden">
+                {c("Consultation time & languages", "咨询时间与语言", "Время консультаций и языки", "Horario e idiomas de consulta")}
+                <ChevronDown className="size-4 shrink-0 transition-transform group-open:rotate-180" />
+              </summary>
+              <p className="mt-2 flex items-start gap-2 text-sm leading-relaxed text-foreground">
+                <Clock className="mt-0.5 size-4 shrink-0" />
                 {c(
                   `Local time in ${doctor.city}: ${tz.offset} (${tz.label.en}) · now about ${formatCityTime(tz, "en")} — consultation slots follow this timezone`,
                   `${doctor.city}当地时间 ${tz.offset}（${tz.label.zh}）· 现在约 ${formatCityTime(tz, "zh")} — 预约咨询时间以此时区为准`,
@@ -213,50 +257,25 @@ const ManagedDoctorDetail = () => {
                   `Hora local en ${doctor.city}: ${tz.offset} (${tz.label.es}) · ahora aprox. ${formatCityTime(tz, "es")} — las citas siguen esta zona horaria`,
                 )}
               </p>
-              {doctor.languages && (
-                <p className="flex gap-2 mt-2">
-                  <Languages className="size-4 text-primary" />
-                  {doctor.languages}
-                </p>
+              {doctor.languages && <p className="mt-3 flex items-start gap-2 text-sm text-foreground"><Languages className="mt-0.5 size-4 shrink-0" />{doctor.languages}</p>}
+            </details>
+          </section>
+          <details open className="group mt-8 max-w-[65ch] rounded-2xl border border-border bg-card">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-3 rounded-2xl px-5 py-5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground [&::-webkit-details-marker]:hidden">
+              <h2 className="font-display text-2xl">{c("About this expert", "专家介绍", "Об эксперте", "Sobre este experto")}</h2>
+              <ChevronDown className="size-5 shrink-0 text-foreground transition-transform group-open:rotate-180" />
+            </summary>
+            <div className="px-5 pb-5">
+              {doctor.bio && <p className="whitespace-pre-line text-body md:text-body-lg text-foreground">{doctor.bio}</p>}
+              {doctor.credentials && (
+                <div className="mt-6 rounded-xl bg-muted/40 p-4">
+                  <h3 className="font-semibold">{c("Credentials and certifications", "资质与认证", "Квалификация и сертификаты", "Titulaciones y certificaciones")}</h3>
+                  <p className="mt-2 whitespace-pre-line text-body md:text-body-lg text-foreground">{doctor.credentials}</p>
+                </div>
               )}
-              <div className="flex flex-wrap gap-2 mt-5">
-                {doctor.specialties.map((s) => (
-                  <span key={s} className="pill bg-accent">
-                    {s}
-                  </span>
-                ))}
-              </div>
             </div>
-          </section>
-          <section className="mt-10">
-            <h2 className="font-display text-3xl">
-              {c(
-                "About this expert",
-                "专家介绍",
-                "Об эксперте",
-                "Sobre este experto",
-              )}
-            </h2>
-            <p className="text-muted-foreground leading-relaxed mt-4 whitespace-pre-line">
-              {doctor.bio}
-            </p>
-            {doctor.credentials && (
-              <div className="rounded-2xl bg-muted/40 p-5 mt-6">
-                <h3 className="font-semibold">
-                  {c(
-                    "Credentials and certifications",
-                    "资质与认证",
-                    "Квалификация и сертификаты",
-                    "Titulaciones y certificaciones",
-                  )}
-                </h3>
-                <p className="text-sm text-muted-foreground mt-2 whitespace-pre-line">
-                  {doctor.credentials}
-                </p>
-              </div>
-            )}
-          </section>
-          <section className="mt-12">
+          </details>
+          <section id="expert-cases" className="mt-10 scroll-mt-24 xl:scroll-mt-40">
             <h2 className="font-display text-3xl">
               {c(
                 `Patient diaries (${videos.length})`,

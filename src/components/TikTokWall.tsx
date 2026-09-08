@@ -150,10 +150,10 @@ const TikTokCard = ({
 
       {/* top: treatment chip + verified */}
       <div className="absolute top-3 left-3 right-3 flex items-start justify-between gap-2">
-        <span className="pill bg-white/90 backdrop-blur text-foreground text-[10px] font-semibold">
+        <span className="pill bg-white/90 backdrop-blur text-foreground text-label font-semibold">
           <Highlight text={item.treatment[lang]} query={highlight} className={MARK_CLASS} />
         </span>
-        <span className="pill bg-primary/90 text-primary-foreground text-[10px] font-semibold">
+        <span className="pill bg-primary/90 text-primary-foreground text-label font-semibold">
           {discovery ? recoveryStage : labels[lang].verified}
         </span>
       </div>
@@ -183,7 +183,7 @@ const TikTokCard = ({
         >
           <Heart className={`size-5 ${saved ? "fill-rose-500 text-rose-500" : ""}`} />
         </button>
-        {!discovery && item.likes && <span className="text-[10px] text-white font-semibold -mt-2">{item.likes}</span>}
+        {!discovery && item.likes && <span className="text-label text-white font-semibold -mt-2">{item.likes}</span>}
 
         {!discovery && <button
           onClick={(e) => e.stopPropagation()}
@@ -192,7 +192,7 @@ const TikTokCard = ({
         >
           <MessageCircle className="size-5" />
         </button>}
-        {!discovery && item.comments && <span className="text-[10px] text-white font-semibold -mt-2">{item.comments}</span>}
+        {!discovery && item.comments && <span className="text-label text-white font-semibold -mt-2">{item.comments}</span>}
 
         {!discovery && <button
           onClick={(e) => e.stopPropagation()}
@@ -216,7 +216,7 @@ const TikTokCard = ({
         <p className="text-xs font-semibold opacity-95"><Highlight text={item.user[lang]} query={highlight} className={MARK_CLASS} /></p>
         <p className="text-[12px] mt-1 leading-snug line-clamp-2"><Highlight text={item.caption[lang]} query={highlight} className={MARK_CLASS} /></p>
         {item.city && (
-          <p className="mt-1 flex items-center gap-1 text-[11px] font-medium text-white/90">
+          <p className="mt-1 flex items-center gap-1 text-label font-medium text-white/90">
             <MapPin className="size-3" /> <Highlight text={item.city[lang]} query={highlight} className={MARK_CLASS} />
           </p>
         )}

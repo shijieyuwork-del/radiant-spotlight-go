@@ -76,7 +76,7 @@ const CityDetail = () => {
             </span>
             <h1 className="font-display text-5xl md:text-6xl font-medium tracking-tight leading-[0.95]">
               {lang === "zh" ? city.zh : city.en}
-              <span className="block text-primary text-2xl md:text-3xl mt-2 font-normal italic">
+              <span className="block text-brand text-2xl md:text-3xl mt-2 font-normal italic">
                 {lang === "zh" ? city.taglineZh : city.taglineEn}
               </span>
             </h1>
@@ -101,7 +101,7 @@ const CityDetail = () => {
               </p>
               <div className="flex flex-wrap gap-1.5">
                 {(lang === "zh" ? city.hotZh : city.hotEn).map((h) => (
-                  <span key={h} className="text-[11px] px-2.5 py-1 rounded-full bg-background/95 text-foreground font-medium">
+                  <span key={h} className="text-label px-2.5 py-1 rounded-full bg-background/95 text-foreground font-medium">
                     {h}
                   </span>
                 ))}
@@ -149,7 +149,7 @@ const CityDetail = () => {
                     {clinic ? (
                       <Link
                         to={getClinicPath(clinic)}
-                        className="inline-flex min-h-11 items-start gap-2 rounded-md py-1 text-foreground underline-offset-4 transition-colors hover:text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4"
+                        className="inline-flex min-h-11 items-start gap-2 rounded-md py-1 text-foreground underline-offset-4 transition-colors hover:text-brand hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4"
                       >
                         {hospitalName}
                         <ArrowRight className="mt-1 size-4 shrink-0" aria-hidden="true" />
@@ -187,7 +187,7 @@ const CityDetail = () => {
           </div>
           <Link
             to={`/doctors?city=${encodeURIComponent(city.en)}`}
-            className="hidden md:inline-flex items-center gap-1 text-sm font-semibold text-primary hover:translate-x-0.5 transition"
+            className="hidden md:inline-flex items-center gap-1 text-sm font-semibold text-brand hover:translate-x-0.5 transition"
           >
             {c("All surgeons", "全部专家", "Все эксперты", "Todos los expertos")} <ArrowRight className="size-4" />
           </Link>
@@ -203,10 +203,10 @@ const CityDetail = () => {
               <Link key={doctor.id} to={`/doctors/demo/${doctor.id}`} className="group overflow-hidden rounded-3xl border border-border/70 bg-card shadow-soft transition hover:-translate-y-1 hover:border-primary/30 hover:shadow-pop">
                 <div className="aspect-[4/3] overflow-hidden bg-muted"><img src={doctor.photo} alt={doctor.name} className="size-full object-cover transition-transform duration-500 group-hover:scale-105" /></div>
                 <div className="p-5">
-                  <div className="flex items-start justify-between gap-3"><div><h3 className="font-display text-xl font-semibold">{doctor.name}</h3><p className="mt-1 text-xs text-muted-foreground">{doctor.title}</p></div><span className="rounded-full bg-accent px-2.5 py-1 text-[10px] font-semibold text-accent-foreground">{c("Sample", "示例", "Пример", "Ejemplo")}</span></div>
+                  <div className="flex items-start justify-between gap-3"><div><h3 className="font-display text-xl font-semibold">{doctor.name}</h3><p className="mt-1 text-xs text-muted-foreground">{doctor.title}</p></div><span className="rounded-full bg-accent px-2.5 py-1 text-label font-semibold text-accent-foreground">{c("Sample", "示例", "Пример", "Ejemplo")}</span></div>
                   <p className="mt-3 flex items-center gap-1.5 text-xs text-muted-foreground"><MapPin className="size-3.5 text-primary" />{doctor.city}</p>
-                  <div className="mt-4 flex flex-wrap gap-1.5">{doctor.specialties.slice(0, 3).map((specialty) => <span key={specialty} className="rounded-full bg-secondary px-2.5 py-1 text-[10px] font-medium">{specialty}</span>)}</div>
-                  <span className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-primary">{c("View expert and related cases", "查看专家与相关案例", "Профиль и связанные случаи", "Ver perfil y casos relacionados")}<ArrowRight className="size-4" /></span>
+                  <div className="mt-4 flex flex-wrap gap-1.5">{doctor.specialties.slice(0, 3).map((specialty) => <span key={specialty} className="rounded-full bg-secondary px-2.5 py-1 text-label font-medium">{specialty}</span>)}</div>
+                  <span className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-brand">{c("View expert and related cases", "查看专家与相关案例", "Профиль и связанные случаи", "Ver perfil y casos relacionados")}<ArrowRight className="size-4" /></span>
                 </div>
               </Link>
             ))}
@@ -239,7 +239,7 @@ const CityDetail = () => {
                   </div>
                   <div className="flex flex-wrap gap-1 pt-2">
                     {(lang === "zh" ? d.specZh : d.specEn).slice(0, 3).map((s) => (
-                      <span key={s} className="text-[10px] px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground">
+                      <span key={s} className="text-label px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground">
                         {s}
                       </span>
                     ))}
@@ -259,7 +259,7 @@ const CityDetail = () => {
             <h2 className="font-display text-3xl md:text-4xl font-semibold">
               {c(`Recovery diary previews from ${city.en}`, `${city.zh}恢复日记预览`, `Дневники восстановления из города ${city.en}`, `Vistas previas del diario de recuperación de ${city.en}`)}
             </h2>
-            <Link to={`/cases?city=${encodeURIComponent(city.en)}`} className="text-sm font-semibold text-primary hover:translate-x-0.5 transition inline-flex items-center gap-1">
+            <Link to={`/cases?city=${encodeURIComponent(city.en)}`} className="text-sm font-semibold text-brand hover:translate-x-0.5 transition inline-flex items-center gap-1">
               {c("All cases", "全部案例", "Все случаи", "Todos los casos")} <ArrowRight className="size-4" />
             </Link>
           </div>
@@ -273,10 +273,10 @@ const CityDetail = () => {
                 <div className="aspect-[3/4] relative bg-muted">
                   <video src={c.src} muted loop playsInline className="absolute inset-0 size-full object-cover" />
                   <div className="absolute inset-x-0 bottom-0 p-2.5 bg-gradient-to-t from-black/80 to-transparent">
-                    <p className="text-[11px] text-background font-semibold leading-tight">
+                    <p className="text-label text-background font-semibold leading-tight">
                       {lang === "zh" ? c.treatment.zh : c.treatment.en}
                     </p>
-                    <p className="text-[10px] text-background/80 mt-0.5">
+                    <p className="text-label text-background/80 mt-0.5">
                       {fmt(c.priceCny)}
                     </p>
                   </div>
@@ -330,8 +330,8 @@ const CityDetail = () => {
 
 const HeroStat = ({ icon, value, label }: { icon: React.ReactNode; value: string; label: string }) => (
   <div className="rounded-2xl bg-card shadow-soft p-3">
-    <div className="flex items-center gap-1.5 text-primary">{icon}<span className="font-display text-xl font-semibold">{value}</span></div>
-    <p className="text-[10px] text-muted-foreground mt-1 uppercase tracking-wider">{label}</p>
+    <div className="flex items-center gap-1.5 text-primary">{icon}<span className="font-display text-xl font-semibold text-brand">{value}</span></div>
+    <p className="text-label text-muted-foreground mt-1 uppercase tracking-wider">{label}</p>
   </div>
 );
 

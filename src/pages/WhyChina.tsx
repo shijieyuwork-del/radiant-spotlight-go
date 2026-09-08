@@ -62,13 +62,13 @@ const WhyChina = () => {
             </span>
             <h1 className="mx-auto max-w-4xl font-display text-4xl font-medium leading-tight tracking-tight md:text-5xl">
               {zh ? (
-                <>为什么选择中国？<em className="text-primary not-italic">30 秒看懂。</em></>
+                <>为什么选择中国？<em className="text-brand not-italic">30 秒看懂。</em></>
               ) : ru ? (
-                <>Почему Китай? <em className="text-primary not-italic">Ответ за 30 секунд.</em></>
+                <>Почему Китай? <em className="text-brand not-italic">Ответ за 30 секунд.</em></>
               ) : es_ ? (
-                <>¿Por qué China? <em className="text-primary not-italic">La respuesta en 30 segundos.</em></>
+                <>¿Por qué China? <em className="text-brand not-italic">La respuesta en 30 segundos.</em></>
               ) : (
-                <>Why China? <em className="text-primary not-italic">The 30-second answer.</em></>
+                <>Why China? <em className="text-brand not-italic">The 30-second answer.</em></>
               )}
             </h1>
             <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
@@ -79,7 +79,7 @@ const WhyChina = () => {
 
         <section className="container py-12 md:py-16">
           <div className="mx-auto max-w-5xl">
-            <p className="text-center text-xs font-semibold text-primary">{c("THREE THINGS TO KNOW", "三个重点", "ТРИ ВАЖНЫХ ФАКТА", "TRES COSAS QUE DEBES SABER")}</p>
+            <p className="text-center text-xs font-semibold text-brand">{c("THREE THINGS TO KNOW", "三个重点", "ТРИ ВАЖНЫХ ФАКТА", "TRES COSAS QUE DEBES SABER")}</p>
             <div className="mt-6 grid gap-5 md:grid-cols-3">
               <ReasonCard
                 number="01"
@@ -161,7 +161,7 @@ const WhyChina = () => {
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                 {c("Embedded through YouTube's official player; rights remain with the creator. Only plan activities after clinical clearance.", "视频通过 YouTube 官方播放器嵌入，版权归原作者。文化活动只能在专家允许后安排。", "Видео встроено через официальный плеер YouTube; права принадлежат автору. Планируйте активности только после разрешения эксперта.", "Incrustado mediante el reproductor oficial de YouTube; los derechos son del creador. Planifica actividades solo tras el visto bueno clínico.")}
               </p>
-              <a href={SOURCES.video} target="_blank" rel="noreferrer" className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline">
+              <a href={SOURCES.video} target="_blank" rel="noreferrer" className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-brand hover:underline">
                 {c("Watch on YouTube", "在 YouTube 查看原视频", "Смотреть на YouTube", "Ver en YouTube")}<ExternalLink className="size-4" />
               </a>
             </div>
@@ -199,7 +199,7 @@ const ReasonCard = ({ number, icon, title, text, source, href }: { number: strin
     </div>
     <h2 className="mt-5 font-display text-2xl font-medium tracking-tight">{title}</h2>
     <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{text}</p>
-    <a href={href} target="_blank" rel="noreferrer" className="mt-5 inline-flex items-center gap-1.5 text-xs font-semibold text-primary hover:underline">
+    <a href={href} target="_blank" rel="noreferrer" className="mt-5 inline-flex items-center gap-1.5 text-xs font-semibold text-brand hover:underline">
       {source}<ExternalLink className="size-3.5" />
     </a>
   </article>
@@ -213,7 +213,7 @@ const CheckItem = ({ title }: { title: string }) => (
 );
 
 const SourceLink = ({ label, href }: { label: string; href: string }) => (
-  <a href={href} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 text-muted-foreground hover:text-primary">
+  <a href={href} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 text-muted-foreground hover:text-brand">
     {label}<ExternalLink className="size-3.5" />
   </a>
 );

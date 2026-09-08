@@ -117,7 +117,7 @@ const CaseDetail = () => {
             <p className="text-muted-foreground">
               {lang === "zh" ? "案例不存在。" : lang === "ru" ? "История не найдена." : lang === "es" ? "No se encontró el caso." : "Case not found."}
             </p>
-            <Link to="/cases" className="text-primary underline mt-4 inline-block">
+            <Link to="/cases" className="text-brand underline mt-4 inline-block">
               {lang === "zh" ? "返回案例列表" : lang === "ru" ? "Вернуться ко всем историям" : lang === "es" ? "Volver a todos los casos" : "Back to all cases"}
             </Link>
           </div>
@@ -235,11 +235,11 @@ const CaseDetail = () => {
                 >
                   <Heart className={`size-5 ${saved ? "fill-rose-500 text-rose-500" : ""}`} />
                 </button>
-                <span className="text-[11px] text-white font-semibold -mt-2">{item.likes}</span>
+                <span className="text-label text-white font-semibold -mt-2">{item.likes}</span>
                 <button onClick={(e) => { e.stopPropagation(); }} className="size-11 rounded-full bg-black/40 backdrop-blur grid place-items-center text-white">
                   <MessageCircle className="size-5" />
                 </button>
-                <span className="text-[11px] text-white font-semibold -mt-2">{item.comments}</span>
+                <span className="text-label text-white font-semibold -mt-2">{item.comments}</span>
                 <button onClick={(e) => { e.stopPropagation(); }} className="size-11 rounded-full bg-black/40 backdrop-blur grid place-items-center text-white">
                   <Share2 className="size-5" />
                 </button>
@@ -256,11 +256,11 @@ const CaseDetail = () => {
 
             <nav className="mx-auto mt-4 grid w-full max-w-md grid-cols-2 gap-3 lg:max-w-none" aria-label={lang === "zh" ? "案例浏览" : lang === "ru" ? "Просмотр историй" : lang === "es" ? "Explorar casos" : "Browse cases"}>
               <Link to={`/cases/${previousItem.id}`} className="group rounded-2xl border border-border/70 bg-card p-3 shadow-soft transition hover:-translate-y-0.5 hover:border-primary/30">
-                <span className="flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground"><ArrowLeft className="size-3.5" />{lang === "zh" ? "上一个" : lang === "ru" ? "Предыдущая" : lang === "es" ? "Anterior" : "Previous"}</span>
+                <span className="flex items-center gap-1 text-label font-semibold uppercase tracking-wider text-muted-foreground"><ArrowLeft className="size-3.5" />{lang === "zh" ? "上一个" : lang === "ru" ? "Предыдущая" : lang === "es" ? "Anterior" : "Previous"}</span>
                 <span className="mt-1 block truncate text-sm font-semibold">{previousItem.treatment[lang]}</span>
               </Link>
               <Link to={`/cases/${nextItem.id}`} className="group rounded-2xl border border-primary/30 bg-primary/10 p-3 shadow-soft transition hover:-translate-y-0.5 hover:bg-primary/15">
-                <span className="flex items-center justify-end gap-1 text-[11px] font-semibold uppercase tracking-wider text-primary">{lang === "zh" ? "下一个" : lang === "ru" ? "Следующая" : lang === "es" ? "Siguiente" : "Next"}<ArrowRight className="size-3.5" /></span>
+                <span className="flex items-center justify-end gap-1 text-label font-semibold uppercase tracking-wider text-brand">{lang === "zh" ? "下一个" : lang === "ru" ? "Следующая" : lang === "es" ? "Siguiente" : "Next"}<ArrowRight className="size-3.5" /></span>
                 <span className="mt-1 block truncate text-right text-sm font-semibold">{nextItem.treatment[lang]}</span>
               </Link>
             </nav>
@@ -278,7 +278,7 @@ const CaseDetail = () => {
 
             <div className="rounded-3xl bg-card shadow-soft p-5 space-y-3">
               {item.city && (
-                <Link to={`/cities/${item.city.en.toLowerCase()}`} className="flex items-center gap-2 text-sm transition hover:text-primary"><MapPin className="size-4 text-primary" /> {item.city[lang]}, China · {lang === "zh" ? "查看城市指南" : lang === "ru" ? "Гид по городу" : lang === "es" ? "Ver guía de la ciudad" : "View city guide"}</Link>
+                <Link to={`/cities/${item.city.en.toLowerCase()}`} className="flex items-center gap-2 text-sm transition hover:text-brand"><MapPin className="size-4 text-primary" /> {item.city[lang]}, China · {lang === "zh" ? "查看城市指南" : lang === "ru" ? "Гид по городу" : lang === "es" ? "Ver guía de la ciudad" : "View city guide"}</Link>
               )}
               <p className="text-sm flex items-center gap-2"><ShieldCheck className="size-4 text-primary" /> {lang === "zh" ? "日记预览 · 核验状态待更新" : lang === "ru" ? "Предпросмотр дневника · проверка ожидается" : lang === "es" ? "Vista previa del diario · verificación pendiente" : "Diary preview · verification status pending"}</p>
             </div>
@@ -286,10 +286,10 @@ const CaseDetail = () => {
             {linkedExpert ? (
               <div className="rounded-3xl border border-border/70 bg-card p-5 shadow-soft sm:p-6">
                 <div className="mb-4 flex items-center justify-between gap-3">
-                  <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  <p className="text-label font-semibold uppercase tracking-wider text-muted-foreground">
                     {lang === "zh" ? "本案例专家" : lang === "ru" ? "Эксперт этого случая" : lang === "es" ? "Experto de este caso" : "Expert for this case"}
                   </p>
-                  <span className="rounded-full bg-primary/10 px-2.5 py-1 text-[10px] font-semibold text-primary">
+                  <span className="rounded-full bg-primary/10 px-2.5 py-1 text-label font-semibold text-brand">
                     {lang === "zh" ? "已发布资料" : lang === "ru" ? "Опубликованный профиль" : lang === "es" ? "Perfil publicado" : "Published profile"}
                   </span>
                 </div>
@@ -306,11 +306,11 @@ const CaseDetail = () => {
                 <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{linkedExpert.bio}</p>
                 {linkedExpert.specialties.length > 0 && (
                   <div className="mt-4 flex flex-wrap gap-1.5">
-                    {linkedExpert.specialties.map((specialty) => <span key={specialty} className="rounded-full bg-secondary px-3 py-1 text-[11px] font-semibold text-foreground/80">{specialty}</span>)}
+                    {linkedExpert.specialties.map((specialty) => <span key={specialty} className="rounded-full bg-secondary px-3 py-1 text-label font-semibold text-foreground/80">{specialty}</span>)}
                   </div>
                 )}
                 <div className="mt-5 grid gap-2 min-[430px]:grid-cols-2">
-                  <Link to={`/doctors/profile/${linkedExpert.id}`} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-primary/30 px-4 text-sm font-semibold text-primary transition hover:bg-primary/10">
+                  <Link to={`/doctors/profile/${linkedExpert.id}`} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-primary/30 px-4 text-sm font-semibold text-brand transition hover:bg-primary/10">
                     {lang === "zh" ? "查看这位专家" : lang === "ru" ? "Подробнее о эксперте" : lang === "es" ? "Ver este experto" : "Browse this expert"}<ArrowRight className="size-4" />
                   </Link>
                   <a href={`https://wa.me/14708613825?text=${encodeURIComponent(`Hi CeladonChina, I’d like to ask about ${linkedExpert.name} and this ${item.treatment.en} case: https://celadonchina.com/cases/${item.id}`)}`} target="_blank" rel="noreferrer" className="cta-primary inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-4 text-sm font-bold transition">
@@ -321,10 +321,10 @@ const CaseDetail = () => {
             ) : (
             <div className="rounded-3xl border border-border/70 bg-card p-5 shadow-soft sm:p-6">
               <div className="mb-4 flex items-center justify-between gap-3">
-                <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                <p className="text-label font-semibold uppercase tracking-wider text-muted-foreground">
                   {lang === "zh" ? "相关专科专家" : lang === "ru" ? "Эксперт по данному направлению" : lang === "es" ? "Experto para esta especialidad" : "Expert for this specialty"}
                 </p>
-                <span className="rounded-full bg-accent px-2.5 py-1 text-[10px] font-semibold text-accent-foreground">
+                <span className="rounded-full bg-accent px-2.5 py-1 text-label font-semibold text-accent-foreground">
                   {lang === "zh" ? "示例资料" : lang === "ru" ? "Демо-профиль" : lang === "es" ? "Perfil de ejemplo" : "Sample profile"}
                 </span>
               </div>
@@ -338,10 +338,10 @@ const CaseDetail = () => {
               </div>
               <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{caseDoctor.bio}</p>
               <div className="mt-4 flex flex-wrap gap-1.5">
-                {caseDoctor.specialties.map((specialty) => <span key={specialty} className="rounded-full bg-secondary px-3 py-1 text-[11px] font-semibold text-foreground/80">{specialty}</span>)}
+                {caseDoctor.specialties.map((specialty) => <span key={specialty} className="rounded-full bg-secondary px-3 py-1 text-label font-semibold text-foreground/80">{specialty}</span>)}
               </div>
               <div className="mt-5 grid gap-2 min-[430px]:grid-cols-2">
-                <Link to={`/doctors/demo/${caseDoctor.id}`} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-primary/30 px-4 text-sm font-semibold text-primary transition hover:bg-primary/10">
+                <Link to={`/doctors/demo/${caseDoctor.id}`} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-primary/30 px-4 text-sm font-semibold text-brand transition hover:bg-primary/10">
                   {lang === "zh" ? "查看这位专家" : lang === "ru" ? "Подробнее о эксперте" : lang === "es" ? "Ver este experto" : "Browse this expert"}<ArrowRight className="size-4" />
                 </Link>
                 <a href={`https://wa.me/14708613825?text=${encodeURIComponent(`Hi CeladonChina, I’d like to ask about ${caseDoctor.name} and this ${item.treatment.en} case: https://celadonchina.com/cases/${item.id}`)}`} target="_blank" rel="noreferrer" className="cta-primary inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-4 text-sm font-bold transition">
@@ -353,7 +353,7 @@ const CaseDetail = () => {
 
             {item.priceCny > 0 && <div className="rounded-3xl bg-gradient-to-br from-[hsl(155,60%,90%)] to-[hsl(50,80%,92%)] p-5 flex items-center justify-between gap-4 shadow-soft">
               <div>
-                <p className="text-xs text-foreground/60">{lang === "zh" ? "参考价格" : lang === "ru" ? "Ориентировочная цена" : lang === "es" ? "Precio de referencia" : "Reference price"}</p>
+                <p className="text-xs text-muted-foreground">{lang === "zh" ? "参考价格" : lang === "ru" ? "Ориентировочная цена" : lang === "es" ? "Precio de referencia" : "Reference price"}</p>
                 <p className="font-display text-3xl font-semibold mt-1">{fmt(item.priceCny)}</p>
               </div>
               <Button size="lg" className="rounded-2xl bg-foreground text-background hover:bg-foreground/90">
@@ -407,7 +407,7 @@ const CaseDetail = () => {
           <div className="mt-16 rounded-[2rem] bg-card shadow-soft p-5 md:p-8">
             <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-6">
               <div>
-                <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary mb-2">
+                <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-brand mb-2">
                   <Images className="size-4" /> {lang === "zh" ? "同一位专家" : "Same surgeon"}
                 </span>
                 <h2 className="font-display text-2xl md:text-3xl font-medium tracking-tight">
@@ -416,7 +416,7 @@ const CaseDetail = () => {
                     : `More cases by ${doctor.en}`}
                 </h2>
               </div>
-              <Link to={`/doctors/${doctor.id}`} className="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline">
+              <Link to={`/doctors/${doctor.id}`} className="inline-flex items-center gap-1 text-sm font-semibold text-brand hover:underline">
                 {lang === "zh" ? "查看专家全部案例" : "See surgeon's full profile"} <ArrowRight className="size-4" />
               </Link>
             </div>

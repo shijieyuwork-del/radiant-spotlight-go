@@ -40,12 +40,12 @@ const BrandLogo = ({ className, markClassName, textClassName, showTagline = fals
     <span className="inline-flex min-w-0 flex-col justify-center">
       <span
         className={cn("whitespace-nowrap text-xl font-extrabold leading-none tracking-[-0.025em] text-[#1C5A49]", textClassName)}
-        style={{ fontFamily: "'Nunito Sans', 'Manrope', system-ui, sans-serif" }}
+        style={{ fontFamily: "'Nunito Sans Variable', 'Inter Variable', system-ui, sans-serif" }}
       >
         Celadon<span className="text-[#4EB58F]">China</span>
       </span>
       {showTagline && (
-        <span className="mt-1 hidden whitespace-nowrap text-[9px] font-medium leading-none tracking-[0.025em] text-[#49645c] lg:block">
+        <span className="mt-1 max-w-[30ch] text-label font-medium text-muted-foreground">
           Your cosmetic care journey, all in one place.
         </span>
       )}

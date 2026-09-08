@@ -27,7 +27,7 @@ export const SortChips = ({
         className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition ${
           value === o.key
             ? "bg-primary text-primary-foreground shadow-soft"
-            : "border border-border bg-card text-foreground hover:border-primary/50 hover:text-primary"
+            : "border border-border bg-card text-foreground hover:border-primary/50 hover:bg-primary/10"
         }`}
       >
         {o.label}
@@ -63,7 +63,7 @@ export const Pagination = ({
     return out;
   })();
 
-  const btn = "grid size-10 place-items-center rounded-full border border-border bg-card text-sm font-semibold transition hover:border-primary/50 hover:text-primary disabled:opacity-40 disabled:hover:border-border disabled:hover:text-foreground";
+  const btn = "grid size-10 place-items-center rounded-full border border-border bg-card text-sm font-semibold transition hover:border-primary/50 hover:bg-primary/10 disabled:opacity-40 disabled:hover:border-border disabled:hover:text-foreground";
 
   return (
     <nav className="mt-8 flex items-center justify-center gap-1.5" aria-label="Pagination">

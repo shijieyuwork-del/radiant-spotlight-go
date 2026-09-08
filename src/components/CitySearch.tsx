@@ -58,7 +58,7 @@ const Chip = ({ active, onClick, label }: { active: boolean; onClick: () => void
     className={`min-h-12 rounded-full px-3.5 py-2 text-xs font-semibold transition ${
       active
         ? "bg-primary text-primary-foreground shadow-soft"
-        : "border border-border bg-background text-foreground hover:border-primary/50 hover:text-primary"
+        : "border border-border bg-background text-foreground hover:border-primary/50 hover:text-brand"
     }`}
   >
     {label}
@@ -175,7 +175,7 @@ export const CityQuickResults = ({ results, query }: { results: City[]; query?: 
                 </p>
               </div>
             </div>
-            <div className="mt-3 grid grid-cols-3 gap-1.5 text-center text-[11px] font-semibold">
+            <div className="mt-3 grid grid-cols-3 gap-1.5 text-center text-label font-semibold">
               <Link
                 to={`/cities/${city.slug}`}
                 className="flex min-h-12 items-center justify-center rounded-xl bg-secondary px-2 py-2 text-foreground transition hover:bg-accent"

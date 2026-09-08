@@ -76,7 +76,7 @@ const TreatmentDetail = () => {
           <AsiaNavbar />
           <div className="container py-24 text-center">
             <h1 className="font-display text-3xl">{c("Procedure not found", "未找到该项目", "Процедура не найдена", "Procedimiento no encontrado")}</h1>
-            <Link to="/treatments" className="mt-4 inline-block text-primary hover:underline">
+            <Link to="/treatments" className="mt-4 inline-block text-brand hover:underline">
               {c("See all procedures", "查看全部项目", "Все процедуры", "Ver todos los procedimientos")}
             </Link>
           </div>
@@ -433,7 +433,7 @@ const CatalogProcedureDetail = ({
 
           <div className="mt-4 flex flex-col gap-2 rounded-2xl border border-primary/15 bg-primary/[0.045] px-4 py-3 text-xs leading-relaxed text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
             <p><span className="font-semibold text-foreground">Editorially researched, not medically reviewed.</span> Updated August 30, 2026.</p>
-            <div className="flex flex-wrap gap-x-4 gap-y-1 font-semibold text-primary">
+            <div className="flex flex-wrap gap-x-4 gap-y-1 font-semibold text-brand">
               <Link to="/medical-review-policy" className="hover:underline">Medical review policy</Link>
               <Link to="/editorial-policy" className="hover:underline">Editorial policy</Link>
             </div>
@@ -482,7 +482,7 @@ const CatalogProcedureDetail = ({
                     <ol className="grid gap-3 sm:grid-cols-2">
                       {treatment.recovery.map((item, index) => (
                         <li key={index} className="rounded-2xl bg-secondary/45 p-4">
-                          <p className="text-xs font-bold uppercase tracking-[0.1em] text-primary">{zh ? item.whenZh : item.whenEn}</p>
+                          <p className="text-xs font-bold uppercase tracking-[0.1em] text-brand">{zh ? item.whenZh : item.whenEn}</p>
                           <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{zh ? item.whatZh : item.whatEn}</p>
                         </li>
                       ))}
@@ -549,7 +549,7 @@ const CatalogProcedureDetail = ({
 const QuickFact = ({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) => (
   <div className="rounded-2xl bg-secondary/55 p-4 md:p-5">
     <span className="text-primary [&>svg]:size-4">{icon}</span>
-    <p className="mt-3 text-[11px] font-bold uppercase tracking-[0.12em] text-muted-foreground">{label}</p>
+    <p className="mt-3 text-label font-bold uppercase tracking-[0.12em] text-muted-foreground">{label}</p>
     <p className="mt-1 text-sm font-semibold leading-snug text-foreground md:text-base">{value}</p>
   </div>
 );

@@ -262,9 +262,9 @@ const Hero = () => {
             <h1 className="mx-auto mt-4 max-w-4xl font-display text-[1.95rem] font-medium leading-[1.01] tracking-tight min-[390px]:text-[2.15rem] sm:mt-5 sm:text-5xl md:text-[3.75rem]">
               {copy.title}
               <span className="hidden sm:inline"><br />
-              <em className="text-primary not-italic">{copy.emphasis}</em></span>
+              <em className="text-brand not-italic">{copy.emphasis}</em></span>
             </h1>
-            <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-[15px]"><em className="text-primary not-italic sm:hidden">{copy.emphasis} </em>{copy.subtitle}</p>
+            <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-[15px]"><em className="text-foreground not-italic sm:hidden">{copy.emphasis} </em>{copy.subtitle}</p>
 
             <div className="mx-auto mt-5 flex max-w-lg flex-col justify-center gap-3 sm:mt-7 sm:flex-row">
               <QuoteCtaButton className="h-[3.25rem] w-full rounded-2xl border border-foreground px-8 text-[15px] shadow-pop sm:h-12 sm:w-auto sm:rounded-full" data-testid="home-hero-cta" />
@@ -307,12 +307,12 @@ const Hero = () => {
           <div className="w-full border-t border-primary/10 pt-8 md:pt-14">
             <div className="mb-6 flex flex-col items-start justify-between gap-4 px-1 sm:flex-row sm:items-end md:mb-8">
               <div>
-                <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.16em] text-primary">
+                <span className="inline-flex items-center gap-1.5 text-label font-bold uppercase tracking-[0.16em] text-brand">
                   <Sparkles className="size-3.5" /> {lang === "zh" ? "我们的核心优势" : lang === "ru" ? "Наше главное отличие" : lang === "es" ? "Nuestra mayor diferencia" : "Our biggest difference"}
                 </span>
                 <h2 className="mt-2 max-w-4xl font-display text-3xl font-medium leading-tight tracking-tight sm:text-4xl md:text-5xl">
                   {lang === "zh" ? "患者恢复日记，" : lang === "ru" ? "Дневники восстановления пациентов — " : lang === "es" ? "Diarios de recuperación de pacientes, " : "Patient recovery diaries"}
-                  {lang !== "en" && <em className="not-italic text-primary">{lang === "zh" ? "帮助你做功课" : lang === "ru" ? "изучите до выбора" : "antes de elegir"}</em>}
+                  {lang !== "en" && <em className="not-italic text-brand">{lang === "zh" ? "帮助你做功课" : lang === "ru" ? "изучите до выбора" : "antes de elegir"}</em>}
                 </h2>
               </div>
               <Link
@@ -496,7 +496,7 @@ const PrivateCareHero = () => {
                 <img src={journeyConsultation} alt="" className="absolute inset-0 size-full object-cover object-center" />
                 <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-transparent to-transparent lg:bg-[linear-gradient(90deg,rgba(16,44,36,.25),transparent_38%,transparent)]" />
                 <div className="absolute inset-x-5 bottom-5 rounded-[1.4rem] border border-white/25 bg-foreground/55 p-5 text-white shadow-soft backdrop-blur-xl sm:inset-x-7 sm:bottom-7 sm:p-6">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-[hsl(155,62%,72%)]">
+                  <span className="text-label font-bold uppercase tracking-[0.18em] text-[hsl(155,62%,72%)]">
                     {lang === "zh" ? "专属协调" : lang === "ru" ? "Персональная поддержка" : lang === "es" ? "Coordinación privada" : "Private coordination"}
                   </span>
                   <p className="mt-2 max-w-lg font-display text-2xl font-medium leading-tight text-white sm:text-3xl">
@@ -511,7 +511,7 @@ const PrivateCareHero = () => {
                 <Link key={item.label} to={item.to} className="group flex min-h-[4.5rem] items-center gap-3 rounded-[1.25rem] px-4 text-white transition-colors duration-150 hover:bg-white/[0.07] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:border-r sm:border-white/10 sm:last:border-r-0">
                   <span className="grid size-10 shrink-0 place-items-center rounded-full bg-white/[0.08] text-[hsl(155,62%,68%)] ring-1 ring-inset ring-white/10"><item.icon className="size-4" /></span>
                   <span className="min-w-0">
-                    <span className="block text-[10px] font-bold uppercase tracking-[0.14em] text-white/50">{item.label}</span>
+                    <span className="block text-label font-bold uppercase tracking-[0.14em] text-white/50">{item.label}</span>
                     <strong className="mt-0.5 block text-sm font-semibold text-white/90">{item.value}</strong>
                   </span>
                   <ArrowRight className="ml-auto size-4 text-[hsl(155,62%,68%)] transition-transform duration-150 group-hover:translate-x-0.5" />
@@ -539,17 +539,17 @@ const PrivateCareHero = () => {
             <div>
               <span className="pill mb-3 bg-accent text-accent-foreground"><ShieldCheck className="size-3.5" />{copy.servicesEyebrow}</span>
               <h2 id="home-support-title" className="max-w-3xl font-display text-3xl font-medium leading-[1.03] tracking-tight sm:text-4xl md:text-5xl">
-                {copy.servicesTitle} <em className="not-italic text-primary">{copy.servicesEmphasis}</em>
+                {copy.servicesTitle} <em className="not-italic text-brand">{copy.servicesEmphasis}</em>
               </h2>
             </div>
-            <Link to="/travel-packages" className="inline-flex min-h-11 shrink-0 items-center gap-2 self-start rounded-full border border-primary/20 bg-card px-5 text-sm font-semibold text-foreground transition hover:border-primary/40 hover:text-primary sm:self-auto">
+            <Link to="/travel-packages" className="inline-flex min-h-11 shrink-0 items-center gap-2 self-start rounded-full border border-primary/20 bg-card px-5 text-sm font-semibold text-foreground transition hover:border-primary/40 hover:text-brand sm:self-auto">
               {copy.benefitCta}<ArrowRight className="size-4" />
             </Link>
           </div>
           <div className="grid overflow-hidden rounded-[1.75rem] border border-border/70 bg-card shadow-[0_22px_60px_rgba(17,54,45,.09)] sm:grid-cols-2 lg:grid-cols-4 lg:rounded-[2rem]">
             {services.map((service, index) => (
               <article key={service.title} className={`group relative min-h-56 p-6 transition-colors hover:bg-primary/[0.035] sm:p-7 ${index % 2 === 0 ? "border-r border-border/70" : ""} ${index < 2 ? "border-b border-border/70" : ""} ${index < 3 ? "lg:border-r lg:border-border/70" : "lg:border-r-0"} lg:border-b-0`}>
-                <span className="absolute right-5 top-5 font-mono text-[10px] font-semibold tracking-[0.16em] text-primary/55">0{index + 1}</span>
+                <span className="absolute right-5 top-5 font-mono text-label font-semibold tracking-[0.16em] text-primary/55">0{index + 1}</span>
                 <span className="grid size-12 place-items-center rounded-2xl bg-primary/[0.09] text-primary ring-1 ring-inset ring-primary/10">
                   <service.icon className="size-5" strokeWidth={1.7} />
                 </span>
@@ -564,7 +564,7 @@ const PrivateCareHero = () => {
           <div className="mb-7 md:mb-9">
             <span className="pill mb-3 bg-accent text-accent-foreground"><Eye className="size-3.5" />{copy.diaries}</span>
             <h2 className="max-w-4xl font-display text-3xl font-medium leading-[1.03] tracking-tight sm:text-4xl md:text-5xl">
-              {copy.diariesTitle}{copy.diariesEmphasis && <> <em className="not-italic text-primary">{copy.diariesEmphasis}</em></>}
+              {copy.diariesTitle}{copy.diariesEmphasis && <> <em className="not-italic text-brand">{copy.diariesEmphasis}</em></>}
             </h2>
           </div>
           <HeroVideoGallery items={diaryItems.slice(0, 10)} lang={lang} fmtPrice={fmt} size="large" />
@@ -678,7 +678,7 @@ const TravelBar = () => {
             <Plane className="size-3.5" /> {journeyCopy.eyebrow}
           </span>
           <h2 id="home-journey-title" className="font-display text-3xl font-medium leading-tight tracking-tight sm:text-4xl md:text-5xl">
-            {journeyCopy.title} <em className="not-italic text-primary">{journeyCopy.emphasis}</em>
+            {journeyCopy.title} <em className="not-italic text-brand">{journeyCopy.emphasis}</em>
           </h2>
         </div>
       </div>
@@ -725,9 +725,9 @@ const TravelBar = () => {
                 </div>
               </div>
               <div className="min-h-[9.25rem] p-5">
-                <span className="text-[10px] font-bold uppercase tracking-[0.17em] text-primary">{journeyCopy.step} {index + 1}</span>
+                <span className="text-label font-bold uppercase tracking-[0.17em] text-brand">{journeyCopy.step} {index + 1}</span>
                 <h3 className="mt-1 font-display text-xl font-semibold leading-tight text-foreground">{x.t}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-foreground/68">{x.d}</p>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{x.d}</p>
               </div>
             </article>
           ))}
@@ -809,7 +809,7 @@ const ClinicsSection = () => {
         <div>
           <span className="pill bg-accent text-accent-foreground mb-3"><Building2 className="size-3.5" /> {t("cities.kicker")}</span>
           <h2 className="font-display text-3xl font-medium tracking-tight sm:text-4xl md:text-5xl">
-            {t("cities.title1")} <em className="text-primary not-italic">{t("cities.titleEm")}</em>
+            {t("cities.title1")} <em className="text-brand not-italic">{t("cities.titleEm")}</em>
           </h2>
         </div>
         <Link to="/clinics" className="pill hidden bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90 sm:inline-flex">{clinicText("All clinics", "全部机构")}<ArrowRight className="size-4" /></Link>
@@ -831,12 +831,12 @@ const ClinicsSection = () => {
                 <img src={clinic.image} alt="" loading="lazy" decoding="async" className="size-24 shrink-0 rounded-full border-2 border-primary/15 object-cover transition-transform duration-500 group-hover:scale-105 md:size-28" />
                 <div className="min-w-0">
                   <h3 className="font-display text-xl font-semibold leading-tight text-foreground md:text-2xl">{clinicText(clinic.en, clinic.zh)}</h3>
-                  <p className="mt-2 inline-flex items-center gap-1.5 text-sm font-medium text-primary"><MapPin className="size-3.5" />{clinicText(clinic.cityEn, clinic.cityZh)}</p>
+                  <p className="mt-2 inline-flex items-center gap-1.5 text-sm font-medium text-foreground"><MapPin className="size-3.5" />{clinicText(clinic.cityEn, clinic.cityZh)}</p>
                 </div>
               </div>
               <p className="mt-5 line-clamp-3 text-sm leading-relaxed text-muted-foreground">{clinicText(clinic.descriptionEn, clinic.descriptionZh)}</p>
               <div className="mt-4 flex max-h-[50px] flex-wrap gap-1.5 overflow-hidden">
-                {clinic.tagsEn.map((tag, index) => <span key={tag} className="rounded-full bg-accent px-2.5 py-1 text-[10px] text-accent-foreground">{clinicText(tag, clinic.tagsZh[index])}</span>)}
+                {clinic.tagsEn.map((tag, index) => <span key={tag} className="rounded-full bg-accent px-2.5 py-1 text-label text-accent-foreground">{clinicText(tag, clinic.tagsZh[index])}</span>)}
               </div>
             </article>
           </Link>
@@ -868,12 +868,12 @@ const TreatmentsSectionLegacy = () => {
     { en: "Men's Procedures", zh: "男性医美", icon: MaleChestLineIcon, items: [["Male Breast Reduction", "男性乳房缩小"], ["Male Liposuction", "男性吸脂"], ["Jawline Contouring", "下颌线塑形"], ["Hair Transplant", "男性植发"], ["Eyelid Surgery", "男性眼部整形"]] },
   ];
   const itemStyles = [
-    "text-[1.65rem] text-primary md:text-[1.85rem]",
+    "text-[1.65rem] text-brand md:text-[1.85rem]",
     "text-xl text-foreground md:text-[1.35rem]",
     "text-base text-foreground/72",
-    "text-base text-foreground/60",
-    "text-sm text-primary",
-    "text-sm text-foreground/65",
+    "text-base text-muted-foreground",
+    "text-sm text-brand",
+    "text-sm text-muted-foreground",
   ];
   const treatmentCloudRailRef = useRef<HTMLDivElement>(null);
   const treatmentCloudPausedRef = useRef(false);
@@ -922,7 +922,7 @@ const TreatmentsSectionLegacy = () => {
         <div>
           <span className="pill bg-accent text-accent-foreground mb-3"><Flame className="size-3.5" /> {t("tx.kicker")}</span>
           <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight">
-            {t("tx.title1")} <em className="text-primary not-italic">{t("tx.titleEm")}</em>
+            {t("tx.title1")} <em className="text-brand not-italic">{t("tx.titleEm")}</em>
           </h2>
         </div>
       </div>
@@ -951,7 +951,7 @@ const TreatmentsSectionLegacy = () => {
               </span>
             </div>
             <div className="relative flex items-center justify-center gap-2 text-center">
-              <h3 className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary">{lang === "zh" ? cloud.zh : cloud.en}</h3>
+              <h3 className="text-label font-bold uppercase tracking-[0.18em] text-brand">{lang === "zh" ? cloud.zh : cloud.en}</h3>
             </div>
             <div className="relative mt-4 flex flex-wrap content-center items-baseline justify-center gap-x-3.5 gap-y-2 text-center">
               {cloud.items.map(([en, zh], itemIndex) => (
@@ -959,7 +959,7 @@ const TreatmentsSectionLegacy = () => {
                   key={en}
                   to={`/treatments/${en.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")}`}
                   tabIndex={duplicate ? -1 : undefined}
-                  className={`rounded-sm px-0.5 font-display font-semibold leading-[0.98] tracking-[-0.035em] transition duration-150 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 ${itemStyles[itemIndex % itemStyles.length]}`}
+                  className={`rounded-sm px-0.5 font-display font-semibold leading-[0.98] tracking-[-0.035em] transition duration-150 hover:text-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 ${itemStyles[itemIndex % itemStyles.length]}`}
                 >
                   {lang === "zh" ? zh : en}
                 </Link>
@@ -970,7 +970,7 @@ const TreatmentsSectionLegacy = () => {
         </div>
         <div className="relative flex flex-col items-center justify-between gap-3 border-t border-white/55 bg-white/22 px-5 py-3.5 backdrop-blur-sm sm:flex-row sm:px-7 md:px-9">
           <div className="flex items-center gap-4">
-            <span className="hidden text-[10px] font-bold uppercase tracking-[0.16em] text-foreground/55 lg:inline">
+            <span className="hidden text-label font-bold uppercase tracking-[0.16em] text-muted-foreground lg:inline">
               {lang === "zh" ? "探索全部 12 类项目" : lang === "ru" ? "12 направлений" : lang === "es" ? "Explora las 12 especialidades" : "Explore all 12 specialties"}
             </span>
             <div className="flex items-center gap-1.5" aria-label={lang === "zh" ? "选择项目分类" : "Choose a specialty"}>
@@ -987,7 +987,7 @@ const TreatmentsSectionLegacy = () => {
             </div>
           </div>
           <div className="flex w-full items-center justify-between gap-4 sm:w-auto sm:justify-end">
-            <p className="text-sm text-foreground/65">
+            <p className="text-sm text-muted-foreground">
               {lang === "zh" ? "还不确定适合哪一项？" : lang === "ru" ? "Не знаете, с чего начать?" : lang === "es" ? "¿No sabes por dónde empezar?" : "Not sure where to begin?"}
             </p>
             <QuoteCtaButton quoteCtx={{ source: "procedure_specialties" }} className="min-h-10 px-5 text-xs hover:-translate-y-0.5" />
@@ -1171,7 +1171,7 @@ const TreatmentsSection = () => {
         <div>
           <span className="pill mb-3 bg-accent text-accent-foreground"><ShieldCheck className="size-3.5" /> {c("Why choose us", "为什么选择我们", "Почему выбирают нас", "Por qué elegirnos")}</span>
           <h2 id="why-celadonchina-title" className="max-w-3xl font-display text-3xl font-medium leading-[0.98] tracking-tight sm:text-4xl md:text-5xl">
-            Why <em className="not-italic text-primary">CeladonChina</em>
+            Why <em className="not-italic text-brand">CeladonChina</em>
           </h2>
         </div>
         <div className="lg:pb-1">
@@ -1188,7 +1188,7 @@ const TreatmentsSection = () => {
             <div className="absolute inset-0 bg-gradient-to-t from-foreground/95 via-foreground/20 to-transparent" />
             <div className="relative flex min-h-[360px] flex-col justify-end p-6 text-background sm:p-7">
               <span className="mb-auto inline-flex size-10 items-center justify-center rounded-full border border-background/30 bg-foreground/20 text-sm font-semibold backdrop-blur">0{index + 1}</span>
-              <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-background/65">{reason.eyebrow}</p>
+              <p className="mb-2 text-label font-semibold uppercase tracking-[0.16em] text-background/65">{reason.eyebrow}</p>
               <h3 className="max-w-sm font-display text-2xl font-medium leading-[1.02] sm:text-[1.7rem]">{reason.title}</h3>
               <p className="mt-4 max-w-md text-sm leading-relaxed text-background/78">{reason.detail}</p>
             </div>
@@ -1244,7 +1244,7 @@ const DoctorsSection = () => {
         <div>
           <span className="pill bg-accent text-accent-foreground mb-3"><Stethoscope className="size-3.5" /> {t("doctors.kicker")}</span>
           <h2 className="max-w-4xl font-display text-3xl font-medium leading-[1.03] tracking-tight sm:text-4xl md:text-5xl">
-            {t("doctors.title1")} <em className="text-primary not-italic">{t("doctors.titleEm")}</em>
+            {t("doctors.title1")} <em className="text-brand not-italic">{t("doctors.titleEm")}</em>
           </h2>
         </div>
       </div>
@@ -1273,7 +1273,7 @@ className="flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscro
                   {photo ? <img src={photo} alt={d.name} loading="lazy" decoding="async" className="size-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.025] motion-reduce:transition-none" /> : <div className="grid size-full place-items-center text-primary"><Stethoscope className="size-16" /></div>}
                   <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
 <div className="absolute inset-x-0 bottom-0 p-5 text-white">
-                    <span className="mb-2 inline-flex rounded-full border border-white/25 bg-black/25 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.13em] text-white/90 backdrop-blur-sm">{d.roleLabel}</span>
+                    <span className="mb-2 inline-flex rounded-full border border-white/25 bg-black/25 px-3 py-1 text-label font-bold uppercase tracking-[0.13em] text-white/90 backdrop-blur-sm">{d.roleLabel}</span>
                     <h3 className="font-display text-2xl font-semibold leading-tight md:text-[1.65rem]">{d.name}</h3>
                     <p className="mt-1 text-sm font-medium text-white/80">{d.title}</p>
                     <p className="mt-2 flex items-center gap-2 text-sm text-white/85"><MapPin className="size-4 text-primary" />{d.city}</p>
@@ -1286,7 +1286,7 @@ className="flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscro
               </div>
 
 <div className="absolute inset-0 hidden flex-col overflow-hidden rounded-3xl border border-primary/25 bg-card p-6 shadow-pop [backface-visibility:hidden] [transform:rotateY(180deg)] md:flex">
-                <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-primary">{d.roleLabel}</span>
+                <span className="text-label font-bold uppercase tracking-[0.18em] text-foreground">{d.roleLabel}</span>
                 <h3 className="mt-2 font-display text-2xl font-semibold leading-tight text-foreground md:text-[1.65rem]">{d.name}</h3>
                 <p className="mt-2 flex items-start gap-2 text-sm leading-relaxed text-foreground/75"><MapPin className="mt-0.5 size-4 shrink-0 text-primary" />{d.city}</p>
                 <p className="mt-4 line-clamp-3 text-sm leading-6 text-muted-foreground">{d.bio}</p>
@@ -1342,17 +1342,17 @@ const HowItWorks = () => {
       <div className="overflow-hidden rounded-[2rem] border border-primary/15 bg-card text-foreground shadow-[0_24px_65px_rgba(22,63,52,0.11),0_3px_10px_rgba(22,63,52,0.05)]">
         <div className="grid md:grid-cols-[minmax(0,1.35fr)_minmax(20rem,0.65fr)]">
           <div className="px-5 py-8 sm:px-8 md:px-10 md:py-11 lg:px-12">
-            <span className="mb-4 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-primary">
+            <span className="mb-4 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-brand">
               <MessageCircle className="size-3.5" /> {copy.eyebrow}
             </span>
             <h2 id="consultation-title" className="max-w-3xl font-display text-4xl font-medium leading-[1.02] tracking-tight sm:text-5xl md:text-[3.5rem]">
-              {copy.title}<br className="hidden sm:block" />{" "}<em className="text-primary not-italic">{copy.emphasis}</em>
+              {copy.title}<br className="hidden sm:block" />{" "}<em className="text-brand not-italic">{copy.emphasis}</em>
             </h2>
             <p className="mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">{copy.text}</p>
           </div>
 
           <div className="m-4 rounded-[1.5rem] border border-primary/25 bg-[hsl(156_48%_89%)] p-5 shadow-[0_16px_38px_rgba(22,63,52,0.12),0_2px_6px_rgba(22,63,52,0.06)] sm:m-5 sm:p-6 md:flex md:flex-col md:justify-center lg:m-6 lg:p-7">
-            <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-primary">
+            <p className="text-label font-bold uppercase tracking-[0.14em] text-brand">
               {lang === "zh" ? "选择联系方式" : lang === "ru" ? "Выберите способ связи" : lang === "es" ? "Elige cómo conectar" : "Choose how to connect"}
             </p>
             <h3 className="mt-2 font-display text-2xl font-medium leading-tight">
@@ -1365,7 +1365,7 @@ const HowItWorks = () => {
             <Button size="lg" onClick={() => open()} className="cta-primary mt-3 min-h-[52px] w-full rounded-xl px-7 text-sm shadow-[0_12px_24px_rgba(13,54,44,0.18)] transition-all hover:-translate-y-0.5 hover:shadow-[0_16px_30px_rgba(13,54,44,0.22)]">
               {lang === "zh" ? "开始免费咨询" : lang === "ru" ? "Начать консультацию" : lang === "es" ? "Iniciar una consulta" : "Start a consultation"}<ArrowRight className="ml-2 size-4" />
             </Button>
-            <p className="mt-3 text-center text-[11px] text-muted-foreground">
+            <p className="mt-3 text-center text-label text-muted-foreground">
               {lang === "zh" ? "免费 · 无义务 · 由协调团队回复" : lang === "ru" ? "Бесплатно · без обязательств" : lang === "es" ? "Gratis · Sin compromiso · Respuesta del equipo coordinador" : "Free · No obligation · Coordinator reply"}
             </p>
           </div>
@@ -1416,7 +1416,7 @@ const HomeFaq = () => {
         <div className="relative max-w-4xl">
           <span className="pill mb-4 border border-primary/15 bg-primary/10 text-foreground"><Wallet className="size-3.5 text-primary" /> {c("Payment, made simple", "付款方式，一眼看懂", "Оплата — всё просто", "Pagos, de forma sencilla")}</span>
           <h2 id="home-faq-title" className="font-display text-3xl font-medium leading-[1.04] tracking-tight sm:text-4xl md:text-5xl">
-            {c("Simple, transparent payments. ", "付款简单透明，", "Простая и прозрачная оплата. ", "Pagos simples y transparentes. ")}<em className="not-italic text-primary">{c("Know exactly where your money goes.", "每一笔都清楚去向。", "Вы точно знаете, куда идут ваши деньги.", "Sabrás exactamente adónde va tu dinero.")}</em>
+            {c("Simple, transparent payments. ", "付款简单透明，", "Простая и прозрачная оплата. ", "Pagos simples y transparentes. ")}<em className="not-italic text-brand">{c("Know exactly where your money goes.", "每一笔都清楚去向。", "Вы точно знаете, куда идут ваши деньги.", "Sabrás exactamente adónde va tu dinero.")}</em>
           </h2>
         </div>
 
@@ -1430,7 +1430,7 @@ const HomeFaq = () => {
             <div className="relative flex items-start gap-4">
               <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-primary text-primary-foreground shadow-[0_8px_22px_hsl(var(--primary)/.22)]"><Building2 className="size-5" strokeWidth={2} /></span>
               <div className="min-w-0 pt-0.5">
-                <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary">{c("Medical treatment", "手术与医疗费用", "Медицинские услуги", "Tratamiento médico")}</p>
+                <p className="text-xs font-bold uppercase tracking-[0.14em] text-brand">{c("Medical treatment", "手术与医疗费用", "Медицинские услуги", "Tratamiento médico")}</p>
                 <h3 className="mt-1 font-display text-xl font-medium leading-tight text-foreground sm:text-2xl">{c("Pay the clinic directly", "直接支付给诊所或医院", "Оплачивайте напрямую клинике", "Paga directamente a la clínica")}</h3>
               </div>
             </div>
@@ -1452,9 +1452,9 @@ const HomeFaq = () => {
 
         <div className="relative mt-5 grid gap-6 rounded-[1.75rem] border border-border/80 bg-background/65 p-5 sm:p-7 lg:grid-cols-[0.52fr_1.48fr] lg:items-start lg:gap-8">
           <div className="lg:py-1">
-            <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary">{c("Need more detail?", "还想了解更多？", "Нужны подробности?", "¿Necesitas más detalles?")}</p>
+            <p className="text-xs font-bold uppercase tracking-[0.14em] text-brand">{c("Need more detail?", "还想了解更多？", "Нужны подробности?", "¿Necesitas más detalles?")}</p>
             <h3 className="mt-2 font-display text-2xl font-medium leading-tight sm:text-3xl">{c("Common questions", "常见问题", "Частые вопросы", "Preguntas frecuentes")}</h3>
-            <Link to="/travel-packages" className="group/link mt-5 inline-flex min-h-11 items-center gap-2 rounded-full border border-primary/20 bg-card px-4 text-sm font-semibold text-foreground shadow-soft transition-[color,border-color,transform] duration-150 hover:-translate-y-0.5 hover:border-primary/40 hover:text-primary">
+            <Link to="/travel-packages" className="group/link mt-5 inline-flex min-h-11 items-center gap-2 rounded-full border border-primary/20 bg-card px-4 text-sm font-semibold text-foreground shadow-soft transition-[color,border-color,transform] duration-150 hover:-translate-y-0.5 hover:border-primary/40 hover:text-brand">
               {c("Explore travel support", "查看行程支持", "Подробнее о поддержке в поездке", "Explorar el apoyo de viaje")}<ArrowRight className="size-4 text-primary transition-transform duration-150 group-hover/link:translate-x-1" />
             </Link>
           </div>
@@ -1463,7 +1463,7 @@ const HomeFaq = () => {
             {questions.slice(2).map((item, index) => (
               <AccordionItem key={item.q} value={`faq-${index + 2}`} className="border-border/65 last:border-0">
                 <AccordionTrigger className="group gap-4 rounded-xl px-1 py-4 text-left text-sm font-semibold transition-colors duration-150 hover:bg-primary/[0.045] hover:no-underline sm:text-base">
-                  <span className="flex items-start gap-3"><span className="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-primary/10 font-mono text-[10px] text-primary">0{index + 1}</span><span className="pt-0.5">{item.q}</span></span>
+                  <span className="flex items-start gap-3"><span className="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-primary/10 font-mono text-label text-primary">0{index + 1}</span><span className="pt-0.5">{item.q}</span></span>
                 </AccordionTrigger>
                 <AccordionContent className="pl-10 pr-3 text-sm leading-relaxed text-muted-foreground sm:pl-11 sm:text-[15px]">
                   {item.a}

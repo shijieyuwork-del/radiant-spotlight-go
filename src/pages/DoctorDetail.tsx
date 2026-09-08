@@ -44,7 +44,7 @@ const DoctorDetail = () => {
             <p className="text-muted-foreground">
               {c("Expert profile not found.", "专家档案不存在。", "Профиль эксперта не найден.", "Perfil de experto no encontrado.")}
             </p>
-            <Link to="/doctors" className="text-primary underline mt-4 inline-block">
+            <Link to="/doctors" className="text-brand underline mt-4 inline-block">
               {c("Back to all experts", "返回专家列表", "Вернуться ко всем экспертам", "Volver a todos los expertos")}
             </Link>
           </div>
@@ -133,17 +133,17 @@ const DoctorDetail = () => {
           <div className="md:col-span-3 grid grid-cols-3 md:grid-cols-1 gap-2">
             <div className="rounded-2xl bg-secondary p-3 text-center">
               <p className="font-display text-xl font-semibold">{doctor.years}{lang === "zh" ? "年" : ""}</p>
-              <p className="text-[10px] text-muted-foreground">{t("doctors.exp")}</p>
+              <p className="text-label text-muted-foreground">{t("doctors.exp")}</p>
             </div>
             <div className="rounded-2xl bg-secondary p-3 text-center">
               <p className="font-display text-xl font-semibold">{doctor.surgeries}</p>
-              <p className="text-[10px] text-muted-foreground">{t("doctors.cases")}</p>
+              <p className="text-label text-muted-foreground">{t("doctors.cases")}</p>
             </div>
             <div className="rounded-2xl bg-secondary p-3 text-center">
               <p className="font-display text-xl font-semibold inline-flex items-center gap-0.5">
                 <Star className="size-4 fill-primary text-primary" /> {doctor.rating}
               </p>
-              <p className="text-[10px] text-muted-foreground">{doctor.reviews.toLocaleString()} {t("cl.reviews")}</p>
+              <p className="text-label text-muted-foreground">{doctor.reviews.toLocaleString()} {t("cl.reviews")}</p>
             </div>
           </div>
         </div>
@@ -227,7 +227,7 @@ const DoctorDetail = () => {
           {/* Sidebar */}
           <aside className="lg:col-span-4 space-y-6">
             <div className="rounded-3xl bg-gradient-to-br from-[hsl(155,60%,90%)] to-[hsl(50,80%,92%)] p-5 shadow-soft">
-              <p className="text-xs text-foreground/60">{c("Book with this surgeon", "预约本专家", "Запись к этому эксперту", "Reserva con este cirujano")}</p>
+              <p className="text-xs text-muted-foreground">{c("Book with this surgeon", "预约本专家", "Запись к этому эксперту", "Reserva con este cirujano")}</p>
               <p className="font-display text-xl font-semibold mt-1 leading-tight">
                 {c("Free 1-on-1 consult", "免费 1 对 1 面诊", "Бесплатная индивидуальная консультация", "Consulta gratuita individual")}
               </p>

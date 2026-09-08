@@ -121,7 +121,7 @@ const BeforeAfterGallery = () => {
                 />
                 {item.caption && <p className="text-sm text-muted-foreground px-1">{item.caption}</p>}
                 {item.doctor_id && (
-                  <Link to={`/doctors/profile/${item.doctor_id}`} className="text-sm text-primary px-1">
+                  <Link to={`/doctors/profile/${item.doctor_id}`} className="text-sm text-brand px-1">
                     {c("View expert profile", "查看专家资料", "Профиль эксперта", "Ver perfil del experto")}
                   </Link>
                 )}

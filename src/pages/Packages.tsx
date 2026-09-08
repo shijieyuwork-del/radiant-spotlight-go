@@ -181,10 +181,10 @@ const Packages = () => {
           <section id="journey" className="container scroll-mt-24 py-10 md:py-20">
             <div className="mx-auto max-w-3xl text-center">
               <span className="pill bg-accent text-accent-foreground"><Route className="size-3.5" />{c("A clear path from home to follow-up", "从家中咨询到术后随访", "Понятный путь от дома до наблюдения", "Un camino claro desde casa hasta el seguimiento")}</span>
-              <h2 className="mt-4 font-display text-[2.25rem] font-medium leading-[1.06] tracking-tight sm:text-5xl md:text-6xl">
-                {c("Six steps. ", "六个步骤，", "Шесть этапов. ", "Seis pasos. ")}<em className="not-italic text-primary">{c("No guessing what comes next.", "每一步都清楚。", "Вы всегда знаете, что дальше.", "Sin dudas sobre qué sigue.")}</em>
-              </h2>
-              <p className="mt-4 text-base leading-relaxed text-foreground/65 md:text-lg">{c("Each stage answers the question patients ask most: what happens next, who helps and what should I prepare?", "每个阶段都会回答患者最关心的问题：下一步是什么、谁来协助、需要准备什么？", "Каждый этап отвечает на главные вопросы: что дальше, кто поможет и что подготовить?", "Cada etapa responde a la pregunta que más hacen los pacientes: ¿qué sigue, quién ayuda y qué debo preparar?")}</p>
+              <h1 className="mt-4 font-display text-[2.25rem] font-medium leading-[1.06] tracking-tight sm:text-5xl md:text-6xl">
+                {c("Six steps. ", "六个步骤，", "Шесть этапов. ", "Seis pasos. ")}<em className="not-italic text-brand">{c("No guessing what comes next.", "每一步都清楚。", "Вы всегда знаете, что дальше.", "Sin dudas sobre qué sigue.")}</em>
+              </h1>
+              <p className="mt-4 text-base leading-relaxed text-muted-foreground md:text-lg">{c("Each stage answers the question patients ask most: what happens next, who helps and what should I prepare?", "每个阶段都会回答患者最关心的问题：下一步是什么、谁来协助、需要准备什么？", "Каждый этап отвечает на главные вопросы: что дальше, кто поможет и что подготовить?", "Cada etapa responde a la pregunta que más hacen los pacientes: ¿qué sigue, quién ayuda y qué debo preparar?")}</p>
             </div>
 
             <div className="mt-8 flex flex-col gap-4 md:flex-row md:gap-6">
@@ -192,14 +192,14 @@ const Packages = () => {
                 <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-white/65 text-primary"><Wallet className="size-5" /></span>
                 <div>
                   <h3 className="font-display text-sm font-semibold tracking-tight">{c("$200 coordination deposit", "200 美元协调押金", "Депозит $200", "Depósito de coordinación de 200 $")}</h3>
-                  <p className="mt-1 text-xs uppercase tracking-tight text-foreground/55">{c("Reserves your date & support package", "保留预约与协调服务", "Бронирует дату и поддержку", "Reserva tu fecha y paquete de apoyo")}</p>
+                  <p className="mt-1 text-xs uppercase tracking-tight text-muted-foreground">{c("Reserves your date & support package", "保留预约与协调服务", "Бронирует дату и поддержку", "Reserva tu fecha y paquete de apoyo")}</p>
                 </div>
               </div>
               <div className="flex flex-1 items-center gap-4 rounded-2xl border border-primary/15 bg-gradient-to-r from-[hsl(156_58%_93%)] to-[hsl(146_48%_86%)] p-5 text-foreground shadow-soft">
                 <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-white/65 text-primary"><Building2 className="size-5" /></span>
                 <div>
                   <h3 className="font-display text-sm font-semibold tracking-tight">{c("Pay the clinic directly", "直接支付给诊所", "Оплата напрямую клинике", "Paga directamente a la clínica")}</h3>
-                  <p className="mt-1 text-xs uppercase tracking-tight text-foreground/55">{c("Medical fees go straight to the facility", "医疗费用由诊所直接收取", "Медицинские сборы — напрямую в клинику", "Los honorarios médicos van directamente al centro")}</p>
+                  <p className="mt-1 text-xs uppercase tracking-tight text-muted-foreground">{c("Medical fees go straight to the facility", "医疗费用由诊所直接收取", "Медицинские сборы — напрямую в клинику", "Los honorarios médicos van directamente al centro")}</p>
                 </div>
               </div>
             </div>
@@ -212,17 +212,17 @@ const Packages = () => {
                     <div className="relative aspect-[16/9] overflow-hidden bg-muted md:aspect-[16/8]">
                       <img src={step.image} alt={pick(step.title)} loading={index === 0 ? "eager" : "lazy"} decoding="async" className="size-full object-cover transition duration-700 group-hover:scale-[1.035]" />
                       <div className="absolute inset-0 bg-gradient-to-t from-foreground/35 via-transparent to-transparent" />
-                      <span className="absolute bottom-3 left-3 rounded-full bg-white/90 px-3 py-1 text-[10px] font-bold uppercase tracking-[.14em] text-foreground shadow-soft backdrop-blur">{c(`Step ${index + 1}`, `第 ${index + 1} 步`, `Этап ${index + 1}`, `Paso ${index + 1}`)}</span>
+                      <span className="absolute bottom-3 left-3 rounded-full bg-white/90 px-3 py-1 text-label font-bold uppercase tracking-[.14em] text-foreground shadow-soft backdrop-blur">{c(`Step ${index + 1}`, `第 ${index + 1} 步`, `Этап ${index + 1}`, `Paso ${index + 1}`)}</span>
                     </div>
                     <div className="p-4 sm:p-5 md:p-6">
                       <div className="flex items-center gap-3">
                         <span className="grid size-10 shrink-0 place-items-center rounded-2xl bg-primary/10 text-primary"><Icon className="size-4" /></span>
-                        <p className="text-[10px] font-bold uppercase tracking-[.15em] text-primary">{pick(step.eyebrow)}</p>
+                        <p className="text-label font-bold uppercase tracking-[.15em] text-brand">{pick(step.eyebrow)}</p>
                       </div>
                       <h3 className="mt-3 font-display text-[1.35rem] font-semibold leading-tight tracking-tight sm:text-2xl md:mt-4">{pick(step.title)}</h3>
-                      <p className="mt-3 text-sm leading-relaxed text-foreground/65">{pick(step.text)}</p>
+                      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{pick(step.text)}</p>
                       {index === 0 && (
-                        <a href={QUOTE_WHATSAPP_URL} target="_blank" rel="noreferrer" className="mt-5 inline-flex items-center gap-2 whitespace-nowrap text-sm font-semibold text-primary hover:text-primary/80">
+                        <a href={QUOTE_WHATSAPP_URL} target="_blank" rel="noreferrer" className="mt-5 inline-flex items-center gap-2 whitespace-nowrap text-sm font-semibold text-brand underline-offset-4 hover:underline">
                           {t("hero.cta")}<ArrowRight className="size-4" />
                         </a>
                       )}
@@ -251,7 +251,7 @@ const Packages = () => {
                         <span className="grid size-10 shrink-0 place-items-center rounded-2xl bg-primary/10 text-primary"><Icon aria-hidden="true" className="size-4" /></span>
                         <h3 className="font-display text-lg font-semibold leading-tight tracking-tight sm:text-xl">{pick(service.title)}</h3>
                       </div>
-                      <p className="mt-3 text-sm leading-relaxed text-foreground/65">{pick(service.text)}</p>
+                      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{pick(service.text)}</p>
                     </article>
                   );
                  })}
@@ -264,11 +264,11 @@ const Packages = () => {
               <div>
                 <span className="pill bg-accent text-accent-foreground"><CircleDollarSign className="size-3.5" />{c("Clarity before commitment", "确认前先讲清楚", "Ясность до обязательств", "Claridad antes de comprometerte")}</span>
                 <h2 className="mt-4 font-display text-4xl font-medium leading-tight tracking-tight md:text-5xl">{c("Know what is included and what is not.", "清楚知道哪些包含，哪些不包含。", "Знайте, что включено, а что нет.", "Sabe qué está incluido y qué no.")}</h2>
-                <p className="mt-4 text-base leading-relaxed text-foreground/65">{c("We confirm the scope in writing before travel so you can make decisions with fewer surprises.", "出发前，我们会以书面形式确认服务范围，帮助你减少意外情况。", "До поездки мы письменно подтверждаем объём услуг, чтобы уменьшить неожиданности.", "Confirmamos el alcance por escrito antes de viajar para que puedas decidir con menos sorpresas.")}</p>
+                <p className="mt-4 text-base leading-relaxed text-muted-foreground">{c("We confirm the scope in writing before travel so you can make decisions with fewer surprises.", "出发前，我们会以书面形式确认服务范围，帮助你减少意外情况。", "До поездки мы письменно подтверждаем объём услуг, чтобы уменьшить неожиданности.", "Confirmamos el alcance por escrito antes de viajar para que puedas decidir con menos sorpresas.")}</p>
               </div>
               <div className="grid gap-4 sm:grid-cols-2">
                 <article className="rounded-3xl border border-primary/20 bg-primary/[.06] p-6">
-                  <p className="text-xs font-bold uppercase tracking-[.15em] text-primary">{c("Coordination support", "协调支持", "Координационная поддержка", "Apoyo de coordinación")}</p>
+                  <p className="text-xs font-bold uppercase tracking-[.15em] text-brand">{c("Coordination support", "协调支持", "Координационная поддержка", "Apoyo de coordinación")}</p>
                   <ul className="mt-4 space-y-3 text-sm leading-relaxed text-foreground/75">
                     {[
                       c("Airport pickup coordination", "机场接送协调", "Организация трансфера", "Coordinación de recogida en el aeropuerto"),

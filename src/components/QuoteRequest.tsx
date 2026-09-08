@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import { MessageCircle, Mail, Lock, ArrowRight, ArrowLeft, CheckCircle2, X, Sparkles, Clock } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -12,6 +12,7 @@ import { useAuth } from "@/lib/auth";
 import { useAsia } from "@/lib/asia-i18n";
 import { supabase } from "@/integrations/supabase/client";
 import { trackEvent } from "@/lib/analytics";
+import { getConsultationPickerCopy, withConsultationSubject } from "@/lib/consultation-picker-copy";
 
 export interface QuoteContext {
   doctorName?: string;
@@ -65,14 +66,22 @@ export const QuoteProvider = ({ children }: { children: ReactNode }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [ctx, setCtx] = useState<QuoteContext>({});
   const [submitted, setSubmitted] = useState(false);
+  const openerRef = useRef<HTMLElement | null>(null);
 
   const open = useCallback((c?: QuoteContext) => {
+    openerRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     setCtx(c ?? {});
     setSubmitted(false);
     setIsOpen(true);
     trackEvent("start_quote", { source: c?.source || "site_cta" });
   }, []);
   const close = useCallback(() => setIsOpen(false), []);
+  const restoreFocus = useCallback((event: Event) => {
+    if (openerRef.current?.isConnected) {
+      event.preventDefault();
+      openerRef.current.focus({ preventScroll: true });
+    }
+  }, []);
 
   return (
     <QuoteCtx.Provider value={{ open, close }}>
@@ -83,6 +92,7 @@ export const QuoteProvider = ({ children }: { children: ReactNode }) => {
         ctx={ctx}
         submitted={submitted}
         onSubmitted={() => setSubmitted(true)}
+        onCloseAutoFocus={restoreFocus}
       />
     </QuoteCtx.Provider>
   );
@@ -149,14 +159,17 @@ type Intent = "pricing" | "consultation";
 type ContactMethod = "email" | "whatsapp";
 
 const QuoteDialog = ({
-  isOpen, onOpenChange, ctx, submitted, onSubmitted,
+  isOpen, onOpenChange, ctx, submitted, onSubmitted, onCloseAutoFocus,
 }: {
   isOpen: boolean;
   onOpenChange: (v: boolean) => void;
   ctx: QuoteContext;
   submitted: boolean;
   onSubmitted: () => void;
+  onCloseAutoFocus: (event: Event) => void;
 }) => {
+  const { lang } = useAsia();
+  const copy = getConsultationPickerCopy(lang);
   const [step, setStep] = useState<1 | 2>(1);
   const [intent, setIntent] = useState<Intent | null>(null);
   const [contactMethod, setContactMethod] = useState<ContactMethod | null>(null);
@@ -220,16 +233,15 @@ const QuoteDialog = ({
     if (!opened) window.location.href = whatsappUrl;
   };
 
-  const expertLabel = ctx.doctorName ?? "";
-  const headline = expertLabel
-    ? `Ask about ${expertLabel}`
-    : ctx.hospitalName
-    ? `Ask about ${ctx.hospitalName}`
-    : ctx.procedure
-    ? `Ask about ${ctx.procedure}`
-    : "Choose how to contact us";
-
-  const subline = "Choose email or WhatsApp to open the app and start your message.";
+  const subject = ctx.doctorName || ctx.hospitalName || ctx.procedure;
+  const headline = subject ? withConsultationSubject(copy.aboutHeadline, subject) : copy.headline;
+  const subline = copy.intro;
+  const contextRows = [
+    { label: copy.expert, value: ctx.doctorName },
+    { label: copy.hospital, value: ctx.hospitalName },
+    { label: copy.procedure, value: ctx.procedure },
+    { label: copy.city, value: ctx.city },
+  ].filter(({ value }) => Boolean(value));
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -254,7 +266,7 @@ const QuoteDialog = ({
       procedure,
       notes: [ctx.hospitalName ? `Hospital: ${ctx.hospitalName}` : "", notes].filter(Boolean).join("\n") || null,
       contact_method: contactMethod,
-      expert_name: expertLabel || null,
+      expert_name: ctx.doctorName || null,
       city: ctx.city ?? null,
       preferred_slot: slot || null,
       source: ctx.source || "site_cta",
@@ -271,7 +283,7 @@ const QuoteDialog = ({
       .catch((err) => console.error("quote-notification invoke failed:", err));
     const message = [
       "Hi CeladonChina, I would like to start a consultation.",
-      expertLabel ? `Expert: ${expertLabel}` : "",
+      ctx.doctorName ? `Expert: ${ctx.doctorName}` : "",
       ctx.hospitalName ? `Hospital: ${ctx.hospitalName}` : "",
       "Request: Consultation",
       `Name: ${name}`,
@@ -311,7 +323,7 @@ const QuoteDialog = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="quote-dialog-mobile max-w-lg gap-0 overflow-y-auto rounded-3xl border-border p-0 sm:max-h-[92vh]">
+      <DialogContent closeLabel={copy.close} onCloseAutoFocus={onCloseAutoFocus} className="quote-dialog-mobile max-w-lg gap-0 overflow-y-auto rounded-3xl border-border p-0 sm:max-h-[92vh]">
         {submitted ? (
           <SuccessState
             onClose={() => onOpenChange(false)}
@@ -327,23 +339,33 @@ const QuoteDialog = ({
             <div className="relative bg-gradient-mint p-5 pb-5 pr-16 sm:p-6 sm:pb-5 sm:pr-16">
               <div className="flex items-center justify-between">
                 <span className="pill bg-background/80 backdrop-blur shadow-soft">
-                  <Sparkles className="size-3 text-primary" /> Free · No obligation
+                  <Sparkles className="size-3 text-foreground" /> {copy.free}
                 </span>
               </div>
               <DialogTitle className="font-display text-2xl md:text-[26px] font-semibold tracking-tight mt-3 leading-tight">
                 {step === 1 ? headline : "Tell us a little about you"}
               </DialogTitle>
-              <DialogDescription className="text-sm text-foreground/70 mt-1.5">
+              <DialogDescription className="text-sm text-foreground mt-1.5">
                 {step === 1
                   ? subline
                   : contactMethod === "email"
                   ? "Share a few details and we’ll prepare an email for you to send."
                   : "Share a few details and we’ll prepare a WhatsApp message for you to send."}
               </DialogDescription>
+              {step === 1 && contextRows.length > 0 && (
+                <dl className="mt-4 space-y-1 text-sm text-foreground">
+                  {contextRows.map(({ label, value }) => (
+                    <div key={label} className="flex flex-wrap gap-x-2">
+                      <dt className="font-semibold">{label}:</dt>
+                      <dd className="min-w-0 break-words">{value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              )}
             </div>
 
             {step === 1 ? (
-              <ContactChannelStep onPick={pickContactMethod} doctorName={ctx.doctorName} />
+              <ContactChannelStep onPick={pickContactMethod} subject={subject} />
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4 p-4 sm:p-6">
                 <button
@@ -436,61 +458,59 @@ const QuoteDialog = ({
 
 /* ---------- Step 1: Contact channel picker ---------- */
 
-const ContactChannelStep = ({ onPick, doctorName }: { onPick: (method: ContactMethod) => void; doctorName?: string }) => {
+const ContactChannelStep = ({ onPick, subject }: { onPick: (method: ContactMethod) => void; subject?: string }) => {
+  const { lang } = useAsia();
+  const copy = getConsultationPickerCopy(lang);
   const options: { id: ContactMethod; icon: typeof Mail; title: string; desc: string; meta: string }[] = [
     {
       id: "email",
       icon: Mail,
-      title: "Contact by email",
-      desc: doctorName
-        ? `Send your questions about ${doctorName} by email.`
-        : "Send your questions and receive a reply by email.",
+      title: copy.emailTitle,
+      desc: subject ? withConsultationSubject(copy.emailAbout, subject) : copy.emailDescription,
       meta: "contact@celadonchina.com",
     },
     {
       id: "whatsapp",
       icon: MessageCircle,
-      title: "Contact on WhatsApp",
-      desc: doctorName
-        ? `Continue the conversation about ${doctorName} on WhatsApp.`
-        : "Send your questions and continue the conversation on WhatsApp.",
+      title: copy.whatsappTitle,
+      desc: subject ? withConsultationSubject(copy.whatsappAbout, subject) : copy.whatsappDescription,
       meta: "+1 470 861 3825",
     },
   ];
 
   return (
     <div className="space-y-3 p-4 pt-5 sm:p-6 sm:pt-5">
-      <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-        How would you like to contact us?
+      <p className="text-xs font-semibold text-foreground">
+        {copy.question}
       </p>
       {options.map((o) => (
         <button
           key={o.id}
           type="button"
           onClick={() => onPick(o.id)}
-          className="group w-full text-left rounded-2xl border border-border bg-card p-4 hover:border-foreground hover:shadow-pop transition-all flex items-start gap-4"
+          className="group flex w-full items-start gap-4 rounded-2xl border border-border bg-card p-4 text-left transition-[border-color,box-shadow] hover:border-foreground hover:shadow-pop focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
         >
           <div className="size-12 rounded-2xl bg-gradient-mint grid place-items-center shrink-0 group-hover:scale-105 transition-transform">
             <o.icon className="size-5 text-foreground" />
           </div>
           <div className="flex-1 min-w-0">
             <p className="font-display text-base font-semibold leading-tight">{o.title}</p>
-            <p className="text-sm text-muted-foreground mt-1 leading-snug">{o.desc}</p>
-            <span className="inline-flex items-center gap-1 mt-2 text-[11px] font-semibold text-primary">
+            <p className="text-sm text-foreground mt-1 leading-snug">{o.desc}</p>
+            <span className="inline-flex items-center gap-1 mt-2 break-all text-label font-semibold text-foreground">
               <o.icon className="size-3" />
               {o.meta}
             </span>
           </div>
-          <ArrowRight className="size-4 text-muted-foreground self-center shrink-0 group-hover:text-foreground group-hover:translate-x-0.5 transition-all" />
+          <ArrowRight className="size-4 text-foreground self-center shrink-0 group-hover:translate-x-0.5 transition-transform" />
         </button>
       ))}
 
-      <p className="text-xs text-muted-foreground text-center flex items-center justify-center gap-1.5 pt-2">
-        <Lock className="size-3 text-primary" />
-        Used only for your quote and care coordination. No spam.
+      <p className="text-xs text-foreground text-center flex items-start justify-center gap-1.5 pt-2">
+        <Lock className="mt-0.5 size-3 shrink-0" />
+        {copy.privacy}
       </p>
 
-      <MedicalDisclaimer variant="inline" className="rounded-xl bg-muted/50 px-3 py-2" />
+      <MedicalDisclaimer variant="inline" className="rounded-xl bg-muted/50 px-3 py-2 text-foreground" />
     </div>
   );
 };
@@ -524,7 +544,7 @@ const SlotPicker = ({ value, onChange, city }: { value: string; onChange: (v: st
 
   return (
     <div className="rounded-2xl border border-border bg-card p-3 space-y-3">
-      <p className="flex items-center gap-1.5 rounded-xl bg-accent/70 px-3 py-2 text-[11px] font-medium leading-snug text-foreground/80">
+      <p className="flex items-center gap-1.5 rounded-xl bg-accent/70 px-3 py-2 text-label font-medium leading-snug text-foreground/80">
         <Clock className="size-3.5 shrink-0 text-primary" />
         <span>
           All times are <b>{cityName}</b> local time ({tz.offset} · {tz.label.en}) — it&apos;s <b>{cityNow}</b> there now.
@@ -540,7 +560,7 @@ const SlotPicker = ({ value, onChange, city }: { value: string; onChange: (v: st
               activeDay === d.key ? "bg-foreground text-background" : "bg-muted/60 hover:bg-muted text-foreground"
             }`}
           >
-            <p className="text-[11px] font-semibold uppercase tracking-wider opacity-70">{d.label}</p>
+            <p className="text-label font-semibold uppercase tracking-wider opacity-70">{d.label}</p>
             <p className="text-sm font-display font-semibold mt-0.5">{d.sub}</p>
           </button>
         ))}
@@ -570,7 +590,7 @@ const SlotPicker = ({ value, onChange, city }: { value: string; onChange: (v: st
 const Field = ({ label, required, children }: { label: string; required?: boolean; children: ReactNode }) => (
   <div className="space-y-1.5">
     <Label className="text-xs font-semibold text-foreground/80">
-      {label} {required && <span className="text-primary">*</span>}
+      {label} {required && <span className="text-brand">*</span>}
     </Label>
     {children}
   </div>
@@ -624,7 +644,7 @@ export const DoctorContactButton = ({ doctorName, city, procedure }: QuoteContex
         <MessageCircle className="size-3.5" /> Ask about this expert
       </button>
       <div className="hidden md:block absolute bottom-full right-0 mb-2 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity">
-        <div className="rounded-2xl bg-foreground text-background text-[11px] py-2 px-3 shadow-pop whitespace-nowrap">
+        <div className="rounded-2xl bg-foreground text-background text-label py-2 px-3 shadow-pop whitespace-nowrap">
           Ask a question · Discuss pricing · Start a consultation
         </div>
       </div>

@@ -1,13 +1,12 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import {
-  Search, Filter, Stethoscope, BadgeCheck, FileCheck2, Star, ArrowRight, MapPin, MessageCircle, Navigation,
+  Search, Filter, Stethoscope, ArrowRight, MapPin, MessageCircle, Navigation,
 } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
 import { Button } from "@/components/ui/button";
-import { DOCTORS } from "@/data/doctors";
 import { useAsia } from "@/lib/asia-i18n";
 import { supabase } from "@/integrations/supabase/client";
 import { useRealtimeRefresh } from "@/hooks/use-realtime-refresh";
@@ -34,34 +33,46 @@ const Experts = () => {
   const [q, setQ] = useState(() => searchParams.get("q") ?? "");
   // 支持从城市搜索跳转进来时预选城市（/doctors?city=Seoul）
   const [city, setCity] = useState<string>(() => searchParams.get("city") || "all");
-  const [spec, setSpec] = useState<string>("all");
   const [managedDoctors, setManagedDoctors] = useState<ManagedDoctor[]>([]);
-  // 数据没回来前不要先渲染示例资料，否则会出现「先看到旧列表、一秒后跳变」
-  const [doctorsLoaded, setDoctorsLoaded] = useState(false);
-  
-  const loadManagedDoctors = useCallback(()=>{supabase.from("doctors").select("id,name,title,city,specialties,bio,photo_path,created_at,i18n").eq("status","published").order("created_at",{ascending:false}).then(async ({data})=>{
-    const chinaCities = ["shanghai", "beijing", "guangzhou", "hangzhou", "hainan", "上海", "北京", "广州", "杭州", "海南"];
-    const rows = ((data??[]) as unknown as ManagedDoctor[]).filter((doctor)=>chinaCities.some((cityName)=>doctor.city?.toLowerCase().includes(cityName)));
-    const photos = await signedUrls("doctor-photos", rows.map((doctor)=>doctor.photo_path));
-    setManagedDoctors(rows.map((doctor, index)=>localizeDoctorRow({ ...doctor, photo: photos[index] }, lang)));
-    setDoctorsLoaded(true);
-  })},[lang]);
-  useEffect(()=>{loadManagedDoctors();},[loadManagedDoctors]);
-  // 后台发布新专家后前台自动更新
+  const [directoryStatus, setDirectoryStatus] = useState<"loading" | "ready" | "error">("loading");
+  const requestId = useRef(0);
+
+  const loadManagedDoctors = useCallback(async () => {
+    const currentRequest = ++requestId.current;
+    setDirectoryStatus("loading");
+    try {
+      const { data, error } = await supabase.from("doctors")
+        .select("id,name,title,hospital,city,specialties,bio,photo_path,created_at,i18n")
+        .eq("status", "published").order("created_at", { ascending: false });
+      if (error) throw error;
+      const chinaCities = ["shanghai", "beijing", "guangzhou", "hangzhou", "hainan", "上海", "北京", "广州", "杭州", "海南"];
+      const rows = ((data ?? []) as unknown as ManagedDoctor[])
+        .filter((doctor) => chinaCities.some((cityName) => doctor.city?.toLowerCase().includes(cityName)));
+      const photos = await signedUrls("doctor-photos", rows.map((doctor) => doctor.photo_path));
+      if (currentRequest !== requestId.current) return;
+      setManagedDoctors(rows.map((doctor, index) => localizeDoctorRow({ ...doctor, photo: photos[index] }, lang)));
+      setDirectoryStatus("ready");
+    } catch {
+      if (currentRequest === requestId.current) setDirectoryStatus("error");
+    }
+  }, [lang]);
+  useEffect(() => {
+    void loadManagedDoctors();
+    return () => { requestId.current += 1; };
+  }, [loadManagedDoctors]);
   useRealtimeRefresh(["doctors"], loadManagedDoctors);
 
-  const publicDoctors = useMemo(() => DOCTORS.filter(() => false), []);
-  const directoryDoctors: DirectoryDoctor[] = managedDoctors.length > 0
-    ? managedDoctors.map((doctor) => ({ ...doctor, demo: false, photo: doctor.photo ?? "" }))
-    : doctorsLoaded
-      ? DEMO_CHINA_DOCTORS.map((doctor) => ({ ...doctor, photo_path: null, credentials: null }) as DirectoryDoctor)
-      : [];
+  const directoryDoctors = useMemo<DirectoryDoctor[]>(() => {
+    if (directoryStatus !== "ready") return [];
+    return managedDoctors.length > 0
+      ? managedDoctors.map((doctor) => ({ ...doctor, demo: false, photo: doctor.photo ?? "" }))
+      : DEMO_CHINA_DOCTORS.map((doctor) => ({ ...doctor, photo_path: null }));
+  }, [managedDoctors, directoryStatus]);
   const cities = useMemo(() => {
     const set = new Map<string, string>();
-    publicDoctors.forEach((d) => set.set(d.cityEn, d[lang === "zh" ? "cityZh" : "cityEn"]));
     directoryDoctors.forEach((d) => { if (d.city) set.set(d.city, d.city); });
     return Array.from(set, ([key, label]) => ({ key, label }));
-  }, [lang, publicDoctors, directoryDoctors]);
+  }, [directoryDoctors]);
 
   /** 专家资料里的城市是自由文本，匹配时同时认英文名与中文名 */
   const matchesCity = (docCity: string | undefined, filter: string) => {
@@ -114,7 +125,7 @@ const Experts = () => {
   const [page, setPage] = useState(1);
   useEffect(() => {
     setPage(1);
-  }, [q, city, spec, sort]);
+  }, [q, city, sort]);
   const totalPages = Math.max(1, Math.ceil(sortedDoctors.length / PAGE_SIZE));
   const safePage = Math.min(page, totalPages);
   const pagedDoctors = useMemo(
@@ -129,23 +140,7 @@ const Experts = () => {
   );
   const cityLabel = activeCityMeta ? (lang === "zh" ? activeCityMeta.zh : activeCityMeta.en) : city;
 
-  const specialties = useMemo(() => {
-    const set = new Map<string, string>();
-    publicDoctors.forEach((d) =>
-      d.specEn.forEach((s, i) => set.set(s, lang === "zh" ? d.specZh[i] ?? s : s)),
-    );
-    return Array.from(set, ([key, label]) => ({ key, label }));
-  }, [lang, publicDoctors]);
 
-  const items = useMemo(() => {
-    return publicDoctors.filter((d) => {
-      if (city !== "all" && d.cityEn !== city) return false;
-      if (spec !== "all" && !d.specEn.includes(spec)) return false;
-      if (!q.trim()) return true;
-      const hay = `${d.en} ${d.zh} ${d.specEn.join(" ")} ${d.specZh.join(" ")}`.toLowerCase();
-      return hay.includes(q.toLowerCase());
-    });
-  }, [q, city, spec, publicDoctors]);
 
   return (
     <>
@@ -166,7 +161,7 @@ const Experts = () => {
             <Stethoscope className="size-3.5" /> {t("doctors.kicker")}
           </span>
           <h1 className="font-display text-[2.15rem] font-medium leading-[1.04] tracking-tight sm:text-4xl md:text-5xl">
-            {t("doctors.title1")} <em className="text-primary not-italic">{t("doctors.titleEm")}</em>
+            {t("doctors.title1")} <em className="text-brand not-italic">{t("doctors.titleEm")}</em>
           </h1>
         </div>
 
@@ -182,26 +177,9 @@ const Experts = () => {
           </div>
         </div>
 
-        {/* Procedure filter */}
-        {specialties.length > 0 && <div className="mb-3">
-          <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold text-center mb-2">
-            {c("Procedure", "手术类型", "Процедура", "Procedimiento")}
-          </p>
-          <div className="flex items-center gap-2 flex-wrap justify-center">
-            <Button variant={spec === "all" ? "default" : "outline"} size="sm" className="rounded-full" onClick={() => setSpec("all")}>
-              {t("cases.tabAll")}
-            </Button>
-            {specialties.map((s) => (
-              <Button key={s.key} variant={spec === s.key ? "default" : "outline"} size="sm" className="rounded-full" onClick={() => setSpec(s.key)}>
-                {s.label}
-              </Button>
-            ))}
-          </div>
-        </div>}
-
         {/* City filter */}
         {cities.length > 0 && <div className="mb-10">
-          <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold text-center mb-2">
+          <p className="text-label uppercase tracking-wider text-muted-foreground font-semibold text-center mb-2">
             {c("City", "城市", "Город", "Ciudad")}
           </p>
           <div className="flex items-center gap-2 flex-wrap justify-center">
@@ -217,10 +195,9 @@ const Experts = () => {
           </div>
         </div>}
 
-        {directoryDoctors.length > 0 && (
-          <div className="mb-10">
-            <h2 className="mb-4 font-display text-2xl">{managedDoctors.length > 0 ? c("Published doctors", "已发布专家", "Опубликованные эксперты", "Expertos publicados") : c("Sample doctor profiles", "专家展示样例", "Примеры профилей экспертов", "Perfiles de expertos de muestra")}</h2>
-            <div className="mb-5">
+        <div className="mb-10" data-testid="doctor-directory-results">
+            {directoryStatus === "ready" && visibleDirectoryDoctors.length > 0 && <h2 className="mb-4 font-display text-2xl">{managedDoctors.length > 0 ? c("Published doctors", "已发布专家", "Опубликованные эксперты", "Expertos publicados") : c("Sample doctor profiles", "专家展示样例", "Примеры профилей экспертов", "Perfiles de expertos de muestra")}</h2>}
+            {directoryStatus === "ready" && visibleDirectoryDoctors.length > 0 && <div className="mb-5">
               <SortChips
                 label={c("Sort", "排序", "Сортировка", "Ordenar")}
                 value={sort}
@@ -233,7 +210,7 @@ const Experts = () => {
                 ]}
               />
               {sort === "distance" && (
-                <p className="mt-2 flex items-center justify-center gap-1 text-[11px] text-muted-foreground">
+                <p className="mt-2 flex items-center justify-center gap-1 text-label text-muted-foreground">
                   <Navigation className="size-3" />
                   {locStatus === "locating"
                     ? c("Locating…", "正在获取定位…", "Определяем местоположение…", "Localizando…")
@@ -242,9 +219,10 @@ const Experts = () => {
                       : c("Sorted by distance from you.", "已按与你的距离排序。", "Отсортировано по расстоянию от вас.", "Ordenado por distancia desde tu ubicación.")}
                 </p>
               )}
-            </div>
-            {!doctorsLoaded ? (
-              <div className="grid gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3" aria-busy="true">
+            </div>}
+            {directoryStatus === "loading" ? (
+              <div role="status" className="grid gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3" aria-busy="true">
+                <span className="sr-only">{c("Loading expert profiles…", "正在加载专家资料…", "Загрузка профилей экспертов…", "Cargando perfiles de expertos…")}</span>
                 {[0, 1, 2].map((i) => (
                   <div key={i} className="min-h-[20rem] animate-pulse rounded-3xl bg-card p-6 shadow-pop md:min-h-[25rem]">
                     <div className="flex gap-4">
@@ -261,10 +239,18 @@ const Experts = () => {
                   </div>
                 ))}
               </div>
+            ) : directoryStatus === "error" ? (
+              <div role="alert" className="rounded-3xl border border-border bg-card px-6 py-8 text-center text-foreground">
+                <h2 className="font-display text-2xl">{c("Expert profiles are unavailable", "暂时无法加载专家资料", "Профили экспертов недоступны", "Los perfiles de expertos no están disponibles")}</h2>
+                <p className="mt-2 text-sm">{c("We couldn't load the directory. Please try again.", "专家列表加载失败，请重试。", "Не удалось загрузить список. Попробуйте ещё раз.", "No pudimos cargar el directorio. Inténtalo de nuevo.")}</p>
+                <Button className="mt-4" onClick={() => void loadManagedDoctors()}>{c("Try again", "重试", "Попробовать снова", "Reintentar")}</Button>
+              </div>
             ) : visibleDirectoryDoctors.length === 0 ? (
-              <p className="rounded-3xl border border-dashed border-border bg-card/60 px-6 py-8 text-center text-sm text-muted-foreground">
-                {c("No experts in this city yet — try another city or ask us for a match.", "该城市暂无专家资料 —— 换个城市试试，或让我们帮你匹配。", "В этом городе пока нет экспертов — попробуйте другой город или напишите нам.", "Todavía no hay expertos en esta ciudad — prueba otra ciudad o pídenos ayuda para encontrar una opción.")}
-              </p>
+              <div role="status" className="rounded-3xl border border-dashed border-border bg-card/60 px-6 py-8 text-center text-foreground">
+                <h2 className="font-display text-2xl">{c("No matching expert profiles", "没有匹配的专家资料", "Подходящие профили не найдены", "No hay perfiles que coincidan")}</h2>
+                <p className="mt-2 text-sm">{c("Try a different name, specialty or city.", "试试其他姓名、擅长项目或城市。", "Попробуйте другое имя, специализацию или город.", "Prueba otro nombre, especialidad o ciudad.")}</p>
+                <Button variant="outline" className="mt-4" onClick={() => { setQ(""); setCity("all"); }}>{c("Clear filters", "清除筛选", "Сбросить фильтры", "Borrar filtros")}</Button>
+              </div>
             ) : (
             <div className="grid gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
               {pagedDoctors.map((d) => {
@@ -279,13 +265,14 @@ const Experts = () => {
                         <h3 className="font-display text-xl font-semibold leading-tight"><Highlight text={d.name} query={q} /></h3>
                         <p className="mt-1 text-xs text-muted-foreground"><Highlight text={d.title} query={q} /></p>
                         <p className="mt-2 text-xs text-muted-foreground"><MapPin className="mr-1 inline size-3" /><Highlight text={d.city} query={q} /></p>
-                        {d.demo && <span className="mt-2 inline-flex rounded-full bg-accent px-2.5 py-1 text-[10px] font-semibold text-accent-foreground">{c("Sample profile", "示例资料", "Демо-профиль", "Perfil de muestra")}</span>}
+                        {d.demo && <span className="mt-2 inline-flex rounded-full bg-accent px-2.5 py-1 text-label font-semibold text-accent-foreground">{c("Sample profile", "示例资料", "Демо-профиль", "Perfil de muestra")}</span>}
                       </div>
                     </div>
+                    {d.hospital && <p className="mt-3 text-sm font-medium text-foreground">{d.hospital}</p>}
                     {d.bio && <p className="mt-4 line-clamp-2 text-sm leading-relaxed text-muted-foreground"><Highlight text={d.bio} query={q} /></p>}
-                    <div className="mt-4 flex flex-wrap gap-1.5">{d.specialties.map((s) => <span key={s} className="rounded-full bg-accent px-2.5 py-1 text-[11px]"><Highlight text={s} query={q} /></span>)}</div>
+                    <div className="mt-4 flex flex-wrap gap-1.5">{d.specialties.map((s) => <span key={s} className="rounded-full bg-accent px-2.5 py-1 text-label"><Highlight text={s} query={q} /></span>)}</div>
                     <div className="mt-auto grid gap-2 pt-6 min-[430px]:grid-cols-[0.9fr_1.1fr]">
-                      <Link to={d.demo ? "/doctors" : `/doctors/profile/${d.id}`} className="flex min-h-12 items-center justify-center rounded-xl border border-primary/30 px-3 py-3 text-center text-xs font-semibold text-primary hover:bg-primary/10">
+                      <Link to={d.demo ? `/doctors/demo/${d.id}` : `/doctors/profile/${d.id}`} className="flex min-h-12 items-center justify-center rounded-xl border border-primary/30 px-3 py-3 text-center text-xs font-semibold text-brand hover:bg-primary/10">
                         {c("Expert & cases", "专家与案例", "Эксперт и истории пациентов", "Experto y casos")}
                       </Link>
                       <QuoteCtaButton quoteCtx={{ doctorName: d.name, city: d.city }} className="min-h-12 rounded-xl px-3 py-3 text-center text-[13px] leading-tight" data-testid="doctor-card-cta" />
@@ -295,103 +282,10 @@ const Experts = () => {
               })}
             </div>
             )}
-            {visibleDirectoryDoctors.length > 0 && (
+            {directoryStatus === "ready" && visibleDirectoryDoctors.length > 0 && (
               <Pagination page={safePage} totalPages={totalPages} onChange={setPage} />
             )}
-          </div>
-        )}
-
-        {items.length === 0 ? (
-          <p className="text-center text-muted-foreground py-12 text-sm">
-            {c("Expert profiles are currently under review. You can still book a free video consultation and we will help identify suitable options.", "专家资料正在审核中。你仍可预约免费视频咨询，我们会根据需求协助匹配。", "Профили экспертов проходят проверку. Вы можете записаться на бесплатную видеоконсультацию, а мы поможем подобрать подходящие варианты.", "Los perfiles de expertos están actualmente en revisión. Aun así puedes reservar una videoconsulta gratuita y te ayudaremos a identificar opciones adecuadas.")}
-          </p>
-        ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {items.map((d) => (
-              <article
-                key={d.id}
-                className="group flex min-h-[34rem] flex-col rounded-3xl bg-card p-5 shadow-pop transition hover:shadow-glow sm:p-6 md:min-h-[37rem]"
-              >
-                <div className="flex items-center gap-4">
-                  <img src={d.img} alt={lang === "zh" ? d.zh : d.en} className="size-24 shrink-0 rounded-full border-2 border-primary/15 object-cover transition-transform duration-500 group-hover:scale-105" />
-                  <div className="min-w-0">
-                    <p className="font-display text-lg font-semibold leading-tight truncate">{lang === "zh" ? d.zh : d.en}</p>
-                    <p className="text-xs text-muted-foreground mt-1 truncate">
-                      {lang === "zh" ? d.titleZh : d.titleEn}
-                    </p>
-                    <p className="text-[11px] text-muted-foreground mt-0.5 inline-flex items-center gap-1">
-                      <MapPin className="size-3" /> {lang === "zh" ? d.cityZh : d.cityEn}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="mt-4 rounded-2xl bg-muted/40 p-3 space-y-1.5 text-[11px]">
-                  <div className="flex items-center gap-1.5 text-muted-foreground">
-                    <FileCheck2 className="size-3 text-primary" />
-                    <span>{t("doctors.lic")}</span>
-                    <span className="font-mono text-foreground truncate">{d.license}</span>
-                  </div>
-                  <p className="text-muted-foreground flex items-start gap-1.5">
-                    <BadgeCheck className="size-3 text-primary mt-0.5 shrink-0" />
-                    <span className="line-clamp-2">{lang === "zh" ? d.qualZh : d.qualEn}</span>
-                  </p>
-                </div>
-
-                <div className="mt-4 grid grid-cols-3 gap-2 text-center">
-                  <div className="rounded-xl bg-secondary py-2">
-                    <p className="font-display text-base font-semibold">{d.years}{lang === "zh" ? "年" : ""}</p>
-                    <p className="text-[10px] text-muted-foreground">{t("doctors.exp")}</p>
-                  </div>
-                  <div className="rounded-xl bg-secondary py-2">
-                    <p className="font-display text-base font-semibold">{d.surgeries}</p>
-                    <p className="text-[10px] text-muted-foreground">{t("doctors.cases")}</p>
-                  </div>
-                  <div className="rounded-xl bg-secondary py-2">
-                    <p className="font-display text-base font-semibold inline-flex items-center gap-0.5">
-                      <Star className="size-3.5 fill-primary text-primary" /> {d.rating}
-                    </p>
-                    <p className="text-[10px] text-muted-foreground">{d.reviews.toLocaleString()}</p>
-                  </div>
-                </div>
-
-                <div className="mt-4">
-                  <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold mb-1.5">
-                    {c("Procedures", "手术类型", "Процедуры", "Procedimientos")}
-                  </p>
-                  <div className="flex flex-wrap gap-1.5">
-                    {d.specEn.map((sEn, i) => {
-                      const label = lang === "zh" ? (d.specZh[i] ?? sEn) : sEn;
-                      const matched = spec !== "all" && sEn === spec;
-                      return (
-                        <span
-                          key={sEn}
-                          className={
-                            matched
-                              ? "inline-flex items-center gap-1 text-[11px] px-2.5 py-1 rounded-full bg-primary text-primary-foreground font-semibold shadow-glow ring-2 ring-primary/30"
-                              : "inline-flex items-center gap-1 text-[11px] px-2.5 py-1 rounded-full bg-accent text-accent-foreground"
-                          }
-                        >
-                          {matched && <Stethoscope className="size-3" />}
-                          {label}
-                        </span>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                <div className="mt-auto grid gap-2 pt-6 min-[430px]:grid-cols-[0.9fr_1.1fr]">
-                  <Link to={`/doctors/${d.id}`} className="flex min-h-12 items-center justify-center rounded-xl border border-primary/30 bg-card px-3 py-3 text-center text-xs font-semibold text-primary transition hover:bg-primary/10">
-                    {c("Expert & cases", "专家与案例", "Эксперт и истории пациентов", "Experto y casos")}
-                  </Link>
-                  <QuoteCtaButton
-                    quoteCtx={{ doctorName: lang === "zh" ? d.zh : d.en, city: lang === "zh" ? d.cityZh : d.cityEn }}
-                    className="min-h-12 w-full rounded-xl px-3 py-3 text-[13px] leading-tight"
-                  />
-                </div>
-              </article>
-            ))}
-          </div>
-        )}
+        </div>
 
         <aside className="mt-10 overflow-hidden rounded-[2rem] border border-primary/15 bg-gradient-to-r from-[hsl(158,58%,90%)] via-[hsl(145,48%,91%)] to-[hsl(50,80%,91%)] px-5 py-7 shadow-soft sm:mt-14 sm:px-8 sm:py-9 md:flex md:items-center md:justify-between md:gap-8">
           <div className="max-w-2xl">

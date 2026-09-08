@@ -60,7 +60,7 @@ const GalleryCard = ({
         <Maximize2 className="size-3.5" />
       </span>
       <span className="absolute inset-x-3.5 bottom-3.5">
-        <span className="mb-1 block text-[9px] font-bold uppercase tracking-[0.16em] text-white/65">{lang === "zh" ? "患者日记" : lang === "ru" ? "История пациента" : lang === "es" ? "Diario del paciente" : "Patient diary"}</span>
+        <span className="mb-1 block text-label font-bold uppercase tracking-[0.16em] text-white/65">{lang === "zh" ? "患者日记" : lang === "ru" ? "История пациента" : lang === "es" ? "Diario del paciente" : "Patient diary"}</span>
         <span className="block font-display text-lg font-medium leading-tight text-white">{t}</span>
         <span className="mt-1.5 block truncate text-xs font-medium text-white/75">
           {item.city?.[lang === "zh" ? "zh" : "en"]}
@@ -135,7 +135,7 @@ const HeroVideoGallery = ({ items, lang, size = "default" }: HeroVideoGalleryPro
           <div className="overflow-hidden rounded-[1.5rem] border border-primary/15 bg-foreground p-2 text-white shadow-pop md:hidden">
             <video key={`mobile-${activeExplainer.id}`} src={activeExplainer.src} poster={activeExplainer.poster} controls playsInline preload="metadata" className="aspect-video w-full rounded-[1.1rem] bg-black object-cover" />
             <div className="p-4">
-              <span className="text-[9px] font-bold uppercase tracking-[0.18em] text-primary">{t.guide}</span>
+              <span className="text-label font-bold uppercase tracking-[0.18em] text-primary">{t.guide}</span>
               <h3 className="mt-1 font-display text-2xl font-semibold leading-tight">{activeExplainer.title}</h3>
               <p className="mt-2 text-xs leading-5 text-white/65">{activeExplainer.description}</p>
               <div className="mt-4 flex gap-2">
@@ -157,7 +157,7 @@ const HeroVideoGallery = ({ items, lang, size = "default" }: HeroVideoGalleryPro
                   <div className="absolute inset-x-0 bottom-0 h-[44%] bg-gradient-to-t from-black/95 via-black/60 to-transparent" />
 
                   <div className="absolute left-8 top-10 z-20 max-w-md text-white lg:left-12 lg:top-14">
-                    <span className="inline-flex rounded-full border border-white/30 bg-black/20 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-white/80 backdrop-blur-sm">
+                    <span className="inline-flex rounded-full border border-white/30 bg-black/20 px-3 py-1.5 text-label font-bold uppercase tracking-[0.18em] text-white/80 backdrop-blur-sm">
                       {t.guide}
                     </span>
                     <h3 className="mt-4 font-display text-4xl font-semibold leading-[0.98] tracking-tight lg:text-5xl">{activeExplainer.title}</h3>
@@ -196,7 +196,7 @@ const HeroVideoGallery = ({ items, lang, size = "default" }: HeroVideoGalleryPro
 
           <div className="mt-8 flex items-end justify-between gap-4">
             <div>
-              <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-primary">{t.patientDiaries}</span>
+              <span className="text-label font-bold uppercase tracking-[0.18em] text-brand">{t.patientDiaries}</span>
               <h3 className="mt-1 font-display text-2xl font-semibold tracking-tight text-foreground">{t.patientSubtitle}</h3>
             </div>
           </div>
@@ -215,7 +215,7 @@ const HeroVideoGallery = ({ items, lang, size = "default" }: HeroVideoGalleryPro
       )}
 
       <p className="mt-3 text-center text-xs font-semibold text-muted-foreground sm:text-right">
-        <Link to="/cases" className="inline-flex items-center gap-1.5 text-primary transition-colors hover:text-foreground">
+        <Link to="/cases" className="inline-flex items-center gap-1.5 text-brand transition-colors hover:text-foreground">
           {t.more} <ArrowRight className="size-3" />
         </Link>
       </p>

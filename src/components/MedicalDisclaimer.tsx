@@ -38,7 +38,7 @@ export const MedicalDisclaimer = ({
     <p
       role="note"
       data-testid="medical-disclaimer"
-      className={cn("flex items-start gap-1.5 text-[11px] leading-relaxed text-muted-foreground", className)}
+      className={cn("flex items-start gap-1.5 text-caption leading-relaxed text-muted-foreground", className)}
     >
       <Info className="mt-px size-3 shrink-0" aria-hidden />
       <span>{text}</span>

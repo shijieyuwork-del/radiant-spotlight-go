@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import animate from "tailwindcss-animate";
 
 export default {
   darkMode: ["class"],
@@ -21,6 +22,16 @@ export default {
         display: ['Inter Variable', '-apple-system', 'BlinkMacSystemFont', 'SF Pro Display', 'SF Pro Text', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', 'Arial', 'sans-serif'],
         sans: ['Inter Variable', '-apple-system', 'BlinkMacSystemFont', 'SF Pro Text', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', 'Arial', 'sans-serif'],
       },
+      // Reading sizes use unitless rhythm; leading-* utilities remain overridable.
+      fontSize: {
+        xs: ['0.8125rem', { lineHeight: '1.5' }],
+        sm: ['0.9375rem', { lineHeight: '1.6' }],
+        label: ['0.75rem', { lineHeight: '1.5' }],
+        caption: ['0.8125rem', { lineHeight: '1.5' }],
+        nav: ['0.875rem', { lineHeight: '1.5' }],
+        body: ['1rem', { lineHeight: '1.6' }],
+        'body-lg': ['1.125rem', { lineHeight: '1.6' }],
+      },
       backgroundImage: {
         'gradient-hero': 'var(--gradient-hero)',
         'gradient-mint': 'var(--gradient-mint)',
@@ -38,6 +49,7 @@ export default {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        brand: "hsl(var(--brand-text))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -112,5 +124,5 @@ export default {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [animate],
 } satisfies Config;

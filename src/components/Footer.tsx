@@ -10,8 +10,8 @@ const Footer = () => {
     <>
       <ConsultationCta />
       <footer className="border-t border-border/60 bg-muted/30">
-      <div className="container py-10 md:py-16 grid grid-cols-2 gap-8 md:grid-cols-5">
-        <div className="space-y-4 col-span-2 md:col-span-1">
+      <div className="container py-10 md:py-16 grid grid-cols-2 gap-8 md:grid-cols-4 xl:grid-cols-5">
+        <div className="space-y-4 col-span-2 md:col-span-4 xl:col-span-1">
           <BrandLogo showTagline />
           <p className="text-sm text-muted-foreground max-w-xs">China-focused cosmetic medical travel guidance. Published provider information. Coordinated care and practical travel support.</p>
         </div>

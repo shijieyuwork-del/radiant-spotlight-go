@@ -185,7 +185,7 @@ const TreatmentLandingPage = ({ kind }: { kind: TreatmentLandingKind }) => {
               <div>
                 <span className="pill border border-primary/15 bg-card/85 text-foreground"><Sparkles className="size-3.5 text-primary" />{copy.eyebrow}</span>
                 <h1 className="mt-5 max-w-3xl font-display text-[2.75rem] font-medium leading-[0.94] tracking-[-0.045em] md:text-6xl lg:text-7xl">
-                  {copy.headline}<span className="mt-1 block text-primary">{copy.headlineAccent}</span>
+                  {copy.headline}<span className="mt-1 block text-brand">{copy.headlineAccent}</span>
                 </h1>
                 <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">{copy.intro}</p>
                 <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -213,7 +213,7 @@ const TreatmentLandingPage = ({ kind }: { kind: TreatmentLandingKind }) => {
           <section className="container py-14 md:py-24">
             <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
               <div>
-                <span className="text-xs font-bold uppercase tracking-[0.18em] text-primary">What changes the estimate</span>
+                <span className="text-xs font-bold uppercase tracking-[0.18em] text-brand">What changes the estimate</span>
                 <h2 className="mt-3 font-display text-4xl font-medium md:text-5xl">One procedure name can cover very different plans.</h2>
                 <p className="mt-5 text-sm leading-relaxed text-muted-foreground">A useful quote starts with the details that materially change scope, safety, and recovery.</p>
               </div>
@@ -247,7 +247,7 @@ const TreatmentLandingPage = ({ kind }: { kind: TreatmentLandingKind }) => {
 
           <section className="container py-14 md:py-24">
             <div className="mx-auto max-w-3xl text-center">
-              <span className="text-xs font-bold uppercase tracking-[0.18em] text-primary">From first question to clinic visit</span>
+              <span className="text-xs font-bold uppercase tracking-[0.18em] text-brand">From first question to clinic visit</span>
               <h2 className="mt-3 font-display text-4xl font-medium md:text-5xl">Cross-border care has more moving parts. We make them visible.</h2>
             </div>
             <div className="mt-10 grid gap-4 md:grid-cols-4">
@@ -272,7 +272,7 @@ const TreatmentLandingPage = ({ kind }: { kind: TreatmentLandingKind }) => {
           <section className="bg-primary/[0.06] py-14 md:py-24">
             <div className="container grid gap-10 lg:grid-cols-[0.75fr_1.25fr] lg:gap-16">
               <div>
-                <span className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Common questions</span>
+                <span className="text-xs font-bold uppercase tracking-[0.18em] text-brand">Common questions</span>
                 <h2 className="mt-3 font-display text-4xl font-medium">The honest short answers.</h2>
                 <Link to={`/treatments/${kind}`} className="mt-6 inline-flex items-center gap-2 text-sm font-semibold underline decoration-primary/60 underline-offset-4">Read the full procedure guide <ArrowRight className="size-4" /></Link>
               </div>

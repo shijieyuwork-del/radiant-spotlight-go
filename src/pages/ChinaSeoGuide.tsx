@@ -144,7 +144,7 @@ const ChinaSeoGuide = ({ kind }: { kind: GuideKind }) => {
               <section className="mt-12 border-y border-border py-10" aria-labelledby="planning-guides-heading">
                 <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
                   <div>
-                    <span className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Detailed planning guides</span>
+                    <span className="text-xs font-bold uppercase tracking-[0.18em] text-brand">Detailed planning guides</span>
                     <h2 id="planning-guides-heading" className="mt-3 font-display text-3xl font-medium md:text-4xl">Plan one decision at a time.</h2>
                   </div>
                   <p className="max-w-md text-sm leading-6 text-muted-foreground">Use focused guides for costs, safety, entry, provider selection and recovery, then return to this page for the complete journey.</p>
@@ -154,7 +154,7 @@ const ChinaSeoGuide = ({ kind }: { kind: GuideKind }) => {
                     <Link key={guide.slug} to={medicalTourismGuidePath(guide.slug)} className="group flex min-h-28 items-start gap-4 border-t border-border py-5 first:border-t-0 md:[&:nth-child(2)]:border-t-0">
                       <span className="font-display text-xl text-primary/65">0{index + 1}</span>
                       <span className="min-w-0 flex-1">
-                        <span className="block font-display text-xl font-medium leading-tight group-hover:text-primary">{guide.title.replace(/:.*$/, "")}</span>
+                        <span className="block font-display text-xl font-medium leading-tight group-hover:text-brand">{guide.title.replace(/:.*$/, "")}</span>
                         <span className="mt-2 line-clamp-2 block text-sm leading-6 text-muted-foreground">{guide.description}</span>
                       </span>
                       <ArrowRight className="mt-1 size-4 shrink-0 transition group-hover:translate-x-0.5" />
@@ -165,13 +165,13 @@ const ChinaSeoGuide = ({ kind }: { kind: GuideKind }) => {
             )}
             {kind === "plastic-surgery" && (
               <nav aria-label="On this page" className="mt-8 rounded-3xl border border-border bg-card p-6">
-                <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">On this page</p>
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand">On this page</p>
                 <div className="mt-4 grid gap-3 text-sm font-semibold sm:grid-cols-2 lg:grid-cols-3">
-                  <a href="#costs" className="hover:text-primary">Costs and recovery</a>
-                  <a href="#planning-details" className="hover:text-primary">Safety and provider checks</a>
-                  <a href="#destinations" className="hover:text-primary">China destinations</a>
-                  <a href="#questions" className="hover:text-primary">Frequently asked questions</a>
-                  <a href="#sources" className="hover:text-primary">Sources and methodology</a>
+                  <a href="#costs" className="hover:text-brand">Costs and recovery</a>
+                  <a href="#planning-details" className="hover:text-brand">Safety and provider checks</a>
+                  <a href="#destinations" className="hover:text-brand">China destinations</a>
+                  <a href="#questions" className="hover:text-brand">Frequently asked questions</a>
+                  <a href="#sources" className="hover:text-brand">Sources and methodology</a>
                 </div>
               </nav>
             )}
@@ -179,7 +179,7 @@ const ChinaSeoGuide = ({ kind }: { kind: GuideKind }) => {
               <section className="mt-12 border-y border-border py-10" aria-labelledby="cosmetic-tourism-guides-heading">
                 <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_minmax(18rem,28rem)] md:items-end">
                   <div>
-                    <span className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Cosmetic surgery travel guides</span>
+                    <span className="text-xs font-bold uppercase tracking-[0.18em] text-brand">Cosmetic surgery travel guides</span>
                     <h2 id="cosmetic-tourism-guides-heading" className="mt-3 font-display text-3xl font-medium md:text-4xl">Plan the procedure and the journey together.</h2>
                   </div>
                   <p className="text-sm leading-6 text-muted-foreground">Start with the complete tourism guide, then check international-patient access, surgeon evidence, recovery travel and the China–Korea comparison.</p>
@@ -189,7 +189,7 @@ const ChinaSeoGuide = ({ kind }: { kind: GuideKind }) => {
                     <Link key={guide.slug} to={medicalTourismGuidePath(guide.slug)} className="group grid gap-3 py-5 sm:grid-cols-[3rem_minmax(0,1fr)_auto] sm:items-start">
                       <span className="font-display text-xl text-primary/65">0{index + 1}</span>
                       <span>
-                        <span className="block font-display text-xl font-medium leading-tight group-hover:text-primary">{guide.title}</span>
+                        <span className="block font-display text-xl font-medium leading-tight group-hover:text-brand">{guide.title}</span>
                         <span className="mt-2 line-clamp-2 block text-sm leading-6 text-muted-foreground">{guide.description}</span>
                       </span>
                       <ArrowRight className="mt-1 hidden size-4 shrink-0 transition group-hover:translate-x-0.5 sm:block" />
@@ -200,14 +200,14 @@ const ChinaSeoGuide = ({ kind }: { kind: GuideKind }) => {
             )}
             {kind === "plastic-surgery" && (
               <section id="costs" className="mt-12 scroll-mt-32">
-                <span className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Planning ranges</span>
+                <span className="text-xs font-bold uppercase tracking-[0.18em] text-brand">Planning ranges</span>
                 <h2 className="mt-3 font-display text-3xl font-medium md:text-4xl">Plastic surgery costs in China</h2>
                 <p className="mt-4 max-w-3xl leading-7 text-muted-foreground">These broad USD ranges are for early planning, not quotes. Surgeon experience, city, facility, anesthesia, tests, implants, hospital stay and revision complexity can materially change the final amount.</p>
                 <div className="mt-6 overflow-hidden rounded-3xl border border-border bg-card">
                   <div className="overflow-x-auto">
                     <table className="w-full min-w-[640px] text-left text-sm">
                       <thead className="bg-muted/60 text-xs uppercase tracking-wider text-muted-foreground"><tr><th className="p-4">Procedure</th><th className="p-4">Planning range</th><th className="p-4">Early recovery range</th><th className="p-4">Guide</th></tr></thead>
-                      <tbody>{plasticSurgeryCosts.map((row) => <tr key={row.procedure} className="border-t border-border"><td className="p-4 font-semibold">{row.procedure}</td><td className="p-4">{row.range}</td><td className="p-4 text-muted-foreground">{row.recovery}</td><td className="p-4"><Link className="font-semibold text-primary underline underline-offset-4" to={row.href}>View procedure</Link></td></tr>)}</tbody>
+                      <tbody>{plasticSurgeryCosts.map((row) => <tr key={row.procedure} className="border-t border-border"><td className="p-4 font-semibold">{row.procedure}</td><td className="p-4">{row.range}</td><td className="p-4 text-muted-foreground">{row.recovery}</td><td className="p-4"><Link className="font-semibold text-brand underline underline-offset-4" to={row.href}>View procedure</Link></td></tr>)}</tbody>
                     </table>
                   </div>
                 </div>
@@ -219,10 +219,10 @@ const ChinaSeoGuide = ({ kind }: { kind: GuideKind }) => {
             </div>
             {kind === "plastic-surgery" && (
               <section id="destinations" className="mt-16 scroll-mt-32">
-                <span className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Where to start</span>
+                <span className="text-xs font-bold uppercase tracking-[0.18em] text-brand">Where to start</span>
                 <h2 className="mt-3 font-display text-3xl font-medium md:text-4xl">Compare plastic surgery destinations in China</h2>
                 <div className="mt-7 grid gap-4 sm:grid-cols-2">
-                  {chinaDestinations.map((item) => <Link key={item.city} to={item.href} className="group rounded-3xl border border-border bg-card p-6 transition hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-soft"><h3 className="font-display text-2xl font-medium group-hover:text-primary">{item.city}</h3><p className="mt-2 text-sm leading-6 text-muted-foreground">{item.note}</p><span className="mt-4 inline-flex items-center text-sm font-semibold">Explore {item.city}<ArrowRight className="ml-2 size-4" /></span></Link>)}
+                  {chinaDestinations.map((item) => <Link key={item.city} to={item.href} className="group rounded-3xl border border-border bg-card p-6 transition hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-soft"><h3 className="font-display text-2xl font-medium group-hover:text-brand">{item.city}</h3><p className="mt-2 text-sm leading-6 text-muted-foreground">{item.note}</p><span className="mt-4 inline-flex items-center text-sm font-semibold">Explore {item.city}<ArrowRight className="ml-2 size-4" /></span></Link>)}
                 </div>
               </section>
             )}
@@ -232,7 +232,7 @@ const ChinaSeoGuide = ({ kind }: { kind: GuideKind }) => {
         <section id="questions" className="scroll-mt-32 border-y border-border/60 bg-muted/35">
           <div className="container py-12 md:py-16">
             <div className="mx-auto max-w-5xl">
-              <span className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Questions international patients ask</span>
+              <span className="text-xs font-bold uppercase tracking-[0.18em] text-brand">Questions international patients ask</span>
               <h2 className="mt-3 font-display text-3xl font-medium md:text-4xl">Frequently asked questions</h2>
               <div className="mt-7 divide-y divide-border rounded-3xl border border-border bg-card px-5 md:px-8">
                 {copy.faqs.map(([question, answer]) => <article key={question} className="py-6"><h3 className="font-display text-xl font-medium">{question}</h3><p className="mt-2 max-w-4xl text-sm leading-7 text-muted-foreground">{answer}</p></article>)}
@@ -247,9 +247,9 @@ const ChinaSeoGuide = ({ kind }: { kind: GuideKind }) => {
               <h2 className="font-display text-2xl font-medium">Sources and methodology</h2>
               <p className="mt-3 max-w-4xl text-sm leading-7 text-muted-foreground">CeladonChina separates general planning information from individualized medical advice. Price and recovery ranges are broad editorial planning ranges compiled from the procedure information published on this site; they are not promises of price, candidacy or outcome. Provider information should be verified with the named clinician, facility and relevant regulator before payment or travel.</p>
               <div className="mt-5 flex flex-wrap gap-4 text-sm font-semibold">
-                <Link className="text-primary underline underline-offset-4" to="/editorial-policy">Editorial policy</Link>
-                <Link className="text-primary underline underline-offset-4" to="/medical-review-policy">Medical review policy</Link>
-                <Link className="text-primary underline underline-offset-4" to="/provider-verification">Provider verification standards</Link>
+                <Link className="text-brand underline underline-offset-4" to="/editorial-policy">Editorial policy</Link>
+                <Link className="text-brand underline underline-offset-4" to="/medical-review-policy">Medical review policy</Link>
+                <Link className="text-brand underline underline-offset-4" to="/provider-verification">Provider verification standards</Link>
               </div>
             </div>
           </section>

@@ -80,7 +80,7 @@ const AsiaNavbar = () => {
     { to: "/before-after", label: c("Before & after", "术前术后", "До и после", "Antes y después") },
     { to: "/doctors", label: t("nav.compliance") },
     { to: "/clinics", label: c("Clinics", "诊所", "Клиники", "Clínicas") },
-    { to: "/travel-packages", label: c("Travel Support", "行程支持", "Поддержка поездки", "Apoyo de viaje") },
+    { to: "/travel-packages", label: asiaCopy(lang, { en: "Travel support", zh: "行程支持", ru: "Поддержка поездки", es: "Apoyo de viaje", th: "สนับสนุนการเดินทาง", ms: "Sokongan Perjalanan" }) },
     { to: "/treatments", label: t("nav.projects") },
     { to: "/cities", label: t("nav.cities") },
     { to: "/why-china", label: c("Why China", "为什么选中国", "Почему Китай", "Por qué China") },
@@ -140,7 +140,7 @@ const AsiaNavbar = () => {
         <header className="border-b border-border/70 bg-background/95 shadow-[0_5px_18px_rgba(16,42,36,0.07)] backdrop-blur-xl">
           <nav className="container flex h-16 items-center gap-4 xl:h-[5.25rem]" aria-label={c("Primary navigation", "主导航", "Основная навигация", "Navegación principal")}>
             <Link to="/" className="flex min-h-12 shrink-0 items-center">
-              <BrandLogo showTagline markClassName="size-8 xl:size-10" textClassName="text-lg xl:text-xl" />
+              <BrandLogo markClassName="size-8 xl:size-10" textClassName="text-lg xl:text-xl" />
             </Link>
             <div className="hidden min-w-0 flex-1 items-stretch justify-center self-stretch xl:flex">
               {compactDesktopLinks.map((l) => (
@@ -148,7 +148,7 @@ const AsiaNavbar = () => {
                   key={l.to}
                   to={l.to}
                   aria-current={isActive(l.to) ? "page" : undefined}
-                  className={`relative flex items-center whitespace-nowrap px-2.5 text-[11px] font-semibold uppercase tracking-[0.025em] transition-colors ${isActive(l.to) ? "text-primary" : "text-foreground/60 hover:text-primary"}`}
+                  className={`relative flex items-center whitespace-nowrap px-2.5 text-nav font-semibold transition-colors ${isActive(l.to) ? "text-brand" : "text-muted-foreground hover:text-brand"}`}
                 >
                   {l.label}
                   {isActive(l.to) && <span className="absolute inset-x-2.5 bottom-0 h-1 rounded-t-full bg-primary" aria-hidden="true" />}
@@ -158,7 +158,7 @@ const AsiaNavbar = () => {
                 <DropdownMenuTrigger asChild>
                   <button
                     type="button"
-                    className={`relative inline-flex items-center gap-1 px-2.5 text-[11px] font-semibold uppercase tracking-[0.025em] transition-colors ${moreIsActive ? "text-primary" : "text-foreground/60 hover:text-primary"}`}
+                    className={`relative inline-flex items-center gap-1 whitespace-nowrap px-2.5 text-nav font-semibold transition-colors ${moreIsActive ? "text-brand" : "text-muted-foreground hover:text-brand"}`}
                     aria-label={c("Open more navigation links", "打开更多导航", "Открыть дополнительные ссылки", "Abrir más enlaces")}
                   >
                     {c("More", "更多", "Ещё", "Más")}
@@ -168,8 +168,8 @@ const AsiaNavbar = () => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="center" className="w-52 rounded-xl p-2">
                   {moreDesktopLinks.map((l) => (
-                    <DropdownMenuItem key={l.to} asChild className="rounded-lg">
-                      <Link to={l.to} aria-current={isActive(l.to) ? "page" : undefined} className={isActive(l.to) ? "font-semibold text-primary" : ""}>
+                    <DropdownMenuItem key={l.to} asChild className="rounded-lg text-nav font-semibold">
+                      <Link to={l.to} aria-current={isActive(l.to) ? "page" : undefined} className={isActive(l.to) ? "text-brand" : "text-muted-foreground"}>
                         {l.label}
                       </Link>
                     </DropdownMenuItem>

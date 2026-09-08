@@ -172,7 +172,7 @@ const Auth = () => {
 
           <div className="flex items-center gap-3 my-5">
             <div className="flex-1 h-px bg-border" />
-            <span className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold">
+            <span className="text-label uppercase tracking-wider text-muted-foreground font-semibold">
               {t("or", "或")}
             </span>
             <div className="flex-1 h-px bg-border" />
@@ -255,7 +255,7 @@ const Auth = () => {
                 </Field>
                 <p className="text-xs text-muted-foreground">{t("Use at least 8 characters.", "请使用至少 8 位密码。")}</p>
               </> : (
-                <button type="button" onClick={() => { setMode("forgot"); setEmailSent(false); }} className="block ml-auto text-xs font-semibold text-primary hover:underline">
+                <button type="button" onClick={() => { setMode("forgot"); setEmailSent(false); }} className="block ml-auto text-xs font-semibold text-brand hover:underline">
                   {t("Forgot password?", "忘记密码？")}
                 </button>
               )}
@@ -277,7 +277,7 @@ const Auth = () => {
             </form>
           </Tabs>}
 
-          <p className="text-[11px] text-muted-foreground text-center mt-6">
+          <p className="text-label text-muted-foreground text-center mt-6">
             {t("By continuing you agree to our Terms & Privacy.", "继续即表示同意服务条款与隐私政策。")}
           </p>
         </div>
