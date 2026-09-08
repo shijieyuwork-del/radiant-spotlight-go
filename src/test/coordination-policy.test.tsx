@@ -21,6 +21,7 @@ describe("coordination payment information", () => {
     expect(within(section).getByText(copy.collection)).toBeVisible();
     expect(within(section).getByText(copy.cancellation)).toBeVisible();
     expect(copy.depositTitle).toContain(String(COORDINATION_DEPOSIT_USD));
+    expect(copy.collection).toContain(String(COORDINATION_DEPOSIT_USD));
     expect(copy.refund).toContain(String(COORDINATION_DEPOSIT_USD));
     for (const value of Object.values(copy)) expect(value.trim()).not.toBe("");
   });
@@ -32,6 +33,24 @@ describe("coordination payment information", () => {
     expect(mocks.open).toHaveBeenCalledWith({ source: "coordination_payment_terms" });
     expect(COORDINATION_POLICY.en.refund).toBe("Your $200 coordination deposit is returned on the day of your surgery.");
     expect(COORDINATION_POLICY.en.cancellation).toContain("terms in writing");
-    expect(document.body).not.toHaveTextContent(/12 months|refunded when you pay the clinic|non-refundable|cancel anytime/i);
+    expect(document.body).not.toHaveTextContent(/refunded when you pay the clinic|non-refundable|cancel anytime|forfeit/i);
+  });
+
+  it("states the confirmed collection time and cancellation hold in all six languages", () => {
+    const expected: Record<AsiaLang, [string, string]> = {
+      en: ["before you depart for China", "If you cancel, your deposit can be held for one year."],
+      zh: ["赴中国前收取", "取消后，押金可以保留一年。"],
+      ru: ["до выезда в Китай", "При отмене депозит можно сохранить на один год."],
+      es: ["antes de tu salida hacia China", "Si cancelas, tu depósito puede mantenerse durante un año."],
+      th: ["ก่อนที่คุณจะออกเดินทางไปจีน", "หากยกเลิก สามารถเก็บเงินมัดจำไว้ได้หนึ่งปี"],
+      ms: ["sebelum anda berlepas ke China", "Jika anda membatalkan, deposit boleh disimpan selama satu tahun."],
+    };
+    for (const lang of Object.keys(expected) as AsiaLang[]) {
+      const [collection, cancellation] = expected[lang];
+      expect(COORDINATION_POLICY[lang].collection).toContain(collection);
+      expect(COORDINATION_POLICY[lang].cancellation).toContain(cancellation);
+    }
+    expect(COORDINATION_POLICY.en.collection).not.toContain("confirm when");
+    expect(COORDINATION_POLICY.en.cancellation).toContain("end of the one-year hold");
   });
 });

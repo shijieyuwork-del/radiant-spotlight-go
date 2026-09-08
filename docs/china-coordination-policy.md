@@ -6,6 +6,8 @@ Updated: 2026-09-08
 
 - CeladonChina coordinates cosmetic-care visits and related travel in China only.
 - The coordination deposit is USD 200.
+- It is collected before the patient departs for China.
+- After cancellation, the deposit can be held for one year.
 - The deposit is returned on the day of surgery.
 - Medical payments go directly to the treating institution, as described in the existing support page.
 
@@ -13,18 +15,17 @@ The existing free-support scope is retained: consultation and appointment coordi
 
 ## Not yet supplied by the business owner
 
-- The exact point at which the deposit is collected.
-- Cancellation deadlines and refund treatment.
 - Rescheduling rules.
 - Deposit treatment when surgery cannot proceed.
+- Deposit treatment at the end of the one-year hold, including any cash-refund rules.
 - Refund method and bank processing time.
 
-Until these are confirmed, public copy asks patients to obtain the applicable terms in writing before payment. This is not a finalized cancellation policy. Do not invent forfeiture rules, promise an unconditional cancellation refund, or restore the old 12-month validity / refund-on-clinic-payment wording.
+Public copy states the confirmed before-departure collection and one-year hold after cancellation. It asks patients to obtain written terms for the remaining cases. Do not invent forfeiture rules, promise an unconditional cancellation refund, or turn the cancellation hold into a general one-year expiry from payment. The refund-on-clinic-payment wording remains obsolete; the confirmed refund event is surgery day.
 
 ## Implementation
 
 - `src/data/coordination-policy.ts` is the shared six-language source.
-- `/travel-packages#payment-terms` groups free scope, deposit, surgery-day return and the request for written cancellation terms.
+- `/travel-packages#payment-terms` groups free scope, before-departure collection, the cancellation hold, surgery-day return and the request for remaining written terms.
 - The lower free-support section repeats the surgery-day return and links to the full explanation.
 - Institution-provided language support is separate from CeladonChina's agreed interpretation arrangements.
 - See `featured-clinic-sources.md` for the three priority institutions. A source review date is not a medical, licensing or partnership verification date.
