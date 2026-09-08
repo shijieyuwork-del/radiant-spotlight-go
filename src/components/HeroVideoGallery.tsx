@@ -1,9 +1,12 @@
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { Maximize2, Play, Volume2, VolumeX, X, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { Maximize2, Play, Pause, Volume2, VolumeX, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import type { TikTokItem } from "@/components/TikTokWall";
 import { DEFAULT_VIDEO_POSTER } from "@/lib/cover-fallback";
 import type { AsiaLang } from "@/lib/asia-i18n";
+import { useQuietVideo } from "@/hooks/use-quiet-video";
+import { videoControlsCopy } from "@/lib/video-controls-copy";
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 
 type Lang = AsiaLang;
 
@@ -46,7 +49,7 @@ const GalleryCard = ({
 }: {
   item: TikTokItem;
   lang: Lang;
-  onPlay: (item: TikTokItem) => void;
+  onPlay: (item: TikTokItem, opener: HTMLButtonElement) => void;
   size: "default" | "large";
   actionLabel?: string;
 }) => {
@@ -54,7 +57,7 @@ const GalleryCard = ({
   return (
     <button
       type="button"
-      onClick={() => onPlay(item)}
+      onClick={(event) => onPlay(item, event.currentTarget)}
       className={`group relative aspect-[9/16] shrink-0 snap-start overflow-hidden rounded-[1.35rem] border border-white/55 bg-foreground/90 text-left shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-pop ${size === "large" ? "w-[48vw] min-w-[48vw] sm:w-44 sm:min-w-44 md:w-[15.5rem] md:min-w-[15.5rem] lg:w-[17rem] lg:min-w-[17rem]" : "w-[42vw] min-w-[42vw] sm:w-36 sm:min-w-36 lg:w-[9.25rem] lg:min-w-[9.25rem]"}`}
       aria-label={`${actionLabel ?? ui[lang].fullscreen}: ${t}`}
     >
@@ -62,7 +65,6 @@ const GalleryCard = ({
         src={item.src}
         poster={item.poster ?? DEFAULT_VIDEO_POSTER}
         muted
-        loop
         playsInline
         preload="none"
         className="absolute inset-0 size-full object-cover opacity-90 transition-opacity group-hover:opacity-100"
@@ -91,8 +93,10 @@ const HeroVideoGallery = ({ items, lang, size = "default" }: HeroVideoGalleryPro
   const [active, setActive] = useState<TikTokItem | null>(null);
   const [activeExplainerIndex, setActiveExplainerIndex] = useState(0);
   const [muted, setMuted] = useState(false);
-  const playerRef = useRef<HTMLVideoElement>(null);
-  const explainerRef = useRef<HTMLVideoElement>(null);
+  const player = useQuietVideo(active?.src ?? "", !!active);
+  const requestedPlayerStart = useRef(false);
+  const playerOpener = useRef<HTMLButtonElement | null>(null);
+  const controlCopy = videoControlsCopy[lang];
   const t = ui[lang];
   const visibleItems = items.slice(0, 7);
   const explainers = [
@@ -112,35 +116,31 @@ const HeroVideoGallery = ({ items, lang, size = "default" }: HeroVideoGalleryPro
     },
   ];
   const activeExplainer = explainers[activeExplainerIndex] ?? explainers[0];
+  const explainer = useQuietVideo(activeExplainer.src, size === "large");
+  const mobileExplainer = useQuietVideo(activeExplainer.src, size === "large");
   const showPrevious = () => setActiveExplainerIndex((current) => (current - 1 + explainers.length) % explainers.length);
   const showNext = () => setActiveExplainerIndex((current) => (current + 1) % explainers.length);
 
   const playExplainerFullscreen = () => {
-    const video = explainerRef.current;
+    const video = explainer.ref.current;
     if (!video) return;
+    if (explainer.playing) { explainer.pause(); return; }
     video.muted = false;
     video.controls = true;
-    video.play().catch(() => undefined);
+    void explainer.play();
     video.requestFullscreen?.().catch(() => undefined);
   };
 
-  const openPlayer = (item: TikTokItem) => {
+  const openPlayer = (item: TikTokItem, opener: HTMLButtonElement) => {
+    playerOpener.current = opener;
+    requestedPlayerStart.current = true;
     setActive(item);
     setMuted(false);
-    const el = playerRef.current;
-    if (el) {
-      // requestFullscreen must run inside the tap handler; the video mounts with the modal,
-      // so retry on the next frame when the element exists.
-      requestAnimationFrame(() => {
-        playerRef.current?.play().catch(() => undefined);
-        const wrap = document.getElementById("hero-gallery-player");
-        wrap?.requestFullscreen?.().catch(() => undefined);
-      });
-    }
   };
 
   const closePlayer = () => {
-    playerRef.current?.pause();
+    player.pause();
+    requestedPlayerStart.current = false;
     if (document.fullscreenElement) document.exitFullscreen().catch(() => undefined);
     setActive(null);
   };
@@ -150,8 +150,10 @@ const HeroVideoGallery = ({ items, lang, size = "default" }: HeroVideoGalleryPro
       {size === "large" ? (
         <>
           <div className="overflow-hidden rounded-[1.5rem] border border-primary/15 bg-foreground p-2 text-white shadow-pop md:hidden">
-            <video key={`mobile-${activeExplainer.id}`} src={activeExplainer.src} poster={activeExplainer.poster} controls playsInline preload="metadata" className="aspect-video w-full rounded-[1.1rem] bg-black object-cover" />
+            <video ref={mobileExplainer.attachRef} key={`mobile-${activeExplainer.id}`} src={activeExplainer.src} poster={activeExplainer.poster} controls playsInline preload="metadata" className="aspect-video w-full rounded-[1.1rem] bg-black object-cover" />
             <div className="p-4">
+              <button type="button" onClick={mobileExplainer.toggle} className="mb-3 inline-flex min-h-11 items-center gap-2 rounded-full bg-white px-4 text-sm font-semibold text-foreground">{mobileExplainer.playing ? <Pause className="size-4" /> : <Play className="size-4" />}{mobileExplainer.playing ? controlCopy.pause : controlCopy.play}</button>
+              {mobileExplainer.playbackFailed && <p role="status" className="mb-3 text-sm text-white">{controlCopy.failed}</p>}
               <span className="text-label font-bold uppercase tracking-[0.18em] text-primary">{t.guide}</span>
               <h3 className="mt-1 font-display text-2xl font-semibold leading-tight">{activeExplainer.title}</h3>
               <p className="mt-2 text-xs leading-5 text-white/65">{activeExplainer.description}</p>
@@ -169,9 +171,9 @@ const HeroVideoGallery = ({ items, lang, size = "default" }: HeroVideoGalleryPro
             <div className="relative h-[560px] overflow-hidden rounded-[1.45rem] bg-foreground lg:h-[610px]">
               {activeExplainer && (
                 <>
-                  <video ref={explainerRef} key={activeExplainer.id} src={activeExplainer.src} poster={activeExplainer.poster} autoPlay muted loop playsInline preload="metadata" className="absolute inset-0 size-full object-cover opacity-75" />
-                  <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(5,28,23,.88)_0%,rgba(5,28,23,.52)_42%,rgba(5,28,23,.16)_72%,rgba(5,28,23,.42)_100%)]" />
-                  <div className="absolute inset-x-0 bottom-0 h-[44%] bg-gradient-to-t from-black/95 via-black/60 to-transparent" />
+                  <video ref={explainer.attachRef} key={activeExplainer.id} src={activeExplainer.src} poster={activeExplainer.poster} muted playsInline preload="metadata" className="absolute inset-0 size-full object-cover opacity-75" />
+                  <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(5,28,23,.88)_0%,rgba(5,28,23,.52)_42%,rgba(5,28,23,.16)_72%,rgba(5,28,23,.42)_100%)]" />
+                  <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[44%] bg-gradient-to-t from-black/95 via-black/60 to-transparent" />
 
                   <div className="absolute left-8 top-10 z-20 max-w-md text-white lg:left-12 lg:top-14">
                     <span className="inline-flex rounded-full border border-white/30 bg-black/20 px-3 py-1.5 text-label font-bold uppercase tracking-[0.18em] text-white/80 backdrop-blur-sm">
@@ -180,9 +182,10 @@ const HeroVideoGallery = ({ items, lang, size = "default" }: HeroVideoGalleryPro
                     <h3 className="mt-4 font-display text-4xl font-semibold leading-[0.98] tracking-tight lg:text-5xl">{activeExplainer.title}</h3>
                     <p className="mt-4 max-w-sm text-sm leading-6 text-white/75">{activeExplainer.description}</p>
                     <button type="button" onClick={playExplainerFullscreen} className="mt-6 inline-flex min-h-12 items-center gap-3 rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground shadow-pop transition hover:-translate-y-0.5 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-foreground">
-                      <span className="grid size-7 place-items-center rounded-full bg-white/20"><Play className="size-3.5 fill-current" /></span>
-                      {t.playGuide}
+                      <span className="grid size-7 place-items-center rounded-full bg-white/20">{explainer.playing ? <Pause className="size-3.5 fill-current" /> : <Play className="size-3.5 fill-current" />}</span>
+                      {explainer.playing ? controlCopy.pause : t.playGuide}
                     </button>
+                    {explainer.playbackFailed && <p role="status" className="mt-3 rounded-lg bg-black/80 p-3 text-sm text-white">{controlCopy.failed}</p>}
                   </div>
 
                   <Link to="/travel-packages" className="absolute right-7 top-7 z-20 inline-flex min-h-11 items-center gap-2 rounded-full border border-white/30 bg-black/25 px-5 text-sm font-semibold text-white backdrop-blur-md transition hover:bg-black/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
@@ -237,56 +240,49 @@ const HeroVideoGallery = ({ items, lang, size = "default" }: HeroVideoGalleryPro
         </Link>
       </p>
 
-      {active && (
-        <div
+      <Dialog open={!!active} onOpenChange={(open) => { if (!open) closePlayer(); }}>
+        {active && <DialogContent
           id="hero-gallery-player"
-          className="fixed inset-0 z-[90] flex items-center justify-center bg-black/90 backdrop-blur-sm"
-          role="dialog"
-          aria-modal="true"
-          onClick={closePlayer}
+          onOpenAutoFocus={() => {
+            // This one-shot request only comes from the visitor's Play button.
+            if (requestedPlayerStart.current) { requestedPlayerStart.current = false; void player.play(); }
+          }}
+          onCloseAutoFocus={(event) => {
+            event.preventDefault();
+            if (playerOpener.current?.isConnected) playerOpener.current.focus({ preventScroll: true });
+            playerOpener.current = null;
+          }}
+          className="z-[90] flex h-[92dvh] w-[min(92vw,32rem)] max-w-none flex-col overflow-hidden rounded-2xl border-0 bg-black p-3 text-white [&>button]:bg-white [&>button]:text-foreground"
         >
-          <div
-            className="relative aspect-[9/16] h-[86dvh] max-w-[92vw] overflow-hidden rounded-2xl bg-black shadow-pop"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <DialogTitle className="pr-8 text-sm text-white">{active.treatment[lang] || active.treatment.en}</DialogTitle>
             <video
-              ref={playerRef}
+              ref={player.attachRef}
               src={active.src}
               poster={active.poster ?? DEFAULT_VIDEO_POSTER}
-              autoPlay
-              loop
               playsInline
               muted={muted}
               controls
-              className="size-full object-contain"
+              preload="metadata"
+              className="min-h-0 w-full flex-1 object-contain"
             />
-            <div className="absolute inset-x-3 top-3 flex items-center justify-between">
-              <span className="rounded-full bg-black/50 px-3 py-1 text-xs font-bold text-white backdrop-blur">
-                {active.treatment[lang === "zh" ? "zh" : "en"]}
-              </span>
+            <div className="flex shrink-0 items-center justify-between gap-2">
+              <button type="button" onClick={player.toggle} className="inline-flex min-h-11 items-center gap-2 rounded-full bg-white px-4 text-sm font-semibold text-foreground">{player.playing ? <Pause className="size-4" /> : <Play className="size-4" />}{player.playing ? controlCopy.pause : controlCopy.play}</button>
               <div className="flex gap-2">
                 <button
                   type="button"
                   onClick={() => setMuted((m) => !m)}
-                  className="grid size-9 place-items-center rounded-full bg-black/50 text-white backdrop-blur transition-colors hover:bg-black/70"
-                  aria-label={muted ? "Unmute" : "Mute"}
+                  className="grid size-11 place-items-center rounded-full bg-white/15 text-white transition-colors hover:bg-white/25"
+                  aria-label={muted ? controlCopy.unmute : controlCopy.mute}
                 >
                   {muted ? <VolumeX className="size-4" /> : <Volume2 className="size-4" />}
                 </button>
-                <button
-                  type="button"
-                  onClick={closePlayer}
-                  className="grid size-9 place-items-center rounded-full bg-black/50 text-white backdrop-blur transition-colors hover:bg-black/70"
-                  aria-label="Close"
-                >
-                  <X className="size-4" />
-                </button>
               </div>
             </div>
-            <div className="absolute inset-x-3 bottom-3 flex items-center justify-between gap-2">
-              <p className="min-w-0 flex-1 truncate text-xs font-medium text-white/85">
+            {player.playbackFailed && <p role="status" className="text-sm text-white">{controlCopy.failed}</p>}
+            <div className="flex shrink-0 items-center justify-between gap-2">
+              <DialogDescription className="min-w-0 flex-1 truncate text-xs font-medium text-white/85">
                 {active.caption[lang === "zh" ? "zh" : "en"]}
-              </p>
+              </DialogDescription>
               <Link
                 to={`/cases/${active.id}`}
                 className="cta-primary inline-flex shrink-0 items-center gap-1 rounded-full px-4 py-2 text-xs font-bold"
@@ -294,9 +290,8 @@ const HeroVideoGallery = ({ items, lang, size = "default" }: HeroVideoGalleryPro
                 {t.viewCase} <ArrowRight className="size-3" />
               </Link>
             </div>
-          </div>
-        </div>
-      )}
+        </DialogContent>}
+      </Dialog>
     </div>
   );
 };

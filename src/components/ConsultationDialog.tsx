@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
-import { ArrowLeft, ArrowRight, ClipboardList, Mail, MessageCircle, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowRight, ClipboardList, MessageCircle, Sparkles } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { MedicalDisclaimer } from "@/components/MedicalDisclaimer";
+import ConsultationHandoff from "@/components/ConsultationHandoff";
 import { CITIES } from "@/data/cities";
 import { getCoordinationPolicy } from "@/data/coordination-policy";
 import type { QuoteContext } from "@/components/QuoteRequest";
@@ -44,6 +45,7 @@ export const ConsultationDialog = ({ isOpen, onOpenChange, ctx, onCloseAutoFocus
   const [openError, setOpenError] = useState(false);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
+  const returnToContactRef = useRef(false);
   const subject = ctx.doctorName || ctx.hospitalName || ctx.procedure;
   const contextRows = [
     { label: copy.expert, value: ctx.doctorName },
@@ -55,7 +57,11 @@ export const ConsultationDialog = ({ isOpen, onOpenChange, ctx, onCloseAutoFocus
   const description = draft ? copy.readyDescription : intent === "question" ? copy.questionIntro : intent === "care_plan" ? copy.carePlanIntro : copy.intro;
 
   useEffect(() => {
-    if (isOpen) titleRef.current?.focus({ preventScroll: true });
+    if (!isOpen) return;
+    if (!draft && returnToContactRef.current) {
+      formRef.current?.querySelector<HTMLElement>('input[name="consultation-contact-method"]:checked')?.focus({ preventScroll: true });
+      returnToContactRef.current = false;
+    } else titleRef.current?.focus({ preventScroll: true });
   }, [intent, draft, isOpen]);
 
   useEffect(() => {
@@ -126,18 +132,13 @@ export const ConsultationDialog = ({ isOpen, onOpenChange, ctx, onCloseAutoFocus
           </dl>}
         </div>
 
-        {draft ? <div className="space-y-4 p-5 sm:p-6">
-          {openError && <p role="alert" className="rounded-xl border border-destructive/30 p-3 text-sm">{copy.openError}</p>}
-          <Button asChild className="h-auto min-h-12 w-full whitespace-normal rounded-xl bg-foreground px-4 py-3 text-background hover:bg-foreground/90">
-            <a href={draft.url} target={draft.method === "whatsapp" ? "_blank" : undefined} rel={draft.method === "whatsapp" ? "noopener noreferrer" : undefined} onClick={() => recordHandoff(draft.method)}>
-              {draft.method === "email" ? <Mail className="mr-2 size-4 shrink-0" /> : <MessageCircle className="mr-2 size-4 shrink-0" />}
-              {draft.method === "email" ? copy.reopenEmail : copy.reopenWhatsapp}
-            </a>
-          </Button>
-          <p className="break-all text-center text-sm">{draft.method === "email" ? "contact@celadonchina.com" : "+1 470 861 3825"}</p>
-          <Field id="consultation-draft" label={copy.draft}><Textarea id="consultation-draft" readOnly value={draft.message} className="min-h-40 rounded-xl" /></Field>
-          <Button type="button" variant="outline" onClick={() => { setDraft(null); setOpenError(false); }} className="h-auto min-h-12 w-full whitespace-normal rounded-xl">{copy.edit}</Button>
-        </div> : !intent ? <div className="space-y-3 p-5 sm:p-6">
+        {draft ? <>
+          {openError && <p role="alert" className="mx-5 mt-5 rounded-xl border border-destructive/30 p-3 text-sm sm:mx-6">{copy.openError}</p>}
+          <ConsultationHandoff method={draft.method} context={ctx} draft={draft} autoFocus={false}
+            labels={{ back: copy.edit, openApp: draft.method === "email" ? copy.reopenEmail : copy.reopenWhatsapp, message: copy.draft }}
+            onBack={() => { returnToContactRef.current = true; setDraft(null); setOpenError(false); }}
+            onOpenApp={() => recordHandoff(draft.method)} />
+        </> : !intent ? <div className="space-y-3 p-5 sm:p-6">
           {([
             { intent: "question", title: copy.questionTitle, description: copy.questionDescription, icon: MessageCircle },
             { intent: "care_plan", title: copy.carePlanTitle, description: copy.carePlanDescription, icon: ClipboardList },

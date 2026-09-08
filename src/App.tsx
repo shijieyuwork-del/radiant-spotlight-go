@@ -9,6 +9,7 @@ import { AsiaI18nProvider } from "@/lib/asia-i18n";
 import { QuoteProvider } from "@/components/QuoteRequest";
 import FloatingLiveChat from "@/components/FloatingLiveChat";
 import { AuthProvider } from "@/lib/auth";
+import { SavedCasesSync } from "@/lib/saved-cases";
 import AsiaIndex from "./pages/AsiaIndex.tsx";
 import AnalyticsRouteTracker from "@/components/AnalyticsRouteTracker";
 import ConsentBanner from "@/components/ConsentBanner";
@@ -16,6 +17,7 @@ import ConsentBanner from "@/components/ConsentBanner";
 const queryClient = new QueryClient();
 
 const Cases = lazy(() => import("./pages/Cases.tsx"));
+const SavedCases = lazy(() => import("./pages/SavedCases.tsx"));
 const CaseDetail = lazy(() => import("./pages/CaseDetail.tsx"));
 const Doctors = lazy(() => import("./pages/Doctors.tsx"));
 const DoctorDetail = lazy(() => import("./pages/DoctorDetail.tsx"));
@@ -53,6 +55,7 @@ export const AppProviders = ({ children }: { children: ReactNode }) => (
     <I18nProvider>
           <AsiaI18nProvider>
             <AuthProvider>
+              <SavedCasesSync />
               <QuoteProvider>
                 <TooltipProvider>
                   <Toaster />
@@ -74,6 +77,7 @@ export const AppRoutes = () => (
                   <Routes>
                     <Route path="/" element={<AsiaIndex />} />
                     <Route path="/cases" element={<Cases />} />
+                    <Route path="/saved" element={<SavedCases />} />
                     <Route path="/cases/:id" element={<CaseDetail />} />
                     <Route path="/before-after" element={<BeforeAfterGallery />} />
                     <Route path="/doctors" element={<Doctors />} />

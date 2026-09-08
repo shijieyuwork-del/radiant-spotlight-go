@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   Search, Filter, Stethoscope, ArrowRight, MapPin, MessageCircle, Navigation,
 } from "lucide-react";
@@ -20,6 +20,7 @@ import QuoteCtaButton from "@/components/QuoteCtaButton";
 import { Highlight } from "@/components/HighlightText";
 import { Pagination, SortChips } from "@/components/ListControls";
 import { cityCoordsOf, haversineKm, useUserLocation } from "@/lib/geo";
+import { useDirectoryReturnPosition, useDirectoryState } from "@/hooks/use-directory-state";
 
 const PAGE_SIZE = 9;
 
@@ -28,11 +29,10 @@ type DirectoryDoctor = ManagedDoctor & { demo?: boolean };
 
 const Experts = () => {
   const { t, lang } = useAsia();
-  const c = <T,>(en: T, zh: T, ru: T, es?: T) => asiaCopy(lang, { en, zh, ru, es });
-  const [searchParams] = useSearchParams();
-  const [q, setQ] = useState(() => searchParams.get("q") ?? "");
-  // 支持从城市搜索跳转进来时预选城市（/doctors?city=Seoul）
-  const [city, setCity] = useState<string>(() => searchParams.get("city") || "all");
+  const c = <T,>(en: T, zh: T, ru: T, es?: T, th?: T, ms?: T) => asiaCopy(lang, { en, zh, ru, es, th, ms });
+  const { q, city, sort, page, setFilter, setPage, reset } = useDirectoryState("doctors");
+  const setQ = (value: string) => setFilter("q", value);
+  const setCity = (value: string) => setFilter("city", value);
   const [managedDoctors, setManagedDoctors] = useState<ManagedDoctor[]>([]);
   const [directoryStatus, setDirectoryStatus] = useState<"loading" | "ready" | "error">("loading");
   const requestId = useRef(0);
@@ -71,8 +71,9 @@ const Experts = () => {
   const cities = useMemo(() => {
     const set = new Map<string, string>();
     directoryDoctors.forEach((d) => { if (d.city) set.set(d.city, d.city); });
+    if (city !== "all" && !set.has(city)) set.set(city, city);
     return Array.from(set, ([key, label]) => ({ key, label }));
-  }, [directoryDoctors]);
+  }, [directoryDoctors, city]);
 
   /** 专家资料里的城市是自由文本，匹配时同时认英文名与中文名 */
   const matchesCity = (docCity: string | undefined, filter: string) => {
@@ -92,17 +93,14 @@ const Experts = () => {
       const hay = `${d.name} ${d.title} ${d.city} ${d.specialties.join(" ")} ${d.bio ?? ""}`.toLowerCase();
       return hay.includes(query);
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [directoryDoctors, city, q]);
 
   // —— 排序：推荐 / 热度 / 最新入驻 / 距离 ——
-  const [sort, setSort] = useState("recommended");
   const { coords, status: locStatus, request: requestLocation } = useUserLocation();
-
-  // 选中「距离」时才请求浏览器定位
-  useEffect(() => {
-    if (sort === "distance" && locStatus === "idle") requestLocation();
-  }, [sort, locStatus, requestLocation]);
+  const setSort = (value: string) => {
+    setFilter("sort", value);
+    if (value === "distance" && locStatus === "idle") requestLocation();
+  };
 
   const sortedDoctors = useMemo(() => {
     const arr = [...visibleDirectoryDoctors];
@@ -122,16 +120,13 @@ const Experts = () => {
   }, [visibleDirectoryDoctors, sort, coords]);
 
   // —— 分页 ——
-  const [page, setPage] = useState(1);
-  useEffect(() => {
-    setPage(1);
-  }, [q, city, sort]);
   const totalPages = Math.max(1, Math.ceil(sortedDoctors.length / PAGE_SIZE));
   const safePage = Math.min(page, totalPages);
   const pagedDoctors = useMemo(
     () => sortedDoctors.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE),
     [sortedDoctors, safePage],
   );
+  const { rootRef: resultsRef, remember: rememberReturnPosition } = useDirectoryReturnPosition(directoryStatus === "ready", pagedDoctors.map((doctor) => doctor.id).join("|"));
 
   // —— 按城市动态生成 SEO meta（?city=Seoul 分享时标题/摘要/图都对应该城市）——
   const activeCityMeta = useMemo(
@@ -169,6 +164,8 @@ const Experts = () => {
           <div className="flex-1 px-5 py-3 flex items-center gap-3">
             <Search className="size-4 text-muted-foreground shrink-0" />
             <input
+              type="search"
+              aria-label={c("Search expert profiles", "搜索专家资料", "Поиск профилей экспертов", "Buscar perfiles de expertos", "ค้นหาโปรไฟล์ผู้เชี่ยวชาญ", "Cari profil pakar")}
               value={q}
               onChange={(e) => setQ(e.target.value)}
               className="w-full bg-transparent text-base font-medium outline-none sm:text-sm"
@@ -195,7 +192,7 @@ const Experts = () => {
           </div>
         </div>}
 
-        <div className="mb-10" data-testid="doctor-directory-results">
+        <div ref={resultsRef} className="mb-10" data-testid="doctor-directory-results">
             {directoryStatus === "ready" && visibleDirectoryDoctors.length > 0 && <h2 className="mb-4 font-display text-2xl">{managedDoctors.length > 0 ? c("Published doctors", "已发布专家", "Опубликованные эксперты", "Expertos publicados") : c("Sample doctor profiles", "专家展示样例", "Примеры профилей экспертов", "Perfiles de expertos de muestra")}</h2>}
             {directoryStatus === "ready" && visibleDirectoryDoctors.length > 0 && <div className="mb-5">
               <SortChips
@@ -210,13 +207,16 @@ const Experts = () => {
                 ]}
               />
               {sort === "distance" && (
-                <p className="mt-2 flex items-center justify-center gap-1 text-label text-muted-foreground">
+                <p className="mt-2 flex flex-wrap items-center justify-center gap-1 text-center text-label text-muted-foreground">
                   <Navigation className="size-3" />
                   {locStatus === "locating"
                     ? c("Locating…", "正在获取定位…", "Определяем местоположение…", "Localizando…")
                     : locStatus === "denied"
                       ? c("Location unavailable — showing default order.", "无法获取定位，已按默认顺序展示。", "Геолокация недоступна — показан обычный порядок.", "Ubicación no disponible — mostrando el orden predeterminado.")
-                      : c("Sorted by distance from you.", "已按与你的距离排序。", "Отсортировано по расстоянию от вас.", "Ordenado por distancia desde tu ubicación.")}
+                      : locStatus === "idle"
+                        ? c("Location is off — showing default order.", "尚未启用定位，当前显示默认顺序。", "Геолокация выключена — показан обычный порядок.", "Ubicación desactivada: se muestra el orden predeterminado.", "ยังไม่ได้เปิดตำแหน่ง — แสดงลำดับเริ่มต้น", "Lokasi dimatikan — memaparkan susunan lalai.")
+                        : c("Sorted by distance from you.", "已按与你的距离排序。", "Отсортировано по расстоянию от вас.", "Ordenado por distancia desde tu ubicación.")}
+                  {(locStatus === "idle" || locStatus === "denied") && <button type="button" onClick={requestLocation} className="min-h-11 rounded-sm px-2 font-semibold text-foreground underline underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring">{c("Use my location", "使用我的位置", "Использовать моё местоположение", "Usar mi ubicación", "ใช้ตำแหน่งของฉัน", "Gunakan lokasi saya")}</button>}
                 </p>
               )}
             </div>}
@@ -249,7 +249,7 @@ const Experts = () => {
               <div role="status" className="rounded-3xl border border-dashed border-border bg-card/60 px-6 py-8 text-center text-foreground">
                 <h2 className="font-display text-2xl">{c("No matching expert profiles", "没有匹配的专家资料", "Подходящие профили не найдены", "No hay perfiles que coincidan")}</h2>
                 <p className="mt-2 text-sm">{c("Try a different name, specialty or city.", "试试其他姓名、擅长项目或城市。", "Попробуйте другое имя, специализацию или город.", "Prueba otro nombre, especialidad o ciudad.")}</p>
-                <Button variant="outline" className="mt-4" onClick={() => { setQ(""); setCity("all"); }}>{c("Clear filters", "清除筛选", "Сбросить фильтры", "Borrar filtros")}</Button>
+                <Button variant="outline" className="mt-4" onClick={reset}>{c("Clear filters", "清除筛选", "Сбросить фильтры", "Borrar filtros")}</Button>
               </div>
             ) : (
             <div className="grid gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
@@ -272,7 +272,7 @@ const Experts = () => {
                     {d.bio && <p className="mt-4 line-clamp-2 text-sm leading-relaxed text-muted-foreground"><Highlight text={d.bio} query={q} /></p>}
                     <div className="mt-4 flex flex-wrap gap-1.5">{d.specialties.map((s) => <span key={s} className="rounded-full bg-accent px-2.5 py-1 text-label"><Highlight text={s} query={q} /></span>)}</div>
                     <div className="mt-auto grid gap-2 pt-6 min-[430px]:grid-cols-[0.9fr_1.1fr]">
-                      <Link to={d.demo ? `/doctors/demo/${d.id}` : `/doctors/profile/${d.id}`} className="flex min-h-12 items-center justify-center rounded-xl border border-primary/30 px-3 py-3 text-center text-xs font-semibold text-brand hover:bg-primary/10">
+                      <Link data-directory-item={d.id} onClick={() => rememberReturnPosition(d.id)} to={d.demo ? `/doctors/demo/${d.id}` : `/doctors/profile/${d.id}`} className="flex min-h-12 items-center justify-center rounded-xl border border-primary/30 px-3 py-3 text-center text-xs font-semibold text-brand hover:bg-primary/10">
                         {c("Expert & cases", "专家与案例", "Эксперт и истории пациентов", "Experto y casos")}
                       </Link>
                       <QuoteCtaButton quoteCtx={{ doctorName: d.name, city: d.city }} className="min-h-12 rounded-xl px-3 py-3 text-center text-[13px] leading-tight" data-testid="doctor-card-cta" />

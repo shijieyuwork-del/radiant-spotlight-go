@@ -56,6 +56,7 @@ beforeEach(() => {
     return query;
   });
   vi.spyOn(window, "open").mockReturnValue({} as Window);
+  vi.spyOn(window, "scrollTo").mockImplementation(() => {});
 });
 afterEach(() => {
   cleanup();
@@ -89,7 +90,7 @@ describe("expert directory states", () => {
   it("shows a recoverable empty search and restores the published results", async () => {
     renderPage(<Doctors />, "/doctors");
     await screen.findByRole("heading", { name: "Published Expert" });
-    fireEvent.change(screen.getByRole("textbox"), { target: { value: "no matching person" } });
+    fireEvent.change(screen.getByRole("searchbox"), { target: { value: "no matching person" } });
     expect(screen.getByRole("heading", { name: "No matching expert profiles" })).toBeInTheDocument();
     expect(screen.queryByRole("heading", { name: "Published doctors" })).not.toBeInTheDocument();
     expect(screen.queryByRole("heading", { name: "Published Expert" })).not.toBeInTheDocument();
@@ -220,6 +221,32 @@ describe("consultation contact picker", () => {
     expect(decodeURIComponent(location.href)).toContain("专家: 林医生");
     expect(decodeURIComponent(location.href)).toContain("中国意向城市: 上海");
     expect(dialog.getByRole("heading", { name: "消息草稿已准备好" })).toBeInTheDocument();
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+    expect(dialog.getByRole("heading", { name: "在邮件应用中完成发送" })).toBeInTheDocument();
+    expect(dialog.getAllByText("消息尚未发送。请在应用中检查内容，再点击发送。").length).toBeGreaterThan(0);
+    expect((dialog.getByRole("textbox", { name: "检查消息内容" }) as HTMLTextAreaElement).value).toContain("中国意向城市: 上海");
+    expect(mocks.from).not.toHaveBeenCalled();
+    expect(mocks.invoke).not.toHaveBeenCalled();
+  });
+
+  it("keeps the handoff and draft when a new window is blocked, and restores the selected channel on back", () => {
+    vi.mocked(window.open).mockReturnValue(null);
+    const location = { href: "https://celadonchina.com/doctors/profile/example" };
+    Object.defineProperty(window, "location", { configurable: true, value: location });
+    renderPage(<OpenContact context={{ doctorName: "Published Expert", city: "Shanghai" }} />);
+    fireEvent.click(screen.getByRole("button", { name: "Open contact" }));
+    fireEvent.click(screen.getByRole("button", { name: /Ask a question/ }));
+    fireEvent.click(screen.getByRole("radio", { name: "WhatsApp" }));
+    fireEvent.change(screen.getByLabelText("WhatsApp number"), { target: { value: "+44 7700 900123" } });
+    fireEvent.change(screen.getByLabelText("Your question"), { target: { value: "How do I arrange a consultation?" } });
+    fireEvent.click(screen.getByRole("button", { name: "Continue on WhatsApp" }));
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+    expect((screen.getByRole("textbox", { name: "Review your message" }) as HTMLTextAreaElement).value).toContain("Expert: Published Expert");
+    expect(location.href).toBe("https://celadonchina.com/doctors/profile/example");
+    expect(screen.getByRole("link", { name: "Open WhatsApp message" })).toHaveAttribute("target", "_blank");
+    fireEvent.click(screen.getByRole("button", { name: "Edit my details" }));
+    expect(screen.getByRole("radio", { name: "WhatsApp" })).toHaveFocus();
+    expect(screen.getByLabelText("Your question")).toHaveValue("How do I arrange a consultation?");
     expect(mocks.from).not.toHaveBeenCalled();
     expect(mocks.invoke).not.toHaveBeenCalled();
   });

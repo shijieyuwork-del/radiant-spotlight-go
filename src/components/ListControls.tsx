@@ -23,8 +23,9 @@ export const SortChips = ({
       <button
         key={o.key}
         type="button"
+        aria-pressed={value === o.key}
         onClick={() => onChange(o.key)}
-        className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition ${
+        className={`min-h-11 rounded-full px-3.5 py-1.5 text-xs font-semibold transition ${
           value === o.key
             ? "bg-primary text-primary-foreground shadow-soft"
             : "border border-border bg-card text-foreground hover:border-primary/50 hover:bg-primary/10"

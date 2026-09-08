@@ -5,6 +5,7 @@ import { CITIES } from "@/data/cities";
 import { DOCTORS, findDoctor } from "@/data/doctors";
 import { LANDING_PAGES } from "@/data/landingPages";
 import { translatedUiText } from "@/lib/locale-text";
+import { getPlanningMarketingCopy } from "@/lib/planning-marketing-copy";
 
 const read = (path: string) => readFileSync(join(__dirname, "..", path), "utf8");
 
@@ -43,11 +44,13 @@ describe("China-only public service scope", () => {
         "China-only coordination",
         "Plan your care in China",
         "Explore clinics in China and get help coordinating consultations and travel within China.",
-        "Swipe through verified before and after photo sets from published experts in China.",
         "Deposit returned on surgery day",
       ]) {
         expect(translatedUiText(lang, english)).not.toBe(english);
       }
+      const photoDescription = getPlanningMarketingCopy(lang).photoDescription;
+      expect(photoDescription.length).toBeGreaterThan(0);
+      expect(photoDescription).not.toBe(getPlanningMarketingCopy("en").photoDescription);
     }
   });
 });
