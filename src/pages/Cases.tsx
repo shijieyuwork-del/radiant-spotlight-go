@@ -1,5 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useMemo, useRef, useState } from "react";
 import { ArrowRight, Heart, MessageCircle, Navigation, Search } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
@@ -15,6 +14,7 @@ import { useAsia } from "@/lib/asia-i18n";
 import { asiaCopy } from "@/lib/asia-copy";
 import { translatedUiText } from "@/lib/locale-text";
 import { cityCoordsOf, haversineKm, useUserLocation } from "@/lib/geo";
+import { useDirectoryReturnPosition, useDirectoryState } from "@/hooks/use-directory-state";
 
 const PAGE_SIZE = 9;
 
@@ -29,12 +29,11 @@ const parseLikes = (s: string) => {
 const Cases = () => {
   const { t, lang, fmt } = useAsia();
   const c = (en: string, zh: string, ru: string, es?: string, th?: string, ms?: string) => asiaCopy(lang, { en, zh, ru, es, th, ms });
-  const [searchParams] = useSearchParams();
-  const [q, setQ] = useState("");
-  const [activeTreatment, setActiveTreatment] = useState(() => searchParams.get("treatment") ?? "");
-  // 支持从城市搜索跳转进来时预选城市（/cases?city=Seoul）
-  const [activeCity, setActiveCity] = useState(() => searchParams.get("city") ?? "");
-  const [activeStage, setActiveStage] = useState(() => searchParams.get("stage") ?? "");
+  const { q, treatment: activeTreatment, city: activeCity, stage: activeStage, sort, page, setFilter, setPage, reset } = useDirectoryState("cases");
+  const setQ = (value: string) => setFilter("q", value);
+  const setActiveTreatment = (value: string) => setFilter("treatment", value);
+  const setActiveCity = (value: string) => setFilter("city", value);
+  const setActiveStage = (value: string) => setFilter("stage", value);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
   // 后台上传并发布的视频与演示日记合并展示
@@ -58,8 +57,10 @@ const Cases = () => {
   const treatments = useMemo(() => {
     const set = new Map<string, string>();
     ALL_CASES.forEach((item) => set.set(item.treatment.en, lang === "zh" ? item.treatment.zh : translatedUiText(lang, item.treatment.en)));
+    // Keep a linked selection readable before its published records arrive.
+    if (activeTreatment && !set.has(activeTreatment)) set.set(activeTreatment, translatedUiText(lang, activeTreatment));
     return Array.from(set, ([key, label]) => ({ key, label }));
-  }, [ALL_CASES, lang]);
+  }, [ALL_CASES, lang, activeTreatment]);
 
   const cities = useMemo(() => {
     const set = new Map<string, string>();
@@ -105,13 +106,11 @@ const Cases = () => {
   }, [ALL_CASES, q, activeTreatment, activeCity, activeStage, caseCity]);
 
   // —— 排序：推荐 / 热度 / 最新 / 距离 ——
-  const [sort, setSort] = useState("recommended");
   const { coords, status: locStatus, request: requestLocation } = useUserLocation();
-
-  // 选中「距离」时才请求浏览器定位
-  useEffect(() => {
-    if (sort === "distance" && locStatus === "idle") requestLocation();
-  }, [sort, locStatus, requestLocation]);
+  const setSort = (value: string) => {
+    setFilter("sort", value);
+    if (value === "distance" && locStatus === "idle") requestLocation();
+  };
 
   const sortedItems = useMemo(() => {
     const arr = [...items];
@@ -131,16 +130,13 @@ const Cases = () => {
   }, [items, sort, coords, caseCity]);
 
   // —— 分页 ——
-  const [page, setPage] = useState(1);
-  useEffect(() => {
-    setPage(1);
-  }, [q, activeTreatment, activeCity, activeStage, sort]);
   const totalPages = Math.max(1, Math.ceil(sortedItems.length / PAGE_SIZE));
   const safePage = Math.min(page, totalPages);
   const pagedItems = useMemo(
     () => sortedItems.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE),
     [sortedItems, safePage],
   );
+  const { rootRef: resultsRef, remember: rememberReturnPosition } = useDirectoryReturnPosition(true, pagedItems.map((item) => item.id).join("|"));
 
   const hasFilters = Boolean(activeTreatment || activeCity || activeStage || q || sort !== "recommended");
   const secondaryFilterCount = Number(Boolean(activeCity)) + Number(Boolean(activeStage)) + Number(sort !== "recommended");
@@ -159,8 +155,7 @@ const Cases = () => {
     { key: "Recovery update", label: c("Recovery update", "恢复更新", "Ход восстановления", "Actualización de recuperación", "ความคืบหน้าการฟื้นตัว", "Perkembangan pemulihan") },
   ];
   const resetFilters = () => {
-    setQ(""); setActiveTreatment(""); setActiveCity(""); setActiveStage("");
-    setSort("recommended");
+    reset();
     setFiltersOpen(false);
     searchRef.current?.focus();
   };
@@ -235,13 +230,16 @@ const Cases = () => {
         </CasesFilterDisclosure>
         <div className="mb-3">
           {sort === "distance" && (
-            <p className="mt-2 flex items-center justify-center gap-1 text-label text-muted-foreground">
+            <p className="mt-2 flex flex-wrap items-center justify-center gap-1 text-center text-label text-muted-foreground">
               <Navigation className="size-3" />
               {locStatus === "locating"
                 ? c("Locating…", "正在获取定位…", "Определяем местоположение…", "Localizando…")
                 : locStatus === "denied"
                   ? c("Location unavailable — showing default order.", "无法获取定位，已按默认顺序展示。", "Геолокация недоступна — показан обычный порядок.", "Ubicación no disponible: se muestra el orden predeterminado.")
-                  : c("Sorted by distance from you.", "已按与你的距离排序。", "Отсортировано по расстоянию от вас.", "Ordenado por distancia desde tu ubicación.")}
+                  : locStatus === "idle"
+                    ? c("Location is off — showing default order.", "尚未启用定位，当前显示默认顺序。", "Геолокация выключена — показан обычный порядок.", "Ubicación desactivada: se muestra el orden predeterminado.", "ยังไม่ได้เปิดตำแหน่ง — แสดงลำดับเริ่มต้น", "Lokasi dimatikan — memaparkan susunan lalai.")
+                    : c("Sorted by distance from you.", "已按与你的距离排序。", "Отсортировано по расстоянию от вас.", "Ordenado por distancia desde tu ubicación.")}
+              {(locStatus === "idle" || locStatus === "denied") && <button type="button" onClick={requestLocation} className="min-h-11 rounded-sm px-2 font-semibold text-foreground underline underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring">{c("Use my location", "使用我的位置", "Использовать моё местоположение", "Usar mi ubicación", "ใช้ตำแหน่งของฉัน", "Gunakan lokasi saya")}</button>}
             </p>
           )}
         </div>
@@ -266,9 +264,9 @@ const Cases = () => {
             {c("No matching cases — try a different filter.", "没有匹配的案例，换个筛选试试。", "Подходящих историй не найдено — измените фильтры.", "No hay casos que coincidan; prueba con otro filtro.")}
           </p>
         ) : (
-          <div>
+          <div ref={resultsRef}>
             <div className="sr-only md:not-sr-only md:mb-5 md:flex md:items-end md:justify-between md:gap-4"><div><span className="pill bg-accent text-accent-foreground">{c("Latest recovery updates", "最新更新", "Последние обновления", "Últimas actualizaciones")}</span><h2 className="mt-3 font-display text-[1.75rem] font-medium leading-tight md:text-3xl">{c("Choose a journey to continue", "选择一个历程继续观看", "Выберите историю и продолжайте просмотр", "Elige una historia para continuar")}</h2></div><span className="hidden items-center gap-1 text-sm font-semibold text-brand md:inline-flex">{c("Open a card for the full timeline", "点击卡片查看完整时间线", "Откройте карточку, чтобы увидеть весь путь", "Abre una tarjeta para ver la cronología completa")}<ArrowRight className="size-4" /></span></div>
-            <TikTokWall items={pagedItems} lang={lang} fmtPrice={fmt} variant="cases" highlight={q} />
+            <TikTokWall items={pagedItems} lang={lang} fmtPrice={fmt} variant="cases" highlight={q} onBeforeNavigate={rememberReturnPosition} />
             <Pagination page={safePage} totalPages={totalPages} onChange={setPage} />
           </div>
         )}

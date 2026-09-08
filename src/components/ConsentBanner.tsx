@@ -90,18 +90,18 @@ const ConsentBanner = () => {
   return (
     <div className="fixed inset-x-0 bottom-0 z-[100] px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] pointer-events-none">
       <aside
-        className="pointer-events-auto relative mx-auto flex w-full max-w-3xl flex-col gap-3 rounded-2xl border border-primary/20 bg-card/98 p-4 shadow-soft backdrop-blur sm:flex-row sm:items-center sm:gap-4"
-        aria-label="Analytics privacy choices"
+        className="pointer-events-auto relative mx-auto flex w-full max-w-3xl flex-col gap-3 rounded-2xl border border-border bg-card p-4 text-foreground shadow-soft sm:flex-row sm:items-center sm:gap-4"
+        aria-label={asiaCopy(lang, { en: "Analytics privacy choices", zh: "分析数据隐私选项", ru: "Настройки конфиденциальности аналитики", es: "Opciones de privacidad de análisis", th: "ตัวเลือกความเป็นส่วนตัวของการวิเคราะห์", ms: "Pilihan privasi analitik" })}
       >
         <button
           type="button"
           onClick={dismiss}
-          aria-label="Close privacy choices"
+          aria-label={asiaCopy(lang, { en: "Close privacy choices", zh: "关闭隐私选项", ru: "Закрыть настройки конфиденциальности", es: "Cerrar opciones de privacidad", th: "ปิดตัวเลือกความเป็นส่วนตัว", ms: "Tutup pilihan privasi" })}
           className="absolute right-2 top-2 grid size-11 place-items-center rounded-full text-muted-foreground hover:bg-muted hover:text-foreground sm:static sm:order-last sm:size-11 sm:shrink-0"
         >
           <X className="size-4" />
         </button>
-        <p className="min-w-0 flex-1 pr-10 text-sm leading-relaxed text-muted-foreground sm:pr-0">
+        <p className="min-w-0 flex-1 pr-10 text-sm leading-relaxed text-foreground sm:pr-0">
           {body}{" "}
           <Link to="/privacy" className="font-semibold text-foreground underline decoration-primary/50 underline-offset-4">
             {asiaCopy(lang, { en: "Read privacy notice", zh: "阅读隐私声明", ru: "Политика конфиденциальности", es: "Leer el aviso de privacidad" })}

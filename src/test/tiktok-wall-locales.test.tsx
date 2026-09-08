@@ -4,7 +4,7 @@ import { MemoryRouter } from "react-router-dom";
 import TikTokWall, { type TikTokItem } from "@/components/TikTokWall";
 
 vi.mock("@/lib/saved-cases", () => ({
-  useSavedCase: () => ({ saved: false, toggleSaved: vi.fn(), signedIn: false }),
+  useSavedCase: () => ({ saved: false, toggleSaved: vi.fn(), signedIn: false, saveLabel: "Save this case" }),
 }));
 
 afterEach(cleanup);
@@ -24,8 +24,8 @@ const item: TikTokItem = {
 
 describe("Thai and Malay diary card rendering", () => {
   for (const [lang, play, preview] of [
-    ["th", "แตะเพื่อเล่น", "ตัวอย่างบันทึก"],
-    ["ms", "Ketik untuk main", "Pratonton diari"],
+    ["th", "เล่นวิดีโอ: Rhinoplasty", "ตัวอย่างบันทึก"],
+    ["ms", "Mainkan video: Rhinoplasty", "Pratonton diari"],
   ] as const) {
     for (const variant of ["preview", "wall", "cases"] as const) {
       it(`${lang} ${variant} renders labels and English content when a translation is missing`, () => {

@@ -1,17 +1,18 @@
 import { Link, useLocation } from "react-router-dom";
-import { DollarSign, Languages, Menu, ChevronRight, ChevronDown, MessageCircle, ArrowRight, User, LogOut, Phone, Mail, CalendarDays } from "lucide-react";
+import { DollarSign, Languages, Menu, ChevronRight, ChevronDown, MessageCircle, ArrowRight, User, LogOut, Phone, Mail, CalendarDays, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAsia, asiaLangLabel as langLabel, type AsiaLang as Lang } from "@/lib/asia-i18n";
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import BrandLogo from "@/components/BrandLogo";
 import { asiaCopy } from "@/lib/asia-copy";
 import { useQuote } from "@/components/QuoteRequest";
 import { useAuth } from "@/lib/auth";
 import { useIsAdmin } from "@/hooks/use-is-admin";
+import { getSavedCasesCopy } from "@/lib/saved-cases-copy";
 
 
 
@@ -45,8 +46,8 @@ const AccountMenu = ({ lang, onClose }: { lang: Lang; onClose?: () => void }) =>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-48">
         <DropdownMenuItem asChild>
-          <Link to="/profile" onClick={onClose} className="cursor-pointer flex items-center gap-2">
-            <User className="size-4" /> {c("Profile", "个人资料", "Профиль", "Perfil")}
+          <Link to="/saved" onClick={onClose} className="cursor-pointer flex items-center gap-2">
+            <Heart className="size-4" /> {getSavedCasesCopy(lang).title}
           </Link>
         </DropdownMenuItem>
         {isAdmin && (
@@ -133,6 +134,7 @@ const AsiaNavbar = () => {
               </DropdownMenuContent>
             </DropdownMenu>
               <span className="mx-3 h-5 w-px bg-foreground/20" aria-hidden="true" />
+              <Link to="/saved" aria-current={pathname === "/saved" ? "page" : undefined} className="inline-flex min-h-11 items-center gap-2 px-3 text-sm font-semibold"><Heart className="size-4" aria-hidden="true" />{getSavedCasesCopy(lang).title}</Link>
               <AccountMenu lang={lang} />
             </div>
           </div>
@@ -187,8 +189,8 @@ const AsiaNavbar = () => {
               <ArrowRight className="size-4" aria-hidden="true" />
             </button>
             <div className="ml-auto flex items-center gap-1.5 xl:hidden">
-          <Button asChild variant="ghost" className="rounded-full px-3 h-9 text-sm font-medium xl:hidden">
-            <Link to="/auth?tab=signin">{c("Sign in", "登录", "Войти", "Iniciar sesión")}</Link>
+          <Button asChild variant="ghost" className="min-h-11 min-w-11 rounded-full px-3 text-sm font-medium xl:hidden">
+            <Link to="/saved" aria-label={getSavedCasesCopy(lang).title} aria-current={pathname === "/saved" ? "page" : undefined}><Heart className="size-5" aria-hidden="true" /><span className="sr-only sm:not-sr-only sm:ml-2">{getSavedCasesCopy(lang).title}</span></Link>
           </Button>
 
         <Sheet>
@@ -206,6 +208,7 @@ const AsiaNavbar = () => {
             </SheetHeader>
             <div className="flex h-[calc(100%-73px)] flex-col overflow-y-auto p-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
               <div className="space-y-1">
+                <SheetClose asChild><Link to="/saved" aria-current={pathname === "/saved" ? "page" : undefined} className="flex min-h-12 items-center gap-2 rounded-2xl px-4 text-base font-semibold hover:bg-muted"><Heart className="size-4" aria-hidden="true" />{getSavedCasesCopy(lang).title}</Link></SheetClose>
                 {links.map((l) => (
                   <Link
                     key={l.to}

@@ -6,8 +6,8 @@
  * 2. 渲染级守卫：在真实 Provider 树中挂载 AsiaIndex，任何未定义的组件引用
  *    都会在 render 阶段抛错，使测试失败（即回归保护）。
  */
-import { describe, it, expect } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { afterEach, beforeEach, describe, it, expect, vi } from "vitest";
+import { cleanup, render, screen } from "@testing-library/react";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { MemoryRouter } from "react-router-dom";
@@ -19,6 +19,11 @@ import { QuoteProvider } from "@/components/QuoteRequest";
 import AsiaIndex from "@/pages/AsiaIndex";
 
 const SRC = join(__dirname, "..");
+beforeEach(() => {
+  // Embla uses this browser API; jsdom does not implement layout observation.
+  vi.stubGlobal("ResizeObserver", class { observe() {} unobserve() {} disconnect() {} });
+});
+afterEach(() => { cleanup(); vi.unstubAllGlobals(); });
 
 describe("AsiaIndex 冒烟 — 源码级：JSX 引用都有 import", () => {
   it("AsiaIndex.tsx 中使用的每个大写组件都能解析到 import 或本地定义", () => {

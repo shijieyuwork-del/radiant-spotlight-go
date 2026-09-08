@@ -13,6 +13,8 @@ import { useAsia } from "@/lib/asia-i18n";
 import { supabase } from "@/integrations/supabase/client";
 import { trackEvent } from "@/lib/analytics";
 import { getConsultationPickerCopy, withConsultationSubject } from "@/lib/consultation-picker-copy";
+import ConsultationHandoff from "@/components/ConsultationHandoff";
+import { consultationHandoffCopy, consultationHandoffUrl, type ContactMethod } from "@/lib/consultation-handoff";
 
 export interface QuoteContext {
   doctorName?: string;
@@ -156,7 +158,6 @@ export const FloatingQuoteCTA = ({ ctx }: { ctx?: QuoteContext }) => {
 /* ---------- Dialog ---------- */
 
 type Intent = "pricing" | "consultation";
-type ContactMethod = "email" | "whatsapp";
 
 const QuoteDialog = ({
   isOpen, onOpenChange, ctx, submitted, onSubmitted, onCloseAutoFocus,
@@ -173,6 +174,8 @@ const QuoteDialog = ({
   const [step, setStep] = useState<1 | 2>(1);
   const [intent, setIntent] = useState<Intent | null>(null);
   const [contactMethod, setContactMethod] = useState<ContactMethod | null>(null);
+  const [handoffMethod, setHandoffMethod] = useState<ContactMethod | null>(null);
+  const [returnChannel, setReturnChannel] = useState<ContactMethod | null>(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phonePrefix, setPhonePrefix] = useState("+1");
@@ -203,6 +206,8 @@ const QuoteDialog = ({
       setStep(1);
       setIntent(null);
       setContactMethod(null);
+      setHandoffMethod(null);
+      setReturnChannel(null);
       setSlot("");
       setProcedure(ctx.procedure ?? "");
     }
@@ -211,26 +216,17 @@ const QuoteDialog = ({
   const pickContactMethod = (method: ContactMethod) => {
     trackEvent("quote_contact_method_selected", { source: ctx.source || "site_cta", option: method });
     trackEvent("quote_step_completed", { source: ctx.source || "site_cta", step: 1 });
-    const message = [
-      "Hi CeladonChina, I would like to start a consultation.",
-      ctx.doctorName ? `Expert: ${ctx.doctorName}` : "",
-      ctx.hospitalName ? `Hospital: ${ctx.hospitalName}` : "",
-      ctx.procedure ? `Procedure: ${ctx.procedure}` : "",
-      ctx.city ? `City: ${ctx.city}` : "",
-    ].filter(Boolean).join("\n");
-
-    onOpenChange(false);
-    if (method === "email") {
-      const subject = `Consultation request${ctx.procedure ? ` — ${ctx.procedure}` : ""}`;
-      trackEvent("email_handoff", { source: ctx.source || "site_cta", option: "consultation" });
-      window.location.href = `mailto:contact@celadonchina.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
-      return;
+    setHandoffMethod(method);
+    trackEvent(method === "email" ? "email_handoff" : "whatsapp_handoff", { source: ctx.source || "site_cta", option: "consultation" });
+    // An attempt is not a sent message. Keep this dialog and its recovery actions
+    // even when the OS has no mail app or the browser blocks a separate window.
+    try {
+      const url = consultationHandoffUrl(method, ctx);
+      if (method === "email") window.location.href = url;
+      else window.open(url, "_blank", "noopener,noreferrer");
+    } catch {
+      // The persistent handoff panel offers a link and manual-copy alternatives.
     }
-
-    trackEvent("whatsapp_handoff", { source: ctx.source || "site_cta", option: "consultation" });
-    const whatsappUrl = `https://wa.me/14708613825?text=${encodeURIComponent(message)}`;
-    const opened = window.open(whatsappUrl, "_blank", "noopener,noreferrer");
-    if (!opened) window.location.href = whatsappUrl;
   };
 
   const subject = ctx.doctorName || ctx.hospitalName || ctx.procedure;
@@ -343,11 +339,11 @@ const QuoteDialog = ({
                 </span>
               </div>
               <DialogTitle className="font-display text-2xl md:text-[26px] font-semibold tracking-tight mt-3 leading-tight">
-                {step === 1 ? headline : "Tell us a little about you"}
+                {step === 1 ? handoffMethod && !subject ? consultationHandoffCopy[lang].title : headline : "Tell us a little about you"}
               </DialogTitle>
-              <DialogDescription className="text-sm text-foreground mt-1.5">
+              <DialogDescription className={handoffMethod ? "sr-only" : "text-sm text-foreground mt-1.5"}>
                 {step === 1
-                  ? subline
+                  ? handoffMethod ? consultationHandoffCopy[lang].notSent : subline
                   : contactMethod === "email"
                   ? "Share a few details and we’ll prepare an email for you to send."
                   : "Share a few details and we’ll prepare a WhatsApp message for you to send."}
@@ -365,7 +361,12 @@ const QuoteDialog = ({
             </div>
 
             {step === 1 ? (
-              <ContactChannelStep onPick={pickContactMethod} subject={subject} />
+              handoffMethod ? <ConsultationHandoff
+                method={handoffMethod}
+                context={ctx}
+                onBack={() => { setReturnChannel(handoffMethod); setHandoffMethod(null); }}
+                onOpenApp={() => trackEvent(handoffMethod === "email" ? "email_handoff" : "whatsapp_handoff", { source: ctx.source || "site_cta", option: "retry" })}
+              /> : <ContactChannelStep onPick={pickContactMethod} subject={subject} returnChannel={returnChannel} />
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4 p-4 sm:p-6">
                 <button
@@ -458,9 +459,13 @@ const QuoteDialog = ({
 
 /* ---------- Step 1: Contact channel picker ---------- */
 
-const ContactChannelStep = ({ onPick, subject }: { onPick: (method: ContactMethod) => void; subject?: string }) => {
+const ContactChannelStep = ({ onPick, subject, returnChannel }: { onPick: (method: ContactMethod) => void; subject?: string; returnChannel?: ContactMethod | null }) => {
   const { lang } = useAsia();
   const copy = getConsultationPickerCopy(lang);
+  const channelRefs = useRef<Partial<Record<ContactMethod, HTMLButtonElement | null>>>({});
+  useEffect(() => {
+    if (returnChannel) channelRefs.current[returnChannel]?.focus({ preventScroll: true });
+  }, [returnChannel]);
   const options: { id: ContactMethod; icon: typeof Mail; title: string; desc: string; meta: string }[] = [
     {
       id: "email",
@@ -486,6 +491,7 @@ const ContactChannelStep = ({ onPick, subject }: { onPick: (method: ContactMetho
       {options.map((o) => (
         <button
           key={o.id}
+          ref={(element) => { channelRefs.current[o.id] = element; }}
           type="button"
           onClick={() => onPick(o.id)}
           className="group flex w-full items-start gap-4 rounded-2xl border border-border bg-card p-4 text-left transition-[border-color,box-shadow] hover:border-foreground hover:shadow-pop focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"

@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
-  ArrowLeft, ArrowRight, Heart, MessageCircle, Share2, Volume2, VolumeX, Play,
+  ArrowLeft, ArrowRight, Heart, MessageCircle, Volume2, VolumeX, Play, Pause,
   BadgeCheck, Calendar, ShieldCheck, Maximize2, Images, MapPin,
 } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
@@ -21,6 +21,9 @@ import { signedUrl } from "@/lib/storage-urls";
 import { localizeDoctorRow, localizeVideoRow } from "@/lib/i18n-content";
 import { toTikTokItem } from "@/hooks/use-published-videos";
 import type { TikTokItem } from "@/components/TikTokWall";
+import { useQuietVideo } from "@/hooks/use-quiet-video";
+import { videoControlsCopy } from "@/lib/video-controls-copy";
+import { CaseShareButton } from "@/components/CaseShareButton";
 
 type LinkedExpert = {
   id: string; name: string; title: string; city: string;
@@ -96,12 +99,14 @@ const CaseDetail = () => {
     return [...sameCity, ...otherCities].slice(0, 5);
   }, [doctorCases, id, item?.city?.en]);
 
-  const ref = useRef<HTMLVideoElement>(null);
   const [muted, setMuted] = useState(false);
-  const [playing, setPlaying] = useState(true);
   const [expanded, setExpanded] = useState(false);
+  const { attachRef, playing, playbackFailed, toggle: togglePlay, play } = useQuietVideo(item?.src ?? "", !!item && !expanded);
+  const expandedPlayer = useQuietVideo(item?.src ?? "", expanded);
+  const controls = videoControlsCopy[lang];
   const [ended, setEnded] = useState(false);
-  const { saved, toggleSaved, signedIn } = useSavedCase(id ?? "");
+  const { saved, toggleSaved, saveLabel } = useSavedCase(id ?? "");
+  useEffect(() => { setEnded(false); setExpanded(false); }, [id]);
 
   if (!item) {
     return (
@@ -130,13 +135,6 @@ const CaseDetail = () => {
   const currentIndex = TIKTOK_CASES.findIndex((caseItem) => caseItem.id === item.id);
   const previousItem = TIKTOK_CASES[(currentIndex - 1 + TIKTOK_CASES.length) % TIKTOK_CASES.length];
   const nextItem = TIKTOK_CASES[(currentIndex + 1) % TIKTOK_CASES.length];
-
-  const togglePlay = () => {
-    const v = ref.current;
-    if (!v) return;
-    if (v.paused) { setEnded(false); v.play(); setPlaying(true); }
-    else { v.pause(); setPlaying(false); }
-  };
 
   const treatment = item.treatment[lang];
   const caseSchema = {
@@ -173,19 +171,18 @@ const CaseDetail = () => {
           {/* Player */}
           <div className="min-w-0 lg:col-span-5">
             <div
-              className="relative mx-auto aspect-[9/16] w-full max-w-md cursor-pointer overflow-hidden rounded-3xl bg-black shadow-pop lg:max-w-none"
-              onClick={togglePlay}
+              className="relative mx-auto aspect-[9/16] w-full max-w-md overflow-hidden rounded-3xl bg-black shadow-pop lg:max-w-none"
             >
               <video
                 key={item.id}
-                ref={ref}
+                ref={attachRef}
                 src={item.src}
-                autoPlay
+                poster={item.poster}
+                preload="metadata"
                 muted={muted}
                 playsInline
-                onPlay={() => { setPlaying(true); setEnded(false); }}
-                onPause={() => setPlaying(false)}
-                onEnded={() => { setPlaying(false); setEnded(true); }}
+                onPlay={() => setEnded(false)}
+                onEnded={() => setEnded(true)}
                 className="absolute inset-0 size-full object-cover"
               />
               <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/50 to-transparent pointer-events-none" />
@@ -201,13 +198,10 @@ const CaseDetail = () => {
                 {lang === "zh" ? "放大观看" : lang === "ru" ? "Увеличить" : lang === "es" ? "Ampliar" : "Enlarge"}
               </button>
 
-              {!playing && (
-                <div className="absolute inset-0 grid place-items-center pointer-events-none">
-                  <div className="size-16 rounded-full bg-white/85 grid place-items-center shadow-pop">
-                    <Play className="size-7 text-foreground fill-foreground translate-x-0.5" />
-                  </div>
-                </div>
-              )}
+              <button type="button" onClick={togglePlay} aria-label={playing ? controls.pause : controls.play} className="absolute left-1/2 top-1/2 grid size-16 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white/90 text-foreground shadow-pop focus-visible:outline focus-visible:outline-4 focus-visible:outline-primary">
+                {playing ? <Pause className="size-7 fill-current" /> : <Play className="size-7 translate-x-0.5 fill-current" />}
+              </button>
+              {playbackFailed && <p role="status" className="absolute inset-x-3 top-[60%] z-30 rounded-lg bg-card p-3 text-sm text-foreground">{controls.failed}</p>}
 
               {ended && (
                 <div className="absolute inset-0 z-20 grid place-items-center bg-black/65 p-6 backdrop-blur-[2px]" onClick={(event) => event.stopPropagation()}>
@@ -218,7 +212,7 @@ const CaseDetail = () => {
                     <Button asChild size="lg" className="mt-5 rounded-full bg-primary px-7 text-primary-foreground hover:bg-primary/90">
                       <Link to={`/cases/${nextItem.id}`}>{lang === "zh" ? "播放下一个" : lang === "ru" ? "Смотреть следующую" : lang === "es" ? "Ver siguiente caso" : "Watch next case"}<ArrowRight className="ml-2 size-4" /></Link>
                     </Button>
-                    <button type="button" className="mt-3 block w-full text-xs text-white/70 hover:text-white" onClick={() => { setEnded(false); ref.current?.play(); }}>
+                    <button type="button" className="mt-3 block min-h-11 w-full text-xs text-white hover:underline" onClick={() => { setEnded(false); void play(); }}>
                       {lang === "zh" ? "重新播放当前视频" : lang === "ru" ? "Повторить видео" : lang === "es" ? "Repetir este video" : "Replay this video"}
                     </button>
                   </div>
@@ -227,23 +221,16 @@ const CaseDetail = () => {
 
               <div className="absolute right-3 bottom-24 flex flex-col items-center gap-3">
                 <button
+                  type="button"
                   onClick={(e) => { e.stopPropagation(); toggleSaved(); }}
                   className="size-11 rounded-full bg-black/40 backdrop-blur grid place-items-center text-white"
-                  aria-label={signedIn
-                    ? saved ? "Remove from saved cases" : "Save this case"
-                    : "Sign up to save this case"}
+                  aria-label={saveLabel}
+                  aria-pressed={saved}
                 >
                   <Heart className={`size-5 ${saved ? "fill-rose-500 text-rose-500" : ""}`} />
                 </button>
-                <span className="text-label text-white font-semibold -mt-2">{item.likes}</span>
-                <button onClick={(e) => { e.stopPropagation(); }} className="size-11 rounded-full bg-black/40 backdrop-blur grid place-items-center text-white">
-                  <MessageCircle className="size-5" />
-                </button>
-                <span className="text-label text-white font-semibold -mt-2">{item.comments}</span>
-                <button onClick={(e) => { e.stopPropagation(); }} className="size-11 rounded-full bg-black/40 backdrop-blur grid place-items-center text-white">
-                  <Share2 className="size-5" />
-                </button>
-                <button onClick={(e) => { e.stopPropagation(); setMuted((m) => !m); }} className="size-11 rounded-full bg-black/40 backdrop-blur grid place-items-center text-white">
+                <CaseShareButton href={`/cases/${item.id}`} title={item.caption[lang] || item.caption.en} lang={lang} className="grid size-11 place-items-center rounded-full bg-black/60 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-white" />
+                <button type="button" aria-label={muted ? controls.unmute : controls.mute} onClick={(e) => { e.stopPropagation(); setMuted((m) => !m); }} className="size-11 rounded-full bg-black/60 grid place-items-center text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-white">
                   {muted ? <VolumeX className="size-5" /> : <Volume2 className="size-5" />}
                 </button>
               </div>
@@ -435,20 +422,22 @@ const CaseDetail = () => {
       </section>
 
       <Dialog open={expanded} onOpenChange={setExpanded}>
-        <DialogContent className="w-[min(96vw,1100px)] max-w-none h-[92vh] border-0 bg-black p-3 sm:p-5 rounded-3xl overflow-hidden">
+        <DialogContent className="flex h-[92vh] w-[min(96vw,1100px)] max-w-none flex-col overflow-hidden rounded-3xl border-0 bg-black p-3 sm:p-5">
           <DialogTitle className="sr-only">{item.caption[lang]}</DialogTitle>
           <DialogDescription className="sr-only">
             {lang === "zh" ? "真实案例放大视频" : "Expanded real case video"}
           </DialogDescription>
           <video
+            ref={expandedPlayer.attachRef}
             src={item.src}
             poster={item.poster}
-            autoPlay
             controls
-            loop
             playsInline
-            className="size-full object-contain rounded-2xl"
+            preload="metadata"
+            className="min-h-0 w-full flex-1 object-contain rounded-2xl"
           />
+          <button type="button" onClick={expandedPlayer.toggle} className="mx-auto inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-foreground">{expandedPlayer.playing ? <Pause className="size-4" /> : <Play className="size-4" />}{expandedPlayer.playing ? controls.pause : controls.play}</button>
+          {expandedPlayer.playbackFailed && <p role="status" className="text-center text-sm text-white">{controls.failed}</p>}
         </DialogContent>
       </Dialog>
 

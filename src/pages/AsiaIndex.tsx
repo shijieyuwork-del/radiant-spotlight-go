@@ -54,6 +54,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useRealtimeRefresh } from "@/hooks/use-realtime-refresh";
 import { signedUrls } from "@/lib/storage-urls";
 import { DEMO_CHINA_DOCTORS } from "@/data/demoChinaDoctors";
+import { ManualRailControls } from "@/components/ManualRailControls";
 
 type ProcedureIconProps = { className?: string; strokeWidth?: number };
 
@@ -144,32 +145,11 @@ const treatments: Treatment[] = [
 // TikTok cases live in src/data/tiktokCases.ts.
 
 // ============== Sections ==============
-type NavigatorConnection = {
-  saveData?: boolean;
-  effectiveType?: string;
-};
-
 const Hero = () => {
   const { t, lang, fmt } = useAsia();
   // 后台上传并发布的视频排在演示日记前面
   const uploaded = usePublishedVideos(lang);
   const diaryItems = [...uploaded, ...TIKTOK_CASES];
-  const [showHeroVideo, setShowHeroVideo] = useState(false);
-
-  useEffect(() => {
-    if (window.matchMedia("(max-width: 767px)").matches) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const connection = (navigator as Navigator & { connection?: NavigatorConnection }).connection;
-    if (connection?.saveData) return;
-    if (connection?.effectiveType && /(^|-)2g$/.test(connection.effectiveType)) return;
-    const cb = () => setShowHeroVideo(true);
-    if (typeof window.requestIdleCallback === "function") {
-      const id = window.requestIdleCallback(cb, { timeout: 2500 });
-      return () => window.cancelIdleCallback(id);
-    }
-    const id = window.setTimeout(cb, 1500);
-    return () => window.clearTimeout(id);
-  }, []);
 
   const copy = lang === "zh"
     ? {
@@ -238,19 +218,6 @@ const Hero = () => {
     <section className="hero-motion relative overflow-hidden">
       <div className="hero-motion__background absolute inset-x-0 top-0 h-[900px] sm:h-[940px]" aria-hidden="true">
         <img src={heroBg} alt="" className="hero-motion__image absolute inset-0 size-full object-cover" />
-        {showHeroVideo && (
-          <video
-            className="hero-motion__video absolute inset-0 size-full object-cover"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="none"
-            poster={heroBg}
-          >
-            <source src="/video/cosmetics-asia-home-motion.mp4?v=1" type="video/mp4" />
-          </video>
-        )}
         <div className="hero-motion__veil absolute inset-0" />
       </div>
 
@@ -759,7 +726,6 @@ const ClinicsSection = () => {
   const { t, lang } = useAsia();
   const clinicText = (en: string, zh: string) => lang === "zh" ? zh : translatedUiText(lang, en);
   const clinicRailRef = useRef<HTMLDivElement>(null);
-  const clinicRailPausedRef = useRef(false);
   const clinics = [
     {
       en: "Shanghai Huamei Plastic Surgery Hospital",
@@ -795,16 +761,6 @@ const ClinicsSection = () => {
       tagsZh: ["美容外科", "美容皮肤科", "美容牙科"],
     },
   ];
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const timer = window.setInterval(() => {
-      const rail = clinicRailRef.current;
-      if (!rail || clinicRailPausedRef.current || document.hidden) return;
-      const atEnd = rail.scrollLeft + rail.clientWidth >= rail.scrollWidth - 24;
-      rail.scrollTo({ left: atEnd ? 0 : rail.scrollLeft + Math.min(rail.clientWidth * 0.86, 1080), behavior: "smooth" });
-    }, 4800);
-    return () => window.clearInterval(timer);
-  }, []);
   return (
     <section id="clinics" className="container py-10 md:py-16">
       <div className="mb-6 flex flex-wrap items-end justify-between gap-4 md:mb-8">
@@ -818,13 +774,8 @@ const ClinicsSection = () => {
       </div>
       <div
         ref={clinicRailRef}
-        onMouseEnter={() => { clinicRailPausedRef.current = true; }}
-        onMouseLeave={() => { clinicRailPausedRef.current = false; }}
-        onPointerDown={() => { clinicRailPausedRef.current = true; }}
-        onPointerUp={() => { clinicRailPausedRef.current = false; }}
-        onFocusCapture={() => { clinicRailPausedRef.current = true; }}
-        onBlurCapture={() => { clinicRailPausedRef.current = false; }}
-        className="flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain scroll-smooth py-1 scrollbar-hide md:gap-6"
+        id="home-clinics-rail"
+        className="flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain py-1 scrollbar-hide md:gap-6"
       >
         {clinics.map((clinic) => (
           <Link key={clinic.en} to={(() => { const listing = STATIC_CLINICS.find((item) => item.nameEn === clinic.en); return listing ? getClinicPath(listing) : `/clinics?q=${encodeURIComponent(clinic.en)}`; })()} className="group block min-w-[82vw] snap-center sm:min-w-[62vw] md:min-w-[calc((100%_-_3rem)/3)] md:max-w-[calc((100%_-_3rem)/3)]">
@@ -844,6 +795,7 @@ const ClinicsSection = () => {
           </Link>
         ))}
       </div>
+      <ManualRailControls railRef={clinicRailRef} railId="home-clinics-rail" count={clinics.length} lang={lang} />
       <div className="mt-2 flex justify-center sm:hidden">
         <Link to="/clinics" className="inline-flex min-h-12 items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90">
           {clinicText("All clinics", "查看全部机构")} <ArrowRight className="size-4" />
@@ -1210,7 +1162,6 @@ const DoctorsSection = () => {
     specialties: string[]; bio: string; photo_path: string | null; photo?: string;
   }>>([]);
   const doctorRailRef = useRef<HTMLDivElement>(null);
-  const doctorRailPausedRef = useRef(false);
   const displayedDoctors = publishedDoctors.length > 0
     ? publishedDoctors.map((doctor) => ({ ...doctor, photo: doctor.photo ?? "", demo: false as const }))
     : DEMO_CHINA_DOCTORS.map((doctor) => ({ ...doctor, photo_path: null }));
@@ -1230,16 +1181,6 @@ const DoctorsSection = () => {
   useEffect(() => { loadPublishedDoctors(); }, [loadPublishedDoctors]);
   // 后台发布新专家后首页自动更新
   useRealtimeRefresh(["doctors"], loadPublishedDoctors);
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const timer = window.setInterval(() => {
-      const rail = doctorRailRef.current;
-      if (!rail || doctorRailPausedRef.current || document.hidden) return;
-      const atEnd = rail.scrollLeft + rail.clientWidth >= rail.scrollWidth - 24;
-      rail.scrollTo({ left: atEnd ? 0 : rail.scrollLeft + Math.min(rail.clientWidth * 0.86, 1080), behavior: "smooth" });
-    }, 5200);
-    return () => window.clearInterval(timer);
-  }, []);
   return (
 <section id="compliance" className="container py-8 md:py-12">
       <div className="mb-7 flex flex-wrap items-end justify-between gap-4 md:mb-9">
@@ -1252,13 +1193,8 @@ const DoctorsSection = () => {
       </div>
       <div
         ref={doctorRailRef}
-        onMouseEnter={() => { doctorRailPausedRef.current = true; }}
-        onMouseLeave={() => { doctorRailPausedRef.current = false; }}
-        onPointerDown={() => { doctorRailPausedRef.current = true; }}
-        onPointerUp={() => { doctorRailPausedRef.current = false; }}
-        onFocusCapture={() => { doctorRailPausedRef.current = true; }}
-        onBlurCapture={() => { doctorRailPausedRef.current = false; }}
-className="flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain scroll-smooth py-1 scrollbar-hide md:gap-5"
+        id="home-doctors-rail"
+className="flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain py-1 scrollbar-hide md:gap-5"
       >
         {displayedDoctors.map((d) => {
           const photo = d.photo;
@@ -1304,6 +1240,7 @@ className="flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscro
           </Link>
         )})}
       </div>
+      <ManualRailControls railRef={doctorRailRef} railId="home-doctors-rail" count={displayedDoctors.length} lang={lang} />
     </section>
   );
 };

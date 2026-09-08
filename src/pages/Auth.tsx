@@ -6,6 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import { useAuth } from "@/lib/auth";
 import { useAsia } from "@/lib/asia-i18n";
+import { getSavedCasesCopy } from "@/lib/saved-cases-copy";
 import BrandLogo from "@/components/BrandLogo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -148,14 +149,14 @@ const Auth = () => {
           </h1>
           <p className="text-sm text-muted-foreground text-center mt-1.5">
             {mode === "forgot" ? t("Enter your email and we’ll send you a secure reset link.", "输入邮箱，我们会发送安全的重置链接。") : mode === "reset" ? t("Enter a new password with at least 8 characters.", "请输入至少 8 位的新密码。") : tab === "signin"
-              ? t("Sign in to manage quotes, bookings and favorite cases.", "登录后可管理咨询、预约和喜欢的案例。")
+              ? getSavedCasesCopy(lang).guest
               : t("Join CeladonChina in 30 seconds — totally free.", "30 秒注册 CeladonChina，完全免费。")}
           </p>
 
           {mode === "auth" && searchParams.get("reason") === "save-case" && (
             <div className="mt-4 flex items-center justify-center gap-2 rounded-2xl bg-rose-50 px-4 py-3 text-center text-sm font-medium text-rose-700">
               <Heart className="size-4 fill-rose-500 text-rose-500" />
-              {t("Create a free account to save this case.", "免费注册，即可保存这个喜欢的案例。")}
+              <Link to="/saved" className="underline underline-offset-4">{getSavedCasesCopy(lang).guest}</Link>
             </div>
           )}
 
