@@ -1,6 +1,5 @@
 import {
   ArrowRight,
-  Building2,
   Check,
   ChevronRight,
   CircleDollarSign,
@@ -16,12 +15,13 @@ import {
   Route,
   ShieldCheck,
   Video,
-  Wallet,
 } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
 import { MedicalDisclaimer } from "@/components/MedicalDisclaimer";
+import { CoordinationPaymentInfo } from "@/components/CoordinationPaymentInfo";
+import { getCoordinationPolicy } from "@/data/coordination-policy";
 import { useAsia } from "@/lib/asia-i18n";
 import { asiaCopy } from "@/lib/asia-copy";
 import QuoteCtaButton, { QUOTE_WHATSAPP_URL } from "@/components/QuoteCtaButton";
@@ -165,6 +165,7 @@ const SUPPORT_SERVICES = [
 
 const Packages = () => {
   const { lang, t } = useAsia();
+  const policy = getCoordinationPolicy(lang);
   const c = <T,>(en: T, zh: T, ru: T, es?: T) => asiaCopy(lang, { en, zh, ru, es });
   const pick = (values: readonly [string, string, string, string?]) => c(values[0], values[1], values[2], values[3]);
 
@@ -181,28 +182,13 @@ const Packages = () => {
           <section id="journey" className="container scroll-mt-24 py-10 md:py-20">
             <div className="mx-auto max-w-3xl text-center">
               <span className="pill bg-accent text-accent-foreground"><Route className="size-3.5" />{c("A clear path from home to follow-up", "从家中咨询到术后随访", "Понятный путь от дома до наблюдения", "Un camino claro desde casa hasta el seguimiento")}</span>
-              <h2 className="mt-4 font-display text-[2.25rem] font-medium leading-[1.06] tracking-tight sm:text-5xl md:text-6xl">
+              <h1 className="mt-4 font-display text-[2.25rem] font-medium leading-[1.06] tracking-tight sm:text-5xl md:text-6xl">
                 {c("Six steps. ", "六个步骤，", "Шесть этапов. ", "Seis pasos. ")}<em className="not-italic text-primary">{c("No guessing what comes next.", "每一步都清楚。", "Вы всегда знаете, что дальше.", "Sin dudas sobre qué sigue.")}</em>
-              </h2>
+              </h1>
               <p className="mt-4 text-base leading-relaxed text-foreground/65 md:text-lg">{c("Each stage answers the question patients ask most: what happens next, who helps and what should I prepare?", "每个阶段都会回答患者最关心的问题：下一步是什么、谁来协助、需要准备什么？", "Каждый этап отвечает на главные вопросы: что дальше, кто поможет и что подготовить?", "Cada etapa responde a la pregunta que más hacen los pacientes: ¿qué sigue, quién ayuda y qué debo preparar?")}</p>
             </div>
 
-            <div className="mt-8 flex flex-col gap-4 md:flex-row md:gap-6">
-              <div className="flex flex-1 items-center gap-4 rounded-2xl border border-primary/15 bg-gradient-to-r from-[hsl(156_58%_93%)] to-[hsl(146_48%_86%)] p-5 text-foreground shadow-soft">
-                <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-white/65 text-primary"><Wallet className="size-5" /></span>
-                <div>
-                  <h3 className="font-display text-sm font-semibold tracking-tight">{c("$200 coordination deposit", "200 美元协调押金", "Депозит $200", "Depósito de coordinación de 200 $")}</h3>
-                  <p className="mt-1 text-xs uppercase tracking-tight text-foreground/55">{c("Reserves your date & support package", "保留预约与协调服务", "Бронирует дату и поддержку", "Reserva tu fecha y paquete de apoyo")}</p>
-                </div>
-              </div>
-              <div className="flex flex-1 items-center gap-4 rounded-2xl border border-primary/15 bg-gradient-to-r from-[hsl(156_58%_93%)] to-[hsl(146_48%_86%)] p-5 text-foreground shadow-soft">
-                <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-white/65 text-primary"><Building2 className="size-5" /></span>
-                <div>
-                  <h3 className="font-display text-sm font-semibold tracking-tight">{c("Pay the clinic directly", "直接支付给诊所", "Оплата напрямую клинике", "Paga directamente a la clínica")}</h3>
-                  <p className="mt-1 text-xs uppercase tracking-tight text-foreground/55">{c("Medical fees go straight to the facility", "医疗费用由诊所直接收取", "Медицинские сборы — напрямую в клинику", "Los honorarios médicos van directamente al centro")}</p>
-                </div>
-              </div>
-            </div>
+            <CoordinationPaymentInfo />
 
             <div className="-mx-4 mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-5 scrollbar-hide sm:-mx-6 sm:px-6 md:mx-0 md:mt-10 md:grid md:grid-cols-2 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-3">
               {JOURNEY_STEPS.map((step, index) => {
@@ -239,6 +225,7 @@ const Packages = () => {
                 <div>
                   <span className="pill bg-primary/10 text-foreground"><ShieldCheck className="size-3.5 text-primary" />{c("Free coordination support", "免费协调支持", "Бесплатная координационная поддержка", "Apoyo de coordinación gratuito")}</span>
                   <h2 className="mt-4 max-w-3xl font-display text-3xl font-medium leading-tight tracking-tight sm:text-4xl">{c("Your journey. Our support.", "你的旅程，我们相伴。", "Бесплатные услуги Celadon", "Servicios gratuitos de Celadon")}</h2>
+                  <p className="mt-3 max-w-3xl text-sm leading-6 text-foreground/75">{policy.refund}{" "}<a href="#payment-terms" className="font-medium underline underline-offset-4 hover:text-foreground">{policy.heading}</a></p>
                 </div>
               </div>
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-6 lg:gap-5">

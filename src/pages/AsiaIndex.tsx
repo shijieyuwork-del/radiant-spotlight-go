@@ -16,6 +16,8 @@ import HeroVideoGallery from "@/components/HeroVideoGallery";
 import { usePublishedVideos } from "@/hooks/use-published-videos";
 import PageMeta from "@/components/PageMeta";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
+import { getCoordinationPolicy } from "@/data/coordination-policy";
+import { getClinicPath, STATIC_CLINICS } from "@/data/clinicDirectory";
 
 import { useAsia } from "@/lib/asia-i18n";
 import { translatedUiText } from "@/lib/locale-text";
@@ -762,13 +764,13 @@ const ClinicsSection = () => {
     {
       en: "Shanghai Huamei Plastic Surgery Hospital",
       zh: "上海华美医疗美容医院",
-      cityEn: "Shanghai · Xuhui District",
-      cityZh: "上海 · 徐汇区",
+      cityEn: "Shanghai · Pudong New Area",
+      cityZh: "上海 · 浦东新区",
       image: shanghaiHuameiClinic,
-      descriptionEn: "A licensed aesthetic hospital with surgical and non-surgical departments in central Shanghai.",
-      descriptionZh: "位于上海市区，设有整形外科与非手术医美科室的正规医疗美容医院。",
-      tagsEn: ["Eyes", "Nose", "Facial rejuvenation"],
-      tagsZh: ["眼部整形", "鼻部整形", "面部年轻化"],
+      descriptionEn: "View the published Pudong address and confirm current services, specialists and appointment details before booking.",
+      descriptionZh: "查看浦东院区公开地址，并在预约前确认现有项目、专家与就诊安排。",
+      tagsEn: ["Campus details", "Confirm available services"],
+      tagsZh: ["院区资料", "项目需确认"],
     },
     {
       en: "Plastic Surgery Hospital, CAMS (Badachu)",
@@ -787,10 +789,10 @@ const ClinicsSection = () => {
       cityEn: "Guangzhou · Tianhe District",
       cityZh: "广州 · 天河区",
       image: guangzhouHuameiClinic,
-      descriptionEn: "A Guangzhou aesthetic hospital offering facial, breast and body-contouring services.",
-      descriptionZh: "位于广州天河区，提供面部、胸部及身体塑形等医疗美容服务。",
-      tagsEn: ["Eyes", "Breast", "Body contouring"],
-      tagsZh: ["眼部整形", "胸部整形", "身体塑形"],
+      descriptionEn: "Public filings list cosmetic surgery, dermatology and dental departments. Check the Tianhe address and confirm your appointment.",
+      descriptionZh: "公开文件列有美容外科、美容皮肤科和美容牙科。查看天河院区地址，并确认具体就诊安排。",
+      tagsEn: ["Cosmetic surgery", "Dermatology", "Dental"],
+      tagsZh: ["美容外科", "美容皮肤科", "美容牙科"],
     },
   ];
   useEffect(() => {
@@ -825,7 +827,7 @@ const ClinicsSection = () => {
         className="flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain scroll-smooth py-1 scrollbar-hide md:gap-6"
       >
         {clinics.map((clinic) => (
-          <Link key={clinic.en} to={`/clinics?q=${encodeURIComponent(clinic.en)}`} className="group block min-w-[82vw] snap-center sm:min-w-[62vw] md:min-w-[calc((100%_-_3rem)/3)] md:max-w-[calc((100%_-_3rem)/3)]">
+          <Link key={clinic.en} to={(() => { const listing = STATIC_CLINICS.find((item) => item.nameEn === clinic.en); return listing ? getClinicPath(listing) : `/clinics?q=${encodeURIComponent(clinic.en)}`; })()} className="group block min-w-[82vw] snap-center sm:min-w-[62vw] md:min-w-[calc((100%_-_3rem)/3)] md:max-w-[calc((100%_-_3rem)/3)]">
             <article className="flex min-h-[270px] flex-col rounded-3xl border border-border bg-card p-5 shadow-soft transition duration-300 group-hover:-translate-y-1 group-hover:border-primary/35 group-hover:shadow-pop md:min-h-[290px] md:p-6">
               <div className="flex min-w-0 items-center gap-4">
                 <img src={clinic.image} alt="" loading="lazy" decoding="async" className="size-24 shrink-0 rounded-full border-2 border-primary/15 object-cover transition-transform duration-500 group-hover:scale-105 md:size-28" />
@@ -1000,7 +1002,7 @@ const TreatmentsSectionLegacy = () => {
 
 const TreatmentsSection = () => {
   const { lang } = useAsia();
-  const c = (en: string, zh: string, ru: string, es: string) => lang === "zh" ? zh : lang === "ru" ? ru : lang === "es" ? es : en;
+  const c = (en: string, zh: string, ru: string, es: string) => lang === "zh" ? zh : lang === "ru" ? ru : lang === "es" ? es : translatedUiText(lang, en);
   const procedureGoals = [
     {
       key: "nose",
@@ -1143,13 +1145,13 @@ const TreatmentsSection = () => {
     {
       key: "network",
       image: "/generated/clinic-network-asia-v2.png",
-      eyebrow: c("China · Korea · Japan", "中国 · 韩国 · 日本", "Китай · Корея · Япония", "China · Corea · Japón"),
-      title: c("Care across three countries", "覆盖中日韩", "Помощь в трёх странах", "Atención en tres países"),
+      eyebrow: c("China-only coordination", "仅提供中国境内协调服务", "Координация только в Китае", "Coordinación solo en China"),
+      title: c("Plan your care in China", "规划你的中国医美行程", "Планируйте лечение в Китае", "Planifica tu atención en China"),
       detail: c(
-        "Find partner clinics in China, South Korea and Japan.",
-        "对接中国、韩国和日本的合作诊所。",
-        "Клиники-партнёры в Китае, Южной Корее и Японии.",
-        "Clínicas asociadas en China, Corea del Sur y Japón.",
+        "Explore clinics in China and get help coordinating consultations and travel within China.",
+        "了解中国的医疗机构，获取中国境内的咨询与行程协调支持。",
+        "Изучайте клиники Китая и получайте помощь с координацией консультаций и поездок внутри страны.",
+        "Explora clínicas en China y recibe ayuda para coordinar consultas y viajes dentro del país.",
       ),
     },
     {
@@ -1380,6 +1382,7 @@ const HowItWorks = () => {
 
 const HomeFaq = () => {
   const { lang } = useAsia();
+  const policy = getCoordinationPolicy(lang);
   const zh = lang === "zh";
   const ru = lang === "ru";
   const es = lang === "es";
@@ -1387,11 +1390,11 @@ const HomeFaq = () => {
   const questions = [
     {
       q: c("Do I need to pay CeladonChina?", "我需要向 CeladonChina 支付费用吗？", "Нужно ли платить CeladonChina?", "¿Necesito pagarle a CeladonChina?"),
-      a: c("Medical fees are paid directly to the treating clinic or hospital; CeladonChina does not collect them. We collect a $200 coordination deposit to reserve your procedure appointment and coordinate airport pickup and in-clinic translation. It remains valid for 12 months and is refunded when you pay the clinic for treatment.", "医疗费用全部由诊所或医院直接收取，CeladonChina 不代收。我们收取 200 美元协调押金，用于保留手术预约，并协调机场接送和院内翻译。押金在 12 个月内有效，并在你向诊所支付治疗费用时退还。", "Медицинские услуги оплачиваются напрямую клинике или больнице; CeladonChina их не принимает. Мы взимаем координационный депозит $200, чтобы закрепить время процедуры и организовать трансфер и перевод в клинике. Он действует 12 месяцев и возвращается после оплаты лечения в клинике.", "Los honorarios médicos se pagan directamente a la clínica u hospital tratante; CeladonChina no los cobra. Cobramos un depósito de coordinación de $200 para reservar tu cita del procedimiento y coordinar el traslado del aeropuerto y la traducción en la clínica. Es válido durante 12 meses y se reembolsa cuando pagas el tratamiento a la clínica."),
+      a: `${policy.medical} ${policy.depositPurpose} ${policy.refund}`,
     },
     {
       q: c("What is the $200 deposit for?", "200 美元押金是做什么用的？", "Для чего нужен депозит $200?", "¿Para qué es el depósito de $200?"),
-      a: c("The $200 deposit reserves your procedure appointment and helps us coordinate airport pickup and in-clinic translation. It is not an additional medical charge, remains valid for 12 months and is refunded when you pay the clinic for treatment.", "这笔 200 美元押金用于保留手术预约，并帮助我们协调机场接送和院内翻译。它不是额外的医疗费用，可保留 12 个月，并在你向诊所支付治疗费用时退还。", "Депозит $200 закрепляет время процедуры и помогает организовать трансфер и перевод в клинике. Это не дополнительная медицинская плата; депозит действует 12 месяцев и возвращается после оплаты лечения в клинике.", "El depósito de $200 reserva tu cita del procedimiento y nos ayuda a coordinar el traslado del aeropuerto y la traducción en la clínica. No es un cargo médico adicional, es válido durante 12 meses y se reembolsa cuando pagas el tratamiento a la clínica."),
+      a: `${policy.depositPurpose} ${policy.collection} ${policy.refund} ${policy.cancellation}`,
     },
     {
       q: c("Who receives my medical payment?", "手术和治疗费用支付给谁？", "Кому оплачиваются медицинские услуги?", "¿Quién recibe mi pago médico?"),
@@ -1442,11 +1445,11 @@ const HomeFaq = () => {
             <div className="relative flex items-start gap-4">
               <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-[hsl(42_88%_86%)] text-[hsl(33_78%_33%)] shadow-[0_8px_22px_hsl(42_70%_55%/.16)]"><Wallet className="size-5" strokeWidth={2} /></span>
               <div className="min-w-0 pt-0.5">
-                <p className="text-xs font-bold uppercase tracking-[0.14em] text-[hsl(33_72%_35%)]">{c("Before departure", "出发前", "До вылета", "Antes de salir")}</p>
+                <p className="text-xs font-bold uppercase tracking-[0.14em] text-[hsl(33_72%_35%)]">{policy.collectionTitle}</p>
                 <h3 className="mt-1 font-display text-xl font-medium leading-tight text-foreground sm:text-2xl">{c("$200 coordination deposit", "支付 $200 协调押金", "Координационный депозит $200", "Depósito de coordinación de $200")}</h3>
               </div>
             </div>
-            <p className="relative mt-5 max-w-xl text-[15px] leading-7 text-foreground/70 sm:text-base">{c("It reserves your procedure appointment and coordinates airport pickup and in-clinic translation. It remains valid for 12 months and is refunded when you pay the clinic for treatment.", "用于保留手术预约，并协调机场接送和院内翻译。押金在 12 个月内有效，并在你向诊所支付治疗费用时退还。", "Он закрепляет время процедуры и помогает организовать трансфер и перевод в клинике. Депозит действует 12 месяцев и возвращается после оплаты лечения в клинике.", "Reserva tu cita del procedimiento y coordina el traslado del aeropuerto y la traducción en la clínica. Es válido durante 12 meses y se reembolsa cuando pagas el tratamiento a la clínica.")}</p>
+            <p className="relative mt-5 max-w-xl text-[15px] leading-7 text-foreground/70 sm:text-base">{policy.depositPurpose} {policy.collection} {policy.refund} {policy.cancellation}</p>
           </article>
         </div>
 
@@ -1501,7 +1504,7 @@ const AsiaIndex = () => {
   return (
     <>
       <PageMeta
-        title="Cosmetic Surgery in China | Doctors & Travel Support | Celadon China"
+        title="Cosmetic Surgery in China | Doctors & Travel Support | CeladonChina"
         absoluteTitle
         description="Explore cosmetic surgery in China with published doctor profiles, online consultations, procedure guidance, and coordinated travel, translation and aftercare from CeladonChina."
         path="/"

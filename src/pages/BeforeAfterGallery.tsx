@@ -45,10 +45,10 @@ const BeforeAfterGallery = () => {
           "Fotos antes y después | CeladonChina"
         )}
         description={c(
-          "Swipe through verified before and after photo sets from published experts across Asia.",
-          "滑动查看平台已发布专家的术前术后真实对比照片。",
-          "Смотрите проверенные фото до и после от опубликованных экспертов Азии.",
-          "Desliza para ver fotos verificadas de antes y después de expertos publicados en Asia."
+          "Swipe through verified before and after photo sets from published experts in China.",
+          "滑动查看平台已发布的中国专家的术前术后真实对比照片。",
+          "Смотрите проверенные фото до и после от опубликованных экспертов в Китае.",
+          "Desliza para ver fotos verificadas de antes y después de expertos publicados en China."
         )}
         path="/before-after"
       />

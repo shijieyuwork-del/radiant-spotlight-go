@@ -21,13 +21,20 @@ beforeEach(() => { vi.clearAllMocks(); vi.spyOn(window, "scrollTo").mockImplemen
 afterEach(cleanup);
 
 describe("hospital detail pages", () => {
-  it("renders each of the 101 static hospitals at its own URL", () => {
-    for (const clinic of STATIC_CLINICS) {
-      openPage(clinic.slug);
-      expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(clinic.nameEn);
-      expect(document.querySelector('link[rel="canonical"]')).toHaveAttribute("href", `https://celadonchina.com${getClinicPath(clinic)}`);
-      cleanup();
-    }
+  it.each(STATIC_CLINICS)("renders $nameEn at its own URL", (clinic) => {
+    openPage(clinic.slug);
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(clinic.nameEn);
+    expect(document.querySelector('link[rel="canonical"]')).toHaveAttribute("href", `https://celadonchina.com${getClinicPath(clinic)}`);
+  });
+
+  it("shows sourced featured-clinic details and keeps its inquiry context", () => {
+    const clinic = STATIC_CLINICS.find((item) => item.nameEn === "Shanghai Huamei Plastic Surgery Hospital")!;
+    openPage(clinic.slug);
+    expect(screen.getByRole("region", { name: "Compare this institution" })).toBeInTheDocument();
+    expect(screen.getByText(/Yuanshen Road: odd-numbered/)).toBeInTheDocument();
+    expect(screen.queryByText("Xuhui District")).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Ask about these details" }));
+    expect(mocks.open).toHaveBeenCalledWith({ hospitalName: clinic.nameEn, city: "Shanghai", source: "clinic_detail" });
   });
 
   it("passes the actual hospital and city to the consultation without pretending it is a doctor", () => {

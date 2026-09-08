@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { ArrowUpRight, BadgeCheck, MapPin } from "lucide-react";
 import type { City } from "@/data/cities";
 import { getClinicPath, type DirectoryClinic } from "@/data/clinicDirectory";
+import { findClinicPublicProfile } from "@/data/clinicProfiles";
 import { findRealHospitalPhoto } from "@/data/realHospitalPhotos";
 import { HospitalDirectoryPhoto } from "@/components/HospitalDirectoryPhoto";
 import { useAsia } from "@/lib/asia-i18n";
@@ -13,7 +14,8 @@ export function ClinicCard({ clinic, city }: { clinic: DirectoryClinic; city: Ci
   const name = lang === "zh" ? clinic.nameZh : clinic.nameEn;
   const secondary = lang === "zh" ? clinic.nameEn : clinic.nameZh;
   const cityName = lang === "zh" ? city.zh : city.en;
-  const area = lang === "zh" ? clinic.areaZh : clinic.areaEn;
+  const profile = findClinicPublicProfile(clinic);
+  const area = lang === "zh" ? profile?.campus?.areaZh ?? clinic.areaZh : profile?.campus?.areaEn ?? clinic.areaEn;
   const photo = findRealHospitalPhoto(clinic.nameZh, clinic.nameEn, ...clinic.aliases);
 
   return (

@@ -229,7 +229,7 @@ const CITY_CATALOG: City[] = [
       "Dense cluster of 5-star recovery hotels in the Bund / Jing'an area",
     ],
     hospitals: [
-      { zh: "上海华美医疗美容医院", en: "Shanghai Huamei Plastic Surgery Hospital", areaZh: "徐汇区", areaEn: "Xuhui District" },
+      { zh: "上海华美医疗美容医院", en: "Shanghai Huamei Plastic Surgery Hospital", areaZh: "浦东新区", areaEn: "Pudong New Area" },
       { zh: "上海九院 整形外科", en: "Shanghai Ninth People's Hospital · Plastic Surgery", areaZh: "黄浦区", areaEn: "Huangpu District" },
       { zh: "上海薇琳医疗美容医院", en: "Shanghai Weilin Aesthetic Hospital", areaZh: "静安区", areaEn: "Jing'an District" },
     ],

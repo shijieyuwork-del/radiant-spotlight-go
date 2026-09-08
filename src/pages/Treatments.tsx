@@ -9,6 +9,7 @@ import TikTokWall from "@/components/TikTokWall";
 import { Button } from "@/components/ui/button";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
 import { useAsia } from "@/lib/asia-i18n";
+import { asiaCopy } from "@/lib/asia-copy";
 import { PROCEDURE_CATEGORIES, procedureSlug } from "@/data/procedureCatalog";
 
 const PROCEDURE_IMAGES = import.meta.glob("../assets/procedures/*.jpg", {
@@ -385,7 +386,14 @@ const Treatments = () => {
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div className="flex items-center gap-2 text-sm font-semibold">
                   <FileText className="size-4 text-primary" />
-                  {copy("Cosmetics Asia Academy", "Cosmetics Asia 医美百科", "Академия Cosmetics Asia")}
+                  {asiaCopy(lang, {
+                    en: "CeladonChina procedure guides",
+                    zh: "CeladonChina 项目指南",
+                    ru: "Руководства по процедурам CeladonChina",
+                    es: "Guías de procedimientos de CeladonChina",
+                    th: "คู่มือหัตถการของ CeladonChina",
+                    ms: "Panduan prosedur CeladonChina",
+                  })}
                 </div>
                 <span className="text-xs text-muted-foreground">
                   {copy("9 clinical categories · 56 procedures", "9 个医学分类 · 56 项术式", "9 медицинских категорий · 56 процедур")}

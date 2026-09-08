@@ -17,8 +17,8 @@ const Cities = () => {
   return (
     <>
       <PageMeta
-        title="Top Surgery Destinations in China"
-        description="Explore Shanghai, Beijing, Guangzhou, Hainan, Hangzhou and more — China's cosmetic surgery hubs with specialties, USD pricing, visa info and travel planning."
+        title="Cosmetic Surgery Destinations in China"
+        description="Explore Shanghai, Guangzhou, Beijing, Hainan and Hangzhou, with procedure information, indicative pricing and practical travel planning in China."
         path="/cities"
       />
       <div className="min-h-screen bg-background">

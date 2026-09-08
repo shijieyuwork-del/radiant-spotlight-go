@@ -18,7 +18,7 @@ const ALLOWLIST = [
   /\/doctors/, /\.from\("doctors"\)/, /t\("doctors\./, /t\("doc\./,
   /doctor_id|doctorId|doctorName|caseDoctor|doctorRail/,
   /DoctorContactButton|DoctorProfile|VerifiedDoctorBadge|DoctorsSection|DoctorDetail|DoctorAdmin/,
-  /publishedDoctors|managedDoctors|demoChinaDoctors|DEMO_CHINA_DOCTORS|\bDOCTORS\b|setPublishedDoctors/,
+  /publishedDoctors|managedDoctors|demoChinaDoctors|DEMO_CHINA_DOCTORS|\bALL_DOCTORS\b|\bDOCTORS\b|setPublishedDoctors/,
   /doctor\.[a-z]|\bdoctor\s*[=:,)}\]]|const doctor|!doctor|\(doctor\)|doctor\?:/,
   /\btype Doctor\b|\bDoctorOption\b/, // 内部类型标识符
   /doctor-photos/, // 存储桶名

@@ -4,8 +4,11 @@ import BrandLogo from "@/components/BrandLogo";
 import ConsultationCta from "@/components/ConsultationCta";
 import { MedicalDisclaimer } from "@/components/MedicalDisclaimer";
 import { analyticsConfigured, openPrivacyChoices } from "@/lib/analytics";
+import { useAsia } from "@/lib/asia-i18n";
+import { asiaCopy } from "@/lib/asia-copy";
 
 const Footer = () => {
+  const { lang } = useAsia();
   return (
     <>
       <ConsultationCta />
@@ -13,7 +16,14 @@ const Footer = () => {
       <div className="container py-10 md:py-16 grid grid-cols-2 gap-8 md:grid-cols-5">
         <div className="space-y-4 col-span-2 md:col-span-1">
           <BrandLogo showTagline />
-          <p className="text-sm text-muted-foreground max-w-xs">China-focused cosmetic medical travel guidance. Published provider information. Coordinated care and practical travel support.</p>
+          <p className="text-sm text-muted-foreground max-w-xs">{asiaCopy(lang, {
+            en: "CeladonChina provides information, consultation coordination and travel support for cosmetic care in China only.",
+            zh: "CeladonChina 仅提供中国医美相关的信息、咨询协调与行程支持。",
+            ru: "CeladonChina предоставляет информацию, координацию консультаций и поездок для эстетической медицины только в Китае.",
+            es: "CeladonChina ofrece información, coordinación de consultas y apoyo de viaje para atención estética exclusivamente en China.",
+            th: "CeladonChina ให้ข้อมูล ประสานงานการปรึกษา และสนับสนุนการเดินทางเพื่อรับบริการด้านความงามในประเทศจีนเท่านั้น",
+            ms: "CeladonChina menyediakan maklumat, penyelarasan perundingan dan sokongan perjalanan untuk rawatan estetik di China sahaja.",
+          })}</p>
         </div>
         {[
           { title: "Explore", items: [{ label: "Patient Diaries", to: "/cases" }, { label: "Experts in China", to: "/doctors" }, { label: "Clinics & Hospitals", to: "/clinics" }, { label: "Procedure Academy", to: "/treatments" }, { label: "China Destinations", to: "/cities" }] },

@@ -292,7 +292,7 @@ const onQuote = (position: string) => {
                     <span className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Patient diaries</span>
                     <h2 className="mt-3 font-display text-4xl font-medium md:text-5xl">Watch real {lp.procedureLabel.toLowerCase()} journeys.</h2>
                     <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground">
-                      Short first-person videos from patients. {videos.some((v) => v.clinic.en.toLowerCase().includes(city.en.toLowerCase())) ? `Diaries below were performed by experts in ${city.en}.` : "Diaries below are from across Asia — filter by city on the cases page."}
+                      Short first-person videos from patients. {videos.some((v) => v.clinic.en.toLowerCase().includes(city.en.toLowerCase())) ? `Diaries below were performed by experts in ${city.en}.` : "Browse diary previews by city in China on the cases page."}
                     </p>
                   </div>
                   <Link to="/cases" className="inline-flex items-center gap-2 text-sm font-semibold underline decoration-primary/60 underline-offset-4">View all cases <ArrowRight className="size-4" /></Link>

@@ -7,9 +7,11 @@ import PageMeta from "@/components/PageMeta";
 import { Button } from "@/components/ui/button";
 import { HospitalDirectoryPhoto } from "@/components/HospitalDirectoryPhoto";
 import { ClinicExperts } from "@/components/clinics/ClinicExperts";
+import { ClinicComparisonInfo } from "@/components/clinics/ClinicComparisonInfo";
 import { useQuote } from "@/components/QuoteRequest";
 import { CITIES } from "@/data/cities";
 import { findClinicBySlug, getClinicPath } from "@/data/clinicDirectory";
+import { findClinicPublicProfile } from "@/data/clinicProfiles";
 import { findRealHospitalPhoto } from "@/data/realHospitalPhotos";
 import { useClinicDirectory } from "@/hooks/use-clinic-directory";
 import { useAsia } from "@/lib/asia-i18n";
@@ -46,9 +48,10 @@ export default function ClinicDetail() {
   }
 
   const name = lang === "zh" ? clinic.nameZh : clinic.nameEn;
+  const publicProfile = findClinicPublicProfile(clinic);
   const secondary = lang === "zh" ? clinic.nameEn : clinic.nameZh;
   const cityName = lang === "zh" ? city.zh : city.en;
-  const area = lang === "zh" ? clinic.areaZh : clinic.areaEn;
+  const area = lang === "zh" ? publicProfile?.campus?.areaZh ?? clinic.areaZh : publicProfile?.campus?.areaEn ?? clinic.areaEn;
   const photo = findRealHospitalPhoto(clinic.nameZh, clinic.nameEn, ...clinic.aliases);
   const related = clinics.filter((item) => item.citySlug === clinic.citySlug && item.slug !== clinic.slug).slice(0, 3);
   const experts = doctors.filter((doctor) => clinic.doctorIds.includes(doctor.id));
@@ -75,6 +78,8 @@ export default function ClinicDetail() {
           {secondary && secondary !== name && <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">{secondary}</p>}
           <p className="mt-5 flex items-center gap-2 text-sm"><MapPin className="size-4 shrink-0" aria-hidden="true" /><Link to={cityDirectory} className="underline underline-offset-4">{cityName}</Link><span className="text-muted-foreground">· {c("China", "中国", "Китай", "China")}</span></p>
         </header>
+
+        {publicProfile && <ClinicComparisonInfo profile={publicProfile} onAsk={() => open({ hospitalName: clinic.nameEn, city: city.en, source: "clinic_detail" })} />}
 
         <div className="grid items-start gap-8 lg:grid-cols-3 lg:gap-10">
           <div className="min-w-0 space-y-8 lg:col-span-2">
