@@ -139,7 +139,7 @@ describe("copy compliance — 多语言免责声明", () => {
   it("关键页面与咨询入口挂载了 MedicalDisclaimer 组件", () => {
     const mustMount = [
       "pages/AsiaIndex.tsx", // 首页
-      "components/QuoteRequest.tsx", // 咨询入口
+      "components/ConsultationDialog.tsx", // 咨询入口内容由独立弹窗组件渲染
       "pages/CaseDetail.tsx", // 转化页
       "pages/DoctorDetail.tsx",
       "pages/Packages.tsx",

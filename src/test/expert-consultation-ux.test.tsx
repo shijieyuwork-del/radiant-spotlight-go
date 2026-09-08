@@ -171,11 +171,15 @@ describe("published profile consultation", () => {
     const dialog = within(screen.getByRole("dialog"));
     expect(dialog.getByRole("heading", { name: "Ask about Published Expert" })).toBeInTheDocument();
     expect(dialog.getByText("Shanghai")).toBeInTheDocument();
-    fireEvent.click(dialog.getByRole("button", { name: /Contact on WhatsApp/ }));
+    fireEvent.click(dialog.getByRole("button", { name: /Ask a question/ }));
+    fireEvent.click(dialog.getByRole("radio", { name: "WhatsApp" }));
+    fireEvent.change(dialog.getByLabelText("WhatsApp number"), { target: { value: "+44 7700 900123" } });
+    fireEvent.change(dialog.getByLabelText("Your question"), { target: { value: "Which clinic does this expert work at?" } });
+    fireEvent.click(dialog.getByRole("button", { name: "Continue on WhatsApp" }));
     const handoff = new URL(vi.mocked(window.open).mock.calls[0][0] as string);
     expect(handoff.origin + handoff.pathname).toBe("https://wa.me/14708613825");
     expect(handoff.searchParams.get("text")).toContain("Expert: Published Expert");
-    expect(handoff.searchParams.get("text")).toContain("City: Shanghai");
+    expect(handoff.searchParams.get("text")).toContain("City in China: Shanghai");
     expect(mocks.from).not.toHaveBeenCalledWith("quote_requests");
     expect(mocks.invoke).not.toHaveBeenCalled();
   });
@@ -189,9 +193,10 @@ describe("consultation contact picker", () => {
     const dialog = within(screen.getByRole("dialog"));
     const copy = consultationPickerCopy[lang];
     expect(dialog.getByRole("heading", { name: copy.headline })).toBeInTheDocument();
-    for (const text of [copy.intro, copy.free, copy.question, copy.emailTitle, copy.emailDescription, copy.whatsappTitle, copy.whatsappDescription, copy.privacy]) {
+    for (const text of [copy.intro, copy.questionTitle, copy.questionDescription, copy.carePlanTitle, copy.carePlanDescription]) {
       expect(dialog.getByText(text)).toBeInTheDocument();
     }
+    expect(dialog.getAllByText(copy.free).length).toBeGreaterThan(0);
     expect(dialog.queryByRole("textbox")).not.toBeInTheDocument();
     fireEvent.click(dialog.getByRole("button", { name: copy.close }));
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
@@ -206,13 +211,15 @@ describe("consultation contact picker", () => {
     fireEvent.click(screen.getByRole("button", { name: "Open contact" }));
     const dialog = within(screen.getByRole("dialog"));
     expect(dialog.getByRole("heading", { name: "咨询林医生" })).toBeInTheDocument();
-    for (const text of ["专家:", "诊所或医院:", "项目:", "城市:", "上海", "鼻整形", "已列出的医院"]) expect(dialog.getByText(text)).toBeInTheDocument();
-    expect(dialog.getByText("通过电子邮件咨询有关林医生的问题。")).toBeInTheDocument();
-    fireEvent.click(dialog.getByRole("button", { name: /通过电子邮件联系/ }));
+    for (const text of ["专家:", "诊所或医院:", "项目:", "中国意向城市:", "上海", "鼻整形", "已列出的医院"]) expect(dialog.getByText(text)).toBeInTheDocument();
+    fireEvent.click(dialog.getByRole("button", { name: /问一个问题/ }));
+    fireEvent.change(dialog.getByLabelText("邮箱地址"), { target: { value: "question@example.com" } });
+    fireEvent.change(dialog.getByLabelText("你的问题"), { target: { value: "这位专家在哪所医院？" } });
+    fireEvent.click(dialog.getByRole("button", { name: "继续使用电子邮件" }));
     expect(location.href).toMatch(/^mailto:contact@celadonchina.com\?/);
-    expect(decodeURIComponent(location.href)).toContain("Expert: 林医生");
-    expect(decodeURIComponent(location.href)).toContain("City: 上海");
-    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(decodeURIComponent(location.href)).toContain("专家: 林医生");
+    expect(decodeURIComponent(location.href)).toContain("中国意向城市: 上海");
+    expect(dialog.getByRole("heading", { name: "消息草稿已准备好" })).toBeInTheDocument();
     expect(mocks.from).not.toHaveBeenCalled();
     expect(mocks.invoke).not.toHaveBeenCalled();
   });

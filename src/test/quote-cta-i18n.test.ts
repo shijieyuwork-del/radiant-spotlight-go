@@ -1,5 +1,5 @@
 /**
- * "Start a consultation" 按钮 i18n 回归测试。
+ * 免费规划沟通 CTA 的 i18n 回归测试。
  *
  * 架构约定（防止再次出现多位置文案 drift）：
  *   - 按钮组件唯一实现：components/QuoteCtaButton.tsx
@@ -9,7 +9,7 @@
  *
  * 这些用例确保：
  *   - 四个语言都不会漏改（字典值与规范文案逐字一致、键集合齐全）；
- *   - 英文语法不会回退（必须是 "Start a consultation"，带冠词 a；
+ *   - 英文语法不会回退（规划沟通 CTA 使用完整规范文案；
  *     "Start consultation" 语法错误，全站禁止）；
  *   - 字典键受 AsiaDictKey = keyof typeof dict.en 类型约束，
  *     缺键会在构建/typecheck 阶段直接失败；
@@ -23,12 +23,12 @@ import { join, relative } from "node:path";
 const SRC = join(__dirname, "..");
 const read = (rel: string) => readFileSync(join(SRC, rel), "utf-8");
 
-/** 用户确认的唯一规范文案（"Start a consultation" 为正确语法，必须带冠词 a） */
+/** 用户确认的免费规划沟通 CTA；流程步骤标题不要求与按钮相同。 */
 const CANONICAL = {
-  en: "Start a consultation",
-  zh: "开始咨询",
-  ru: "Начать консультацию",
-  es: "Solicita una consulta",
+  en: "Start a free planning conversation",
+  zh: "开始免费规划咨询",
+  ru: "Бесплатно обсудить план поездки",
+  es: "Habla gratis sobre tu plan",
 } as const;
 
 /** 渲染该按钮的页面/组件（必须走 QuoteCtaButton，不得内联文案） */
@@ -75,7 +75,7 @@ describe("quote CTA i18n — 字典键 hero.cta（唯一文案来源）", () => 
     }
   });
 
-  it("英文为正确语法：Start a consultation（带冠词 a）", () => {
+  it("英文使用完整的免费规划沟通文案", () => {
     expect(dictValue(langBlock("en"), "hero.cta")).toBe(CANONICAL.en);
   });
 
@@ -85,10 +85,10 @@ describe("quote CTA i18n — 字典键 hero.cta（唯一文案来源）", () => 
     expect(zh).toContain("咨询");
   });
 
-  it("俄文与规范文案逐字一致且包含“咨询”语义", () => {
+  it("俄文与规范文案逐字一致且说明免费沟通", () => {
     const ru = dictValue(langBlock("ru"), "hero.cta") ?? "";
     expect(ru).toBe(CANONICAL.ru);
-    expect(ru).toMatch(/консультаци/i);
+    expect(ru).toMatch(/Бесплатно обсудить/i);
   });
 
   it("zh/ru/es 字典键集合与 en 完全一致（任何语言都不漏键）", () => {
@@ -140,8 +140,8 @@ describe("quote CTA i18n — 首页 How-it-works 步骤", () => {
       /en:\s*\["Start a consultation"[\s\S]{0,400}?zh:\s*\["([^"]+)"[\s\S]{0,400}?ru:\s*\["([^"]+)"/,
     );
     expect(m, "未找到第一步的 en/zh/ru 三语标题").not.toBeNull();
-    expect(m![1]).toBe(CANONICAL.zh);
-    expect(m![2]).toBe(CANONICAL.ru);
+    expect(m![1]).toBe("开始咨询");
+    expect(m![2]).toBe("Начать консультацию");
   });
 });
 

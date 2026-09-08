@@ -10,10 +10,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAsia } from "@/lib/asia-i18n";
 import { asiaCopy } from "@/lib/asia-copy";
+import { getPlanningMarketingCopy } from "@/lib/planning-marketing-copy";
 import { usePublishedBeforeAfter } from "@/hooks/use-before-after";
 
 const BeforeAfterGallery = () => {
   const { lang } = useAsia();
+  const marketing = getPlanningMarketingCopy(lang);
   const c = (en: string, zh: string, ru: string, es?: string) => asiaCopy(lang, { en, zh, ru, es });
   const { items, loading } = usePublishedBeforeAfter(lang);
   const [q, setQ] = useState("");
@@ -44,12 +46,7 @@ const BeforeAfterGallery = () => {
           "Фото до и после | CeladonChina",
           "Fotos antes y después | CeladonChina"
         )}
-        description={c(
-          "Swipe through verified before and after photo sets from published experts in China.",
-          "滑动查看平台已发布的中国专家的术前术后真实对比照片。",
-          "Смотрите проверенные фото до и после от опубликованных экспертов в Китае.",
-          "Desliza para ver fotos verificadas de antes y después de expertos publicados en China."
-        )}
+        description={marketing.photoDescription}
         path="/before-after"
       />
       <div className="min-h-screen bg-background">
@@ -63,13 +60,16 @@ const BeforeAfterGallery = () => {
             <h1 className="font-display text-4xl mt-4">
               {c("Before & after photo sets", "术前术后对比图集", "Фото до и после", "Fotos de antes y después")}
             </h1>
+            <p className="text-muted-foreground mt-3">{marketing.photoDescription}</p>
             <p className="text-muted-foreground mt-3">
-              {c(
-                "Drag the slider on each photo to compare. Every set is published by the platform and linked to the expert who performed it.",
-                "拖动每张图片中间的滑块即可对比，每组图片均由平台发布，并标注对应的专家。",
-                "Перетащите ползунок, чтобы сравнить. Каждый набор опубликован платформой и связан с экспертом.",
-                "Arrastra el control deslizante para comparar. Cada conjunto está publicado por la plataforma y vinculado al experto."
-              )}
+              {asiaCopy(lang, {
+                en: "Drag the slider on each photo to compare.",
+                zh: "拖动每张图片中间的滑块即可对比。",
+                ru: "Перетащите ползунок на фото, чтобы сравнить.",
+                es: "Arrastra el control deslizante de cada foto para comparar.",
+                th: "ลากแถบเลื่อนบนแต่ละภาพเพื่อเปรียบเทียบ",
+                ms: "Seret peluncur pada setiap foto untuk membandingkan.",
+              })}
             </p>
           </header>
 

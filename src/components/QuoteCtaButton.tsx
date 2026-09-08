@@ -5,19 +5,19 @@ import { cn } from "@/lib/utils";
 import { trackEvent } from "@/lib/analytics";
 
 /**
- * 全站统一的 “Start a consultation” CTA 按钮。
+ * Shared planning-conversation CTA, localized through hero.cta.
  *
  * - 文案唯一来源：asia-i18n 字典 `hero.cta`（随 en/zh/ru 自动切换）。
  *   任何页面不得再内联维护该按钮的三语文案（由 quote-cta-i18n 回归测试守护）。
  * - 样式唯一来源：本组件的 VARIANTS；页面只能通过 className 调整布局
  *   （宽度、圆角、高度等），不得覆盖配色。
- * - 默认打开咨询流程，让用户选择通过 Email 或 WhatsApp 继续；
+ * - 默认打开提问 / 行程规划入口，再由用户通过 Email 或 WhatsApp 继续；
  *   仅在显式传入 href 时直接打开外部链接。
  */
 
 /** 默认跳转：WhatsApp 起始对话（全站唯一来源） */
 export const QUOTE_WHATSAPP_URL =
-  "https://wa.me/14708613825?text=Hi%20CeladonChina%2C%20I%20would%20like%20to%20book%20a%20free%20consultation%20and%20plan%20my%20care%20journey%20to%20China.";
+  "https://wa.me/14708613825?text=Hi%20CeladonChina%2C%20I%20would%20like%20to%20start%20a%20free%20planning%20conversation%20about%20care%20in%20China.";
 
 const VARIANTS = {
   /** 深绿药丸（默认，与首页 Hero 截图一致） */
@@ -53,7 +53,7 @@ const QuoteCtaButton = ({
   const Icon = ICONS[icon];
   const label = t("hero.cta");
   const cls = cn(
-    "inline-flex min-h-12 items-center justify-center gap-2 whitespace-nowrap rounded-full px-7 text-sm font-semibold transition hover:-translate-y-1",
+    "inline-flex min-h-12 max-w-full items-center justify-center gap-2 whitespace-normal rounded-full px-7 py-3 text-center text-sm font-semibold leading-snug transition hover:-translate-y-1",
     VARIANTS[variant],
     className,
   );
@@ -61,16 +61,16 @@ const QuoteCtaButton = ({
   if (!href) {
     return (
       <button type="button" data-testid={testId} onClick={() => { trackEvent("select_cta", { source: quoteCtx?.source || "quote_button" }); open(quoteCtx); }} className={cls}>
-        {icon === "chat" && <Icon className="size-4" />}
-        {label}
-        {icon === "arrow" && <Icon className="size-4" />}
+        {icon === "chat" && <Icon className="size-4 shrink-0" aria-hidden="true" />}
+        <span>{label}</span>
+        {icon === "arrow" && <Icon className="size-4 shrink-0" aria-hidden="true" />}
       </button>
     );
   }
   return (
     <a href={href} target="_blank" rel="noreferrer" data-testid={testId} onClick={() => trackEvent("whatsapp_handoff", { source: "quote_button" })} className={cls}>
-      {label}
-      <Icon className="size-4" />
+      <span>{label}</span>
+      <Icon className="size-4 shrink-0" aria-hidden="true" />
     </a>
   );
 };

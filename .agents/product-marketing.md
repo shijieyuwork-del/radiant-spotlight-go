@@ -1,8 +1,8 @@
-# Cosmetics Asia product marketing context
+# CeladonChina product marketing context
 
 ## Product
 
-Cosmetics Asia helps international patients understand cosmetic, dental, and wellness treatment options in China, compare published provider information, and coordinate the practical steps around care.
+CeladonChina helps international patients understand cosmetic-care options in China, compare published clinic and expert information, and coordinate consultations and the practical steps around travel and care. The service covers China only.
 
 ## Primary audience
 
@@ -10,7 +10,7 @@ International patients who are considering treatment in China but need help unde
 
 ## Primary conversion
 
-Get a free quote. Visitors should feel comfortable beginning with questions even if they have not chosen a procedure, expert, city, budget, or travel date.
+Start a free planning conversation. Visitors can use “Ask a question” with contact details and a question, even if they have not chosen a procedure, expert, city, budget, or travel date. “Get a care plan” collects more planning details from visitors who are ready to share them.
 
 ## Job to be done
 
@@ -22,10 +22,14 @@ Get a free quote. Visitors should feel comfortable beginning with questions even
 
 ## Offer and payment facts
 
-- The initial coordination conversation is free and carries no obligation.
+- The initial conversation is free and carries no obligation: “Free initial conversation. Start with questions at no cost and no obligation.”
+- Free coordination includes consultation and appointment coordination, airport transfers, interpretation during agreed clinic visits, records organization, hotel booking guidance and follow-up coordination. The written support plan defines included visits and services.
 - Medical fees are paid directly to the treating clinic or hospital.
-- Cosmetics Asia collects a $400 coordination deposit to reserve the procedure appointment and coordinate airport pickup and in-clinic translation.
-- The deposit remains valid for 12 months and is refunded when the patient pays the clinic for treatment.
+- CeladonChina collects a $200 coordination deposit before departure for China to reserve the procedure appointment and agreed coordination support. The deposit is separate from medical fees.
+- The deposit is returned on surgery day. If the patient cancels, it can be held for one year.
+- Other circumstances are confirmed in writing. Rescheduling, being unable to have surgery and the end of the one-year hold do not have business-confirmed outcomes yet. Do not invent forfeiture rules, an unconditional cancellation refund or a one-year expiry from payment.
+- Flights, visas, hotel accommodation, optional outings and personal expenses are paid separately unless expressly included in the written plan.
+- The shared six-language source is `src/data/coordination-policy.ts`. Keep the initial conversation and deposit as distinct copy blocks.
 
 ## Primary objections
 
@@ -50,4 +54,4 @@ Calm, plain, transparent, respectful, and specific. Help visitors make an inform
 
 ## Traffic assumptions
 
-Visitors likely arrive through organic search, social video, patient recovery content, or referrals. Many will enter on a treatment or provider page rather than the homepage, so the free-quote next step should be understandable wherever they land.
+Visitors likely arrive through organic search, social video, patient recovery content, or referrals. Many will enter on a treatment or provider page rather than the homepage, so the free planning conversation should be understandable wherever they land.

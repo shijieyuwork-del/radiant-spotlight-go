@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { useQuote } from "@/components/QuoteRequest";
 import { SITE_URL } from "@/lib/seo-config";
 import { MEDICAL_TOURISM_GUIDES, medicalTourismGuidePath } from "@/data/medicalTourismGuides";
+import { useAsia } from "@/lib/asia-i18n";
 
 type GuideKind = "medical-tourism" | "plastic-surgery";
 
@@ -18,7 +19,6 @@ const guideCopy = {
     kicker: "China medical travel guide",
     heading: "Medical tourism in China, planned around the care you actually need.",
     intro: "A safe medical trip starts before you book a flight. Use this guide to organize records, verify the treating provider, understand what is and is not included, and plan enough time for assessment, treatment and recovery.",
-    cta: "Start a consultation",
     sections: [
       { title: "Start with a medical review, not a travel package", body: "Send relevant records and your questions before choosing dates. The treating clinician or hospital should decide whether an in-person consultation is appropriate, what tests are needed and whether travel is reasonable. A coordinator can organize information and logistics, but cannot diagnose you or choose treatment for you." },
       { title: "Verify the clinician and the facility separately", body: "Confirm the clinician's current license, specialty, experience with the procedure and right to practise at the named facility. Then confirm the facility's legal name, address, operating scope, anesthesia arrangements and emergency transfer plan. A polished profile or social account is not evidence of clinical authorization." },
@@ -40,7 +40,6 @@ const guideCopy = {
     kicker: "Plastic surgery in China",
     heading: "Plastic surgery in China: plan around safety, not a headline price.",
     intro: "Use this independent planning guide to compare cost components, verify a surgeon and facility, prepare for recovery and understand the practical steps of travelling to China for cosmetic surgery.",
-    cta: "Discuss my procedure and trip",
     sections: [
       { title: "Choose the procedure only after consultation", body: "A search term such as rhinoplasty, facelift or liposuction describes a category, not your treatment plan. Anatomy, health history, goals, previous surgery and recovery constraints can change what is appropriate. Ask what alternatives exist, what the procedure cannot achieve and why the clinician recommends one approach." },
       { title: "Check the surgeon's exact credentials", body: "Confirm the surgeon's legal name, current medical registration, relevant specialty training, facility privileges and experience with the procedure you are considering. Ask who will perform each part of the operation and who will manage postoperative review. Do not rely on follower counts, awards without an issuer or unlabeled before-and-after images." },
@@ -86,6 +85,7 @@ const cosmeticTourismGuides = MEDICAL_TOURISM_GUIDES.filter((guide) =>
 const ChinaSeoGuide = ({ kind }: { kind: GuideKind }) => {
   const copy = guideCopy[kind];
   const { open } = useQuote();
+  const { t } = useAsia();
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -120,9 +120,9 @@ const ChinaSeoGuide = ({ kind }: { kind: GuideKind }) => {
               <h1 className="max-w-4xl font-display text-4xl font-medium leading-[1.05] tracking-tight md:text-6xl">{copy.heading}</h1>
               <p className="mt-5 max-w-3xl text-base leading-7 text-muted-foreground md:text-lg">{copy.intro}</p>
               <p className="mt-4 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">Updated September 7, 2026 · Editorially reviewed · General information, not medical advice</p>
-              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-                <Button size="lg" onClick={() => open({ source: `${kind}_guide` })} className="rounded-full px-7">{copy.cta}<ArrowRight className="ml-2 size-4" /></Button>
-                <Button size="lg" variant="outline" asChild className="rounded-full bg-background px-7"><Link to="/provider-verification">Read our verification standards</Link></Button>
+              <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                <Button size="lg" onClick={() => open({ source: `${kind}_guide` })} className="h-auto min-h-11 max-w-full whitespace-normal rounded-full px-7 py-3 text-center leading-snug"><span>{t("hero.cta")}</span><ArrowRight aria-hidden="true" className="ml-2 size-4 shrink-0" /></Button>
+                <Button size="lg" variant="outline" asChild className="h-auto min-h-11 max-w-full whitespace-normal rounded-full bg-background px-7 py-3 text-center leading-snug"><Link to="/provider-verification">Read our verification standards</Link></Button>
               </div>
             </div>
             <aside className="rounded-3xl border border-primary/20 bg-card p-6 shadow-soft md:p-8" aria-label="Planning checklist">
@@ -257,8 +257,8 @@ const ChinaSeoGuide = ({ kind }: { kind: GuideKind }) => {
 
         <section className="container py-12 md:py-16">
           <div className="mx-auto flex max-w-5xl flex-col gap-5 rounded-3xl bg-foreground p-7 text-background md:flex-row md:items-center md:justify-between md:p-10">
-            <div><h2 className="font-display text-3xl font-medium">Bring your questions before you bring your suitcase.</h2><p className="mt-2 max-w-2xl text-sm leading-6 text-background/70">Tell us what you are considering. We can help organize the practical next steps; medical decisions remain with licensed providers.</p></div>
-            <Button size="lg" onClick={() => open({ source: `${kind}_guide_bottom` })} className="shrink-0 rounded-full px-7">{copy.cta}<ArrowRight className="ml-2 size-4" /></Button>
+            <div className="min-w-0 flex-1"><h2 className="font-display text-3xl font-medium">Bring your questions before you bring your suitcase.</h2><p className="mt-2 max-w-2xl text-sm leading-6 text-background/70">Tell us what you are considering. We can help organize the practical next steps; medical decisions remain with licensed providers.</p></div>
+            <Button size="lg" onClick={() => open({ source: `${kind}_guide_bottom` })} className="h-auto min-h-11 max-w-full shrink-0 whitespace-normal rounded-full px-7 py-3 text-center leading-snug md:max-w-[22rem]"><span>{t("hero.cta")}</span><ArrowRight aria-hidden="true" className="ml-2 size-4 shrink-0" /></Button>
           </div>
           <p className="mx-auto mt-6 max-w-5xl text-xs leading-6 text-muted-foreground">Medical disclaimer: All procedures carry risks and results vary. This page provides general planning information, not diagnosis, treatment recommendations or a guarantee of provider quality. Confirm current entry rules with official sources and obtain personalized medical advice from qualified professionals.</p>
         </section>

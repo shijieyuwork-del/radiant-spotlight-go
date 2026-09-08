@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Activity, ArrowRight, BookOpen, CheckCircle2, Clock3, Eye, FileText, HeartPulse, MessageCircle, PlayCircle, ScanFace, Scissors, Search, ShieldAlert, Smile, Sparkles, UserRound, WalletCards, WandSparkles } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
@@ -11,6 +11,7 @@ import { TIKTOK_CASES } from "@/data/tiktokCases";
 import { useAsia } from "@/lib/asia-i18n";
 import { asiaCopy } from "@/lib/asia-copy";
 import { PROCEDURE_CATEGORIES, procedureSlug } from "@/data/procedureCatalog";
+import { getPlanningMarketingCopy } from "@/lib/planning-marketing-copy";
 
 const PROCEDURE_IMAGES = import.meta.glob("../assets/procedures/*.jpg", {
   eager: true,
@@ -317,6 +318,8 @@ const RU_CATEGORY_DESCRIPTIONS = [
 const Treatments = () => {
   const { lang, fmt, t } = useAsia();
   const { open } = useQuote();
+  const marketing = getPlanningMarketingCopy(lang);
+  const searchInput = useRef<HTMLInputElement>(null);
   const zh = lang === "zh";
   const ru = lang === "ru";
   const es = lang === "es";
@@ -367,10 +370,30 @@ const Treatments = () => {
             </h1>
           </div>
 
+          <nav aria-label={marketing.choosePath} className="mx-auto mb-8 max-w-6xl">
+            <p className="mb-3 text-center text-sm font-semibold text-muted-foreground">{marketing.choosePath}</p>
+            <div className="grid gap-3 md:grid-cols-3">
+              <button type="button" onClick={() => { searchInput.current?.scrollIntoView({ block: "center" }); searchInput.current?.focus({ preventScroll: true }); }} className="group min-w-0 rounded-2xl border border-primary/20 bg-primary/5 p-5 text-left transition hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
+                <span className="flex items-start justify-between gap-3 font-semibold">{marketing.procedure}<Search className="mt-0.5 size-5 shrink-0 text-brand" aria-hidden="true" /></span>
+                <span className="mt-2 block text-sm leading-relaxed text-muted-foreground">{marketing.procedureDetail}</span>
+              </button>
+              <Link to="/clinics" className="group min-w-0 rounded-2xl border border-primary/20 bg-primary/5 p-5 text-left transition hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
+                <span className="flex items-start justify-between gap-3 font-semibold">{marketing.providers}<ArrowRight className="mt-0.5 size-5 shrink-0 text-brand" aria-hidden="true" /></span>
+                <span className="mt-2 block text-sm leading-relaxed text-muted-foreground">{marketing.providersDetail}</span>
+              </Link>
+              <button type="button" onClick={() => open({ intent: "care_plan", source: "treatments_trip_planning" })} className="group min-w-0 rounded-2xl border border-primary/20 bg-primary/5 p-5 text-left transition hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
+                <span className="flex items-start justify-between gap-3 font-semibold">{marketing.trip}<MessageCircle className="mt-0.5 size-5 shrink-0 text-brand" aria-hidden="true" /></span>
+                <span className="mt-2 block text-sm leading-relaxed text-muted-foreground">{marketing.tripDetail}</span>
+              </button>
+            </div>
+          </nav>
+
           <div className="mx-auto mb-7 max-w-4xl">
             <label className="relative block">
               <Search className="absolute left-5 top-1/2 size-5 -translate-y-1/2 text-primary" />
               <input
+                ref={searchInput}
+                id="procedure-search"
                 type="search"
                 aria-label={searchLabel}
                 value={query}

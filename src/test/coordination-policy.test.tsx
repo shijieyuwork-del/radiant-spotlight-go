@@ -10,16 +10,20 @@ vi.mock("@/components/QuoteRequest", () => ({ useQuote: () => ({ open: mocks.ope
 afterEach(() => { cleanup(); vi.clearAllMocks(); });
 
 describe("coordination payment information", () => {
-  it.each(Object.keys(COORDINATION_POLICY) as AsiaLang[])("keeps support, deposit, refund and cancellation together in %s", (lang) => {
+  it.each(Object.keys(COORDINATION_POLICY) as AsiaLang[])("separates the free conversation from the deposit while keeping payment terms together in %s", (lang) => {
     mocks.lang = lang;
     const copy = COORDINATION_POLICY[lang];
     render(<CoordinationPaymentInfo />);
     const section = screen.getByRole("region", { name: copy.heading });
-    expect(within(section).getByText(copy.freeText)).toBeVisible();
-    expect(within(section).getByText(copy.depositTitle)).toBeVisible();
-    expect(within(section).getByText(copy.refund)).toBeVisible();
-    expect(within(section).getByText(copy.collection)).toBeVisible();
-    expect(within(section).getByText(copy.cancellation)).toBeVisible();
+    const conversationCard = within(section).getByRole("heading", { name: copy.initialTitle }).closest("article")!;
+    const depositCard = within(section).getByRole("heading", { name: copy.depositTitle }).closest("article")!;
+    expect(conversationCard).not.toBe(depositCard);
+    expect(within(conversationCard).getByText(copy.initialText)).toBeVisible();
+    expect(within(conversationCard).getByText(copy.freeText)).toBeVisible();
+    expect(within(depositCard).getByText(copy.depositSummary)).toBeVisible();
+    expect(within(depositCard).getByText(copy.cancellation)).toBeVisible();
+    expect(within(section).getByText(copy.medical)).toBeVisible();
+    expect(within(section).getByText(copy.separateCosts)).toBeVisible();
     expect(copy.depositTitle).toContain(String(COORDINATION_DEPOSIT_USD));
     expect(copy.collection).toContain(String(COORDINATION_DEPOSIT_USD));
     expect(copy.refund).toContain(String(COORDINATION_DEPOSIT_USD));
@@ -33,6 +37,7 @@ describe("coordination payment information", () => {
     expect(mocks.open).toHaveBeenCalledWith({ source: "coordination_payment_terms" });
     expect(COORDINATION_POLICY.en.refund).toBe("Your $200 coordination deposit is returned on the day of your surgery.");
     expect(COORDINATION_POLICY.en.cancellation).toContain("terms in writing");
+    expect(COORDINATION_POLICY.en.depositSummary).toBe("Collected before departure for China. Returned on surgery day. If you cancel, it can be held for one year. Other circumstances are confirmed in writing.");
     expect(document.body).not.toHaveTextContent(/refunded when you pay the clinic|non-refundable|cancel anytime|forfeit/i);
   });
 

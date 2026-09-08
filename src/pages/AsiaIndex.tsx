@@ -3,7 +3,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import {
   Sparkles, ArrowRight, MapPin, ShieldCheck,
   Stethoscope, Building2,
-  Flame, Gift, Wallet, Users, Plane,
+  Flame, Wallet, Users, Plane,
   Eye,
   Scale, HeartPulse, MessageCircle, Video, Map, Mail,
 } from "lucide-react";
@@ -21,6 +21,7 @@ import { getClinicPath, STATIC_CLINICS } from "@/data/clinicDirectory";
 
 import { useAsia } from "@/lib/asia-i18n";
 import { translatedUiText } from "@/lib/locale-text";
+import { getPlanningMarketingCopy } from "@/lib/planning-marketing-copy";
 import { localizeDoctorRow } from "@/lib/i18n-content";
 import QuoteCtaButton from "@/components/QuoteCtaButton";
 import { ORGANIZATION_SCHEMA } from "@/lib/seo-config";
@@ -151,6 +152,8 @@ type NavigatorConnection = {
 
 const Hero = () => {
   const { t, lang, fmt } = useAsia();
+  const marketing = getPlanningMarketingCopy(lang);
+  const policy = getCoordinationPolicy(lang);
   // 后台上传并发布的视频排在演示日记前面
   const uploaded = usePublishedVideos(lang);
   const diaryItems = [...uploaded, ...TIKTOK_CASES];
@@ -174,9 +177,6 @@ const Hero = () => {
   const copy = lang === "zh"
     ? {
         badge: "更清晰地了解中国医美",
-        title: "选择之前，先看真实恢复过程。",
-        emphasis: "找到适合你的中国医美方案。",
-        subtitle: "查看患者恢复日记与公开专家资料，并获得咨询、行程和回国后随访的实际协调支持。",
         cases: "观看患者短视频",
         consultation: "在线面诊",
         consultationDetail: "出发前与专家进行一对一线上沟通",
@@ -190,9 +190,6 @@ const Hero = () => {
     : lang === "ru"
       ? {
           badge: "Косметическая помощь в Китае — понятнее",
-          title: "Увидьте реальное восстановление до выбора.",
-          emphasis: "Найдите подходящий вариант в Китае.",
-          subtitle: "Изучайте истории пациентов и опубликованные профили экспертов, получая практическую поддержку для консультации, поездки и наблюдения.",
           cases: "Смотреть видео пациентов",
           consultation: "Онлайн-консультация",
           consultationDetail: "Встреча с экспертом онлайн до поездки",
@@ -206,9 +203,6 @@ const Hero = () => {
       : lang === "es"
         ? {
             badge: "Atención estética en China, más clara",
-            title: "Mira la recuperación real antes de elegir.",
-            emphasis: "Encuentra la atención estética adecuada en China.",
-            subtitle: "Explora las experiencias de pacientes y la información publicada de expertos, con apoyo práctico para la consulta, el viaje y el seguimiento.",
             cases: "Ver videos de recuperación de pacientes",
             consultation: "Consulta en línea",
             consultationDetail: "Reúnete con tu experto en línea antes de viajar (no se brinda asesoría médica)",
@@ -221,9 +215,6 @@ const Hero = () => {
           }
         : {
           badge: "Cosmetic care in China, made clearer",
-          title: "Your cosmetic care journey,",
-          emphasis: "all in one place.",
-          subtitle: "Compare cosmetic surgeons in China, book online consultations, and coordinate travel, translation and aftercare.",
           cases: "Watch patient recovery videos",
           consultation: "Online consultation",
           consultationDetail: "Meet your expert online before you travel (not providing medical advice)",
@@ -262,18 +253,19 @@ const Hero = () => {
               {copy.badge}
             </span>
             <h1 className="mx-auto mt-4 max-w-4xl font-display text-[1.95rem] font-medium leading-[1.01] tracking-tight min-[390px]:text-[2.15rem] sm:mt-5 sm:text-5xl md:text-[3.75rem]">
-              {copy.title}
-              <span className="hidden sm:inline"><br />
-              <em className="text-brand not-italic">{copy.emphasis}</em></span>
+              {marketing.title}
+              <em className="mt-1 block text-brand not-italic">{marketing.emphasis}</em>
             </h1>
-            <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-[15px]"><em className="text-foreground not-italic sm:hidden">{copy.emphasis} </em>{copy.subtitle}</p>
+            <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-[15px]">{marketing.subtitle}</p>
 
-            <div className="mx-auto mt-5 flex max-w-lg flex-col justify-center gap-3 sm:mt-7 sm:flex-row">
-              <QuoteCtaButton className="h-[3.25rem] w-full rounded-2xl border border-foreground px-8 text-[15px] shadow-pop sm:h-12 sm:w-auto sm:rounded-full" data-testid="home-hero-cta" />
-              <Button asChild size="lg" variant="outline" className="h-[3.25rem] w-full rounded-2xl border-primary/25 bg-card/70 px-8 text-[15px] font-semibold backdrop-blur sm:h-12 sm:w-auto sm:rounded-full">
-                <Link to="/cases">{copy.cases}<ArrowRight className="ml-1.5 size-4" /></Link>
+            <div className="mx-auto mt-5 flex max-w-3xl flex-col justify-center gap-3 sm:mt-7 sm:flex-row">
+              <QuoteCtaButton className="min-h-[3.25rem] w-full rounded-2xl border border-foreground px-5 py-3 text-[15px] shadow-pop sm:w-auto sm:rounded-full" quoteCtx={{ source: "home_hero" }} data-testid="home-hero-cta" />
+              <Button asChild size="lg" variant="outline" className="h-auto min-h-[3.25rem] w-full whitespace-normal rounded-2xl border-primary/25 bg-card/70 px-5 py-3 text-[15px] font-semibold backdrop-blur sm:w-auto sm:rounded-full">
+                <Link to="/cases">{marketing.diaries}<ArrowRight className="ml-1.5 size-4 shrink-0" /></Link>
               </Button>
             </div>
+
+            <p className="mx-auto mt-3 max-w-2xl text-xs leading-relaxed text-muted-foreground sm:text-sm">{policy.initialText} <Link to="/travel-packages#payment-terms" className="underline underline-offset-4 hover:text-foreground">{policy.depositTitle}</Link></p>
 
             <div className="mx-auto mt-5 max-w-4xl sm:mt-9">
               <HeroVideoGallery items={diaryItems.slice(0, 10)} lang={lang} fmtPrice={fmt} />
@@ -1480,33 +1472,15 @@ const HomeFaq = () => {
   );
 };
 
-const PromoBar = () => {
-  const { t } = useAsia();
-  return (
-    <section className="container py-6 md:py-10">
-      <div className="grid items-center gap-5 rounded-3xl bg-gradient-to-r from-[hsl(155,55%,91%)] via-[hsl(50,78%,93%)] to-[hsl(var(--primary)/.24)] p-5 shadow-pop md:grid-cols-3 md:gap-6 md:p-10">
-        <div className="md:col-span-2">
-          <span className="pill bg-card/80 backdrop-blur shadow-soft mb-3"><Gift className="size-3.5 text-primary" /> {t("promo.kicker")}</span>
-          <h3 className="font-display text-3xl md:text-4xl font-medium tracking-tight">{t("promo.title")}</h3>
-          <p className="text-sm text-foreground/70 mt-2">{t("promo.note")}</p>
-        </div>
-        <Button size="lg" className="cta-primary h-12 w-full justify-self-start rounded-full px-6 md:w-auto md:justify-self-end">
-          {t("promo.cta")} <ArrowRight className="ml-1 size-4" />
-        </Button>
-      </div>
-    </section>
-  );
-};
-
-
 // ============== Page ==============
 const AsiaIndex = () => {
+  const { lang } = useAsia();
   return (
     <>
       <PageMeta
         title="Cosmetic Surgery in China | Doctors & Travel Support | CeladonChina"
         absoluteTitle
-        description="Explore cosmetic surgery in China with published doctor profiles, online consultations, procedure guidance, and coordinated travel, translation and aftercare from CeladonChina."
+        description={getPlanningMarketingCopy(lang).subtitle}
         path="/"
         structuredData={ORGANIZATION_SCHEMA}
       />

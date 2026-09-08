@@ -25,7 +25,9 @@ Public copy states the confirmed before-departure collection and one-year hold a
 ## Implementation
 
 - `src/data/coordination-policy.ts` is the shared six-language source.
-- `/travel-packages#payment-terms` groups free scope, before-departure collection, the cancellation hold, surgery-day return and the request for remaining written terms.
-- The lower free-support section repeats the surgery-day return and links to the full explanation.
+- `/travel-packages#payment-terms` separates “Free initial conversation” from “$200 coordination deposit” in adjacent cards. The first states “Start with questions at no cost and no obligation.” The second states “Collected before departure for China. Returned on surgery day. If you cancel, it can be held for one year. Other circumstances are confirmed in writing.”
+- The actual free coordination scope remains visible alongside these terms. This wording does not turn airport transfers or agreed interpretation into paid coordination services.
+- Medical payments and separate travel costs appear after the two cards.
+- The lower free-support section repeats both the free initial conversation and the deposit summary, then links to the full explanation.
 - Institution-provided language support is separate from CeladonChina's agreed interpretation arrangements.
 - See `featured-clinic-sources.md` for the three priority institutions. A source review date is not a medical, licensing or partnership verification date.

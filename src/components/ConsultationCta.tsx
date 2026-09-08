@@ -10,7 +10,7 @@ type ConsultationCtaProps = {
 };
 
 const ConsultationCta = ({ className, source = "page_footer_cta" }: ConsultationCtaProps) => {
-  const { lang } = useAsia();
+  const { lang, t } = useAsia();
   const { open } = useQuote();
   const c = (en: string, zh: string, ru: string, es: string) =>
     lang === "zh" ? zh : lang === "ru" ? ru : lang === "es" ? es : en;
@@ -43,10 +43,10 @@ const ConsultationCta = ({ className, source = "page_footer_cta" }: Consultation
           <button
             type="button"
             onClick={handleClick}
-            className="inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-full bg-primary px-8 text-base font-semibold text-primary-foreground shadow-glow transition hover:-translate-y-0.5 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4 focus-visible:ring-offset-foreground lg:w-auto lg:min-w-64"
+            className="inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-full bg-primary px-8 py-3 text-center text-base font-semibold leading-snug text-primary-foreground shadow-glow transition hover:-translate-y-0.5 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4 focus-visible:ring-offset-foreground lg:w-auto lg:max-w-80"
           >
-            {c("Start a consultation", "开始咨询", "Начать консультацию", "Solicita una consulta")}
-            <ArrowRight className="size-4" aria-hidden="true" />
+            <span>{t("hero.cta")}</span>
+            <ArrowRight className="size-4 shrink-0" aria-hidden="true" />
           </button>
         </div>
       </div>

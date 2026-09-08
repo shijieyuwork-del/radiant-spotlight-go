@@ -180,14 +180,14 @@ const AsiaNavbar = () => {
             <button
               type="button"
               onClick={() => open({ source: "navbar_desktop" })}
-              className="cta-primary hidden min-h-12 shrink-0 items-center gap-2 whitespace-nowrap rounded-full px-5 text-sm font-semibold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 xl:inline-flex 2xl:px-6"
+              className="cta-primary hidden min-h-12 max-w-60 shrink-0 items-center justify-center gap-2 whitespace-normal rounded-full px-5 py-2 text-center text-sm font-semibold leading-snug text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 xl:inline-flex 2xl:px-6"
             >
-              <CalendarDays className="size-4" aria-hidden="true" />
-              {t("hero.cta")}
-              <ArrowRight className="size-4" aria-hidden="true" />
+              <CalendarDays className="size-4 shrink-0" aria-hidden="true" />
+              <span>{t("hero.cta")}</span>
+              <ArrowRight className="size-4 shrink-0" aria-hidden="true" />
             </button>
-            <div className="ml-auto flex items-center gap-1.5 xl:hidden">
-          <Button asChild variant="ghost" className="rounded-full px-3 h-9 text-sm font-medium xl:hidden">
+            <div className="ml-auto flex shrink-0 items-center gap-1.5 xl:hidden">
+          <Button asChild variant="ghost" className="hidden rounded-full px-3 h-9 text-sm font-medium min-[390px]:inline-flex xl:hidden">
             <Link to="/auth?tab=signin">{c("Sign in", "登录", "Войти", "Iniciar sesión")}</Link>
           </Button>
 
@@ -235,11 +235,11 @@ const AsiaNavbar = () => {
               <button
                 type="button"
                 onClick={() => open({ source: "mobile_navigation" })}
-                className="cta-primary mt-3 flex min-h-12 items-center justify-center gap-2 rounded-2xl px-4 text-sm font-semibold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                className="cta-primary mt-3 flex min-h-12 items-center justify-center gap-2 rounded-2xl px-4 py-3 text-center text-sm font-semibold leading-snug text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               >
-                <MessageCircle className="size-4" />
-                {t("hero.cta")}
-                <ArrowRight className="size-4" />
+                <MessageCircle className="size-4 shrink-0" aria-hidden="true" />
+                <span>{t("hero.cta")}</span>
+                <ArrowRight className="size-4 shrink-0" aria-hidden="true" />
               </button>
             </div>
           </SheetContent>

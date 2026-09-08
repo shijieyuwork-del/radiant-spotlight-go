@@ -223,9 +223,10 @@ const Packages = () => {
             <div>
               <div className="mb-7 md:mb-9">
                 <div>
-                  <span className="pill bg-primary/10 text-foreground"><ShieldCheck className="size-3.5 text-primary" />{c("Free coordination support", "免费协调支持", "Бесплатная координационная поддержка", "Apoyo de coordinación gratuito")}</span>
+                  <span className="pill bg-primary/10 text-foreground"><ShieldCheck className="size-3.5 text-primary" />{policy.freeTitle}</span>
                   <h2 className="mt-4 max-w-3xl font-display text-3xl font-medium leading-tight tracking-tight sm:text-4xl">{c("Your journey. Our support.", "你的旅程，我们相伴。", "Бесплатные услуги Celadon", "Servicios gratuitos de Celadon")}</h2>
-                  <p className="mt-3 max-w-3xl text-sm leading-6 text-foreground/75">{policy.refund}{" "}<a href="#payment-terms" className="font-medium underline underline-offset-4 hover:text-foreground">{policy.heading}</a></p>
+                  <p className="mt-3 max-w-3xl text-sm leading-6 text-foreground/75"><span className="font-medium text-foreground">{policy.initialTitle}. </span>{policy.initialText}</p>
+                  <p className="mt-2 max-w-3xl text-sm leading-6 text-foreground/75"><span className="font-medium text-foreground">{policy.depositTitle}. </span>{policy.depositSummary}{" "}<a href="#payment-terms" className="font-medium underline underline-offset-4 hover:text-foreground">{policy.heading}</a></p>
                 </div>
               </div>
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-6 lg:gap-5">

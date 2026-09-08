@@ -23,6 +23,7 @@ import { useQuote } from "@/components/QuoteRequest";
 import { findTreatment } from "@/data/treatments";
 import { MEDICAL_DISCLAIMER } from "@/lib/seo-config";
 import { trackEvent } from "@/lib/analytics";
+import { useAsia } from "@/lib/asia-i18n";
 import rhinoplastyImage from "@/assets/treatment-rhinoplasty.jpg";
 import blepharoplastyImage from "@/assets/treatment-eyelid.webp";
 import faceliftImage from "@/assets/treatment-facelift.jpg";
@@ -117,16 +118,19 @@ const LANDINGS: Record<TreatmentLandingKind, LandingCopy> = {
   },
 };
 
-const LandingHeader = ({ onQuote }: { onQuote: (position: string) => void }) => (
-  <header className="border-b border-primary/15 bg-background/95 backdrop-blur-xl">
-    <div className="container flex min-h-[4.75rem] items-center justify-between gap-4">
-      <Link to="/" aria-label="CeladonChina home"><BrandLogo /></Link>
-      <button type="button" onClick={() => onQuote("header")} className="cta-primary inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-4 text-sm font-semibold sm:px-6">
-        <span className="hidden sm:inline">Start a consultation</span><span className="sm:hidden">Consultation</span><ArrowRight className="size-4" />
-      </button>
-    </div>
-  </header>
-);
+const LandingHeader = ({ onQuote }: { onQuote: (position: string) => void }) => {
+  const { t } = useAsia();
+  return (
+    <header className="border-b border-primary/15 bg-background/95 backdrop-blur-xl">
+      <div className="container flex min-h-[4.75rem] flex-col items-stretch gap-3 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+        <Link to="/" aria-label="CeladonChina home" className="shrink-0 self-start sm:self-auto"><BrandLogo /></Link>
+        <button type="button" onClick={() => onQuote("header")} className="cta-primary inline-flex min-h-11 min-w-0 max-w-full items-center justify-center gap-2 whitespace-normal rounded-full px-4 py-3 text-center text-sm font-semibold leading-snug sm:max-w-[26rem] sm:px-6">
+          <span>{t("hero.cta")}</span><ArrowRight aria-hidden="true" className="size-4 shrink-0" />
+        </button>
+      </div>
+    </header>
+  );
+};
 
 const Metric = ({ icon: Icon, label, value }: { icon: typeof BadgeDollarSign; label: string; value: string }) => (
   <div className="rounded-2xl border border-white/70 bg-white/80 p-4 shadow-sm backdrop-blur">
@@ -135,11 +139,14 @@ const Metric = ({ icon: Icon, label, value }: { icon: typeof BadgeDollarSign; la
   </div>
 );
 
-const QuoteButton = ({ onClick, position, full = false }: { onClick: (position: string) => void; position: string; full?: boolean }) => (
-  <button type="button" onClick={() => onClick(position)} className={`cta-primary inline-flex min-h-14 items-center justify-center gap-2 rounded-full px-7 text-base font-semibold ${full ? "w-full" : ""}`}>
-    Start a consultation <ArrowRight className="size-4" />
-  </button>
-);
+const QuoteButton = ({ onClick, position, full = false }: { onClick: (position: string) => void; position: string; full?: boolean }) => {
+  const { t } = useAsia();
+  return (
+    <button type="button" onClick={() => onClick(position)} className={`cta-primary inline-flex min-h-14 min-w-0 max-w-full items-center justify-center gap-2 whitespace-normal rounded-full px-7 py-4 text-center text-base font-semibold leading-snug ${full ? "w-full" : ""}`}>
+      <span>{t("hero.cta")}</span><ArrowRight aria-hidden="true" className="size-4 shrink-0" />
+    </button>
+  );
+};
 
 const TreatmentLandingPage = ({ kind }: { kind: TreatmentLandingKind }) => {
   const copy = LANDINGS[kind];

@@ -5,9 +5,12 @@ export const COORDINATION_DEPOSIT_USD = 200;
 type CoordinationPolicyCopy = {
   heading: string;
   scope: string;
+  initialTitle: string;
+  initialText: string;
   freeTitle: string;
   freeText: string;
   depositTitle: string;
+  depositSummary: string;
   depositPurpose: string;
   collectionTitle: string;
   collection: string;
@@ -29,11 +32,14 @@ type CoordinationPolicyCopy = {
  */
 export const COORDINATION_POLICY: Record<AsiaLang, CoordinationPolicyCopy> = {
   en: {
-    heading: "Free support and your $200 deposit",
+    heading: "Planning, support and payments",
     scope: "CeladonChina coordinates cosmetic-care visits in China only.",
+    initialTitle: "Free initial conversation",
+    initialText: "Start with questions at no cost and no obligation.",
     freeTitle: "What free coordination includes",
     freeText: "Consultation and appointment coordination, airport transfers, interpretation during agreed clinic visits, records organization, hotel booking guidance and follow-up coordination. Your written support plan sets out the included visits and services.",
     depositTitle: "$200 coordination deposit",
+    depositSummary: "Collected before departure for China. Returned on surgery day. If you cancel, it can be held for one year. Other circumstances are confirmed in writing.",
     depositPurpose: "The deposit reserves your procedure appointment and agreed coordination support. It is separate from your medical fees.",
     collectionTitle: "Before departure for China",
     collection: "The $200 coordination deposit is collected before you depart for China. Confirm the support included in your booking before paying.",
@@ -47,11 +53,14 @@ export const COORDINATION_POLICY: Record<AsiaLang, CoordinationPolicyCopy> = {
     confirm: "Confirm payment terms",
   },
   zh: {
-    heading: "免费协调服务与 200 美元押金",
+    heading: "行程规划、协调支持与付款",
     scope: "CeladonChina 仅协调中国境内的医美就诊与行程。",
+    initialTitle: "免费初步沟通",
+    initialText: "先说出你的问题，无需付费，也无需承诺预约。",
     freeTitle: "免费协调包含什么",
     freeText: "咨询与预约协调、机场接送、约定就诊期间的翻译、病历整理、酒店预订协助及随访协调。包含的就诊次数与具体服务以书面服务方案为准。",
     depositTitle: "200 美元协调押金",
+    depositSummary: "赴中国前收取，手术当天退还。取消后，押金可以保留一年。其他情况以书面确认的条款为准。",
     depositPurpose: "押金用于保留手术预约及约定的协调支持，与医疗费用分开。",
     collectionTitle: "出发前收取",
     collection: "200 美元协调押金在赴中国前收取。付款前，请确认本次预约包含的支持服务。",
@@ -65,11 +74,14 @@ export const COORDINATION_POLICY: Record<AsiaLang, CoordinationPolicyCopy> = {
     confirm: "确认付款条款",
   },
   ru: {
-    heading: "Бесплатная поддержка и депозит $200",
+    heading: "Планирование, поддержка и оплата",
     scope: "CeladonChina координирует поездки для эстетической медицины только в Китай.",
+    initialTitle: "Бесплатная первая беседа",
+    initialText: "Начните с вопросов: бесплатно и без обязательств.",
     freeTitle: "Что входит в бесплатную координацию",
     freeText: "Согласование консультаций и записи, трансфер из аэропорта и обратно, перевод на согласованных приёмах, подготовка документов, помощь с бронированием отеля и последующим наблюдением. Включённые визиты и услуги указаны в письменном плане поддержки.",
     depositTitle: "Координационный депозит $200",
+    depositSummary: "Вносится до выезда в Китай. Возвращается в день операции. При отмене депозит можно сохранить на один год. Условия для других обстоятельств подтверждаются письменно.",
     depositPurpose: "Депозит резервирует запись на процедуру и согласованную поддержку. Он оплачивается отдельно от медицинских услуг.",
     collectionTitle: "До выезда в Китай",
     collection: "Координационный депозит $200 вносится до выезда в Китай. До оплаты уточните, какие услуги включены в вашу запись.",
@@ -83,11 +95,14 @@ export const COORDINATION_POLICY: Record<AsiaLang, CoordinationPolicyCopy> = {
     confirm: "Уточнить условия оплаты",
   },
   es: {
-    heading: "Apoyo gratuito y tu depósito de 200 USD",
+    heading: "Planificación, apoyo y pagos",
     scope: "CeladonChina coordina visitas de medicina estética únicamente en China.",
+    initialTitle: "Primera conversación gratuita",
+    initialText: "Empieza con tus preguntas, sin coste y sin compromiso.",
     freeTitle: "Qué incluye la coordinación gratuita",
     freeText: "Coordinación de consultas y citas, traslados al aeropuerto, interpretación durante las visitas acordadas, organización del historial, ayuda para reservar hotel y coordinación del seguimiento. Tu plan escrito detalla las visitas y los servicios incluidos.",
     depositTitle: "Depósito de coordinación de 200 USD",
+    depositSummary: "Se cobra antes de viajar a China. Se devuelve el día de la cirugía. Si cancelas, puede mantenerse durante un año. Las condiciones para otras circunstancias se confirman por escrito.",
     depositPurpose: "El depósito reserva tu cita para el procedimiento y el apoyo acordado. Es independiente de los gastos médicos.",
     collectionTitle: "Antes de viajar a China",
     collection: "El depósito de coordinación de 200 USD se cobra antes de tu salida hacia China. Confirma qué apoyo incluye tu reserva antes de pagar.",
@@ -101,11 +116,14 @@ export const COORDINATION_POLICY: Record<AsiaLang, CoordinationPolicyCopy> = {
     confirm: "Confirmar condiciones de pago",
   },
   th: {
-    heading: "บริการประสานงานฟรีและเงินมัดจำ 200 ดอลลาร์สหรัฐ",
+    heading: "การวางแผน บริการประสานงาน และการชำระเงิน",
     scope: "CeladonChina ประสานงานการเข้ารับบริการด้านความงามในประเทศจีนเท่านั้น",
+    initialTitle: "พูดคุยเบื้องต้นฟรี",
+    initialText: "เริ่มต้นด้วยคำถามของคุณ โดยไม่มีค่าใช้จ่ายและไม่มีข้อผูกมัด",
     freeTitle: "บริการประสานงานฟรีครอบคลุมอะไรบ้าง",
     freeText: "การประสานงานปรึกษาและนัดหมาย รถรับส่งสนามบิน ล่ามระหว่างการพบแพทย์ที่ตกลงไว้ การจัดเตรียมเวชระเบียน ความช่วยเหลือในการจองโรงแรม และการประสานงานติดตามผล จำนวนครั้งและบริการที่รวมอยู่ระบุในแผนบริการเป็นลายลักษณ์อักษร",
     depositTitle: "เงินมัดจำประสานงาน 200 ดอลลาร์สหรัฐ",
+    depositSummary: "เรียกเก็บก่อนออกเดินทางไปจีน คืนให้ในวันผ่าตัด หากยกเลิก สามารถเก็บเงินมัดจำไว้ได้หนึ่งปี เงื่อนไขสำหรับกรณีอื่นจะยืนยันเป็นลายลักษณ์อักษร",
     depositPurpose: "เงินมัดจำใช้สำรองนัดหมายและบริการประสานงานที่ตกลงไว้ โดยแยกจากค่ารักษาพยาบาล",
     collectionTitle: "ก่อนออกเดินทางไปจีน",
     collection: "เงินมัดจำประสานงาน 200 ดอลลาร์สหรัฐจะเรียกเก็บก่อนที่คุณจะออกเดินทางไปจีน โปรดยืนยันบริการที่รวมอยู่ในการจองก่อนชำระเงิน",
@@ -119,11 +137,14 @@ export const COORDINATION_POLICY: Record<AsiaLang, CoordinationPolicyCopy> = {
     confirm: "ยืนยันเงื่อนไขการชำระเงิน",
   },
   ms: {
-    heading: "Sokongan percuma dan deposit USD200 anda",
+    heading: "Perancangan, sokongan dan bayaran",
     scope: "CeladonChina menyelaras lawatan rawatan estetik di China sahaja.",
+    initialTitle: "Perbualan awal percuma",
+    initialText: "Mulakan dengan soalan anda, tanpa kos dan tanpa kewajipan.",
     freeTitle: "Skop penyelarasan percuma",
     freeText: "Penyelarasan konsultasi dan janji temu, pengangkutan lapangan terbang, jurubahasa semasa lawatan klinik yang dipersetujui, penyusunan rekod, bantuan tempahan hotel dan penyelarasan susulan. Pelan sokongan bertulis menyatakan lawatan dan perkhidmatan yang disertakan.",
     depositTitle: "Deposit penyelarasan USD200",
+    depositSummary: "Dikutip sebelum berlepas ke China. Dipulangkan pada hari pembedahan. Jika anda membatalkan, deposit boleh disimpan selama satu tahun. Syarat bagi keadaan lain disahkan secara bertulis.",
     depositPurpose: "Deposit menempah janji temu prosedur dan sokongan yang dipersetujui. Ia berasingan daripada yuran perubatan.",
     collectionTitle: "Sebelum berlepas ke China",
     collection: "Deposit penyelarasan USD200 dikutip sebelum anda berlepas ke China. Sahkan sokongan yang termasuk dalam tempahan sebelum membayar.",
