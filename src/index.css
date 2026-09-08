@@ -265,6 +265,11 @@
   }
 
   .hero-ambient {
+    --hero-surface: 45 36% 98%;
+    --hero-lustre: 0 0% 100%;
+    --hero-cool: 161 34% 75%;
+    --hero-depth: 169 26% 52%;
+    --hero-warm: 32 64% 81%;
     position: absolute;
     inset: 0;
     pointer-events: none;
@@ -274,73 +279,63 @@
     position: absolute;
     inset: 0;
     overflow: hidden;
-    background: linear-gradient(125deg, hsl(var(--secondary) / 0.7), hsl(var(--background)) 48%, hsl(var(--primary-soft) / 0.4));
-    mask-image: linear-gradient(to bottom, black 0%, black 76%, transparent 100%);
-  }
-
-  .hero-ambient__wash {
-    position: absolute;
-    inset: -14%;
-    animation: hero-jade-drift 24s linear infinite;
-    animation-play-state: paused;
-  }
-
-  .hero-ambient__wash--jade {
     background:
-      radial-gradient(ellipse at 20% 30%, hsl(var(--primary) / 0.4), hsl(var(--primary) / 0.14) 32%, transparent 62%),
-      radial-gradient(ellipse at 76% 74%, hsl(var(--primary-soft) / 0.8), transparent 58%);
+      radial-gradient(ellipse at 86% 4%, hsl(var(--hero-warm) / 0.22), transparent 52%),
+      radial-gradient(ellipse at 8% 76%, hsl(var(--hero-cool) / 0.28), transparent 58%),
+      hsl(var(--hero-surface));
+    mask-image: linear-gradient(to bottom, black 0%, black 72%, transparent 100%);
   }
 
-  .hero-ambient__wash--mint {
-    background:
-      radial-gradient(ellipse at 80% 20%, hsl(var(--primary-glow) / 0.56), hsl(var(--primary-soft) / 0.2) 34%, transparent 62%),
-      radial-gradient(ellipse at 30% 76%, hsl(var(--secondary)), transparent 58%);
-    animation-name: hero-mint-drift;
-    animation-duration: 32s;
-    animation-delay: -8s;
-  }
-
-  .hero-ambient__ripples {
+  .hero-ambient__form {
     position: absolute;
-    width: clamp(42rem, 78vw, 88rem);
-    aspect-ratio: 1;
-    opacity: 0.5;
-    animation: hero-water-near 18s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate;
+    border-radius: 48% 52% 42% 58% / 52% 44% 56% 48%;
+    animation: hero-silk-jade 16s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate;
     animation-play-state: paused;
-    mask-image: radial-gradient(ellipse, black 32%, transparent 70%);
+    transform-origin: 50% 50%;
   }
 
-  .hero-ambient__ripples--near {
-    left: -32%;
-    top: -24%;
+  .hero-ambient__form--jade {
+    width: 105%;
+    height: 105%;
+    top: -48%;
+    left: -38%;
+    background:
+      radial-gradient(ellipse at 48% 22%, hsl(var(--hero-lustre) / 0.8), transparent 54%),
+      linear-gradient(142deg, hsl(var(--hero-lustre) / 0) 25%, hsl(var(--hero-cool) / 0.3) 42%, hsl(var(--hero-depth) / 0.38) 55%, hsl(var(--hero-cool) / 0.75) 65%, hsl(var(--hero-lustre) / 0.95) 76%, hsl(var(--hero-cool) / 0.16) 90%);
+    box-shadow: inset -12px -16px 30px hsl(var(--hero-lustre) / 0.68), 24px 32px 64px hsl(var(--hero-depth) / 0.08);
+    mask-image: linear-gradient(125deg, transparent 12%, black 34%, black 82%, transparent 100%);
   }
 
-  .hero-ambient__ripples--far {
-    right: -30%;
-    top: -8%;
-    animation-name: hero-water-far;
-    animation-duration: 24s;
-    animation-delay: -12s;
+  .hero-ambient__form--pearl {
+    width: 98%;
+    height: 112%;
+    right: -52%;
+    top: -3%;
+    border-radius: 62% 38% 46% 54% / 46% 62% 38% 54%;
+    background:
+      linear-gradient(125deg, hsl(var(--hero-lustre) / 0) 5%, hsl(var(--hero-cool) / 0.12) 18%, hsl(var(--hero-lustre) / 0.96) 26%, hsl(var(--hero-cool) / 0.45) 40%, hsl(var(--hero-warm) / 0.46) 63%, hsl(var(--hero-lustre) / 0.65) 82%);
+    box-shadow: inset 18px 24px 32px hsl(var(--hero-lustre) / 0.72);
+    mask-image: linear-gradient(165deg, transparent, black 22%, black 76%, transparent);
+    animation-name: hero-silk-pearl;
+    animation-duration: 21s;
+    animation-delay: -7s;
   }
 
-  .hero-ambient__ripples svg {
-    display: block;
-    width: 100%;
-    height: 100%;
+  .hero-ambient__form--champagne {
+    width: 92%;
+    height: 72%;
+    left: -24%;
+    bottom: -42%;
+    border-radius: 42% 58% 66% 34% / 64% 44% 56% 36%;
+    background: linear-gradient(155deg, hsl(var(--hero-lustre) / 0.1) 15%, hsl(var(--hero-warm) / 0.7) 39%, hsl(var(--hero-lustre) / 0.95) 55%, hsl(var(--hero-cool) / 0.46) 70%, transparent 92%);
+    box-shadow: inset 12px 18px 32px hsl(var(--hero-lustre) / 0.76);
+    mask-image: linear-gradient(to bottom, black 40%, transparent 92%);
+    animation-name: hero-silk-champagne;
+    animation-duration: 19s;
+    animation-delay: -11s;
   }
 
-  .hero-ambient__ripple-light {
-    stroke: hsl(var(--background) / 0.85);
-    stroke-width: 2;
-  }
-
-  .hero-ambient__ripple-shadow {
-    stroke: hsl(var(--brand-text) / 0.14);
-    stroke-width: 1;
-  }
-
-  .hero-ambient[data-motion="running"] .hero-ambient__wash,
-  .hero-ambient[data-motion="running"] .hero-ambient__ripples {
+  .hero-ambient[data-motion="running"] .hero-ambient__form {
     animation-play-state: running;
     will-change: transform;
   }
@@ -349,7 +344,16 @@
     position: absolute;
     inset: 0;
     background:
-      radial-gradient(ellipse at 50% 29%, hsl(var(--background) / 0.82), hsl(var(--background) / 0.35) 48%, transparent 76%);
+      radial-gradient(ellipse 45% 56% at 50% 33%, hsl(var(--hero-surface) / 0.97), hsl(var(--hero-surface) / 0.84) 45%, hsl(var(--hero-surface) / 0.24) 76%, transparent 100%);
+  }
+
+  .hero-ambient__texture {
+    position: absolute;
+    inset: 0;
+    opacity: 0.12;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.92' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23808080' filter='url(%23grain)' opacity='.32' d='M0 0h180v180H0z'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+    mix-blend-mode: soft-light;
   }
 
   .hero-ambient__toggle {
@@ -410,35 +414,39 @@
   }
 }
 
-/* Long ambient cycles deliberately move only the decorative gradient layers. */
-@keyframes hero-jade-drift {
-  0%, 100% { transform: translate(-4%, 0%) scale(1.04) rotate(-3deg); }
-  25% { transform: translate(4%, -4%) scale(1.1) rotate(0deg); }
-  50% { transform: translate(10%, 2%) scale(1.04) rotate(3deg); }
-  75% { transform: translate(2%, 6%) scale(1.1) rotate(0deg); }
+/* Broad, slowly shifting folds of light; no geometry or filters animate. */
+@keyframes hero-silk-jade {
+  from { transform: translate(-3%, -2%) rotate(-15deg) scale(1); }
+  to { transform: translate(11%, 10%) rotate(1deg) scale(1.08); }
 }
 
-@keyframes hero-mint-drift {
-  0%, 100% { transform: translate(5%, -3%) scale(1.08) rotate(3deg); }
-  25% { transform: translate(-5%, 1%) scale(1.02) rotate(0deg); }
-  50% { transform: translate(-10%, 6%) scale(1.08) rotate(-3deg); }
-  75% { transform: translate(0%, 2%) scale(1.02) rotate(0deg); }
+@keyframes hero-silk-pearl {
+  from { transform: translate(4%, -5%) rotate(16deg) scale(1.02); }
+  to { transform: translate(-9%, 6%) rotate(-6deg) scale(1.08); }
 }
 
-/* Slow water-surface drift, not an interaction transition. Text never moves. */
-@keyframes hero-water-near {
-  from { transform: translate(-2%, 0%) rotate(-18deg) scale(0.96); opacity: 0.42; }
-  to { transform: translate(6%, 4%) rotate(-10deg) scale(1.12); opacity: 0.65; }
-}
-
-@keyframes hero-water-far {
-  from { transform: translate(4%, -2%) rotate(20deg) scale(1.08); opacity: 0.55; }
-  to { transform: translate(-5%, 5%) rotate(10deg) scale(0.94); opacity: 0.38; }
+@keyframes hero-silk-champagne {
+  from { transform: translate(-3%, 5%) rotate(-8deg) scale(1); }
+  to { transform: translate(13%, -7%) rotate(8deg) scale(1.12); }
 }
 
 @media (max-width: 639px) {
-  .hero-ambient__ripples--near { left: -145%; top: -10%; }
-  .hero-ambient__ripples--far { right: -140%; top: 8%; }
+  .hero-ambient__form--jade { width: 190%; height: 64%; left: -102%; top: -20%; }
+  .hero-ambient__form--pearl { width: 200%; height: 83%; right: -162%; top: 12%; }
+  .hero-ambient__form--champagne { width: 180%; height: 55%; left: -60%; bottom: -30%; }
+  .hero-ambient__veil { background: radial-gradient(ellipse 72% 62% at 50% 32%, hsl(var(--hero-surface) / 0.94), hsl(var(--hero-surface) / 0.66) 54%, transparent 100%); }
+}
+
+.dark .hero-ambient {
+  --hero-surface: 160 25% 8%;
+  --hero-lustre: 158 30% 25%;
+  --hero-cool: 161 30% 23%;
+  --hero-depth: 169 30% 17%;
+  --hero-warm: 32 24% 25%;
+}
+
+@media (prefers-contrast: more) {
+  .hero-ambient__veil { background: hsl(var(--hero-surface) / 0.96); }
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -472,8 +480,7 @@
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-ambient[data-motion] .hero-ambient__wash,
-  .hero-ambient[data-motion] .hero-ambient__ripples {
+  .hero-ambient[data-motion] .hero-ambient__form {
     animation: none;
     transform: none;
     will-change: auto;

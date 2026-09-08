@@ -11,32 +11,6 @@ const motionLabels: Record<AsiaLang, { pause: string; play: string }> = {
   ms: { pause: "Jeda animasi latar belakang", play: "Mainkan animasi latar belakang" },
 };
 
-// Slightly irregular, elliptical contours suggest reflected ripples rather than
-// perfect target rings. Geometry is built once; only the two CSS layers move.
-const rippleContours = Array.from({ length: 9 }, (_, ring) => {
-  const radius = 150 + ring * 66;
-  const points = Array.from({ length: 64 }, (_, step) => {
-    const angle = step / 64 * Math.PI * 2;
-    const ripple = radius * (1 + 0.035 * Math.sin(angle * 3 + ring * 0.32) + 0.016 * Math.cos(angle * 7));
-    return [500 + Math.cos(angle) * ripple, 500 + Math.sin(angle) * ripple * 0.62];
-  });
-  const midpoint = (a: number[], b: number[]) => `${((a[0] + b[0]) / 2).toFixed(1)} ${((a[1] + b[1]) / 2).toFixed(1)}`;
-  return `M ${midpoint(points[63], points[0])} ${points.map((point, i) => `Q ${point[0].toFixed(1)} ${point[1].toFixed(1)} ${midpoint(point, points[(i + 1) % 64])}`).join(" ")} Z`;
-});
-
-function WaterRippleTexture() {
-  return (
-    <svg viewBox="0 0 1000 1000" fill="none" focusable="false" aria-hidden="true">
-      <g className="hero-ambient__ripple-shadow" transform="translate(0 3)">
-        {rippleContours.map((d, index) => <path key={index} d={d} />)}
-      </g>
-      <g className="hero-ambient__ripple-light">
-        {rippleContours.map((d, index) => <path key={index} d={d} />)}
-      </g>
-    </svg>
-  );
-}
-
 /** CSS owns the motion; React only gates it for visibility and user preferences. */
 export default function HeroAmbientBackground({ lang }: { lang: AsiaLang }) {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -77,11 +51,11 @@ export default function HeroAmbientBackground({ lang }: { lang: AsiaLang }) {
   return (
     <div ref={rootRef} className="hero-ambient" data-testid="hero-ambient-background" data-motion={running ? "running" : "paused"}>
       <div id="hero-ambient-field" className="hero-ambient__field" aria-hidden="true">
-        <div className="hero-ambient__wash hero-ambient__wash--jade" />
-        <div className="hero-ambient__wash hero-ambient__wash--mint" />
-        <div className="hero-ambient__ripples hero-ambient__ripples--near"><WaterRippleTexture /></div>
-        <div className="hero-ambient__ripples hero-ambient__ripples--far"><WaterRippleTexture /></div>
+        <div className="hero-ambient__form hero-ambient__form--jade" />
+        <div className="hero-ambient__form hero-ambient__form--pearl" />
+        <div className="hero-ambient__form hero-ambient__form--champagne" />
         <div className="hero-ambient__veil" />
+        <div className="hero-ambient__texture" />
       </div>
       {!reducedMotion && (
         <button type="button" className="hero-ambient__toggle" onClick={() => setUserPaused((paused) => !paused)} aria-label={label} title={label} aria-controls="hero-ambient-field">
