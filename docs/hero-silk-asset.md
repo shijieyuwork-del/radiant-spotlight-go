@@ -1,5 +1,15 @@
 # Luminous silk background asset
 
+## Current organza replacement — 2026-09-08
+
+- Current source: `src/assets/hero-ribbons.png`, supplied by the parallel design task after the user requested thin translucent organza rather than ribbons.
+- Original PNG retained unchanged: 1672 × 941 RGB, 1,713,476 bytes. The cloth looks translucent within a pale complete composition; the file itself has no alpha channel.
+- `HeroAmbientBackground.tsx` imports the asset through Vite, producing a cache-busted image URL. It is displayed once across the hero, not as two rotated cutouts that would expose rectangular white edges.
+- Existing layout/copy and pause, off-screen, page-visibility, reduced-motion and contrast controls are preserved. Gentle 20-second scale-only movement replaces the older opposing ribbons and specular glints. This is an animated background image, not a cloth simulation.
+- The earlier WebP remains in the repository for recoverability but is no longer rendered by the hero. The uncompressed source increases the image payload; no lossy conversion was made in this integration.
+
+## Previous satin asset (not currently displayed)
+
 - Asset: `public/images/hero-luminous-silk.webp`
 - Generated with the built-in image generation tool on 2026-09-08.
 - Original: 1536 × 1024 RGBA PNG; published as a 128,000-byte WebP with its alpha channel retained.

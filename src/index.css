@@ -268,7 +268,6 @@
     --hero-surface: 45 36% 98%;
     --hero-cool: 161 48% 65%;
     --hero-warm: 30 76% 76%;
-    --hero-silk-image: url('/images/hero-luminous-silk.webp');
     position: absolute;
     inset: 0;
     pointer-events: none;
@@ -285,54 +284,19 @@
     mask-image: linear-gradient(to bottom, black 0%, black 78%, transparent 100%);
   }
 
-  .hero-ambient__form {
+  .hero-ambient__organza {
     position: absolute;
-    aspect-ratio: 3 / 2;
-    background: var(--hero-silk-image) center / contain no-repeat;
-    animation: hero-silk-jade 9s cubic-bezier(0.45, 0, 0.55, 1) -3s infinite alternate;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    animation: hero-organza-drift 20s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate;
     animation-play-state: paused;
     transform-origin: 50% 50%;
   }
 
-  .hero-ambient__form--jade {
-    width: 100%;
-    top: -8%;
-    left: -49%;
-  }
-
-  .hero-ambient__form--pearl {
-    width: 94%;
-    right: -46%;
-    top: 20%;
-    animation-name: hero-silk-pearl;
-    animation-duration: 11s;
-    animation-delay: -6s;
-  }
-
-  /* Luminance masking makes moving light catch the actual satin ridges. */
-  .hero-ambient__sheen {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-    mask: var(--hero-silk-image) center / contain no-repeat;
-    mask-mode: luminance;
-  }
-
-  .hero-ambient__glint {
-    position: absolute;
-    inset: -20%;
-    background: linear-gradient(112deg, transparent 31%, rgb(255 255 255 / 0.08) 38%, rgb(255 255 255 / 0.88) 43%, rgb(255 255 255 / 0.18) 47%, transparent 52%, transparent 61%, rgb(255 255 255 / 0.52) 64%, transparent 68%);
-    animation: hero-silk-shimmer 7.5s cubic-bezier(0.45, 0, 0.55, 1) -2s infinite alternate;
-    animation-play-state: paused;
-  }
-
-  .hero-ambient__form--pearl .hero-ambient__glint {
-    animation-duration: 9.5s;
-    animation-delay: -5s;
-  }
-
-  .hero-ambient[data-motion="running"] .hero-ambient__form,
-  .hero-ambient[data-motion="running"] .hero-ambient__glint {
+  .hero-ambient[data-motion="running"] .hero-ambient__organza {
     animation-play-state: running;
     will-change: transform;
   }
@@ -413,28 +377,13 @@
   }
 }
 
-/* Slow opposing lift and skew suggest fabric caught in a gentle breeze. */
-@keyframes hero-silk-jade {
-  0% { transform: translate(-5%, -3%) rotate(-25deg) skewY(-4deg) scale(1.03, 1); }
-  50% { transform: translate(1%, 4%) rotate(-17deg) skewY(2deg) scale(1.08, 0.94); }
-  100% { transform: translate(6%, -1%) rotate(-8deg) skewY(5deg) scale(1, 1.06); }
-}
-
-@keyframes hero-silk-pearl {
-  0% { transform: translate(3%, 5%) rotate(157deg) skewY(4deg) scale(1, 1.04); }
-  50% { transform: translate(-4%, -2%) rotate(166deg) skewY(-2deg) scale(1.08, 0.96); }
-  100% { transform: translate(-8%, 3%) rotate(177deg) skewY(-5deg) scale(1.03, 1.05); }
-}
-
-@keyframes hero-silk-shimmer {
-  0% { transform: translateX(-32%) rotate(-4deg); opacity: 0.12; }
-  50% { transform: translateX(0%) rotate(0deg); opacity: 0.7; }
-  100% { transform: translateX(32%) rotate(4deg); opacity: 0.18; }
+/* The full organza composition drifts gently without rotating opaque edges into view. */
+@keyframes hero-organza-drift {
+  from { transform: scale(1); }
+  to { transform: scale(1.035); }
 }
 
 @media (max-width: 639px) {
-  .hero-ambient__form--jade { width: 230%; left: -136%; top: -1%; }
-  .hero-ambient__form--pearl { width: 240%; right: -148%; top: 44%; }
   .hero-ambient__veil { --hero-reading-veil: radial-gradient(ellipse 84% 65% at 50% 31%, hsl(var(--hero-surface) / 0.98), hsl(var(--hero-surface) / 0.94) 46%, hsl(var(--hero-surface) / 0.82) 66%, transparent 100%); }
 }
 
@@ -444,7 +393,7 @@
   --hero-warm: 30 30% 32%;
 }
 
-.dark .hero-ambient__form { opacity: 0.62; }
+.dark .hero-ambient__organza { opacity: 0.18; }
 
 @media (prefers-contrast: more) {
   .hero-ambient__veil { background: hsl(var(--hero-surface) / 0.96); }
@@ -481,13 +430,11 @@
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-ambient[data-motion] .hero-ambient__form,
-  .hero-ambient[data-motion] .hero-ambient__glint {
+  .hero-ambient[data-motion] .hero-ambient__organza {
     animation: none;
     transform: none;
     will-change: auto;
   }
-  .hero-ambient__glint { opacity: 0.2; }
   .hero-ambient__toggle {
     display: none;
   }

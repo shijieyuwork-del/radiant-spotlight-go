@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Pause, Play } from "lucide-react";
 import type { AsiaLang } from "@/lib/asia-i18n";
+import heroOrganza from "@/assets/hero-ribbons.png";
 
 const motionLabels: Record<AsiaLang, { pause: string; play: string }> = {
   en: { pause: "Pause background animation", play: "Play background animation" },
@@ -51,12 +52,7 @@ export default function HeroAmbientBackground({ lang }: { lang: AsiaLang }) {
   return (
     <div ref={rootRef} className="hero-ambient" data-testid="hero-ambient-background" data-motion={running ? "running" : "paused"}>
       <div id="hero-ambient-field" className="hero-ambient__field" aria-hidden="true">
-        <div className="hero-ambient__form hero-ambient__form--jade">
-          <div className="hero-ambient__sheen"><span className="hero-ambient__glint" /></div>
-        </div>
-        <div className="hero-ambient__form hero-ambient__form--pearl">
-          <div className="hero-ambient__sheen"><span className="hero-ambient__glint" /></div>
-        </div>
+        <img src={heroOrganza} alt="" width={1672} height={941} className="hero-ambient__organza" decoding="async" />
         <div className="hero-ambient__veil" />
         <div className="hero-ambient__texture" />
       </div>
