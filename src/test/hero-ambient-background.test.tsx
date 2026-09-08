@@ -97,15 +97,22 @@ describe("homepage ambient background", () => {
     const field = container.querySelector("#hero-ambient-field");
     expect(field).toHaveAttribute("aria-hidden", "true");
     const forms = field?.querySelectorAll(".hero-ambient__form");
-    expect(forms).toHaveLength(3);
-    for (const variant of ["jade", "pearl", "champagne"]) {
+    expect(forms).toHaveLength(2);
+    for (const variant of ["jade", "pearl"]) {
       expect(field?.querySelector(`.hero-ambient__form--${variant}`)).not.toBeNull();
     }
     forms?.forEach((layer) => {
       expect(layer.closest('[aria-hidden="true"]')).toBe(field);
+      expect(layer.querySelectorAll(".hero-ambient__sheen > .hero-ambient__glint")).toHaveLength(1);
       expect(layer.querySelector("a, button, input, [tabindex]")).toBeNull();
     });
-    expect(field?.querySelector(".hero-ambient__wash, .hero-ambient__ripples, svg, video, canvas")).toBeNull();
+    const glints = field?.querySelectorAll(".hero-ambient__glint");
+    expect(glints).toHaveLength(2);
+    glints?.forEach((glint) => {
+      expect(glint.closest('[aria-hidden="true"]')).toBe(field);
+      expect(glint).not.toHaveAttribute("tabindex");
+    });
+    expect(field?.querySelector(".hero-ambient__form--champagne, .hero-ambient__wash, .hero-ambient__ripples, svg, video, canvas")).toBeNull();
     const toggle = screen.getByRole("button");
     expect(screen.getAllByRole("button")).toHaveLength(1);
     expect(toggle).toHaveAttribute("aria-controls", "hero-ambient-field");
@@ -113,17 +120,31 @@ describe("homepage ambient background", () => {
     expect(container.querySelector("video, canvas")).toBeNull();
   });
 
-  it("gates the light forms with shared paused, running and reduced-motion rules", () => {
+  it("gates fabric drift and sheen with shared paused, running and reduced-motion rules", () => {
     const rules = Array.from(ambientStyles.matchAll(/([^{}]+)\{([^{}]*)\}/g), ([, selector, declarations]) => ({
       selectors: selector.split(",").map((part) => part.trim()),
       declarations,
     }));
-    const layer = ".hero-ambient__form";
-    expect(rules.some(({ selectors, declarations }) => selectors.includes(layer) && /animation-play-state:\s*paused\s*;/.test(declarations))).toBe(true);
-    expect(rules.some(({ selectors, declarations }) => selectors.includes(`.hero-ambient[data-motion="running"] ${layer}`) && /animation-play-state:\s*running\s*;/.test(declarations))).toBe(true);
     const reducedBlocks = Array.from(ambientStyles.matchAll(/@media\s*\(prefers-reduced-motion:\s*reduce\)\s*\{([\s\S]*?)\n\}/g), ([, block]) => block);
-    expect(reducedBlocks.some((block) => Array.from(block.matchAll(/([^{}]+)\{([^{}]*)\}/g)).some(([, selectors, declarations]) => selectors.includes(layer) && /animation:\s*none\s*;/.test(declarations)))).toBe(true);
-    expect(ambientStyles).not.toMatch(/hero-ambient__(?:wash|ripples)/);
+    for (const layer of [".hero-ambient__form", ".hero-ambient__glint"]) {
+      expect(rules.some(({ selectors, declarations }) => selectors.includes(layer) && /animation-play-state:\s*paused\s*;/.test(declarations))).toBe(true);
+      expect(rules.some(({ selectors, declarations }) => selectors.includes(`.hero-ambient[data-motion="running"] ${layer}`) && /animation-play-state:\s*running\s*;/.test(declarations))).toBe(true);
+      expect(reducedBlocks.some((block) => Array.from(block.matchAll(/([^{}]+)\{([^{}]*)\}/g)).some(([, selectors, declarations]) => selectors.includes(layer) && /animation:\s*none\s*;/.test(declarations)))).toBe(true);
+    }
+    expect(reducedBlocks.some((block) => /\.hero-ambient__glint\s*\{\s*opacity:\s*0?\.2\s*;\s*\}/.test(block))).toBe(true);
+    expect(ambientStyles).not.toMatch(/hero-ambient__(?:wash|ripples|form--champagne)|hero-silk-champagne/);
+  });
+
+  it("uses the published silk WebP for both fabric and its luminance-masked sheen", () => {
+    const assetPath = "/images/hero-luminous-silk.webp";
+    expect(ambientStyles).toContain(`url('${assetPath}')`);
+    expect(ambientStyles).toMatch(/background:\s*var\(--hero-silk-image\)/);
+    expect(ambientStyles).toMatch(/mask:\s*var\(--hero-silk-image\)/);
+    expect(ambientStyles).toMatch(/mask-mode:\s*luminance\s*;/);
+    const asset = readFileSync(join(__dirname, "..", "..", "public", assetPath));
+    expect(asset.length).toBeGreaterThan(12);
+    expect(asset.toString("ascii", 0, 4)).toBe("RIFF");
+    expect(asset.toString("ascii", 8, 12)).toBe("WEBP");
   });
 
   it("starts paused and only runs while the hero and document are visible", () => {

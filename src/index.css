@@ -266,10 +266,9 @@
 
   .hero-ambient {
     --hero-surface: 45 36% 98%;
-    --hero-lustre: 0 0% 100%;
     --hero-cool: 161 48% 65%;
-    --hero-depth: 169 48% 42%;
     --hero-warm: 30 76% 76%;
+    --hero-silk-image: url('/images/hero-luminous-silk.webp');
     position: absolute;
     inset: 0;
     pointer-events: none;
@@ -288,63 +287,63 @@
 
   .hero-ambient__form {
     position: absolute;
-    border-radius: 48% 52% 42% 58% / 52% 44% 56% 48%;
-    animation: hero-silk-jade 11s cubic-bezier(0.45, 0, 0.55, 1) -3.8s infinite alternate;
+    aspect-ratio: 3 / 2;
+    background: var(--hero-silk-image) center / contain no-repeat;
+    animation: hero-silk-jade 9s cubic-bezier(0.45, 0, 0.55, 1) -3s infinite alternate;
     animation-play-state: paused;
     transform-origin: 50% 50%;
   }
 
   .hero-ambient__form--jade {
-    width: 105%;
-    height: 98%;
-    top: -36%;
-    left: -32%;
-    background:
-      radial-gradient(ellipse at 48% 22%, hsl(var(--hero-lustre) / 0.58), transparent 50%),
-      linear-gradient(142deg, hsl(var(--hero-lustre) / 0) 20%, hsl(var(--hero-cool) / 0.58) 38%, hsl(var(--hero-depth) / 0.84) 53%, hsl(var(--hero-cool) / 0.94) 65%, hsl(var(--hero-lustre) / 0.96) 78%, hsl(var(--hero-cool) / 0.3) 92%);
-    box-shadow: inset -12px -16px 30px hsl(var(--hero-lustre) / 0.78), 24px 32px 64px hsl(var(--hero-depth) / 0.14);
-    mask-image: linear-gradient(125deg, transparent 8%, black 26%, black 86%, transparent 100%);
+    width: 100%;
+    top: -8%;
+    left: -49%;
   }
 
   .hero-ambient__form--pearl {
-    width: 98%;
-    height: 106%;
-    right: -43%;
-    top: -2%;
-    border-radius: 62% 38% 46% 54% / 46% 62% 38% 54%;
-    background:
-      linear-gradient(125deg, hsl(var(--hero-lustre) / 0) 5%, hsl(var(--hero-cool) / 0.32) 18%, hsl(var(--hero-lustre) / 0.98) 26%, hsl(var(--hero-cool) / 0.76) 40%, hsl(var(--hero-warm) / 0.8) 63%, hsl(var(--hero-lustre) / 0.8) 82%);
-    box-shadow: inset 18px 24px 32px hsl(var(--hero-lustre) / 0.84);
-    mask-image: linear-gradient(165deg, transparent, black 22%, black 76%, transparent);
+    width: 94%;
+    right: -46%;
+    top: 20%;
     animation-name: hero-silk-pearl;
-    animation-duration: 14s;
-    animation-delay: -7s;
+    animation-duration: 11s;
+    animation-delay: -6s;
   }
 
-  .hero-ambient__form--champagne {
-    width: 108%;
-    height: 72%;
-    left: -16%;
-    bottom: -32%;
-    border-radius: 42% 58% 66% 34% / 64% 44% 56% 36%;
-    background: linear-gradient(155deg, hsl(var(--hero-lustre) / 0.1) 15%, hsl(var(--hero-warm) / 0.94) 39%, hsl(var(--hero-lustre) / 0.98) 55%, hsl(var(--hero-cool) / 0.74) 70%, transparent 92%);
-    box-shadow: inset 12px 18px 32px hsl(var(--hero-lustre) / 0.76);
-    mask-image: linear-gradient(to bottom, black 40%, transparent 92%);
-    animation-name: hero-silk-champagne;
-    animation-duration: 12s;
+  /* Luminance masking makes moving light catch the actual satin ridges. */
+  .hero-ambient__sheen {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    mask: var(--hero-silk-image) center / contain no-repeat;
+    mask-mode: luminance;
+  }
+
+  .hero-ambient__glint {
+    position: absolute;
+    inset: -20%;
+    background: linear-gradient(112deg, transparent 31%, rgb(255 255 255 / 0.08) 38%, rgb(255 255 255 / 0.88) 43%, rgb(255 255 255 / 0.18) 47%, transparent 52%, transparent 61%, rgb(255 255 255 / 0.52) 64%, transparent 68%);
+    animation: hero-silk-shimmer 7.5s cubic-bezier(0.45, 0, 0.55, 1) -2s infinite alternate;
+    animation-play-state: paused;
+  }
+
+  .hero-ambient__form--pearl .hero-ambient__glint {
+    animation-duration: 9.5s;
     animation-delay: -5s;
   }
 
-  .hero-ambient[data-motion="running"] .hero-ambient__form {
+  .hero-ambient[data-motion="running"] .hero-ambient__form,
+  .hero-ambient[data-motion="running"] .hero-ambient__glint {
     animation-play-state: running;
     will-change: transform;
   }
 
   .hero-ambient__veil {
+    --hero-reading-veil: radial-gradient(ellipse 48% 58% at 50% 31%, hsl(var(--hero-surface) / 0.98), hsl(var(--hero-surface) / 0.96) 40%, hsl(var(--hero-surface) / 0.9) 62%, hsl(var(--hero-surface) / 0.56) 78%, transparent 100%);
     position: absolute;
     inset: 0;
     background:
-      radial-gradient(ellipse 38% 56% at 50% 33%, hsl(var(--hero-surface) / 0.97), hsl(var(--hero-surface) / 0.94) 36%, hsl(var(--hero-surface) / 0.72) 60%, hsl(var(--hero-surface) / 0.1) 85%, transparent 100%);
+      linear-gradient(to bottom, transparent 68%, hsl(var(--hero-surface) / 0.85) 82%, hsl(var(--hero-surface) / 0.95) 100%),
+      var(--hero-reading-veil);
   }
 
   .hero-ambient__texture {
@@ -414,36 +413,38 @@
   }
 }
 
-/* Visible, unhurried light folds. Only the three decorative transforms move. */
+/* Slow opposing lift and skew suggest fabric caught in a gentle breeze. */
 @keyframes hero-silk-jade {
-  from { transform: translate(-7%, -4%) rotate(-20deg) scale(1.02); }
-  to { transform: translate(13%, 12%) rotate(2deg) scale(1.12); }
+  0% { transform: translate(-5%, -3%) rotate(-25deg) skewY(-4deg) scale(1.03, 1); }
+  50% { transform: translate(1%, 4%) rotate(-17deg) skewY(2deg) scale(1.08, 0.94); }
+  100% { transform: translate(6%, -1%) rotate(-8deg) skewY(5deg) scale(1, 1.06); }
 }
 
 @keyframes hero-silk-pearl {
-  from { transform: translate(6%, -9%) rotate(21deg) scale(1.02); }
-  to { transform: translate(-13%, 10%) rotate(-10deg) scale(1.12); }
+  0% { transform: translate(3%, 5%) rotate(157deg) skewY(4deg) scale(1, 1.04); }
+  50% { transform: translate(-4%, -2%) rotate(166deg) skewY(-2deg) scale(1.08, 0.96); }
+  100% { transform: translate(-8%, 3%) rotate(177deg) skewY(-5deg) scale(1.03, 1.05); }
 }
 
-@keyframes hero-silk-champagne {
-  from { transform: translate(-7%, 8%) rotate(-12deg) scale(1); }
-  to { transform: translate(16%, -10%) rotate(12deg) scale(1.14); }
+@keyframes hero-silk-shimmer {
+  0% { transform: translateX(-32%) rotate(-4deg); opacity: 0.12; }
+  50% { transform: translateX(0%) rotate(0deg); opacity: 0.7; }
+  100% { transform: translateX(32%) rotate(4deg); opacity: 0.18; }
 }
 
 @media (max-width: 639px) {
-  .hero-ambient__form--jade { width: 190%; height: 64%; left: -112%; top: -14%; }
-  .hero-ambient__form--pearl { width: 200%; height: 83%; right: -156%; top: 8%; }
-  .hero-ambient__form--champagne { width: 180%; height: 55%; left: -60%; bottom: -24%; }
-  .hero-ambient__veil { background: radial-gradient(ellipse 66% 62% at 50% 32%, hsl(var(--hero-surface) / 0.98), hsl(var(--hero-surface) / 0.88) 46%, hsl(var(--hero-surface) / 0.64) 62%, transparent 100%); }
+  .hero-ambient__form--jade { width: 230%; left: -136%; top: -1%; }
+  .hero-ambient__form--pearl { width: 240%; right: -148%; top: 44%; }
+  .hero-ambient__veil { --hero-reading-veil: radial-gradient(ellipse 84% 65% at 50% 31%, hsl(var(--hero-surface) / 0.98), hsl(var(--hero-surface) / 0.94) 46%, hsl(var(--hero-surface) / 0.82) 66%, transparent 100%); }
 }
 
 .dark .hero-ambient {
   --hero-surface: 160 25% 8%;
-  --hero-lustre: 158 34% 33%;
   --hero-cool: 161 38% 29%;
-  --hero-depth: 169 36% 20%;
   --hero-warm: 30 30% 32%;
 }
+
+.dark .hero-ambient__form { opacity: 0.62; }
 
 @media (prefers-contrast: more) {
   .hero-ambient__veil { background: hsl(var(--hero-surface) / 0.96); }
@@ -480,11 +481,13 @@
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-ambient[data-motion] .hero-ambient__form {
+  .hero-ambient[data-motion] .hero-ambient__form,
+  .hero-ambient[data-motion] .hero-ambient__glint {
     animation: none;
     transform: none;
     will-change: auto;
   }
+  .hero-ambient__glint { opacity: 0.2; }
   .hero-ambient__toggle {
     display: none;
   }

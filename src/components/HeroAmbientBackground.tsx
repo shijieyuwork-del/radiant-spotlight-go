@@ -51,9 +51,12 @@ export default function HeroAmbientBackground({ lang }: { lang: AsiaLang }) {
   return (
     <div ref={rootRef} className="hero-ambient" data-testid="hero-ambient-background" data-motion={running ? "running" : "paused"}>
       <div id="hero-ambient-field" className="hero-ambient__field" aria-hidden="true">
-        <div className="hero-ambient__form hero-ambient__form--jade" />
-        <div className="hero-ambient__form hero-ambient__form--pearl" />
-        <div className="hero-ambient__form hero-ambient__form--champagne" />
+        <div className="hero-ambient__form hero-ambient__form--jade">
+          <div className="hero-ambient__sheen"><span className="hero-ambient__glint" /></div>
+        </div>
+        <div className="hero-ambient__form hero-ambient__form--pearl">
+          <div className="hero-ambient__sheen"><span className="hero-ambient__glint" /></div>
+        </div>
         <div className="hero-ambient__veil" />
         <div className="hero-ambient__texture" />
       </div>
