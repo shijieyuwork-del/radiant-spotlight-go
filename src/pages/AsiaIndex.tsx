@@ -13,6 +13,7 @@ import Footer from "@/components/Footer";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import TikTokWall from "@/components/TikTokWall";
 import HeroVideoGallery from "@/components/HeroVideoGallery";
+import HeroAmbientBackground from "@/components/HeroAmbientBackground";
 import { usePublishedVideos } from "@/hooks/use-published-videos";
 import PageMeta from "@/components/PageMeta";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
@@ -27,7 +28,6 @@ import QuoteCtaButton from "@/components/QuoteCtaButton";
 import { ORGANIZATION_SCHEMA } from "@/lib/seo-config";
 import { useQuote } from "@/components/QuoteRequest";
 import { MedicalDisclaimer } from "@/components/MedicalDisclaimer";
-import heroBg from "@/assets/hero-bg.jpg";
 import journeyConsultation from "@/assets/journey-premium-natural-consultation-v5.webp";
 import journeyArrival from "@/assets/journey-premium-natural-arrival-v5.webp";
 import journeyGroundSupport from "@/assets/journey-premium-natural-concierge-v5.webp";
@@ -207,13 +207,9 @@ const Hero = () => {
         };
   return (
     <section className="hero-motion relative overflow-hidden">
-      <div className="hero-motion__background absolute inset-x-0 top-0 h-[900px] sm:h-[940px]" aria-hidden="true">
-        <img src={heroBg} alt="" className="hero-motion__image absolute inset-0 size-full object-cover" />
-        <div className="hero-motion__veil absolute inset-0" />
-      </div>
-
-      <div className="container relative pb-9 pt-5 sm:py-14 md:py-20">
-        <div className="flex flex-col gap-8 md:gap-14">
+      <div className="relative isolate">
+        <HeroAmbientBackground lang={lang} />
+        <div className="container relative pb-16 pt-5 sm:py-14 md:py-20">
           <div className="mx-auto w-full max-w-5xl text-center">
             <span className="pill max-w-full justify-center bg-card/80 text-center leading-relaxed shadow-soft backdrop-blur">
               <ShieldCheck className="size-3.5 text-primary" />
@@ -265,6 +261,9 @@ const Hero = () => {
             </div>
           </div>
 
+        </div>
+      </div>
+      <div className="container relative pb-9 sm:pb-14 md:pb-20">
           <div className="w-full border-t border-primary/10 pt-8 md:pt-14">
             <div className="mb-6 flex flex-col items-start justify-between gap-4 px-1 sm:flex-row sm:items-end md:mb-8">
               <div>
@@ -285,7 +284,6 @@ const Hero = () => {
             </div>
             <TikTokWall items={diaryItems.slice(0, 7)} lang={lang} fmtPrice={fmt} variant="preview" />
           </div>
-        </div>
       </div>
     </section>
   );

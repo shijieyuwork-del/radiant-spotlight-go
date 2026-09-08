@@ -264,26 +264,81 @@
     background: hsl(var(--background));
   }
 
-  .hero-motion__background {
-    overflow: hidden;
+  .hero-ambient {
+    position: absolute;
+    inset: 0;
     pointer-events: none;
-    background: hsl(var(--background));
-    mask-image: linear-gradient(to bottom, black 0%, black 78%, transparent 100%);
   }
 
-  .hero-motion__image {
-    opacity: 0.7;
+  .hero-ambient__field {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    background: linear-gradient(125deg, hsl(var(--secondary) / 0.7), hsl(var(--background)) 48%, hsl(var(--primary-soft) / 0.4));
+    mask-image: linear-gradient(to bottom, black 0%, black 76%, transparent 100%);
   }
 
-  .hero-motion__video {
-    opacity: 0.7;
-    filter: saturate(0.82) contrast(0.86) brightness(1.04);
+  .hero-ambient__wash {
+    position: absolute;
+    inset: -14%;
+    animation: hero-jade-drift 24s linear infinite;
+    animation-play-state: paused;
   }
 
-  .hero-motion__veil {
+  .hero-ambient__wash--jade {
     background:
-      linear-gradient(to bottom, hsl(var(--background) / 0.26), hsl(var(--background) / 0.58)),
-      radial-gradient(circle at 50% 36%, hsl(var(--background) / 0.72), hsl(var(--background) / 0.18) 65%);
+      radial-gradient(ellipse at 20% 30%, hsl(var(--primary) / 0.4), hsl(var(--primary) / 0.14) 32%, transparent 62%),
+      radial-gradient(ellipse at 76% 74%, hsl(var(--primary-soft) / 0.8), transparent 58%);
+  }
+
+  .hero-ambient__wash--mint {
+    background:
+      radial-gradient(ellipse at 80% 20%, hsl(var(--primary-glow) / 0.56), hsl(var(--primary-soft) / 0.2) 34%, transparent 62%),
+      radial-gradient(ellipse at 30% 76%, hsl(var(--secondary)), transparent 58%);
+    animation-name: hero-mint-drift;
+    animation-duration: 32s;
+    animation-delay: -8s;
+  }
+
+  .hero-ambient[data-motion="running"] .hero-ambient__wash {
+    animation-play-state: running;
+    will-change: transform;
+  }
+
+  .hero-ambient__veil {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 29%, hsl(var(--background) / 0.82), hsl(var(--background) / 0.35) 48%, transparent 76%);
+  }
+
+  .hero-ambient__toggle {
+    position: absolute;
+    bottom: 0.75rem;
+    right: clamp(1rem, 4vw, 4rem);
+    z-index: 20;
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1px solid hsl(var(--primary) / 0.25);
+    border-radius: 50%;
+    color: hsl(var(--muted-foreground));
+    background: hsl(var(--background) / 0.84);
+    pointer-events: auto;
+    touch-action: manipulation;
+    transition: background-color 150ms ease, color 150ms ease;
+  }
+
+  .hero-ambient__toggle:focus-visible {
+    outline: 2px solid hsl(var(--brand-text));
+    outline-offset: 3px;
+  }
+
+  .hero-ambient__toggle:active {
+    background: hsl(var(--secondary));
+    color: hsl(var(--foreground));
+    transition: none;
   }
 
   .glow-card {
@@ -315,6 +370,28 @@
   }
 }
 
+/* Long ambient cycles deliberately move only the decorative gradient layers. */
+@keyframes hero-jade-drift {
+  0%, 100% { transform: translate(-4%, 0%) scale(1.04) rotate(-3deg); }
+  25% { transform: translate(4%, -4%) scale(1.1) rotate(0deg); }
+  50% { transform: translate(10%, 2%) scale(1.04) rotate(3deg); }
+  75% { transform: translate(2%, 6%) scale(1.1) rotate(0deg); }
+}
+
+@keyframes hero-mint-drift {
+  0%, 100% { transform: translate(5%, -3%) scale(1.08) rotate(3deg); }
+  25% { transform: translate(-5%, 1%) scale(1.02) rotate(0deg); }
+  50% { transform: translate(-10%, 6%) scale(1.08) rotate(-3deg); }
+  75% { transform: translate(0%, 2%) scale(1.02) rotate(0deg); }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hero-ambient__toggle:hover {
+    background: hsl(var(--secondary));
+    color: hsl(var(--foreground));
+  }
+}
+
 @keyframes marquee {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
@@ -339,10 +416,14 @@
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-motion__video {
+  .hero-ambient .hero-ambient__wash {
+    animation: none;
+    transform: none;
+    will-change: auto;
+  }
+  .hero-ambient__toggle {
     display: none;
   }
-
 }
 
 /* 咨询按钮闪烁：图标外圈扩散 + 整钮微光呼吸 */
