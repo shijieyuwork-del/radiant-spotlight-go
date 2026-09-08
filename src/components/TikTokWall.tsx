@@ -5,17 +5,21 @@ import { Button } from "@/components/ui/button";
 import { useSavedCase } from "@/lib/saved-cases";
 import { Highlight } from "@/components/HighlightText";
 import { DEFAULT_VIDEO_POSTER } from "@/lib/cover-fallback";
+import type { AsiaLang } from "@/lib/asia-i18n";
+
+type DiaryText = { en: string; zh: string } & Partial<Record<Exclude<AsiaLang, "en" | "zh">, string>>;
+const diaryText = (text: DiaryText, lang: AsiaLang) => text[lang] || text.en;
 
 export type TikTokItem = {
   id: string;                 // for case detail route
   src: string;                // mp4 url
   poster?: string;
-  /** Bilingual fields */
-  user: { en: string; zh: string };
-  caption: { en: string; zh: string };
-  treatment: { en: string; zh: string };
-  clinic: { en: string; zh: string };
-  city?: { en: string; zh: string };
+  /** Published translations are optional; keep English visible when unavailable. */
+  user: DiaryText;
+  caption: DiaryText;
+  treatment: DiaryText;
+  clinic: DiaryText;
+  city?: DiaryText;
   likes: string;
   comments: string;
   priceCny: number;
@@ -25,7 +29,7 @@ export type TikTokItem = {
 
 export type TikTokWallProps = {
   items: TikTokItem[];
-  lang: "en" | "zh" | "ru" | "es" | "th" | "ms";
+  lang: AsiaLang;
   fmtPrice: (cny: number) => string;
   /** 'preview' = small grid, 'wall' = larger immersive wall */
   variant?: "preview" | "wall" | "cases";
@@ -34,18 +38,20 @@ export type TikTokWallProps = {
   highlight?: string;
 };
 
-const labels = {
+const labels: Record<AsiaLang, { play: string; verified: string }> = {
   en: { play: "Tap to play", verified: "Diary preview" },
   zh: { play: "点击播放", verified: "日记预览" },
   ru: { play: "Нажмите для просмотра", verified: "Предпросмотр дневника" },
   es: { play: "Toca para reproducir", verified: "Vista previa del diario" },
+  th: { play: "แตะเพื่อเล่น", verified: "ตัวอย่างบันทึก" },
+  ms: { play: "Ketik untuk main", verified: "Pratonton diari" },
 };
 
 const MARK_CLASS = "rounded bg-primary/70 px-0.5 text-primary-foreground";
 
 const TikTokCard = ({
   item, lang, fmtPrice, caseHrefBase = "/cases/", autoPlayEligible = true, discovery = false, eager = false, beforeNavigate, highlight,
-}: { item: TikTokItem; lang: "en" | "zh" | "ru" | "es" | "th" | "ms"; fmtPrice: (n: number) => string; caseHrefBase?: string; autoPlayEligible?: boolean; discovery?: boolean; eager?: boolean; beforeNavigate?: () => boolean; highlight?: string }) => {
+}: { item: TikTokItem; lang: AsiaLang; fmtPrice: (n: number) => string; caseHrefBase?: string; autoPlayEligible?: boolean; discovery?: boolean; eager?: boolean; beforeNavigate?: () => boolean; highlight?: string }) => {
   const ref = useRef<HTMLVideoElement>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
   const [muted, setMuted] = useState(true);
@@ -131,7 +137,7 @@ const TikTokCard = ({
       }}
       role="link"
       tabIndex={0}
-      aria-label={item.caption[lang]}
+      aria-label={diaryText(item.caption, lang)}
     >
       <video
         ref={ref}
@@ -151,7 +157,7 @@ const TikTokCard = ({
       {/* top: treatment chip + verified */}
       <div className="absolute top-3 left-3 right-3 flex items-start justify-between gap-2">
         <span className="pill bg-white/90 backdrop-blur text-foreground text-label font-semibold">
-          <Highlight text={item.treatment[lang]} query={highlight} className={MARK_CLASS} />
+          <Highlight text={diaryText(item.treatment, lang)} query={highlight} className={MARK_CLASS} />
         </span>
         <span className="pill bg-primary/90 text-primary-foreground text-label font-semibold">
           {discovery ? recoveryStage : labels[lang].verified}
@@ -213,11 +219,11 @@ const TikTokCard = ({
 
       {/* bottom info */}
       <div className="absolute left-3 right-16 bottom-3 text-white">
-        <p className="text-xs font-semibold opacity-95"><Highlight text={item.user[lang]} query={highlight} className={MARK_CLASS} /></p>
-        <p className="text-[12px] mt-1 leading-snug line-clamp-2"><Highlight text={item.caption[lang]} query={highlight} className={MARK_CLASS} /></p>
+        <p className="text-xs font-semibold opacity-95"><Highlight text={diaryText(item.user, lang)} query={highlight} className={MARK_CLASS} /></p>
+        <p className="text-[12px] mt-1 leading-snug line-clamp-2"><Highlight text={diaryText(item.caption, lang)} query={highlight} className={MARK_CLASS} /></p>
         {item.city && (
           <p className="mt-1 flex items-center gap-1 text-label font-medium text-white/90">
-            <MapPin className="size-3" /> <Highlight text={item.city[lang]} query={highlight} className={MARK_CLASS} />
+            <MapPin className="size-3" /> <Highlight text={diaryText(item.city, lang)} query={highlight} className={MARK_CLASS} />
           </p>
         )}
         {item.priceCny > 0 && <p className="mt-2 text-sm font-semibold">{fmtPrice(item.priceCny)}</p>}
@@ -342,7 +348,7 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase, 
                     type="button"
                     className="absolute inset-0 z-50 rounded-3xl"
                     onClick={() => { if (!allowClick()) return; setActive(index); }}
-                    aria-label={it.caption[lang]}
+                    aria-label={diaryText(it.caption, lang)}
                   />
                 )}
               </div>

@@ -178,7 +178,7 @@ const Cases = () => {
         title={activeCity ? `${cityLabel} Cosmetic Surgery — Patient Journey Previews` : "Patient Recovery Journey Previews"}
         description={activeCity
           ? `Explore cosmetic care journey previews from ${cityLabel}, including procedure and recovery-stage information where available.`
-          : "Explore cosmetic care journey previews by procedure and city across Asia, with recovery-stage information where available."}
+          : "Explore cosmetic care journey previews by procedure and city in China, with recovery-stage information where available."}
         path={activeCity ? `/cases?city=${encodeURIComponent(activeCity)}` : "/cases"}
         image={activeCityMeta?.img}
       />

@@ -55,7 +55,7 @@ const About = () => {
     <>
       <PageMeta
         title="About CeladonChina"
-        description="Learn how CeladonChina supports cosmetic medical travel research and coordination, what we check, and where our role ends."
+        description="Learn how CeladonChina supports cosmetic medical travel research and coordination exclusively in China, what we check, and where our role ends."
         path="/about"
         structuredData={schema}
       />
@@ -69,7 +69,7 @@ const About = () => {
         <TrustSection title="CeladonChina at a glance">
           <dl className="grid gap-4 sm:grid-cols-2">
             {[
-              ["What it is", "A China-focused information and non-clinical coordination platform for international patients."],
+              ["What it is", "An information and non-clinical coordination platform for international patients. Our service area is China only."],
               ["What it covers", "Cosmetic surgery in China, provider research, consultation preparation, travel logistics, translation and follow-up coordination."],
               ["Who delivers care", "Independent treating clinicians and licensed medical facilities—not CeladonChina."],
               ["How to contact us", "Email contact@celadonchina.com or use WhatsApp at +1 470 861 3825."],

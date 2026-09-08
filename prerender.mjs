@@ -134,7 +134,7 @@ function buildRoutes(d) {
   const routes = [
     {
       path: "/",
-      title: "Cosmetic Surgery in China | Doctors & Travel Support | Celadon China",
+      title: "Cosmetic Surgery in China | Doctors & Travel Support | CeladonChina",
       absoluteTitle: true,
       description:
         "Explore cosmetic surgery in China with published doctor profiles, online consultations, procedure guidance, and coordinated travel, translation and aftercare from CeladonChina.",
@@ -142,9 +142,9 @@ function buildRoutes(d) {
     },
     {
       path: "/cities",
-      title: "Top Surgery Destinations in Asia",
+      title: "Cosmetic Surgery Destinations in China",
       description:
-        "Explore Seoul, Shanghai, Bangkok, Tokyo, Singapore and more — Asia's cosmetic surgery hubs with specialties, USD pricing, visa info and travel planning.",
+        "Explore Shanghai, Guangzhou, Beijing, Hainan and Hangzhou, with procedure information, indicative pricing and practical travel planning in China.",
     },
     {
       ...d.CLINIC_DIRECTORY_META,
@@ -152,15 +152,15 @@ function buildRoutes(d) {
     },
     {
       path: "/doctors",
-      title: "Cosmetic Expert Profiles in Asia",
+      title: "Cosmetic Expert Profiles in China",
       description:
-        "Explore published cosmetic expert profiles across Asia, compare listed specialties and credentials, and ask about English-language coordination.",
+        "Explore published cosmetic expert profiles in China, compare listed specialties and credentials, and ask about English-language coordination.",
     },
     {
       path: "/cases",
       title: "Patient Recovery Journey Previews",
       description:
-        "Explore cosmetic care journey previews by procedure and city across Asia, with recovery-stage information where available.",
+        "Explore cosmetic care journey previews by procedure and city in China, with recovery-stage information where available.",
     },
     {
       path: "/travel-packages",
@@ -169,8 +169,8 @@ function buildRoutes(d) {
     },
     {
       path: "/why-china",
-      title: "Why Choose Asia for Surgery",
-      description: "Evidence-based reasons to consider cosmetic medical travel in Asia, plus a practical safety checklist and original sources.",
+      title: "Why Choose China for Cosmetic Medical Travel",
+      description: "Evidence-based reasons to consider cosmetic medical travel in China, plus a practical safety checklist and original sources.",
     },
     {
       path: "/medical-tourism-china",
@@ -192,7 +192,7 @@ function buildRoutes(d) {
     {
       path: "/about",
       title: "About CeladonChina",
-      description: "Learn how CeladonChina supports cosmetic medical travel research and coordination, what we check, and where our role ends.",
+      description: "Learn how CeladonChina supports cosmetic medical travel research and coordination exclusively in China, what we check, and where our role ends.",
       schema: [
         {
           "@context": "https://schema.org",
@@ -410,6 +410,7 @@ async function main() {
       r.path === "/cosmetic-surgery-recovery-china" ||
       r.path === "/plastic-surgery-china" ||
       r.path === "/about" ||
+      r.path === "/travel-packages" ||
       r.path === "/treatments" || r.path.startsWith("/treatments/") ||
       r.path === "/cities" || r.path.startsWith("/cities/") ||
       r.path === "/clinics" || r.path.startsWith("/clinics/");

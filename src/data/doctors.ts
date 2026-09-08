@@ -4,6 +4,7 @@ import somchaiViriyaPortrait from "@/assets/doctor-somchai-viriya.webp";
 import tanakaYukiPortrait from "@/assets/doctor-tanaka-yuki.webp";
 import limWeijiePortrait from "@/assets/doctor-lim-weijie.webp";
 import liWenzhiPortrait from "@/assets/doctor-li-wenzhi.webp";
+import { CITIES } from "@/data/cities";
 
 export type Doctor = {
   id: string;
@@ -33,7 +34,7 @@ export type Doctor = {
   caseIds: string[];
 };
 
-export const DOCTORS: Doctor[] = [
+const ALL_DOCTORS: Doctor[] = [
   {
     id: "kim-minsoo",
     zh: "金珉秀 院长", en: "Kim Min-soo · Director",
@@ -204,5 +205,9 @@ export const DOCTORS: Doctor[] = [
     caseIds: ["blepharoplasty-shanghai", "necklift-shanghai", "bbl-shanghai"],
   },
 ];
+
+// Keep archived records above, but expose only the current China service area.
+const CHINA_CITY_NAMES = new Set(CITIES.map((city) => city.en));
+export const DOCTORS = ALL_DOCTORS.filter((doctor) => CHINA_CITY_NAMES.has(doctor.cityEn));
 
 export const findDoctor = (id: string) => DOCTORS.find((d) => d.id === id);

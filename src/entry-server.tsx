@@ -11,6 +11,7 @@ import Clinics from "./pages/Clinics";
 import ClinicDetail from "./pages/ClinicDetail";
 import MedicalTourismArticle from "./pages/MedicalTourismArticle";
 import About from "./pages/About";
+import Packages from "./pages/Packages";
 
 /** Build-time renderer for the indexable SEO core. */
 export function render(url: string) {
@@ -33,6 +34,7 @@ export function render(url: string) {
           <Route path="/clinics" element={<Clinics />} />
           <Route path="/clinics/:slug" element={<ClinicDetail />} />
           <Route path="/about" element={<About />} />
+          <Route path="/travel-packages" element={<Packages />} />
         </Routes>
       </AppProviders>
     </StaticRouter>,

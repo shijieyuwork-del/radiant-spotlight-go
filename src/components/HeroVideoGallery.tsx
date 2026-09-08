@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 import { Maximize2, Play, Volume2, VolumeX, X, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import type { TikTokItem } from "@/components/TikTokWall";
 import { DEFAULT_VIDEO_POSTER } from "@/lib/cover-fallback";
+import type { AsiaLang } from "@/lib/asia-i18n";
 
-type Lang = "en" | "zh" | "ru" | "es" | "th" | "ms";
+type Lang = AsiaLang;
 
 type HeroVideoGalleryProps = {
   items: TikTokItem[];
@@ -13,12 +14,28 @@ type HeroVideoGalleryProps = {
   size?: "default" | "large";
 };
 
-const ui = {
+type GalleryLabels = {
+  fullscreen: string;
+  viewCase: string;
+  more: string;
+  previous: string;
+  next: string;
+  show: string;
+  guide: string;
+  playGuide: string;
+  learnMore: string;
+  patientDiaries: string;
+  patientSubtitle: string;
+};
+
+const ui: Record<Lang, GalleryLabels> = {
   en: { fullscreen: "Play fullscreen", viewCase: "View case", more: "More patient diaries", previous: "Previous explainer video", next: "Next explainer video", show: "Show explainer video", guide: "Video guide", playGuide: "Play guide fullscreen", learnMore: "Explore support", patientDiaries: "Patient diaries", patientSubtitle: "Real recovery stories, shared step by step." },
   zh: { fullscreen: "全屏播放", viewCase: "查看案例", more: "更多患者日记", previous: "上一个讲解视频", next: "下一个讲解视频", show: "显示讲解视频", guide: "讲解视频", playGuide: "全屏播放讲解", learnMore: "了解支持服务", patientDiaries: "患者日记", patientSubtitle: "真实恢复经历，按阶段记录。" },
   ru: { fullscreen: "На весь экран", viewCase: "Смотреть случай", more: "Больше историй пациентов", previous: "Предыдущее видео", next: "Следующее видео", show: "Показать видео", guide: "Видеообзор", playGuide: "Смотреть на весь экран", learnMore: "Подробнее о поддержке", patientDiaries: "Истории пациентов", patientSubtitle: "Реальный опыт восстановления по этапам." },
   es: { fullscreen: "Reproducir en pantalla completa", viewCase: "Ver caso", more: "Más diarios de pacientes", previous: "Video explicativo anterior", next: "Siguiente video explicativo", show: "Mostrar video explicativo", guide: "Guía en video", playGuide: "Reproducir guía en pantalla completa", learnMore: "Explorar el apoyo", patientDiaries: "Diarios de pacientes", patientSubtitle: "Historias reales de recuperación, compartidas paso a paso." },
-} as const;
+  th: { fullscreen: "เล่นแบบเต็มหน้าจอ", viewCase: "ดูกรณีนี้", more: "บันทึกของผู้ป่วยเพิ่มเติม", previous: "วิดีโออธิบายก่อนหน้า", next: "วิดีโออธิบายถัดไป", show: "แสดงวิดีโออธิบาย", guide: "วิดีโอแนะนำ", playGuide: "เล่นวิดีโอแนะนำแบบเต็มหน้าจอ", learnMore: "ดูบริการสนับสนุน", patientDiaries: "บันทึกของผู้ป่วย", patientSubtitle: "เรื่องราวการฟื้นตัวจริงที่แบ่งปันทีละขั้นตอน" },
+  ms: { fullscreen: "Mainkan skrin penuh", viewCase: "Lihat kes", more: "Lebih banyak diari pesakit", previous: "Video penerangan sebelumnya", next: "Video penerangan seterusnya", show: "Tunjukkan video penerangan", guide: "Panduan video", playGuide: "Mainkan panduan skrin penuh", learnMore: "Terokai sokongan", patientDiaries: "Diari pesakit", patientSubtitle: "Kisah pemulihan sebenar, dikongsi langkah demi langkah." },
+};
 
 const GalleryCard = ({
   item,
