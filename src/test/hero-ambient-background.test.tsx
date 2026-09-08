@@ -1,7 +1,11 @@
 import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import HeroAmbientBackground from "@/components/HeroAmbientBackground";
 import type { AsiaLang } from "@/lib/asia-i18n";
+
+const ambientStyles = readFileSync(join(__dirname, "..", "index.css"), "utf8");
 
 type ObservedField = {
   callback: IntersectionObserverCallback;
@@ -95,10 +99,37 @@ describe("homepage ambient background", () => {
     expect(field?.querySelectorAll(".hero-ambient__wash")).toHaveLength(2);
     expect(field?.querySelector(".hero-ambient__wash--jade")).not.toBeNull();
     expect(field?.querySelector(".hero-ambient__wash--mint")).not.toBeNull();
+    const ripples = field?.querySelectorAll(".hero-ambient__ripples");
+    expect(ripples).toHaveLength(2);
+    expect(field?.querySelector(".hero-ambient__ripples--near")).not.toBeNull();
+    expect(field?.querySelector(".hero-ambient__ripples--far")).not.toBeNull();
+    ripples?.forEach((layer) => {
+      expect(layer.closest('[aria-hidden="true"]')).toBe(field);
+      const illustrations = layer.querySelectorAll("svg");
+      expect(illustrations.length).toBeGreaterThan(0);
+      illustrations.forEach((svg) => expect(svg).toHaveAttribute("focusable", "false"));
+      expect(layer.querySelector("a, button, input, [tabindex], animate, animateTransform")).toBeNull();
+    });
     const toggle = screen.getByRole("button");
+    expect(screen.getAllByRole("button")).toHaveLength(1);
     expect(toggle).toHaveAttribute("aria-controls", "hero-ambient-field");
     expect(toggle.closest('[aria-hidden="true"]')).toBeNull();
     expect(container.querySelector("video, canvas")).toBeNull();
+  });
+
+  it("gates both gradient and ripple animations with the same paused, running and reduced-motion rules", () => {
+    const rules = Array.from(ambientStyles.matchAll(/([^{}]+)\{([^{}]*)\}/g), ([, selector, declarations]) => ({
+      selectors: selector.split(",").map((part) => part.trim()),
+      declarations,
+    }));
+    for (const layer of [".hero-ambient__wash", ".hero-ambient__ripples"]) {
+      expect(rules.some(({ selectors, declarations }) => selectors.includes(layer) && /animation-play-state:\s*paused\s*;/.test(declarations))).toBe(true);
+      expect(rules.some(({ selectors, declarations }) => selectors.includes(`.hero-ambient[data-motion="running"] ${layer}`) && /animation-play-state:\s*running\s*;/.test(declarations))).toBe(true);
+    }
+    const reducedBlocks = Array.from(ambientStyles.matchAll(/@media\s*\(prefers-reduced-motion:\s*reduce\)\s*\{([\s\S]*?)\n\}/g), ([, block]) => block);
+    for (const layer of [".hero-ambient__wash", ".hero-ambient__ripples"]) {
+      expect(reducedBlocks.some((block) => Array.from(block.matchAll(/([^{}]+)\{([^{}]*)\}/g)).some(([, selectors, declarations]) => selectors.includes(layer) && /animation:\s*none\s*;/.test(declarations)))).toBe(true);
+    }
   });
 
   it("starts paused and only runs while the hero and document are visible", () => {
