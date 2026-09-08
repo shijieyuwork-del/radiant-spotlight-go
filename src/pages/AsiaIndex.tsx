@@ -208,7 +208,6 @@ const Hero = () => {
   return (
     <section className="hero-motion relative overflow-hidden">
       <div className="relative isolate">
-        <HeroAmbientBackground lang={lang} />
         <div className="container relative pb-16 pt-5 sm:py-14 md:py-20">
           <div className="mx-auto w-full max-w-5xl text-center">
             <span className="pill max-w-full justify-center bg-card/80 text-center leading-relaxed shadow-soft backdrop-blur">
@@ -1419,14 +1418,15 @@ const AsiaIndex = () => {
         path="/"
         structuredData={ORGANIZATION_SCHEMA}
       />
-      <div className="min-h-screen overflow-x-hidden bg-background">
+      <div className="home-water-page min-h-screen overflow-x-clip">
+        <HeroAmbientBackground lang={lang} />
         <AsiaNavbar />
         <main className="home-content-flow">
           <Hero />
           <TreatmentsSection />
           <DoctorsSection />
           <ClinicsSection />
-          <PatientStoriesSection />
+          <PatientStoriesSection ambient />
         </main>
         <Footer />
       </div>

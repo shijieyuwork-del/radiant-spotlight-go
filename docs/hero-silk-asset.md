@@ -1,6 +1,15 @@
-# Luminous silk background asset
+# Homepage ambient background history
 
-## Current organza replacement — 2026-09-08
+## Current: full-page flowing water — 2026-09-08
+
+- The user requested gently flowing water across the entire homepage, continuously animated by default.
+- `HeroAmbientBackground` is now mounted once at the homepage root. Its viewport-sized fixed surface stays visible from the hero through the directory sections, patient stories, consultation panel surround, and footer.
+- Two procedurally defined SVG ripple layers use slow 16/21-second transform-only loops. There is no animated bitmap, video, canvas, per-frame JavaScript, or new download dependency.
+- A fixed, localized pause/play control remains available throughout the page. User pause and reduced-motion preferences are honored; hidden browser tabs suspend motion. Scrolling beyond the hero does not stop the full-page surface.
+- Page copy and card surfaces are unchanged. The homepage section backgrounds expose the same continuous water surface; cards retain their opaque backgrounds for legibility. Other routes are unaffected.
+- The organza PNG and earlier WebP remain in the repository for recovery but are not imported or downloaded by the current homepage.
+
+## Previous organza replacement (not currently displayed)
 
 - Current source: `src/assets/hero-ribbons.png`, supplied by the parallel design task after the user requested thin translucent organza rather than ribbons.
 - Original PNG retained unchanged: 1672 × 941 RGB, 1,713,476 bytes. The cloth looks translucent within a pale complete composition; the file itself has no alpha channel.

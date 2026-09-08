@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Pause, Play } from "lucide-react";
 import type { AsiaLang } from "@/lib/asia-i18n";
-import heroOrganza from "@/assets/hero-ribbons.png";
 
 const motionLabels: Record<AsiaLang, { pause: string; play: string }> = {
   en: { pause: "Pause background animation", play: "Play background animation" },
@@ -12,7 +11,33 @@ const motionLabels: Record<AsiaLang, { pause: string; play: string }> = {
   ms: { pause: "Jeda animasi latar belakang", play: "Mainkan animasi latar belakang" },
 };
 
-/** CSS owns the motion; React only gates it for visibility and user preferences. */
+// Irregular, softened contours suggest water reflections instead of target rings.
+// Geometry is stable; only two lightweight CSS layers move, never the page content.
+const rippleContours = Array.from({ length: 12 }, (_, ring) => {
+  const radius = 100 + ring * 53;
+  const points = Array.from({ length: 64 }, (_, step) => {
+    const angle = step / 64 * Math.PI * 2;
+    const ripple = radius * (1 + 0.055 * Math.sin(angle * 3 + ring * 0.28) + 0.024 * Math.cos(angle * 5 - ring * 0.18));
+    return [500 + Math.cos(angle) * ripple, 500 + Math.sin(angle) * ripple * 0.67];
+  });
+  const midpoint = (a: number[], b: number[]) => `${((a[0] + b[0]) / 2).toFixed(1)} ${((a[1] + b[1]) / 2).toFixed(1)}`;
+  return `M ${midpoint(points[63], points[0])} ${points.map((point, i) => `Q ${point[0].toFixed(1)} ${point[1].toFixed(1)} ${midpoint(point, points[(i + 1) % 64])}`).join(" ")} Z`;
+});
+
+function WaterRippleTexture() {
+  return (
+    <svg viewBox="0 0 1000 1000" fill="none" focusable="false" aria-hidden="true">
+      <g className="hero-ambient__ripple-shadow" transform="translate(0 3)">
+        {rippleContours.map((d, index) => <path key={index} d={d} />)}
+      </g>
+      <g className="hero-ambient__ripple-light">
+        {rippleContours.map((d, index) => <path key={index} d={d} />)}
+      </g>
+    </svg>
+  );
+}
+
+/** A viewport-sized water surface stays behind the entire homepage while scrolling. */
 export default function HeroAmbientBackground({ lang }: { lang: AsiaLang }) {
   const rootRef = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
@@ -50,17 +75,19 @@ export default function HeroAmbientBackground({ lang }: { lang: AsiaLang }) {
   const label = userPaused ? motionLabels[lang].play : motionLabels[lang].pause;
 
   return (
-    <div ref={rootRef} className="hero-ambient" data-testid="hero-ambient-background" data-motion={running ? "running" : "paused"}>
-      <div id="hero-ambient-field" className="hero-ambient__field" aria-hidden="true">
-        <img src={heroOrganza} alt="" width={1672} height={941} className="hero-ambient__organza" decoding="async" />
-        <div className="hero-ambient__veil" />
-        <div className="hero-ambient__texture" />
+    <>
+      <div ref={rootRef} className="hero-ambient" data-testid="hero-ambient-background" data-motion={running ? "running" : "paused"}>
+        <div id="hero-ambient-field" className="hero-ambient__field" aria-hidden="true">
+          <div className="hero-ambient__ripples hero-ambient__ripples--near"><WaterRippleTexture /></div>
+          <div className="hero-ambient__ripples hero-ambient__ripples--far"><WaterRippleTexture /></div>
+          <div className="hero-ambient__veil" />
+        </div>
       </div>
       {!reducedMotion && (
         <button type="button" className="hero-ambient__toggle" onClick={() => setUserPaused((paused) => !paused)} aria-label={label} title={label} aria-controls="hero-ambient-field">
           {userPaused ? <Play className="size-3.5" aria-hidden="true" /> : <Pause className="size-3.5" aria-hidden="true" />}
         </button>
       )}
-    </div>
+    </>
   );
 }

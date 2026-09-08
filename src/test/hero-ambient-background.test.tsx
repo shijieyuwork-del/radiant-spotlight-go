@@ -2,10 +2,12 @@ import { act, cleanup, fireEvent, render, screen } from "@testing-library/react"
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
+import ts from "typescript";
 import HeroAmbientBackground from "@/components/HeroAmbientBackground";
 import type { AsiaLang } from "@/lib/asia-i18n";
 
 const ambientStyles = readFileSync(join(__dirname, "..", "index.css"), "utf8");
+const homeSource = readFileSync(join(__dirname, "..", "pages", "AsiaIndex.tsx"), "utf8");
 
 type ObservedField = {
   callback: IntersectionObserverCallback;
@@ -96,47 +98,81 @@ describe("homepage ambient background", () => {
     const { container } = render(<HeroAmbientBackground lang="en" />);
     const field = container.querySelector("#hero-ambient-field");
     expect(field).toHaveAttribute("aria-hidden", "true");
-    const image = field?.querySelector("img.hero-ambient__organza");
-    expect(field?.querySelectorAll("img")).toHaveLength(1);
-    expect(image).toHaveAttribute("alt", "");
-    expect(image?.closest('[aria-hidden="true"]')).toBe(field);
-    expect(image).not.toHaveAttribute("tabindex");
-    expect(field?.querySelector(".hero-ambient__form, .hero-ambient__glint")).toBeNull();
-    expect(field?.querySelector(".hero-ambient__form--champagne, .hero-ambient__wash, .hero-ambient__ripples, svg, video, canvas")).toBeNull();
+    const ripples = field?.querySelectorAll<HTMLDivElement>(".hero-ambient__ripples");
+    expect(ripples).toHaveLength(2);
+    expect(field?.querySelector(".hero-ambient__ripples--near")).toBeInTheDocument();
+    expect(field?.querySelector(".hero-ambient__ripples--far")).toBeInTheDocument();
+    ripples?.forEach((ripple) => {
+      expect(field).toContainElement(ripple);
+      expect(ripple).not.toHaveAttribute("tabindex");
+      expect(ripple.querySelector("svg")).toHaveAttribute("focusable", "false");
+      expect(ripple.querySelector("path, ellipse, circle")).not.toBeNull();
+    });
+    expect(field?.querySelector("img, video, canvas, button, a, input, [tabindex] ")).toBeNull();
+    expect(field?.querySelector(".hero-ambient__organza, .hero-ambient__form, .hero-ambient__glint, .hero-ambient__form--champagne")).toBeNull();
     const toggle = screen.getByRole("button");
     expect(screen.getAllByRole("button")).toHaveLength(1);
     expect(toggle).toHaveAttribute("aria-controls", "hero-ambient-field");
     expect(toggle.closest('[aria-hidden="true"]')).toBeNull();
-    expect(container.querySelector("video, canvas")).toBeNull();
+    expect(container.querySelector("img, video, canvas")).toBeNull();
   });
 
-  it("gates organza drift with shared paused, running and reduced-motion rules", () => {
+  it("gates both water-ripple layers with shared paused, running and reduced-motion rules", () => {
     const rules = Array.from(ambientStyles.matchAll(/([^{}]+)\{([^{}]*)\}/g), ([, selector, declarations]) => ({
       selectors: selector.split(",").map((part) => part.trim()),
       declarations,
     }));
     const reducedBlocks = Array.from(ambientStyles.matchAll(/@media\s*\(prefers-reduced-motion:\s*reduce\)\s*\{([\s\S]*?)\n\}/g), ([, block]) => block);
-    for (const layer of [".hero-ambient__organza"]) {
+    for (const layer of [".hero-ambient__ripples"]) {
       expect(rules.some(({ selectors, declarations }) => selectors.includes(layer) && /animation-play-state:\s*paused\s*;/.test(declarations))).toBe(true);
       expect(rules.some(({ selectors, declarations }) => selectors.includes(`.hero-ambient[data-motion="running"] ${layer}`) && /animation-play-state:\s*running\s*;/.test(declarations))).toBe(true);
       expect(reducedBlocks.some((block) => Array.from(block.matchAll(/([^{}]+)\{([^{}]*)\}/g)).some(([, selectors, declarations]) => selectors.includes(layer) && /animation:\s*none\s*;/.test(declarations)))).toBe(true);
     }
-    expect(ambientStyles).not.toMatch(/hero-ambient__(?:wash|ripples|form--champagne)|hero-silk-champagne/);
+    expect(ambientStyles).not.toMatch(/hero-ambient__(?:organza|form--champagne)|hero-organza-drift|hero-silk-champagne/);
   });
 
-  it("loads the supplied complete organza PNG rather than repeating opaque cutouts", () => {
+  it("renders scalable water shapes without bitmap, video or canvas assets", () => {
     const { container } = render(<HeroAmbientBackground lang="en" />);
-    expect(container.querySelector("img")).toHaveAttribute("src", expect.stringContaining("hero-ribbons.png"));
+    expect(container.querySelector("img, video, canvas, svg image, svg animate, svg animateTransform")).toBeNull();
+    const componentSource = readFileSync(join(__dirname, "..", "components", "HeroAmbientBackground.tsx"), "utf8");
+    expect(componentSource).not.toMatch(/hero-ribbons|hero-luminous-silk|requestAnimationFrame|setInterval/);
+    expect(ambientStyles).not.toContain("hero-ribbons.png");
     expect(ambientStyles).not.toContain("hero-luminous-silk.webp");
-    expect(ambientStyles).toMatch(/object-fit:\s*cover\s*;/);
-    const asset = readFileSync(join(__dirname, "..", "assets", "hero-ribbons.png"));
-    expect(asset.length).toBeGreaterThan(12);
-    expect(asset.subarray(0, 8).toString("hex")).toBe("89504e470d0a1a0a");
-    expect(asset.readUInt32BE(16)).toBe(1672);
-    expect(asset.readUInt32BE(20)).toBe(941);
   });
 
-  it("starts paused and only runs while the hero and document are visible", () => {
+  it("keeps the water loops on transforms instead of repainting filters or page layout", () => {
+    const loops = Array.from(ambientStyles.matchAll(/@keyframes\s+(home-water-[\w-]+)\s*\{([\s\S]*?)\n\}/g));
+    expect(loops).toHaveLength(2);
+    for (const [, , body] of loops) {
+      const properties = new Set(Array.from(body.matchAll(/([a-z-]+)\s*:/g), ([, property]) => property));
+      expect([...properties]).toEqual(["transform"]);
+    }
+  });
+
+  it("mounts one fixed background at the homepage root rather than within the hero", () => {
+    const source = ts.createSourceFile("AsiaIndex.tsx", homeSource, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
+    const waterPages: ts.JsxElement[] = [];
+    const mounts: ts.JsxSelfClosingElement[] = [];
+    const visit = (node: ts.Node) => {
+      if (ts.isJsxElement(node)) {
+        const className = node.openingElement.attributes.properties.find((attribute): attribute is ts.JsxAttribute => ts.isJsxAttribute(attribute) && attribute.name.getText(source) === "className");
+        if (className?.initializer && ts.isStringLiteral(className.initializer) && className.initializer.text.split(/\s+/).includes("home-water-page")) waterPages.push(node);
+      }
+      if (ts.isJsxSelfClosingElement(node) && node.tagName.getText(source) === "HeroAmbientBackground") mounts.push(node);
+      ts.forEachChild(node, visit);
+    };
+    visit(source);
+    expect(waterPages).toHaveLength(1);
+    expect(mounts).toHaveLength(1);
+    expect(mounts[0].parent).toBe(waterPages[0]);
+    expect(waterPages[0].getText(source)).toContain('<main className="home-content-flow">');
+    expect(waterPages[0].getText(source)).toContain("<PatientStoriesSection ambient");
+    expect(ambientStyles).toMatch(/\.home-water-page\s+\.home-content-flow\s*\{[^}]*background:\s*transparent\s*;/);
+    expect(ambientStyles).toMatch(/\.hero-ambient\s*\{[^}]*position:\s*fixed\s*;[^}]*inset:\s*0\s*;/);
+    expect(ambientStyles).toMatch(/\.hero-ambient__toggle\s*\{[^}]*position:\s*fixed\s*;/);
+  });
+
+  it("starts paused and only runs while the homepage background and document are visible", () => {
     render(<HeroAmbientBackground lang="en" />);
     expect(background()).toHaveAttribute("data-motion", "paused");
     expect(observers.some(({ elements }) => elements.size > 0)).toBe(true);

@@ -6,7 +6,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { patientStories, type PatientStory } from "@/data/patientStories";
 import { useAsia } from "@/lib/asia-i18n";
 
-const PatientStoriesSection = () => {
+const PatientStoriesSection = ({ ambient = false }: { ambient?: boolean }) => {
   const { lang } = useAsia();
   const zh = lang === "zh";
   const [selectedStory, setSelectedStory] = useState<PatientStory | null>(null);
@@ -14,7 +14,7 @@ const PatientStoriesSection = () => {
 
   return (
     <section
-      className="bg-gradient-hero py-12 dark:bg-none sm:py-16"
+      className={`${ambient ? "patient-stories-ambient" : "bg-gradient-hero dark:bg-none"} py-12 sm:py-16`}
       aria-labelledby="patient-stories-title"
       lang={zh ? "zh" : "en"}
     >

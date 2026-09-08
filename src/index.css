@@ -261,15 +261,31 @@
 
   .hero-motion {
     isolation: isolate;
+    background: transparent;
+  }
+
+  .home-water-page {
+    position: relative;
+    isolation: isolate;
     background: hsl(var(--background));
   }
 
+  .home-water-page .home-content-flow {
+    background: transparent;
+  }
+
+  .home-water-page > main,
+  .home-water-page > section,
+  .home-water-page > footer {
+    position: relative;
+    z-index: 1;
+  }
+
   .hero-ambient {
-    --hero-surface: 45 36% 98%;
-    --hero-cool: 161 48% 65%;
-    --hero-warm: 30 76% 76%;
-    position: absolute;
+    --hero-surface: var(--background);
+    position: fixed;
     inset: 0;
+    z-index: 0;
     pointer-events: none;
   }
 
@@ -278,52 +294,67 @@
     inset: 0;
     overflow: hidden;
     background:
-      radial-gradient(ellipse at 86% 4%, hsl(var(--hero-warm) / 0.38), transparent 52%),
-      radial-gradient(ellipse at 8% 76%, hsl(var(--hero-cool) / 0.4), transparent 58%),
+      radial-gradient(ellipse at 0% 25%, hsl(var(--primary) / 0.22), transparent 68%),
+      radial-gradient(ellipse at 100% 80%, hsl(var(--primary-soft) / 0.7), transparent 68%),
+      linear-gradient(135deg, hsl(var(--secondary) / 0.3), hsl(var(--muted) / 0.48)),
       hsl(var(--hero-surface));
-    mask-image: linear-gradient(to bottom, black 0%, black 78%, transparent 100%);
   }
 
-  .hero-ambient__organza {
+  .hero-ambient__ripples {
     position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    animation: hero-organza-drift 20s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate;
+    width: max(70rem, 115vw);
+    aspect-ratio: 1;
+    mask-image: radial-gradient(ellipse, black 28%, transparent 71%);
+    animation: home-water-near 16s cubic-bezier(0.45, 0, 0.55, 1) -8s infinite alternate;
     animation-play-state: paused;
     transform-origin: 50% 50%;
   }
 
-  .hero-ambient[data-motion="running"] .hero-ambient__organza {
+  .hero-ambient__ripples--near {
+    left: -30%;
+    top: -48%;
+  }
+
+  .hero-ambient__ripples--far {
+    right: -30%;
+    bottom: -58%;
+    animation-name: home-water-far;
+    animation-duration: 21s;
+    animation-delay: -13s;
+  }
+
+  .hero-ambient__ripples svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero-ambient__ripple-shadow {
+    stroke: hsl(var(--brand-text) / 0.07);
+    stroke-width: 1.1;
+  }
+
+  .hero-ambient__ripple-light {
+    stroke: hsl(var(--background) / 0.7);
+    stroke-width: 1.8;
+  }
+
+  .hero-ambient[data-motion="running"] .hero-ambient__ripples {
     animation-play-state: running;
     will-change: transform;
   }
 
   .hero-ambient__veil {
-    --hero-reading-veil: radial-gradient(ellipse 48% 58% at 50% 31%, hsl(var(--hero-surface) / 0.98), hsl(var(--hero-surface) / 0.96) 40%, hsl(var(--hero-surface) / 0.9) 62%, hsl(var(--hero-surface) / 0.56) 78%, transparent 100%);
     position: absolute;
     inset: 0;
-    background:
-      linear-gradient(to bottom, transparent 68%, hsl(var(--hero-surface) / 0.85) 82%, hsl(var(--hero-surface) / 0.95) 100%),
-      var(--hero-reading-veil);
-  }
-
-  .hero-ambient__texture {
-    position: absolute;
-    inset: 0;
-    opacity: 0.12;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.92' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23808080' filter='url(%23grain)' opacity='.32' d='M0 0h180v180H0z'/%3E%3C/svg%3E");
-    background-size: 180px 180px;
-    mix-blend-mode: soft-light;
+    background: linear-gradient(90deg, hsl(var(--hero-surface) / 0.08), hsl(var(--hero-surface) / 0.54) 35%, hsl(var(--hero-surface) / 0.54) 65%, hsl(var(--hero-surface) / 0.08));
   }
 
   .hero-ambient__toggle {
-    position: absolute;
-    bottom: 0.75rem;
-    right: clamp(1rem, 4vw, 4rem);
-    z-index: 20;
+    position: fixed;
+    bottom: max(1rem, env(safe-area-inset-bottom));
+    left: max(1rem, env(safe-area-inset-left));
+    z-index: 40;
     display: grid;
     place-items: center;
     width: 2.75rem;
@@ -331,7 +362,7 @@
     border: 1px solid hsl(var(--primary) / 0.25);
     border-radius: 50%;
     color: hsl(var(--muted-foreground));
-    background: hsl(var(--background) / 0.84);
+    background: hsl(var(--background));
     pointer-events: auto;
     touch-action: manipulation;
     transition: background-color 150ms ease, color 150ms ease;
@@ -377,23 +408,35 @@
   }
 }
 
-/* The full organza composition drifts gently without rotating opaque edges into view. */
-@keyframes hero-organza-drift {
-  from { transform: scale(1); }
-  to { transform: scale(1.035); }
+/* Continuous ambient water, independent of scroll position. Only textures move. */
+@keyframes home-water-near {
+  from { transform: translate(-3%, -1%) rotate(-12deg) scale(0.96, 0.95); }
+  to { transform: translate(3%, 3%) rotate(-5deg) scale(1.08, 1.04); }
+}
+
+@keyframes home-water-far {
+  from { transform: translate(3%, -2%) rotate(12deg) scale(1.06, 1.04); }
+  to { transform: translate(-3%, 2%) rotate(5deg) scale(0.97, 0.94); }
 }
 
 @media (max-width: 639px) {
-  .hero-ambient__veil { --hero-reading-veil: radial-gradient(ellipse 84% 65% at 50% 31%, hsl(var(--hero-surface) / 0.98), hsl(var(--hero-surface) / 0.94) 46%, hsl(var(--hero-surface) / 0.82) 66%, transparent 100%); }
+  .hero-ambient__ripples { width: 58rem; }
+  .hero-ambient__ripples--near { left: -32rem; top: -20rem; }
+  .hero-ambient__ripples--far { right: -32rem; bottom: -22rem; }
+  .hero-ambient__veil { background: hsl(var(--hero-surface) / 0.22); }
+  /* Keep the motion control clear of the existing mobile consultation bar. */
+  .hero-ambient__toggle { bottom: calc(5.5rem + env(safe-area-inset-bottom)); }
 }
 
-.dark .hero-ambient {
-  --hero-surface: 160 25% 8%;
-  --hero-cool: 161 38% 29%;
-  --hero-warm: 30 30% 32%;
+.dark .hero-ambient__field {
+  background:
+    radial-gradient(ellipse at 0% 25%, hsl(var(--primary) / 0.08), transparent 68%),
+    radial-gradient(ellipse at 100% 80%, hsl(var(--primary) / 0.06), transparent 68%),
+    hsl(var(--hero-surface));
 }
 
-.dark .hero-ambient__organza { opacity: 0.18; }
+.dark .hero-ambient__ripple-shadow { stroke: hsl(var(--foreground) / 0.055); }
+.dark .hero-ambient__ripple-light { stroke: hsl(var(--primary) / 0.08); }
 
 @media (prefers-contrast: more) {
   .hero-ambient__veil { background: hsl(var(--hero-surface) / 0.96); }
@@ -430,7 +473,7 @@
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-ambient[data-motion] .hero-ambient__organza {
+  .hero-ambient[data-motion] .hero-ambient__ripples {
     animation: none;
     transform: none;
     will-change: auto;
