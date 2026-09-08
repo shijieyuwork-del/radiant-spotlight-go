@@ -16,18 +16,20 @@
   },
   {
     "hospitalZh": "复旦大学附属中山医院",
-    "imgPath": "src/assets/real-photos/north/shanghai-zhongshan.webp",
+    "imgPath": "src/assets/real-photos/retouched/shanghai-zhongshan-retouched-v1.webp",
     "author": "そらみみ",
     "license": "CC BY-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:Building_of_Shanghai_Zhongshan_Hospital.jpg",
     "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/9/98/Building_of_Shanghai_Zhongshan_Hospital.jpg",
     "description": "Zhongshan Hospital, Fudan University, Shanghai, China. Photographed in 2018.",
-    "modifications": "Resized proportionally to a maximum width of 1200 px and converted to WebP; displayed crops may vary.",
+    "modifications": "Retouched from the linked original photograph with AI-assisted editing: Overhead utility wires removed; exposure and color balanced. Original photograph retained; exported as WebP. Card display may crop responsively.",
     "photographedAt": "2018-09-26",
     "originalWidth": 2946,
     "originalHeight": 3928,
-    "objectPosition": "50% 75%"
+    "objectPosition": "50% 75%",
+    "originalImgPath": "src/assets/real-photos/north/shanghai-zhongshan.webp",
+    "retouched": true
   },
   {
     "hospitalZh": "上海交通大学医学院附属瑞金医院",
@@ -46,17 +48,19 @@
   },
   {
     "hospitalZh": "上海交通大学医学院附属仁济医院",
-    "imgPath": "src/assets/real-photos/north/shanghai-renji.webp",
+    "imgPath": "src/assets/real-photos/retouched/shanghai-renji-retouched-v1.webp",
     "author": "Baycrest",
     "license": "CC BY-SA 2.5",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5",
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:Renji_East_Hospital.jpg",
     "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e4/Renji_East_Hospital.jpg",
     "description": "Renji Hospital, East Campus, Pudong, Shanghai, China. Photographed in 2008.",
-    "modifications": "Resized proportionally to a maximum width of 1200 px and converted to WebP; displayed crops may vary.",
+    "modifications": "Retouched from the linked original photograph with AI-assisted editing: Underexposed facades and foliage brightened; small foreground vehicles and pedestrians removed. Original photograph retained; exported as WebP. Card display may crop responsively.",
     "photographedAt": "2008-02",
     "originalWidth": 1024,
-    "originalHeight": 768
+    "originalHeight": 768,
+    "originalImgPath": "src/assets/real-photos/north/shanghai-renji.webp",
+    "retouched": true
   },
   {
     "hospitalZh": "上海市第六人民医院",
@@ -132,17 +136,19 @@
   },
   {
     "hospitalZh": "上海市同济医院",
-    "imgPath": "src/assets/real-photos/north/shanghai-tongji.webp",
+    "imgPath": "src/assets/real-photos/retouched/shanghai-tongji-retouched-v1.webp",
     "author": "N509FZ",
     "license": "CC BY-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:Tongji_Hospital_of_Tongji_University_(20251027141856).jpg",
     "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/e/ea/Tongji_Hospital_of_Tongji_University_%2820251027141856%29.jpg",
     "description": "Tongji Hospital of Tongji University, Shanghai, China. Photographed in 2025.",
-    "modifications": "Resized proportionally to a maximum width of 1200 px and converted to WebP; displayed crops may vary.",
+    "modifications": "Retouched from the linked original photograph with AI-assisted editing: Foreground pedestrians and scooters removed; mild tonal balancing. Original photograph retained; exported as WebP. Card display may crop responsively.",
     "photographedAt": "2025-10-27",
     "originalWidth": 6979,
-    "originalHeight": 4653
+    "originalHeight": 4653,
+    "originalImgPath": "src/assets/real-photos/north/shanghai-tongji.webp",
+    "retouched": true
   },
   {
     "hospitalZh": "中国医学科学院北京协和医院",
@@ -174,17 +180,19 @@
   },
   {
     "hospitalZh": "北京大学人民医院",
-    "imgPath": "src/assets/real-photos/north/beijing-pku-people.webp",
+    "imgPath": "src/assets/real-photos/retouched/beijing-pku-people-retouched-v1.webp",
     "author": "N509FZ",
     "license": "CC BY-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:East_gate_of_Peking_University_People%27s_Hospital_(20220721121931).jpg",
     "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/8/81/East_gate_of_Peking_University_People%27s_Hospital_%2820220721121931%29.jpg",
     "description": "East gate of Peking University People's Hospital, Beijing, China. Photographed in 2022.",
-    "modifications": "Resized proportionally to a maximum width of 1200 px and converted to WebP; displayed crops may vary.",
+    "modifications": "Retouched from the linked original photograph with AI-assisted editing: Foreground people and transient vehicles removed; subtle tonal balancing. Original photograph retained; exported as WebP. Card display may crop responsively.",
     "photographedAt": "2022-07-21",
     "originalWidth": 4032,
-    "originalHeight": 2688
+    "originalHeight": 2688,
+    "originalImgPath": "src/assets/real-photos/north/beijing-pku-people.webp",
+    "retouched": true
   },
   {
     "hospitalZh": "北京大学第三医院",
@@ -230,17 +238,19 @@
   },
   {
     "hospitalZh": "首都医科大学附属北京友谊医院",
-    "imgPath": "src/assets/real-photos/north/beijing-friendship.webp",
+    "imgPath": "src/assets/real-photos/retouched/beijing-friendship-retouched-v1.webp",
     "author": "N509FZ",
     "license": "CC BY-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:Beijing_Friendship_Hospital_(20211210132306).jpg",
     "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/2/29/Beijing_Friendship_Hospital_%2820211210132306%29.jpg",
     "description": "Beijing Friendship Hospital, China. Photographed in 2021.",
-    "modifications": "Resized proportionally to a maximum width of 1200 px and converted to WebP; displayed crops may vary.",
+    "modifications": "Retouched from the linked original photograph with AI-assisted editing: Overhead wires, utility poles and transient foreground traffic removed; exposure balanced. Original photograph retained; exported as WebP. Card display may crop responsively.",
     "photographedAt": "2021-12-10",
     "originalWidth": 3997,
-    "originalHeight": 2664
+    "originalHeight": 2664,
+    "originalImgPath": "src/assets/real-photos/north/beijing-friendship.webp",
+    "retouched": true
   },
   {
     "hospitalZh": "首都医科大学附属北京朝阳医院",
@@ -258,17 +268,19 @@
   },
   {
     "hospitalZh": "首都医科大学宣武医院",
-    "imgPath": "src/assets/real-photos/north/beijing-xuanwu.webp",
+    "imgPath": "src/assets/real-photos/retouched/beijing-xuanwu-retouched-v1.webp",
     "author": "N509FZ",
     "license": "CC BY-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:East_gate_of_Xuanwu_Hospital_(20201125145450).jpg",
     "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/f/fb/East_gate_of_Xuanwu_Hospital_%2820201125145450%29.jpg",
     "description": "East gate of Xuanwu Hospital, Beijing, China. Photographed in 2020.",
-    "modifications": "Resized proportionally to a maximum width of 1200 px and converted to WebP; displayed crops may vary.",
+    "modifications": "Retouched from the linked original photograph with AI-assisted editing: Foreground people and vehicles removed; exposure and color balanced. Original photograph retained; exported as WebP. Card display may crop responsively.",
     "photographedAt": "2020-11-25",
     "originalWidth": 3912,
-    "originalHeight": 2608
+    "originalHeight": 2608,
+    "originalImgPath": "src/assets/real-photos/north/beijing-xuanwu.webp",
+    "retouched": true
   },
   {
     "hospitalZh": "北京医院",
@@ -300,17 +312,19 @@
   },
   {
     "hospitalZh": "北京积水潭医院",
-    "imgPath": "src/assets/real-photos/north/beijing-jishuitan.webp",
+    "imgPath": "src/assets/real-photos/retouched/beijing-jishuitan-retouched-v1.webp",
     "author": "N509FZ",
     "license": "CC BY-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:Beijing_Jishuitan_Hospital,_Xinjiekou_(20211222135230).jpg",
     "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/9/96/Beijing_Jishuitan_Hospital%2C_Xinjiekou_%2820211222135230%29.jpg",
     "description": "Beijing Jishuitan Hospital, Xinjiekou Campus, China. Photographed in 2021.",
-    "modifications": "Resized proportionally to a maximum width of 1200 px and converted to WebP; displayed crops may vary.",
+    "modifications": "Retouched from the linked original photograph with AI-assisted editing: Foreground people and car removed; exposure balanced. Original photograph retained; exported as WebP. Card display may crop responsively.",
     "photographedAt": "2021-12-22",
     "originalWidth": 4032,
-    "originalHeight": 2688
+    "originalHeight": 2688,
+    "originalImgPath": "src/assets/real-photos/north/beijing-jishuitan.webp",
+    "retouched": true
   },
   {
     "hospitalZh": "北京大学口腔医院",
@@ -370,17 +384,19 @@
   },
   {
     "hospitalZh": "上海市第一人民医院",
-    "imgPath": "src/assets/real-photos/north/shanghai-general.webp",
+    "imgPath": "src/assets/real-photos/retouched/shanghai-general-retouched-v1.webp",
     "author": "Legolas1202",
     "license": "CC BY 3.0",
     "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:HKS1stHospital.JPG",
     "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/2/29/HKS1stHospital.JPG",
     "description": "Shanghai General Hospital and nearby Hongkou Middle School, China. Photographed in 2009.",
-    "modifications": "Resized proportionally to a maximum width of 1200 px and converted to WebP; displayed crops may vary.",
+    "modifications": "Retouched from the linked original photograph with AI-assisted editing: Exposure and white balance corrected; original overcast evening scene retained. Original photograph retained; exported as WebP. Card display may crop responsively.",
     "photographedAt": "2009-02-19",
     "originalWidth": 2592,
-    "originalHeight": 1944
+    "originalHeight": 1944,
+    "originalImgPath": "src/assets/real-photos/north/shanghai-general.webp",
+    "retouched": true
   },
   {
     "hospitalZh": "复旦大学附属眼耳鼻喉科医院",

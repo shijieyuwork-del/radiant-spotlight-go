@@ -1,31 +1,35 @@
 [
   {
     "hospitalZh": "南方医科大学南方医院 整形美容外科",
-    "imgPath": "src/assets/real-photos/south/guangzhou-nanfang.webp",
+    "imgPath": "src/assets/real-photos/retouched/guangzhou-nanfang-retouched-v1.webp",
     "fileTitle": "File:NaamFongJiJyun.jpg",
     "author": "CRCHF",
     "license": "CC BY-SA 3.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:NaamFongJiJyun.jpg",
     "description": "Nanfang Hospital building and entrance, photographed in 2015.",
-    "modifications": "Resized proportionally to 1200 pixels wide and converted to WebP; no content retouching. Card display may crop responsively.",
+    "modifications": "Retouched from the linked original photograph with AI-assisted editing: Foreground pedestrians, vehicles and cut-off umbrella removed; exposure and color balanced. Original photograph retained; exported as WebP. Card display may crop responsively.",
     "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/4/45/NaamFongJiJyun.jpg",
     "objectFit": "cover",
-    "objectPosition": "center top"
+    "objectPosition": "center top",
+    "originalImgPath": "src/assets/real-photos/south/guangzhou-nanfang.webp",
+    "retouched": true
   },
   {
     "hospitalZh": "暨南大学附属第一医院",
-    "imgPath": "src/assets/real-photos/south/guangzhou-jinan-first.webp",
+    "imgPath": "src/assets/real-photos/retouched/guangzhou-jinan-first-retouched-v1.webp",
     "fileTitle": "File:GUANGZHOU OVERSEAS CHINESE HOSPITAL.jpg",
     "author": "CRCHF",
     "license": "CC BY-SA 3.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:GUANGZHOU_OVERSEAS_CHINESE_HOSPITAL.jpg",
     "description": "Guangzhou Overseas Chinese Hospital (First Affiliated Hospital of Jinan University), photographed in 2015.",
-    "modifications": "Resized proportionally to 1200 pixels wide and converted to WebP; no content retouching. Card display may crop responsively.",
+    "modifications": "Retouched from the linked original photograph with AI-assisted editing: Foreground people and car removed; name wall and facade brightened. Original photograph retained; exported as WebP. Card display may crop responsively.",
     "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c8/GUANGZHOU_OVERSEAS_CHINESE_HOSPITAL.jpg",
     "objectFit": "cover",
-    "objectPosition": "center top"
+    "objectPosition": "center top",
+    "originalImgPath": "src/assets/real-photos/south/guangzhou-jinan-first.webp",
+    "retouched": true
   },
   {
     "hospitalZh": "广东省人民医院",
@@ -285,16 +289,18 @@
   },
   {
     "hospitalZh": "广州医科大学附属第一医院",
-    "imgPath": "src/assets/real-photos/south/guangzhou-medical-first.webp",
+    "imgPath": "src/assets/real-photos/retouched/guangzhou-medical-first-retouched-v1.webp",
     "fileTitle": "File:GZMUFAH IN-PATIENT BUILDING 20210718.jpg",
     "author": "中少",
     "license": "CC BY-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:GZMUFAH_IN-PATIENT_BUILDING_20210718.jpg",
     "description": "Inpatient building of First Affiliated Hospital of Guangzhou Medical University, Yuexiu headquarters; photographed in 2021.",
-    "modifications": "Resized proportionally to 1200 pixels wide and converted to WebP; no content retouching. Card display may crop responsively.",
+    "modifications": "Retouched from the linked original photograph with AI-assisted editing: Foreground overhead-wire pole and cables removed; tonal balancing. Original photograph retained; exported as WebP. Card display may crop responsively.",
     "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/b/bf/GZMUFAH_IN-PATIENT_BUILDING_20210718.jpg",
     "objectFit": "contain",
-    "objectPosition": "center"
+    "objectPosition": "center",
+    "originalImgPath": "src/assets/real-photos/south/guangzhou-medical-first.webp",
+    "retouched": true
   }
 ]

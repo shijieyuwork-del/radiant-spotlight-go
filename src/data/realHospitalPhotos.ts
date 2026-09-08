@@ -1,8 +1,10 @@
-/** Verified photographs only. Source records retain the individual file's attribution. */
+/** Hospital-matched source photographs; any retouch is documented in the source credit. */
 export type RealHospitalPhoto = {
   hospitalZh: string;
   aliases?: string[];
   imgPath: string;
+  originalImgPath?: string;
+  retouched?: boolean;
   author: string;
   license: string;
   licenseUrl: string;

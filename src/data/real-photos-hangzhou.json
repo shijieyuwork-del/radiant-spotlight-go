@@ -1,14 +1,16 @@
 [
   {
     "hospitalZh": "浙江大学医学院附属第二医院 整形科",
-    "imgPath": "src/assets/real-photos/hangzhou/zju-second.webp",
+    "imgPath": "src/assets/real-photos/retouched/zju-second-retouched-v1.webp",
     "author": "Yumeto",
     "license": "CC BY-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:20250419_Zhejiang_Daxue_Yixueyuan_Fushu_Di-Er_Yiyuan.jpg",
     "description": "Second Affiliated Hospital of Zhejiang University, Jiefang Road campus exterior. Photographed 19 April 2025.",
-    "modifications": "Resized to 1200 pixels wide and converted to WebP; original aspect ratio retained. Card display may crop responsively.",
-    "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/c/ca/20250419_Zhejiang_Daxue_Yixueyuan_Fushu_Di-Er_Yiyuan.jpg"
+    "modifications": "Retouched from the linked original photograph with AI-assisted editing: Foreground streetlight pole and transient road traffic removed; shadows lifted. Original photograph retained; exported as WebP. Card display may crop responsively.",
+    "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/c/ca/20250419_Zhejiang_Daxue_Yixueyuan_Fushu_Di-Er_Yiyuan.jpg",
+    "originalImgPath": "src/assets/real-photos/hangzhou/zju-second.webp",
+    "retouched": true
   },
   {
     "hospitalZh": "浙江省人民医院 整形外科",
@@ -47,25 +49,29 @@
   },
   {
     "hospitalZh": "浙江医院",
-    "imgPath": "src/assets/real-photos/hangzhou/zhejiang-hospital.webp",
+    "imgPath": "src/assets/real-photos/retouched/zhejiang-hospital-retouched-v1.webp",
     "author": "Nishino Asuka",
     "license": "CC BY-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:Zhejiang_Hospital%2C_Zhejiang_University_School_of_Medicine.jpg",
     "description": "Zhejiang Hospital entrance sign at night in Hangzhou. Photographed 18 January 2024.",
-    "modifications": "Resized to 1200 pixels wide and converted to WebP; original aspect ratio retained. Card display may crop responsively.",
-    "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/7/7b/Zhejiang_Hospital%2C_Zhejiang_University_School_of_Medicine.jpg"
+    "modifications": "Retouched from the linked original photograph with AI-assisted editing: Nighttime exposure, white balance and noise corrected. Original photograph retained; exported as WebP. Card display may crop responsively.",
+    "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/7/7b/Zhejiang_Hospital%2C_Zhejiang_University_School_of_Medicine.jpg",
+    "originalImgPath": "src/assets/real-photos/hangzhou/zhejiang-hospital.webp",
+    "retouched": true
   },
   {
     "hospitalZh": "浙江省中医院",
-    "imgPath": "src/assets/real-photos/hangzhou/zhejiang-chinese-medicine.webp",
+    "imgPath": "src/assets/real-photos/retouched/zhejiang-chinese-medicine-retouched-v1.webp",
     "author": "Huandy618",
     "license": "CC BY-SA 3.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:Chinese_medicine_hospital_of_zhejiang_province_01.jpg",
     "description": "Zhejiang Provincial Hospital of Chinese Medicine in Hangzhou. Photographed 2 January 2014.",
-    "modifications": "Resized to 1200 pixels wide and converted to WebP; original aspect ratio retained. Card display may crop responsively.",
-    "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/5/5e/Chinese_medicine_hospital_of_zhejiang_province_01.jpg"
+    "modifications": "Retouched from the linked original photograph with AI-assisted editing: Facade shadows lifted and color cast balanced; cut-off foreground bus removed. Original photograph retained; exported as WebP. Card display may crop responsively.",
+    "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/5/5e/Chinese_medicine_hospital_of_zhejiang_province_01.jpg",
+    "originalImgPath": "src/assets/real-photos/hangzhou/zhejiang-chinese-medicine.webp",
+    "retouched": true
   },
   {
     "hospitalZh": "浙江省肿瘤医院",
