@@ -27,7 +27,10 @@ export function HospitalDirectoryPhoto({ photo, name, href, priority = false, cl
             className="size-full outline outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10"
             style={{
               objectFit: availablePhoto.objectFit ?? (portrait ? "contain" : "cover"),
-              objectPosition: availablePhoto.objectPosition ?? "50% 35%",
+              objectPosition: availablePhoto.objectPosition ?? "50% 28%",
+              // Restrained editorial grade for real exteriors: lift overcast scenes
+              // and reduce distracting street noise without changing identity.
+              filter: "brightness(1.08) contrast(1.04) saturate(0.92)",
             }}
             onError={() => setFailed(true)}
           />
