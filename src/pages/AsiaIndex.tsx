@@ -48,7 +48,7 @@ import procedureWeightLoss from "@/assets/procedures/body-lift.jpg";
 import procedureMen from "@/assets/procedures/male-breast-reduction.jpg";
 import chineseDoctorTeam from "@/assets/chinese-doctor-team-candid-v1.webp";
 import shanghaiHuameiClinic from "@/assets/clinics/shanghai-huamei.jpg";
-import beijingBadachuClinic from "@/assets/clinics/beijing-badachu.jpg";
+import beijingYestarClinic from "@/assets/clinics/beijing-yestar.jpg";
 import guangzhouHuameiClinic from "@/assets/clinics/guangzhou-huamei.jpg";
 import PatientStoriesSection from "@/components/PatientStoriesSection";
 import { supabase } from "@/integrations/supabase/client";
@@ -728,15 +728,15 @@ const ClinicsSection = () => {
       tagsZh: ["院区资料", "项目需确认"],
     },
     {
-      en: "Plastic Surgery Hospital, CAMS (Badachu)",
-      zh: "中国医学科学院整形外科医院（八大处）",
-      cityEn: "Beijing · Shijingshan District",
-      cityZh: "北京 · 石景山区",
-      image: beijingBadachuClinic,
-      descriptionEn: "A specialist plastic-surgery hospital affiliated with the Chinese Academy of Medical Sciences.",
-      descriptionZh: "隶属于中国医学科学院的整形外科专科医院，覆盖多个整形与修复方向。",
-      tagsEn: ["Reconstructive", "Revision", "Facial surgery"],
-      tagsZh: ["整形修复", "修复手术", "面部整形"],
+      en: "Beijing Yestar Medical Aesthetic Hospital",
+      zh: "北京艺星医疗美容医院",
+      cityEn: "Beijing · Chaoyang District",
+      cityZh: "北京 · 朝阳区",
+      image: beijingYestarClinic,
+      descriptionEn: "A private medical-aesthetic hospital in the Chaoyang business district; confirm current services and specialists before booking.",
+      descriptionZh: "位于朝阳商业区的私立医疗美容医院，预约前请确认现有项目与专家安排。",
+      tagsEn: ["Private", "Aesthetic", "Confirm services"],
+      tagsZh: ["私立", "医疗美容", "需确认项目"],
     },
     {
       en: "Guangzhou Huamei Aesthetic Hospital",
