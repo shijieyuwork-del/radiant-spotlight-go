@@ -36,21 +36,6 @@ export const CLINIC_PUBLIC_PROFILES: ClinicPublicProfile[] = [
     languageSupport: "not-confirmed",
   },
   {
-    identity: { citySlug: "beijing", nameEn: "Plastic Surgery Hospital, CAMS (Badachu)", nameZh: "中国医学科学院整形外科医院 (八大处)" },
-    services: ["nose", "breast", "fat", "facial", "scars", "laser", "injections", "hair"],
-    serviceSourceUrl: "https://www.zhengxing.com.cn/page/yiyuanjianjie",
-    doctorDirectoryUrl: "https://www.zhengxing.com.cn/page/chuzhenanpai",
-    campus: {
-      addressEn: "33 Badachu Road, Shijingshan District, Beijing, China",
-      addressZh: "北京市石景山区八大处路33号",
-      areaEn: "Shijingshan District", areaZh: "石景山区",
-      sourceUrl: "https://www.zhengxing.com.cn/page/dlwz",
-    },
-    sourcesReviewedOn: "2026-09-08",
-    sourceUrls: ["https://www.zhengxing.com.cn/page/yiyuanjianjie", "https://www.zhengxing.com.cn/page/dlwz", "https://www.zhengxing.com.cn/page/chuzhenanpai"],
-    languageSupport: "not-confirmed",
-  },
-  {
     identity: { citySlug: "guangzhou", nameEn: "Guangzhou Huamei Aesthetic Hospital", nameZh: "广州华美医疗美容医院" },
     services: ["surgery", "dermatology", "dental"],
     serviceSourceUrl: "https://sthjj.gz.gov.cn/attachment/7/7708/7708339/9566270.pdf",

@@ -5,6 +5,8 @@ import ClinicDetail from "@/pages/ClinicDetail";
 import { STATIC_CLINICS, getClinicPath, mergeClinicDirectory, type PublishedClinicDoctor } from "@/data/clinicDirectory";
 import { CITIES } from "@/data/cities";
 import { ClinicCard } from "@/components/clinics/ClinicCard";
+import { findRealHospitalPhoto } from "@/data/realHospitalPhotos";
+import type { RealHospitalPhoto } from "@/data/realHospitalPhotos";
 
 const mocks = vi.hoisted(() => ({ open: vi.fn(), refetch: vi.fn(), directory: vi.fn(), lang: "en" }));
 vi.mock("@/components/AsiaNavbar", () => ({ default: () => <nav aria-label="Site" /> }));
@@ -12,6 +14,7 @@ vi.mock("@/components/Footer", () => ({ default: () => <footer /> }));
 vi.mock("@/components/QuoteRequest", () => ({ useQuote: () => ({ open: mocks.open }) }));
 vi.mock("@/hooks/use-clinic-directory", () => ({ useClinicDirectory: () => mocks.directory() }));
 vi.mock("@/lib/asia-i18n", () => ({ useAsia: () => ({ lang: mocks.lang }) }));
+vi.mock("@/data/realHospitalPhotos", () => ({ findRealHospitalPhoto: vi.fn() }));
 
 const linkedDoctor: PublishedClinicDoctor = { id: "published-expert", name: "Published Expert", title: "Published title", city: "Shanghai", hospital: "Example Published Clinic", i18n: {} };
 const snapshot = { clinics: STATIC_CLINICS, doctors: [] as PublishedClinicDoctor[], isLoading: false, isError: false, refetch: mocks.refetch };
@@ -88,7 +91,19 @@ describe("hospital detail pages", () => {
   });
 
   it("keeps photo source links outside hospital navigation links", () => {
-    const clinic = STATIC_CLINICS.find((item) => item.nameZh === "复旦大学附属华山医院")!;
+    const clinic = STATIC_CLINICS.find((item) => item.nameZh === "上海华美医疗美容医院")!;
+    const photo: RealHospitalPhoto = {
+      hospitalZh: clinic.nameZh,
+      src: "/private-clinic.webp",
+      imgPath: "private-clinic.webp",
+      author: "Original photographer",
+      license: "CC BY-SA 4.0",
+      licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
+      sourceUrl: "https://example.com/source",
+      description: "A private clinic exterior.",
+      modifications: "Converted to WebP.",
+    };
+    vi.mocked(findRealHospitalPhoto).mockReturnValue(photo);
     render(<MemoryRouter><ul><ClinicCard clinic={clinic} city={CITIES.find((city) => city.slug === clinic.citySlug)!} /></ul></MemoryRouter>);
     expect(screen.getByRole("heading", { name: clinic.nameEn }).closest("a")).toHaveAttribute("href", getClinicPath(clinic));
     expect(screen.getByText("Photo credit").closest("a")).toBeNull();

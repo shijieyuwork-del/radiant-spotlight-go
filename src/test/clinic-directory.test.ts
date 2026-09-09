@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
 import { CITIES } from "@/data/cities";
-import { ADDITIONAL_CLINICS } from "@/data/additionalClinics";
 import {
   STATIC_CLINICS,
   findClinicBySlug,
@@ -14,13 +13,20 @@ const doctor = (id: string, overrides: Partial<PublishedClinicDoctor> = {}): Pub
 });
 const added = (rows: PublishedClinicDoctor[]) => mergeClinicDirectory(rows).filter((clinic) => clinic.origin === "published");
 
+const PRIVATE_HOSPITALS = CITIES.flatMap((city) =>
+  city.hospitals.filter((hospital) => !hospital.isPublic).map((hospital) => ({
+    citySlug: city.slug, nameEn: hospital.en, nameZh: hospital.zh, areaEn: hospital.areaEn, areaZh: hospital.areaZh,
+  })),
+);
+
+const FIRST_PRIVATE_CLINIC = STATIC_CLINICS.find((entry) => entry.nameZh === "上海华美医疗美容医院")!;
+const SECOND_PRIVATE_CLINIC = STATIC_CLINICS.find((entry) => entry.nameZh === "上海薇琳医疗美容医院")!;
+
 describe("clinic directory data", () => {
-  it("preserves all 101 static records with unique, stable ASCII city-prefixed paths", () => {
-    const source = CITIES.flatMap((city) => [...city.hospitals, ...(ADDITIONAL_CLINICS[city.slug] ?? [])]
-      .map((hospital) => ({ citySlug: city.slug, nameEn: hospital.en, nameZh: hospital.zh, areaEn: hospital.areaEn, areaZh: hospital.areaZh })));
-    expect(STATIC_CLINICS).toHaveLength(101);
-    expect(new Set(STATIC_CLINICS.map(getClinicPath)).size).toBe(101);
-    expect(STATIC_CLINICS.map(({ citySlug, nameEn, nameZh, areaEn, areaZh }) => ({ citySlug, nameEn, nameZh, areaEn, areaZh }))).toEqual(source);
+  it("preserves only private static records with unique, stable ASCII city-prefixed paths", () => {
+    expect(STATIC_CLINICS).toHaveLength(PRIVATE_HOSPITALS.length);
+    expect(new Set(STATIC_CLINICS.map(getClinicPath)).size).toBe(PRIVATE_HOSPITALS.length);
+    expect(STATIC_CLINICS.map(({ citySlug, nameEn, nameZh, areaEn, areaZh }) => ({ citySlug, nameEn, nameZh, areaEn, areaZh }))).toEqual(PRIVATE_HOSPITALS);
     for (const clinic of STATIC_CLINICS) {
       expect(clinic.slug).toMatch(new RegExp(`^${clinic.citySlug}-[a-z0-9-]+$`));
       expect(getClinicPath(clinic)).toBe(getClinicPath(clinic.slug));
@@ -38,15 +44,14 @@ describe("clinic directory data", () => {
   });
 
   it("uses supplied complete bilingual names to attach doctors to an existing static clinic", () => {
-    const clinic = STATIC_CLINICS.find((entry) => entry.nameZh === "复旦大学附属华山医院")!;
     const result = mergeClinicDirectory([
-      doctor("en", { hospital: clinic.nameEn.toUpperCase(), city: "上海" }),
-      doctor("zh", { hospital: clinic.nameZh, city: " shanghai " }),
-      doctor("bundle", { hospital: "华山（上海）", i18n: { en: { hospital: clinic.nameEn }, zh: { hospital: clinic.nameZh } } }),
+      doctor("en", { hospital: FIRST_PRIVATE_CLINIC.nameEn.toUpperCase(), city: "上海" }),
+      doctor("zh", { hospital: FIRST_PRIVATE_CLINIC.nameZh, city: " shanghai " }),
+      doctor("bundle", { hospital: "华美（上海）", i18n: { en: { hospital: FIRST_PRIVATE_CLINIC.nameEn }, zh: { hospital: FIRST_PRIVATE_CLINIC.nameZh } } }),
     ]);
-    expect(result).toHaveLength(101);
-    expect(findClinicBySlug(clinic.slug, result)).toMatchObject({ doctorIds: ["bundle", "en", "zh"], origin: "directory" });
-    expect(findClinicBySlug(clinic.slug, result)?.aliases).toContain("华山（上海）");
+    expect(result).toHaveLength(PRIVATE_HOSPITALS.length);
+    expect(findClinicBySlug(FIRST_PRIVATE_CLINIC.slug, result)).toMatchObject({ doctorIds: ["bundle", "en", "zh"], origin: "directory" });
+    expect(findClinicBySlug(FIRST_PRIVATE_CLINIC.slug, result)?.aliases).toContain("华美（上海）");
   });
 
   it("merges a new bilingual clinic regardless of row order or primary language", () => {
@@ -82,10 +87,8 @@ describe("clinic directory data", () => {
   });
 
   it("ignores contradictory IDs and bilingual bridges between different static hospitals", () => {
-    const first = STATIC_CLINICS.find((entry) => entry.nameZh === "复旦大学附属华山医院")!;
-    const second = STATIC_CLINICS.find((entry) => entry.nameZh === "复旦大学附属中山医院")!;
     const rows = [
-      doctor("conflict", { hospital: first.nameEn, i18n: { zh: { hospital: second.nameZh } } }),
+      doctor("conflict", { hospital: FIRST_PRIVATE_CLINIC.nameEn, i18n: { zh: { hospital: SECOND_PRIVATE_CLINIC.nameZh } } }),
       doctor("duplicate", { hospital: "Clinic One" }),
       doctor("duplicate", { hospital: "Clinic Two" }),
     ];
@@ -94,32 +97,28 @@ describe("clinic directory data", () => {
   });
 
   it("does not let a bad bilingual row erase valid doctors at either static hospital", () => {
-    const first = STATIC_CLINICS.find((entry) => entry.nameZh === "复旦大学附属华山医院")!;
-    const second = STATIC_CLINICS.find((entry) => entry.nameZh === "复旦大学附属中山医院")!;
     const rows = [
-      doctor("valid-a", { hospital: first.nameEn }),
-      doctor("valid-b", { hospital: second.nameZh }),
-      doctor("bad-translation", { hospital: first.nameEn, i18n: { zh: { hospital: second.nameZh } } }),
+      doctor("valid-a", { hospital: FIRST_PRIVATE_CLINIC.nameEn }),
+      doctor("valid-b", { hospital: SECOND_PRIVATE_CLINIC.nameZh }),
+      doctor("bad-translation", { hospital: FIRST_PRIVATE_CLINIC.nameEn, i18n: { zh: { hospital: SECOND_PRIVATE_CLINIC.nameZh } } }),
     ];
     const result = mergeClinicDirectory(rows);
-    expect(result).toHaveLength(101);
-    expect(findClinicBySlug(first.slug, result)?.doctorIds).toEqual(["valid-a"]);
-    expect(findClinicBySlug(second.slug, result)?.doctorIds).toEqual(["valid-b"]);
+    expect(result).toHaveLength(PRIVATE_HOSPITALS.length);
+    expect(findClinicBySlug(FIRST_PRIVATE_CLINIC.slug, result)?.doctorIds).toEqual(["valid-a"]);
+    expect(findClinicBySlug(SECOND_PRIVATE_CLINIC.slug, result)?.doctorIds).toEqual(["valid-b"]);
     expect(mergeClinicDirectory([...rows].reverse())).toEqual(result);
   });
 
   it("keeps direct static matches when an indirect alias bridge connects two hospitals", () => {
-    const first = STATIC_CLINICS.find((entry) => entry.nameZh === "复旦大学附属华山医院")!;
-    const second = STATIC_CLINICS.find((entry) => entry.nameZh === "复旦大学附属中山医院")!;
     const rows = [
-      doctor("valid-a", { hospital: first.nameZh, i18n: { en: { hospital: "First Exact Alias" } } }),
-      doctor("valid-b", { hospital: second.nameZh, i18n: { en: { hospital: "Second Exact Alias" } } }),
+      doctor("valid-a", { hospital: FIRST_PRIVATE_CLINIC.nameZh, i18n: { en: { hospital: "First Exact Alias" } } }),
+      doctor("valid-b", { hospital: SECOND_PRIVATE_CLINIC.nameZh, i18n: { en: { hospital: "Second Exact Alias" } } }),
       doctor("indirect-bridge", { hospital: "First Exact Alias", i18n: { en: { hospital: "Second Exact Alias" } } }),
     ];
     const result = mergeClinicDirectory(rows);
-    expect(result).toHaveLength(101);
-    expect(findClinicBySlug(first.slug, result)?.doctorIds).toEqual(["valid-a"]);
-    expect(findClinicBySlug(second.slug, result)?.doctorIds).toEqual(["valid-b"]);
+    expect(result).toHaveLength(PRIVATE_HOSPITALS.length);
+    expect(findClinicBySlug(FIRST_PRIVATE_CLINIC.slug, result)?.doctorIds).toEqual(["valid-a"]);
+    expect(findClinicBySlug(SECOND_PRIVATE_CLINIC.slug, result)?.doctorIds).toEqual(["valid-b"]);
     expect(result.flatMap((entry) => entry.doctorIds)).not.toContain("indirect-bridge");
     expect(mergeClinicDirectory([...rows].reverse())).toEqual(result);
   });
