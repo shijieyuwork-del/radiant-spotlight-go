@@ -13,7 +13,7 @@ const text = (value: unknown): string => (typeof value === "string" ? value.trim
 export async function loadClinicRecords(): Promise<ClinicRecord[]> {
   const { data, error } = await supabase
     .from("clinics")
-    .select("id,static_slug,city_slug,name_en,name_zh,area_en,area_zh,description_en,description_zh,photo_path,is_public,hidden,status")
+    .select("id,static_slug,city_slug,name_en,name_zh,area_en,area_zh,description_en,description_zh,photo_path,website_url,is_public,hidden,status")
     .eq("status", "published")
     .order("id");
   if (error) throw new Error("Hospital records could not be loaded.");
@@ -30,6 +30,7 @@ export async function loadClinicRecords(): Promise<ClinicRecord[]> {
     descriptionEn: text(row.description_en),
     descriptionZh: text(row.description_zh),
     photoUrl: urls[index] ?? "",
+    websiteUrl: text(row.website_url),
     isPublic: Boolean(row.is_public),
     hidden: Boolean(row.hidden),
   }));
