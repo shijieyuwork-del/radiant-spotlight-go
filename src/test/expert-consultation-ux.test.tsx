@@ -51,6 +51,7 @@ beforeEach(() => {
       select: () => query,
       eq: () => query,
       order: () => mocks.list(table),
+      insert: () => ({ select: () => ({ maybeSingle: () => Promise.resolve({ data: { id: "11111111-1111-4111-8111-111111111111" }, error: null }) }) }),
       maybeSingle: () => mocks.detail(table),
     };
     return query;
@@ -181,8 +182,8 @@ describe("published profile consultation", () => {
     expect(handoff.origin + handoff.pathname).toBe("https://wa.me/14708613825");
     expect(handoff.searchParams.get("text")).toContain("Expert: Published Expert");
     expect(handoff.searchParams.get("text")).toContain("City in China: Shanghai");
-    expect(mocks.from).not.toHaveBeenCalledWith("quote_requests");
-    expect(mocks.invoke).not.toHaveBeenCalled();
+    await waitFor(() => expect(mocks.from).toHaveBeenCalledWith("quote_requests"));
+    await waitFor(() => expect(mocks.invoke).toHaveBeenCalledWith("quote-notification", { body: { requestId: "11111111-1111-4111-8111-111111111111" } }));
   });
 });
 
@@ -204,7 +205,7 @@ describe("consultation contact picker", () => {
     expect(mocks.from).not.toHaveBeenCalled();
   });
 
-  it("shows Chinese expert and location context while preserving the email handoff", () => {
+  it("shows Chinese expert and location context while preserving the email handoff", async () => {
     localStorage.setItem("glowy.asia.v1", JSON.stringify({ lang: "zh", currency: "USD" }));
     const location = { href: "" };
     Object.defineProperty(window, "location", { configurable: true, value: location });
@@ -225,11 +226,11 @@ describe("consultation contact picker", () => {
     expect(dialog.getByRole("heading", { name: "在邮件应用中完成发送" })).toBeInTheDocument();
     expect(dialog.getAllByText("消息尚未发送。请在应用中检查内容，再点击发送。").length).toBeGreaterThan(0);
     expect((dialog.getByRole("textbox", { name: "检查消息内容" }) as HTMLTextAreaElement).value).toContain("中国意向城市: 上海");
-    expect(mocks.from).not.toHaveBeenCalled();
-    expect(mocks.invoke).not.toHaveBeenCalled();
+    await waitFor(() => expect(mocks.from).toHaveBeenCalledWith("quote_requests"));
+    await waitFor(() => expect(mocks.invoke).toHaveBeenCalledWith("quote-notification", { body: { requestId: "11111111-1111-4111-8111-111111111111" } }));
   });
 
-  it("keeps the handoff and draft when a new window is blocked, and restores the selected channel on back", () => {
+  it("keeps the handoff and draft when a new window is blocked, and restores the selected channel on back", async () => {
     vi.mocked(window.open).mockReturnValue(null);
     const location = { href: "https://celadonchina.com/doctors/profile/example" };
     Object.defineProperty(window, "location", { configurable: true, value: location });
@@ -247,7 +248,7 @@ describe("consultation contact picker", () => {
     fireEvent.click(screen.getByRole("button", { name: "Edit my details" }));
     expect(screen.getByRole("radio", { name: "WhatsApp" })).toHaveFocus();
     expect(screen.getByLabelText("Your question")).toHaveValue("How do I arrange a consultation?");
-    expect(mocks.from).not.toHaveBeenCalled();
-    expect(mocks.invoke).not.toHaveBeenCalled();
+    await waitFor(() => expect(mocks.from).toHaveBeenCalledWith("quote_requests"));
+    await waitFor(() => expect(mocks.invoke).toHaveBeenCalledWith("quote-notification", { body: { requestId: "11111111-1111-4111-8111-111111111111" } }));
   });
 });

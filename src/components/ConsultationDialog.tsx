@@ -13,6 +13,7 @@ import type { QuoteContext } from "@/components/QuoteRequest";
 import { useAsia } from "@/lib/asia-i18n";
 import { trackEvent } from "@/lib/analytics";
 import { getConsultationPickerCopy, withConsultationSubject } from "@/lib/consultation-picker-copy";
+import { supabase } from "@/integrations/supabase/client";
 
 type Intent = NonNullable<QuoteContext["intent"]>;
 type ContactMethod = "email" | "whatsapp";
@@ -80,6 +81,31 @@ export const ConsultationDialog = ({ isOpen, onOpenChange, ctx, onCloseAutoFocus
   };
   const recordHandoff = (method: ContactMethod) => trackEvent(method === "email" ? "email_handoff" : "whatsapp_handoff", { source: ctx.source || "site_cta", option: intent || "question" });
 
+  /** The handoff stays the primary path; saving the lead and notifying admin runs alongside it. */
+  const saveRequest = async (message: string) => {
+    try {
+      const trimmedEmail = email.trim();
+      const trimmedPhone = phone.trim();
+      const { data, error } = await supabase.from("quote_requests").insert({
+        name: (trimmedEmail.split("@")[0] || trimmedPhone || "Website visitor").slice(0, 120),
+        email: contactMethod === "email" ? trimmedEmail : null,
+        phone: contactMethod === "whatsapp" ? trimmedPhone : "",
+        country: "",
+        procedure: intent === "question" ? question.trim().slice(0, 500) : (procedure.trim() === "__not_sure__" ? "" : procedure.trim()),
+        notes: message,
+        contact_method: contactMethod,
+        expert_name: ctx.doctorName ?? null,
+        city: city || ctx.city || null,
+        preferred_slot: timing === "" ? null : copy.timingOptions[Number(timing)],
+        source: ctx.source || "site_cta",
+      }).select("id").maybeSingle();
+      if (error || !data?.id) return;
+      await supabase.functions.invoke("quote-notification", { body: { requestId: data.id } });
+    } catch {
+      // A failed save never blocks the visitor's email or WhatsApp handoff.
+    }
+  };
+
   const prepareMessage = (event: FormEvent) => {
     event.preventDefault();
     const nextErrors: FieldErrors = {};
@@ -108,6 +134,7 @@ export const ConsultationDialog = ({ isOpen, onOpenChange, ctx, onCloseAutoFocus
       ? `mailto:contact@celadonchina.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(message)}`
       : `https://wa.me/14708613825?text=${encodeURIComponent(message)}`;
     setDraft({ message, url, method: contactMethod });
+    void saveRequest(message);
     setOpenError(false);
     trackEvent("quote_step_completed", { source: ctx.source || "site_cta", step: 2, option: intent || "question" });
     try {

@@ -25,10 +25,10 @@ const read = (rel: string) => readFileSync(join(SRC, rel), "utf-8");
 
 /** 用户确认的免费规划沟通 CTA；流程步骤标题不要求与按钮相同。 */
 const CANONICAL = {
-  en: "Start a free planning conversation",
-  zh: "开始免费规划咨询",
-  ru: "Бесплатно обсудить план поездки",
-  es: "Habla gratis sobre tu plan",
+  en: "Start a consultation",
+  zh: "开始咨询",
+  ru: "Начать консультацию",
+  es: "Iniciar una consulta",
 } as const;
 
 /** 渲染该按钮的页面/组件（必须走 QuoteCtaButton，不得内联文案） */
@@ -75,7 +75,7 @@ describe("quote CTA i18n — 字典键 hero.cta（唯一文案来源）", () => 
     }
   });
 
-  it("英文使用完整的免费规划沟通文案", () => {
+  it("英文使用规范的咨询 CTA 文案", () => {
     expect(dictValue(langBlock("en"), "hero.cta")).toBe(CANONICAL.en);
   });
 
@@ -85,10 +85,10 @@ describe("quote CTA i18n — 字典键 hero.cta（唯一文案来源）", () => 
     expect(zh).toContain("咨询");
   });
 
-  it("俄文与规范文案逐字一致且说明免费沟通", () => {
+  it("俄文与规范文案逐字一致且为咨询语义", () => {
     const ru = dictValue(langBlock("ru"), "hero.cta") ?? "";
     expect(ru).toBe(CANONICAL.ru);
-    expect(ru).toMatch(/Бесплатно обсудить/i);
+    expect(ru).toMatch(/консультаци/i);
   });
 
   it("zh/ru/es 字典键集合与 en 完全一致（任何语言都不漏键）", () => {
