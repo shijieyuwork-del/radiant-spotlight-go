@@ -955,8 +955,8 @@ const PricingPreviewSection = () => {
   const { lang, fmt } = useAsia();
   const c = (en: string, zh: string, ru: string, es: string) => lang === "zh" ? zh : lang === "ru" ? ru : lang === "es" ? es : translatedUiText(lang, en);
   return (
-    <section className="relative mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-20" aria-labelledby="sample-pricing-title">
-      <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-end">
+    <section className="home-section-surface relative mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-20" aria-labelledby="sample-pricing-title">
+      <div className="home-section-heading flex flex-col items-start justify-between gap-4 md:flex-row md:items-end">
         <div className="max-w-2xl">
           <span className="pill bg-secondary text-secondary-foreground mb-3">
             <Wallet className="size-3.5" /> {c("Sample pricing", "价格示范", "Примеры цен", "Precios de referencia")}
