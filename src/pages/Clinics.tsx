@@ -28,7 +28,7 @@ const Clinics = () => {
 
   const filteredFacilities = useMemo(() => {
     const term = normalize(query);
-    return CITIES.flatMap((city) => {
+    const combined = CITIES.flatMap((city) => {
       if (cityFilter !== "all" && city.slug !== cityFilter) return [];
       return clinics.filter((hospital) => {
         if (hospital.citySlug !== city.slug) return false;
@@ -43,11 +43,13 @@ const Clinics = () => {
           city.zh,
         ].join(" ").toLocaleLowerCase();
         return searchable.includes(term);
-      }).sort((a, b) => {
-        const score = (hospital: typeof a) => hospital.origin === "published" ? 2 : Number(Boolean(findRealHospitalPhoto(hospital.nameZh, hospital.nameEn, ...hospital.aliases)));
-        return Number(a.isPublic) - Number(b.isPublic) || score(b) - score(a);
       }).map((hospital) => ({ city, hospital }));
     });
+    const score = ({ hospital }: (typeof combined)[number]) =>
+      hospital.origin === "published" ? 2 : Number(Boolean(findRealHospitalPhoto(hospital.nameZh, hospital.nameEn, ...hospital.aliases)));
+    // Private clinics form one section before public hospitals, across all cities.
+    return combined.sort((a, b) =>
+      Number(a.hospital.isPublic) - Number(b.hospital.isPublic) || score(b) - score(a));
   }, [cityFilter, clinics, query]);
 
   const visibleCount = filteredFacilities.length;
