@@ -20,6 +20,8 @@ export type DirectoryClinic = {
   descriptionZh?: string;
   /** Admin-uploaded hero photograph (signed URL). */
   photoUrl?: string;
+  /** Official hospital website (absolute URL). */
+  websiteUrl?: string;
 };
 
 /** Callers must fetch published records only; publication status is not inferred here. */
