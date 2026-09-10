@@ -45,7 +45,7 @@ const Clinics = () => {
         return searchable.includes(term);
       }).sort((a, b) => {
         const score = (hospital: typeof a) => hospital.origin === "published" ? 2 : Number(Boolean(findRealHospitalPhoto(hospital.nameZh, hospital.nameEn, ...hospital.aliases)));
-        return score(b) - score(a);
+        return Number(a.isPublic) - Number(b.isPublic) || score(b) - score(a);
       }).map((hospital) => ({ city, hospital }));
     });
   }, [cityFilter, clinics, query]);
