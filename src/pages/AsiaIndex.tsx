@@ -58,6 +58,7 @@ import { DEMO_CHINA_DOCTORS } from "@/data/demoChinaDoctors";
 import { ManualRailControls } from "@/components/ManualRailControls";
 import { HomeSection } from "@/components/home/HomeSection";
 import { SectionActionLink, SectionHeader } from "@/components/home/SectionHeader";
+import DoctorFlipCard, { type DoctorFlipCardData } from "@/components/home/DoctorFlipCard";
 
 type ProcedureIconProps = { className?: string; strokeWidth?: number };
 
@@ -1213,10 +1214,7 @@ const TreatmentsSection = () => {
 
 const DoctorsSection = () => {
   const { t, lang } = useAsia();
-  const [publishedDoctors, setPublishedDoctors] = useState<Array<{
-    id: string; name: string; title: string; city: string;
-    specialties: string[]; bio: string; photo_path: string | null; photo?: string;
-  }>>([]);
+  const [publishedDoctors, setPublishedDoctors] = useState<Array<DoctorFlipCardData & { photo_path: string | null }>>([]);
   const doctorRailRef = useRef<HTMLDivElement>(null);
   const displayedDoctors = publishedDoctors.length > 0
     ? publishedDoctors.map((doctor) => ({ ...doctor, photo: doctor.photo ?? "", demo: false as const }))
@@ -1239,6 +1237,9 @@ const DoctorsSection = () => {
   useRealtimeRefresh(["doctors"], loadPublishedDoctors);
   const viewProfileLabel = lang === "zh" ? "查看专家资料" : lang === "ru" ? "Профиль эксперта" : lang === "es" ? "Ver perfil del experto" : translatedUiText(lang, "View expert profile");
   const allExpertsLabel = lang === "zh" ? "全部专家" : lang === "ru" ? "Все специалисты" : lang === "es" ? "Todos los especialistas" : translatedUiText(lang, "All experts");
+  const detailsLabel = lang === "zh" ? "查看医生介绍" : lang === "ru" ? "О враче" : lang === "es" ? "Conoce al médico" : "Meet this doctor";
+  const backLabel = lang === "zh" ? "返回卡片" : lang === "ru" ? "Назад" : lang === "es" ? "Volver" : "Back to card";
+  const profileLabel = lang === "zh" ? "医生简介" : lang === "ru" ? "Профиль врача" : lang === "es" ? "Perfil del médico" : "Doctor profile";
   // The homepage shows at most two rows of three; the full list lives on /doctors.
   const homepageDoctors = displayedDoctors.slice(0, 6);
   return (
@@ -1254,35 +1255,16 @@ const DoctorsSection = () => {
       <div
         ref={doctorRailRef}
         id="home-doctors-rail"
-        className="home-rail flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain py-1 scrollbar-hide md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:py-0"
+        className="home-rail flex touch-pan-x snap-x snap-mandatory items-stretch gap-4 overflow-x-auto overscroll-x-contain py-1 scrollbar-hide md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:py-0"
       >
         {homepageDoctors.map((d) => {
-          const photo = d.photo;
           return (
-          <Link
+          <div
             key={d.id}
-            to={d.demo ? `/doctors/demo/${d.id}` : `/doctors/profile/${d.id}`}
-            aria-label={`${viewProfileLabel}: ${d.name}`}
-            className="group flex min-w-[82vw] snap-center rounded-3xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 sm:min-w-[62vw] md:min-w-0"
+            className="flex min-w-[82vw] snap-center sm:min-w-[62vw] md:min-w-0"
           >
-            <article className="flex w-full flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-soft transition duration-300 group-hover:-translate-y-1 group-hover:border-primary/35 group-hover:shadow-pop motion-reduce:transition-none md:min-h-[540px]">
-              <div className="relative h-[264px] shrink-0 overflow-hidden bg-primary/10">
-                {photo ? <img src={photo} alt={d.name} loading="lazy" decoding="async" className="size-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.025] motion-reduce:transition-none" /> : <div className="grid size-full place-items-center text-primary"><Stethoscope className="size-16" /></div>}
-              </div>
-              <div className="flex grow flex-col p-6 pt-5">
-                <p className="text-label font-semibold uppercase tracking-[0.16em] text-brand">{d.title}</p>
-                <h3 className="mt-1.5 font-display text-[22px] font-semibold leading-tight text-foreground">{d.name}</h3>
-                <p className="mt-2 flex items-center gap-1.5 text-sm font-medium text-foreground"><MapPin className="size-3.5 shrink-0 text-primary" />{d.city}</p>
-                <div className="mt-3.5 flex flex-wrap gap-1.5">
-                  {d.specialties.slice(0, 3).map((s) => <span key={s} className="rounded-full bg-accent px-2.5 py-1 text-label text-accent-foreground">{s}</span>)}
-                </div>
-                <span className="mt-auto flex min-h-11 items-center justify-between border-t border-border pt-4 text-sm font-semibold text-foreground">
-                  {viewProfileLabel}
-                  <ArrowRight className="size-4 text-primary transition-transform group-hover:translate-x-1" />
-                </span>
-              </div>
-            </article>
-          </Link>
+            <DoctorFlipCard doctor={d} viewProfileLabel={viewProfileLabel} detailsLabel={detailsLabel} backLabel={backLabel} profileLabel={profileLabel} />
+          </div>
         )})}
       </div>
       <div className="md:hidden">
