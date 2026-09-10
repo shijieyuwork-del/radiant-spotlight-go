@@ -24,7 +24,9 @@ import { useDirectoryReturnPosition, useDirectoryState } from "@/hooks/use-direc
 
 const PAGE_SIZE = 9;
 
-type ManagedDoctor = { id:string; name:string; title:string; hospital:string; city:string; specialties:string[]; bio:string; photo_path:string|null; photo?:string; created_at?:string };
+// Hospital affiliations remain available to administrators, but are intentionally
+// not part of the public doctor directory payload or card presentation.
+type ManagedDoctor = { id:string; name:string; title:string; city:string; specialties:string[]; bio:string; photo_path:string|null; photo?:string; created_at?:string };
 type DirectoryDoctor = ManagedDoctor & { demo?: boolean };
 
 const Experts = () => {
@@ -42,7 +44,7 @@ const Experts = () => {
     setDirectoryStatus("loading");
     try {
       const { data, error } = await supabase.from("doctors")
-        .select("id,name,title,hospital,city,specialties,bio,photo_path,created_at,i18n")
+        .select("id,name,title,city,specialties,bio,photo_path,created_at,i18n")
         .eq("status", "published").order("created_at", { ascending: false });
       if (error) throw error;
       const chinaCities = ["shanghai", "beijing", "guangzhou", "hangzhou", "hainan", "上海", "北京", "广州", "杭州", "海南"];
@@ -268,7 +270,6 @@ const Experts = () => {
                         {d.demo && <span className="mt-2 inline-flex rounded-full bg-accent px-2.5 py-1 text-label font-semibold text-accent-foreground">{c("Sample profile", "示例资料", "Демо-профиль", "Perfil de muestra")}</span>}
                       </div>
                     </div>
-                    {d.hospital && <p className="mt-3 text-sm font-medium text-foreground">{d.hospital}</p>}
                     {d.bio && <p className="mt-4 line-clamp-2 text-sm leading-relaxed text-muted-foreground"><Highlight text={d.bio} query={q} /></p>}
                     <div className="mt-4 flex flex-wrap gap-1.5">{d.specialties.map((s) => <span key={s} className="rounded-full bg-accent px-2.5 py-1 text-label"><Highlight text={s} query={q} /></span>)}</div>
                     <div className="mt-auto grid gap-2 pt-6 min-[430px]:grid-cols-[0.9fr_1.1fr]">

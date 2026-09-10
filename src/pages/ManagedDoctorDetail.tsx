@@ -29,7 +29,6 @@ type Doctor = {
   name: string;
   title: string;
   city: string;
-  hospital?: string;
   specialties: string[];
   bio: string;
   credentials: string | null;
@@ -64,7 +63,7 @@ const ManagedDoctorDetail = () => {
         const { data, error } = await supabase
           .from("doctors")
           .select(
-            "id,name,title,hospital,city,specialties,bio,credentials,languages,photo_path,i18n",
+            "id,name,title,city,specialties,bio,credentials,languages,photo_path,i18n",
           )
           .eq("id", id)
           .eq("status", "published")
@@ -209,7 +208,6 @@ const ManagedDoctorDetail = () => {
                 </p>
                 <h1 className="mt-2 break-words font-display text-3xl leading-tight sm:text-4xl">{doctor.name}</h1>
                 <p className="mt-2 text-sm text-foreground sm:text-base">{doctor.title}</p>
-                {doctor.hospital && <p className="mt-3 text-sm font-semibold text-foreground">{doctor.hospital}</p>}
                 <p className="mt-2 flex items-center gap-1.5 text-sm text-foreground">
                   <MapPin className="size-4 shrink-0" />{doctor.city}
                 </p>
