@@ -12,7 +12,7 @@ afterEach(() => { cleanup(); state.lang = "en"; });
 
 describe("source-backed clinic comparison details", () => {
   it("matches each curated profile to one complete static institution identity", () => {
-    expect(CLINIC_PUBLIC_PROFILES).toHaveLength(2);
+    expect(CLINIC_PUBLIC_PROFILES).toHaveLength(3);
     for (const profile of CLINIC_PUBLIC_PROFILES) {
       const matches = STATIC_CLINICS.filter((clinic) => findClinicPublicProfile(clinic) === profile);
       expect(matches).toHaveLength(1);
@@ -36,14 +36,16 @@ describe("source-backed clinic comparison details", () => {
     }
   });
 
-  it("separates the hospital's source information from CeladonChina's own profiles", () => {
-    const profile = CLINIC_PUBLIC_PROFILES.find((item) => item.identity.citySlug === "guangzhou")!;
+  it("separates the hospital's official directory from CeladonChina's own profiles", () => {
+    const profile = CLINIC_PUBLIC_PROFILES.find((item) => item.identity.citySlug === "beijing")!;
     const onAsk = vi.fn();
     render(<ClinicComparisonInfo profile={profile} onAsk={onAsk} />);
-    expect(screen.getByText(/Details below come from the linked public sources/)).toBeInTheDocument();
-    const link = screen.getByRole("link", { name: /View the service information source/ });
-    expect(link).toHaveAttribute("href", profile.serviceSourceUrl);
+    expect(screen.getByText(/This external directory is separate/)).toBeInTheDocument();
+    const link = screen.getByRole("link", { name: /View the official doctor directory/ });
+    expect(link).toHaveAttribute("href", "https://www.zhengxing.com.cn/page/chuzhenanpai");
     expect(link).toHaveAttribute("rel", "noopener noreferrer");
+    expect(screen.getByText(/33 Badachu Road/)).toBeInTheDocument();
+    expect(screen.queryByText(/Xiaozhuang|East campus/)).not.toBeInTheDocument();
     expect(screen.getByText(/not a licence audit/)).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "Ask about these details" }));
     expect(onAsk).toHaveBeenCalledOnce();
@@ -69,13 +71,13 @@ describe("source-backed clinic comparison details", () => {
     }
     for (const lang of langs) {
       state.lang = lang;
-      render(<ClinicComparisonInfo profile={CLINIC_PUBLIC_PROFILES.find((item) => item.identity.citySlug === "guangzhou")!} onAsk={() => {}} />);
+      render(<ClinicComparisonInfo profile={CLINIC_PUBLIC_PROFILES.find((item) => item.identity.citySlug === "beijing")!} onAsk={() => {}} />);
       const region = screen.getByRole("region", { name: clinicProfileCopy.title[lang] });
       expect(within(region).getByText(clinicProfileCopy.languageMissing[lang])).toBeInTheDocument();
       expect(within(region).getByText(clinicProfileCopy.language[lang])).toBeInTheDocument();
       expect(within(region).getByText(clinicProfileCopy.celadonLanguage[lang])).toBeInTheDocument();
       expect(within(region).getByRole("link", { name: clinicProfileCopy.celadonLanguageLink[lang] })).toHaveAttribute("href", "/travel-packages#payment-terms");
-      expect(within(region).getByText(clinicServiceNames.surgery[lang])).toBeInTheDocument();
+      expect(within(region).getByText(clinicServiceNames.nose[lang])).toBeInTheDocument();
       expect(within(region).getByRole("button", { name: clinicProfileCopy.inquiry[lang] })).toBeInTheDocument();
       cleanup();
     }
