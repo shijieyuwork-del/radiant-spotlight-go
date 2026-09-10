@@ -16,6 +16,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Progress } from "@/components/ui/progress";
 import FileDropZone from "@/components/FileDropZone";
+import ClinicPdfExtractor from "@/components/ClinicPdfExtractor";
+
 
 const PHOTO_ACCEPT = "image/jpeg,image/png,image/webp";
 
@@ -84,6 +86,18 @@ const normalizeWebsite = (value: string): string | null => {
 };
 
 const cityName = (slug: string) => CITIES.find((city) => city.slug === slug)?.zh ?? slug;
+
+/** 把 AI 识别出的城市名（中文或英文）匹配回城市 slug。 */
+const slugForCity = (value: string): string | null => {
+  const term = value.trim().toLocaleLowerCase();
+  if (!term) return null;
+  const match = CITIES.find((city) =>
+    city.slug === term ||
+    city.zh === value.trim() ||
+    (city.en ?? "").toLocaleLowerCase() === term);
+  return match?.slug ?? null;
+};
+
 
 export default function ClinicAdmin() {
   const [rows, setRows] = useState<ClinicRow[]>([]);
@@ -327,6 +341,22 @@ export default function ClinicAdmin() {
           <DialogHeader><DialogTitle>{draft?.staticSlug ? "编辑医院资料" : draft?.id ? "编辑医院" : "新增医院"}</DialogTitle></DialogHeader>
           {draft && (
             <div className="space-y-3">
+              <ClinicPdfExtractor
+                disabled={saving}
+                onExtract={(fields) => setDraft((prev) => prev && ({
+                  ...prev,
+                  citySlug: prev.staticSlug ? prev.citySlug : (slugForCity(fields.city) ?? prev.citySlug),
+                  nameZh: fields.nameZh || prev.nameZh,
+                  nameEn: fields.nameEn || prev.nameEn,
+                  areaZh: fields.areaZh || prev.areaZh,
+                  areaEn: fields.areaEn || prev.areaEn,
+                  descriptionZh: fields.descriptionZh || prev.descriptionZh,
+                  descriptionEn: fields.descriptionEn || prev.descriptionEn,
+                  websiteUrl: fields.websiteUrl || prev.websiteUrl,
+                  isPublic: fields.isPublic || prev.isPublic,
+                }))}
+              />
+
               <div>
                 <Label>城市</Label>
                 <Select value={draft.citySlug} onValueChange={(v) => setDraft({ ...draft, citySlug: v })} disabled={Boolean(draft.staticSlug)}>
