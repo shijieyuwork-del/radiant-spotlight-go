@@ -34,7 +34,7 @@ export type City = {
   whyZh: string[];
   whyEn: string[];
   /** Top hospitals (display only) */
-  hospitals: { zh: string; en: string; areaZh: string; areaEn: string }[];
+  hospitals: { zh: string; en: string; areaZh: string; areaEn: string; isPublic?: boolean }[];
   /** Travel essentials */
   travelZh: { airport: string; visa: string; hotel: string; lang: string };
   travelEn: { airport: string; visa: string; hotel: string; lang: string };
@@ -271,7 +271,7 @@ const CITY_CATALOG: City[] = [
     ],
     hospitals: [
       { zh: "北京艺星医疗美容医院", en: "Beijing Yestar Aesthetic Hospital", areaZh: "朝阳区", areaEn: "Chaoyang District" },
-      { zh: "中国医学科学院整形外科医院 (八大处)", en: "Plastic Surgery Hospital, CAMS (Badachu)", areaZh: "石景山区", areaEn: "Shijingshan District" },
+      { zh: "中国医学科学院整形外科医院 (八大处)", en: "Plastic Surgery Hospital, CAMS (Badachu)", areaZh: "石景山区", areaEn: "Shijingshan District", isPublic: true },
       { zh: "北京加减美医疗美容医院", en: "Beijing Jiajianmei Aesthetic Hospital", areaZh: "朝阳区", areaEn: "Chaoyang District" },
     ],
     travelZh: {
@@ -301,8 +301,8 @@ const CITY_CATALOG: City[] = [
     whyZh: ["白云机场 CAN 连接国内外主要城市", "正规医美机构密集，粤港澳服务经验丰富", "珠江新城 / 天河住宿与术后护理便利"],
     whyEn: ["Baiyun Airport (CAN) connects major domestic and international cities", "Dense network of licensed hospitals serving the Greater Bay Area", "Convenient recovery stays and nursing in Zhujiang New Town / Tianhe"],
     hospitals: [
-      { zh: "南方医科大学南方医院 整形美容外科", en: "Nanfang Hospital · Plastic Surgery", areaZh: "白云区", areaEn: "Baiyun District" },
-      { zh: "广东省第二人民医院 整形美容科", en: "Guangdong Second Provincial General Hospital · Aesthetic Surgery", areaZh: "海珠区", areaEn: "Haizhu District" },
+      { zh: "南方医科大学南方医院 整形美容外科", en: "Nanfang Hospital · Plastic Surgery", areaZh: "白云区", areaEn: "Baiyun District", isPublic: true },
+      { zh: "广东省第二人民医院 整形美容科", en: "Guangdong Second Provincial General Hospital · Aesthetic Surgery", areaZh: "海珠区", areaEn: "Haizhu District", isPublic: true },
       { zh: "广州华美医疗美容医院", en: "Guangzhou Huamei Aesthetic Hospital", areaZh: "天河区", areaEn: "Tianhe District" },
     ],
     travelZh: { airport: "CAN · 国内外主要航线", visa: "中国签证 / 过境免签政策", hotel: "天河 · 珠江新城 恢复酒店", lang: "普通话 / 粤语 / 英文" },
