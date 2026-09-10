@@ -20,6 +20,8 @@ export type DirectoryClinic = {
   descriptionZh?: string;
   /** Admin-uploaded hero photograph (signed URL). */
   photoUrl?: string;
+  /** Official hospital website (absolute URL). */
+  websiteUrl?: string;
 };
 
 /** Callers must fetch published records only; publication status is not inferred here. */
@@ -266,6 +268,7 @@ export type ClinicRecord = {
   descriptionEn: string;
   descriptionZh: string;
   photoUrl: string;
+  websiteUrl: string;
   isPublic: boolean;
   hidden: boolean;
 };
@@ -298,6 +301,7 @@ export const applyClinicRecords = (clinics: DirectoryClinic[], records: ClinicRe
       descriptionEn: override.descriptionEn || undefined,
       descriptionZh: override.descriptionZh || undefined,
       photoUrl: override.photoUrl || undefined,
+      websiteUrl: override.websiteUrl || undefined,
     });
   }
 
@@ -325,6 +329,7 @@ export const applyClinicRecords = (clinics: DirectoryClinic[], records: ClinicRe
       descriptionEn: record.descriptionEn || undefined,
       descriptionZh: record.descriptionZh || undefined,
       photoUrl: record.photoUrl || undefined,
+      websiteUrl: record.websiteUrl || undefined,
     });
   }
   return merged;

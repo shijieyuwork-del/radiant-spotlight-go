@@ -30,6 +30,7 @@ type ClinicRow = {
   description_en: string | null;
   description_zh: string | null;
   photo_path: string | null;
+  website_url: string | null;
   is_public: boolean;
   hidden: boolean;
   status: string;
@@ -50,6 +51,7 @@ type Entry = {
   isPublic: boolean;
   hidden: boolean;
   photoUrl: string;
+  websiteUrl: string;
   href: string | null;
 };
 
@@ -66,13 +68,20 @@ type Draft = {
   isPublic: boolean;
   photoPath: string | null;
   photoUrl: string;
+  websiteUrl: string;
 };
 
 const emptyDraft = (): Draft => ({
   id: null, staticSlug: null, citySlug: CITIES[0]?.slug ?? "shanghai",
   nameEn: "", nameZh: "", areaEn: "", areaZh: "", descriptionEn: "", descriptionZh: "",
-  isPublic: false, photoPath: null, photoUrl: "",
+  isPublic: false, photoPath: null, photoUrl: "", websiteUrl: "",
 });
+
+const normalizeWebsite = (value: string): string | null => {
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+  return /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
+};
 
 const cityName = (slug: string) => CITIES.find((city) => city.slug === slug)?.zh ?? slug;
 
@@ -117,6 +126,7 @@ export default function ClinicAdmin() {
         isPublic: row ? row.is_public : clinic.isPublic,
         hidden: Boolean(row?.hidden),
         photoUrl: row?.photoUrl ?? "",
+        websiteUrl: row?.website_url ?? "",
         href: getClinicPath(clinic),
       } satisfies Entry;
     });
@@ -134,6 +144,7 @@ export default function ClinicAdmin() {
       isPublic: row.is_public,
       hidden: row.hidden,
       photoUrl: row.photoUrl ?? "",
+      websiteUrl: row.website_url ?? "",
       href: null,
     } satisfies Entry));
     return [...custom, ...fromStatic];
@@ -163,6 +174,7 @@ export default function ClinicAdmin() {
       isPublic: entry.isPublic,
       photoPath: entry.row?.photo_path ?? null,
       photoUrl: entry.photoUrl,
+      websiteUrl: entry.websiteUrl,
     });
   };
 
@@ -186,6 +198,7 @@ export default function ClinicAdmin() {
         description_zh: draft.descriptionZh.trim() || null,
         is_public: draft.isPublic,
         photo_path: photoPath,
+        website_url: normalizeWebsite(draft.websiteUrl),
         hidden: false,
         status: "published",
       };
@@ -348,6 +361,10 @@ export default function ClinicAdmin() {
               <div>
                 <Label>英文介绍</Label>
                 <Textarea rows={3} value={draft.descriptionEn} onChange={(e) => setDraft({ ...draft, descriptionEn: e.target.value })} />
+              </div>
+              <div>
+                <Label>官网地址</Label>
+                <Input value={draft.websiteUrl} onChange={(e) => setDraft({ ...draft, websiteUrl: e.target.value })} placeholder="https://www.example-hospital.com" inputMode="url" />
               </div>
               <div>
                 <Label>类型</Label>

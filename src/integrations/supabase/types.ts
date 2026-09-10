@@ -123,6 +123,7 @@ export type Database = {
           static_slug: string | null
           status: string
           updated_at: string
+          website_url: string | null
         }
         Insert: {
           area_en?: string | null
@@ -140,6 +141,7 @@ export type Database = {
           static_slug?: string | null
           status?: string
           updated_at?: string
+          website_url?: string | null
         }
         Update: {
           area_en?: string | null
@@ -157,6 +159,7 @@ export type Database = {
           static_slug?: string | null
           status?: string
           updated_at?: string
+          website_url?: string | null
         }
         Relationships: []
       }
