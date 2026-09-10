@@ -60,7 +60,7 @@ describe("source-backed clinic comparison details", () => {
     expect(screen.getByText(clinicProfileCopy.languageMissing.en)).toBeInTheDocument();
     expect(screen.getByText("Institution language support")).toBeInTheDocument();
     expect(screen.getByText(clinicProfileCopy.celadonLanguage.en)).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "View CeladonChina support" })).toHaveAttribute("href", "/travel-packages#payment-terms");
+    expect(screen.getByRole("link", { name: "View CeladonChina support" })).toHaveAttribute("href", "/travel-packages#support");
     expect(screen.queryByRole("link", { name: /official doctor/ })).not.toBeInTheDocument();
   });
 
@@ -76,7 +76,7 @@ describe("source-backed clinic comparison details", () => {
       expect(within(region).getByText(clinicProfileCopy.languageMissing[lang])).toBeInTheDocument();
       expect(within(region).getByText(clinicProfileCopy.language[lang])).toBeInTheDocument();
       expect(within(region).getByText(clinicProfileCopy.celadonLanguage[lang])).toBeInTheDocument();
-      expect(within(region).getByRole("link", { name: clinicProfileCopy.celadonLanguageLink[lang] })).toHaveAttribute("href", "/travel-packages#payment-terms");
+      expect(within(region).getByRole("link", { name: clinicProfileCopy.celadonLanguageLink[lang] })).toHaveAttribute("href", "/travel-packages#support");
       expect(within(region).getByText(clinicServiceNames.nose[lang])).toBeInTheDocument();
       expect(within(region).getByRole("button", { name: clinicProfileCopy.inquiry[lang] })).toBeInTheDocument();
       cleanup();

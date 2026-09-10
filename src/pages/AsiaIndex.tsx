@@ -231,7 +231,7 @@ const Hero = () => {
               </Button>
             </div>
 
-            <p className="mx-auto mt-3 max-w-2xl text-xs leading-relaxed text-muted-foreground sm:text-sm">{policy.initialText} <Link to="/travel-packages#payment-terms" className="underline underline-offset-4 hover:text-foreground">{policy.depositTitle}</Link></p>
+            <p className="mx-auto mt-3 max-w-2xl text-xs leading-relaxed text-muted-foreground sm:text-sm">{policy.initialText} <Link to="/travel-packages#support" className="underline underline-offset-4 hover:text-foreground">{policy.depositTitle}</Link></p>
 
             <div className="mx-auto mt-5 max-w-4xl sm:mt-9">
               <HeroVideoGallery items={diaryItems.slice(0, 10)} lang={lang} fmtPrice={fmt} />

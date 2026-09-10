@@ -53,7 +53,7 @@ export function ClinicComparisonInfo({ profile, onAsk }: { profile: ClinicPublic
           <dd className="mt-3 text-sm leading-6 text-muted-foreground">
             <p>{text(clinicProfileCopy.languageMissing)}</p>
             <p className="mt-3">{text(clinicProfileCopy.celadonLanguage)}</p>
-            <a href="/travel-packages#payment-terms" className="mt-3 inline-flex items-start gap-1.5 rounded-sm font-medium underline underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">
+            <a href="/travel-packages#support" className="mt-3 inline-flex items-start gap-1.5 rounded-sm font-medium underline underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">
               {text(clinicProfileCopy.celadonLanguageLink)}<ArrowRight className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
             </a>
           </dd>

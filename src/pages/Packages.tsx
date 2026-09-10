@@ -20,7 +20,6 @@ import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
 import { MedicalDisclaimer } from "@/components/MedicalDisclaimer";
-import { CoordinationPaymentInfo } from "@/components/CoordinationPaymentInfo";
 import { getCoordinationPolicy } from "@/data/coordination-policy";
 import { useAsia } from "@/lib/asia-i18n";
 import { asiaCopy } from "@/lib/asia-copy";
@@ -188,8 +187,6 @@ const Packages = () => {
               <p className="mt-4 text-base leading-relaxed text-muted-foreground md:text-lg">{c("Each stage answers the question patients ask most: what happens next, who helps and what should I prepare?", "每个阶段都会回答患者最关心的问题：下一步是什么、谁来协助、需要准备什么？", "Каждый этап отвечает на главные вопросы: что дальше, кто поможет и что подготовить?", "Cada etapa responde a la pregunta que más hacen los pacientes: ¿qué sigue, quién ayuda y qué debo preparar?")}</p>
             </div>
 
-            <CoordinationPaymentInfo />
-
             <div className="-mx-4 mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-5 scrollbar-hide sm:-mx-6 sm:px-6 md:mx-0 md:mt-10 md:grid md:grid-cols-2 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-3">
               {JOURNEY_STEPS.map((step, index) => {
                 const Icon = step.icon;
@@ -226,7 +223,7 @@ const Packages = () => {
                   <span className="pill bg-primary/10 text-foreground"><ShieldCheck className="size-3.5 text-primary" />{policy.freeTitle}</span>
                   <h2 className="mt-4 max-w-3xl font-display text-3xl font-medium leading-tight tracking-tight sm:text-4xl">{c("Your journey. Our support.", "你的旅程，我们相伴。", "Бесплатные услуги Celadon", "Servicios gratuitos de Celadon")}</h2>
                   <p className="mt-3 max-w-3xl text-sm leading-6 text-foreground/75"><span className="font-medium text-foreground">{policy.initialTitle}. </span>{policy.initialText}</p>
-                  <p className="mt-2 max-w-3xl text-sm leading-6 text-foreground/75"><span className="font-medium text-foreground">{policy.depositTitle}. </span>{policy.depositSummary}{" "}<a href="#payment-terms" className="font-medium underline underline-offset-4 hover:text-foreground">{policy.heading}</a></p>
+                  <p className="mt-2 max-w-3xl text-sm leading-6 text-foreground/75"><span className="font-medium text-foreground">{policy.depositTitle}. </span>{policy.depositSummary}</p>
                 </div>
               </div>
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-6 lg:gap-5">
