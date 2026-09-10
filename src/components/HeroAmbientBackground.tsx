@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Pause, Play } from "lucide-react";
 import type { AsiaLang } from "@/lib/asia-i18n";
+import oceanReference from "@/assets/home-ocean-reference.webp";
 
 const motionLabels: Record<AsiaLang, { pause: string; play: string }> = {
   en: { pause: "Pause background animation", play: "Play background animation" },
@@ -15,18 +16,27 @@ const motionLabels: Record<AsiaLang, { pause: string; play: string }> = {
 // Long, irregular wave bands suggest reflections on a calm surface without
 // creating the concentric circles that read like a target or ripple icon.
 const waveBands = [
-  "M -120 128 C 120 46 252 218 492 132 S 874 44 1320 154",
-  "M -160 206 C 88 128 286 288 530 212 S 910 124 1360 238",
-  "M -140 292 C 104 214 270 364 520 292 S 930 218 1340 330",
-  "M -180 382 C 78 302 286 458 548 380 S 956 302 1380 424",
-  "M -140 474 C 114 400 304 548 560 468 S 968 400 1340 510",
-  "M -180 566 C 86 490 286 642 552 560 S 948 490 1380 604",
-  "M -120 654 C 132 584 318 714 574 644 S 970 582 1340 700",
+  "M -160 96 C 22 18 154 194 354 112 S 626 26 824 122 S 1090 228 1360 112",
+  "M -180 172 C 54 88 186 258 420 178 S 704 84 922 182 S 1160 266 1380 172",
+  "M -140 252 C 88 164 236 340 468 258 S 744 170 966 266 S 1178 352 1348 250",
+  "M -190 338 C 54 248 214 434 452 344 S 756 250 1004 352 S 1194 424 1390 332",
+  "M -150 426 C 90 336 256 520 500 430 S 790 344 1028 446 S 1194 516 1360 420",
+  "M -200 514 C 58 420 214 616 462 516 S 758 426 1006 536 S 1196 604 1400 510",
+  "M -150 604 C 96 520 258 698 514 598 S 812 518 1042 620 S 1206 674 1370 596",
+];
+
+const waveSurfaces = [
+  "M -180 96 C 22 18 154 194 354 112 S 626 26 824 122 S 1090 228 1360 112 L 1360 178 C 1160 266 922 182 704 84 S 420 178 186 258 S 54 88 -180 172 Z",
+  "M -140 252 C 88 164 236 340 468 258 S 744 170 966 266 S 1178 352 1348 250 L 1348 332 C 1194 424 1004 352 756 250 S 452 344 214 434 S 54 248 -190 338 Z",
+  "M -150 426 C 90 336 256 520 500 430 S 790 344 1028 446 S 1194 516 1360 420 L 1360 510 C 1196 604 1006 536 758 426 S 462 516 214 616 S 58 420 -200 514 Z",
 ];
 
 function WaterRippleTexture() {
   return (
     <svg viewBox="0 0 1200 700" fill="none" focusable="false" aria-hidden="true" preserveAspectRatio="none">
+      <g className="hero-ambient__wave-surfaces">
+        {waveSurfaces.map((d, index) => <path key={index} d={d} />)}
+      </g>
       <g className="hero-ambient__ripple-shadow" transform="translate(0 3)">
         {waveBands.map((d, index) => <path key={index} d={d} />)}
       </g>
@@ -78,6 +88,7 @@ export default function HeroAmbientBackground({ lang }: { lang: AsiaLang }) {
     <>
       <div ref={rootRef} className="hero-ambient" data-testid="hero-ambient-background" data-motion={running ? "running" : "paused"}>
         <div id="hero-ambient-field" className="hero-ambient__field" aria-hidden="true">
+          <div className="hero-ambient__photo" style={{ backgroundImage: `url(${oceanReference})` }} />
           <div className="hero-ambient__ripples hero-ambient__ripples--near"><WaterRippleTexture /></div>
           <div className="hero-ambient__ripples hero-ambient__ripples--far"><WaterRippleTexture /></div>
           <div className="hero-ambient__veil" />

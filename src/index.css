@@ -353,11 +353,23 @@
       linear-gradient(135deg, hsl(158 52% 86%), hsl(48 58% 92%) 47%, hsl(198 56% 86%));
   }
 
+  .hero-ambient__photo {
+    position: absolute;
+    inset: -2%;
+    background-position: center 52%;
+    background-size: cover;
+    opacity: 0.36;
+    mix-blend-mode: multiply;
+    animation: home-water-near 22s cubic-bezier(0.45, 0, 0.55, 1) -11s infinite alternate;
+    animation-play-state: paused;
+  }
+
   .hero-ambient__ripples {
     position: absolute;
     width: max(90rem, 140vw);
     height: min(70rem, 100vh);
     mask-image: linear-gradient(90deg, transparent 0%, black 17%, black 83%, transparent 100%);
+    opacity: 0.44;
     animation: home-water-near 16s cubic-bezier(0.45, 0, 0.55, 1) -8s infinite alternate;
     animation-play-state: paused;
     transform-origin: 50% 50%;
@@ -371,6 +383,7 @@
   .hero-ambient__ripples--far {
     right: -20%;
     bottom: -8%;
+    opacity: 0.46;
     animation-name: home-water-far;
     animation-duration: 21s;
     animation-delay: -13s;
@@ -382,17 +395,33 @@
     height: 100%;
   }
 
+  .hero-ambient__wave-surfaces {
+    fill: hsl(184 52% 98% / 0.12);
+  }
+
+  .hero-ambient__wave-surfaces path:nth-child(2n) {
+    fill: hsl(162 52% 48% / 0.045);
+  }
+
   .hero-ambient__ripple-shadow {
-    stroke: hsl(var(--brand-text) / 0.18);
-    stroke-width: 1.35;
+    stroke: hsl(var(--brand-text) / 0.055);
+    stroke-width: 3.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 
   .hero-ambient__ripple-light {
-    stroke: hsl(188 62% 97% / 0.58);
-    stroke-width: 2.15;
+    stroke: hsl(188 62% 97% / 0.19);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 
-  .hero-ambient[data-motion="running"] .hero-ambient__ripples {
+  .hero-ambient__ripple-light path:nth-child(2n) { opacity: 0.62; }
+  .hero-ambient__ripple-light path:nth-child(3n) { opacity: 0.38; }
+
+  .hero-ambient[data-motion="running"] .hero-ambient__ripples,
+  .hero-ambient[data-motion="running"] .hero-ambient__photo {
     animation-play-state: running;
     will-change: transform;
   }
@@ -529,7 +558,8 @@
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-ambient[data-motion] .hero-ambient__ripples {
+  .hero-ambient[data-motion] .hero-ambient__ripples,
+  .hero-ambient[data-motion] .hero-ambient__photo {
     animation: none;
     transform: none;
     will-change: auto;
