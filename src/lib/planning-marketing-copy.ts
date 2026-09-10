@@ -101,6 +101,20 @@ const copy: Record<AsiaLang, PlanningMarketingCopy> = withVietnameseFallback({
     trip: "Saya perlukan bantuan merancang perjalanan",
     tripDetail: "Kongsi pilihan anda dengan penyelaras.",
   },
+  vi: {
+    title: "So sánh các cơ sở và chuyên gia.",
+    emphasis: "Lên kế hoạch chăm sóc tại Trung Quốc.",
+    subtitle: "Xem thông tin đã công bố về phòng khám và chuyên gia, nắm chi phí tham khảo và nhận hỗ trợ thiết thực cho việc tư vấn và chuyến đi.",
+    diaries: "Xem nhật ký hồi phục của bệnh nhân",
+    photoDescription: "Bộ ảnh trước và sau đã công bố của các chuyên gia tại Trung Quốc có trong danh mục.",
+    choosePath: "Bạn muốn bắt đầu từ đâu?",
+    procedure: "Tôi đã biết quy trình mình quan tâm",
+    procedureDetail: "Tìm hướng dẫn quy trình và chi phí tham khảo.",
+    providers: "Tôi đang so sánh các cơ sở",
+    providersDetail: "Khám phá các phòng khám và thông tin chuyên gia đã công bố.",
+    trip: "Tôi cần hỗ trợ lên kế hoạch chuyến đi",
+    tripDetail: "Chia sẻ mong muốn của bạn với điều phối viên.",
+  },
 });
 
 export const getPlanningMarketingCopy = (lang: AsiaLang) => copy[lang];

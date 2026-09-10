@@ -340,55 +340,14 @@ const viDict: Dict = {
   "cases.wallTitleMain": "Nhật ký hồi phục ", "cases.wallTitleEm": "của bệnh nhân", "cases.wallSub": "Khám phá theo quy trình và điểm đến tại Trung Quốc. Nhãn xác minh chỉ xuất hiện sau khi kiểm duyệt.",
   "case.back": "Quay lại", "case.related": "Ca liên quan", "case.book": "Đặt quy trình này",
   "disclaimer.text": "Cosmetics Asia là nền tảng thông tin và điều phối du lịch, không phải cơ sở y tế. Chúng tôi không cung cấp tư vấn, chẩn đoán hay điều trị y khoa. Mọi quyết định y tế được đưa ra trực tiếp giữa bạn và cơ sở y tế được cấp phép.",
+  "cities.kicker": "Phòng khám hàng đầu", "cities.title1": "Khám phá các phòng khám hàng đầu", "cities.titleEm": "trên khắp Trung Quốc",
+  "cities.clinics": "phòng khám đã xác minh",
   "disclaimer.short": "Không phải tư vấn y tế — Cosmetics Asia chỉ cung cấp thông tin và điều phối.",
 };
 
-// Vietnamese is intentionally seeded from English for any long-tail copy that has
-// not been translated yet; the core navigation and conversion copy is localized below.
-dict.vi = {
-  ...dict.en,
-  "nav.cities": "Các thành phố",
-  "nav.projects": "Quy trình",
-  "nav.clinics": "Phòng khám đã xác minh",
-  "nav.cases": "Nhật ký bệnh nhân",
-  "nav.compliance": "Chuyên gia",
-  "nav.signin": "Đăng nhập",
-  "nav.signup": "Đăng ký",
-  "hero.badge": "Được cấp phép tại Trung Quốc · Được cơ quan y tế địa phương xác minh · Dành cho bệnh nhân quốc tế",
-  "hero.title1": "Vẻ đẹp tại Trung Quốc,",
-  "hero.titleEm": "đơn giản hơn",
-  "hero.subtitle": "Hồ sơ chuyên gia tại Trung Quốc · nhật ký hồi phục của bệnh nhân · hỗ trợ tiếng Anh, đón sân bay và visa.",
-  "hero.cta": "Nhận tư vấn miễn phí",
-  "hero.hot": "Xu hướng",
-  "hero.feat1": "Đã xác minh giấy phép bác sĩ",
-  "hero.feat2": "Giấy phép cơ sở đã đăng ký",
-  "hero.feat3": "Thanh toán sau tư vấn",
-  "doc.cert": "Bác sĩ đã xác minh",
-  "doc.years": "năm kinh nghiệm",
-  "doc.cases": "quy trình",
-  "doc.lic": "Số giấy phép",
-  "doctors.kicker": "Bác sĩ phẫu thuật",
-  "doctors.title1": "Bác sĩ được công nhận",
-  "doctors.titleEm": "trên toàn cầu",
-  "doctors.lic": "Giấy phép y tế:",
-  "doctors.exp": "năm kinh nghiệm",
-  "doctors.cases": "quy trình",
-  "doctors.cta": "Xem hồ sơ",
-  "cases.kicker": "Nhật ký bệnh nhân",
-  "cases.title1": "Nhật ký hồi phục ·",
-  "cases.titleEm": "từng hành trình",
-  "cases.tabAll": "Tất cả",
-  "cases.viewAll": "Xem toàn bộ nhật ký",
-  "cases.wallTitle": "Nhật ký hồi phục của bệnh nhân",
-  "cases.wallTitleMain": "Nhật ký hồi phục ",
-  "cases.wallTitleEm": "của bệnh nhân",
-  "cases.wallSub": "Khám phá theo quy trình và điểm đến tại Trung Quốc. Nhãn xác minh chỉ xuất hiện sau khi kiểm duyệt.",
-  "case.back": "Quay lại",
-  "case.related": "Ca liên quan",
-  "case.book": "Đặt quy trình này",
-  "disclaimer.text": "Cosmetics Asia là nền tảng thông tin và điều phối du lịch, không phải cơ sở y tế. Chúng tôi không cung cấp tư vấn, chẩn đoán hay điều trị y khoa. Mọi quyết định y tế được đưa ra trực tiếp giữa bạn và cơ sở y tế được cấp phép.",
-  "disclaimer.short": "Không phải tư vấn y tế — Cosmetics Asia chỉ cung cấp thông tin và điều phối. Mọi quyết định y tế do bạn và cơ sở y tế được cấp phép thống nhất.",
-};
+// Vietnamese is seeded from English for any long-tail copy that has not been translated yet;
+// the core navigation and conversion copy is localized in viDict above.
+dict.vi = viDict;
 
 export type AsiaDictKey = keyof typeof dict.en;
 
