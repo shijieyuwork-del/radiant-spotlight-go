@@ -1489,6 +1489,7 @@ const AsiaIndex = () => {
         <main className="home-content-flow">
           <Hero />
           <TreatmentsSection />
+          <PricingPreviewSection />
           <DoctorsSection />
           <ClinicsSection />
           <PatientStoriesSection ambient />
