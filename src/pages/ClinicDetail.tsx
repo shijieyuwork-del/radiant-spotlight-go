@@ -78,6 +78,14 @@ export default function ClinicDetail() {
           <h1 className="mt-4 break-words font-display text-3xl font-medium leading-tight tracking-tight sm:text-4xl lg:text-5xl">{name}</h1>
           {secondary && secondary !== name && <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">{secondary}</p>}
           <p className="mt-5 flex items-center gap-2 text-sm"><MapPin className="size-4 shrink-0" aria-hidden="true" /><Link to={cityDirectory} className="underline underline-offset-4">{cityName}</Link><span className="text-muted-foreground">· {c("China", "中国", "Китай", "China")}</span></p>
+          {clinic.websiteUrl && (
+            <p className="mt-3 flex items-center gap-2 text-sm">
+              <Globe className="size-4 shrink-0" aria-hidden="true" />
+              <a href={clinic.websiteUrl} target="_blank" rel="noopener noreferrer nofollow" className="break-all underline underline-offset-4">
+                {c("Official website", "官方网站", "Официальный сайт", "Sitio web oficial")}
+              </a>
+            </p>
+          )}
         </header>
 
         {publicProfile && <ClinicComparisonInfo profile={publicProfile} onAsk={() => open({ hospitalName: clinic.nameEn, city: city.en, source: "clinic_detail" })} />}
