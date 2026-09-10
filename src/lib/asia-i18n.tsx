@@ -16,7 +16,7 @@ export const asiaLangLabel: Record<AsiaLang, { label: string; flag: string }> = 
 };
 
 type Dict = Record<string, string>;
-const dict: Record<Exclude<AsiaLang, "th" | "ms">, Dict> = {
+const dict: Record<Exclude<AsiaLang, "th" | "ms" | "vi">, Dict> & { vi?: Dict } = {
   en: {
     "brand.suffix": "China",
     "nav.cities": "Cities",

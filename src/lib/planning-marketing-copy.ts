@@ -1,3 +1,4 @@
+import { withVietnameseFallback } from "@/lib/asia-copy";
 import type { AsiaLang } from "@/lib/asia-i18n";
 
 type PlanningMarketingCopy = {
@@ -15,7 +16,7 @@ type PlanningMarketingCopy = {
   tripDetail: string;
 };
 
-const copy: Record<AsiaLang, PlanningMarketingCopy> = {
+const copy: Record<AsiaLang, PlanningMarketingCopy> = withVietnameseFallback({
   en: {
     title: "Compare providers.",
     emphasis: "Plan your care in China.",
@@ -100,6 +101,6 @@ const copy: Record<AsiaLang, PlanningMarketingCopy> = {
     trip: "Saya perlukan bantuan merancang perjalanan",
     tripDetail: "Kongsi pilihan anda dengan penyelaras.",
   },
-};
+});
 
 export const getPlanningMarketingCopy = (lang: AsiaLang) => copy[lang];

@@ -1,3 +1,4 @@
+import { withVietnameseFallback } from "@/lib/asia-copy";
 import type { AsiaLang } from "@/lib/asia-i18n";
 
 export const COORDINATION_DEPOSIT_USD = 200;
@@ -30,7 +31,7 @@ type CoordinationPolicyCopy = {
  * Rescheduling, no-surgery and end-of-hold outcomes have not been supplied.
  * Do not invent deductions, forfeiture or an unconditional cancellation refund.
  */
-export const COORDINATION_POLICY: Record<AsiaLang, CoordinationPolicyCopy> = {
+export const COORDINATION_POLICY: Record<AsiaLang, CoordinationPolicyCopy> = withVietnameseFallback({
   en: {
     heading: "Planning, support and payments",
     scope: "CeladonChina coordinates cosmetic-care visits in China only.",
@@ -157,6 +158,6 @@ export const COORDINATION_POLICY: Record<AsiaLang, CoordinationPolicyCopy> = {
     separateCosts: "Penerbangan, visa, penginapan hotel, lawatan pilihan dan perbelanjaan peribadi dibayar berasingan kecuali dinyatakan termasuk dalam pelan bertulis.",
     confirm: "Sahkan syarat pembayaran",
   },
-};
+});
 
 export const getCoordinationPolicy = (lang: AsiaLang) => COORDINATION_POLICY[lang];

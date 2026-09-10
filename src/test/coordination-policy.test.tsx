@@ -41,7 +41,7 @@ describe("coordination payment information", () => {
     expect(document.body).not.toHaveTextContent(/refunded when you pay the clinic|non-refundable|cancel anytime|forfeit/i);
   });
 
-  it("states the confirmed collection time and cancellation hold in all six languages", () => {
+  it("states the confirmed collection time and cancellation hold in every language", () => {
     const expected: Record<AsiaLang, [string, string]> = {
       en: ["before you depart for China", "If you cancel, your deposit can be held for one year."],
       zh: ["赴中国前收取", "取消后，押金可以保留一年。"],
@@ -49,6 +49,8 @@ describe("coordination payment information", () => {
       es: ["antes de tu salida hacia China", "Si cancelas, tu depósito puede mantenerse durante un año."],
       th: ["ก่อนที่คุณจะออกเดินทางไปจีน", "หากยกเลิก สามารถเก็บเงินมัดจำไว้ได้หนึ่งปี"],
       ms: ["sebelum anda berlepas ke China", "Jika anda membatalkan, deposit boleh disimpan selama satu tahun."],
+      // Vietnamese policy copy falls back to English until it is translated.
+      vi: ["before you depart for China", "If you cancel, your deposit can be held for one year."],
     };
     for (const lang of Object.keys(expected) as AsiaLang[]) {
       const [collection, cancellation] = expected[lang];

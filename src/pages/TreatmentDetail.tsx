@@ -4,7 +4,7 @@ import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
 import { findTreatment } from "@/data/treatments";
-import { useAsia } from "@/lib/asia-i18n";
+import { useAsia, type AsiaLang } from "@/lib/asia-i18n";
 import { MEDICAL_DISCLAIMER } from "@/lib/seo-config";
 import { PROCEDURE_CATEGORIES, procedureSlug } from "@/data/procedureCatalog";
 import { Button } from "@/components/ui/button";
@@ -375,7 +375,7 @@ const CatalogProcedureDetail = ({
   treatment,
 }: {
   procedure: { en: string; zh: string; categoryEn: string; categoryZh: string };
-  lang: "en" | "zh" | "ru" | "es" | "th" | "ms";
+  lang: AsiaLang;
   treatment?: RichTreatment;
 }) => {
   const { fmt } = useAsia();
@@ -604,7 +604,7 @@ const getRelatedCases = (procedure: string) => {
     .slice(0, 4);
 };
 
-const ProcedureVideoRow = ({ procedure, lang, fmt }: { procedure: string; lang: "en" | "zh" | "ru" | "es" | "th" | "ms"; fmt: (cny: number) => string }) => {
+const ProcedureVideoRow = ({ procedure, lang, fmt }: { procedure: string; lang: AsiaLang; fmt: (cny: number) => string }) => {
   const zh = lang === "zh";
   const ru = lang === "ru";
   const es = lang === "es";

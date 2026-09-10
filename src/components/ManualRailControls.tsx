@@ -10,6 +10,7 @@ const labels: Record<AsiaLang, { previous: string; next: string; position: strin
   es: { previous: "Anteriores", next: "Siguientes", position: "Elementos visibles" },
   th: { previous: "รายการก่อนหน้า", next: "รายการถัดไป", position: "รายการที่แสดง" },
   ms: { previous: "Item sebelumnya", next: "Item seterusnya", position: "Item yang kelihatan" },
+  vi: { previous: "Mục trước", next: "Mục tiếp theo", position: "Mục đang hiển thị" },
 };
 
 /** Navigation does not own a clock: the rail moves only on a visitor's action. */

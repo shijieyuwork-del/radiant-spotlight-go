@@ -9,6 +9,7 @@ const motionLabels: Record<AsiaLang, { pause: string; play: string }> = {
   es: { pause: "Pausar la animación de fondo", play: "Reproducir la animación de fondo" },
   th: { pause: "หยุดภาพเคลื่อนไหวพื้นหลังชั่วคราว", play: "เล่นภาพเคลื่อนไหวพื้นหลัง" },
   ms: { pause: "Jeda animasi latar belakang", play: "Mainkan animasi latar belakang" },
+  vi: { pause: "Tạm dừng hoạt ảnh nền", play: "Phát hoạt ảnh nền" },
 };
 
 // Irregular, softened contours suggest water reflections instead of target rings.

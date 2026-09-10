@@ -1,3 +1,4 @@
+import { withVietnameseFallback } from "@/lib/asia-copy";
 import type { AsiaLang } from "@/lib/asia-i18n";
 
 const en = {
@@ -29,7 +30,7 @@ const en = {
 
 export type ConsultationPickerCopy = { [K in keyof typeof en]: (typeof en)[K] extends string[] ? string[] : string };
 
-export const consultationPickerCopy: Record<AsiaLang, ConsultationPickerCopy> = {
+export const consultationPickerCopy: Record<AsiaLang, ConsultationPickerCopy> = withVietnameseFallback({
   en,
   zh: {
     headline: "你希望从哪里开始？", aboutHeadline: "咨询{subject}", intro: "先问一个问题，或填写信息，规划在中国的就医行程。", free: "免费初步沟通",
@@ -96,7 +97,7 @@ export const consultationPickerCopy: Record<AsiaLang, ConsultationPickerCopy> = 
     openError: "Aplikasi tidak dapat dibuka. Gunakan pautan di bawah atau salin mesej dan hantar ke hubungan yang dipaparkan.", emailError: "Masukkan alamat e-mel seperti name@example.com.", phoneError: "Masukkan nombor WhatsApp dengan kod negara, bermula dengan +.", questionError: "Masukkan soalan yang anda mahu kami jawab.", procedureError: "Masukkan prosedur atau pilih “Belum pasti”.",
     close: "Tutup", expert: "Pakar", hospital: "Klinik atau hospital", askExpert: "Tanya tentang pakar ini", questionMessage: "Hai CeladonChina, saya ada soalan tentang penjagaan di China.", carePlanMessage: "Hai CeladonChina, saya ingin bantuan merancang penjagaan di China.",
   },
-};
+});
 
 export const getConsultationPickerCopy = (lang: AsiaLang) => consultationPickerCopy[lang];
 export const withConsultationSubject = (template: string, subject: string) => template.replace("{subject}", subject);

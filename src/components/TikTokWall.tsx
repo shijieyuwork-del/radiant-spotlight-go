@@ -49,6 +49,7 @@ const labels: Record<AsiaLang, { play: string; verified: string }> = {
   es: { play: "Toca para reproducir", verified: "Vista previa del diario" },
   th: { play: "แตะเพื่อเล่น", verified: "ตัวอย่างบันทึก" },
   ms: { play: "Ketik untuk main", verified: "Pratonton diari" },
+  vi: { play: "Chạm để phát", verified: "Xem trước nhật ký" },
 };
 
 const MARK_CLASS = "rounded bg-primary/70 px-0.5 text-primary-foreground";

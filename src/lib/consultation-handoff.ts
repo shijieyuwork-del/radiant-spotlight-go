@@ -1,3 +1,4 @@
+import { withVietnameseFallback } from "@/lib/asia-copy";
 import type { AsiaLang } from "@/lib/asia-i18n";
 import type { QuoteContext } from "@/components/QuoteRequest";
 
@@ -29,7 +30,7 @@ type HandoffCopy = {
   copyFailed: string; back: string; openEmail: string; openWhatsapp: string;
 };
 
-export const consultationHandoffCopy: Record<AsiaLang, HandoffCopy> = {
+export const consultationHandoffCopy: Record<AsiaLang, HandoffCopy> = withVietnameseFallback({
   en: {
     title: "Your consultation draft",
     emailHeading: "Finish in your email app", whatsappHeading: "Finish in WhatsApp",
@@ -90,4 +91,4 @@ export const consultationHandoffCopy: Record<AsiaLang, HandoffCopy> = {
     copyFailed: "Tidak dapat menyalin secara automatik. Pilih mesej atau maklumat hubungan dan salin secara manual.",
     back: "Tukar cara menghubungi", openEmail: "Buka aplikasi e-mel", openWhatsapp: "Buka WhatsApp",
   },
-};
+});

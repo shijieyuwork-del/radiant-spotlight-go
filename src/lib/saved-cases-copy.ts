@@ -1,4 +1,4 @@
-import { asiaCopy } from "@/lib/asia-copy";
+import { asiaCopy, withVietnameseFallback } from "@/lib/asia-copy";
 import type { AsiaLang } from "@/lib/asia-i18n";
 
 const en = {
@@ -14,7 +14,7 @@ const en = {
   corruptError: "The saved list could not be read. Its stored data has not been replaced. Retry or keep browsing.",
 };
 export type SavedCasesCopy = typeof en;
-export const savedCasesCopy: Record<AsiaLang, SavedCasesCopy> = {
+export const savedCasesCopy: Record<AsiaLang, SavedCasesCopy> = withVietnameseFallback({
   en,
   zh: {
     title: "已收藏案例", localOnly: "仅保存在当前浏览器，不云端同步，也不跨设备同步。清除浏览器数据会移除此列表。",
@@ -61,5 +61,5 @@ export const savedCasesCopy: Record<AsiaLang, SavedCasesCopy> = {
     loading: "Memuatkan butiran kes disimpan…", retry: "Cuba lagi", loadError: "Sesetengah butiran tidak dapat dimuatkan. Rujukan simpanan tidak berubah. Cuba lagi.",
     storageError: "Storan pelayar tidak dapat dicapai. Benarkan storan laman ini dan cuba lagi. Tindakan belum disahkan.", corruptError: "Senarai tidak dapat dibaca. Data asal tidak diganti. Cuba lagi atau teruskan melihat kes.",
   },
-};
+});
 export const getSavedCasesCopy = (lang: AsiaLang) => asiaCopy(lang, savedCasesCopy);

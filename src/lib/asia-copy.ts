@@ -11,3 +11,6 @@ export const asiaCopy = <T,>(lang: AsiaLang, values: { en: T; zh: T; ru: T; es?:
   if (lang === "vi") return values.vi ?? values.en;
   return values.en;
 };
+
+/** Fill the Vietnamese slot of a per-language copy map from English until it is translated. */
+export const withVietnameseFallback = <T,>(copy: Record<Exclude<AsiaLang, "vi">, T> & { vi?: T }): Record<AsiaLang, T> => ({ ...copy, vi: copy.vi ?? copy.en });
