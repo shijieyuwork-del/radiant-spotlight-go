@@ -34,8 +34,6 @@ vi.mock("@/hooks/use-clinic-directory", () => ({
   useClinicDirectory: () => ({ clinics: STATIC_CLINICS, isLoading: mocks.loading, isError: mocks.error, refetch: mocks.refetch }),
 }));
 
-const TOTAL = STATIC_CLINICS.length;
-
 const Location = () => <output data-testid="location">{useLocation().search}</output>;
 const openDirectory = (path = "/clinics") => render(<MemoryRouter initialEntries={[path]}><Clinics /><Location /></MemoryRouter>);
 const results = () => screen.getByRole("list", { name: "All hospitals and clinics" });
@@ -53,83 +51,94 @@ beforeEach(() => {
 afterEach(cleanup);
 
 describe("clinic directory batches", () => {
-  it("shows every nationwide private facility without duplicates or a reveal button", () => {
+  it("starts with 24 and reveals every nationwide facility without duplicates", async () => {
     openDirectory();
-    expect(cards()).toHaveLength(TOTAL);
-    expect(screen.getByText(`Showing ${TOTAL} of ${TOTAL} facilities`)).toHaveAttribute("role", "status");
+    expect(STATIC_CLINICS).toHaveLength(101);
+    expect(cards()).toHaveLength(24);
+    expect(screen.getByText("Showing 24 of 101 facilities")).toHaveAttribute("role", "status");
+
+    for (const count of [48, 72, 96, 101]) {
+      const firstNewIndex = cards().length;
+      fireEvent.click(screen.getByRole("button", { name: /Show \d+ more facilities/ }));
+      expect(cards()).toHaveLength(count);
+      expect(screen.getByText(`Showing ${count} of 101 facilities`)).toBeVisible();
+      await waitFor(() => expect(cards()[firstNewIndex].querySelector("[data-clinic-primary-link]")).toHaveFocus());
+    }
     expect(screen.queryByRole("button", { name: /Show \d+ more facilities/ })).not.toBeInTheDocument();
     const paths = cards().map((card) => card.querySelector("[data-clinic-primary-link]")?.getAttribute("href"));
-    expect(new Set(paths).size).toBe(TOTAL);
+    expect(new Set(paths).size).toBe(101);
     expect(paths.sort()).toEqual(STATIC_CLINICS.map(getClinicPath).sort());
   });
 
-  it("resets batches when a city or search changes and clears filters back to all", () => {
+  it("resets batches when a city or search changes and clears filters back to 24", () => {
     openDirectory("/clinics?page=3");
-    expect(cards()).toHaveLength(TOTAL);
-    const city = CITIES.find((item) => item.slug === "shanghai")!;
+    expect(cards()).toHaveLength(72);
+    const city = CITIES[1];
     fireEvent.click(screen.getByRole("button", { name: city.en }));
     const cityFacilities = STATIC_CLINICS.filter((clinic) => clinic.citySlug === city.slug);
-    expect(cards()).toHaveLength(cityFacilities.length);
+    expect(cards()).toHaveLength(Math.min(24, cityFacilities.length));
     expect(screen.getByTestId("location")).toHaveTextContent(`?city=${city.slug}`);
     expect(screen.getByRole("button", { name: city.en })).toHaveAttribute("aria-pressed", "true");
     fireEvent.change(screen.getByRole("searchbox"), { target: { value: cityFacilities[0].nameEn } });
     expect(cards()).toHaveLength(1);
     expect(within(results()).getByRole("heading", { name: cityFacilities[0].nameEn })).toBeVisible();
     fireEvent.click(screen.getByRole("button", { name: "Clear filters" }));
-    expect(cards()).toHaveLength(TOTAL);
+    expect(cards()).toHaveLength(24);
     expect(screen.getByRole("searchbox")).toHaveValue("");
     expect(screen.getByTestId("location")).toBeEmptyDOMElement();
   });
 
   it("keeps the current batch in the URL and restores it on a direct revisit", () => {
     openDirectory("/clinics?q=Hospital");
-    expect(cards()).toHaveLength(TOTAL);
+    fireEvent.click(screen.getByRole("button", { name: "Show 24 more facilities" }));
+    expect(screen.getByTestId("location")).toHaveTextContent("?q=Hospital&page=2");
     cleanup();
     openDirectory("/clinics?q=Hospital&page=2");
-    expect(cards()).toHaveLength(TOTAL);
+    expect(cards()).toHaveLength(48);
     expect(screen.getByRole("searchbox")).toHaveValue("Hospital");
   });
 
-  it.each(["-1", "1.5", "invalid"])("defaults invalid batch %s to all facilities", (page) => {
+  it.each(["-1", "1.5", "invalid"])("defaults invalid batch %s to the first 24", (page) => {
     openDirectory(`/clinics?page=${page}`);
-    expect(cards()).toHaveLength(TOTAL);
+    expect(cards()).toHaveLength(24);
   });
 
   it("bounds an oversized batch to the real count and offers recovery from no results", () => {
     openDirectory("/clinics?page=999");
-    expect(cards()).toHaveLength(TOTAL);
+    expect(cards()).toHaveLength(101);
     fireEvent.change(screen.getByRole("searchbox"), { target: { value: "not-a-matching-facility" } });
     expect(screen.getByText("Showing 0 of 0 facilities")).toBeVisible();
     expect(screen.queryByRole("list", { name: "All hospitals and clinics" })).not.toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "Show all clinics" }));
-    expect(cards()).toHaveLength(TOTAL);
+    expect(cards()).toHaveLength(24);
   });
 
   it("keeps static facilities usable while additional profiles load or fail", () => {
     mocks.loading = true;
     openDirectory();
-    expect(cards()).toHaveLength(TOTAL);
+    expect(cards()).toHaveLength(24);
     expect(screen.getByText("Checking for additional published profiles…")).toHaveAttribute("role", "status");
     cleanup();
     mocks.loading = false;
     mocks.error = true;
     openDirectory();
-    expect(cards()).toHaveLength(TOTAL);
+    expect(cards()).toHaveLength(24);
     fireEvent.click(screen.getByRole("button", { name: "Try again" }));
     expect(mocks.refetch).toHaveBeenCalledOnce();
   });
 
   it.each([
-    ["en", `Showing ${TOTAL} of ${TOTAL} facilities`],
-    ["zh", `已显示 ${TOTAL} 家，共 ${TOTAL} 家机构`],
-    ["ru", `Показано ${TOTAL} из ${TOTAL} учреждений`],
-    ["es", `Mostrando ${TOTAL} de ${TOTAL} centros`],
-    ["th", `แสดง ${TOTAL} จาก ${TOTAL} สถานพยาบาล`],
-    ["ms", `Memaparkan ${TOTAL} daripada ${TOTAL} pusat perubatan`],
-  ])("labels the count in %s", (lang, count) => {
+    ["en", "Showing 24 of 101 facilities", "Show 24 more facilities"],
+    ["zh", "已显示 24 家，共 101 家机构", "再显示 24 家机构"],
+    ["ru", "Показано 24 из 101 учреждений", "Показать ещё 24 учреждений"],
+    ["es", "Mostrando 24 de 101 centros", "Mostrar 24 centros más"],
+    ["th", "แสดง 24 จาก 101 สถานพยาบาล", "แสดงสถานพยาบาลอีก 24 แห่ง"],
+    ["ms", "Memaparkan 24 daripada 101 pusat perubatan", "Lihat 24 lagi pusat perubatan"],
+  ])("labels the count and reveal action in %s", (lang, count, action) => {
     mocks.lang = lang as AsiaLang;
     openDirectory();
     expect(screen.getByText(count)).toBeVisible();
+    expect(screen.getByRole("button", { name: action })).toHaveAttribute("aria-controls", "clinic-directory-results");
   });
 });
 

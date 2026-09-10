@@ -1,4 +1,5 @@
 import { CITIES } from "./cities";
+import { ADDITIONAL_CLINICS } from "./additionalClinics";
 
 export type DirectoryClinic = {
   slug: string;
@@ -54,19 +55,17 @@ const clinicSlug = (citySlug: string, identityName: string): string => {
 };
 
 export const STATIC_CLINICS: DirectoryClinic[] = CITIES.flatMap((city) =>
-  city.hospitals
-    .filter((hospital) => !hospital.isPublic)
-    .map((hospital) => ({
-      slug: clinicSlug(city.slug, hospital.en || hospital.zh),
-      citySlug: city.slug,
-      nameEn: hospital.en,
-      nameZh: hospital.zh,
-      areaEn: hospital.areaEn,
-      areaZh: hospital.areaZh,
-      aliases: uniqueNames([hospital.en, hospital.zh]),
-      doctorIds: [],
-      origin: "directory" as const,
-    })),
+  [...city.hospitals, ...(ADDITIONAL_CLINICS[city.slug] ?? [])].map((hospital) => ({
+    slug: clinicSlug(city.slug, hospital.en || hospital.zh),
+    citySlug: city.slug,
+    nameEn: hospital.en,
+    nameZh: hospital.zh,
+    areaEn: hospital.areaEn,
+    areaZh: hospital.areaZh,
+    aliases: uniqueNames([hospital.en, hospital.zh]),
+    doctorIds: [],
+    origin: "directory" as const,
+  })),
 );
 
 if (new Set(STATIC_CLINICS.map((clinic) => clinic.slug)).size !== STATIC_CLINICS.length) {

@@ -54,7 +54,7 @@ describe("clinic metadata shared by the browser and prerender", () => {
     expect(clinicPageMeta({ ...facility, areaEn: "" }).description).toContain("— Shanghai, China.");
   });
 
-  it("does not pretend that a medical-tourism zone is a hospital", () => {
+  it("does not pretend that the Boao medical tourism zone is a hospital", () => {
     const meta = clinicPageMeta({
       ...facility,
       nameEn: "Bo'ao Lecheng International Medical Tourism Pilot Zone",
@@ -74,7 +74,7 @@ describe("clinic metadata shared by the browser and prerender", () => {
 
   it("gives every static directory entry a unique indexable path and title", () => {
     const metadata = STATIC_CLINICS.map(clinicPageMeta);
-    expect(metadata).toHaveLength(STATIC_CLINICS.length);
+    expect(metadata).toHaveLength(101);
     expect(new Set(metadata.map((meta) => meta.path)).size).toBe(metadata.length);
     expect(new Set(metadata.map((meta) => meta.title)).size).toBe(metadata.length);
     for (const meta of metadata) {
