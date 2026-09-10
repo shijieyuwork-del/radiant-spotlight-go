@@ -8,7 +8,7 @@ export const asiaCopy = <T,>(lang: AsiaLang, values: { en: T; zh: T; ru: T; es?:
   if (lang === "es") return values.es ?? values.en;
   if (lang === "th") return values.th ?? (typeof values.en === "string" ? translatedUiText("th", values.en) as T : values.en);
   if (lang === "ms") return values.ms ?? (typeof values.en === "string" ? translatedUiText("ms", values.en) as T : values.en);
-  if (lang === "vi") return values.vi ?? values.en;
+  if (lang === "vi") return values.vi ?? (typeof values.en === "string" ? translatedUiText("vi", values.en) as T : values.en);
   return values.en;
 };
 
