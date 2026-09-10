@@ -230,7 +230,7 @@ const CITY_CATALOG: City[] = [
     ],
     hospitals: [
       { zh: "上海华美医疗美容医院", en: "Shanghai Huamei Plastic Surgery Hospital", areaZh: "浦东新区", areaEn: "Pudong New Area" },
-      { zh: "上海九院 整形外科", en: "Shanghai Ninth People's Hospital · Plastic Surgery", areaZh: "黄浦区", areaEn: "Huangpu District" },
+      { zh: "上海九院 整形外科", en: "Shanghai Ninth People's Hospital · Plastic Surgery", areaZh: "黄浦区", areaEn: "Huangpu District", isPublic: true },
       { zh: "上海薇琳医疗美容医院", en: "Shanghai Weilin Aesthetic Hospital", areaZh: "静安区", areaEn: "Jing'an District" },
     ],
     travelZh: {
@@ -322,9 +322,9 @@ const CITY_CATALOG: City[] = [
     whyZh: ["海口 HAK / 三亚 SYX 航线便利", "海岛气候与度假酒店适合恢复休养", "博鳌乐城国际医疗资源集中"],
     whyEn: ["Convenient access via Haikou (HAK) and Sanya (SYX)", "Island climate and resort hotels support comfortable recovery", "International medical resources concentrated around Bo'ao Lecheng"],
     hospitals: [
-      { zh: "海南省人民医院 整形美容外科", en: "Hainan General Hospital · Plastic Surgery", areaZh: "海口", areaEn: "Haikou" },
-      { zh: "海南医学院第一附属医院 整形美容外科", en: "First Affiliated Hospital of Hainan Medical University · Plastic Surgery", areaZh: "海口", areaEn: "Haikou" },
-      { zh: "博鳌乐城国际医疗旅游先行区", en: "Bo'ao Lecheng International Medical Tourism Pilot Zone", areaZh: "博鳌", areaEn: "Bo'ao" },
+      { zh: "海南省人民医院 整形美容外科", en: "Hainan General Hospital · Plastic Surgery", areaZh: "海口", areaEn: "Haikou", isPublic: true },
+      { zh: "海南医学院第一附属医院 整形美容外科", en: "First Affiliated Hospital of Hainan Medical University · Plastic Surgery", areaZh: "海口", areaEn: "Haikou", isPublic: true },
+      { zh: "博鳌乐城国际医疗旅游先行区", en: "Bo'ao Lecheng International Medical Tourism Pilot Zone", areaZh: "博鳌", areaEn: "Bo'ao", isPublic: true },
     ],
     travelZh: { airport: "HAK / SYX · 国内及亚洲航线", visa: "中国签证 / 海南入境政策", hotel: "海口 · 三亚 · 博鳌 康养酒店", lang: "普通话 / 英文" },
     travelEn: { airport: "HAK / SYX · domestic and Asian routes", visa: "China visa or eligible Hainan entry policy", hotel: "Wellness hotels in Haikou / Sanya / Bo'ao", lang: "Mandarin · English" },
@@ -343,8 +343,8 @@ const CITY_CATALOG: City[] = [
     whyZh: ["萧山机场 HGH 与高铁网络便利", "浙大附属医院等公立专科资源丰富", "滨江 / 钱江新城高品质住宿配套成熟"],
     whyEn: ["Convenient air and high-speed rail access via HGH", "Strong public specialists including Zhejiang University affiliated hospitals", "Quality recovery accommodation in Binjiang / Qianjiang New City"],
     hospitals: [
-      { zh: "浙江大学医学院附属第二医院 整形科", en: "Second Affiliated Hospital of Zhejiang University · Plastic Surgery", areaZh: "上城区", areaEn: "Shangcheng District" },
-      { zh: "浙江省人民医院 整形外科", en: "Zhejiang Provincial People's Hospital · Plastic Surgery", areaZh: "拱墅区", areaEn: "Gongshu District" },
+      { zh: "浙江大学医学院附属第二医院 整形科", en: "Second Affiliated Hospital of Zhejiang University · Plastic Surgery", areaZh: "上城区", areaEn: "Shangcheng District", isPublic: true },
+      { zh: "浙江省人民医院 整形外科", en: "Zhejiang Provincial People's Hospital · Plastic Surgery", areaZh: "拱墅区", areaEn: "Gongshu District", isPublic: true },
       { zh: "杭州整形医院", en: "Hangzhou Plastic Surgery Hospital", areaZh: "上城区", areaEn: "Shangcheng District" },
     ],
     travelZh: { airport: "HGH · 国内及亚洲航线 / 高铁", visa: "中国签证 / 过境政策", hotel: "滨江 · 钱江新城 恢复酒店", lang: "普通话 / 英文" },
