@@ -267,7 +267,7 @@ const Packages = () => {
                   <ul className="mt-4 space-y-3 text-sm leading-relaxed text-foreground/75">
                     {[
                       c("All clinic and hospital medical fees", "全部诊所和医院医疗费用", "Все медицинские услуги клиники", "Todos los honorarios médicos de clínicas y hospitales"),
-                      c("Hotel charges unless specifically included", "未明确包含的酒店费用", "Проживание, если оно не включено", "Gastos de hotel salvo que estén específicamente incluidos"),
+                      c("Hotel charges after the two included nights", "两晚免费酒店后的住宿费用", "Проживание после двух включённых ночей", "Gastos de hotel después de las dos noches incluidas"),
                       c("Optional touring and personal expenses", "自愿旅行及个人费用", "Дополнительные поездки и личные расходы", "Excursiones opcionales y gastos personales"),
                     ].map((item) => <li key={item} className="flex gap-2"><ChevronRight className="mt-0.5 size-4 shrink-0 text-amber-700" />{item}</li>)}
                   </ul>

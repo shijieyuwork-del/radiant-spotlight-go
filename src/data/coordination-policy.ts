@@ -50,7 +50,7 @@ export const COORDINATION_POLICY: Record<AsiaLang, CoordinationPolicyCopy> = wit
     cancellation: "If you cancel, your deposit can be held for one year. Confirm the terms in writing for rescheduling, being unable to have surgery, or the end of the one-year hold.",
     medicalTitle: "Pay the clinic directly",
     medical: "Pay all consultation, examination, surgery, anesthesia and other medical fees directly to the treating clinic or hospital. CeladonChina does not collect medical payments.",
-    separateCosts: "Flights, visas, hotel accommodation, optional outings and personal expenses are paid separately unless your written plan expressly includes them.",
+    separateCosts: "Flights, visas, hotel nights after the two included nights, optional outings and personal expenses are paid separately unless your written plan expressly includes them.",
     confirm: "Confirm payment terms",
   },
   zh: {
@@ -71,7 +71,7 @@ export const COORDINATION_POLICY: Record<AsiaLang, CoordinationPolicyCopy> = wit
     cancellation: "取消后，押金可以保留一年。改期、无法手术或保留期届满时如何处理，请事先取得书面说明。",
     medicalTitle: "医疗费用直接支付给机构",
     medical: "面诊、检查、手术、麻醉及其他医疗费用均直接支付给接诊的诊所或医院。CeladonChina 不代收医疗费用。",
-    separateCosts: "机票、签证、酒店住宿、自选出游及个人开支另行支付，除非书面服务方案明确包含。",
+    separateCosts: "机票、签证、两晚免费酒店之外的住宿、自选出游及个人开支另行支付，除非书面服务方案明确包含。",
     confirm: "确认付款条款",
   },
   ru: {
@@ -92,7 +92,7 @@ export const COORDINATION_POLICY: Record<AsiaLang, CoordinationPolicyCopy> = wit
     cancellation: "При отмене депозит можно сохранить на один год. Заранее получите письменные условия для переноса даты, невозможности операции и окончания годового срока хранения депозита.",
     medicalTitle: "Оплачивайте клинике напрямую",
     medical: "Консультации, обследования, операция, анестезия и другие медицинские услуги оплачиваются непосредственно лечащей клинике или больнице. CeladonChina не принимает медицинские платежи.",
-    separateCosts: "Перелёт, виза, отель, необязательные поездки и личные расходы оплачиваются отдельно, если письменный план прямо не включает их.",
+    separateCosts: "Перелёт, виза, проживание после двух включённых ночей, необязательные поездки и личные расходы оплачиваются отдельно, если письменный план прямо не включает их.",
     confirm: "Уточнить условия оплаты",
   },
   es: {
@@ -113,7 +113,7 @@ export const COORDINATION_POLICY: Record<AsiaLang, CoordinationPolicyCopy> = wit
     cancellation: "Si cancelas, tu depósito puede mantenerse durante un año. Confirma por escrito las condiciones para cambios de fecha, la imposibilidad de operarte y el final de ese año.",
     medicalTitle: "Paga directamente a la clínica",
     medical: "Paga las consultas, pruebas, cirugía, anestesia y demás gastos médicos directamente a la clínica u hospital que te atienda. CeladonChina no cobra pagos médicos.",
-    separateCosts: "Los vuelos, visados, alojamiento, excursiones opcionales y gastos personales se pagan aparte, salvo que el plan escrito los incluya expresamente.",
+    separateCosts: "Los vuelos, visados, las noches de hotel posteriores a las dos incluidas, excursiones opcionales y gastos personales se pagan aparte, salvo que el plan escrito los incluya expresamente.",
     confirm: "Confirmar condiciones de pago",
   },
   th: {
@@ -134,7 +134,7 @@ export const COORDINATION_POLICY: Record<AsiaLang, CoordinationPolicyCopy> = wit
     cancellation: "หากยกเลิก สามารถเก็บเงินมัดจำไว้ได้หนึ่งปี โปรดยืนยันเงื่อนไขเป็นลายลักษณ์อักษรล่วงหน้าสำหรับการเลื่อนวัน การไม่สามารถผ่าตัดได้ และการจัดการเงินมัดจำเมื่อครบหนึ่งปี",
     medicalTitle: "ชำระค่ารักษาให้คลินิกโดยตรง",
     medical: "ชำระค่าปรึกษา ตรวจ ผ่าตัด วิสัญญี และค่ารักษาอื่น ๆ ให้คลินิกหรือโรงพยาบาลที่รักษาโดยตรง CeladonChina ไม่รับชำระค่ารักษาพยาบาล",
-    separateCosts: "ค่าตั๋วเครื่องบิน วีซ่า ที่พัก ท่องเที่ยวเพิ่มเติม และค่าใช้จ่ายส่วนตัวชำระแยกต่างหาก เว้นแต่ระบุว่ารวมอยู่ในแผนบริการเป็นลายลักษณ์อักษร",
+    separateCosts: "ค่าตั๋วเครื่องบิน วีซ่า ค่าที่พักหลังจาก 2 คืนที่รวมไว้ การท่องเที่ยวเพิ่มเติม และค่าใช้จ่ายส่วนตัวชำระแยกต่างหาก เว้นแต่ระบุว่ารวมอยู่ในแผนบริการเป็นลายลักษณ์อักษร",
     confirm: "ยืนยันเงื่อนไขการชำระเงิน",
   },
   ms: {
@@ -155,7 +155,7 @@ export const COORDINATION_POLICY: Record<AsiaLang, CoordinationPolicyCopy> = wit
     cancellation: "Jika anda membatalkan, deposit boleh disimpan selama satu tahun. Sahkan syarat bertulis terlebih dahulu untuk perubahan tarikh, keadaan yang menghalang pembedahan dan pengurusan deposit selepas tempoh satu tahun itu.",
     medicalTitle: "Bayar terus kepada klinik",
     medical: "Bayar semua yuran konsultasi, pemeriksaan, pembedahan, anestesia dan perubatan lain terus kepada klinik atau hospital yang merawat. CeladonChina tidak menerima bayaran perubatan.",
-    separateCosts: "Penerbangan, visa, penginapan hotel, lawatan pilihan dan perbelanjaan peribadi dibayar berasingan kecuali dinyatakan termasuk dalam pelan bertulis.",
+    separateCosts: "Penerbangan, visa, penginapan selepas dua malam hotel yang termasuk, lawatan pilihan dan perbelanjaan peribadi dibayar berasingan kecuali dinyatakan termasuk dalam pelan bertulis.",
     confirm: "Sahkan syarat pembayaran",
   },
 });
