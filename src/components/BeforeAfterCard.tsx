@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { ShieldCheck, MapPin, EyeOff, Eye, Sparkles } from "lucide-react";
+import { useAsia } from "@/lib/asia-i18n";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 
 interface BeforeAfterCardProps {
@@ -22,6 +23,7 @@ const BeforeAfterCard = ({
   defaultBlur = true,
   single = false,
 }: BeforeAfterCardProps) => {
+  const { t } = useAsia();
   const [pos, setPos] = useState(50);
   const [blur, setBlur] = useState(defaultBlur);
   const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -104,7 +106,10 @@ const BeforeAfterCard = ({
         <span className="pill bg-primary-soft text-foreground" style={{ background: "hsl(var(--primary-soft))" }}>
           <Sparkles className="size-3 text-primary" /> {procedure}
         </span>
-        <h4 className="font-display text-lg font-semibold leading-tight">{doctor}</h4>
+        <div>
+          <p className="text-[10px] uppercase tracking-wider text-muted-foreground">{t("ba.expert")}</p>
+          <h4 className="font-display text-lg font-semibold leading-tight">{doctor}</h4>
+        </div>
         <p className="text-xs text-muted-foreground flex items-center gap-1">
           <MapPin className="size-3" /> {city}
         </p>
