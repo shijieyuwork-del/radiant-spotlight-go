@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Building2, Search, ShieldCheck, X } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
@@ -23,7 +23,7 @@ const Clinics = () => {
   const query = searchParams.get("q") ?? "";
   const cityFilter = searchParams.get("city") ?? "all";
   const { clinics, isLoading, isError, refetch } = useClinicDirectory();
-  const listRef = useRef<HTMLUListElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
   const revealFocusIndex = useRef<number | null>(null);
 
   const filteredFacilities = useMemo(() => {
@@ -59,6 +59,28 @@ const Clinics = () => {
   const shownCount = Math.min(page * BATCH_SIZE, visibleCount);
   const displayedFacilities = filteredFacilities.slice(0, shownCount);
   const nextBatchCount = Math.min(BATCH_SIZE, visibleCount - shownCount);
+  const sections = useMemo(() => {
+    const labels = {
+      private: c("Private clinics", "私立机构", "Частные клиники", "Clínicas privadas", "คลินิกเอกชน", "Klinik swasta"),
+      public: c("Public hospitals", "公立医院", "Государственные больницы", "Hospitales públicos", "โรงพยาบาลรัฐ", "Hospital kerajaan"),
+    };
+    const groups: { isPublic: boolean; label: string; total: number; items: typeof displayedFacilities }[] = [];
+    for (const entry of displayedFacilities) {
+      const last = groups[groups.length - 1];
+      if (last && last.isPublic === entry.hospital.isPublic) {
+        last.items.push(entry);
+      } else {
+        groups.push({
+          isPublic: entry.hospital.isPublic,
+          label: entry.hospital.isPublic ? labels.public : labels.private,
+          total: filteredFacilities.filter((item) => item.hospital.isPublic === entry.hospital.isPublic).length,
+          items: [entry],
+        });
+      }
+    }
+    return groups;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [displayedFacilities, filteredFacilities, lang]);
   const countLabel = c(
     `Showing ${shownCount} of ${visibleCount} facilities`,
     `已显示 ${shownCount} 家，共 ${visibleCount} 家机构`,
@@ -71,7 +93,7 @@ const Clinics = () => {
     const index = revealFocusIndex.current;
     if (index === null) return;
     revealFocusIndex.current = null;
-    const link = listRef.current?.children[index]?.querySelector<HTMLAnchorElement>("[data-clinic-primary-link]");
+    const link = listRef.current?.querySelectorAll<HTMLAnchorElement>("[data-clinic-primary-link]")[index];
     link?.focus({ preventScroll: true });
     link?.scrollIntoView({ block: "nearest", behavior: "instant" });
   }, [shownCount]);
