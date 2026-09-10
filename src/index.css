@@ -355,22 +355,22 @@
 
   .hero-ambient__ripples {
     position: absolute;
-    width: max(70rem, 115vw);
-    aspect-ratio: 1;
-    mask-image: radial-gradient(ellipse, black 28%, transparent 71%);
+    width: max(90rem, 140vw);
+    height: min(70rem, 100vh);
+    mask-image: linear-gradient(90deg, transparent 0%, black 17%, black 83%, transparent 100%);
     animation: home-water-near 16s cubic-bezier(0.45, 0, 0.55, 1) -8s infinite alternate;
     animation-play-state: paused;
     transform-origin: 50% 50%;
   }
 
   .hero-ambient__ripples--near {
-    left: -30%;
-    top: -48%;
+    left: -20%;
+    top: -8%;
   }
 
   .hero-ambient__ripples--far {
-    right: -30%;
-    bottom: -58%;
+    right: -20%;
+    bottom: -8%;
     animation-name: home-water-far;
     animation-duration: 21s;
     animation-delay: -13s;
@@ -463,19 +463,19 @@
 
 /* Continuous ambient water, independent of scroll position. Only textures move. */
 @keyframes home-water-near {
-  from { transform: translate(-3%, -1%) rotate(-12deg) scale(0.96, 0.95); }
-  to { transform: translate(3%, 3%) rotate(-5deg) scale(1.08, 1.04); }
+  from { transform: translate(-3%, -1%) rotate(-2deg) scale(1, 0.98); }
+  to { transform: translate(3%, 2%) rotate(2deg) scale(1.04, 1.02); }
 }
 
 @keyframes home-water-far {
-  from { transform: translate(3%, -2%) rotate(12deg) scale(1.06, 1.04); }
-  to { transform: translate(-3%, 2%) rotate(5deg) scale(0.97, 0.94); }
+  from { transform: translate(3%, 1%) rotate(2deg) scale(1.04, 1.01); }
+  to { transform: translate(-3%, -2%) rotate(-2deg) scale(0.98, 1.04); }
 }
 
 @media (max-width: 639px) {
-  .hero-ambient__ripples { width: 58rem; }
-  .hero-ambient__ripples--near { left: -32rem; top: -20rem; }
-  .hero-ambient__ripples--far { right: -32rem; bottom: -22rem; }
+  .hero-ambient__ripples { width: 72rem; height: 48rem; }
+  .hero-ambient__ripples--near { left: -30rem; top: 3rem; }
+  .hero-ambient__ripples--far { right: -30rem; bottom: 3rem; }
   .hero-ambient__veil { background: hsl(var(--hero-surface) / 0.04); }
   /* Keep the motion control clear of the existing mobile consultation bar. */
   .hero-ambient__toggle { bottom: calc(5.5rem + env(safe-area-inset-bottom)); }

@@ -12,27 +12,26 @@ const motionLabels: Record<AsiaLang, { pause: string; play: string }> = {
   vi: { pause: "Tạm dừng hoạt ảnh nền", play: "Phát hoạt ảnh nền" },
 };
 
-// Irregular, softened contours suggest water reflections instead of target rings.
-// Geometry is stable; only two lightweight CSS layers move, never the page content.
-const rippleContours = Array.from({ length: 12 }, (_, ring) => {
-  const radius = 100 + ring * 53;
-  const points = Array.from({ length: 64 }, (_, step) => {
-    const angle = step / 64 * Math.PI * 2;
-    const ripple = radius * (1 + 0.055 * Math.sin(angle * 3 + ring * 0.28) + 0.024 * Math.cos(angle * 5 - ring * 0.18));
-    return [500 + Math.cos(angle) * ripple, 500 + Math.sin(angle) * ripple * 0.67];
-  });
-  const midpoint = (a: number[], b: number[]) => `${((a[0] + b[0]) / 2).toFixed(1)} ${((a[1] + b[1]) / 2).toFixed(1)}`;
-  return `M ${midpoint(points[63], points[0])} ${points.map((point, i) => `Q ${point[0].toFixed(1)} ${point[1].toFixed(1)} ${midpoint(point, points[(i + 1) % 64])}`).join(" ")} Z`;
-});
+// Long, irregular wave bands suggest reflections on a calm surface without
+// creating the concentric circles that read like a target or ripple icon.
+const waveBands = [
+  "M -120 128 C 120 46 252 218 492 132 S 874 44 1320 154",
+  "M -160 206 C 88 128 286 288 530 212 S 910 124 1360 238",
+  "M -140 292 C 104 214 270 364 520 292 S 930 218 1340 330",
+  "M -180 382 C 78 302 286 458 548 380 S 956 302 1380 424",
+  "M -140 474 C 114 400 304 548 560 468 S 968 400 1340 510",
+  "M -180 566 C 86 490 286 642 552 560 S 948 490 1380 604",
+  "M -120 654 C 132 584 318 714 574 644 S 970 582 1340 700",
+];
 
 function WaterRippleTexture() {
   return (
-    <svg viewBox="0 0 1000 1000" fill="none" focusable="false" aria-hidden="true">
+    <svg viewBox="0 0 1200 700" fill="none" focusable="false" aria-hidden="true" preserveAspectRatio="none">
       <g className="hero-ambient__ripple-shadow" transform="translate(0 3)">
-        {rippleContours.map((d, index) => <path key={index} d={d} />)}
+        {waveBands.map((d, index) => <path key={index} d={d} />)}
       </g>
       <g className="hero-ambient__ripple-light">
-        {rippleContours.map((d, index) => <path key={index} d={d} />)}
+        {waveBands.map((d, index) => <path key={index} d={d} />)}
       </g>
     </svg>
   );
