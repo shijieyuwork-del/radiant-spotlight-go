@@ -37,7 +37,7 @@ vi.mock("@/hooks/use-clinic-directory", () => ({
 const Location = () => <output data-testid="location">{useLocation().search}</output>;
 const openDirectory = (path = "/clinics") => render(<MemoryRouter initialEntries={[path]}><Clinics /><Location /></MemoryRouter>);
 const results = () => screen.getByRole("list", { name: "All hospitals and clinics" });
-const cards = () => Array.from(document.querySelectorAll<HTMLLIElement>("#clinic-directory-results > li"));
+const cards = () => Array.from(document.querySelectorAll<HTMLLIElement>("#clinic-directory-results li"));
 
 beforeEach(() => {
   mocks.lang = "en";

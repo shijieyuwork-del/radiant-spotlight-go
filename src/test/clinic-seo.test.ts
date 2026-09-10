@@ -16,6 +16,7 @@ const facility: DirectoryClinic = {
   aliases: [],
   doctorIds: [],
   origin: "directory",
+  isPublic: true,
 };
 
 afterEach(cleanup);

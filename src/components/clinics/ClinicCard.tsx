@@ -22,6 +22,11 @@ export function ClinicCard({ clinic, city }: { clinic: DirectoryClinic; city: Ci
     <li className="flex min-w-0 flex-col overflow-hidden rounded-2xl border border-border/70 bg-card transition-colors hover:border-primary/50 motion-reduce:transition-none">
       <HospitalDirectoryPhoto key={photo?.src ?? "no-photo"} photo={photo} name={name} href={getClinicPath(clinic)} reserveCreditSpace>
         <Link data-clinic-primary-link to={getClinicPath(clinic)} className="group flex flex-1 scroll-mt-64 flex-col p-5 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-foreground">
+          <span className={`mb-3 inline-flex w-fit items-center rounded-full px-2.5 py-1 text-xs font-medium ${clinic.isPublic ? "bg-secondary text-secondary-foreground" : "bg-primary/10 text-foreground"}`}>
+            {clinic.isPublic
+              ? c("Public hospital", "公立医院", "Государственная больница", "Hospital público", "โรงพยาบาลรัฐ", "Hospital kerajaan")
+              : c("Private clinic", "私立机构", "Частная клиника", "Clínica privada", "คลินิกเอกชน", "Klinik swasta")}
+          </span>
           <h2 className="min-h-[3.5rem] break-words font-display text-xl font-medium leading-snug text-foreground group-hover:underline group-hover:underline-offset-4">{name}</h2>
           {secondary && secondary !== name && <p className="mt-2 min-h-10 break-words text-xs leading-5 text-foreground">{secondary}</p>}
           {clinic.doctorIds.length > 0 && (
