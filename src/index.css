@@ -252,7 +252,12 @@
   .home-water-page {
     position: relative;
     isolation: isolate;
-    background: hsl(var(--background));
+    background:
+      radial-gradient(ellipse at 4% 8%, hsl(340 66% 91% / 0.34), transparent 30rem),
+      radial-gradient(ellipse at 96% 14%, hsl(198 72% 88% / 0.38), transparent 34rem),
+      radial-gradient(ellipse at 18% 48%, hsl(145 62% 87% / 0.30), transparent 32rem),
+      radial-gradient(ellipse at 84% 72%, hsl(268 58% 91% / 0.24), transparent 34rem),
+      linear-gradient(145deg, hsl(158 48% 96%), hsl(48 58% 97%) 48%, hsl(198 48% 96%));
   }
 
   .home-water-page .home-content-flow {
@@ -325,11 +330,11 @@
     z-index: 1;
   }
 
-  /* Scoped to the hero: the section is position: relative + overflow: hidden, so the
-     ripples end where the hero ends instead of running behind the whole page. */
+  /* The homepage background is fixed behind every section, so the water/rainbow
+     field stays continuous while the visitor scrolls. */
   .hero-ambient {
     --hero-surface: var(--background);
-    position: absolute;
+    position: fixed;
     inset: 0;
     z-index: 0;
     pointer-events: none;
@@ -340,10 +345,12 @@
     inset: 0;
     overflow: hidden;
     background:
-      radial-gradient(ellipse at 50% 8%, hsl(188 78% 96% / 0.34), transparent 48%),
-      radial-gradient(ellipse at 5% 84%, hsl(163 62% 61% / 0.58), transparent 56%),
-      radial-gradient(ellipse at 96% 76%, hsl(194 64% 67% / 0.48), transparent 58%),
-      linear-gradient(135deg, hsl(166 53% 76%), hsl(178 63% 82%) 46%, hsl(193 61% 72%));
+      radial-gradient(ellipse at 4% 10%, hsl(340 66% 88% / 0.52), transparent 46%),
+      radial-gradient(ellipse at 42% 8%, hsl(48 76% 88% / 0.48), transparent 42%),
+      radial-gradient(ellipse at 94% 18%, hsl(198 72% 83% / 0.52), transparent 50%),
+      radial-gradient(ellipse at 10% 88%, hsl(145 62% 77% / 0.46), transparent 52%),
+      radial-gradient(ellipse at 76% 82%, hsl(268 58% 86% / 0.34), transparent 52%),
+      linear-gradient(135deg, hsl(158 52% 86%), hsl(48 58% 92%) 47%, hsl(198 56% 86%));
   }
 
   .hero-ambient__ripples {

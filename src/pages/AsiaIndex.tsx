@@ -210,8 +210,6 @@ const Hero = () => {
         };
   return (
     <section className="hero-motion relative overflow-hidden">
-      {/* The water texture lives inside the hero only; the sections below sit on plain white / sage surfaces. */}
-      <HeroAmbientBackground lang={lang} />
       <div className="relative isolate">
         <div className="container relative pb-16 pt-5 sm:py-14 md:py-20">
           <div className="mx-auto w-full max-w-5xl text-center">
@@ -1464,6 +1462,7 @@ const AsiaIndex = () => {
         structuredData={ORGANIZATION_SCHEMA}
       />
       <div className="home-water-page min-h-screen overflow-x-clip">
+        <HeroAmbientBackground lang={lang} />
         <AsiaNavbar />
         <main className="home-content-flow">
           <Hero />
