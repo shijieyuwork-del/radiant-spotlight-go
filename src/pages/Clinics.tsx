@@ -199,27 +199,21 @@ const Clinics = () => {
                 </Button>
               </div>
             ) : (
-              <ul ref={listRef} id="clinic-directory-results" aria-describedby="clinic-directory-count" className="mt-8 grid gap-6 sm:grid-cols-2 xl:grid-cols-3" aria-label={c("All hospitals and clinics", "全部医院及诊所", "Все больницы и клиники", "Todos los hospitales y clínicas", "โรงพยาบาลและคลินิกทั้งหมด", "Semua hospital dan klinik")}>
-                {displayedFacilities.map(({ city, hospital }, index) => {
-                  const isFirstOfKind = index === 0 || displayedFacilities[index - 1].hospital.isPublic !== hospital.isPublic;
-                  const kindCount = filteredFacilities.filter((entry) => entry.hospital.isPublic === hospital.isPublic).length;
-                  return (
-                    <Fragment key={hospital.slug}>
-                      {isFirstOfKind && (
-                        <li className="sm:col-span-2 xl:col-span-3" aria-hidden={false}>
-                          <h2 className="flex items-baseline gap-3 border-b border-border/60 pb-3 font-display text-2xl font-medium tracking-tight">
-                            {hospital.isPublic
-                              ? c("Public hospitals", "公立医院", "Государственные больницы", "Hospitales públicos", "โรงพยาบาลรัฐ", "Hospital kerajaan")
-                              : c("Private clinics", "私立机构", "Частные клиники", "Clínicas privadas", "คลินิกเอกชน", "Klinik swasta")}
-                            <span className="text-sm font-normal tabular-nums text-foreground">{kindCount}</span>
-                          </h2>
-                        </li>
-                      )}
-                      <ClinicCard clinic={hospital} city={city} />
-                    </Fragment>
-                  );
-                })}
-              </ul>
+              <div ref={listRef} id="clinic-directory-results" aria-describedby="clinic-directory-count" className="mt-8 space-y-12" aria-label={c("All hospitals and clinics", "全部医院及诊所", "Все больницы и клиники", "Todos los hospitales y clínicas", "โรงพยาบาลและคลินิกทั้งหมด", "Semua hospital dan klinik")}>
+                {sections.map((section) => (
+                  <section key={section.isPublic ? "public" : "private"} aria-label={section.label}>
+                    <h2 className="flex items-baseline gap-3 border-b border-border/60 pb-3 font-display text-2xl font-medium tracking-tight">
+                      {section.label}
+                      <span className="text-sm font-normal tabular-nums text-foreground">{section.total}</span>
+                    </h2>
+                    <ul className="mt-6 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+                      {section.items.map(({ city, hospital }) => (
+                        <ClinicCard key={hospital.slug} clinic={hospital} city={city} />
+                      ))}
+                    </ul>
+                  </section>
+                ))}
+              </div>
             )}
             <div className="mt-8 flex flex-col items-center gap-4">
               <p id="clinic-directory-count" role="status" aria-atomic="true" className="text-center text-sm tabular-nums text-foreground">{countLabel}</p>
