@@ -106,6 +106,60 @@ export type Database = {
           },
         ]
       }
+      clinics: {
+        Row: {
+          area_en: string | null
+          area_zh: string | null
+          city_slug: string
+          created_at: string
+          description_en: string | null
+          description_zh: string | null
+          hidden: boolean
+          id: string
+          is_public: boolean
+          name_en: string
+          name_zh: string
+          photo_path: string | null
+          static_slug: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          area_en?: string | null
+          area_zh?: string | null
+          city_slug: string
+          created_at?: string
+          description_en?: string | null
+          description_zh?: string | null
+          hidden?: boolean
+          id?: string
+          is_public?: boolean
+          name_en?: string
+          name_zh?: string
+          photo_path?: string | null
+          static_slug?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          area_en?: string | null
+          area_zh?: string | null
+          city_slug?: string
+          created_at?: string
+          description_en?: string | null
+          description_zh?: string | null
+          hidden?: boolean
+          id?: string
+          is_public?: boolean
+          name_en?: string
+          name_zh?: string
+          photo_path?: string | null
+          static_slug?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       doctors: {
         Row: {
           bio: string

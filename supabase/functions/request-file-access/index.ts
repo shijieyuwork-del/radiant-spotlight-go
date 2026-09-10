@@ -9,10 +9,11 @@ const BUCKET_TARGETS: Record<string, { table: string; column: string }> = {
   'doctor-photos': { table: 'doctors', column: 'photo_path' },
   'short-videos': { table: 'videos', column: 'storage_path' },
   'video-covers': { table: 'videos', column: 'cover_path' },
+  'clinic-photos': { table: 'clinics', column: 'photo_path' },
 }
 
 const BodySchema = z.object({
-  bucket: z.enum(['doctor-photos', 'short-videos', 'video-covers', 'before-after']),
+  bucket: z.enum(['doctor-photos', 'short-videos', 'video-covers', 'before-after', 'clinic-photos']),
   paths: z
     .array(
       z

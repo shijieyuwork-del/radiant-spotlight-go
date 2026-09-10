@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { CITIES } from "@/data/cities";
 import { useAsia } from "@/lib/asia-i18n";
 import { asiaCopy } from "@/lib/asia-copy";
-import { findRealHospitalPhoto } from "@/data/realHospitalPhotos";
+import { clinicPhoto } from "@/lib/clinic-photo";
 import { useClinicDirectory } from "@/hooks/use-clinic-directory";
 import { ClinicCard } from "@/components/clinics/ClinicCard";
 import { CLINIC_DIRECTORY_META } from "@/lib/clinic-seo";
@@ -46,7 +46,7 @@ const Clinics = () => {
       }).map((hospital) => ({ city, hospital }));
     });
     const score = ({ hospital }: (typeof combined)[number]) =>
-      hospital.origin === "published" ? 2 : Number(Boolean(findRealHospitalPhoto(hospital.nameZh, hospital.nameEn, ...hospital.aliases)));
+      hospital.origin === "published" ? 2 : Number(Boolean(clinicPhoto(hospital)));
     // Private clinics form one section before public hospitals, across all cities.
     return combined.sort((a, b) =>
       Number(a.hospital.isPublic) - Number(b.hospital.isPublic) || score(b) - score(a));

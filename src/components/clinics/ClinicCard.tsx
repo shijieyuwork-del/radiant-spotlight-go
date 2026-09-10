@@ -3,7 +3,7 @@ import { ArrowUpRight, BadgeCheck, MapPin } from "lucide-react";
 import type { City } from "@/data/cities";
 import { getClinicPath, type DirectoryClinic } from "@/data/clinicDirectory";
 import { findClinicPublicProfile } from "@/data/clinicProfiles";
-import { findRealHospitalPhoto } from "@/data/realHospitalPhotos";
+import { clinicPhoto } from "@/lib/clinic-photo";
 import { HospitalDirectoryPhoto } from "@/components/HospitalDirectoryPhoto";
 import { useAsia } from "@/lib/asia-i18n";
 import { asiaCopy } from "@/lib/asia-copy";
@@ -16,7 +16,7 @@ export function ClinicCard({ clinic, city }: { clinic: DirectoryClinic; city: Ci
   const cityName = lang === "zh" ? city.zh : city.en;
   const profile = findClinicPublicProfile(clinic);
   const area = lang === "zh" ? profile?.campus?.areaZh ?? clinic.areaZh : profile?.campus?.areaEn ?? clinic.areaEn;
-  const photo = findRealHospitalPhoto(clinic.nameZh, clinic.nameEn, ...clinic.aliases);
+  const photo = clinicPhoto(clinic);
 
   return (
     <li className="flex min-w-0 flex-col overflow-hidden rounded-2xl border border-border/70 bg-card transition-colors hover:border-primary/50 motion-reduce:transition-none">

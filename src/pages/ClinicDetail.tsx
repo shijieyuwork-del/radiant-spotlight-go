@@ -12,7 +12,7 @@ import { useQuote } from "@/components/QuoteRequest";
 import { CITIES } from "@/data/cities";
 import { findClinicBySlug, getClinicPath } from "@/data/clinicDirectory";
 import { findClinicPublicProfile } from "@/data/clinicProfiles";
-import { findRealHospitalPhoto } from "@/data/realHospitalPhotos";
+import { clinicPhoto } from "@/lib/clinic-photo";
 import { useClinicDirectory } from "@/hooks/use-clinic-directory";
 import { useAsia } from "@/lib/asia-i18n";
 import { asiaCopy } from "@/lib/asia-copy";
@@ -52,7 +52,8 @@ export default function ClinicDetail() {
   const secondary = lang === "zh" ? clinic.nameEn : clinic.nameZh;
   const cityName = lang === "zh" ? city.zh : city.en;
   const area = lang === "zh" ? publicProfile?.campus?.areaZh ?? clinic.areaZh : publicProfile?.campus?.areaEn ?? clinic.areaEn;
-  const photo = findRealHospitalPhoto(clinic.nameZh, clinic.nameEn, ...clinic.aliases);
+  const photo = clinicPhoto(clinic);
+  const description = (lang === "zh" ? clinic.descriptionZh : clinic.descriptionEn) ?? "";
   const related = clinics.filter((item) => item.citySlug === clinic.citySlug && item.slug !== clinic.slug).slice(0, 3);
   const experts = doctors.filter((doctor) => clinic.doctorIds.includes(doctor.id));
   const cityDirectory = `/clinics?city=${city.slug}`;
@@ -88,6 +89,7 @@ export default function ClinicDetail() {
             </figure>
             <section aria-labelledby="clinic-overview-title">
               <h2 id="clinic-overview-title" className="font-display text-2xl font-medium">{c("About this listing", "关于此机构资料", "Об этой странице", "Sobre esta ficha")}</h2>
+              {description && <p className="mt-4 whitespace-pre-line text-base leading-7 text-foreground">{description}</p>}
               <p className="mt-4 text-base leading-7 text-muted-foreground">{c(
                 `This page brings together the directory information, available photographs and published expert profiles for ${clinic.nameEn} in ${city.en}.`,
                 `本页汇集${city.zh}${clinic.nameZh}的目录资料、现有实拍图片和已发布的关联专家资料。`,

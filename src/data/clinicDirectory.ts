@@ -14,6 +14,12 @@ export type DirectoryClinic = {
   origin: "directory" | "published";
   /** True for public (government-run) hospitals; false for private clinics. */
   isPublic: boolean;
+  /** Set when an admin record created or overrode this entry. */
+  recordId?: string;
+  descriptionEn?: string;
+  descriptionZh?: string;
+  /** Admin-uploaded hero photograph (signed URL). */
+  photoUrl?: string;
 };
 
 /** Callers must fetch published records only; publication status is not inferred here. */
@@ -246,4 +252,80 @@ export const mergeClinicDirectory = (doctors: PublishedClinicDoctor[]): Director
     });
   }
   return [...clinics, ...published.sort((a, b) => compare(a.slug, b.slug))];
+};
+
+/** Admin-managed hospital record: either a new hospital, or an override of a static entry. */
+export type ClinicRecord = {
+  id: string;
+  staticSlug: string | null;
+  citySlug: string;
+  nameEn: string;
+  nameZh: string;
+  areaEn: string;
+  areaZh: string;
+  descriptionEn: string;
+  descriptionZh: string;
+  photoUrl: string;
+  isPublic: boolean;
+  hidden: boolean;
+};
+
+export const buildClinicSlug = (citySlug: string, name: string): string => clinicSlug(citySlug, name);
+
+/**
+ * Apply admin-managed records on top of the merged directory:
+ * hidden entries disappear, override fields replace directory fields,
+ * and records without a target slug are added as new hospitals.
+ */
+export const applyClinicRecords = (clinics: DirectoryClinic[], records: ClinicRecord[]): DirectoryClinic[] => {
+  const overrides = new Map(records.filter((record) => record.staticSlug).map((record) => [record.staticSlug!, record]));
+  const merged: DirectoryClinic[] = [];
+  for (const clinic of clinics) {
+    const override = overrides.get(clinic.slug);
+    if (override?.hidden) continue;
+    if (!override) { merged.push(clinic); continue; }
+    const nameEn = override.nameEn || clinic.nameEn;
+    const nameZh = override.nameZh || clinic.nameZh;
+    merged.push({
+      ...clinic,
+      nameEn,
+      nameZh,
+      areaEn: override.areaEn || clinic.areaEn,
+      areaZh: override.areaZh || clinic.areaZh,
+      aliases: uniqueNames([...clinic.aliases, nameEn, nameZh]),
+      isPublic: override.isPublic,
+      recordId: override.id,
+      descriptionEn: override.descriptionEn || undefined,
+      descriptionZh: override.descriptionZh || undefined,
+      photoUrl: override.photoUrl || undefined,
+    });
+  }
+
+  const usedSlugs = new Set(merged.map((clinic) => clinic.slug));
+  for (const record of records) {
+    if (record.staticSlug || record.hidden) continue;
+    const nameEn = record.nameEn || record.nameZh;
+    const nameZh = record.nameZh || record.nameEn;
+    if (!nameEn || !CITIES.some((city) => city.slug === record.citySlug)) continue;
+    const slug = clinicSlug(record.citySlug, nameEn);
+    if (usedSlugs.has(slug)) continue;
+    usedSlugs.add(slug);
+    merged.push({
+      slug,
+      citySlug: record.citySlug,
+      nameEn,
+      nameZh,
+      areaEn: record.areaEn || nameEn,
+      areaZh: record.areaZh || nameZh,
+      aliases: uniqueNames([nameEn, nameZh]),
+      doctorIds: [],
+      origin: "published",
+      isPublic: record.isPublic,
+      recordId: record.id,
+      descriptionEn: record.descriptionEn || undefined,
+      descriptionZh: record.descriptionZh || undefined,
+      photoUrl: record.photoUrl || undefined,
+    });
+  }
+  return merged;
 };
