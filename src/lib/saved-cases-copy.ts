@@ -61,5 +61,14 @@ export const savedCasesCopy: Record<AsiaLang, SavedCasesCopy> = withVietnameseFa
     loading: "Memuatkan butiran kes disimpan…", retry: "Cuba lagi", loadError: "Sesetengah butiran tidak dapat dimuatkan. Rujukan simpanan tidak berubah. Cuba lagi.",
     storageError: "Storan pelayar tidak dapat dicapai. Benarkan storan laman ini dan cuba lagi. Tindakan belum disahkan.", corruptError: "Senarai tidak dapat dibaca. Data asal tidak diganti. Cuba lagi atau teruskan melihat kes.",
   },
+  vi: {
+    title: "Ca đã lưu", localOnly: "Chỉ lưu trong trình duyệt này. Không đồng bộ lên đám mây hay giữa các thiết bị. Xóa dữ liệu trình duyệt sẽ xóa danh sách này.",
+    guest: "Không cần tài khoản. Khi đăng nhập tại đây, các ca này sẽ được gộp vào danh sách đã lưu của tài khoản đó trên thiết bị này.", account: "Đây là danh sách của tài khoản bạn trên thiết bị này. Sau khi đăng xuất, danh sách này được giữ riêng với các ca lưu khi là khách.",
+    empty: "Chưa có ca nào được lưu", emptyHelp: "Nhấn biểu tượng trái tim trên một ca để giữ lại đây xem sau.", browse: "Xem các ca",
+    save: "Lưu ca này", remove: "Bỏ khỏi danh sách đã lưu", saved: "Đã lưu ca trong trình duyệt này", removed: "Đã bỏ ca khỏi danh sách đã lưu", undo: "Hoàn tác",
+    unavailable: "Ca không khả dụng", unavailableHelp: "Ca này có thể không còn được công bố. Tham chiếu đã lưu của bạn vẫn còn ở đây.", demo: "Bản xem trước demo", published: "Ca đã công bố", view: "Mở ca",
+    loading: "Đang tải chi tiết ca đã lưu…", retry: "Thử lại", loadError: "Không tải được một số chi tiết ca. Các tham chiếu đã lưu của bạn không thay đổi. Hãy thử lại.",
+    storageError: "Không truy cập được bộ nhớ trình duyệt. Hãy cho phép trang lưu dữ liệu rồi thử lại. Thao tác này chưa được xác nhận.", corruptError: "Không đọc được danh sách đã lưu. Dữ liệu đã lưu chưa bị thay thế. Hãy thử lại hoặc tiếp tục xem.",
+  },
 });
 export const getSavedCasesCopy = (lang: AsiaLang) => asiaCopy(lang, savedCasesCopy);

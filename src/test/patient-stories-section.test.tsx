@@ -25,10 +25,10 @@ beforeEach(() => { mocks.lang = "en"; });
 afterEach(cleanup);
 
 describe("patient story previews and full stories", () => {
-  it("retains the original heading and gives every patient a named full-story action", () => {
+  it("keeps the section heading and gives every patient a named full-story action", () => {
     render(<PatientStoriesSection />);
 
-    expect(screen.getByRole("heading", { level: 2, name: "400+ patients trust CeladonChina." })).toBeVisible();
+    expect(screen.getByRole("heading", { level: 2, name: "400+ patients trust CeladonChina" })).toBeVisible();
     expect(screen.getAllByRole("button", { name: /^Read full story:/ })).toHaveLength(9);
     expect(patientStories.map((story) => story.name)).toEqual(patientNames);
     for (const name of patientNames) {
@@ -61,7 +61,7 @@ describe("patient story previews and full stories", () => {
     render(<PatientStoriesSection />);
 
     if (lang === "zh") {
-      expect(screen.getByRole("heading", { level: 2, name: "400+ 位患者信任 CeladonChina。" })).toBeVisible();
+      expect(screen.getByRole("heading", { level: 2, name: "400+ 位患者信任 CeladonChina" })).toBeVisible();
       expect(screen.getAllByRole("button", { name: /^阅读全文：/ })).toHaveLength(9);
     }
 

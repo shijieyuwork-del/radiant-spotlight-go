@@ -20,6 +20,10 @@ type DoctorFlipCardProps = {
   detailsLabel: string;
   backLabel: string;
   profileLabel: string;
+  /** Heading above the specialty chips on the back face. */
+  focusLabel?: string;
+  /** Shown on the back face when the expert has no published introduction yet. */
+  bioFallback?: string;
 };
 
 /**
@@ -27,7 +31,15 @@ type DoctorFlipCardProps = {
  * short published introduction on desktop hover. The explicit toggle keeps the
  * same detail state reachable on touch devices and with a keyboard.
  */
-export function DoctorFlipCard({ doctor, viewProfileLabel, detailsLabel, backLabel, profileLabel }: DoctorFlipCardProps) {
+export function DoctorFlipCard({
+  doctor,
+  viewProfileLabel,
+  detailsLabel,
+  backLabel,
+  profileLabel,
+  focusLabel = "Areas of focus",
+  bioFallback = "Published profile details are available from this expert's full profile.",
+}: DoctorFlipCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [isManuallyFlipped, setIsManuallyFlipped] = useState(false);
   const frontToggleRef = useRef<HTMLButtonElement>(null);
@@ -35,7 +47,7 @@ export function DoctorFlipCard({ doctor, viewProfileLabel, detailsLabel, backLab
   const focusAfterFlipRef = useRef(false);
   const isFlipped = isHovered || isManuallyFlipped;
   const profileHref = doctor.demo ? `/doctors/demo/${doctor.id}` : `/doctors/profile/${doctor.id}`;
-  const bio = doctor.bio?.trim() || "Published profile details are available from this expert's full profile.";
+  const bio = doctor.bio?.trim() || bioFallback;
 
   useEffect(() => {
     if (!focusAfterFlipRef.current) return;
@@ -134,7 +146,7 @@ export function DoctorFlipCard({ doctor, viewProfileLabel, detailsLabel, backLab
 
           <div className="mt-7 min-h-0 grow overflow-y-auto pr-1">
             <p className="text-base leading-relaxed text-background/85">{bio}</p>
-            <p className="mt-6 text-label font-semibold uppercase tracking-[0.16em] text-background/60">Areas of focus</p>
+            <p className="mt-6 text-label font-semibold uppercase tracking-[0.16em] text-background/60">{focusLabel}</p>
             <div className="mt-3 flex flex-wrap gap-1.5">
               {doctor.specialties.slice(0, 3).map((specialty) => (
                 <span key={specialty} className="rounded-full border border-background/25 bg-background/10 px-2.5 py-1 text-label text-background/90">

@@ -6,6 +6,8 @@ import { DEFAULT_VIDEO_POSTER } from "@/lib/cover-fallback";
 import type { AsiaLang } from "@/lib/asia-i18n";
 import { useQuietVideo } from "@/hooks/use-quiet-video";
 import { videoControlsCopy } from "@/lib/video-controls-copy";
+import { translatedUiText } from "@/lib/locale-text";
+import { withVietnameseFallback } from "@/lib/asia-copy";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 
 type Lang = AsiaLang;
@@ -31,7 +33,8 @@ type GalleryLabels = {
   patientSubtitle: string;
 };
 
-const ui: Record<Lang, GalleryLabels> = {
+// Korean and Japanese labels fall back to English until they are translated.
+const ui: Record<Lang, GalleryLabels> = withVietnameseFallback({
   en: { fullscreen: "Play fullscreen", viewCase: "View case", more: "More patient diaries", previous: "Previous explainer video", next: "Next explainer video", show: "Show explainer video", guide: "Video guide", playGuide: "Play guide fullscreen", learnMore: "Explore support", patientDiaries: "Patient diaries", patientSubtitle: "Real recovery stories, shared step by step." },
   zh: { fullscreen: "全屏播放", viewCase: "查看案例", more: "更多患者日记", previous: "上一个讲解视频", next: "下一个讲解视频", show: "显示讲解视频", guide: "讲解视频", playGuide: "全屏播放讲解", learnMore: "了解支持服务", patientDiaries: "患者日记", patientSubtitle: "真实恢复经历，按阶段记录。" },
   ru: { fullscreen: "На весь экран", viewCase: "Смотреть случай", more: "Больше историй пациентов", previous: "Предыдущее видео", next: "Следующее видео", show: "Показать видео", guide: "Видеообзор", playGuide: "Смотреть на весь экран", learnMore: "Подробнее о поддержке", patientDiaries: "Истории пациентов", patientSubtitle: "Реальный опыт восстановления по этапам." },
@@ -39,7 +42,7 @@ const ui: Record<Lang, GalleryLabels> = {
   th: { fullscreen: "เล่นแบบเต็มหน้าจอ", viewCase: "ดูกรณีนี้", more: "บันทึกของผู้ป่วยเพิ่มเติม", previous: "วิดีโออธิบายก่อนหน้า", next: "วิดีโออธิบายถัดไป", show: "แสดงวิดีโออธิบาย", guide: "วิดีโอแนะนำ", playGuide: "เล่นวิดีโอแนะนำแบบเต็มหน้าจอ", learnMore: "ดูบริการสนับสนุน", patientDiaries: "บันทึกของผู้ป่วย", patientSubtitle: "เรื่องราวการฟื้นตัวจริงที่แบ่งปันทีละขั้นตอน" },
   ms: { fullscreen: "Mainkan skrin penuh", viewCase: "Lihat kes", more: "Lebih banyak diari pesakit", previous: "Video penerangan sebelumnya", next: "Video penerangan seterusnya", show: "Tunjukkan video penerangan", guide: "Panduan video", playGuide: "Mainkan panduan skrin penuh", learnMore: "Terokai sokongan", patientDiaries: "Diari pesakit", patientSubtitle: "Kisah pemulihan sebenar, dikongsi langkah demi langkah." },
   vi: { fullscreen: "Phát toàn màn hình", viewCase: "Xem ca này", more: "Thêm nhật ký bệnh nhân", previous: "Video giải thích trước", next: "Video giải thích tiếp theo", show: "Hiện video giải thích", guide: "Video hướng dẫn", playGuide: "Phát hướng dẫn toàn màn hình", learnMore: "Tìm hiểu dịch vụ hỗ trợ", patientDiaries: "Nhật ký bệnh nhân", patientSubtitle: "Những câu chuyện hồi phục có thật, chia sẻ theo từng bước." },
-};
+});
 
 const GalleryCard = ({
   item,
@@ -80,7 +83,7 @@ const GalleryCard = ({
         <Maximize2 className="size-3.5" />
       </span>
       <span className="absolute inset-x-3.5 bottom-3.5">
-        <span className="mb-1 block text-label font-bold uppercase tracking-[0.16em] text-white/65">{lang === "zh" ? "患者日记" : lang === "ru" ? "История пациента" : lang === "es" ? "Diario del paciente" : "Patient diary"}</span>
+        <span className="mb-1 block text-label font-bold uppercase tracking-[0.16em] text-white/65">{lang === "zh" ? "患者日记" : lang === "ru" ? "История пациента" : lang === "es" ? "Diario del paciente" : translatedUiText(lang, "Patient diary")}</span>
         <span className="block font-display text-lg font-medium leading-tight text-white">{t}</span>
         <span className="mt-1.5 block truncate text-xs font-medium text-white/75">
           {item.city?.[lang === "zh" ? "zh" : "en"]}

@@ -158,6 +158,27 @@ export const COORDINATION_POLICY: Record<AsiaLang, CoordinationPolicyCopy> = wit
     separateCosts: "Penerbangan, visa, penginapan selepas dua malam hotel yang termasuk, lawatan pilihan dan perbelanjaan peribadi dibayar berasingan kecuali dinyatakan termasuk dalam pelan bertulis.",
     confirm: "Sahkan syarat pembayaran",
   },
+  vi: {
+    heading: "Lên kế hoạch, hỗ trợ và thanh toán",
+    scope: "CeladonChina chỉ điều phối các chuyến chăm sóc thẩm mỹ tại Trung Quốc.",
+    initialTitle: "Trao đổi ban đầu miễn phí",
+    initialText: "Bắt đầu bằng những câu hỏi của bạn, không mất phí và không ràng buộc.",
+    freeTitle: "Những gì chúng tôi lo cho bạn",
+    freeText: "Đưa đón sân bay, hai đêm khách sạn, phiên dịch tại phòng khám, sắp xếp hồ sơ và hỗ trợ điều phối 24/7 được bao gồm cho các hành trình đủ điều kiện. Kế hoạch hỗ trợ bằng văn bản của bạn xác nhận ngày, các lần khám và dịch vụ.",
+    depositTitle: "Tiền cọc điều phối 200 USD",
+    depositSummary: "Thu trước khi khởi hành đi Trung Quốc. Hoàn lại vào ngày phẫu thuật. Nếu bạn hủy, khoản cọc có thể được giữ trong một năm. Các trường hợp khác được xác nhận bằng văn bản.",
+    depositPurpose: "Khoản cọc dùng để giữ lịch hẹn thực hiện quy trình và hỗ trợ điều phối đã thỏa thuận. Khoản này tách biệt với chi phí y tế của bạn.",
+    collectionTitle: "Trước khi khởi hành đi Trung Quốc",
+    collection: "Tiền cọc điều phối 200 USD được thu trước khi bạn khởi hành đi Trung Quốc. Hãy xác nhận các hỗ trợ được bao gồm trong đặt chỗ của bạn trước khi thanh toán.",
+    refundTitle: "Hoàn lại vào ngày phẫu thuật",
+    refund: "Tiền cọc điều phối 200 USD của bạn được hoàn lại vào ngày phẫu thuật.",
+    cancellationTitle: "Hủy, đổi lịch hoặc không phẫu thuật",
+    cancellation: "Nếu bạn hủy, khoản cọc có thể được giữ trong một năm. Hãy xác nhận bằng văn bản các điều khoản về đổi lịch, không thể phẫu thuật, hoặc khi hết thời hạn giữ một năm.",
+    medicalTitle: "Thanh toán trực tiếp cho phòng khám",
+    medical: "Thanh toán mọi chi phí tư vấn, thăm khám, phẫu thuật, gây mê và chi phí y tế khác trực tiếp cho phòng khám hoặc bệnh viện điều trị. CeladonChina không thu các khoản thanh toán y tế.",
+    separateCosts: "Vé máy bay, visa, các đêm khách sạn sau hai đêm đã bao gồm, các chuyến tham quan tùy chọn và chi phí cá nhân được thanh toán riêng, trừ khi kế hoạch bằng văn bản của bạn ghi rõ là bao gồm.",
+    confirm: "Xác nhận điều khoản thanh toán",
+  },
 });
 
 export const getCoordinationPolicy = (lang: AsiaLang) => COORDINATION_POLICY[lang];

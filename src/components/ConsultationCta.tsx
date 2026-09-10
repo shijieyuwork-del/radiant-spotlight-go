@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import { useQuote } from "@/components/QuoteRequest";
 import { useAsia } from "@/lib/asia-i18n";
+import { translatedUiText } from "@/lib/locale-text";
 import { trackEvent } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
@@ -13,7 +14,7 @@ const ConsultationCta = ({ className, source = "page_footer_cta" }: Consultation
   const { lang, t } = useAsia();
   const { open } = useQuote();
   const c = (en: string, zh: string, ru: string, es: string) =>
-    lang === "zh" ? zh : lang === "ru" ? ru : lang === "es" ? es : en;
+    lang === "zh" ? zh : lang === "ru" ? ru : lang === "es" ? es : translatedUiText(lang, en);
 
   const handleClick = () => {
     trackEvent("select_cta", { source });

@@ -57,7 +57,7 @@ const langBlock = (lang: "en" | "zh" | "ru" | "es"): string => {
   const start = dictSrc.indexOf(`\n  ${lang}: {\n`);
   if (start === -1) return "";
   const rest = dictSrc.slice(start + 1);
-  const next = rest.search(/\n  (en|zh|ru|es): \{\n/);
+  const next = rest.search(/\n  (en|zh|ru|es|ko|ja|vi): \{\n/);
   return next === -1 ? rest : rest.slice(0, next + 1);
 };
 

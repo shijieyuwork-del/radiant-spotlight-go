@@ -197,17 +197,27 @@ const Hero = () => {
             pricingDetail: "Apoyo coordinado durante toda la recuperación",
           }
         : {
-          badge: "Cosmetic care in China, made clearer",
-          cases: "Watch patient recovery videos",
-          consultation: "Online consultation",
-          consultationDetail: "Meet your expert online before you travel (not providing medical advice)",
-          english: "English in-clinic translation",
-          englishDetail: "Communication support during clinic visits",
-          travel: "Airport pickup & drop-off",
-          travelDetail: "Private transfer to and from your destination",
-          pricing: "Aftercare support",
-          pricingDetail: "Coordinated support throughout recovery",
+          // Thai, Malay and Vietnamese resolve through the UI catalogs; English is the fallback.
+          badge: translatedUiText(lang, "Cosmetic care in China, made clearer"),
+          cases: translatedUiText(lang, "Watch patient recovery videos"),
+          consultation: translatedUiText(lang, "Online consultation"),
+          consultationDetail: translatedUiText(lang, "Meet your expert online before you travel (not providing medical advice)"),
+          english: translatedUiText(lang, "English in-clinic translation"),
+          englishDetail: translatedUiText(lang, "Communication support during clinic visits"),
+          travel: translatedUiText(lang, "Airport pickup & drop-off"),
+          travelDetail: translatedUiText(lang, "Private transfer to and from your destination"),
+          pricing: translatedUiText(lang, "Aftercare support"),
+          pricingDetail: translatedUiText(lang, "Coordinated support throughout recovery"),
         };
+  const diariesHeading = lang === "zh"
+    ? { title: "患者恢复日记，", emphasis: "帮助你做功课" }
+    : lang === "ru"
+      ? { title: "Дневники восстановления пациентов — ", emphasis: "изучите до выбора" }
+      : lang === "es"
+        ? { title: "Diarios de recuperación de pacientes, ", emphasis: "antes de elegir" }
+        : lang === "vi"
+          ? { title: "Nhật ký hồi phục của bệnh nhân, ", emphasis: "giúp bạn tìm hiểu trước khi chọn" }
+          : { title: translatedUiText(lang, "Patient recovery diaries"), emphasis: "" };
   return (
     <section className="hero-motion relative overflow-hidden">
       <div className="relative isolate">
@@ -239,7 +249,7 @@ const Hero = () => {
             <div
               className="mx-auto mt-6 max-w-4xl rounded-full border border-primary/10 bg-card/80 px-4 py-3 shadow-[0_14px_40px_rgba(18,55,45,0.06)] backdrop-blur-xl sm:mt-7 sm:px-6"
               role="list"
-              aria-label={lang === "zh" ? "协调服务" : lang === "ru" ? "Координационные услуги" : lang === "es" ? "Servicios de coordinación" : "Coordination services"}
+              aria-label={lang === "zh" ? "协调服务" : lang === "ru" ? "Координационные услуги" : lang === "es" ? "Servicios de coordinación" : translatedUiText(lang, "Coordination services")}
             >
               <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 sm:gap-x-8">
               {[
@@ -270,18 +280,18 @@ const Hero = () => {
             <div className="mb-6 flex flex-col items-start justify-between gap-4 px-1 sm:flex-row sm:items-end md:mb-8">
               <div>
                 <span className="inline-flex items-center gap-1.5 text-label font-bold uppercase tracking-[0.16em] text-brand">
-                  <Sparkles className="size-3.5" /> {lang === "zh" ? "我们的核心优势" : lang === "ru" ? "Наше главное отличие" : lang === "es" ? "Nuestra mayor diferencia" : "Our biggest difference"}
+                  <Sparkles className="size-3.5" /> {lang === "zh" ? "我们的核心优势" : lang === "ru" ? "Наше главное отличие" : lang === "es" ? "Nuestra mayor diferencia" : translatedUiText(lang, "Our biggest difference")}
                 </span>
                 <h2 className="mt-2 max-w-4xl font-display text-3xl font-medium leading-tight tracking-tight sm:text-4xl md:text-5xl">
-                  {lang === "zh" ? "患者恢复日记，" : lang === "ru" ? "Дневники восстановления пациентов — " : lang === "es" ? "Diarios de recuperación de pacientes, " : "Patient recovery diaries"}
-                  {lang !== "en" && <em className="not-italic text-brand">{lang === "zh" ? "帮助你做功课" : lang === "ru" ? "изучите до выбора" : "antes de elegir"}</em>}
+                  {diariesHeading.title}
+                  {diariesHeading.emphasis && <em className="not-italic text-brand">{diariesHeading.emphasis}</em>}
                 </h2>
               </div>
               <Link
                 to="/cases"
                 className="cta-primary inline-flex min-h-11 w-full shrink-0 items-center justify-center gap-1.5 rounded-full px-5 py-2.5 text-sm font-bold shadow-soft transition-all sm:w-auto sm:text-xs"
               >
-                {lang === "zh" ? "浏览全部日记" : lang === "ru" ? "Все дневники" : lang === "es" ? "Ver todos los diarios" : "Explore all diaries"} <ArrowRight className="size-3.5" />
+                {lang === "zh" ? "浏览全部日记" : lang === "ru" ? "Все дневники" : lang === "es" ? "Ver todos los diarios" : translatedUiText(lang, "Explore all diaries")} <ArrowRight className="size-3.5" />
               </Link>
             </div>
             <TikTokWall items={diaryItems.slice(0, 7)} lang={lang} fmtPrice={fmt} variant="preview" />
@@ -1235,9 +1245,18 @@ const DoctorsSection = () => {
   useRealtimeRefresh(["doctors"], loadPublishedDoctors);
   const viewProfileLabel = lang === "zh" ? "查看专家资料" : lang === "ru" ? "Профиль эксперта" : lang === "es" ? "Ver perfil del experto" : translatedUiText(lang, "View expert profile");
   const allExpertsLabel = lang === "zh" ? "全部专家" : lang === "ru" ? "Все специалисты" : lang === "es" ? "Todos los especialistas" : translatedUiText(lang, "All experts");
-  const detailsLabel = lang === "zh" ? "查看医生介绍" : lang === "ru" ? "О враче" : lang === "es" ? "Conoce al médico" : "Meet this doctor";
-  const backLabel = lang === "zh" ? "返回卡片" : lang === "ru" ? "Назад" : lang === "es" ? "Volver" : "Back to card";
-  const profileLabel = lang === "zh" ? "医生简介" : lang === "ru" ? "Профиль врача" : lang === "es" ? "Perfil del médico" : "Doctor profile";
+  // "Expert" rather than "doctor": the platform coordinates, it does not give medical advice (see copy-compliance.test.ts).
+  const detailsLabel = lang === "zh" ? "查看专家介绍" : lang === "ru" ? "Об эксперте" : lang === "es" ? "Conoce al experto" : translatedUiText(lang, "Meet this expert");
+  const backLabel = lang === "zh" ? "返回卡片" : lang === "ru" ? "Назад" : lang === "es" ? "Volver" : translatedUiText(lang, "Back to card");
+  const profileLabel = lang === "zh" ? "专家简介" : lang === "ru" ? "Профиль эксперта" : lang === "es" ? "Perfil del experto" : translatedUiText(lang, "Expert profile");
+  const focusLabel = lang === "zh" ? "专长领域" : lang === "ru" ? "Специализация" : lang === "es" ? "Áreas de enfoque" : translatedUiText(lang, "Areas of focus");
+  const bioFallback = lang === "zh"
+    ? "完整介绍请见专家详情页。"
+    : lang === "ru"
+      ? "Подробности опубликованы в полном профиле эксперта."
+      : lang === "es"
+        ? "Los detalles publicados están disponibles en el perfil completo del experto."
+        : translatedUiText(lang, "Published profile details are available from this expert's full profile.");
   // The homepage shows at most two rows of three; the full list lives on /doctors.
   const homepageDoctors = displayedDoctors.slice(0, 6);
   return (
@@ -1261,7 +1280,15 @@ const DoctorsSection = () => {
             key={d.id}
             className="flex min-w-[82vw] snap-center sm:min-w-[62vw] md:min-w-0"
           >
-            <DoctorFlipCard doctor={d} viewProfileLabel={viewProfileLabel} detailsLabel={detailsLabel} backLabel={backLabel} profileLabel={profileLabel} />
+            <DoctorFlipCard
+              doctor={d}
+              viewProfileLabel={viewProfileLabel}
+              detailsLabel={detailsLabel}
+              backLabel={backLabel}
+              profileLabel={profileLabel}
+              focusLabel={focusLabel}
+              bioFallback={bioFallback}
+            />
           </div>
         )})}
       </div>
