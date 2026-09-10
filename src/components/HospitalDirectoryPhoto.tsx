@@ -54,7 +54,7 @@ export function HospitalDirectoryPhoto({ photo, name, href, priority = false, cl
         </Link>
       ) : visual}
       {children}
-      {availablePhoto ? <HospitalPhotoCredit photo={availablePhoto} /> : reserveCreditSpace && <div className="min-h-[45px] shrink-0 border-t border-border/50" aria-hidden="true" />}
+      {availablePhoto?.sourceUrl ? <HospitalPhotoCredit photo={availablePhoto} /> : reserveCreditSpace && <div className="min-h-[45px] shrink-0 border-t border-border/50" aria-hidden="true" />}
     </>
   );
 }

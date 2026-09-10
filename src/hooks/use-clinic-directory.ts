@@ -1,6 +1,7 @@
 import { useCallback, useMemo } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { mergeClinicDirectory, type PublishedClinicDoctor } from "@/data/clinicDirectory";
+import { applyClinicRecords, mergeClinicDirectory, type PublishedClinicDoctor } from "@/data/clinicDirectory";
+import { useClinicRecords } from "@/hooks/use-clinic-records";
 import { supabase } from "@/integrations/supabase/client";
 import { useRealtimeRefresh } from "@/hooks/use-realtime-refresh";
 
@@ -28,7 +29,17 @@ export function useClinicDirectory() {
   });
   const refresh = useCallback(() => { void client.invalidateQueries({ queryKey }); }, [client]);
   useRealtimeRefresh(["doctors"], refresh);
-  const clinics = useMemo(() => mergeClinicDirectory(query.data ?? []), [query.data]);
+  const records = useClinicRecords();
+  const clinics = useMemo(
+    () => applyClinicRecords(mergeClinicDirectory(query.data ?? []), records.records),
+    [query.data, records.records],
+  );
 
-  return { clinics, doctors: query.data ?? [], isLoading: query.isPending, isError: query.isError, refetch: query.refetch };
+  return {
+    clinics,
+    doctors: query.data ?? [],
+    isLoading: query.isPending || records.isLoading,
+    isError: query.isError,
+    refetch: () => { void records.refetch(); return query.refetch(); },
+  };
 }
