@@ -356,9 +356,9 @@
   .hero-ambient__photo {
     position: absolute;
     inset: -2%;
-    background-position: 68% 54%;
+    background-position: center 44%;
     background-size: cover;
-    opacity: 0.62;
+    opacity: 0.48;
     mix-blend-mode: normal;
     animation: home-water-near 22s cubic-bezier(0.45, 0, 0.55, 1) -11s infinite alternate;
     animation-play-state: paused;
