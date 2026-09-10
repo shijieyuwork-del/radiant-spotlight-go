@@ -173,8 +173,7 @@ export default function ClinicAdmin() {
     try {
       let photoPath = draft.photoPath;
       if (photoFile) {
-        const result = await uploadMedia("clinic-photos", photoFile, { onProgress: setProgress });
-        photoPath = result.path;
+        photoPath = await uploadMedia("clinic-photos", photoFile, { onProgress: setProgress });
       }
       const payload = {
         static_slug: draft.staticSlug,
