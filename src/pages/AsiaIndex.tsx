@@ -941,6 +941,71 @@ const TreatmentsSectionLegacy = () => {
   );
 };
 
+// ============== Sample pricing ==============
+const SAMPLE_PRICES = [
+  { en: "Double Eyelid Surgery", zh: "双眼皮手术", ru: "Двойное веко", es: "Doble párpado", from: 8000, href: "/treatments/double-eyelid-surgery" },
+  { en: "Rhinoplasty", zh: "鼻综合", ru: "Ринопластика", es: "Rinoplastia", from: 22800, href: "/treatments/rhinoplasty" },
+  { en: "Liposuction", zh: "吸脂塑形", ru: "Липосакция", es: "Liposucción", from: 20000, href: "/treatments/liposuction" },
+  { en: "Breast Augmentation", zh: "隆胸", ru: "Увеличение груди", es: "Aumento de senos", from: 45000, href: "/treatments/breast-augmentation" },
+  { en: "Facelift (SMAS)", zh: "面部拉皮", ru: "Подтяжка лица", es: "Lifting facial", from: 58000, href: "/treatments/facelift" },
+  { en: "FUE Hair Transplant", zh: "FUE 植发", ru: "Пересадка волос FUE", es: "Trasplante capilar FUE", from: 18000, href: "/treatments/fue-hair-transplant" },
+];
+
+const PricingPreviewSection = () => {
+  const { lang, fmt } = useAsia();
+  const c = (en: string, zh: string, ru: string, es: string) => lang === "zh" ? zh : lang === "ru" ? ru : lang === "es" ? es : translatedUiText(lang, en);
+  return (
+    <section className="relative mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-20" aria-labelledby="sample-pricing-title">
+      <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-end">
+        <div className="max-w-2xl">
+          <span className="pill bg-secondary text-secondary-foreground mb-3">
+            <Wallet className="size-3.5" /> {c("Sample pricing", "价格示范", "Примеры цен", "Precios de referencia")}
+          </span>
+          <h2 id="sample-pricing-title" className="font-display text-3xl font-medium tracking-tight sm:text-4xl">
+            {c("Transparent starting prices in China", "透明公开的中国起步价", "Прозрачные стартовые цены в Китае", "Precios iniciales transparentes en China")}
+          </h2>
+          <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
+            {c(
+              "Reference starting prices for popular procedures. Your final quote is confirmed in writing after an expert consultation.",
+              "热门项目的参考起步价。最终报价会在专家面诊后以书面形式确认。",
+              "Ориентировочные стартовые цены на популярные процедуры. Итоговая стоимость подтверждается письменно после консультации эксперта.",
+              "Precios iniciales de referencia para procedimientos populares. El presupuesto final se confirma por escrito tras una consulta con un experto.",
+            )}
+          </p>
+        </div>
+        <QuoteCtaButton variant="primary" className="min-h-11 shrink-0 whitespace-nowrap px-6" quoteCtx={{ source: "home_sample_pricing" }} />
+      </div>
+
+      <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {SAMPLE_PRICES.map((item) => (
+          <Link
+            key={item.en}
+            to={item.href}
+            className="group flex items-center justify-between gap-4 rounded-[1.5rem] border border-border/80 bg-card p-5 shadow-soft transition-[border-color,transform] duration-150 hover:-translate-y-0.5 hover:border-primary/40 sm:p-6"
+          >
+            <div className="min-w-0">
+              <p className="truncate text-sm font-semibold sm:text-base">{c(item.en, item.zh, item.ru, item.es)}</p>
+              <p className="mt-1 text-xs text-muted-foreground">
+                {c("from", "起步价", "от", "desde")} <span className="font-display text-lg font-semibold text-brand sm:text-xl">{fmt(item.from)}</span>
+              </p>
+            </div>
+            <ArrowRight className="size-4 shrink-0 text-primary transition-transform duration-150 group-hover:translate-x-1" />
+          </Link>
+        ))}
+      </div>
+
+      <p className="mt-5 text-xs leading-relaxed text-muted-foreground">
+        {c(
+          "Prices vary by expert, facility and treatment plan. Travel and accommodation are quoted separately.",
+          "价格因专家、机构与治疗方案而异；差旅与住宿费用单独报价。",
+          "Цены зависят от эксперта, клиники и плана лечения. Поездка и проживание рассчитываются отдельно.",
+          "Los precios varían según el experto, la clínica y el plan de tratamiento. El viaje y el alojamiento se presupuestan por separado.",
+        )}
+      </p>
+    </section>
+  );
+};
+
 const TreatmentsSection = () => {
   const { lang } = useAsia();
   const c = (en: string, zh: string, ru: string, es: string) => lang === "zh" ? zh : lang === "ru" ? ru : lang === "es" ? es : translatedUiText(lang, en);
