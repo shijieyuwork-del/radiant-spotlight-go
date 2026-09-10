@@ -356,10 +356,10 @@
   .hero-ambient__photo {
     position: absolute;
     inset: -2%;
-    background-position: center 52%;
+    background-position: 68% 54%;
     background-size: cover;
-    opacity: 0.36;
-    mix-blend-mode: multiply;
+    opacity: 0.62;
+    mix-blend-mode: normal;
     animation: home-water-near 22s cubic-bezier(0.45, 0, 0.55, 1) -11s infinite alternate;
     animation-play-state: paused;
   }
@@ -396,11 +396,11 @@
   }
 
   .hero-ambient__wave-surfaces {
-    fill: hsl(184 52% 98% / 0.12);
+    fill: hsl(198 52% 98% / 0.08);
   }
 
   .hero-ambient__wave-surfaces path:nth-child(2n) {
-    fill: hsl(162 52% 48% / 0.045);
+    fill: hsl(204 46% 92% / 0.04);
   }
 
   .hero-ambient__ripple-shadow {

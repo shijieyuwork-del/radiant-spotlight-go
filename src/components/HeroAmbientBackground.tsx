@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Pause, Play } from "lucide-react";
 import type { AsiaLang } from "@/lib/asia-i18n";
-import oceanReference from "@/assets/home-ocean-reference.webp";
+import oceanReference from "@/assets/home-ocean-storm.webp";
 
 const motionLabels: Record<AsiaLang, { pause: string; play: string }> = {
   en: { pause: "Pause background animation", play: "Play background animation" },
