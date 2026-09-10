@@ -12,6 +12,8 @@ export type DirectoryClinic = {
   aliases: string[];
   doctorIds: string[];
   origin: "directory" | "published";
+  /** True for public (government-run) hospitals; false for private clinics. */
+  isPublic: boolean;
 };
 
 /** Callers must fetch published records only; publication status is not inferred here. */
@@ -54,19 +56,22 @@ const clinicSlug = (citySlug: string, identityName: string): string => {
   return `${citySlug}-${readable || "clinic"}-${fingerprint(identity)}`;
 };
 
-export const STATIC_CLINICS: DirectoryClinic[] = CITIES.flatMap((city) =>
-  [...city.hospitals, ...(ADDITIONAL_CLINICS[city.slug] ?? [])].map((hospital) => ({
-    slug: clinicSlug(city.slug, hospital.en || hospital.zh),
-    citySlug: city.slug,
-    nameEn: hospital.en,
-    nameZh: hospital.zh,
-    areaEn: hospital.areaEn,
-    areaZh: hospital.areaZh,
-    aliases: uniqueNames([hospital.en, hospital.zh]),
-    doctorIds: [],
-    origin: "directory" as const,
-  })),
-);
+export const STATIC_CLINICS: DirectoryClinic[] = CITIES.flatMap((city) => [
+  ...city.hospitals.map((hospital) => ({ hospital, isPublic: Boolean(hospital.isPublic) })),
+  // The extended directory lists only public hospitals.
+  ...(ADDITIONAL_CLINICS[city.slug] ?? []).map((hospital) => ({ hospital, isPublic: true })),
+].map(({ hospital, isPublic }) => ({
+  slug: clinicSlug(city.slug, hospital.en || hospital.zh),
+  citySlug: city.slug,
+  nameEn: hospital.en,
+  nameZh: hospital.zh,
+  areaEn: hospital.areaEn,
+  areaZh: hospital.areaZh,
+  aliases: uniqueNames([hospital.en, hospital.zh]),
+  doctorIds: [],
+  origin: "directory" as const,
+  isPublic,
+})));
 
 if (new Set(STATIC_CLINICS.map((clinic) => clinic.slug)).size !== STATIC_CLINICS.length) {
   throw new Error("Clinic directory contains conflicting static URLs.");
@@ -236,6 +241,8 @@ export const mergeClinicDirectory = (doctors: PublishedClinicDoctor[]): Director
       aliases: memberAliases,
       doctorIds,
       origin: "published",
+      // Expert-published profiles are private practices unless a static anchor matched above.
+      isPublic: false,
     });
   }
   return [...clinics, ...published.sort((a, b) => compare(a.slug, b.slug))];
