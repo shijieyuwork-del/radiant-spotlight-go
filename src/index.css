@@ -117,16 +117,6 @@
     z-index: 1;
   }
 
-  .home-content-flow > section + section::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: clamp(1rem, 5vw, 5rem);
-    right: clamp(1rem, 5vw, 5rem);
-    height: 1px;
-    background: linear-gradient(90deg, transparent, hsl(var(--primary) / 0.18), hsl(48 70% 72% / 0.14), transparent);
-  }
-
   .dark {
     --background: 160 25% 8%;
     --foreground: 50 50% 96%;
@@ -194,11 +184,6 @@
     .container {
       padding-left: 1rem;
       padding-right: 1rem;
-    }
-
-    .home-content-flow > section + section::before {
-      left: 1rem;
-      right: 1rem;
     }
 
     a, button, [role="button"] {
@@ -274,32 +259,10 @@
     background: transparent;
   }
 
-  /* Homepage sections share one quiet surface so the water texture stays
-     visible without competing with the content hierarchy. */
-  .home-section-surface {
-    isolation: isolate;
-    background: linear-gradient(180deg, hsl(var(--background) / 0.78), hsl(var(--secondary) / 0.42));
-    border-top: 1px solid hsl(var(--primary) / 0.14);
-    border-bottom: 1px solid hsl(var(--primary) / 0.1);
-  }
-
-  .home-water-page .home-content-flow > section.home-section-surface + section::before {
-    display: none;
-  }
-
-  .home-section-heading {
-    position: relative;
-    z-index: 1;
-  }
-
+  /* Homepage sections below the hero: HomeSection.tsx owns the rhythm (py-24),
+     the content width (max-w-7xl) and the alternating white / sage surfaces. */
   .home-rail {
     scroll-padding-inline: 0.25rem;
-  }
-
-  .home-rail-controls {
-    margin-top: 0.85rem;
-    padding-top: 0.75rem;
-    border-top: 1px solid hsl(var(--border) / 0.72);
   }
 
   .home-proof-card,
@@ -325,9 +288,11 @@
     z-index: 1;
   }
 
+  /* Scoped to the hero: the section is position: relative + overflow: hidden, so the
+     ripples end where the hero ends instead of running behind the whole page. */
   .hero-ambient {
     --hero-surface: var(--background);
-    position: fixed;
+    position: absolute;
     inset: 0;
     z-index: 0;
     pointer-events: none;

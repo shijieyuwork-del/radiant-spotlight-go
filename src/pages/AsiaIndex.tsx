@@ -56,6 +56,8 @@ import { useRealtimeRefresh } from "@/hooks/use-realtime-refresh";
 import { signedUrls } from "@/lib/storage-urls";
 import { DEMO_CHINA_DOCTORS } from "@/data/demoChinaDoctors";
 import { ManualRailControls } from "@/components/ManualRailControls";
+import { HomeSection } from "@/components/home/HomeSection";
+import { SectionActionLink, SectionHeader } from "@/components/home/SectionHeader";
 
 type ProcedureIconProps = { className?: string; strokeWidth?: number };
 
@@ -207,6 +209,8 @@ const Hero = () => {
         };
   return (
     <section className="hero-motion relative overflow-hidden">
+      {/* The water texture lives inside the hero only; the sections below sit on plain white / sage surfaces. */}
+      <HeroAmbientBackground lang={lang} />
       <div className="relative isolate">
         <div className="container relative pb-16 pt-5 sm:py-14 md:py-20">
           <div className="mx-auto w-full max-w-5xl text-center">
@@ -751,46 +755,48 @@ const ClinicsSection = () => {
     },
   ];
   return (
-    <section id="clinics" className="home-section-surface container py-10 md:py-16">
-      <div className="home-section-heading mb-6 flex flex-wrap items-end justify-between gap-4 md:mb-8">
-        <div>
-          <span className="pill bg-accent text-accent-foreground mb-3"><Building2 className="size-3.5" /> {t("cities.kicker")}</span>
-          <h2 className="font-display text-3xl font-medium tracking-tight sm:text-4xl md:text-5xl">
-            {t("cities.title1")} <em className="text-brand not-italic">{t("cities.titleEm")}</em>
-          </h2>
-        </div>
-        <Link to="/clinics" className="pill hidden bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90 sm:inline-flex">{clinicText("All clinics", "全部机构")}<ArrowRight className="size-4" /></Link>
-      </div>
+    <HomeSection id="clinics" tone="sage" ariaLabelledBy="home-clinics-title">
+      <SectionHeader
+        icon={Building2}
+        eyebrow={t("cities.kicker")}
+        titleId="home-clinics-title"
+        title={<>{t("cities.title1")} <em className="not-italic text-brand">{t("cities.titleEm")}</em></>}
+        action={<SectionActionLink to="/clinics" className="hidden sm:inline-flex">{clinicText("All clinics", "全部机构")}</SectionActionLink>}
+      />
+      {/* Snap rail below md; a plain three-column grid of equal-height cards from md up. */}
       <div
         ref={clinicRailRef}
         id="home-clinics-rail"
-        className="home-rail flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain py-1 scrollbar-hide md:gap-5"
+        className="home-rail flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain py-1 scrollbar-hide md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:py-0"
       >
         {clinics.map((clinic) => (
-          <Link key={clinic.en} to={(() => { const listing = STATIC_CLINICS.find((item) => item.nameEn === clinic.en); return listing ? getClinicPath(listing) : `/clinics?q=${encodeURIComponent(clinic.en)}`; })()} className="group block min-w-[82vw] snap-center sm:min-w-[62vw] md:min-w-[calc((100%_-_3rem)/3)] md:max-w-[calc((100%_-_3rem)/3)]">
-            <article className="home-clinic-card flex min-h-[270px] flex-col rounded-3xl border border-border bg-card p-5 shadow-soft transition duration-300 group-hover:-translate-y-1 group-hover:border-primary/35 group-hover:shadow-pop md:min-h-[290px] md:p-6">
+          <Link key={clinic.en} to={(() => { const listing = STATIC_CLINICS.find((item) => item.nameEn === clinic.en); return listing ? getClinicPath(listing) : `/clinics?q=${encodeURIComponent(clinic.en)}`; })()} className="group flex min-w-[82vw] snap-center rounded-3xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 sm:min-w-[62vw] md:min-w-0">
+            <article className="home-clinic-card flex w-full flex-col rounded-3xl border border-border bg-card p-6 shadow-soft transition duration-300 group-hover:-translate-y-1 group-hover:border-primary/35 group-hover:shadow-pop md:min-h-[300px]">
               <div className="flex min-w-0 items-center gap-4">
-                <img src={clinic.image} alt="" loading="lazy" decoding="async" className="size-24 shrink-0 rounded-full border-2 border-primary/15 object-cover transition-transform duration-500 group-hover:scale-105 md:size-28" />
+                <img src={clinic.image} alt="" loading="lazy" decoding="async" className="size-20 shrink-0 rounded-full border-2 border-primary/15 object-cover transition-transform duration-500 group-hover:scale-105" />
                 <div className="min-w-0">
-                  <h3 className="font-display text-xl font-semibold leading-tight text-foreground md:text-2xl">{clinicText(clinic.en, clinic.zh)}</h3>
-                  <p className="mt-2 inline-flex items-center gap-1.5 text-sm font-medium text-foreground"><MapPin className="size-3.5" />{clinicText(clinic.cityEn, clinic.cityZh)}</p>
+                  {/* Fixed two-line title box so a longer hospital name cannot push the rows below out of line. */}
+                  <h3 className="line-clamp-2 min-h-[3.25rem] font-display text-xl font-semibold leading-tight text-foreground">{clinicText(clinic.en, clinic.zh)}</h3>
+                  <p className="mt-1.5 inline-flex items-center gap-1.5 text-sm font-medium text-foreground"><MapPin className="size-3.5 text-primary" />{clinicText(clinic.cityEn, clinic.cityZh)}</p>
                 </div>
               </div>
-              <p className="mt-5 line-clamp-3 text-sm leading-relaxed text-muted-foreground">{clinicText(clinic.descriptionEn, clinic.descriptionZh)}</p>
-              <div className="mt-4 flex max-h-[50px] flex-wrap gap-1.5 overflow-hidden">
+              <p className="mt-5 line-clamp-3 min-h-[4.5rem] text-sm leading-relaxed text-muted-foreground">{clinicText(clinic.descriptionEn, clinic.descriptionZh)}</p>
+              <div className="mt-auto flex flex-wrap gap-1.5 pt-4">
                 {clinic.tagsEn.map((tag, index) => <span key={tag} className="rounded-full bg-accent px-2.5 py-1 text-label text-accent-foreground">{clinicText(tag, clinic.tagsZh[index])}</span>)}
               </div>
             </article>
           </Link>
         ))}
       </div>
-      <ManualRailControls railRef={clinicRailRef} railId="home-clinics-rail" count={clinics.length} lang={lang} className="home-rail-controls" />
-      <div className="mt-2 flex justify-center sm:hidden">
+      <div className="md:hidden">
+        <ManualRailControls railRef={clinicRailRef} railId="home-clinics-rail" count={clinics.length} lang={lang} />
+      </div>
+      <div className="mt-4 flex justify-center sm:hidden">
         <Link to="/clinics" className="inline-flex min-h-12 items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90">
           {clinicText("All clinics", "查看全部机构")} <ArrowRight className="size-4" />
         </Link>
       </div>
-    </section>
+    </HomeSection>
   );
 };
 
@@ -955,38 +961,37 @@ const PricingPreviewSection = () => {
   const { lang, fmt } = useAsia();
   const c = (en: string, zh: string, ru: string, es: string) => lang === "zh" ? zh : lang === "ru" ? ru : lang === "es" ? es : translatedUiText(lang, en);
   return (
-    <section className="home-section-surface relative mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-20" aria-labelledby="sample-pricing-title">
-      <div className="home-section-heading flex flex-col items-start justify-between gap-4 md:flex-row md:items-end">
-        <div className="max-w-2xl">
-          <span className="pill bg-secondary text-secondary-foreground mb-3">
-            <Wallet className="size-3.5" /> {c("Sample pricing", "价格示范", "Примеры цен", "Precios de referencia")}
-          </span>
-          <h2 id="sample-pricing-title" className="font-display text-3xl font-medium tracking-tight sm:text-4xl">
-            {c("Transparent starting prices in China", "透明公开的中国起步价", "Прозрачные стартовые цены в Китае", "Precios iniciales transparentes en China")}
-          </h2>
-          <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-            {c(
-              "Reference starting prices for popular procedures. Your final quote is confirmed in writing after an expert consultation.",
-              "热门项目的参考起步价。最终报价会在专家面诊后以书面形式确认。",
-              "Ориентировочные стартовые цены на популярные процедуры. Итоговая стоимость подтверждается письменно после консультации эксперта.",
-              "Precios iniciales de referencia para procedimientos populares. El presupuesto final se confirma por escrito tras una consulta con un experto.",
-            )}
-          </p>
-        </div>
-        <QuoteCtaButton variant="primary" className="min-h-11 shrink-0 whitespace-nowrap px-6" quoteCtx={{ source: "home_sample_pricing" }} />
-      </div>
+    <HomeSection tone="sage" ariaLabelledBy="sample-pricing-title">
+      <SectionHeader
+        icon={Wallet}
+        eyebrow={c("Sample pricing", "价格示范", "Примеры цен", "Precios de referencia")}
+        titleId="sample-pricing-title"
+        title={
+          <>
+            {c("Transparent starting prices", "透明公开的", "Прозрачные стартовые цены", "Precios iniciales transparentes")}{" "}
+            <em className="not-italic text-brand">{c("in China", "中国起步价", "в Китае", "en China")}</em>
+          </>
+        }
+        subtitle={c(
+          "Reference starting prices for popular procedures. Your final quote is confirmed in writing after an expert consultation.",
+          "热门项目的参考起步价。最终报价会在专家面诊后以书面形式确认。",
+          "Ориентировочные стартовые цены на популярные процедуры. Итоговая стоимость подтверждается письменно после консультации эксперта.",
+          "Precios iniciales de referencia para procedimientos populares. El presupuesto final se confirma por escrito tras una consulta con un experto.",
+        )}
+        action={<QuoteCtaButton variant="primary" className="min-h-11 shrink-0 whitespace-nowrap px-6" quoteCtx={{ source: "home_sample_pricing" }} />}
+      />
 
-      <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 md:gap-6">
         {SAMPLE_PRICES.map((item) => (
           <Link
             key={item.en}
             to={item.href}
-            className="group flex items-center justify-between gap-4 rounded-[1.5rem] border border-border/80 bg-card p-5 shadow-soft transition-[border-color,transform] duration-150 hover:-translate-y-0.5 hover:border-primary/40 sm:p-6"
+            className="group flex min-h-[100px] items-center justify-between gap-4 rounded-3xl border border-border bg-card px-6 py-5 shadow-soft transition-[border-color,transform] duration-150 hover:-translate-y-0.5 hover:border-primary/40"
           >
             <div className="min-w-0">
-              <p className="truncate text-sm font-semibold sm:text-base">{c(item.en, item.zh, item.ru, item.es)}</p>
-              <p className="mt-1 text-xs text-muted-foreground">
-                {c("from", "起步价", "от", "desde")} <span className="font-display text-lg font-semibold text-brand sm:text-xl">{fmt(item.from)}</span>
+              <p className="truncate text-base font-semibold leading-snug text-foreground">{c(item.en, item.zh, item.ru, item.es)}</p>
+              <p className="mt-1 text-[13px] leading-snug text-muted-foreground">
+                {c("from", "起步价", "от", "desde")} <span className="font-display text-[22px] font-semibold tabular-nums text-brand">{fmt(item.from)}</span>
               </p>
             </div>
             <ArrowRight className="size-4 shrink-0 text-primary transition-transform duration-150 group-hover:translate-x-1" />
@@ -994,7 +999,7 @@ const PricingPreviewSection = () => {
         ))}
       </div>
 
-      <p className="mt-5 text-xs leading-relaxed text-muted-foreground">
+      <p className="mt-5 text-[13px] leading-relaxed text-muted-foreground">
         {c(
           "Prices vary by expert, facility and treatment plan. Travel and accommodation are quoted separately.",
           "价格因专家、机构与治疗方案而异；差旅与住宿费用单独报价。",
@@ -1002,7 +1007,7 @@ const PricingPreviewSection = () => {
           "Los precios varían según el experto, la clínica y el plan de tratamiento. El viaje y el alojamiento se presupuestan por separado.",
         )}
       </p>
-    </section>
+    </HomeSection>
   );
 };
 
@@ -1174,38 +1179,33 @@ const TreatmentsSection = () => {
     },
   ];
   return (
-    <section id="projects" className="home-section-surface container py-10 md:py-16" aria-labelledby="why-celadonchina-title">
-      <div className="home-section-heading mb-7 grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(300px,0.46fr)] lg:items-end md:mb-10">
-        <div>
-          <span className="pill mb-3 bg-accent text-accent-foreground"><ShieldCheck className="size-3.5" /> {c("Why choose us", "为什么选择我们", "Почему выбирают нас", "Por qué elegirnos")}</span>
-          <h2 id="why-celadonchina-title" className="max-w-3xl font-display text-3xl font-medium leading-[0.98] tracking-tight sm:text-4xl md:text-5xl">
-            Why <em className="not-italic text-brand">CeladonChina</em>
-          </h2>
-        </div>
-        <div className="lg:pb-1">
-          <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
-            {c("More experts, more destinations and one coordinated journey.", "更多专家、更多目的地，一站式行程协调。", "Больше специалистов и направлений, одна команда на всём пути.", "Más especialistas y destinos, con un solo equipo durante todo el viaje.")}
-          </p>
-        </div>
-      </div>
+    <HomeSection id="projects" tone="white" ariaLabelledBy="why-celadonchina-title">
+      <SectionHeader
+        icon={ShieldCheck}
+        eyebrow={c("Why choose us", "为什么选择我们", "Почему выбирают нас", "Por qué elegirnos")}
+        titleId="why-celadonchina-title"
+        title={<>Why <em className="not-italic text-brand">CeladonChina</em></>}
+        subtitle={c("More experts, more destinations and one coordinated journey.", "更多专家、更多目的地，一站式行程协调。", "Больше специалистов и направлений, одна команда на всём пути.", "Más especialistas y destinos, con un solo equipo durante todo el viaje.")}
+      />
 
-      <div className="grid gap-4 md:grid-cols-3" aria-label={c("Three reasons to choose CeladonChina", "选择 CeladonChina 的三个理由", "Три причины выбрать CeladonChina", "Tres razones para elegir CeladonChina")}>
+      <div className="grid gap-4 md:grid-cols-3 md:gap-6" aria-label={c("Three reasons to choose CeladonChina", "选择 CeladonChina 的三个理由", "Три причины выбрать CeladonChina", "Tres razones para elegir CeladonChina")}>
         {whyReasons.map((reason, index) => (
-          <article key={reason.key} className="home-proof-card group relative min-h-[320px] overflow-hidden rounded-[1.6rem] bg-foreground shadow-soft md:min-h-[360px]">
+          <article key={reason.key} className="home-proof-card group relative min-h-[340px] overflow-hidden rounded-3xl bg-foreground shadow-soft md:min-h-[420px]">
             <img src={reason.image} alt="" loading="lazy" decoding="async" className="absolute inset-0 z-0 size-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.025]" />
-            <div className="absolute inset-0 z-[1] bg-gradient-to-t from-foreground/95 via-foreground/20 to-transparent" />
-            <div className="relative z-10 flex min-h-[320px] flex-col justify-end p-5 text-background sm:p-7 md:min-h-[360px]">
-              <span className="mb-auto inline-flex size-10 items-center justify-center rounded-full border border-background/30 bg-foreground/20 text-sm font-semibold backdrop-blur">0{index + 1}</span>
-              <div className="mt-auto min-h-[136px]">
+            <div className="absolute inset-0 z-[1] bg-gradient-to-t from-foreground/95 via-foreground/45 to-transparent" />
+            <div className="relative z-10 flex min-h-[340px] flex-col justify-between p-6 text-background sm:p-7 md:min-h-[420px]">
+              <span className="inline-flex size-10 items-center justify-center rounded-full border border-background/30 bg-foreground/20 text-sm font-semibold backdrop-blur">0{index + 1}</span>
+              <div>
                 <p className="mb-2 text-label font-semibold uppercase tracking-[0.16em] text-background/65">{reason.eyebrow}</p>
-                <h3 className="max-w-sm font-display text-2xl font-medium leading-[1.02] sm:text-[1.7rem]">{reason.title}</h3>
-                <p className="mt-4 max-w-md text-sm leading-relaxed text-background/78">{reason.detail}</p>
+                <h3 className="max-w-sm font-display text-2xl font-medium leading-[1.08] sm:text-[1.65rem]">{reason.title}</h3>
+                {/* Three reserved lines so the eyebrow and title sit at the same height in all three cards. */}
+                <p className="mt-3 min-h-[4.5rem] max-w-md text-sm leading-relaxed text-background/78">{reason.detail}</p>
               </div>
             </div>
           </article>
         ))}
       </div>
-    </section>
+    </HomeSection>
   );
 };
 
@@ -1237,58 +1237,47 @@ const DoctorsSection = () => {
   useEffect(() => { loadPublishedDoctors(); }, [loadPublishedDoctors]);
   // 后台发布新专家后首页自动更新
   useRealtimeRefresh(["doctors"], loadPublishedDoctors);
+  const viewProfileLabel = lang === "zh" ? "查看专家资料" : lang === "ru" ? "Профиль эксперта" : lang === "es" ? "Ver perfil del experto" : translatedUiText(lang, "View expert profile");
+  const allExpertsLabel = lang === "zh" ? "全部专家" : lang === "ru" ? "Все специалисты" : lang === "es" ? "Todos los especialistas" : translatedUiText(lang, "All experts");
+  // The homepage shows at most two rows of three; the full list lives on /doctors.
+  const homepageDoctors = displayedDoctors.slice(0, 6);
   return (
-    <section id="compliance" className="home-section-surface container py-8 md:py-12">
-      <div className="home-section-heading mb-7 flex flex-wrap items-end justify-between gap-4 md:mb-9">
-        <div>
-          <span className="pill bg-accent text-accent-foreground mb-3"><Stethoscope className="size-3.5" /> {t("doctors.kicker")}</span>
-          <h2 className="max-w-4xl font-display text-3xl font-medium leading-[1.03] tracking-tight sm:text-4xl md:text-5xl">
-            {t("doctors.title1")} <em className="text-brand not-italic">{t("doctors.titleEm")}</em>
-          </h2>
-        </div>
-      </div>
+    <HomeSection id="compliance" tone="white" ariaLabelledBy="home-doctors-title">
+      <SectionHeader
+        icon={Stethoscope}
+        eyebrow={t("doctors.kicker")}
+        titleId="home-doctors-title"
+        title={<>{t("doctors.title1")} <em className="not-italic text-brand">{t("doctors.titleEm")}</em></>}
+        action={<SectionActionLink to="/doctors" className="hidden sm:inline-flex">{allExpertsLabel}</SectionActionLink>}
+      />
+      {/* Snap rail below md; a plain three-column grid from md up, so one or two experts never leave a half-empty rail. */}
       <div
         ref={doctorRailRef}
         id="home-doctors-rail"
-        className={`home-rail flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain py-1 scrollbar-hide md:gap-5 ${displayedDoctors.length <= 2 ? "md:justify-center" : ""}`}
+        className="home-rail flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain py-1 scrollbar-hide md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:py-0"
       >
-        {displayedDoctors.map((d) => {
+        {homepageDoctors.map((d) => {
           const photo = d.photo;
           return (
           <Link
             key={d.id}
             to={d.demo ? `/doctors/demo/${d.id}` : `/doctors/profile/${d.id}`}
-            aria-label={`${lang === "zh" ? "查看专家资料" : lang === "ru" ? "Профиль эксперта" : lang === "es" ? "Ver perfil del experto" : "View expert profile"}: ${d.name}`}
-            className="group flex min-w-[82vw] snap-center rounded-3xl [perspective:1200px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 sm:min-w-[62vw] md:min-w-[min(30rem,calc((100%_-_3rem)/3))] md:max-w-[min(30rem,calc((100%_-_3rem)/3))]"
+            aria-label={`${viewProfileLabel}: ${d.name}`}
+            className="group flex min-w-[82vw] snap-center rounded-3xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 sm:min-w-[62vw] md:min-w-0"
           >
-            <article className="relative min-h-[360px] w-full rounded-3xl transition-transform [transform-style:preserve-3d] [transition-duration:380ms] [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none md:min-h-[400px] md:group-hover:[transform:rotateY(180deg)] md:group-focus-visible:[transform:rotateY(180deg)]">
-              <div className="absolute inset-0 flex flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-soft [backface-visibility:hidden]">
-                <div className="relative flex-1 overflow-hidden bg-primary/10">
-                  {photo ? <img src={photo} alt={d.name} loading="lazy" decoding="async" className="size-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.025] motion-reduce:transition-none" /> : <div className="grid size-full place-items-center text-primary"><Stethoscope className="size-16" /></div>}
-                  <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
-<div className="absolute inset-x-0 bottom-0 p-5 text-white">
-                    <span className="mb-2 inline-flex rounded-full border border-white/25 bg-black/25 px-3 py-1 text-label font-bold uppercase tracking-[0.13em] text-white/90 backdrop-blur-sm">{d.roleLabel}</span>
-                    <h3 className="font-display text-2xl font-semibold leading-tight md:text-[1.65rem]">{d.name}</h3>
-                    <p className="mt-1 text-sm font-medium text-white/80">{d.title}</p>
-                    <p className="mt-2 flex items-center gap-2 text-sm text-white/85"><MapPin className="size-4 text-primary" />{d.city}</p>
-                  </div>
-                </div>
-                <div className="flex min-h-16 items-center justify-between px-6 text-sm font-semibold text-foreground md:hidden">
-                  {lang === "zh" ? "查看专家资料" : lang === "ru" ? "Профиль эксперта" : lang === "es" ? "Ver perfil del experto" : "View expert profile"}
-                  <ArrowRight className="size-4 text-primary" />
-                </div>
+            <article className="flex w-full flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-soft transition duration-300 group-hover:-translate-y-1 group-hover:border-primary/35 group-hover:shadow-pop motion-reduce:transition-none md:min-h-[540px]">
+              <div className="relative h-[264px] shrink-0 overflow-hidden bg-primary/10">
+                {photo ? <img src={photo} alt={d.name} loading="lazy" decoding="async" className="size-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.025] motion-reduce:transition-none" /> : <div className="grid size-full place-items-center text-primary"><Stethoscope className="size-16" /></div>}
               </div>
-
-<div className="absolute inset-0 hidden flex-col overflow-hidden rounded-3xl border border-primary/25 bg-card p-6 shadow-pop [backface-visibility:hidden] [transform:rotateY(180deg)] md:flex">
-                <span className="text-label font-bold uppercase tracking-[0.18em] text-foreground">{d.roleLabel}</span>
-                <h3 className="mt-2 font-display text-2xl font-semibold leading-tight text-foreground md:text-[1.65rem]">{d.name}</h3>
-                <p className="mt-2 flex items-start gap-2 text-sm leading-relaxed text-foreground/75"><MapPin className="mt-0.5 size-4 shrink-0 text-primary" />{d.city}</p>
-                <p className="mt-4 line-clamp-3 text-sm leading-6 text-muted-foreground">{d.bio}</p>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {d.specialties.slice(0, 3).map((s) => <span key={s} className="rounded-full bg-accent px-3 py-1 text-xs text-accent-foreground">{s}</span>)}
+              <div className="flex grow flex-col p-6 pt-5">
+                <p className="text-label font-semibold uppercase tracking-[0.16em] text-brand">{d.title}</p>
+                <h3 className="mt-1.5 font-display text-[22px] font-semibold leading-tight text-foreground">{d.name}</h3>
+                <p className="mt-2 flex items-center gap-1.5 text-sm font-medium text-foreground"><MapPin className="size-3.5 shrink-0 text-primary" />{d.city}</p>
+                <div className="mt-3.5 flex flex-wrap gap-1.5">
+                  {d.specialties.slice(0, 3).map((s) => <span key={s} className="rounded-full bg-accent px-2.5 py-1 text-label text-accent-foreground">{s}</span>)}
                 </div>
-                <span className="mt-auto flex min-h-10 items-center justify-between border-t border-border/70 pt-4 text-sm font-semibold text-foreground">
-                  {lang === "zh" ? "查看专家资料" : lang === "ru" ? "Профиль эксперта" : lang === "es" ? "Ver perfil del experto" : "View expert profile"}
+                <span className="mt-auto flex min-h-11 items-center justify-between border-t border-border pt-4 text-sm font-semibold text-foreground">
+                  {viewProfileLabel}
                   <ArrowRight className="size-4 text-primary transition-transform group-hover:translate-x-1" />
                 </span>
               </div>
@@ -1296,8 +1285,15 @@ const DoctorsSection = () => {
           </Link>
         )})}
       </div>
-      <ManualRailControls railRef={doctorRailRef} railId="home-doctors-rail" count={displayedDoctors.length} lang={lang} className="home-rail-controls" />
-    </section>
+      <div className="md:hidden">
+        <ManualRailControls railRef={doctorRailRef} railId="home-doctors-rail" count={homepageDoctors.length} lang={lang} />
+      </div>
+      <div className="mt-4 flex justify-center sm:hidden">
+        <Link to="/doctors" className="inline-flex min-h-12 items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90">
+          {allExpertsLabel} <ArrowRight className="size-4" />
+        </Link>
+      </div>
+    </HomeSection>
   );
 };
 
@@ -1486,7 +1482,6 @@ const AsiaIndex = () => {
         structuredData={ORGANIZATION_SCHEMA}
       />
       <div className="home-water-page min-h-screen overflow-x-clip">
-        <HeroAmbientBackground lang={lang} />
         <AsiaNavbar />
         <main className="home-content-flow">
           <Hero />
