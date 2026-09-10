@@ -223,7 +223,7 @@ const Clinics = () => {
                 </Button>
               </div>
             ) : (
-              <div ref={listRef} id="clinic-directory-results" aria-describedby="clinic-directory-count" className="mt-8 space-y-12" aria-label={c("All hospitals and clinics", "全部医院及诊所", "Все больницы и клиники", "Todos los hospitales y clínicas", "โรงพยาบาลและคลินิกทั้งหมด", "Semua hospital dan klinik")}>
+              <div ref={listRef} id="clinic-directory-results" role="list" aria-describedby="clinic-directory-count" className="mt-8 space-y-12" aria-label={c("All hospitals and clinics", "全部医院及诊所", "Все больницы и клиники", "Todos los hospitales y clínicas", "โรงพยาบาลและคลินิกทั้งหมด", "Semua hospital dan klinik")}>
                 {sections.map((section) => (
                   <section key={section.isPublic ? "public" : "private"} aria-label={section.label}>
                     <h2 className="flex items-baseline gap-3 border-b border-border/60 pb-3 font-display text-2xl font-medium tracking-tight">
