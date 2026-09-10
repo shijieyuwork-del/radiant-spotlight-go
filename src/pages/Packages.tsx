@@ -112,37 +112,37 @@ const JOURNEY_STEPS = [
 const SUPPORT_SERVICES = [
   {
     icon: Plane,
-    title: ["Airport pickup & drop-off", "机场接送", "Трансфер из аэропорта", "Recogida y traslado al aeropuerto"],
+    title: ["Airport pickup on us", "机场接送，我们承担", "Трансфер — за наш счёт", "Traslados incluidos"],
     text: [
-      "A friendly face at arrivals. A ride to your hotel or clinic, and back to the airport.",
-      "落地有人迎接，往返机场与酒店或诊所，有我们接送。",
-      "Прямой трансфер между аэропортом и подтверждённым отелем или клиникой с учётом деталей прибытия.",
-      "Traslado directo entre el aeropuerto y tu hotel o clínica confirmados, coordinado según tus datos de llegada.",
+      "Airport pickup and drop-off are included for your confirmed itinerary.",
+      "按确认的行程提供机场接送。",
+      "Трансфер из аэропорта и обратно входит в подтверждённый маршрут.",
+      "La recogida y el traslado de vuelta están incluidos en tu itinerario confirmado.",
     ],
   },
   {
     icon: Languages,
-    title: ["Your voice, understood", "让你的想法被听懂", "Перевод в клинике", "Traducción en la clínica"],
+    title: ["In-clinic translation on us", "院内翻译，我们承担", "Перевод в клинике — за наш счёт", "Traducción en clínica incluida"],
     text: [
-      "Ask your questions. Understand your care. We translate during included clinic visits.",
-      "问清疑惑，听懂护理建议。约定就诊期间，我们为你翻译。",
-      "Двуязычная помощь при вопросах, инструкциях по уходу и дальнейших шагах во время включённых визитов.",
-      "Apoyo de comunicación bilingüe para preguntas, instrucciones de cuidado y próximos pasos durante las visitas incluidas.",
+      "In-clinic translation is included during the visits listed in your support plan.",
+      "在服务方案列明的就诊期间，提供院内翻译。",
+      "Перевод в клинике входит в визиты, указанные в вашем плане поддержки.",
+      "La traducción en clínica está incluida durante las visitas indicadas en tu plan de apoyo.",
     ],
   },
   {
     icon: Hotel,
-    title: ["Find your place to rest", "找到安心休息的住处", "Помощь с проживанием", "Orientación de alojamiento"],
+    title: ["Two hotel nights on us", "两晚酒店，我们承担", "Две ночи в отеле — за наш счёт", "Dos noches de hotel incluidas"],
     text: [
-      "Hotel options that fit your stay, budget and recovery needs. Hotel costs paid separately.",
-      "按行程、预算与恢复需求，帮你挑选酒店。住宿费用另付。",
-      "Подбор отелей рядом с клиникой с учётом дат, бюджета и восстановления. Проживание оплачивается отдельно.",
-      "Opciones de hotel preseleccionadas según tu clínica, fechas, presupuesto y necesidades de recuperación. Los gastos de hotel se pagan por separado.",
+      "Two hotel nights are included for eligible journeys. Extra nights and upgrades are paid separately.",
+      "符合条件的行程包含两晚酒店。额外晚数与房型升级需另行支付。",
+      "Для подходящих поездок включены две ночи в отеле. Дополнительные ночи и улучшения оплачиваются отдельно.",
+      "En los viajes elegibles se incluyen dos noches de hotel. Las noches adicionales y mejoras se pagan aparte.",
     ],
   },
   {
     icon: Files,
-    title: ["Your records, ready to share", "病历备好，沟通更清楚", "Подготовка документов", "Organización de historial médico"],
+    title: ["Records prep on us", "病历整理，我们承担", "Подготовка документов — за наш счёт", "Organización de documentos incluida"],
     text: [
       "We organize the records you provide and help translate key details for your clinic.",
       "整理你提供的病历，协助翻译关键信息，方便与诊所沟通。",
@@ -152,12 +152,12 @@ const SUPPORT_SERVICES = [
   },
   {
     icon: Headphones,
-    title: ["Your coordinator, a message away", "你的管家，发条消息就能联系", "Онлайн-поддержка", "Asistencia de conserjería en línea"],
+    title: ["24/7 support on us", "24/7 协调支持，我们承担", "Поддержка 24/7 — за наш счёт", "Apoyo 24/7 incluido"],
     text: [
-      "Travel or booking questions? Message us during your agreed support period.",
-      "行程、预订有疑问？约定服务期间，随时给我们留言。",
-      "Связывайтесь с координатором по вопросам маршрута, бронирования и услуг в подтверждённый период поддержки.",
-      "Escribe a tu coordinador por dudas de itinerario, reservas y servicios durante el periodo de apoyo confirmado.",
+      "A coordinator is available 24/7 during your confirmed support period.",
+      "在确认的支持期间，协调员提供 24 小时服务。",
+      "Координатор доступен 24/7 в подтверждённый период поддержки.",
+      "Un coordinador está disponible 24/7 durante el periodo de apoyo confirmado.",
     ],
   },
 ] as const;
@@ -221,8 +221,8 @@ const Packages = () => {
               <div className="mb-7 md:mb-9">
                 <div>
                   <span className="pill bg-primary/10 text-foreground"><ShieldCheck className="size-3.5 text-primary" />{policy.freeTitle}</span>
-                  <h2 className="mt-4 max-w-3xl font-display text-3xl font-medium leading-tight tracking-tight sm:text-4xl">{c("Your journey. Our support.", "你的旅程，我们相伴。", "Бесплатные услуги Celadon", "Servicios gratuitos de Celadon")}</h2>
-                  <p className="mt-3 max-w-3xl text-sm leading-6 text-foreground/75"><span className="font-medium text-foreground">{policy.initialTitle}. </span>{policy.initialText}</p>
+                  <h2 className="mt-4 max-w-3xl font-display text-3xl font-medium leading-tight tracking-tight sm:text-4xl">{c("Your journey. Our support. On us.", "你的旅程，我们承担。", "Ваш путь. Наша поддержка.", "Tu viaje. Nuestro apoyo.")}</h2>
+                  <p className="mt-3 max-w-3xl text-sm leading-6 text-foreground/75">{c("Airport pickup on us. Two hotel nights on us. In-clinic translation on us. 24/7 coordinator support on us. All included for eligible journeys.", "机场接送由我们承担。两晚酒店由我们承担。院内翻译由我们承担。24 小时协调支持也由我们承担。符合条件的行程均可包含。", "Трансфер из аэропорта за наш счёт. Две ночи в отеле за наш счёт. Перевод в клинике за наш счёт. Координационная поддержка 24/7 за наш счёт. Всё включено для подходящих поездок.", "Traslados incluidos. Dos noches de hotel incluidas. Traducción en clínica incluida. Apoyo de coordinación 24/7 incluido. Todo forma parte de los viajes elegibles.")}</p>
                   <p className="mt-2 max-w-3xl text-sm leading-6 text-foreground/75"><span className="font-medium text-foreground">{policy.depositTitle}. </span>{policy.depositSummary}</p>
                 </div>
               </div>
