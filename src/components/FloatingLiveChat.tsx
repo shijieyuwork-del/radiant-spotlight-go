@@ -10,6 +10,7 @@ const FloatingLiveChat = () => {
   const { pathname } = useLocation();
   const { open } = useQuote();
   const [isPastHero, setIsPastHero] = useState(false);
+  const [isFooterCtaVisible, setIsFooterCtaVisible] = useState(false);
   const label = t("hero.cta");
 
   useEffect(() => {
@@ -19,7 +20,19 @@ const FloatingLiveChat = () => {
     return () => window.removeEventListener("scroll", updateVisibility);
   }, [pathname]);
 
-  if (pathname.startsWith("/lp/") || pathname === "/privacy" || !isPastHero) return null;
+  useEffect(() => {
+    setIsFooterCtaVisible(false);
+    const footerCta = document.querySelector<HTMLElement>("[data-consultation-cta]");
+    if (!footerCta || typeof IntersectionObserver === "undefined") return;
+    const observer = new IntersectionObserver(([entry]) => setIsFooterCtaVisible(entry.isIntersecting), { threshold: 0.12 });
+    observer.observe(footerCta);
+    return () => observer.disconnect();
+  }, [pathname]);
+
+  // The homepage already has persistent consultation actions in the hero and
+  // footer; a second floating control would cover the content rails on small
+  // screens. Keep the floating shortcut for deeper pages where it is useful.
+  if (pathname === "/" || pathname.startsWith("/lp/") || pathname === "/privacy" || !isPastHero || isFooterCtaVisible) return null;
 
   return (
     <button

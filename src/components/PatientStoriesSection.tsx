@@ -14,7 +14,7 @@ const PatientStoriesSection = ({ ambient = false }: { ambient?: boolean }) => {
 
   return (
     <section
-      className={`${ambient ? "patient-stories-ambient" : "bg-gradient-hero dark:bg-none"} py-12 sm:py-16`}
+      className={`${ambient ? "patient-stories-ambient" : "bg-gradient-hero dark:bg-none"} home-section-surface py-12 sm:py-16`}
       aria-labelledby="patient-stories-title"
       lang={zh ? "zh" : "en"}
     >
@@ -27,7 +27,7 @@ const PatientStoriesSection = ({ ambient = false }: { ambient?: boolean }) => {
           }}
           aria-label={zh ? "患者故事轮播" : "Patient stories carousel"}
         >
-          <div className="mb-6 flex flex-wrap items-end justify-between gap-5 md:mb-8">
+          <div className="home-section-heading mb-6 flex flex-wrap items-end justify-between gap-5 md:mb-8">
             <div className="min-w-0 max-w-4xl">
               <span className="pill mb-3 bg-card text-foreground">
                 <Quote className="size-3.5 text-primary" aria-hidden="true" />
@@ -52,7 +52,7 @@ const PatientStoriesSection = ({ ambient = false }: { ambient?: boolean }) => {
           <CarouselContent className="-ml-4 pb-4 pt-1 sm:-ml-6">
             {patientStories.map((story) => (
               <CarouselItem key={story.name} className="basis-[calc(100%-2rem)] pl-4 sm:basis-1/2 sm:pl-6 lg:basis-1/3">
-                <article className="flex h-full flex-col rounded-3xl border border-border/70 bg-card p-6 shadow-soft">
+                <article className="home-story-card flex h-full flex-col rounded-3xl border border-border/70 bg-card p-5 shadow-soft sm:p-6">
                   <blockquote className="flex-1 text-lg font-medium leading-normal text-foreground lg:text-xl">
                     <p>“{zh ? story.excerptZh : story.excerpt}”</p>
                   </blockquote>

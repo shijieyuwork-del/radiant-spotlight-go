@@ -13,8 +13,9 @@ const labels: Record<AsiaLang, { previous: string; next: string; position: strin
 };
 
 /** Navigation does not own a clock: the rail moves only on a visitor's action. */
-export function ManualRailControls({ railRef, railId, count, lang }: { railRef: RefObject<HTMLDivElement>; railId: string; count: number; lang: AsiaLang }) {
+export function ManualRailControls({ railRef, railId, count, lang, className = "" }: { railRef: RefObject<HTMLDivElement>; railId: string; count: number; lang: AsiaLang; className?: string }) {
   const [position, setPosition] = useState({ first: 1, last: count, atStart: true, atEnd: true });
+  const [hasOverflow, setHasOverflow] = useState(false);
   const t = labels[lang];
   useEffect(() => {
     const rail = railRef.current;
@@ -25,6 +26,7 @@ export function ManualRailControls({ railRef, railId, count, lang }: { railRef: 
         const rect = child.getBoundingClientRect();
         return rect.right > bounds.left + 4 && rect.left < bounds.right - 4 ? [index + 1] : [];
       });
+      setHasOverflow(rail.scrollWidth > rail.clientWidth + 4);
       setPosition({ first: visible[0] ?? (count ? 1 : 0), last: visible.at(-1) ?? count, atStart: rail.scrollLeft <= 2, atEnd: rail.scrollLeft + rail.clientWidth >= rail.scrollWidth - 2 });
     };
     update();
@@ -34,6 +36,8 @@ export function ManualRailControls({ railRef, railId, count, lang }: { railRef: 
     observer?.observe(rail);
     return () => { rail.removeEventListener("scroll", update); window.removeEventListener("resize", update); observer?.disconnect(); };
   }, [count, railRef]);
+
+  if (count < 2 || !hasOverflow) return null;
 
   const move = (direction: -1 | 1, keyboard: boolean) => {
     const rail = railRef.current;
@@ -46,7 +50,7 @@ export function ManualRailControls({ railRef, railId, count, lang }: { railRef: 
     rail.scrollTo({ left: Math.max(0, Math.min(target, rail.scrollWidth - rail.clientWidth)), behavior: keyboard || window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
   };
   return (
-    <div className="mt-4 flex items-center justify-end gap-3">
+    <div className={`mt-4 flex items-center justify-end gap-3 ${className}`}>
       <span className="text-xs font-medium tabular-nums text-foreground" role="status" aria-label={`${t.position}: ${position.first}–${position.last} / ${count}`}>{position.first === position.last ? position.first : `${position.first}–${position.last}`} / {count}</span>
       <Button type="button" variant="outline" size="icon" className="size-11 rounded-full" aria-label={t.previous} aria-controls={railId} disabled={position.atStart || count < 2} onClick={(event) => move(-1, event.detail === 0)}><ChevronLeft className="size-4" /></Button>
       <Button type="button" variant="outline" size="icon" className="size-11 rounded-full" aria-label={t.next} aria-controls={railId} disabled={position.atEnd || count < 2} onClick={(event) => move(1, event.detail === 0)}><ChevronRight className="size-4" /></Button>

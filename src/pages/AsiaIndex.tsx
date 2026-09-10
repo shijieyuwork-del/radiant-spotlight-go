@@ -751,8 +751,8 @@ const ClinicsSection = () => {
     },
   ];
   return (
-    <section id="clinics" className="container py-10 md:py-16">
-      <div className="mb-6 flex flex-wrap items-end justify-between gap-4 md:mb-8">
+    <section id="clinics" className="home-section-surface container py-10 md:py-16">
+      <div className="home-section-heading mb-6 flex flex-wrap items-end justify-between gap-4 md:mb-8">
         <div>
           <span className="pill bg-accent text-accent-foreground mb-3"><Building2 className="size-3.5" /> {t("cities.kicker")}</span>
           <h2 className="font-display text-3xl font-medium tracking-tight sm:text-4xl md:text-5xl">
@@ -764,11 +764,11 @@ const ClinicsSection = () => {
       <div
         ref={clinicRailRef}
         id="home-clinics-rail"
-        className="flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain py-1 scrollbar-hide md:gap-6"
+        className="home-rail flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain py-1 scrollbar-hide md:gap-5"
       >
         {clinics.map((clinic) => (
           <Link key={clinic.en} to={(() => { const listing = STATIC_CLINICS.find((item) => item.nameEn === clinic.en); return listing ? getClinicPath(listing) : `/clinics?q=${encodeURIComponent(clinic.en)}`; })()} className="group block min-w-[82vw] snap-center sm:min-w-[62vw] md:min-w-[calc((100%_-_3rem)/3)] md:max-w-[calc((100%_-_3rem)/3)]">
-            <article className="flex min-h-[270px] flex-col rounded-3xl border border-border bg-card p-5 shadow-soft transition duration-300 group-hover:-translate-y-1 group-hover:border-primary/35 group-hover:shadow-pop md:min-h-[290px] md:p-6">
+            <article className="home-clinic-card flex min-h-[270px] flex-col rounded-3xl border border-border bg-card p-5 shadow-soft transition duration-300 group-hover:-translate-y-1 group-hover:border-primary/35 group-hover:shadow-pop md:min-h-[290px] md:p-6">
               <div className="flex min-w-0 items-center gap-4">
                 <img src={clinic.image} alt="" loading="lazy" decoding="async" className="size-24 shrink-0 rounded-full border-2 border-primary/15 object-cover transition-transform duration-500 group-hover:scale-105 md:size-28" />
                 <div className="min-w-0">
@@ -784,7 +784,7 @@ const ClinicsSection = () => {
           </Link>
         ))}
       </div>
-      <ManualRailControls railRef={clinicRailRef} railId="home-clinics-rail" count={clinics.length} lang={lang} />
+      <ManualRailControls railRef={clinicRailRef} railId="home-clinics-rail" count={clinics.length} lang={lang} className="home-rail-controls" />
       <div className="mt-2 flex justify-center sm:hidden">
         <Link to="/clinics" className="inline-flex min-h-12 items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90">
           {clinicText("All clinics", "查看全部机构")} <ArrowRight className="size-4" />
@@ -1174,8 +1174,8 @@ const TreatmentsSection = () => {
     },
   ];
   return (
-    <section id="projects" className="container py-10 md:py-16" aria-labelledby="why-celadonchina-title">
-      <div className="mb-7 grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(300px,0.46fr)] lg:items-end md:mb-10">
+    <section id="projects" className="home-section-surface container py-10 md:py-16" aria-labelledby="why-celadonchina-title">
+      <div className="home-section-heading mb-7 grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(300px,0.46fr)] lg:items-end md:mb-10">
         <div>
           <span className="pill mb-3 bg-accent text-accent-foreground"><ShieldCheck className="size-3.5" /> {c("Why choose us", "为什么选择我们", "Почему выбирают нас", "Por qué elegirnos")}</span>
           <h2 id="why-celadonchina-title" className="max-w-3xl font-display text-3xl font-medium leading-[0.98] tracking-tight sm:text-4xl md:text-5xl">
@@ -1191,14 +1191,16 @@ const TreatmentsSection = () => {
 
       <div className="grid gap-4 md:grid-cols-3" aria-label={c("Three reasons to choose CeladonChina", "选择 CeladonChina 的三个理由", "Три причины выбрать CeladonChina", "Tres razones para elegir CeladonChina")}>
         {whyReasons.map((reason, index) => (
-          <article key={reason.key} className="group relative min-h-[360px] overflow-hidden rounded-[1.6rem] bg-foreground shadow-soft">
-            <img src={reason.image} alt="" loading="lazy" decoding="async" className="absolute inset-0 size-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.025]" />
-            <div className="absolute inset-0 bg-gradient-to-t from-foreground/95 via-foreground/20 to-transparent" />
-            <div className="relative flex min-h-[360px] flex-col justify-end p-6 text-background sm:p-7">
+          <article key={reason.key} className="home-proof-card group relative min-h-[320px] overflow-hidden rounded-[1.6rem] bg-foreground shadow-soft md:min-h-[360px]">
+            <img src={reason.image} alt="" loading="lazy" decoding="async" className="absolute inset-0 z-0 size-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.025]" />
+            <div className="absolute inset-0 z-[1] bg-gradient-to-t from-foreground/95 via-foreground/20 to-transparent" />
+            <div className="relative z-10 flex min-h-[320px] flex-col justify-end p-5 text-background sm:p-7 md:min-h-[360px]">
               <span className="mb-auto inline-flex size-10 items-center justify-center rounded-full border border-background/30 bg-foreground/20 text-sm font-semibold backdrop-blur">0{index + 1}</span>
-              <p className="mb-2 text-label font-semibold uppercase tracking-[0.16em] text-background/65">{reason.eyebrow}</p>
-              <h3 className="max-w-sm font-display text-2xl font-medium leading-[1.02] sm:text-[1.7rem]">{reason.title}</h3>
-              <p className="mt-4 max-w-md text-sm leading-relaxed text-background/78">{reason.detail}</p>
+              <div className="mt-auto min-h-[136px]">
+                <p className="mb-2 text-label font-semibold uppercase tracking-[0.16em] text-background/65">{reason.eyebrow}</p>
+                <h3 className="max-w-sm font-display text-2xl font-medium leading-[1.02] sm:text-[1.7rem]">{reason.title}</h3>
+                <p className="mt-4 max-w-md text-sm leading-relaxed text-background/78">{reason.detail}</p>
+              </div>
             </div>
           </article>
         ))}
@@ -1236,8 +1238,8 @@ const DoctorsSection = () => {
   // 后台发布新专家后首页自动更新
   useRealtimeRefresh(["doctors"], loadPublishedDoctors);
   return (
-<section id="compliance" className="container py-8 md:py-12">
-      <div className="mb-7 flex flex-wrap items-end justify-between gap-4 md:mb-9">
+    <section id="compliance" className="home-section-surface container py-8 md:py-12">
+      <div className="home-section-heading mb-7 flex flex-wrap items-end justify-between gap-4 md:mb-9">
         <div>
           <span className="pill bg-accent text-accent-foreground mb-3"><Stethoscope className="size-3.5" /> {t("doctors.kicker")}</span>
           <h2 className="max-w-4xl font-display text-3xl font-medium leading-[1.03] tracking-tight sm:text-4xl md:text-5xl">
@@ -1248,7 +1250,7 @@ const DoctorsSection = () => {
       <div
         ref={doctorRailRef}
         id="home-doctors-rail"
-className="flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain py-1 scrollbar-hide md:gap-5"
+        className={`home-rail flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain py-1 scrollbar-hide md:gap-5 ${displayedDoctors.length <= 2 ? "md:justify-center" : ""}`}
       >
         {displayedDoctors.map((d) => {
           const photo = d.photo;
@@ -1257,9 +1259,9 @@ className="flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscro
             key={d.id}
             to={d.demo ? `/doctors/demo/${d.id}` : `/doctors/profile/${d.id}`}
             aria-label={`${lang === "zh" ? "查看专家资料" : lang === "ru" ? "Профиль эксперта" : lang === "es" ? "Ver perfil del experto" : "View expert profile"}: ${d.name}`}
-            className="group flex min-w-[82vw] snap-center rounded-3xl [perspective:1200px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 sm:min-w-[62vw] md:min-w-[calc((100%_-_3rem)/3)] md:max-w-[calc((100%_-_3rem)/3)]"
+            className="group flex min-w-[82vw] snap-center rounded-3xl [perspective:1200px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 sm:min-w-[62vw] md:min-w-[min(30rem,calc((100%_-_3rem)/3))] md:max-w-[min(30rem,calc((100%_-_3rem)/3))]"
           >
-            <article className="relative min-h-[400px] w-full rounded-3xl transition-transform [transform-style:preserve-3d] [transition-duration:380ms] [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none md:min-h-[420px] md:group-hover:[transform:rotateY(180deg)] md:group-focus-visible:[transform:rotateY(180deg)]">
+            <article className="relative min-h-[360px] w-full rounded-3xl transition-transform [transform-style:preserve-3d] [transition-duration:380ms] [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none md:min-h-[400px] md:group-hover:[transform:rotateY(180deg)] md:group-focus-visible:[transform:rotateY(180deg)]">
               <div className="absolute inset-0 flex flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-soft [backface-visibility:hidden]">
                 <div className="relative flex-1 overflow-hidden bg-primary/10">
                   {photo ? <img src={photo} alt={d.name} loading="lazy" decoding="async" className="size-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.025] motion-reduce:transition-none" /> : <div className="grid size-full place-items-center text-primary"><Stethoscope className="size-16" /></div>}
@@ -1294,7 +1296,7 @@ className="flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscro
           </Link>
         )})}
       </div>
-      <ManualRailControls railRef={doctorRailRef} railId="home-doctors-rail" count={displayedDoctors.length} lang={lang} />
+      <ManualRailControls railRef={doctorRailRef} railId="home-doctors-rail" count={displayedDoctors.length} lang={lang} className="home-rail-controls" />
     </section>
   );
 };

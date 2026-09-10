@@ -274,6 +274,50 @@
     background: transparent;
   }
 
+  /* Homepage sections share one quiet surface so the water texture stays
+     visible without competing with the content hierarchy. */
+  .home-section-surface {
+    isolation: isolate;
+    background: linear-gradient(180deg, hsl(var(--background) / 0.78), hsl(var(--secondary) / 0.42));
+    border-top: 1px solid hsl(var(--primary) / 0.14);
+    border-bottom: 1px solid hsl(var(--primary) / 0.1);
+  }
+
+  .home-water-page .home-content-flow > section.home-section-surface + section::before {
+    display: none;
+  }
+
+  .home-section-heading {
+    position: relative;
+    z-index: 1;
+  }
+
+  .home-rail {
+    scroll-padding-inline: 0.25rem;
+  }
+
+  .home-rail-controls {
+    margin-top: 0.85rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid hsl(var(--border) / 0.72);
+  }
+
+  .home-proof-card,
+  .home-clinic-card,
+  .home-story-card {
+    contain: layout paint;
+  }
+
+  .home-clinic-card,
+  .home-story-card {
+    box-shadow: 0 12px 30px -20px hsl(var(--brand-text) / 0.42);
+  }
+
+  .home-clinic-card:hover,
+  .home-story-card:hover {
+    box-shadow: 0 20px 42px -22px hsl(var(--brand-text) / 0.52);
+  }
+
   .home-water-page > main,
   .home-water-page > section,
   .home-water-page > footer {
@@ -426,6 +470,9 @@
   .hero-ambient__veil { background: hsl(var(--hero-surface) / 0.22); }
   /* Keep the motion control clear of the existing mobile consultation bar. */
   .hero-ambient__toggle { bottom: calc(5.5rem + env(safe-area-inset-bottom)); }
+  /* The homepage hides the duplicate floating consultation shortcut, so the
+     motion control can sit at the viewport edge instead of covering a card. */
+  .home-water-page .hero-ambient__toggle { bottom: max(1rem, env(safe-area-inset-bottom)); }
 }
 
 .dark .hero-ambient__field {

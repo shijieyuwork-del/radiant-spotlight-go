@@ -46,10 +46,10 @@ describe("manual hospital and expert rails", () => {
     fireEvent.click(screen.getByRole("button", { name: "Next items" }), { detail: 1 });
     expect(rail.scrollTo).toHaveBeenLastCalledWith({ left: 240, behavior: "auto" });
   });
-  it("disables both buttons when the whole list fits on desktop", () => {
+  it("hides controls when the whole list fits on desktop", () => {
     setup(360);
-    expect(screen.getByRole("status")).toHaveTextContent("1–3 / 3");
-    expect(screen.getByRole("button", { name: "Previous items" })).toBeDisabled();
-    expect(screen.getByRole("button", { name: "Next items" })).toBeDisabled();
+    expect(screen.queryByRole("status")).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Previous items" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Next items" })).not.toBeInTheDocument();
   });
 });

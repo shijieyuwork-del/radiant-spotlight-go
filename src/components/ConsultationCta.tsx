@@ -22,6 +22,7 @@ const ConsultationCta = ({ className, source = "page_footer_cta" }: Consultation
 
   return (
     <section
+      data-consultation-cta
       className={cn("container py-12 md:py-20", className)}
       aria-labelledby={`${source}-title`}
     >
