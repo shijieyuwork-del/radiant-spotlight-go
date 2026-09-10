@@ -303,10 +303,10 @@
     inset: 0;
     overflow: hidden;
     background:
-      radial-gradient(ellipse at 0% 25%, hsl(var(--primary) / 0.22), transparent 68%),
-      radial-gradient(ellipse at 100% 80%, hsl(var(--primary-soft) / 0.7), transparent 68%),
-      linear-gradient(135deg, hsl(var(--secondary) / 0.3), hsl(var(--muted) / 0.48)),
-      hsl(var(--hero-surface));
+      radial-gradient(ellipse at 50% 8%, hsl(188 78% 96% / 0.34), transparent 48%),
+      radial-gradient(ellipse at 5% 84%, hsl(163 62% 61% / 0.58), transparent 56%),
+      radial-gradient(ellipse at 96% 76%, hsl(194 64% 67% / 0.48), transparent 58%),
+      linear-gradient(135deg, hsl(166 53% 76%), hsl(178 63% 82%) 46%, hsl(193 61% 72%));
   }
 
   .hero-ambient__ripples {
@@ -339,13 +339,13 @@
   }
 
   .hero-ambient__ripple-shadow {
-    stroke: hsl(var(--brand-text) / 0.07);
-    stroke-width: 1.1;
+    stroke: hsl(var(--brand-text) / 0.18);
+    stroke-width: 1.35;
   }
 
   .hero-ambient__ripple-light {
-    stroke: hsl(var(--background) / 0.7);
-    stroke-width: 1.8;
+    stroke: hsl(188 62% 97% / 0.58);
+    stroke-width: 2.15;
   }
 
   .hero-ambient[data-motion="running"] .hero-ambient__ripples {
@@ -356,7 +356,7 @@
   .hero-ambient__veil {
     position: absolute;
     inset: 0;
-    background: linear-gradient(90deg, hsl(var(--hero-surface) / 0.08), hsl(var(--hero-surface) / 0.54) 35%, hsl(var(--hero-surface) / 0.54) 65%, hsl(var(--hero-surface) / 0.08));
+    background: linear-gradient(90deg, hsl(var(--hero-surface) / 0.01), hsl(var(--hero-surface) / 0.08) 50%, hsl(var(--hero-surface) / 0.01));
   }
 
   .hero-ambient__toggle {
@@ -432,7 +432,7 @@
   .hero-ambient__ripples { width: 58rem; }
   .hero-ambient__ripples--near { left: -32rem; top: -20rem; }
   .hero-ambient__ripples--far { right: -32rem; bottom: -22rem; }
-  .hero-ambient__veil { background: hsl(var(--hero-surface) / 0.22); }
+  .hero-ambient__veil { background: hsl(var(--hero-surface) / 0.04); }
   /* Keep the motion control clear of the existing mobile consultation bar. */
   .hero-ambient__toggle { bottom: calc(5.5rem + env(safe-area-inset-bottom)); }
   /* The homepage hides the duplicate floating consultation shortcut, so the
