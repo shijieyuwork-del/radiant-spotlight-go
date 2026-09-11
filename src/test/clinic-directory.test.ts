@@ -60,6 +60,41 @@ describe("clinic directory data", () => {
     expect(added([rows[0]])[0].slug).toBe(added([rows[1]])[0].slug);
   });
 
+  it("merges the verified Celebright naming variants into one Shanghai clinic", () => {
+    const result = mergeClinicDirectory([
+      doctor("li-lin", {
+        hospital: "上海曼瓴 (Shanghai Celebright)",
+        city: "上海",
+        i18n: { en: { hospital: "Shanghai Celebright (上海曼瓴)" }, zh: { hospital: "上海曼瓴 (Shanghai Celebright)" } },
+      }),
+      doctor("ning-jin", {
+        hospital: "上海曼颔（CELEBRIGHT）",
+        city: "上海",
+        i18n: { en: { hospital: "CELEBRIGHT Shanghai" }, zh: { hospital: "上海曼颔（CELEBRIGHT）" } },
+      }),
+      doctor("xun-wang", {
+        hospital: "上海曼领医疗（Shanghai Celebright）",
+        city: "上海",
+        i18n: { en: { hospital: "Shanghai Celebright Medical Clinic" }, zh: { hospital: "上海曼领医疗（Shanghai Celebright）" } },
+      }),
+    ]);
+    const celebright = result.filter((clinic) => clinic.doctorIds.some((id) => id.endsWith("-jin") || id.endsWith("-lin") || id.endsWith("-wang")));
+    expect(celebright).toHaveLength(1);
+    expect(celebright[0]).toMatchObject({
+      origin: "published",
+      citySlug: "shanghai",
+      nameEn: "Shanghai Celebright Medical Clinic",
+      nameZh: "上海曼领医疗",
+      doctorIds: ["li-lin", "ning-jin", "xun-wang"],
+    });
+    expect(celebright[0].aliases).toEqual(expect.arrayContaining([
+      "CELEBRIGHT Shanghai",
+      "Shanghai Celebright Medical Clinic",
+      "上海曼领医疗（Shanghai Celebright）",
+    ]));
+    expect(result).toHaveLength(102);
+  });
+
   it("keeps same-name hospitals in different cities separate", () => {
     const result = added([doctor("shanghai"), doctor("beijing", { city: "北京" })]);
     expect(result).toHaveLength(2);

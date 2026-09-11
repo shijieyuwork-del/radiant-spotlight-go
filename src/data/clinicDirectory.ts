@@ -114,8 +114,19 @@ type Candidate = {
   id: string;
   citySlug: string;
   aliases: string[];
+  /** Internal identity keys for editorially verified aliases that refer to one facility. */
+  identityKeys: string[];
   nameEn: string;
   nameZh: string;
+};
+
+const CELEBRIGHT_IDENTITY_KEY = "shanghai:celebright";
+const CELEBRIGHT_NAME_EN = "Shanghai Celebright Medical Clinic";
+const CELEBRIGHT_NAME_ZH = "上海曼领医疗";
+
+const isCelebrightAlias = (value: string): boolean => {
+  const compact = normalize(value).replace(/[\s()[\]{}（）【】·,，.!?。！？_-]/gu, "");
+  return compact.includes("celebright") || /上海曼(?:领|瓴|颔)/u.test(compact);
 };
 
 const candidateFrom = (value: unknown): Candidate | undefined => {
@@ -134,12 +145,18 @@ const candidateFrom = (value: unknown): Candidate | undefined => {
   const hospitalEn = translated(row.i18n, "en", "hospital");
   const hospitalZh = translated(row.i18n, "zh", "hospital");
   const hasHan = /\p{Script=Han}/u.test(hospital);
+  const sourceAliases = uniqueNames([hospital, hospitalEn, hospitalZh]);
+  const isCelebright = citySlug === "shanghai" && sourceAliases.some(isCelebrightAlias);
   return {
     id,
     citySlug,
-    aliases: uniqueNames([hospital, hospitalEn, hospitalZh]),
-    nameEn: hospitalEn || (!hasHan ? hospital : ""),
-    nameZh: hospitalZh || (hasHan ? hospital : ""),
+    aliases: uniqueNames([
+      ...sourceAliases,
+      ...(isCelebright ? [CELEBRIGHT_NAME_EN, CELEBRIGHT_NAME_ZH] : []),
+    ]),
+    identityKeys: isCelebright ? [CELEBRIGHT_IDENTITY_KEY] : [],
+    nameEn: isCelebright ? CELEBRIGHT_NAME_EN : hospitalEn || (!hasHan ? hospital : ""),
+    nameZh: isCelebright ? CELEBRIGHT_NAME_ZH : hospitalZh || (hasHan ? hospital : ""),
   };
 };
 
@@ -190,7 +207,8 @@ export const mergeClinicDirectory = (doctors: PublishedClinicDoctor[]): Director
   };
   const aliases = new Map<string, number>();
   nodes.forEach((node, index) => {
-    for (const alias of node.aliases) {
+    const identityKeys = "identityKeys" in node ? node.identityKeys : [];
+    for (const alias of [...node.aliases, ...identityKeys]) {
       const key = JSON.stringify([node.citySlug, normalize(alias)]);
       const previous = aliases.get(key);
       if (previous === undefined) aliases.set(key, index);
