@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Pause, Play } from "lucide-react";
 import type { AsiaLang } from "@/lib/asia-i18n";
-import oceanReference from "@/assets/home-ocean-calm.webp";
+import oceanReference from "@/assets/home-light-mist.webp";
 
 const motionLabels: Record<AsiaLang, { pause: string; play: string }> = {
   en: { pause: "Pause background animation", play: "Play background animation" },
@@ -89,6 +89,7 @@ export default function HeroAmbientBackground({ lang }: { lang: AsiaLang }) {
       <div ref={rootRef} className="hero-ambient" data-testid="hero-ambient-background" data-motion={running ? "running" : "paused"}>
         <div id="hero-ambient-field" className="hero-ambient__field" aria-hidden="true">
           <div className="hero-ambient__photo" style={{ backgroundImage: `url(${oceanReference})` }} />
+          <div className="hero-ambient__light-sheen" />
           <div className="hero-ambient__ripples hero-ambient__ripples--near"><WaterRippleTexture /></div>
           <div className="hero-ambient__ripples hero-ambient__ripples--far"><WaterRippleTexture /></div>
           <div className="hero-ambient__veil" />
