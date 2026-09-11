@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { Activity, ArrowRight, BookOpen, CheckCircle2, Clock3, Eye, FileText, HeartPulse, MessageCircle, PlayCircle, ScanFace, Scissors, Search, ShieldAlert, Smile, Sparkles, UserRound, WalletCards, WandSparkles } from "lucide-react";
+import { Activity, ArrowRight, BookOpen, CheckCircle2, Eye, FileText, HeartPulse, MessageCircle, PlayCircle, ScanFace, Scissors, Search, ShieldAlert, Smile, Sparkles, UserRound, WalletCards, WandSparkles } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
@@ -333,10 +333,6 @@ const Treatments = () => {
   const [activeCategory, setActiveCategory] = useState(0);
   const [query, setQuery] = useState("");
   const normalizedQuery = query.trim().toLowerCase();
-  const formatCategoryPrice = (index: number) => {
-    const category = CATEGORY_META[index];
-    return `${fmt(category.priceLowCny)}–${fmt(category.priceHighCny)}`;
-  };
   const formatProcedurePrice = (procedure: string) => {
     const [low, high] = PROCEDURE_PRICE_CNY[procedure];
     return `${fmt(low)}–${fmt(high)}`;
@@ -492,23 +488,6 @@ const Treatments = () => {
               </div>
             </div>
           </div>
-
-          <section className="mx-auto mt-16 max-w-6xl rounded-[2rem] bg-gradient-to-r from-[hsl(155,55%,92%)] via-[hsl(150,48%,91%)] to-[hsl(48,78%,92%)] p-5 shadow-soft sm:p-8 md:mt-24 md:p-10">
-            <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
-              <div className="max-w-3xl">
-                <span className="pill bg-card/80"><Clock3 className="size-3.5 text-primary" /> {copy("Recovery at a glance", "恢复时间速览", "Восстановление: краткий обзор")}</span>
-                <h2 className="mt-4 font-display text-3xl font-medium tracking-tight sm:text-4xl">{copy("Plan around the", "提前规划你的", "Планируйте с учётом")} <em className="not-italic text-brand">{copy("recovery window", "恢复期", "периода восстановления")}</em></h2>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{copy("Recovery ranges are for trip planning. Prices use public 2025–2026 reference information for Beijing Badachu; they are not hospital quotations. The actual plan, surgeon, materials and facility fees determine the final amount.", "恢复时间仅用于行程规划。价格根据北京八大处 2025–2026 年公开资料整理，不是医院报价；最终费用取决于面诊方案、专家、材料及院方收费。", "Сроки даны для планирования поездки. Цены основаны на открытых справочных данных Beijing Badachu за 2025–2026 годы и не являются ценовым предложением больницы.")}</p>
-              </div>
-              <Link to="/cases" className="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-full bg-primary px-5 text-sm font-bold text-primary-foreground shadow-soft">{copy("Watch recovery diaries", "观看真实恢复日记", "Смотреть дневники восстановления")}<ArrowRight className="size-4" /></Link>
-            </div>
-            <div className="mt-7 overflow-x-auto rounded-3xl border border-white/70 bg-card/80 shadow-soft">
-              <table className="w-full min-w-[680px] text-left text-sm">
-                <thead className="border-b border-border/70 text-xs uppercase tracking-wider text-muted-foreground"><tr><th className="p-4">{copy("Procedure group", "项目类别", "Категория")}</th><th className="p-4">{copy("General recovery range", "常见恢复范围", "Обычно восстановление")}</th><th className="p-4">{copy("Badachu reference range", "八大处公开资料参考", "Ориентир Badachu")}</th><th className="p-4">{copy("Type", "类型", "Тип")}</th></tr></thead>
-                <tbody>{PROCEDURE_CATEGORIES.slice(0, 6).map((category, index) => <tr key={category.en} className="border-b border-border/60 last:border-0"><td className="p-4 font-semibold">{label(category.en, category.zh)}</td><td className="p-4 text-muted-foreground">{zh ? CATEGORY_META[index].recoveryZh : CATEGORY_META[index].recovery}</td><td className="p-4 font-semibold text-foreground">{formatCategoryPrice(index)}</td><td className="p-4"><span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-brand">{zh ? CATEGORY_META[index].typeZh : ru ? "Хирургия" : CATEGORY_META[index].type}</span></td></tr>)}</tbody>
-              </table>
-            </div>
-          </section>
 
           <section className="mx-auto mt-16 grid max-w-6xl gap-5 md:mt-24 lg:grid-cols-2">
             <article className="rounded-[2rem] border border-border/70 bg-card p-6 shadow-soft sm:p-8">
