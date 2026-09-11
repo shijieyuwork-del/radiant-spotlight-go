@@ -50,6 +50,8 @@ const labels: Record<AsiaLang, { play: string; verified: string }> = {
   th: { play: "แตะเพื่อเล่น", verified: "ตัวอย่างบันทึก" },
   ms: { play: "Ketik untuk main", verified: "Pratonton diari" },
   vi: { play: "Chạm để phát", verified: "Xem trước nhật ký" },
+  ko: { play: "탭하여 재생", verified: "회복 일지 미리보기" },
+  ja: { play: "タップして再生", verified: "回復日記プレビュー" },
 };
 
 const MARK_CLASS = "rounded bg-primary/70 px-0.5 text-primary-foreground";

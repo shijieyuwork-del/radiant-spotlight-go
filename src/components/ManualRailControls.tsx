@@ -11,6 +11,8 @@ const labels: Record<AsiaLang, { previous: string; next: string; position: strin
   th: { previous: "รายการก่อนหน้า", next: "รายการถัดไป", position: "รายการที่แสดง" },
   ms: { previous: "Item sebelumnya", next: "Item seterusnya", position: "Item yang kelihatan" },
   vi: { previous: "Mục trước", next: "Mục tiếp theo", position: "Mục đang hiển thị" },
+  ko: { previous: "이전 항목", next: "다음 항목", position: "표시된 항목" },
+  ja: { previous: "前の項目", next: "次の項目", position: "表示中の項目" },
 };
 
 /** Navigation does not own a clock: the rail moves only on a visitor's action. */

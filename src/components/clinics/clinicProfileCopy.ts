@@ -1,7 +1,7 @@
 import type { AsiaLang } from "@/lib/asia-i18n";
 
 /** Vietnamese is optional here: asiaCopy() falls back to English until these strings are translated. */
-export type ClinicCopy = Record<Exclude<AsiaLang, "vi">, string> & { vi?: string };
+export type ClinicCopy = Record<"en" | "zh" | "ru" | "es" | "th" | "ms", string> & Partial<Record<"vi" | "ko" | "ja", string>>;
 
 export const clinicProfileCopy = {
   title: { en: "Compare this institution", zh: "了解并比较这家机构", ru: "Сведения для сравнения", es: "Compara este centro", th: "ข้อมูลสำหรับเปรียบเทียบสถานพยาบาล", ms: "Bandingkan institusi ini" },

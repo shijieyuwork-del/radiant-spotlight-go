@@ -11,6 +11,8 @@ const motionLabels: Record<AsiaLang, { pause: string; play: string }> = {
   th: { pause: "หยุดภาพเคลื่อนไหวพื้นหลังชั่วคราว", play: "เล่นภาพเคลื่อนไหวพื้นหลัง" },
   ms: { pause: "Jeda animasi latar belakang", play: "Mainkan animasi latar belakang" },
   vi: { pause: "Tạm dừng hoạt ảnh nền", play: "Phát hoạt ảnh nền" },
+  ko: { pause: "배경 애니메이션 일시정지", play: "배경 애니메이션 재생" },
+  ja: { pause: "背景アニメーションを一時停止", play: "背景アニメーションを再生" },
 };
 
 // Long, irregular wave bands suggest reflections on a calm surface without

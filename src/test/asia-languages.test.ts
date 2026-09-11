@@ -18,4 +18,11 @@ describe("Thai and Malay localization", () => {
     expect(translatedUiText("th", "Uncatalogued dynamic copy")).toBe("Uncatalogued dynamic copy");
     expect(translatedUiText("ms", "Uncatalogued dynamic copy")).toBe("Uncatalogued dynamic copy");
   });
+
+  it("lists and localizes Korean and Japanese in the shared language menu source", () => {
+    expect(asiaLangLabel.ko).toEqual({ label: "한국어", flag: "🇰🇷" });
+    expect(asiaLangLabel.ja).toEqual({ label: "日本語", flag: "🇯🇵" });
+    expect(asiaCopy("ko", { en: "Start a consultation", zh: "开始咨询", ru: "", es: "" })).toBe("상담 시작하기");
+    expect(asiaCopy("ja", { en: "Start a consultation", zh: "开始咨询", ru: "", es: "" })).toBe("相談を始める");
+  });
 });
