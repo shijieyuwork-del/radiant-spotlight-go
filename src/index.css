@@ -380,6 +380,26 @@
     will-change: transform, opacity;
   }
 
+  .hero-ambient__light-spots {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .hero-ambient__light-spot {
+    position: absolute;
+    display: block;
+    aspect-ratio: 1;
+    border-radius: 999px;
+    background: radial-gradient(circle, hsl(0 0% 100% / 0.72) 0%, hsl(0 0% 100% / 0.30) 24%, transparent 72%);
+    mix-blend-mode: screen;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.62);
+    animation: home-light-spot 12s ease-in-out infinite;
+    animation-play-state: paused;
+  }
+
   .hero-ambient__ripples {
     position: absolute;
     width: max(90rem, 140vw);
@@ -438,7 +458,8 @@
 
   .hero-ambient[data-motion="running"] .hero-ambient__ripples,
   .hero-ambient[data-motion="running"] .hero-ambient__photo,
-  .hero-ambient[data-motion="running"] .hero-ambient__light-sheen {
+  .hero-ambient[data-motion="running"] .hero-ambient__light-sheen,
+  .hero-ambient[data-motion="running"] .hero-ambient__light-spot {
     animation-play-state: running;
     will-change: transform;
   }
@@ -523,6 +544,13 @@
   to { transform: translate3d(5%, 3%, 0) scale(1.04); opacity: 0.68; }
 }
 
+@keyframes home-light-spot {
+  0%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.62); }
+  20% { opacity: 0.42; transform: translate(-50%, -50%) scale(0.92); }
+  48% { opacity: 0.16; transform: translate(-50%, -50%) scale(1.18); }
+  72% { opacity: 0.34; transform: translate(-50%, -50%) scale(1); }
+}
+
 @media (max-width: 639px) {
   .hero-ambient__ripples { width: 72rem; height: 48rem; }
   .hero-ambient__ripples--near { left: -30rem; top: 3rem; }
@@ -582,7 +610,8 @@
 @media (prefers-reduced-motion: reduce) {
   .hero-ambient[data-motion] .hero-ambient__ripples,
   .hero-ambient[data-motion] .hero-ambient__photo,
-  .hero-ambient[data-motion] .hero-ambient__light-sheen {
+  .hero-ambient[data-motion] .hero-ambient__light-sheen,
+  .hero-ambient[data-motion] .hero-ambient__light-spot {
     animation: none;
     transform: none;
     will-change: auto;

@@ -31,6 +31,18 @@ const waveSurfaces = [
   "M -150 426 C 90 336 256 520 500 430 S 790 344 1028 446 S 1194 516 1360 420 L 1360 510 C 1196 604 1006 536 758 426 S 462 516 214 616 S 58 420 -200 514 Z",
 ];
 
+const lightSpots = [
+  { x: 12, y: 18, size: 8, delay: -2, duration: 11 },
+  { x: 34, y: 31, size: 5, delay: -8, duration: 14 },
+  { x: 58, y: 16, size: 7, delay: -5, duration: 13 },
+  { x: 83, y: 27, size: 10, delay: -11, duration: 16 },
+  { x: 22, y: 57, size: 6, delay: -14, duration: 12 },
+  { x: 48, y: 69, size: 9, delay: -7, duration: 15 },
+  { x: 74, y: 54, size: 5, delay: -17, duration: 10 },
+  { x: 91, y: 78, size: 8, delay: -4, duration: 14 },
+  { x: 61, y: 88, size: 4, delay: -10, duration: 11 },
+];
+
 function WaterRippleTexture() {
   return (
     <svg viewBox="0 0 1200 700" fill="none" focusable="false" aria-hidden="true" preserveAspectRatio="none">
@@ -90,6 +102,21 @@ export default function HeroAmbientBackground({ lang }: { lang: AsiaLang }) {
         <div id="hero-ambient-field" className="hero-ambient__field" aria-hidden="true">
           <div className="hero-ambient__photo" style={{ backgroundImage: `url(${oceanReference})` }} />
           <div className="hero-ambient__light-sheen" />
+          <div className="hero-ambient__light-spots" aria-hidden="true">
+            {lightSpots.map((spot, index) => (
+              <span
+                key={index}
+                className="hero-ambient__light-spot"
+                style={{
+                  left: `${spot.x}%`,
+                  top: `${spot.y}%`,
+                  width: `${spot.size}rem`,
+                  animationDelay: `${spot.delay}s`,
+                  animationDuration: `${spot.duration}s`,
+                }}
+              />
+            ))}
+          </div>
           <div className="hero-ambient__ripples hero-ambient__ripples--near"><WaterRippleTexture /></div>
           <div className="hero-ambient__ripples hero-ambient__ripples--far"><WaterRippleTexture /></div>
           <div className="hero-ambient__veil" />
