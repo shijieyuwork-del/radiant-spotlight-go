@@ -374,10 +374,25 @@
       radial-gradient(ellipse at 78% 66%, hsl(198 72% 97% / 0.24), transparent 38%),
       linear-gradient(120deg, hsl(0 0% 100% / 0.08), transparent 42%, hsl(204 44% 72% / 0.10));
     mix-blend-mode: screen;
-    opacity: 0.58;
-    animation: home-light-sheen 24s cubic-bezier(0.45, 0, 0.55, 1) -12s infinite alternate;
+    opacity: 0.68;
+    animation: home-light-sheen 19s cubic-bezier(0.45, 0, 0.55, 1) -9s infinite alternate;
     animation-play-state: paused;
     will-change: transform, opacity;
+  }
+
+  .hero-ambient__light-sweep {
+    position: absolute;
+    top: -18%;
+    bottom: -18%;
+    left: -48%;
+    width: 36%;
+    background: linear-gradient(90deg, transparent, hsl(0 0% 100% / 0.28) 48%, transparent);
+    filter: blur(18px);
+    opacity: 0.52;
+    transform: skewX(-16deg);
+    animation: home-light-sweep 16s cubic-bezier(0.45, 0, 0.55, 1) -8s infinite;
+    animation-play-state: paused;
+    will-change: transform;
   }
 
   .hero-ambient__light-spots {
@@ -459,6 +474,7 @@
   .hero-ambient[data-motion="running"] .hero-ambient__ripples,
   .hero-ambient[data-motion="running"] .hero-ambient__photo,
   .hero-ambient[data-motion="running"] .hero-ambient__light-sheen,
+  .hero-ambient[data-motion="running"] .hero-ambient__light-sweep,
   .hero-ambient[data-motion="running"] .hero-ambient__light-spot {
     animation-play-state: running;
     will-change: transform;
@@ -540,15 +556,22 @@
 }
 
 @keyframes home-light-sheen {
-  from { transform: translate3d(-5%, -2%, 0) scale(0.98); opacity: 0.42; }
-  to { transform: translate3d(5%, 3%, 0) scale(1.04); opacity: 0.68; }
+  from { transform: translate3d(-11%, -5%, 0) rotate(-3deg) scale(0.94); opacity: 0.34; }
+  to { transform: translate3d(12%, 6%, 0) rotate(4deg) scale(1.10); opacity: 0.78; }
+}
+
+@keyframes home-light-sweep {
+  from { transform: translate3d(0, 0, 0) skewX(-16deg); opacity: 0; }
+  16% { opacity: 0.52; }
+  72% { opacity: 0.44; }
+  to { transform: translate3d(430%, 0, 0) skewX(-16deg); opacity: 0; }
 }
 
 @keyframes home-light-spot {
   0%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.62); }
-  20% { opacity: 0.42; transform: translate(-50%, -50%) scale(0.92); }
-  48% { opacity: 0.16; transform: translate(-50%, -50%) scale(1.18); }
-  72% { opacity: 0.34; transform: translate(-50%, -50%) scale(1); }
+  20% { opacity: 0.64; transform: translate(-50%, -50%) scale(0.92); }
+  48% { opacity: 0.24; transform: translate(-50%, -50%) scale(1.18); }
+  72% { opacity: 0.52; transform: translate(-50%, -50%) scale(1); }
 }
 
 @media (max-width: 639px) {
@@ -611,6 +634,7 @@
   .hero-ambient[data-motion] .hero-ambient__ripples,
   .hero-ambient[data-motion] .hero-ambient__photo,
   .hero-ambient[data-motion] .hero-ambient__light-sheen,
+  .hero-ambient[data-motion] .hero-ambient__light-sweep,
   .hero-ambient[data-motion] .hero-ambient__light-spot {
     animation: none;
     transform: none;

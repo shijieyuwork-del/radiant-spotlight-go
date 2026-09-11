@@ -102,6 +102,7 @@ export default function HeroAmbientBackground({ lang }: { lang: AsiaLang }) {
         <div id="hero-ambient-field" className="hero-ambient__field" aria-hidden="true">
           <div className="hero-ambient__photo" style={{ backgroundImage: `url(${oceanReference})` }} />
           <div className="hero-ambient__light-sheen" />
+          <div className="hero-ambient__light-sweep" />
           <div className="hero-ambient__light-spots" aria-hidden="true">
             {lightSpots.map((spot, index) => (
               <span
