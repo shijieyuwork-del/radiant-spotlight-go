@@ -108,7 +108,6 @@ export type Database = {
       }
       clinics: {
         Row: {
-          photo_gallery: Json | null
           area_en: string | null
           area_zh: string | null
           city_slug: string
@@ -127,7 +126,6 @@ export type Database = {
           website_url: string | null
         }
         Insert: {
-          photo_gallery?: Json | null
           area_en?: string | null
           area_zh?: string | null
           city_slug: string
@@ -146,7 +144,6 @@ export type Database = {
           website_url?: string | null
         }
         Update: {
-          photo_gallery?: Json | null
           area_en?: string | null
           area_zh?: string | null
           city_slug?: string
