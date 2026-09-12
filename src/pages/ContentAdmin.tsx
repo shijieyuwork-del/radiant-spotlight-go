@@ -236,7 +236,7 @@ export default function ContentAdmin() {
         </div>
 
         <Tabs defaultValue="quotes">
-          <TabsList>
+          <TabsList className="flex h-auto flex-wrap justify-start gap-1">
             <TabsTrigger value="quotes"><MessageSquare className="size-4 mr-1.5" />咨询</TabsTrigger>
             <TabsTrigger value="experts"><Stethoscope className="size-4 mr-1.5" />专家（{filteredExperts.length}）</TabsTrigger>
             <TabsTrigger value="videos"><Film className="size-4 mr-1.5" />视频（{filteredVideos.length}）</TabsTrigger>

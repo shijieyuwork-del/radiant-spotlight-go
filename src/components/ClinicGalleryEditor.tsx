@@ -78,8 +78,8 @@ export default function ClinicGalleryEditor({ photos, onChange, disabled = false
             <Button type="button" size="sm" variant="ghost" className="px-2" disabled={disabled} onClick={() => choose(photo.key)} aria-label={`替换照片 ${index + 1}`}>替换</Button>
             <Button type="button" size="icon" variant="ghost" className="size-9 text-destructive" disabled={disabled}
               aria-label={`删除照片 ${index + 1}`} onClick={() => { onChange(photos.filter((item) => item.key !== photo.key)); setError(""); }}><Trash2 className="size-4" /></Button>
-            {index > 0 && <Button type="button" size="icon" variant="ghost" className="size-9" disabled={disabled}
-              aria-label={`将照片 ${index + 1} 设为封面`} onClick={() => onChange([photo, ...photos.filter((item) => item.key !== photo.key)])}><Star className="size-4" /></Button>}
+            {index > 0 && <Button type="button" size="sm" variant="ghost" className="h-8 w-full justify-start px-2 text-xs" disabled={disabled}
+              aria-label={`将照片 ${index + 1} 设为封面`} onClick={() => onChange([photo, ...photos.filter((item) => item.key !== photo.key)])}><Star className="mr-1 size-3.5" />设为封面</Button>}
           </div>
         </div>
       </div>)}
