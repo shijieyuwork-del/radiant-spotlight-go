@@ -242,25 +242,6 @@ const Packages = () => {
       <div className="min-h-screen bg-background">
         <AsiaNavbar />
         <main>
-          <section className="container py-8 md:py-10">
-            <div className="flex flex-col gap-4 md:flex-row md:gap-6">
-              <div className="flex flex-1 items-center gap-4 rounded-2xl border border-primary/10 bg-card p-5 shadow-soft">
-                <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-secondary text-primary"><Wallet className="size-5" /></span>
-                <div>
-                  <h2 className="font-display text-sm font-semibold tracking-tight">{c("$400 coordination deposit", "400 美元协调押金", "Депозит $400", "Depósito de coordinación de 400 $")}</h2>
-                  <p className="mt-1 text-xs uppercase tracking-tight text-foreground/50">{c("Reserves your date & support package", "保留预约与协调服务", "Бронирует дату и поддержку", "Reserva tu fecha y paquete de apoyo")}</p>
-                </div>
-              </div>
-              <div className="flex flex-1 items-center gap-4 rounded-2xl bg-foreground p-5 text-background shadow-soft">
-                <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-primary text-foreground"><Building2 className="size-5" /></span>
-                <div>
-                  <h2 className="font-display text-sm font-semibold tracking-tight">{c("Pay the clinic directly", "直接支付给诊所", "Оплата напрямую клинике", "Paga directamente a la clínica")}</h2>
-                  <p className="mt-1 text-xs uppercase tracking-tight text-background/50">{c("Medical fees go straight to the facility", "医疗费用由诊所直接收取", "Медицинские сборы — напрямую в клинику", "Los honorarios médicos van directamente al centro")}</p>
-                </div>
-              </div>
-            </div>
-          </section>
-
           <section id="journey" className="container scroll-mt-24 py-10 md:py-20">
             <div className="mx-auto max-w-3xl text-center">
               <span className="pill bg-accent text-accent-foreground"><Route className="size-3.5" />{c("A clear path from home to follow-up", "从家中咨询到术后随访", "Понятный путь от дома до наблюдения", "Un camino claro desde casa hasta el seguimiento")}</span>
@@ -268,6 +249,23 @@ const Packages = () => {
                 {c("Six steps. ", "六个步骤，", "Шесть этапов. ", "Seis pasos. ")}<em className="not-italic text-primary">{c("No guessing what comes next.", "每一步都清楚。", "Вы всегда знаете, что дальше.", "Sin dudas sobre qué sigue.")}</em>
               </h2>
               <p className="mt-4 text-base leading-relaxed text-foreground/65 md:text-lg">{c("Each stage answers the question patients ask most: what happens next, who helps and what should I prepare?", "每个阶段都会回答患者最关心的问题：下一步是什么、谁来协助、需要准备什么？", "Каждый этап отвечает на главные вопросы: что дальше, кто поможет и что подготовить?", "Cada etapa responde a la pregunta que más hacen los pacientes: ¿qué sigue, quién ayuda y qué debo preparar?")}</p>
+            </div>
+
+            <div className="mt-8 flex flex-col gap-4 md:flex-row md:gap-6">
+              <div className="flex flex-1 items-center gap-4 rounded-2xl border border-primary/10 bg-card p-5 shadow-soft">
+                <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-secondary text-primary"><Wallet className="size-5" /></span>
+                <div>
+                  <h3 className="font-display text-sm font-semibold tracking-tight">{c("$400 coordination deposit", "400 美元协调押金", "Депозит $400", "Depósito de coordinación de 400 $")}</h3>
+                  <p className="mt-1 text-xs uppercase tracking-tight text-foreground/50">{c("Reserves your date & support package", "保留预约与协调服务", "Бронирует дату и поддержку", "Reserva tu fecha y paquete de apoyo")}</p>
+                </div>
+              </div>
+              <div className="flex flex-1 items-center gap-4 rounded-2xl bg-foreground p-5 text-background shadow-soft">
+                <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-primary text-foreground"><Building2 className="size-5" /></span>
+                <div>
+                  <h3 className="font-display text-sm font-semibold tracking-tight">{c("Pay the clinic directly", "直接支付给诊所", "Оплата напрямую клинике", "Paga directamente a la clínica")}</h3>
+                  <p className="mt-1 text-xs uppercase tracking-tight text-background/50">{c("Medical fees go straight to the facility", "医疗费用由诊所直接收取", "Медицинские сборы — напрямую в клинику", "Los honorarios médicos van directamente al centro")}</p>
+                </div>
+              </div>
             </div>
 
             <div className="-mx-4 mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-5 scrollbar-hide sm:-mx-6 sm:px-6 md:mx-0 md:mt-10 md:grid md:grid-cols-2 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-3">

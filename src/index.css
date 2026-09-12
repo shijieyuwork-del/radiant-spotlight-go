@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600;6..72,700&family=Nunito+Sans:wght@600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -84,7 +86,7 @@ body.ca-native-platform .mobile-app-nav {
   }
 }
 
-/* CeladonChina — Global Medical Aesthetics Platform
+/* Cosmetics Asia — Global Medical Aesthetics Platform
    White + Mint design system. All colors HSL.
 */
 
@@ -102,11 +104,9 @@ body.ca-native-platform .mobile-app-nav {
 
     /* Brand */
     --primary: 158 45% 55%;            /* mint */
-    --brand-text: 164 53% 23%;         /* readable forest green on light surfaces */
-    --primary-foreground: var(--foreground);
+    --primary-foreground: 50 50% 98%;
     --primary-soft: 155 60% 88%;
     --primary-glow: 158 70% 75%;
-    --brand-emerald: 155 48% 62%;
 
     --secondary: 150 34% 93%;          /* pale sage surface */
     --secondary-foreground: 162 40% 18%;
@@ -187,6 +187,16 @@ body.ca-native-platform .mobile-app-nav {
     z-index: 1;
   }
 
+  .home-content-flow > section + section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: clamp(1rem, 5vw, 5rem);
+    right: clamp(1rem, 5vw, 5rem);
+    height: 1px;
+    background: linear-gradient(90deg, transparent, hsl(var(--primary) / 0.18), hsl(48 70% 72% / 0.14), transparent);
+  }
+
   .dark {
     --background: 160 25% 8%;
     --foreground: 50 50% 96%;
@@ -195,7 +205,6 @@ body.ca-native-platform .mobile-app-nav {
     --popover: 160 25% 10%;
     --popover-foreground: 50 50% 96%;
     --primary: 158 60% 65%;
-    --brand-text: 158 60% 72%;
     --primary-foreground: 160 25% 8%;
     --secondary: 18 60% 70%;
     --secondary-foreground: 160 25% 8%;
@@ -222,17 +231,20 @@ body.ca-native-platform .mobile-app-nav {
   }
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Inter Variable', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif;
-    font-feature-settings: "kern", "liga", "calt";
-    font-optical-sizing: auto;
+    font-family: 'Manrope', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-feature-settings: "ss01", "ss02", "cv02", "cv11";
     font-size: 1rem;
     font-weight: 400;
-    line-height: 1.6;
-    letter-spacing: normal;
+    line-height: 1.62;
+    letter-spacing: -0.012em;
     text-rendering: optimizeLegibility;
   }
 
   @media (max-width: 639px) {
+    body {
+      line-height: 1.55;
+    }
+
     h1, h2, h3 {
       overflow-wrap: anywhere;
     }
@@ -256,32 +268,30 @@ body.ca-native-platform .mobile-app-nav {
       padding-right: 1rem;
     }
 
+    .home-content-flow > section + section::before {
+      left: 1rem;
+      right: 1rem;
+    }
+
     a, button, [role="button"] {
       -webkit-tap-highlight-color: transparent;
     }
   }
 
-  h1, h2 {
-    font-family: 'Inter Variable', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif;
-    font-weight: 560;
-    letter-spacing: -0.043em;
-    line-height: 1.04;
-    text-wrap: balance;
-  }
-
-  h3 {
-    font-family: 'Inter Variable', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif;
-    font-weight: 550;
-    letter-spacing: -0.028em;
-    line-height: 1.12;
+  h1, h2, h3 {
+    font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    line-height: 1.02;
     text-wrap: balance;
   }
 
   h4, h5, h6 {
-    font-family: 'Inter Variable', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'Manrope', system-ui, sans-serif;
     font-weight: 600;
-    letter-spacing: -0.018em;
-    line-height: 1.28;
+    letter-spacing: -0.025em;
+    line-height: 1.25;
     text-wrap: balance;
   }
 
@@ -295,11 +305,11 @@ body.ca-native-platform .mobile-app-nav {
 
   button, input, textarea, select {
     font: inherit;
-    letter-spacing: normal;
+    letter-spacing: -0.01em;
   }
 
   button, [role="button"] {
-    font-weight: 570;
+    font-weight: 600;
   }
 
   ::selection {
@@ -309,280 +319,31 @@ body.ca-native-platform .mobile-app-nav {
 }
 
 @layer components {
-  .reading-copy p,
-  .reading-copy li {
-    text-wrap: wrap;
-  }
-
   .hero-motion {
     isolation: isolate;
-    background: transparent;
-  }
-
-  .home-water-page {
-    position: relative;
-    isolation: isolate;
-    background:
-      radial-gradient(ellipse at 4% 8%, hsl(340 66% 91% / 0.34), transparent 30rem),
-      radial-gradient(ellipse at 96% 14%, hsl(198 72% 88% / 0.38), transparent 34rem),
-      radial-gradient(ellipse at 18% 48%, hsl(145 62% 87% / 0.30), transparent 32rem),
-      radial-gradient(ellipse at 84% 72%, hsl(268 58% 91% / 0.24), transparent 34rem),
-      linear-gradient(145deg, hsl(158 48% 96%), hsl(48 58% 97%) 48%, hsl(198 48% 96%));
-  }
-
-  .home-water-page .home-content-flow {
-    background: transparent;
-  }
-
-  /* Homepage sections below the hero: HomeSection.tsx owns the rhythm (py-24),
-     the content width (max-w-7xl) and the alternating white / sage surfaces. */
-  .home-rail {
-    scroll-padding-inline: 0.25rem;
-  }
-
-  /* Doctor cards share one grid row on desktop. The two faces stack in the same
-     grid area so the tallest back copy determines one stable, aligned height. */
-  .doctor-flip-card {
-    perspective: 1400px;
-  }
-
-  .doctor-flip-card__inner {
-    display: grid;
-    transform-style: preserve-3d;
-    transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  .doctor-flip-card[data-flipped="true"] .doctor-flip-card__inner {
-    transform: rotateY(180deg);
-  }
-
-  .doctor-flip-card__face {
-    grid-area: 1 / 1;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-  }
-
-  .doctor-flip-card__face--back {
-    transform: rotateY(180deg);
-  }
-
-  .doctor-flip-card__face--front[aria-hidden="true"],
-  .doctor-flip-card__face--back[aria-hidden="true"] {
-    pointer-events: none;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .doctor-flip-card__inner {
-      transition: none;
-    }
-  }
-
-  .home-proof-card,
-  .home-clinic-card,
-  .home-story-card {
-    contain: layout paint;
-  }
-
-  .home-clinic-card,
-  .home-story-card {
-    box-shadow: 0 12px 30px -20px hsl(var(--brand-text) / 0.42);
-  }
-
-  .home-clinic-card:hover,
-  .home-story-card:hover {
-    box-shadow: 0 20px 42px -22px hsl(var(--brand-text) / 0.52);
-  }
-
-  .home-water-page > main,
-  .home-water-page > section,
-  .home-water-page > footer {
-    position: relative;
-    z-index: 1;
-  }
-
-  /* The homepage background is fixed behind every section, so the water/rainbow
-     field stays continuous while the visitor scrolls. */
-  .hero-ambient {
-    --hero-surface: var(--background);
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-  }
-
-  .hero-ambient__field {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-    background:
-      radial-gradient(ellipse at 4% 10%, hsl(340 66% 88% / 0.52), transparent 46%),
-      radial-gradient(ellipse at 42% 8%, hsl(48 76% 88% / 0.48), transparent 42%),
-      radial-gradient(ellipse at 94% 18%, hsl(198 72% 83% / 0.52), transparent 50%),
-      radial-gradient(ellipse at 10% 88%, hsl(145 62% 77% / 0.46), transparent 52%),
-      radial-gradient(ellipse at 76% 82%, hsl(268 58% 86% / 0.34), transparent 52%),
-      linear-gradient(135deg, hsl(158 52% 86%), hsl(48 58% 92%) 47%, hsl(198 56% 86%));
-  }
-
-  .hero-ambient__photo {
-    position: absolute;
-    inset: -2%;
-    background-position: center;
-    background-size: cover;
-    opacity: 0.82;
-    mix-blend-mode: normal;
-    animation: home-water-near 28s cubic-bezier(0.45, 0, 0.55, 1) -14s infinite alternate;
-    animation-play-state: paused;
-  }
-
-  /* A broad, low-contrast sheen creates slow-moving light and shade over the
-     supplied mist texture without introducing hard spots or green tint. */
-  .hero-ambient__light-sheen {
-    position: absolute;
-    inset: -24%;
-    background:
-      radial-gradient(ellipse at 18% 28%, hsl(48 100% 100% / 0.34), transparent 34%),
-      radial-gradient(ellipse at 78% 66%, hsl(198 72% 97% / 0.24), transparent 38%),
-      linear-gradient(120deg, hsl(0 0% 100% / 0.08), transparent 42%, hsl(204 44% 72% / 0.10));
-    mix-blend-mode: screen;
-    opacity: 0.68;
-    animation: home-light-sheen 19s cubic-bezier(0.45, 0, 0.55, 1) -9s infinite alternate;
-    animation-play-state: paused;
-    will-change: transform, opacity;
-  }
-
-  .hero-ambient__light-sweep {
-    position: absolute;
-    top: -18%;
-    bottom: -18%;
-    left: -48%;
-    width: 36%;
-    background: linear-gradient(90deg, transparent, hsl(0 0% 100% / 0.28) 48%, transparent);
-    filter: blur(18px);
-    opacity: 0.52;
-    transform: skewX(-16deg);
-    animation: home-light-sweep 16s cubic-bezier(0.45, 0, 0.55, 1) -8s infinite;
-    animation-play-state: paused;
-    will-change: transform;
-  }
-
-  .hero-ambient__light-spots {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-    pointer-events: none;
-  }
-
-  .hero-ambient__light-spot {
-    position: absolute;
-    display: block;
-    aspect-ratio: 1;
-    border-radius: 999px;
-    background: radial-gradient(circle, hsl(0 0% 100% / 0.72) 0%, hsl(0 0% 100% / 0.30) 24%, transparent 72%);
-    mix-blend-mode: screen;
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.62);
-    animation: home-light-spot 12s ease-in-out infinite;
-    animation-play-state: paused;
-  }
-
-  .hero-ambient__ripples {
-    position: absolute;
-    width: max(90rem, 140vw);
-    height: min(70rem, 100vh);
-    mask-image: linear-gradient(90deg, transparent 0%, black 17%, black 83%, transparent 100%);
-    opacity: 0.12;
-    animation: home-water-near 16s cubic-bezier(0.45, 0, 0.55, 1) -8s infinite alternate;
-    animation-play-state: paused;
-    transform-origin: 50% 50%;
-  }
-
-  .hero-ambient__ripples--near {
-    left: -20%;
-    top: -8%;
-  }
-
-  .hero-ambient__ripples--far {
-    right: -20%;
-    bottom: -8%;
-    opacity: 0.12;
-    animation-name: home-water-far;
-    animation-duration: 21s;
-    animation-delay: -13s;
-  }
-
-  .hero-ambient__ripples svg {
-    display: block;
-    width: 100%;
-    height: 100%;
-  }
-
-  .hero-ambient__wave-surfaces {
-    fill: hsl(198 52% 98% / 0.08);
-  }
-
-  .hero-ambient__wave-surfaces path:nth-child(2n) {
-    fill: hsl(204 46% 92% / 0.04);
-  }
-
-  .hero-ambient__ripple-shadow {
-    stroke: hsl(var(--brand-text) / 0.055);
-    stroke-width: 3.4;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-
-  .hero-ambient__ripple-light {
-    stroke: hsl(188 62% 97% / 0.19);
-    stroke-width: 1.5;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-
-  .hero-ambient__ripple-light path:nth-child(2n) { opacity: 0.62; }
-  .hero-ambient__ripple-light path:nth-child(3n) { opacity: 0.38; }
-
-  .hero-ambient[data-motion="running"] .hero-ambient__ripples,
-  .hero-ambient[data-motion="running"] .hero-ambient__photo,
-  .hero-ambient[data-motion="running"] .hero-ambient__light-sheen,
-  .hero-ambient[data-motion="running"] .hero-ambient__light-sweep,
-  .hero-ambient[data-motion="running"] .hero-ambient__light-spot {
-    animation-play-state: running;
-    will-change: transform;
-  }
-
-  .hero-ambient__veil {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg, hsl(var(--hero-surface) / 0.01), hsl(var(--hero-surface) / 0.08) 50%, hsl(var(--hero-surface) / 0.01));
-  }
-
-  .hero-ambient__toggle {
-    position: fixed;
-    bottom: max(1rem, env(safe-area-inset-bottom));
-    left: max(1rem, env(safe-area-inset-left));
-    z-index: 40;
-    display: grid;
-    place-items: center;
-    width: 2.75rem;
-    height: 2.75rem;
-    border: 1px solid hsl(var(--primary) / 0.25);
-    border-radius: 50%;
-    color: hsl(var(--muted-foreground));
     background: hsl(var(--background));
-    pointer-events: auto;
-    touch-action: manipulation;
-    transition: background-color 150ms ease, color 150ms ease;
   }
 
-  .hero-ambient__toggle:focus-visible {
-    outline: 2px solid hsl(var(--brand-text));
-    outline-offset: 3px;
+  .hero-motion__background {
+    overflow: hidden;
+    pointer-events: none;
+    background: hsl(var(--background));
+    mask-image: linear-gradient(to bottom, black 0%, black 78%, transparent 100%);
   }
 
-  .hero-ambient__toggle:active {
-    background: hsl(var(--secondary));
-    color: hsl(var(--foreground));
-    transition: none;
+  .hero-motion__image {
+    opacity: 0.7;
+  }
+
+  .hero-motion__video {
+    opacity: 0.7;
+    filter: saturate(0.82) contrast(0.86) brightness(1.04);
+  }
+
+  .hero-motion__veil {
+    background:
+      linear-gradient(to bottom, hsl(var(--background) / 0.26), hsl(var(--background) / 0.58)),
+      radial-gradient(circle at 50% 36%, hsl(var(--background) / 0.72), hsl(var(--background) / 0.18) 65%);
   }
 
   .glow-card {
@@ -599,9 +360,9 @@ body.ca-native-platform .mobile-app-nav {
     line-height: 1.25;
   }
   .font-display {
-    font-family: 'Inter Variable', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
     font-optical-sizing: auto;
-    letter-spacing: -0.032em;
+    letter-spacing: -0.035em;
   }
   .tabular-nums,
   [data-price],
@@ -614,72 +375,39 @@ body.ca-native-platform .mobile-app-nav {
   }
 }
 
-/* Continuous ambient water, independent of scroll position. Only textures move. */
-@keyframes home-water-near {
-  from { transform: translate(-3%, -1%) rotate(-2deg) scale(1, 0.98); }
-  to { transform: translate(3%, 2%) rotate(2deg) scale(1.04, 1.02); }
-}
-
-@keyframes home-water-far {
-  from { transform: translate(3%, 1%) rotate(2deg) scale(1.04, 1.01); }
-  to { transform: translate(-3%, -2%) rotate(-2deg) scale(0.98, 1.04); }
-}
-
-@keyframes home-light-sheen {
-  from { transform: translate3d(-11%, -5%, 0) rotate(-3deg) scale(0.94); opacity: 0.34; }
-  to { transform: translate3d(12%, 6%, 0) rotate(4deg) scale(1.10); opacity: 0.78; }
-}
-
-@keyframes home-light-sweep {
-  from { transform: translate3d(0, 0, 0) skewX(-16deg); opacity: 0; }
-  16% { opacity: 0.52; }
-  72% { opacity: 0.44; }
-  to { transform: translate3d(430%, 0, 0) skewX(-16deg); opacity: 0; }
-}
-
-@keyframes home-light-spot {
-  0%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.62); }
-  20% { opacity: 0.64; transform: translate(-50%, -50%) scale(0.92); }
-  48% { opacity: 0.24; transform: translate(-50%, -50%) scale(1.18); }
-  72% { opacity: 0.52; transform: translate(-50%, -50%) scale(1); }
-}
-
-@media (max-width: 639px) {
-  .hero-ambient__ripples { width: 72rem; height: 48rem; }
-  .hero-ambient__ripples--near { left: -30rem; top: 3rem; }
-  .hero-ambient__ripples--far { right: -30rem; bottom: 3rem; }
-  .hero-ambient__veil { background: hsl(var(--hero-surface) / 0.04); }
-  /* Keep the motion control clear of the existing mobile consultation bar. */
-  .hero-ambient__toggle { bottom: calc(5.5rem + env(safe-area-inset-bottom)); }
-  /* The homepage hides the duplicate floating consultation shortcut, so the
-     motion control can sit at the viewport edge instead of covering a card. */
-  .home-water-page .hero-ambient__toggle { bottom: max(1rem, env(safe-area-inset-bottom)); }
-}
-
-.dark .hero-ambient__field {
-  background:
-    radial-gradient(ellipse at 0% 25%, hsl(var(--primary) / 0.08), transparent 68%),
-    radial-gradient(ellipse at 100% 80%, hsl(var(--primary) / 0.06), transparent 68%),
-    hsl(var(--hero-surface));
-}
-
-.dark .hero-ambient__ripple-shadow { stroke: hsl(var(--foreground) / 0.055); }
-.dark .hero-ambient__ripple-light { stroke: hsl(var(--primary) / 0.08); }
-
-@media (prefers-contrast: more) {
-  .hero-ambient__veil { background: hsl(var(--hero-surface) / 0.96); }
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .hero-ambient__toggle:hover {
-    background: hsl(var(--secondary));
-    color: hsl(var(--foreground));
-  }
-}
-
 @keyframes marquee {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
+}
+
+/* Public-site readability floor: keep supporting copy comfortably legible
+   without flattening the display hierarchy. */
+@layer utilities {
+  .text-xs {
+    font-size: 0.8125rem;
+    line-height: 1.25rem;
+  }
+
+  .text-sm {
+    font-size: 0.9375rem;
+    line-height: 1.5rem;
+  }
+
+  .text-\[10px\],
+  .text-\[11px\] {
+    font-size: 0.75rem;
+    line-height: 1.125rem;
+  }
+
+  @media (max-width: 639px) {
+    .text-xs {
+      font-size: 0.8125rem;
+    }
+
+    .text-sm {
+      font-size: 0.9375rem;
+    }
+  }
 }
 
 @keyframes float {
@@ -701,18 +429,10 @@ body.ca-native-platform .mobile-app-nav {
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-ambient[data-motion] .hero-ambient__ripples,
-  .hero-ambient[data-motion] .hero-ambient__photo,
-  .hero-ambient[data-motion] .hero-ambient__light-sheen,
-  .hero-ambient[data-motion] .hero-ambient__light-sweep,
-  .hero-ambient[data-motion] .hero-ambient__light-spot {
-    animation: none;
-    transform: none;
-    will-change: auto;
-  }
-  .hero-ambient__toggle {
+  .hero-motion__video {
     display: none;
   }
+
 }
 
 /* 咨询按钮闪烁：图标外圈扩散 + 整钮微光呼吸 */

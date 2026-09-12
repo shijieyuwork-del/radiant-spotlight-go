@@ -5,7 +5,7 @@ import { asiaCopy } from "@/lib/asia-copy";
 import { useAppDoctors } from "../useAppDoctors";
 import type { AppDoctor } from "../types";
 
-const WHATSAPP_URL = "https://wa.me/14708613825?text=Hi%20Cosmetics%20Asia%2C%20I%20would%20like%20help%20comparing%20published%20expert%20profiles.";
+const WHATSAPP_URL = "https://wa.me/14708613825?text=Hi%20CeladonChina%2C%20I%20would%20like%20help%20comparing%20published%20expert%20profiles.";
 
 const AppExperts = () => {
   const { lang } = useAsia();

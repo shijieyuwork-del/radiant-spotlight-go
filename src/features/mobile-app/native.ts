@@ -20,7 +20,7 @@ export const shareCarePlan = async (procedure: string, destination: string) => {
   await Share.share({
     title: "My Cosmetics Asia care plan",
     text,
-    url: "https://cosmetics-asia.com/app",
+    url: "https://celadonchina.com/app",
     dialogTitle: "Share my care plan",
   });
   return true;

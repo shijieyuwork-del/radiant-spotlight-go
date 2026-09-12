@@ -3,7 +3,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import {
   Sparkles, ArrowRight, MapPin, ShieldCheck,
   Stethoscope, Building2,
-  Flame, Wallet, Users, Plane,
+  Flame, Gift, Wallet, Users, Plane,
   Eye,
   Scale, HeartPulse, MessageCircle, Video, Map, Mail,
 } from "lucide-react";
@@ -13,21 +13,18 @@ import Footer from "@/components/Footer";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import TikTokWall from "@/components/TikTokWall";
 import HeroVideoGallery from "@/components/HeroVideoGallery";
-import HeroAmbientBackground from "@/components/HeroAmbientBackground";
 import { usePublishedVideos } from "@/hooks/use-published-videos";
 import PageMeta from "@/components/PageMeta";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
-import { getCoordinationPolicy } from "@/data/coordination-policy";
-import { getClinicPath, STATIC_CLINICS } from "@/data/clinicDirectory";
-
+import { CITIES } from "@/data/cities";
+import { CitySearchBar, CityQuickResults, useCityFilter } from "@/components/CitySearch";
 import { useAsia } from "@/lib/asia-i18n";
-import { translatedUiText } from "@/lib/locale-text";
-import { getPlanningMarketingCopy } from "@/lib/planning-marketing-copy";
 import { localizeDoctorRow } from "@/lib/i18n-content";
 import QuoteCtaButton from "@/components/QuoteCtaButton";
 import { ORGANIZATION_SCHEMA } from "@/lib/seo-config";
 import { useQuote } from "@/components/QuoteRequest";
 import { MedicalDisclaimer } from "@/components/MedicalDisclaimer";
+import heroBg from "@/assets/hero-bg.jpg";
 import journeyConsultation from "@/assets/journey-premium-natural-consultation-v5.webp";
 import journeyArrival from "@/assets/journey-premium-natural-arrival-v5.webp";
 import journeyGroundSupport from "@/assets/journey-premium-natural-concierge-v5.webp";
@@ -46,19 +43,11 @@ import procedureSkin from "@/assets/procedures/laser-skin-resurfacing.jpg";
 import procedureLips from "@/assets/procedures/lip-lift.jpg";
 import procedureWeightLoss from "@/assets/procedures/body-lift.jpg";
 import procedureMen from "@/assets/procedures/male-breast-reduction.jpg";
-import chineseDoctorTeam from "@/assets/chinese-doctor-team-candid-v1.webp";
-import shanghaiHuameiClinic from "@/assets/clinics/shanghai-huamei.jpg";
-import beijingBadachuClinic from "@/assets/clinics/beijing-badachu.jpg";
-import guangzhouHuameiClinic from "@/assets/clinics/guangzhou-huamei.jpg";
 import PatientStoriesSection from "@/components/PatientStoriesSection";
 import { supabase } from "@/integrations/supabase/client";
 import { useRealtimeRefresh } from "@/hooks/use-realtime-refresh";
 import { signedUrls } from "@/lib/storage-urls";
 import { DEMO_CHINA_DOCTORS } from "@/data/demoChinaDoctors";
-import { ManualRailControls } from "@/components/ManualRailControls";
-import { HomeSection } from "@/components/home/HomeSection";
-import { SectionActionLink, SectionHeader } from "@/components/home/SectionHeader";
-import DoctorFlipCard, { type DoctorFlipCardData } from "@/components/home/DoctorFlipCard";
 
 type ProcedureIconProps = { className?: string; strokeWidth?: number };
 
@@ -124,6 +113,7 @@ const MaleChestLineIcon = ({ className, strokeWidth = 1.5 }: ProcedureIconProps)
 );
 
 // ============== Data (bilingual) ==============
+const cities = CITIES;
 
 type Treatment = {
   zh: string; en: string; emoji: string; from: number; orig?: number;
@@ -149,17 +139,39 @@ const treatments: Treatment[] = [
 // TikTok cases live in src/data/tiktokCases.ts.
 
 // ============== Sections ==============
+type NavigatorConnection = {
+  saveData?: boolean;
+  effectiveType?: string;
+};
+
 const Hero = () => {
   const { t, lang, fmt } = useAsia();
-  const marketing = getPlanningMarketingCopy(lang);
-  const policy = getCoordinationPolicy(lang);
   // 后台上传并发布的视频排在演示日记前面
   const uploaded = usePublishedVideos(lang);
   const diaryItems = [...uploaded, ...TIKTOK_CASES];
+  const [showHeroVideo, setShowHeroVideo] = useState(false);
+
+  useEffect(() => {
+    if (window.matchMedia("(max-width: 767px)").matches) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const connection = (navigator as Navigator & { connection?: NavigatorConnection }).connection;
+    if (connection?.saveData) return;
+    if (connection?.effectiveType && /(^|-)2g$/.test(connection.effectiveType)) return;
+    const cb = () => setShowHeroVideo(true);
+    if (typeof window.requestIdleCallback === "function") {
+      const id = window.requestIdleCallback(cb, { timeout: 2500 });
+      return () => window.cancelIdleCallback(id);
+    }
+    const id = window.setTimeout(cb, 1500);
+    return () => window.clearTimeout(id);
+  }, []);
 
   const copy = lang === "zh"
     ? {
         badge: "更清晰地了解中国医美",
+        title: "选择之前，先看真实恢复过程。",
+        emphasis: "找到适合你的中国医美方案。",
+        subtitle: "查看患者恢复日记与公开专家资料，并获得咨询、行程和回国后随访的实际协调支持。",
         cases: "观看患者短视频",
         consultation: "在线面诊",
         consultationDetail: "出发前与专家进行一对一线上沟通",
@@ -173,6 +185,9 @@ const Hero = () => {
     : lang === "ru"
       ? {
           badge: "Косметическая помощь в Китае — понятнее",
+          title: "Увидьте реальное восстановление до выбора.",
+          emphasis: "Найдите подходящий вариант в Китае.",
+          subtitle: "Изучайте истории пациентов и опубликованные профили экспертов, получая практическую поддержку для консультации, поездки и наблюдения.",
           cases: "Смотреть видео пациентов",
           consultation: "Онлайн-консультация",
           consultationDetail: "Встреча с экспертом онлайн до поездки",
@@ -186,6 +201,9 @@ const Hero = () => {
       : lang === "es"
         ? {
             badge: "Atención estética en China, más clara",
+            title: "Mira la recuperación real antes de elegir.",
+            emphasis: "Encuentra la atención estética adecuada en China.",
+            subtitle: "Explora las experiencias de pacientes y la información publicada de expertos, con apoyo práctico para la consulta, el viaje y el seguimiento.",
             cases: "Ver videos de recuperación de pacientes",
             consultation: "Consulta en línea",
             consultationDetail: "Reúnete con tu experto en línea antes de viajar (no se brinda asesoría médica)",
@@ -197,50 +215,60 @@ const Hero = () => {
             pricingDetail: "Apoyo coordinado durante toda la recuperación",
           }
         : {
-          // Thai, Malay and Vietnamese resolve through the UI catalogs; English is the fallback.
-          badge: translatedUiText(lang, "Cosmetic care in China, made clearer"),
-          cases: translatedUiText(lang, "Watch patient recovery videos"),
-          consultation: translatedUiText(lang, "Online consultation"),
-          consultationDetail: translatedUiText(lang, "Meet your expert online before you travel (not providing medical advice)"),
-          english: translatedUiText(lang, "English in-clinic translation"),
-          englishDetail: translatedUiText(lang, "Communication support during clinic visits"),
-          travel: translatedUiText(lang, "Airport pickup & drop-off"),
-          travelDetail: translatedUiText(lang, "Private transfer to and from your destination"),
-          pricing: translatedUiText(lang, "Aftercare support"),
-          pricingDetail: translatedUiText(lang, "Coordinated support throughout recovery"),
+          badge: "Cosmetic care in China, made clearer",
+          title: "Your cosmetic care journey,",
+          emphasis: "all in one place.",
+          subtitle: "Compare cosmetic surgeons in China, book online consultations, and coordinate travel, translation and aftercare.",
+          cases: "Watch patient recovery videos",
+          consultation: "Online consultation",
+          consultationDetail: "Meet your expert online before you travel (not providing medical advice)",
+          english: "English in-clinic translation",
+          englishDetail: "Communication support during clinic visits",
+          travel: "Airport pickup & drop-off",
+          travelDetail: "Private transfer to and from your destination",
+          pricing: "Aftercare support",
+          pricingDetail: "Coordinated support throughout recovery",
         };
-  const diariesHeading = lang === "zh"
-    ? { title: "患者恢复日记，", emphasis: "帮助你做功课" }
-    : lang === "ru"
-      ? { title: "Дневники восстановления пациентов — ", emphasis: "изучите до выбора" }
-      : lang === "es"
-        ? { title: "Diarios de recuperación de pacientes, ", emphasis: "antes de elegir" }
-        : lang === "vi"
-          ? { title: "Nhật ký hồi phục của bệnh nhân, ", emphasis: "giúp bạn tìm hiểu trước khi chọn" }
-          : { title: translatedUiText(lang, "Patient recovery diaries"), emphasis: "" };
   return (
     <section className="hero-motion relative overflow-hidden">
-      <div className="relative isolate">
-        <div className="container relative pb-16 pt-5 sm:py-14 md:py-20">
+      <div className="hero-motion__background absolute inset-x-0 top-0 h-[900px] sm:h-[940px]" aria-hidden="true">
+        <img src={heroBg} alt="" className="hero-motion__image absolute inset-0 size-full object-cover" />
+        {showHeroVideo && (
+          <video
+            className="hero-motion__video absolute inset-0 size-full object-cover"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="none"
+            poster={heroBg}
+          >
+            <source src="/video/cosmetics-asia-home-motion.mp4?v=1" type="video/mp4" />
+          </video>
+        )}
+        <div className="hero-motion__veil absolute inset-0" />
+      </div>
+
+      <div className="container relative pb-9 pt-5 sm:py-14 md:py-20">
+        <div className="flex flex-col gap-8 md:gap-14">
           <div className="mx-auto w-full max-w-5xl text-center">
             <span className="pill max-w-full justify-center bg-card/80 text-center leading-relaxed shadow-soft backdrop-blur">
               <ShieldCheck className="size-3.5 text-primary" />
               {copy.badge}
             </span>
             <h1 className="mx-auto mt-4 max-w-4xl font-display text-[1.95rem] font-medium leading-[1.01] tracking-tight min-[390px]:text-[2.15rem] sm:mt-5 sm:text-5xl md:text-[3.75rem]">
-              {marketing.title}
-              <em className="mt-1 block text-brand not-italic">{marketing.emphasis}</em>
+              {copy.title}
+              <span><br />
+              <em className="text-primary not-italic">{copy.emphasis}</em></span>
             </h1>
-            <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-[15px]">{marketing.subtitle}</p>
+            <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-[15px]">{copy.subtitle}</p>
 
-            <div className="mx-auto mt-5 flex max-w-3xl flex-col justify-center gap-3 sm:mt-7 sm:flex-row">
-              <QuoteCtaButton className="min-h-[3.25rem] w-full rounded-2xl border border-foreground px-5 py-3 text-[15px] shadow-pop sm:w-auto sm:rounded-full" quoteCtx={{ source: "home_hero" }} data-testid="home-hero-cta" />
-              <Button asChild size="lg" variant="outline" className="h-auto min-h-[3.25rem] w-full whitespace-normal rounded-2xl border-primary/25 bg-card/70 px-5 py-3 text-[15px] font-semibold backdrop-blur sm:w-auto sm:rounded-full">
-                <Link to="/cases">{marketing.diaries}<ArrowRight className="ml-1.5 size-4 shrink-0" /></Link>
+            <div className="mx-auto mt-5 flex max-w-lg flex-col justify-center gap-3 sm:mt-7 sm:flex-row">
+              <QuoteCtaButton className="h-[3.25rem] w-full rounded-2xl border border-foreground px-8 text-[15px] shadow-pop sm:h-12 sm:w-auto sm:rounded-full" />
+              <Button asChild size="lg" variant="outline" className="h-[3.25rem] w-full rounded-2xl border-primary/25 bg-card/70 px-8 text-[15px] font-semibold backdrop-blur sm:h-12 sm:w-auto sm:rounded-full">
+                <Link to="/cases">{copy.cases}<ArrowRight className="ml-1.5 size-4" /></Link>
               </Button>
             </div>
-
-            <p className="mx-auto mt-3 max-w-2xl text-xs leading-relaxed text-muted-foreground sm:text-sm">{policy.initialText} <Link to="/travel-packages#support" className="underline underline-offset-4 hover:text-foreground">{policy.depositTitle}</Link></p>
 
             <div className="mx-auto mt-5 max-w-4xl sm:mt-9">
               <HeroVideoGallery items={diaryItems.slice(0, 10)} lang={lang} fmtPrice={fmt} />
@@ -249,7 +277,7 @@ const Hero = () => {
             <div
               className="mx-auto mt-6 max-w-4xl rounded-full border border-primary/10 bg-card/80 px-4 py-3 shadow-[0_14px_40px_rgba(18,55,45,0.06)] backdrop-blur-xl sm:mt-7 sm:px-6"
               role="list"
-              aria-label={lang === "zh" ? "协调服务" : lang === "ru" ? "Координационные услуги" : lang === "es" ? "Servicios de coordinación" : translatedUiText(lang, "Coordination services")}
+              aria-label={lang === "zh" ? "协调服务" : lang === "ru" ? "Координационные услуги" : lang === "es" ? "Servicios de coordinación" : "Coordination services"}
             >
               <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 sm:gap-x-8">
               {[
@@ -273,44 +301,42 @@ const Hero = () => {
             </div>
           </div>
 
-        </div>
-      </div>
-      <div className="container relative pb-9 sm:pb-14 md:pb-20">
           <div className="w-full border-t border-primary/10 pt-8 md:pt-14">
             <div className="mb-6 flex flex-col items-start justify-between gap-4 px-1 sm:flex-row sm:items-end md:mb-8">
               <div>
-                <span className="inline-flex items-center gap-1.5 text-label font-bold uppercase tracking-[0.16em] text-brand">
-                  <Sparkles className="size-3.5" /> {lang === "zh" ? "我们的核心优势" : lang === "ru" ? "Наше главное отличие" : lang === "es" ? "Nuestra mayor diferencia" : translatedUiText(lang, "Our biggest difference")}
+                <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.16em] text-primary">
+                  <Sparkles className="size-3.5" /> {lang === "zh" ? "我们的核心优势" : lang === "ru" ? "Наше главное отличие" : lang === "es" ? "Nuestra mayor diferencia" : "Our biggest difference"}
                 </span>
                 <h2 className="mt-2 max-w-4xl font-display text-3xl font-medium leading-tight tracking-tight sm:text-4xl md:text-5xl">
-                  {diariesHeading.title}
-                  {diariesHeading.emphasis && <em className="not-italic text-brand">{diariesHeading.emphasis}</em>}
+                  {lang === "zh" ? "患者恢复日记，" : lang === "ru" ? "Дневники восстановления пациентов — " : lang === "es" ? "Diarios de recuperación de pacientes, " : "Patient recovery diaries"}
+                  {lang !== "en" && <em className="not-italic text-primary">{lang === "zh" ? "帮助你做功课" : lang === "ru" ? "изучите до выбора" : "antes de elegir"}</em>}
                 </h2>
               </div>
               <Link
                 to="/cases"
                 className="cta-primary inline-flex min-h-11 w-full shrink-0 items-center justify-center gap-1.5 rounded-full px-5 py-2.5 text-sm font-bold shadow-soft transition-all sm:w-auto sm:text-xs"
               >
-                {lang === "zh" ? "浏览全部日记" : lang === "ru" ? "Все дневники" : lang === "es" ? "Ver todos los diarios" : translatedUiText(lang, "Explore all diaries")} <ArrowRight className="size-3.5" />
+                {lang === "zh" ? "浏览全部日记" : lang === "ru" ? "Все дневники" : lang === "es" ? "Ver todos los diarios" : "Explore all diaries"} <ArrowRight className="size-3.5" />
               </Link>
             </div>
             <TikTokWall items={diaryItems.slice(0, 7)} lang={lang} fmtPrice={fmt} variant="preview" />
           </div>
+        </div>
       </div>
     </section>
   );
 };
 
-const PrivateCareHero = () => {
+const TravelInspiredHeroPreview = () => {
   const { lang, fmt } = useAsia();
   const uploaded = usePublishedVideos(lang);
   const diaryItems = [...uploaded, ...TIKTOK_CASES];
   const copy = lang === "zh"
     ? {
-        badge: "中国私人医美协调服务",
-        title: "依据真实信息选择。",
-        emphasis: "带着清晰计划出发。",
-        subtitle: "比较患者恢复日记与公开专家资料，并获得从首次咨询、赴华行程到回国随访的低调协调支持。",
+        badge: "面向国际患者的中国医美服务",
+        title: "先看真实恢复，",
+        emphasis: "再安心做出选择。",
+        subtitle: "从项目、城市和专家开始了解，我们协助你把咨询、行程与术后支持连接起来。",
         procedure: "感兴趣的项目",
         procedureValue: "浏览全部项目",
         city: "目的地",
@@ -327,10 +353,10 @@ const PrivateCareHero = () => {
       }
     : lang === "ru"
       ? {
-          badge: "Персональная координация лечения в Китае",
-          title: "Выбирайте на основе фактов.",
-          emphasis: "Путешествуйте с ясным планом.",
-          subtitle: "Сравните дневники восстановления и опубликованные профили экспертов, а мы деликатно поддержим вас от первой консультации до наблюдения после возвращения.",
+          badge: "Эстетическая медицина в Китае для иностранных пациентов",
+          title: "Сначала изучите восстановление.",
+          emphasis: "Затем выбирайте уверенно.",
+          subtitle: "Начните с процедуры, города или эксперта — мы свяжем консультацию, поездку и последующую поддержку.",
           procedure: "Процедура",
           procedureValue: "Все процедуры",
           city: "Направление",
@@ -347,10 +373,10 @@ const PrivateCareHero = () => {
         }
       : lang === "es"
         ? {
-            badge: "Coordinación privada de atención en China",
-            title: "Elige con información real.",
-            emphasis: "Viaja con un plan claro.",
-            subtitle: "Compara diarios de recuperación y perfiles publicados, con apoyo discreto desde la primera consulta hasta el seguimiento tras tu regreso.",
+            badge: "Atención estética en China para pacientes internacionales",
+            title: "Mira primero la recuperación real.",
+            emphasis: "Elige tu atención con confianza.",
+            subtitle: "Empieza por un procedimiento, una ciudad o un experto. Conectamos la consulta, la planificación del viaje y el apoyo posterior.",
             procedure: "Procedimiento",
             procedureValue: "Explorar todas las opciones",
             city: "Destino",
@@ -366,7 +392,7 @@ const PrivateCareHero = () => {
             servicesEmphasis: "antes, durante y después de tu viaje.",
           }
         : {
-          badge: "Private care coordination in China",
+          badge: "China cosmetic care for international patients",
           title: "Your cosmetic care journey,",
           emphasis: "all in one place.",
           subtitle: "Compare cosmetic surgeons in China, book online consultations, and coordinate travel, translation and aftercare.",
@@ -390,27 +416,11 @@ const PrivateCareHero = () => {
     { icon: Building2, label: copy.clinic, value: copy.clinicValue, to: "/clinics" },
     { icon: MapPin, label: copy.city, value: copy.cityValue, to: "/cities" },
   ];
-  const assurances = [
-    {
-      icon: ShieldCheck,
-      value: lang === "zh" ? "公开资料" : lang === "ru" ? "Открытые профили" : lang === "es" ? "Perfiles publicados" : "Published profiles",
-      label: lang === "zh" ? "选择前先比较专家信息" : lang === "ru" ? "Сравните данные до выбора" : lang === "es" ? "Compara antes de elegir" : "Compare before you choose",
-    },
-    {
-      icon: Wallet,
-      value: lang === "zh" ? "直接付款" : lang === "ru" ? "Прямая оплата" : lang === "es" ? "Pago directo" : "Pay clinics directly",
-      label: lang === "zh" ? "医疗费用直接支付给机构" : lang === "ru" ? "Медицинские расходы — клинике" : lang === "es" ? "Los gastos médicos van a la clínica" : "Medical fees go to the provider",
-    },
-    {
-      icon: Users,
-      value: lang === "zh" ? "多语言协调" : lang === "ru" ? "На вашем языке" : lang === "es" ? "Apoyo multilingüe" : "Multilingual support",
-      label: lang === "zh" ? "跨语言沟通更从容" : lang === "ru" ? "Понятная коммуникация" : lang === "es" ? "Comunicación más clara" : "Clearer communication across borders",
-    },
-    {
-      icon: Plane,
-      value: lang === "zh" ? "全程衔接" : lang === "ru" ? "От начала до конца" : lang === "es" ? "De principio a fin" : "End-to-end support",
-      label: lang === "zh" ? "从首次沟通到回国随访" : lang === "ru" ? "От первого звонка до наблюдения" : lang === "es" ? "De la primera llamada al seguimiento" : "From first call to follow-up",
-    },
+  const metrics = [
+    { value: "1,500+", label: lang === "zh" ? "服务患者" : lang === "ru" ? "Пациентов" : lang === "es" ? "Pacientes" : "Patients" },
+    { value: "20 yrs", label: lang === "zh" ? "专家平均经验" : lang === "ru" ? "Средний опыт экспертов" : lang === "es" ? "Experiencia promedio de los expertos" : "Average expert experience" },
+    { value: "10+", label: lang === "zh" ? "覆盖城市" : lang === "ru" ? "Городов" : lang === "es" ? "Ciudades" : "Cities" },
+    { value: "100+", label: lang === "zh" ? "顶级医院与诊所" : lang === "ru" ? "Ведущих клиник" : lang === "es" ? "Clínicas de primer nivel" : "Top-tier clinics" },
   ];
   const services = lang === "zh"
     ? [
@@ -444,62 +454,48 @@ const PrivateCareHero = () => {
     <section className="relative overflow-hidden pb-10 pt-4 sm:pb-14 sm:pt-6 md:pb-16">
       <div className="container">
         <div className="relative isolate">
-          <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-foreground shadow-[0_32px_90px_rgba(17,54,45,0.2)] md:rounded-[2.75rem]">
-            <div className="grid lg:grid-cols-[0.88fr_1.12fr]">
-              <div className="flex flex-col justify-center px-6 py-12 text-white sm:px-10 sm:py-14 lg:px-14 lg:py-14 xl:px-16">
-                <span className="inline-flex w-fit max-w-full items-center gap-2 rounded-full border border-white/20 bg-white/[0.08] px-4 py-2 text-xs font-semibold text-white/90 backdrop-blur-sm sm:text-sm">
-                  <ShieldCheck className="size-4 text-[hsl(155,62%,68%)]" /> {copy.badge}
-                </span>
-                <h1 className="mt-6 max-w-3xl font-display text-[2.8rem] font-medium leading-[0.96] tracking-tight text-white sm:text-6xl lg:text-[4rem] xl:text-[4.5rem]">
-                  {copy.title}<br />
-                  <em className="not-italic text-[hsl(155,62%,68%)]">{copy.emphasis}</em>
-                </h1>
-                <p className="mt-5 max-w-xl text-[15px] leading-7 text-white/72 sm:text-base sm:leading-7">{copy.subtitle}</p>
-                <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                  <QuoteCtaButton variant="primary" className="min-h-[3.25rem] w-full px-7 sm:w-auto" quoteCtx={{ source: "private_care_hero" }} data-testid="home-hero-cta" />
-                  <Button asChild variant="outline" className="min-h-[3.25rem] w-full rounded-full border-white/30 bg-white/[0.06] px-7 text-sm font-semibold text-white hover:bg-white/[0.12] hover:text-white sm:w-auto">
-                    <Link to="/cases">{copy.diaries}<ArrowRight className="ml-1 size-4" /></Link>
-                  </Button>
-                </div>
-              </div>
+          <div className="relative min-h-[920px] overflow-hidden rounded-[2rem] border border-white/40 bg-foreground shadow-[0_28px_80px_rgba(17,54,45,0.18)] sm:min-h-[690px] md:min-h-[720px] md:rounded-[2.75rem]">
+            <img src={heroBg} alt="" className="absolute inset-0 size-full object-cover opacity-75" />
+            <video className="absolute inset-0 size-full object-cover opacity-80" autoPlay muted loop playsInline preload="metadata" aria-hidden="true">
+              <source src="/video/cosmetics-asia-home-motion.mp4?v=1" type="video/mp4" />
+            </video>
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,32,26,.38)_0%,rgba(7,32,26,.2)_38%,rgba(7,32,26,.72)_100%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_32%,rgba(255,255,255,.12),transparent_46%)]" />
 
-              <div className="relative min-h-[420px] overflow-hidden border-t border-white/10 lg:min-h-full lg:border-l lg:border-t-0">
-                <img src={journeyConsultation} alt="" className="absolute inset-0 size-full object-cover object-center" />
-                <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-transparent to-transparent lg:bg-[linear-gradient(90deg,rgba(16,44,36,.25),transparent_38%,transparent)]" />
-                <div className="absolute inset-x-5 bottom-5 rounded-[1.4rem] border border-white/25 bg-foreground/55 p-5 text-white shadow-soft backdrop-blur-xl sm:inset-x-7 sm:bottom-7 sm:p-6">
-                  <span className="text-label font-bold uppercase tracking-[0.18em] text-[hsl(155,62%,72%)]">
-                    {lang === "zh" ? "专属协调" : lang === "ru" ? "Персональная поддержка" : lang === "es" ? "Coordinación privada" : "Private coordination"}
-                  </span>
-                  <p className="mt-2 max-w-lg font-display text-2xl font-medium leading-tight text-white sm:text-3xl">
-                    {lang === "zh" ? "一个联系人，衔接咨询、行程与随访。" : lang === "ru" ? "Один координатор связывает консультацию, поездку и наблюдение." : lang === "es" ? "Un solo contacto para conectar la consulta, el viaje y el seguimiento." : "One point of contact, from consultation to travel and follow-up."}
-                  </p>
-                </div>
-              </div>
-            </div>
+            <div className="relative z-10 flex min-h-[920px] flex-col items-center justify-center px-5 pb-44 pt-16 text-center text-white sm:min-h-[690px] sm:px-8 sm:pb-48 md:min-h-[720px] md:px-12 md:pb-52">
+              <span className="inline-flex max-w-full items-center gap-2 rounded-full border border-white/45 bg-white/12 px-4 py-2 text-xs font-semibold text-white shadow-soft backdrop-blur-md sm:text-sm">
+                <ShieldCheck className="size-4 text-[hsl(155,62%,68%)]" /> {copy.badge}
+              </span>
+              <h1 className="mt-6 max-w-5xl font-display text-[2.65rem] font-medium leading-[0.98] tracking-tight text-white sm:text-6xl md:text-[4.75rem]">
+                {copy.title}<br />
+                <em className="not-italic text-[hsl(155,62%,68%)]">{copy.emphasis}</em>
+              </h1>
+              <p className="mt-5 max-w-2xl text-sm leading-relaxed text-white/78 sm:text-base md:text-lg">{copy.subtitle}</p>
 
-            <div className="grid border-t border-white/10 bg-white/[0.045] p-2 sm:grid-cols-3">
-              {selectors.map((item) => (
-                <Link key={item.label} to={item.to} className="group flex min-h-[4.5rem] items-center gap-3 rounded-[1.25rem] px-4 text-white transition-colors duration-150 hover:bg-white/[0.07] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:border-r sm:border-white/10 sm:last:border-r-0">
-                  <span className="grid size-10 shrink-0 place-items-center rounded-full bg-white/[0.08] text-[hsl(155,62%,68%)] ring-1 ring-inset ring-white/10"><item.icon className="size-4" /></span>
-                  <span className="min-w-0">
-                    <span className="block text-label font-bold uppercase tracking-[0.14em] text-white/50">{item.label}</span>
-                    <strong className="mt-0.5 block text-sm font-semibold text-white/90">{item.value}</strong>
-                  </span>
-                  <ArrowRight className="ml-auto size-4 text-[hsl(155,62%,68%)] transition-transform duration-150 group-hover:translate-x-0.5" />
-                </Link>
-              ))}
+              <div className="mt-8 grid w-full max-w-5xl gap-2 rounded-[1.65rem] border border-white/55 bg-card/95 p-2 text-left text-foreground shadow-[0_24px_65px_rgba(0,0,0,.24)] backdrop-blur-xl sm:grid-cols-2 md:mt-10 md:grid-cols-[1fr_1fr_1fr_auto] md:rounded-full">
+                {selectors.map((item) => (
+                  <Link key={item.label} to={item.to} className="group flex min-h-16 items-center gap-3 rounded-2xl px-4 transition-colors hover:bg-primary/[0.07] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary md:rounded-full md:border-r md:border-border/80">
+                    <span className="grid size-10 shrink-0 place-items-center rounded-full bg-primary/[0.09] text-primary"><item.icon className="size-4" /></span>
+                    <span className="min-w-0">
+                      <span className="block text-[10px] font-bold uppercase tracking-[0.14em] text-muted-foreground">{item.label}</span>
+                      <strong className="mt-0.5 block truncate text-sm font-semibold">{item.value}</strong>
+                    </span>
+                    <ArrowRight className="ml-auto size-4 text-primary transition-transform group-hover:translate-x-0.5" />
+                  </Link>
+                ))}
+                <QuoteCtaButton variant="primary" className="min-h-16 w-full px-7 md:w-auto" quoteCtx={{ source: "travel_inspired_hero_preview" }} />
+              </div>
             </div>
           </div>
 
-          <div className="relative z-20 mx-2 mt-4 grid grid-cols-2 overflow-hidden rounded-[1.75rem] border border-border/70 bg-card shadow-[0_18px_55px_rgba(17,54,45,.1)] sm:mx-6 md:mx-auto md:max-w-6xl md:grid-cols-4 md:rounded-[2rem]">
-            {assurances.map((item, index) => (
+          <div className="relative z-20 mx-3 -mt-28 grid grid-cols-2 overflow-hidden rounded-[1.75rem] border border-border/70 bg-card shadow-[0_24px_70px_rgba(17,54,45,.14)] sm:mx-8 md:mx-auto md:max-w-6xl md:grid-cols-4 md:rounded-[2rem]">
+            {metrics.map((item, index) => (
               <div
                 key={item.label}
-                className={`flex min-h-32 flex-col items-start justify-center px-5 py-6 text-left sm:px-6 md:min-h-36 ${index % 2 === 0 ? "border-r border-border/70" : ""} ${index < 2 ? "border-b border-border/70" : ""} ${index < 3 ? "md:border-r md:border-border/70" : "md:border-r-0"} md:border-b-0`}
+                className={`flex min-h-28 flex-col items-center justify-center px-3 py-5 text-center sm:min-h-32 sm:px-5 md:min-h-36 md:px-6 ${index % 2 === 0 ? "border-r border-border/70" : ""} ${index < 2 ? "border-b border-border/70" : ""} ${index < 3 ? "md:border-r md:border-border/70" : "md:border-r-0"} md:border-b-0`}
               >
-                <span className="grid size-9 place-items-center rounded-full bg-primary/10 text-primary"><item.icon className="size-4" strokeWidth={1.8} /></span>
-                <strong className="mt-3 font-display text-lg font-semibold leading-tight tracking-tight text-foreground sm:text-xl">{item.value}</strong>
-                <span className="mt-1 max-w-[13rem] text-xs font-medium leading-snug text-muted-foreground">{item.label}</span>
+                <strong className="font-display text-3xl font-semibold leading-none tracking-tight text-foreground sm:text-4xl" data-stat>{item.value}</strong>
+                <span className="mt-2 max-w-[12rem] text-xs font-medium leading-snug text-muted-foreground sm:text-sm">{item.label}</span>
               </div>
             ))}
           </div>
@@ -510,17 +506,17 @@ const PrivateCareHero = () => {
             <div>
               <span className="pill mb-3 bg-accent text-accent-foreground"><ShieldCheck className="size-3.5" />{copy.servicesEyebrow}</span>
               <h2 id="home-support-title" className="max-w-3xl font-display text-3xl font-medium leading-[1.03] tracking-tight sm:text-4xl md:text-5xl">
-                {copy.servicesTitle} <em className="not-italic text-brand">{copy.servicesEmphasis}</em>
+                {copy.servicesTitle} <em className="not-italic text-primary">{copy.servicesEmphasis}</em>
               </h2>
             </div>
-            <Link to="/travel-packages" className="inline-flex min-h-11 shrink-0 items-center gap-2 self-start rounded-full border border-primary/20 bg-card px-5 text-sm font-semibold text-foreground transition hover:border-primary/40 hover:text-brand sm:self-auto">
+            <Link to="/travel-packages" className="inline-flex min-h-11 shrink-0 items-center gap-2 self-start rounded-full border border-primary/20 bg-card px-5 text-sm font-semibold text-foreground transition hover:border-primary/40 hover:text-primary sm:self-auto">
               {copy.benefitCta}<ArrowRight className="size-4" />
             </Link>
           </div>
           <div className="grid overflow-hidden rounded-[1.75rem] border border-border/70 bg-card shadow-[0_22px_60px_rgba(17,54,45,.09)] sm:grid-cols-2 lg:grid-cols-4 lg:rounded-[2rem]">
             {services.map((service, index) => (
               <article key={service.title} className={`group relative min-h-56 p-6 transition-colors hover:bg-primary/[0.035] sm:p-7 ${index % 2 === 0 ? "border-r border-border/70" : ""} ${index < 2 ? "border-b border-border/70" : ""} ${index < 3 ? "lg:border-r lg:border-border/70" : "lg:border-r-0"} lg:border-b-0`}>
-                <span className="absolute right-5 top-5 font-mono text-label font-semibold tracking-[0.16em] text-primary/55">0{index + 1}</span>
+                <span className="absolute right-5 top-5 font-mono text-[10px] font-semibold tracking-[0.16em] text-primary/55">0{index + 1}</span>
                 <span className="grid size-12 place-items-center rounded-2xl bg-primary/[0.09] text-primary ring-1 ring-inset ring-primary/10">
                   <service.icon className="size-5" strokeWidth={1.7} />
                 </span>
@@ -535,7 +531,7 @@ const PrivateCareHero = () => {
           <div className="mb-7 md:mb-9">
             <span className="pill mb-3 bg-accent text-accent-foreground"><Eye className="size-3.5" />{copy.diaries}</span>
             <h2 className="max-w-4xl font-display text-3xl font-medium leading-[1.03] tracking-tight sm:text-4xl md:text-5xl">
-              {copy.diariesTitle}{copy.diariesEmphasis && <> <em className="not-italic text-brand">{copy.diariesEmphasis}</em></>}
+              {copy.diariesTitle}{copy.diariesEmphasis && <> <em className="not-italic text-primary">{copy.diariesEmphasis}</em></>}
             </h2>
           </div>
           <HeroVideoGallery items={diaryItems.slice(0, 10)} lang={lang} fmtPrice={fmt} size="large" />
@@ -561,48 +557,48 @@ const TravelBar = () => {
     {
       icon: Video,
       image: journeyConsultation,
-      en: ["Start a consultation", "Connect with us by message or video call. We’ll walk you through every detail, answer your questions and help you plan your next step. We’ll also help book your in-person consultation and surgery."],
-      zh: ["开始咨询", "通过文字或视频与我们线上沟通。我们为你讲解每个细节、解答疑问，陪你规划下一步，并协助预约面诊和手术。"],
-      ru: ["Начать консультацию", "Расскажите о целях и вопросах, чтобы мы помогли подобрать специалистов"],
-      es: ["Solicita una consulta", "Cuéntanos tus objetivos y preguntas para ayudarte a identificar especialistas adecuados"],
+      en: ["Get a free quote", "Tell us your goals and questions so we can help identify suitable specialists"],
+      zh: ["获取免费报价", "告诉我们你的目标和疑问，我们会协助匹配合适的专家"],
+      ru: ["Получить бесплатную оценку", "Расскажите о целях и вопросах, чтобы мы помогли подобрать специалистов"],
+      es: ["Obtén una cotización gratuita", "Cuéntanos tus objetivos y preguntas para ayudarte a identificar especialistas adecuados"],
     },
     {
       icon: Plane,
       image: journeyArrival,
-      en: ["Your China journey is taking shape", "From appointments to arrival, we help you put the details in place. Get ready with your flights, visa and travel documents, knowing what comes next."],
-      zh: ["你的中国之旅，即将启程", "从预约到抵达，我们陪你理清每个细节。准备好航班、签证与旅行文件，让接下来的行程心中有数。"],
+      en: ["Arrange your travel & visa", "Confirm appointments, flights, travel documents and arrival details"],
+      zh: ["安排行程与签证", "确认预约、航班、旅行文件和抵达信息"],
       ru: ["Организуйте поездку и визу", "Подтвердите запись, перелёт, документы и детали прибытия"],
       es: ["Organiza tu viaje y visa", "Confirma citas, vuelos, documentos de viaje y detalles de llegada"],
     },
     {
       icon: MapPin,
       image: journeyGroundSupport,
-      en: ["A warm welcome, from the moment you land", "A new country, a friendly face waiting for you. Our team meets you at the airport and takes you to your hotel or straight to the clinic. Haven’t booked a hotel yet? No worries. Bring your passport, and we’ll help you find a place to stay and get checked in."],
-      zh: ["落地的第一刻，就有人迎接你", "初到中国，迎接你的是我们熟悉行程的接机团队。与我们会合后，前往酒店休息，或直接前往诊所。还没订酒店？没关系。带好护照，我们会帮你寻找住宿并协助办理入住。"],
-      ru: ["Прибудьте в Китай и встретьтесь с нашей командой", "Наша команда встретит вас в аэропорту и отвезёт в отель или прямо в клинику"],
-      es: ["Llega a China y reúnete con nuestro equipo", "Nuestro equipo te recibirá en el aeropuerto y te llevará al hotel o directamente a la clínica"],
+      en: ["Choose your on-ground support", "Select pickup, accommodation guidance, translation and coordination"],
+      zh: ["选择落地支持服务", "按需选择接机、住宿建议、翻译与行程协调"],
+      ru: ["Выберите поддержку на месте", "Выберите трансфер, помощь с проживанием, перевод и координацию"],
+      es: ["Elige tu apoyo en destino", "Selecciona traslado, orientación de alojamiento, traducción y coordinación"],
     },
     {
       icon: HeartPulse,
       image: journeyTreatment,
-      en: ["Your transformation, with us by your side", "On surgery day, we accompany you to the clinic, help you communicate and stay close when you need us. If your doctor doesn’t feel like the right fit, let us know. We can accompany you to meet another doctor or visit another clinic."],
-      zh: ["你的变美时刻，我们陪你", "手术当天，我们陪同你前往诊所，协助沟通，在你需要时陪伴左右。如果你觉得医生不合适，请告诉我们，我们可以陪同你面诊其他医生或前往其他诊所。"],
-      ru: ["Ваше преображение — мы рядом", "В день операции мы сопровождаем вас в клинику, помогаем с общением и остаёмся рядом, когда нужны вам"],
-      es: ["Tu transformación, con nosotros a tu lado", "El día de la cirugía te acompañamos a la clínica, te ayudamos a comunicarte y estamos cerca cuando nos necesitas"],
+      en: ["Receive coordinated treatment support", "Get practical communication and scheduling help during clinic visits"],
+      zh: ["获得治疗协调支持", "就诊期间获得沟通、翻译与日程协调协助"],
+      ru: ["Получите поддержку во время лечения", "Получайте помощь с общением и расписанием во время визитов"],
+      es: ["Recibe apoyo coordinado durante el tratamiento", "Obtén ayuda práctica de comunicación y programación durante las visitas a la clínica"],
     },
     {
       icon: Map,
       image: journeyRecovery,
-      en: ["A little exploring, at your pace", "If your doctor clears you for outings, we can help plan a gentle itinerary and connect you with travel services, or keep it as relaxed as a stroll in the beautiful park."],
-      zh: ["按你的节奏，感受中国", "如果医生确认你的恢复情况适合外出，我们可以协助规划轻松的行程、对接旅行服务，或只是安排去公园走走。"],
+      en: ["Recover—and explore when ready", "Follow your expert’s advice, with optional travel when you are cleared"],
+      zh: ["安心恢复，适合时再探索", "遵循专家的恢复建议，获得许可后可自愿安排旅行"],
       ru: ["Восстанавливайтесь и путешествуйте, когда будете готовы", "Следуйте рекомендациям эксперта и путешествуйте только после разрешения"],
       es: ["Recupérate y explora cuando estés listo/a", "Sigue las indicaciones de tu experto, con viajes opcionales una vez que tengas autorización"],
     },
     {
       icon: MessageCircle,
       image: journeyFollowUp,
-      en: ["Back home, still by your side", "Your journey with us doesn’t end at the airport. We help you stay connected with your clinic for recommended follow-ups, with translation support along the way."],
-      zh: ["回到家，陪伴仍在", "旅程结束，关怀继续。我们协助你与诊所保持联系，安排建议的远程复诊，并提供翻译支持。"],
+      en: ["Stay connected after you return", "Coordinate remote follow-up and translation when your expert recommends it"],
+      zh: ["回国后保持联系", "专家建议复诊时，我们协助协调远程随访与翻译"],
       ru: ["Оставайтесь на связи после возвращения", "Мы поможем организовать онлайн-наблюдение и перевод по рекомендации эксперта"],
       es: ["Mantente en contacto después de regresar", "Coordinamos el seguimiento remoto y la traducción cuando tu experto lo recomiende"],
     },
@@ -649,7 +645,7 @@ const TravelBar = () => {
             <Plane className="size-3.5" /> {journeyCopy.eyebrow}
           </span>
           <h2 id="home-journey-title" className="font-display text-3xl font-medium leading-tight tracking-tight sm:text-4xl md:text-5xl">
-            {journeyCopy.title} <em className="not-italic text-brand">{journeyCopy.emphasis}</em>
+            {journeyCopy.title} <em className="not-italic text-primary">{journeyCopy.emphasis}</em>
           </h2>
         </div>
       </div>
@@ -696,9 +692,9 @@ const TravelBar = () => {
                 </div>
               </div>
               <div className="min-h-[9.25rem] p-5">
-                <span className="text-label font-bold uppercase tracking-[0.17em] text-brand">{journeyCopy.step} {index + 1}</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.17em] text-primary">{journeyCopy.step} {index + 1}</span>
                 <h3 className="mt-1 font-display text-xl font-semibold leading-tight text-foreground">{x.t}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{x.d}</p>
+                <p className="mt-2 text-sm leading-relaxed text-foreground/68">{x.d}</p>
               </div>
             </article>
           ))}
@@ -724,88 +720,71 @@ const TravelBar = () => {
   );
 };
 
-const ClinicsSection = () => {
+const CitiesSection = () => {
   const { t, lang } = useAsia();
-  const clinicText = (en: string, zh: string) => lang === "zh" ? zh : translatedUiText(lang, en);
-  const clinicRailRef = useRef<HTMLDivElement>(null);
-  const clinics = [
-    {
-      en: "Shanghai Huamei Plastic Surgery Hospital",
-      zh: "上海华美医疗美容医院",
-      cityEn: "Shanghai · Pudong New Area",
-      cityZh: "上海 · 浦东新区",
-      image: shanghaiHuameiClinic,
-      descriptionEn: "View the published Pudong address and confirm current services, specialists and appointment details before booking.",
-      descriptionZh: "查看浦东院区公开地址，并在预约前确认现有项目、专家与就诊安排。",
-      tagsEn: ["Campus details", "Confirm available services"],
-      tagsZh: ["院区资料", "项目需确认"],
-    },
-    {
-      en: "Plastic Surgery Hospital, CAMS (Badachu)",
-      zh: "中国医学科学院整形外科医院（八大处）",
-      cityEn: "Beijing · Shijingshan District",
-      cityZh: "北京 · 石景山区",
-      image: beijingBadachuClinic,
-      descriptionEn: "A specialist plastic-surgery hospital affiliated with the Chinese Academy of Medical Sciences.",
-      descriptionZh: "隶属于中国医学科学院的整形外科专科医院，覆盖多个整形与修复方向。",
-      tagsEn: ["Reconstructive", "Revision", "Facial surgery"],
-      tagsZh: ["整形修复", "修复手术", "面部整形"],
-    },
-    {
-      en: "Guangzhou Huamei Aesthetic Hospital",
-      zh: "广州华美医疗美容医院",
-      cityEn: "Guangzhou · Tianhe District",
-      cityZh: "广州 · 天河区",
-      image: guangzhouHuameiClinic,
-      descriptionEn: "Public filings list cosmetic surgery, dermatology and dental departments. Check the Tianhe address and confirm your appointment.",
-      descriptionZh: "公开文件列有美容外科、美容皮肤科和美容牙科。查看天河院区地址，并确认具体就诊安排。",
-      tagsEn: ["Cosmetic surgery", "Dermatology", "Dental"],
-      tagsZh: ["美容外科", "美容皮肤科", "美容牙科"],
-    },
-  ];
+  const cityFilter = useCityFilter();
+  const cityRailRef = useRef<HTMLDivElement>(null);
+  const cityRailPausedRef = useRef(false);
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const timer = window.setInterval(() => {
+      const rail = cityRailRef.current;
+      if (!rail || cityRailPausedRef.current || document.hidden) return;
+      const atEnd = rail.scrollLeft + rail.clientWidth >= rail.scrollWidth - 24;
+      rail.scrollTo({ left: atEnd ? 0 : rail.scrollLeft + Math.min(rail.clientWidth * 0.86, 1080), behavior: "smooth" });
+    }, 4800);
+    return () => window.clearInterval(timer);
+  }, []);
   return (
-    <HomeSection id="clinics" tone="sage" ariaLabelledBy="home-clinics-title">
-      <SectionHeader
-        icon={Building2}
-        eyebrow={t("cities.kicker")}
-        titleId="home-clinics-title"
-        title={<>{t("cities.title1")} <em className="not-italic text-brand">{t("cities.titleEm")}</em></>}
-        action={<SectionActionLink to="/clinics" className="hidden sm:inline-flex">{clinicText("All clinics", "全部机构")}</SectionActionLink>}
-      />
-      {/* Snap rail below md; a plain three-column grid of equal-height cards from md up. */}
+    <section id="cities" className="container py-10 md:py-16">
+      <div className="mb-6 flex flex-wrap items-end justify-between gap-4 md:mb-8">
+        <div>
+          <span className="pill bg-accent text-accent-foreground mb-3"><MapPin className="size-3.5" /> {t("cities.kicker")}</span>
+          <h2 className="font-display text-3xl font-medium tracking-tight sm:text-4xl md:text-5xl">
+            {t("cities.title1")} <em className="text-primary not-italic">{t("cities.titleEm")}</em>
+          </h2>
+        </div>
+        <Link to="/cities" className="pill hidden bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90 sm:inline-flex">{lang === "zh" ? "全部城市" : lang === "ru" ? "Все города" : lang === "es" ? "Todas las ciudades" : "All cities"}<ArrowRight className="size-4" /></Link>
+      </div>
+      <div className="mb-6 md:mb-8">
+        <CitySearchBar filter={cityFilter} />
+        {cityFilter.active && <CityQuickResults results={cityFilter.results} query={cityFilter.query} />}
+      </div>
       <div
-        ref={clinicRailRef}
-        id="home-clinics-rail"
-        className="home-rail flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain py-1 scrollbar-hide md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:py-0"
+        ref={cityRailRef}
+        onMouseEnter={() => { cityRailPausedRef.current = true; }}
+        onMouseLeave={() => { cityRailPausedRef.current = false; }}
+        onPointerDown={() => { cityRailPausedRef.current = true; }}
+        onPointerUp={() => { cityRailPausedRef.current = false; }}
+        onFocusCapture={() => { cityRailPausedRef.current = true; }}
+        onBlurCapture={() => { cityRailPausedRef.current = false; }}
+        className="flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain scroll-smooth rounded-[2rem] bg-gradient-to-r from-[hsl(158,58%,90%)] via-[hsl(145,48%,91%)] to-[hsl(50,80%,91%)] px-4 py-5 shadow-pop scrollbar-hide md:gap-6 md:px-6 md:py-7"
       >
-        {clinics.map((clinic) => (
-          <Link key={clinic.en} to={(() => { const listing = STATIC_CLINICS.find((item) => item.nameEn === clinic.en); return listing ? getClinicPath(listing) : `/clinics?q=${encodeURIComponent(clinic.en)}`; })()} className="group flex min-w-[82vw] snap-center rounded-3xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 sm:min-w-[62vw] md:min-w-0">
-            <article className="home-clinic-card flex w-full flex-col rounded-3xl border border-border bg-card p-6 shadow-soft transition duration-300 group-hover:-translate-y-1 group-hover:border-primary/35 group-hover:shadow-pop md:min-h-[300px]">
+        {cities.map((c) => (
+          <Link key={c.slug} to={`/cities/${c.slug}`} className="group block min-w-[82vw] snap-center sm:min-w-[62vw] md:min-w-[calc((100%_-_3rem)/3)] md:max-w-[calc((100%_-_3rem)/3)]">
+            <article className="flex min-h-[270px] flex-col rounded-3xl border border-border bg-card p-5 shadow-soft transition duration-300 group-hover:-translate-y-1 group-hover:border-primary/35 group-hover:shadow-pop md:min-h-[290px] md:p-6">
               <div className="flex min-w-0 items-center gap-4">
-                <img src={clinic.image} alt="" loading="lazy" decoding="async" className="size-20 shrink-0 rounded-full border-2 border-primary/15 object-cover transition-transform duration-500 group-hover:scale-105" />
+                <img src={c.img} alt={`${c.en} city`} loading="lazy" decoding="async" className="size-24 shrink-0 rounded-full border-2 border-primary/15 object-cover transition-transform duration-500 group-hover:scale-105 md:size-28" />
                 <div className="min-w-0">
-                  {/* Fixed two-line title box so a longer hospital name cannot push the rows below out of line. */}
-                  <h3 className="line-clamp-2 min-h-[3.25rem] font-display text-xl font-semibold leading-tight text-foreground">{clinicText(clinic.en, clinic.zh)}</h3>
-                  <p className="mt-1.5 inline-flex items-center gap-1.5 text-sm font-medium text-foreground"><MapPin className="size-3.5 text-primary" />{clinicText(clinic.cityEn, clinic.cityZh)}</p>
+                  <h3 className="font-display text-2xl font-semibold leading-tight text-foreground md:text-3xl">{lang === "zh" ? c.zh : c.en}</h3>
+                  <p className="mt-1 text-sm text-muted-foreground">{lang === "zh" ? c.en : c.zh}</p>
+                  <p className="mt-2 line-clamp-2 text-sm font-medium text-primary">{lang === "zh" ? c.taglineZh : c.taglineEn}</p>
                 </div>
               </div>
-              <p className="mt-5 line-clamp-3 min-h-[4.5rem] text-sm leading-relaxed text-muted-foreground">{clinicText(clinic.descriptionEn, clinic.descriptionZh)}</p>
-              <div className="mt-auto flex flex-wrap gap-1.5 pt-4">
-                {clinic.tagsEn.map((tag, index) => <span key={tag} className="rounded-full bg-accent px-2.5 py-1 text-label text-accent-foreground">{clinicText(tag, clinic.tagsZh[index])}</span>)}
+              <p className="mt-5 line-clamp-2 text-sm leading-relaxed text-muted-foreground">{lang === "zh" ? c.introZh : c.introEn}</p>
+              <div className="mt-4 flex max-h-[50px] flex-wrap gap-1.5 overflow-hidden">
+                {(lang === "zh" ? c.hotZh : c.hotEn).slice(0, 3).map((h) => <span key={h} className="rounded-full bg-accent px-2.5 py-1 text-[10px] text-accent-foreground">{h}</span>)}
               </div>
             </article>
           </Link>
         ))}
       </div>
-      <div className="md:hidden">
-        <ManualRailControls railRef={clinicRailRef} railId="home-clinics-rail" count={clinics.length} lang={lang} />
-      </div>
-      <div className="mt-4 flex justify-center sm:hidden">
-        <Link to="/clinics" className="inline-flex min-h-12 items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90">
-          {clinicText("All clinics", "查看全部机构")} <ArrowRight className="size-4" />
+      <div className="mt-2 flex justify-center sm:hidden">
+        <Link to="/cities" className="inline-flex min-h-12 items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90">
+          {lang === "zh" ? "查看全部城市" : lang === "ru" ? "Все города" : lang === "es" ? "Todas las ciudades" : "All cities"} <ArrowRight className="size-4" />
         </Link>
       </div>
-    </HomeSection>
+    </section>
   );
 };
 
@@ -826,12 +805,12 @@ const TreatmentsSectionLegacy = () => {
     { en: "Men's Procedures", zh: "男性医美", icon: MaleChestLineIcon, items: [["Male Breast Reduction", "男性乳房缩小"], ["Male Liposuction", "男性吸脂"], ["Jawline Contouring", "下颌线塑形"], ["Hair Transplant", "男性植发"], ["Eyelid Surgery", "男性眼部整形"]] },
   ];
   const itemStyles = [
-    "text-[1.65rem] text-brand md:text-[1.85rem]",
+    "text-[1.65rem] text-primary md:text-[1.85rem]",
     "text-xl text-foreground md:text-[1.35rem]",
     "text-base text-foreground/72",
-    "text-base text-muted-foreground",
-    "text-sm text-brand",
-    "text-sm text-muted-foreground",
+    "text-base text-foreground/60",
+    "text-sm text-primary",
+    "text-sm text-foreground/65",
   ];
   const treatmentCloudRailRef = useRef<HTMLDivElement>(null);
   const treatmentCloudPausedRef = useRef(false);
@@ -880,7 +859,7 @@ const TreatmentsSectionLegacy = () => {
         <div>
           <span className="pill bg-accent text-accent-foreground mb-3"><Flame className="size-3.5" /> {t("tx.kicker")}</span>
           <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight">
-            {t("tx.title1")} <em className="text-brand not-italic">{t("tx.titleEm")}</em>
+            {t("tx.title1")} <em className="text-primary not-italic">{t("tx.titleEm")}</em>
           </h2>
         </div>
       </div>
@@ -909,7 +888,7 @@ const TreatmentsSectionLegacy = () => {
               </span>
             </div>
             <div className="relative flex items-center justify-center gap-2 text-center">
-              <h3 className="text-label font-bold uppercase tracking-[0.18em] text-brand">{lang === "zh" ? cloud.zh : cloud.en}</h3>
+              <h3 className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary">{lang === "zh" ? cloud.zh : cloud.en}</h3>
             </div>
             <div className="relative mt-4 flex flex-wrap content-center items-baseline justify-center gap-x-3.5 gap-y-2 text-center">
               {cloud.items.map(([en, zh], itemIndex) => (
@@ -917,7 +896,7 @@ const TreatmentsSectionLegacy = () => {
                   key={en}
                   to={`/treatments/${en.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")}`}
                   tabIndex={duplicate ? -1 : undefined}
-                  className={`rounded-sm px-0.5 font-display font-semibold leading-[0.98] tracking-[-0.035em] transition duration-150 hover:text-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 ${itemStyles[itemIndex % itemStyles.length]}`}
+                  className={`rounded-sm px-0.5 font-display font-semibold leading-[0.98] tracking-[-0.035em] transition duration-150 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 ${itemStyles[itemIndex % itemStyles.length]}`}
                 >
                   {lang === "zh" ? zh : en}
                 </Link>
@@ -928,7 +907,7 @@ const TreatmentsSectionLegacy = () => {
         </div>
         <div className="relative flex flex-col items-center justify-between gap-3 border-t border-white/55 bg-white/22 px-5 py-3.5 backdrop-blur-sm sm:flex-row sm:px-7 md:px-9">
           <div className="flex items-center gap-4">
-            <span className="hidden text-label font-bold uppercase tracking-[0.16em] text-muted-foreground lg:inline">
+            <span className="hidden text-[10px] font-bold uppercase tracking-[0.16em] text-foreground/55 lg:inline">
               {lang === "zh" ? "探索全部 12 类项目" : lang === "ru" ? "12 направлений" : lang === "es" ? "Explora las 12 especialidades" : "Explore all 12 specialties"}
             </span>
             <div className="flex items-center gap-1.5" aria-label={lang === "zh" ? "选择项目分类" : "Choose a specialty"}>
@@ -945,7 +924,7 @@ const TreatmentsSectionLegacy = () => {
             </div>
           </div>
           <div className="flex w-full items-center justify-between gap-4 sm:w-auto sm:justify-end">
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-foreground/65">
               {lang === "zh" ? "还不确定适合哪一项？" : lang === "ru" ? "Не знаете, с чего начать?" : lang === "es" ? "¿No sabes por dónde empezar?" : "Not sure where to begin?"}
             </p>
             <QuoteCtaButton quoteCtx={{ source: "procedure_specialties" }} className="min-h-10 px-5 text-xs hover:-translate-y-0.5" />
@@ -956,77 +935,12 @@ const TreatmentsSectionLegacy = () => {
   );
 };
 
-// ============== Sample pricing ==============
-const SAMPLE_PRICES = [
-  { en: "Double Eyelid Surgery", zh: "双眼皮手术", ru: "Двойное веко", es: "Doble párpado", from: 8000, href: "/treatments/double-eyelid-surgery" },
-  { en: "Rhinoplasty", zh: "鼻综合", ru: "Ринопластика", es: "Rinoplastia", from: 22800, href: "/treatments/rhinoplasty" },
-  { en: "Liposuction", zh: "吸脂塑形", ru: "Липосакция", es: "Liposucción", from: 20000, href: "/treatments/liposuction" },
-  { en: "Breast Augmentation", zh: "隆胸", ru: "Увеличение груди", es: "Aumento de senos", from: 45000, href: "/treatments/breast-augmentation" },
-  { en: "Facelift (SMAS)", zh: "面部拉皮", ru: "Подтяжка лица", es: "Lifting facial", from: 58000, href: "/treatments/facelift" },
-  { en: "FUE Hair Transplant", zh: "FUE 植发", ru: "Пересадка волос FUE", es: "Trasplante capilar FUE", from: 18000, href: "/treatments/fue-hair-transplant" },
-];
-
-const PricingPreviewSection = () => {
-  const { lang, fmt } = useAsia();
-  const c = (en: string, zh: string, ru: string, es: string) => lang === "zh" ? zh : lang === "ru" ? ru : lang === "es" ? es : translatedUiText(lang, en);
-  return (
-    <HomeSection tone="sage" ariaLabelledBy="sample-pricing-title">
-      <SectionHeader
-        icon={Wallet}
-        eyebrow={c("Sample pricing", "价格示范", "Примеры цен", "Precios de referencia")}
-        titleId="sample-pricing-title"
-        title={
-          <>
-            {c("Transparent starting prices", "透明公开的", "Прозрачные стартовые цены", "Precios iniciales transparentes")}{" "}
-            <em className="not-italic text-brand">{c("in China", "中国起步价", "в Китае", "en China")}</em>
-          </>
-        }
-        subtitle={c(
-          "Reference starting prices for popular procedures. Your final quote is confirmed in writing after an expert consultation.",
-          "热门项目的参考起步价。最终报价会在专家面诊后以书面形式确认。",
-          "Ориентировочные стартовые цены на популярные процедуры. Итоговая стоимость подтверждается письменно после консультации эксперта.",
-          "Precios iniciales de referencia para procedimientos populares. El presupuesto final se confirma por escrito tras una consulta con un experto.",
-        )}
-        action={<QuoteCtaButton variant="primary" className="min-h-11 shrink-0 whitespace-nowrap px-6" quoteCtx={{ source: "home_sample_pricing" }} />}
-      />
-
-      <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 md:gap-6">
-        {SAMPLE_PRICES.map((item) => (
-          <Link
-            key={item.en}
-            to={item.href}
-            className="group flex min-h-[100px] items-center justify-between gap-4 rounded-3xl border border-border bg-card px-6 py-5 shadow-soft transition-[border-color,transform] duration-150 hover:-translate-y-0.5 hover:border-primary/40"
-          >
-            <div className="min-w-0">
-              <p className="truncate text-base font-semibold leading-snug text-foreground">{c(item.en, item.zh, item.ru, item.es)}</p>
-              <p className="mt-1 text-[13px] leading-snug text-muted-foreground">
-                {c("from", "起步价", "от", "desde")} <span className="font-display text-[22px] font-semibold tabular-nums text-brand">{fmt(item.from)}</span>
-              </p>
-            </div>
-            <ArrowRight className="size-4 shrink-0 text-primary transition-transform duration-150 group-hover:translate-x-1" />
-          </Link>
-        ))}
-      </div>
-
-      <p className="mt-5 text-[13px] leading-relaxed text-muted-foreground">
-        {c(
-          "Prices vary by expert, facility and treatment plan. Travel and accommodation are quoted separately.",
-          "价格因专家、机构与治疗方案而异；差旅与住宿费用单独报价。",
-          "Цены зависят от эксперта, клиники и плана лечения. Поездка и проживание рассчитываются отдельно.",
-          "Los precios varían según el experto, la clínica y el plan de tratamiento. El viaje y el alojamiento se presupuestan por separado.",
-        )}
-      </p>
-    </HomeSection>
-  );
-};
-
 const TreatmentsSection = () => {
-  const { lang } = useAsia();
-  const c = (en: string, zh: string, ru: string, es: string) => lang === "zh" ? zh : lang === "ru" ? ru : lang === "es" ? es : translatedUiText(lang, en);
+  const { t, lang } = useAsia();
   const procedureGoals = [
     {
       key: "nose",
-      image: chineseDoctorTeam,
+      image: procedureRhinoplasty,
       en: "Refine your profile",
       zh: "改善面部侧颜",
       ru: "Гармоничный профиль",
@@ -1149,72 +1063,45 @@ const TreatmentsSection = () => {
       href: "/treatments/male-breast-reduction",
     },
   ];
-  const whyReasons = [
-    {
-      key: "experts",
-      image: procedureRhinoplasty,
-      eyebrow: c("300+ specialists", "300+ 位专家", "Более 300 специалистов", "Más de 300 especialistas"),
-      title: c("More experts to compare", "更多专家可比较", "Больше специалистов на выбор", "Más especialistas para comparar"),
-      detail: c(
-        "Compare 300+ cosmetic medicine specialists across China.",
-        "比较遍布中国的 300 多位医美专家。",
-        "Сравните более 300 специалистов эстетической медицины по всему Китаю.",
-        "Compara más de 300 especialistas en medicina estética de toda China.",
-      ),
-    },
-    {
-      key: "network",
-      image: "/generated/clinic-network-asia-v2.webp",
-      eyebrow: c("China-only coordination", "仅提供中国境内协调服务", "Координация только в Китае", "Coordinación solo en China"),
-      title: c("Plan your care in China", "规划你的中国医美行程", "Планируйте лечение в Китае", "Planifica tu atención en China"),
-      detail: c(
-        "Explore clinics in China and get help coordinating consultations and travel within China.",
-        "了解中国的医疗机构，获取中国境内的咨询与行程协调支持。",
-        "Изучайте клиники Китая и получайте помощь с координацией консультаций и поездок внутри страны.",
-        "Explora clínicas en China y recibe ayuda para coordinar consultas y viajes dentro del país.",
-      ),
-    },
-    {
-      key: "service",
-      image: journeyGroundSupport,
-      eyebrow: c("One coordinated journey", "一站式行程支持", "Единая координация", "Un viaje coordinado"),
-      title: c("One team, start to finish", "一支团队，全程协调", "Одна команда на всём пути", "Un equipo de principio a fin"),
-      detail: c(
-        "Consultation coordination, plus interpretation, airport pickup and hotel booking.",
-        "免费协调问诊，并提供翻译、接机和酒店预订支持。",
-        "Бесплатная координация консультации, а также перевод, трансфер и бронирование отеля.",
-        "Coordinación gratuita de consultas, más interpretación, recogida y reserva de hotel.",
-      ),
-    },
-  ];
+  const labelFor = (goal: typeof procedureGoals[number]) => lang === "zh" ? goal.zh : lang === "ru" ? goal.ru : lang === "es" ? goal.es : goal.en;
   return (
-    <HomeSection id="projects" tone="white" ariaLabelledBy="why-celadonchina-title">
-      <SectionHeader
-        icon={ShieldCheck}
-        eyebrow={c("Why choose us", "为什么选择我们", "Почему выбирают нас", "Por qué elegirnos")}
-        titleId="why-celadonchina-title"
-        title={<>Why <em className="not-italic text-brand">CeladonChina</em></>}
-        subtitle={c("More experts, more destinations and one coordinated journey.", "更多专家、更多目的地，一站式行程协调。", "Больше специалистов и направлений, одна команда на всём пути.", "Más especialistas y destinos, con un solo equipo durante todo el viaje.")}
-      />
+    <section id="projects" className="container py-10 md:py-16" aria-labelledby="procedure-goals-title">
+      <div className="mb-7 grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(300px,0.46fr)] lg:items-end md:mb-10">
+        <div>
+          <span className="pill mb-3 bg-accent text-accent-foreground"><Flame className="size-3.5" /> {t("tx.kicker")}</span>
+          <h2 id="procedure-goals-title" className="max-w-3xl font-display text-3xl font-medium leading-[0.98] tracking-tight sm:text-4xl md:text-5xl">
+            {lang === "zh" ? <>探索适合的<em className="not-italic text-primary">项目</em></> : lang === "ru" ? <>Изучите свои <em className="not-italic text-primary">варианты</em></> : lang === "es" ? <>Explora tus <em className="not-italic text-primary">opciones</em></> : <>Explore Your <em className="not-italic text-primary">Options</em></>}
+          </h2>
+        </div>
+        <div className="lg:pb-1">
+          <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
+            {lang === "zh" ? "不需要提前知道具体术式。先选择你想改善的方向，再查看相关项目与公开专家信息。" : lang === "ru" ? "Не обязательно заранее знать название процедуры. Выберите цель и изучите подходящие варианты и опубликованную информацию об экспертах." : lang === "es" ? "No necesitas conocer el nombre del procedimiento todavía. Elige lo que quieres mejorar y luego revisa las opciones relevantes y la información publicada de expertos." : "You do not need to know the procedure name yet. Choose what you want to improve, then review relevant options and published expert information."}
+          </p>
+          <Link to="/treatments" className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-foreground underline decoration-primary/40 underline-offset-4 transition-colors duration-150 hover:text-primary">
+            {lang === "zh" ? "查看全部项目" : lang === "ru" ? "Все процедуры" : lang === "es" ? "Ver todos los procedimientos" : "View all procedures"}<ArrowRight className="size-4" />
+          </Link>
+        </div>
+      </div>
 
-      <div className="grid gap-4 md:grid-cols-3 md:gap-6" aria-label={c("Three reasons to choose CeladonChina", "选择 CeladonChina 的三个理由", "Три причины выбрать CeladonChina", "Tres razones para elegir CeladonChina")}>
-        {whyReasons.map((reason, index) => (
-          <article key={reason.key} className="home-proof-card group relative min-h-[340px] overflow-hidden rounded-3xl bg-foreground shadow-soft md:min-h-[420px]">
-            <img src={reason.image} alt="" loading="lazy" decoding="async" className="absolute inset-0 z-0 size-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.025]" />
-            <div className="absolute inset-0 z-[1] bg-gradient-to-t from-foreground/95 via-foreground/45 to-transparent" />
-            <div className="relative z-10 flex min-h-[340px] flex-col justify-between p-6 text-background sm:p-7 md:min-h-[420px]">
-              <span className="inline-flex size-10 items-center justify-center rounded-full border border-background/30 bg-foreground/20 text-sm font-semibold backdrop-blur">0{index + 1}</span>
-              <div>
-                <p className="mb-2 text-label font-semibold uppercase tracking-[0.16em] text-background/65">{reason.eyebrow}</p>
-                <h3 className="max-w-sm font-display text-2xl font-medium leading-[1.08] sm:text-[1.65rem]">{reason.title}</h3>
-                {/* Three reserved lines so the eyebrow and title sit at the same height in all three cards. */}
-                <p className="mt-3 min-h-[4.5rem] max-w-md text-sm leading-relaxed text-background/78">{reason.detail}</p>
-              </div>
+      <div className="flex touch-pan-x snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain pb-2 scrollbar-hide md:gap-4" aria-label={lang === "zh" ? "12 个项目方向，可横向滑动浏览" : "12 procedure goals, scroll horizontally to explore"}>
+        {procedureGoals.map((goal, index) => (
+          <Link key={goal.key} to={goal.href} className="group relative min-h-[300px] w-[76vw] min-w-[76vw] shrink-0 snap-center overflow-hidden rounded-[1.6rem] bg-foreground shadow-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:w-[44vw] sm:min-w-[44vw] lg:min-h-[340px] lg:w-[calc((100%_-_5rem)/6)] lg:min-w-[calc((100%_-_5rem)/6)] lg:snap-start">
+            <img src={goal.image} alt={labelFor(goal)} loading="lazy" decoding="async" className="absolute inset-0 size-full object-cover transition-transform duration-400 ease-out group-hover:scale-[1.035]" />
+            <div className="absolute inset-0 bg-gradient-to-t from-foreground/95 via-foreground/20 to-transparent" />
+            <div className="relative flex min-h-[300px] flex-col justify-end p-5 text-background lg:min-h-[340px]">
+              <span className="mb-2 text-[10px] font-bold uppercase tracking-[0.18em] text-background/60">{String(index + 1).padStart(2, "0")}</span>
+              <h3 className="font-display text-2xl font-medium leading-[0.95] lg:text-[1.7rem]">{labelFor(goal)}</h3>
+              <p className="mt-3 line-clamp-2 text-xs leading-relaxed text-background/70">{goal.treatments.map(([en, zh]) => lang === "zh" ? zh : en).join(" · ")}</p>
+              <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-background/90">{lang === "zh" ? "查看项目" : lang === "ru" ? "Смотреть" : lang === "es" ? "Explorar" : "Explore"}<ArrowRight className="size-3.5 transition-transform duration-200 group-hover:translate-x-1" /></span>
             </div>
-          </article>
+          </Link>
         ))}
       </div>
-    </HomeSection>
+      <div className="mt-3 flex items-center justify-end gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+        <span>{lang === "zh" ? "12 个方向 · 横向滑动浏览" : lang === "ru" ? "12 направлений · листайте вправо" : lang === "es" ? "12 especialidades · desliza para explorar" : "12 specialties · scroll to explore"}</span>
+        <ArrowRight className="size-3.5 text-primary" />
+      </div>
+    </section>
   );
 };
 
@@ -1222,8 +1109,12 @@ const TreatmentsSection = () => {
 
 const DoctorsSection = () => {
   const { t, lang } = useAsia();
-  const [publishedDoctors, setPublishedDoctors] = useState<Array<DoctorFlipCardData & { photo_path: string | null }>>([]);
+  const [publishedDoctors, setPublishedDoctors] = useState<Array<{
+    id: string; name: string; title: string; city: string;
+    specialties: string[]; bio: string; photo_path: string | null; photo?: string;
+  }>>([]);
   const doctorRailRef = useRef<HTMLDivElement>(null);
+  const doctorRailPausedRef = useRef(false);
   const displayedDoctors = publishedDoctors.length > 0
     ? publishedDoctors.map((doctor) => ({ ...doctor, photo: doctor.photo ?? "", demo: false as const }))
     : DEMO_CHINA_DOCTORS.map((doctor) => ({ ...doctor, photo_path: null }));
@@ -1243,64 +1134,81 @@ const DoctorsSection = () => {
   useEffect(() => { loadPublishedDoctors(); }, [loadPublishedDoctors]);
   // 后台发布新专家后首页自动更新
   useRealtimeRefresh(["doctors"], loadPublishedDoctors);
-  const viewProfileLabel = lang === "zh" ? "查看专家资料" : lang === "ru" ? "Профиль эксперта" : lang === "es" ? "Ver perfil del experto" : translatedUiText(lang, "View expert profile");
-  const allExpertsLabel = lang === "zh" ? "全部专家" : lang === "ru" ? "Все специалисты" : lang === "es" ? "Todos los especialistas" : translatedUiText(lang, "All experts");
-  // "Expert" rather than "doctor": the platform coordinates, it does not give medical advice (see copy-compliance.test.ts).
-  const detailsLabel = lang === "zh" ? "查看专家介绍" : lang === "ru" ? "Об эксперте" : lang === "es" ? "Conoce al experto" : translatedUiText(lang, "Meet this expert");
-  const backLabel = lang === "zh" ? "返回卡片" : lang === "ru" ? "Назад" : lang === "es" ? "Volver" : translatedUiText(lang, "Back to card");
-  const profileLabel = lang === "zh" ? "专家简介" : lang === "ru" ? "Профиль эксперта" : lang === "es" ? "Perfil del experto" : translatedUiText(lang, "Expert profile");
-  const focusLabel = lang === "zh" ? "专长领域" : lang === "ru" ? "Специализация" : lang === "es" ? "Áreas de enfoque" : translatedUiText(lang, "Areas of focus");
-  const bioFallback = lang === "zh"
-    ? "完整介绍请见专家详情页。"
-    : lang === "ru"
-      ? "Подробности опубликованы в полном профиле эксперта."
-      : lang === "es"
-        ? "Los detalles publicados están disponibles en el perfil completo del experto."
-        : translatedUiText(lang, "Published profile details are available from this expert's full profile.");
-  // The homepage shows at most two rows of three; the full list lives on /doctors.
-  const homepageDoctors = displayedDoctors.slice(0, 6);
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const timer = window.setInterval(() => {
+      const rail = doctorRailRef.current;
+      if (!rail || doctorRailPausedRef.current || document.hidden) return;
+      const atEnd = rail.scrollLeft + rail.clientWidth >= rail.scrollWidth - 24;
+      rail.scrollTo({ left: atEnd ? 0 : rail.scrollLeft + Math.min(rail.clientWidth * 0.86, 1080), behavior: "smooth" });
+    }, 5200);
+    return () => window.clearInterval(timer);
+  }, []);
   return (
-    <HomeSection id="compliance" tone="white" ariaLabelledBy="home-doctors-title">
-      <SectionHeader
-        icon={Stethoscope}
-        eyebrow={t("doctors.kicker")}
-        titleId="home-doctors-title"
-        title={<>{t("doctors.title1")} <em className="not-italic text-brand">{t("doctors.titleEm")}</em></>}
-        action={<SectionActionLink to="/doctors" className="hidden sm:inline-flex">{allExpertsLabel}</SectionActionLink>}
-      />
-      {/* Snap rail below md; a plain three-column grid from md up, so one or two experts never leave a half-empty rail. */}
+<section id="compliance" className="container py-8 md:py-12">
+      <div className="mb-7 flex flex-wrap items-end justify-between gap-4 md:mb-9">
+        <div>
+          <span className="pill bg-accent text-accent-foreground mb-3"><Stethoscope className="size-3.5" /> {t("doctors.kicker")}</span>
+          <h2 className="max-w-4xl font-display text-3xl font-medium leading-[1.03] tracking-tight sm:text-4xl md:text-5xl">
+            {t("doctors.title1")} <em className="text-primary not-italic">{t("doctors.titleEm")}</em>
+          </h2>
+        </div>
+      </div>
       <div
         ref={doctorRailRef}
-        id="home-doctors-rail"
-        className="home-rail flex touch-pan-x snap-x snap-mandatory items-stretch gap-4 overflow-x-auto overscroll-x-contain py-1 scrollbar-hide md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:py-0"
+        onMouseEnter={() => { doctorRailPausedRef.current = true; }}
+        onMouseLeave={() => { doctorRailPausedRef.current = false; }}
+        onPointerDown={() => { doctorRailPausedRef.current = true; }}
+        onPointerUp={() => { doctorRailPausedRef.current = false; }}
+        onFocusCapture={() => { doctorRailPausedRef.current = true; }}
+        onBlurCapture={() => { doctorRailPausedRef.current = false; }}
+className="flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain scroll-smooth rounded-[2rem] bg-gradient-to-r from-[hsl(158,58%,90%)] via-[hsl(145,48%,91%)] to-[hsl(50,80%,91%)] px-4 py-4 shadow-pop scrollbar-hide md:gap-5 md:px-6 md:py-5"
       >
-        {homepageDoctors.map((d) => {
+        {displayedDoctors.map((d) => {
+          const photo = d.photo;
           return (
-          <div
+          <Link
             key={d.id}
-            className="flex min-w-[82vw] snap-center sm:min-w-[62vw] md:min-w-0"
+            to={d.demo ? `/doctors/demo/${d.id}` : `/doctors/profile/${d.id}`}
+            aria-label={`${lang === "zh" ? "查看专家资料" : lang === "ru" ? "Профиль эксперта" : lang === "es" ? "Ver perfil del experto" : "View expert profile"}: ${d.name}`}
+            className="group flex min-w-[82vw] snap-center rounded-3xl [perspective:1200px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 sm:min-w-[62vw] md:min-w-[calc((100%_-_3rem)/3)] md:max-w-[calc((100%_-_3rem)/3)]"
           >
-            <DoctorFlipCard
-              doctor={d}
-              viewProfileLabel={viewProfileLabel}
-              detailsLabel={detailsLabel}
-              backLabel={backLabel}
-              profileLabel={profileLabel}
-              focusLabel={focusLabel}
-              bioFallback={bioFallback}
-            />
-          </div>
+            <article className="relative min-h-[400px] w-full rounded-3xl transition-transform [transform-style:preserve-3d] [transition-duration:380ms] [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none md:min-h-[420px] md:group-hover:[transform:rotateY(180deg)] md:group-focus-visible:[transform:rotateY(180deg)]">
+              <div className="absolute inset-0 flex flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-soft [backface-visibility:hidden]">
+                <div className="relative flex-1 overflow-hidden bg-primary/10">
+                  {photo ? <img src={photo} alt={d.name} loading="lazy" decoding="async" className="size-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.025] motion-reduce:transition-none" /> : <div className="grid size-full place-items-center text-primary"><Stethoscope className="size-16" /></div>}
+                  <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
+<div className="absolute inset-x-0 bottom-0 p-5 text-white">
+                    <span className="mb-2 inline-flex rounded-full border border-white/25 bg-black/25 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.13em] text-white/90 backdrop-blur-sm">{d.roleLabel}</span>
+                    <h3 className="font-display text-2xl font-semibold leading-tight md:text-[1.65rem]">{d.name}</h3>
+                    <p className="mt-1 text-sm font-medium text-white/80">{d.title}</p>
+                    <p className="mt-2 flex items-center gap-2 text-sm text-white/85"><MapPin className="size-4 text-primary" />{d.city}</p>
+                  </div>
+                </div>
+                <div className="flex min-h-16 items-center justify-between px-6 text-sm font-semibold text-foreground md:hidden">
+                  {lang === "zh" ? "查看专家资料" : lang === "ru" ? "Профиль эксперта" : lang === "es" ? "Ver perfil del experto" : "View expert profile"}
+                  <ArrowRight className="size-4 text-primary" />
+                </div>
+              </div>
+
+<div className="absolute inset-0 hidden flex-col overflow-hidden rounded-3xl border border-primary/25 bg-card p-6 shadow-pop [backface-visibility:hidden] [transform:rotateY(180deg)] md:flex">
+                <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-primary">{d.roleLabel}</span>
+                <h3 className="mt-2 font-display text-2xl font-semibold leading-tight text-foreground md:text-[1.65rem]">{d.name}</h3>
+                <p className="mt-2 flex items-start gap-2 text-sm leading-relaxed text-foreground/75"><MapPin className="mt-0.5 size-4 shrink-0 text-primary" />{d.city}</p>
+                <p className="mt-4 line-clamp-3 text-sm leading-6 text-muted-foreground">{d.bio}</p>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {d.specialties.slice(0, 3).map((s) => <span key={s} className="rounded-full bg-accent px-3 py-1 text-xs text-accent-foreground">{s}</span>)}
+                </div>
+                <span className="mt-auto flex min-h-10 items-center justify-between border-t border-border/70 pt-4 text-sm font-semibold text-foreground">
+                  {lang === "zh" ? "查看专家资料" : lang === "ru" ? "Профиль эксперта" : lang === "es" ? "Ver perfil del experto" : "View expert profile"}
+                  <ArrowRight className="size-4 text-primary transition-transform group-hover:translate-x-1" />
+                </span>
+              </div>
+            </article>
+          </Link>
         )})}
       </div>
-      <div className="md:hidden">
-        <ManualRailControls railRef={doctorRailRef} railId="home-doctors-rail" count={homepageDoctors.length} lang={lang} />
-      </div>
-      <div className="mt-4 flex justify-center sm:hidden">
-        <Link to="/doctors" className="inline-flex min-h-12 items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90">
-          {allExpertsLabel} <ArrowRight className="size-4" />
-        </Link>
-      </div>
-    </HomeSection>
+    </section>
   );
 };
 
@@ -1340,17 +1248,17 @@ const HowItWorks = () => {
       <div className="overflow-hidden rounded-[2rem] border border-primary/15 bg-card text-foreground shadow-[0_24px_65px_rgba(22,63,52,0.11),0_3px_10px_rgba(22,63,52,0.05)]">
         <div className="grid md:grid-cols-[minmax(0,1.35fr)_minmax(20rem,0.65fr)]">
           <div className="px-5 py-8 sm:px-8 md:px-10 md:py-11 lg:px-12">
-            <span className="mb-4 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-brand">
+            <span className="mb-4 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-primary">
               <MessageCircle className="size-3.5" /> {copy.eyebrow}
             </span>
             <h2 id="consultation-title" className="max-w-3xl font-display text-4xl font-medium leading-[1.02] tracking-tight sm:text-5xl md:text-[3.5rem]">
-              {copy.title}<br className="hidden sm:block" />{" "}<em className="text-brand not-italic">{copy.emphasis}</em>
+              {copy.title}<br className="hidden sm:block" />{" "}<em className="text-primary not-italic">{copy.emphasis}</em>
             </h2>
             <p className="mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">{copy.text}</p>
           </div>
 
           <div className="m-4 rounded-[1.5rem] border border-primary/25 bg-[hsl(156_48%_89%)] p-5 shadow-[0_16px_38px_rgba(22,63,52,0.12),0_2px_6px_rgba(22,63,52,0.06)] sm:m-5 sm:p-6 md:flex md:flex-col md:justify-center lg:m-6 lg:p-7">
-            <p className="text-label font-bold uppercase tracking-[0.14em] text-brand">
+            <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-primary">
               {lang === "zh" ? "选择联系方式" : lang === "ru" ? "Выберите способ связи" : lang === "es" ? "Elige cómo conectar" : "Choose how to connect"}
             </p>
             <h3 className="mt-2 font-display text-2xl font-medium leading-tight">
@@ -1363,7 +1271,7 @@ const HowItWorks = () => {
             <Button size="lg" onClick={() => open()} className="cta-primary mt-3 min-h-[52px] w-full rounded-xl px-7 text-sm shadow-[0_12px_24px_rgba(13,54,44,0.18)] transition-all hover:-translate-y-0.5 hover:shadow-[0_16px_30px_rgba(13,54,44,0.22)]">
               {lang === "zh" ? "开始免费咨询" : lang === "ru" ? "Начать консультацию" : lang === "es" ? "Iniciar una consulta" : "Start a consultation"}<ArrowRight className="ml-2 size-4" />
             </Button>
-            <p className="mt-3 text-center text-label text-muted-foreground">
+            <p className="mt-3 text-center text-[11px] text-muted-foreground">
               {lang === "zh" ? "免费 · 无义务 · 由协调团队回复" : lang === "ru" ? "Бесплатно · без обязательств" : lang === "es" ? "Gratis · Sin compromiso · Respuesta del equipo coordinador" : "Free · No obligation · Coordinator reply"}
             </p>
           </div>
@@ -1378,23 +1286,22 @@ const HowItWorks = () => {
 
 const HomeFaq = () => {
   const { lang } = useAsia();
-  const policy = getCoordinationPolicy(lang);
   const zh = lang === "zh";
   const ru = lang === "ru";
   const es = lang === "es";
   const c = (en: string, cn: string, Russian: string, Spanish: string) => zh ? cn : ru ? Russian : es ? Spanish : en;
   const questions = [
     {
-      q: c("Do I need to pay CeladonChina?", "我需要向 CeladonChina 支付费用吗？", "Нужно ли платить CeladonChina?", "¿Necesito pagarle a CeladonChina?"),
-      a: `${policy.medical} ${policy.depositPurpose} ${policy.refund}`,
+      q: c("Do I need to pay Cosmetics Asia?", "我需要向 Cosmetics Asia 支付费用吗？", "Нужно ли платить Cosmetics Asia?", "¿Necesito pagarle a Cosmetics Asia?"),
+      a: c("Medical fees are paid directly to the treating clinic or hospital; Cosmetics Asia does not collect them. We collect a $400 coordination deposit to reserve your procedure appointment and coordinate airport pickup and in-clinic translation. It remains valid for 12 months and is refunded when you pay the clinic for treatment.", "医疗费用全部由诊所或医院直接收取，Cosmetics Asia 不代收。我们收取 400 美元协调押金，用于保留手术预约，并协调机场接送和院内翻译。押金在 12 个月内有效，并在你向诊所支付治疗费用时退还。", "Медицинские услуги оплачиваются напрямую клинике или больнице; Cosmetics Asia их не принимает. Мы взимаем координационный депозит $400, чтобы закрепить время процедуры и организовать трансфер и перевод в клинике. Он действует 12 месяцев и возвращается после оплаты лечения в клинике.", "Los honorarios médicos se pagan directamente a la clínica u hospital tratante; Cosmetics Asia no los cobra. Cobramos un depósito de coordinación de $400 para reservar tu cita del procedimiento y coordinar el traslado del aeropuerto y la traducción en la clínica. Es válido durante 12 meses y se reembolsa cuando pagas el tratamiento a la clínica."),
     },
     {
-      q: c("What is the $200 deposit for?", "200 美元押金是做什么用的？", "Для чего нужен депозит $200?", "¿Para qué es el depósito de $200?"),
-      a: `${policy.depositPurpose} ${policy.collection} ${policy.refund} ${policy.cancellation}`,
+      q: c("What is the $400 deposit for?", "400 美元押金是做什么用的？", "Для чего нужен депозит $400?", "¿Para qué es el depósito de $400?"),
+      a: c("The $400 deposit reserves your procedure appointment and helps us coordinate airport pickup and in-clinic translation. It is not an additional medical charge, remains valid for 12 months and is refunded when you pay the clinic for treatment.", "这笔 400 美元押金用于保留手术预约，并帮助我们协调机场接送和院内翻译。它不是额外的医疗费用，可保留 12 个月，并在你向诊所支付治疗费用时退还。", "Депозит $400 закрепляет время процедуры и помогает организовать трансфер и перевод в клинике. Это не дополнительная медицинская плата; депозит действует 12 месяцев и возвращается после оплаты лечения в клинике.", "El depósito de $400 reserva tu cita del procedimiento y nos ayuda a coordinar el traslado del aeropuerto y la traducción en la clínica. No es un cargo médico adicional, es válido durante 12 meses y se reembolsa cuando pagas el tratamiento a la clínica."),
     },
     {
       q: c("Who receives my medical payment?", "手术和治疗费用支付给谁？", "Кому оплачиваются медицинские услуги?", "¿Quién recibe mi pago médico?"),
-      a: c("All surgery, examination, anesthesia and other medical fees are charged directly by the clinic or hospital. CeladonChina does not collect your medical payment.", "全部手术、检查、麻醉及其他医疗费用均由诊所或医院直接收取。CeladonChina 不代收医疗费用。", "Операция, обследования, анестезия и другие медицинские услуги оплачиваются напрямую клинике или больнице. CeladonChina не принимает медицинские платежи.", "Todos los honorarios de cirugía, exámenes, anestesia y otros servicios médicos son cobrados directamente por la clínica u hospital. CeladonChina no cobra tu pago médico."),
+      a: c("All surgery, examination, anesthesia and other medical fees are charged directly by the clinic or hospital. Cosmetics Asia does not collect your medical payment.", "全部手术、检查、麻醉及其他医疗费用均由诊所或医院直接收取。Cosmetics Asia 不代收医疗费用。", "Операция, обследования, анестезия и другие медицинские услуги оплачиваются напрямую клинике или больнице. Cosmetics Asia не принимает медицинские платежи.", "Todos los honorarios de cirugía, exámenes, anestesia y otros servicios médicos son cobrados directamente por la clínica u hospital. Cosmetics Asia no cobra tu pago médico."),
     },
     {
       q: c("Can my consultation be conducted in English?", "线上咨询可以使用英语吗？", "Можно ли провести консультацию на английском?", "¿Puede realizarse mi consulta en inglés?"),
@@ -1415,7 +1322,7 @@ const HomeFaq = () => {
         <div className="relative max-w-4xl">
           <span className="pill mb-4 border border-primary/15 bg-primary/10 text-foreground"><Wallet className="size-3.5 text-primary" /> {c("Payment, made simple", "付款方式，一眼看懂", "Оплата — всё просто", "Pagos, de forma sencilla")}</span>
           <h2 id="home-faq-title" className="font-display text-3xl font-medium leading-[1.04] tracking-tight sm:text-4xl md:text-5xl">
-            {c("Simple, transparent payments. ", "付款简单透明，", "Простая и прозрачная оплата. ", "Pagos simples y transparentes. ")}<em className="not-italic text-brand">{c("Know exactly where your money goes.", "每一笔都清楚去向。", "Вы точно знаете, куда идут ваши деньги.", "Sabrás exactamente adónde va tu dinero.")}</em>
+            {c("Simple, transparent payments. ", "付款简单透明，", "Простая и прозрачная оплата. ", "Pagos simples y transparentes. ")}<em className="not-italic text-primary">{c("Know exactly where your money goes.", "每一笔都清楚去向。", "Вы точно знаете, куда идут ваши деньги.", "Sabrás exactamente adónde va tu dinero.")}</em>
           </h2>
         </div>
 
@@ -1429,11 +1336,11 @@ const HomeFaq = () => {
             <div className="relative flex items-start gap-4">
               <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-primary text-primary-foreground shadow-[0_8px_22px_hsl(var(--primary)/.22)]"><Building2 className="size-5" strokeWidth={2} /></span>
               <div className="min-w-0 pt-0.5">
-                <p className="text-xs font-bold uppercase tracking-[0.14em] text-brand">{c("Medical treatment", "手术与医疗费用", "Медицинские услуги", "Tratamiento médico")}</p>
+                <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary">{c("Medical treatment", "手术与医疗费用", "Медицинские услуги", "Tratamiento médico")}</p>
                 <h3 className="mt-1 font-display text-xl font-medium leading-tight text-foreground sm:text-2xl">{c("Pay the clinic directly", "直接支付给诊所或医院", "Оплачивайте напрямую клинике", "Paga directamente a la clínica")}</h3>
               </div>
             </div>
-            <p className="relative mt-5 max-w-xl text-[15px] leading-7 text-foreground/70 sm:text-base">{c("Your clinic or hospital collects all surgery, examination and anesthesia fees. CeladonChina does not collect your medical payment.", "手术、检查和麻醉等医疗费用均由诊所或医院直接收取，CeladonChina 不代收。", "Операция, обследования и анестезия оплачиваются напрямую клинике или больнице. CeladonChina не принимает медицинские платежи.", "Tu clínica u hospital cobra todos los honorarios de cirugía, exámenes y anestesia. CeladonChina no cobra tu pago médico.")}</p>
+            <p className="relative mt-5 max-w-xl text-[15px] leading-7 text-foreground/70 sm:text-base">{c("Your clinic or hospital collects all surgery, examination and anesthesia fees. Cosmetics Asia does not collect your medical payment.", "手术、检查和麻醉等医疗费用均由诊所或医院直接收取，Cosmetics Asia 不代收。", "Операция, обследования и анестезия оплачиваются напрямую клинике или больнице. Cosmetics Asia не принимает медицинские платежи.", "Tu clínica u hospital cobra todos los honorarios de cirugía, exámenes y anestesia. Cosmetics Asia no cobra tu pago médico.")}</p>
           </article>
 
           <article className="group relative overflow-hidden rounded-[1.75rem] border border-[hsl(43_70%_72%/.65)] bg-[hsl(48_82%_94%)] p-5 shadow-soft transition-[transform,box-shadow,border-color] duration-150 hover:-translate-y-0.5 hover:border-[hsl(43_70%_62%/.8)] hover:shadow-pop sm:p-7">
@@ -1441,19 +1348,19 @@ const HomeFaq = () => {
             <div className="relative flex items-start gap-4">
               <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-[hsl(42_88%_86%)] text-[hsl(33_78%_33%)] shadow-[0_8px_22px_hsl(42_70%_55%/.16)]"><Wallet className="size-5" strokeWidth={2} /></span>
               <div className="min-w-0 pt-0.5">
-                <p className="text-xs font-bold uppercase tracking-[0.14em] text-[hsl(33_72%_35%)]">{policy.collectionTitle}</p>
-                <h3 className="mt-1 font-display text-xl font-medium leading-tight text-foreground sm:text-2xl">{c("$200 coordination deposit", "支付 $200 协调押金", "Координационный депозит $200", "Depósito de coordinación de $200")}</h3>
+                <p className="text-xs font-bold uppercase tracking-[0.14em] text-[hsl(33_72%_35%)]">{c("Before departure", "出发前", "До вылета", "Antes de salir")}</p>
+                <h3 className="mt-1 font-display text-xl font-medium leading-tight text-foreground sm:text-2xl">{c("$400 coordination deposit", "支付 $400 协调押金", "Координационный депозит $400", "Depósito de coordinación de $400")}</h3>
               </div>
             </div>
-            <p className="relative mt-5 max-w-xl text-[15px] leading-7 text-foreground/70 sm:text-base">{policy.depositPurpose} {policy.collection} {policy.refund} {policy.cancellation}</p>
+            <p className="relative mt-5 max-w-xl text-[15px] leading-7 text-foreground/70 sm:text-base">{c("It reserves your procedure appointment and coordinates airport pickup and in-clinic translation. It remains valid for 12 months and is refunded when you pay the clinic for treatment.", "用于保留手术预约，并协调机场接送和院内翻译。押金在 12 个月内有效，并在你向诊所支付治疗费用时退还。", "Он закрепляет время процедуры и помогает организовать трансфер и перевод в клинике. Депозит действует 12 месяцев и возвращается после оплаты лечения в клинике.", "Reserva tu cita del procedimiento y coordina el traslado del aeropuerto y la traducción en la clínica. Es válido durante 12 meses y se reembolsa cuando pagas el tratamiento a la clínica.")}</p>
           </article>
         </div>
 
         <div className="relative mt-5 grid gap-6 rounded-[1.75rem] border border-border/80 bg-background/65 p-5 sm:p-7 lg:grid-cols-[0.52fr_1.48fr] lg:items-start lg:gap-8">
           <div className="lg:py-1">
-            <p className="text-xs font-bold uppercase tracking-[0.14em] text-brand">{c("Need more detail?", "还想了解更多？", "Нужны подробности?", "¿Necesitas más detalles?")}</p>
+            <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary">{c("Need more detail?", "还想了解更多？", "Нужны подробности?", "¿Necesitas más detalles?")}</p>
             <h3 className="mt-2 font-display text-2xl font-medium leading-tight sm:text-3xl">{c("Common questions", "常见问题", "Частые вопросы", "Preguntas frecuentes")}</h3>
-            <Link to="/travel-packages" className="group/link mt-5 inline-flex min-h-11 items-center gap-2 rounded-full border border-primary/20 bg-card px-4 text-sm font-semibold text-foreground shadow-soft transition-[color,border-color,transform] duration-150 hover:-translate-y-0.5 hover:border-primary/40 hover:text-brand">
+            <Link to="/travel-packages" className="group/link mt-5 inline-flex min-h-11 items-center gap-2 rounded-full border border-primary/20 bg-card px-4 text-sm font-semibold text-foreground shadow-soft transition-[color,border-color,transform] duration-150 hover:-translate-y-0.5 hover:border-primary/40 hover:text-primary">
               {c("Explore travel support", "查看行程支持", "Подробнее о поддержке в поездке", "Explorar el apoyo de viaje")}<ArrowRight className="size-4 text-primary transition-transform duration-150 group-hover/link:translate-x-1" />
             </Link>
           </div>
@@ -1462,7 +1369,7 @@ const HomeFaq = () => {
             {questions.slice(2).map((item, index) => (
               <AccordionItem key={item.q} value={`faq-${index + 2}`} className="border-border/65 last:border-0">
                 <AccordionTrigger className="group gap-4 rounded-xl px-1 py-4 text-left text-sm font-semibold transition-colors duration-150 hover:bg-primary/[0.045] hover:no-underline sm:text-base">
-                  <span className="flex items-start gap-3"><span className="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-primary/10 font-mono text-label text-primary">0{index + 1}</span><span className="pt-0.5">{item.q}</span></span>
+                  <span className="flex items-start gap-3"><span className="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-primary/10 font-mono text-[10px] text-primary">0{index + 1}</span><span className="pt-0.5">{item.q}</span></span>
                 </AccordionTrigger>
                 <AccordionContent className="pl-10 pr-3 text-sm leading-relaxed text-muted-foreground sm:pl-11 sm:text-[15px]">
                   {item.a}
@@ -1476,28 +1383,47 @@ const HomeFaq = () => {
   );
 };
 
+const PromoBar = () => {
+  const { t } = useAsia();
+  return (
+    <section className="container py-6 md:py-10">
+      <div className="grid items-center gap-5 rounded-3xl bg-gradient-to-r from-[hsl(155,55%,91%)] via-[hsl(50,78%,93%)] to-[hsl(var(--primary)/.24)] p-5 shadow-pop md:grid-cols-3 md:gap-6 md:p-10">
+        <div className="md:col-span-2">
+          <span className="pill bg-card/80 backdrop-blur shadow-soft mb-3"><Gift className="size-3.5 text-primary" /> {t("promo.kicker")}</span>
+          <h3 className="font-display text-3xl md:text-4xl font-medium tracking-tight">{t("promo.title")}</h3>
+          <p className="text-sm text-foreground/70 mt-2">{t("promo.note")}</p>
+        </div>
+        <Button size="lg" className="cta-primary h-12 w-full justify-self-start rounded-full px-6 md:w-auto md:justify-self-end">
+          {t("promo.cta")} <ArrowRight className="ml-1 size-4" />
+        </Button>
+      </div>
+    </section>
+  );
+};
+
+
 // ============== Page ==============
 const AsiaIndex = () => {
-  const { lang } = useAsia();
+  const [searchParams] = useSearchParams();
+  const showTravelInspiredPreview = searchParams.get("hero-preview") === "travel-inspired";
+
   return (
     <>
       <PageMeta
-        title="Cosmetic Surgery in China | Doctors & Travel Support | CeladonChina"
+        title="Cosmetic Surgery in China | Doctors & Travel Support | Celadon China"
         absoluteTitle
-        description={getPlanningMarketingCopy(lang).subtitle}
+        description="Compare cosmetic surgeons in China, book online consultations, and coordinate travel, translation and aftercare."
         path="/"
         structuredData={ORGANIZATION_SCHEMA}
       />
-      <div className="home-water-page min-h-screen overflow-x-clip">
-        <HeroAmbientBackground lang={lang} />
+      <div className="min-h-screen overflow-x-hidden bg-background">
         <AsiaNavbar />
+        {showTravelInspiredPreview ? <TravelInspiredHeroPreview /> : <Hero />}
         <main className="home-content-flow">
-          <Hero />
           <TreatmentsSection />
-          <PricingPreviewSection />
           <DoctorsSection />
-          <ClinicsSection />
-          <PatientStoriesSection ambient />
+          <CitiesSection />
+          <PatientStoriesSection />
         </main>
         <Footer />
       </div>

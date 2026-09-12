@@ -58,7 +58,7 @@ const Chip = ({ active, onClick, label }: { active: boolean; onClick: () => void
     className={`min-h-12 rounded-full px-3.5 py-2 text-xs font-semibold transition ${
       active
         ? "bg-primary text-primary-foreground shadow-soft"
-        : "border border-border bg-background text-foreground hover:border-primary/50 hover:text-brand"
+        : "border border-border bg-background text-foreground hover:border-primary/50 hover:text-primary"
     }`}
   >
     {label}
@@ -78,10 +78,10 @@ export const CitySearchBar = ({ filter }: { filter: CityFilter }) => {
             value={filter.query}
             onChange={(e) => filter.setQuery(e.target.value)}
             placeholder={c(
-              "Search a city or procedure — e.g. Shanghai, nose…",
+              "Search a city or procedure — e.g. Shanghai, rhinoplasty…",
               "搜索城市或项目 —— 如上海、隆鼻…",
-              "Поиск по городу или процедуре — Шанхай, нос…",
-              "Busca una ciudad o procedimiento — p. ej. Shanghái, nariz…",
+              "Поиск по городу или процедуре — Шанхай, ринопластика…",
+              "Busca una ciudad o procedimiento — p. ej. Shanghái, rinoplastia…",
             )}
             className="h-12 w-full rounded-full border border-border/70 bg-background pl-11 pr-12 text-base outline-none transition focus:border-primary/50 focus:ring-4 focus:ring-primary/10 sm:text-sm"
           />
@@ -96,7 +96,6 @@ export const CitySearchBar = ({ filter }: { filter: CityFilter }) => {
             </button>
           )}
         </div>
-        {filter.countries.length > 1 && (
         <div className="flex flex-wrap items-center gap-2">
           <Chip
             active={filter.country === "all"}
@@ -115,7 +114,6 @@ export const CitySearchBar = ({ filter }: { filter: CityFilter }) => {
             );
           })}
         </div>
-        )}
       </div>
     </div>
   );
@@ -175,7 +173,7 @@ export const CityQuickResults = ({ results, query }: { results: City[]; query?: 
                 </p>
               </div>
             </div>
-            <div className="mt-3 grid grid-cols-3 gap-1.5 text-center text-label font-semibold">
+            <div className="mt-3 grid grid-cols-3 gap-1.5 text-center text-[11px] font-semibold">
               <Link
                 to={`/cities/${city.slug}`}
                 className="flex min-h-12 items-center justify-center rounded-xl bg-secondary px-2 py-2 text-foreground transition hover:bg-accent"

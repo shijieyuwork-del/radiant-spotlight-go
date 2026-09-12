@@ -1,6 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Cosmetics Asia">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="CeladonChina">
   <rect width="512" height="512" rx="116" fill="#102c24"/>
-  <circle cx="401" cy="111" r="30" fill="#63c6a2"/>
-  <path d="M114 154c0-39 31-70 70-70h98v51h-89c-17 0-30 13-30 30v182c0 17 13 30 30 30h89v51h-98c-39 0-70-31-70-70V154Z" fill="#fbfaf5"/>
-  <path d="m323 84 86 344h-57l-19-82h-89l-19 82h-56l86-344h68Zm-34 74-33 140h66l-33-140Z" fill="#fbfaf5"/>
+  <path d="M363 82A180 180 0 1 0 363 430" fill="none" stroke="#fbfaf5" stroke-width="40" stroke-linecap="round"/>
+  <path d="M331 134A124 124 0 1 0 331 358" fill="none" stroke="#63c6a2" stroke-width="32" stroke-linecap="round"/>
+  <path d="M139 262C199 222 267 222 339 254" fill="none" stroke="#63c6a2" stroke-width="24" stroke-linecap="round"/>
+  <circle cx="383" cy="262" r="28" fill="#63c6a2"/>
 </svg>

@@ -80,9 +80,9 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
         { to: "/cases", label: t("nav.cases") },
         { to: "/before-after", label: c("Before & after", "术前术后", "До и после", "Antes y después") },
         { to: "/doctors", label: t("nav.compliance") },
-        { to: "/treatments", label: t("nav.projects") },
-        { to: "/travel-packages", label: c("Travel Support", "行程支持", "Поддержка поездки", "Apoyo de viaje") },
         { to: "/clinics", label: c("Clinics", "诊所", "Клиники", "Clínicas") },
+        { to: "/travel-packages", label: c("Travel Support", "行程支持", "Поддержка поездки", "Apoyo de viaje") },
+        { to: "/treatments", label: t("nav.projects") },
         { to: "/cities", label: t("nav.cities") },
         { to: "/why-china", label: c("Why China", "为什么选中国", "Почему Китай", "Por qué China") },
         { to: "/about", label: c("About", "关于我们", "О нас", "Acerca de") },
@@ -100,10 +100,10 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
         <div className="container flex h-full items-center justify-between gap-3 text-xs">
           <div className="flex min-w-0 items-center gap-2.5 sm:gap-5">
             <a
-              href="https://wa.me/14708613825?text=Hi%20Cosmetics%20Asia%2C%20I%20would%20like%20to%20ask%20about%20your%20services."
+              href="https://wa.me/14708613825?text=Hi%20CeladonChina%2C%20I%20would%20like%20to%20ask%20about%20your%20services."
               target="_blank"
               rel="noreferrer"
-              aria-label="Contact Cosmetics Asia on WhatsApp"
+              aria-label="Contact CeladonChina on WhatsApp"
               className="inline-flex min-h-12 shrink-0 items-center gap-1.5 rounded-full bg-white/10 px-2.5 font-bold tracking-[0.01em] text-white transition hover:bg-white/20 md:min-h-9"
             >
               <Phone className="size-3.5" />
@@ -119,7 +119,7 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
             type="button"
             onClick={() => open({ source: "navbar_top" })}
             aria-label={c("Start a consultation", "开始咨询", "Начать консультацию", "Iniciar una consulta")}
-            className="inline-flex min-h-12 shrink-0 items-center gap-1.5 rounded-full border border-white/35 bg-foreground/15 px-3 font-semibold text-white transition hover:bg-foreground/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-primary md:min-h-9"
+            className="cta-primary inline-flex min-h-12 shrink-0 items-center gap-1.5 rounded-full px-3 font-semibold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-primary md:min-h-9"
           >
             <MessageCircle className="size-3.5" />
             <span>{c("Start a consultation", "开始咨询", "Начать консультацию", "Iniciar una consulta")}</span>
@@ -222,7 +222,7 @@ const AsiaNavbar = ({ homeLinks = true }: Props) => {
               <button
                 type="button"
                 onClick={() => open({ source: "mobile_navigation" })}
-                className="mt-3 flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-primary px-4 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                className="cta-primary mt-3 flex min-h-12 items-center justify-center gap-2 rounded-2xl px-4 text-sm font-semibold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               >
                 <MessageCircle className="size-4" />
                 {c("Start a consultation", "开始咨询", "Начать консультацию", "Iniciar una consulta")}

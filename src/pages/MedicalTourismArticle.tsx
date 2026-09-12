@@ -17,9 +17,6 @@ const MedicalTourismArticle = ({ guideSlug }: { guideSlug?: string }) => {
   if (!guide) return <Navigate to="/medical-tourism-china" replace />;
 
   const path = medicalTourismGuidePath(guide.slug);
-  const isCosmeticSurgeryGuide = !path.startsWith("/medical-tourism-china/");
-  const parentPath = isCosmeticSurgeryGuide ? "/plastic-surgery-china" : "/medical-tourism-china";
-  const parentLabel = isCosmeticSurgeryGuide ? "Plastic surgery in China guide" : "Medical tourism in China guide";
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -50,35 +47,35 @@ const MedicalTourismArticle = ({ guideSlug }: { guideSlug?: string }) => {
       <main>
         <header className="border-b border-border/60 bg-muted/30">
           <div className="container py-10 md:py-16">
-            <Link to={parentPath} className="inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground transition hover:text-foreground">
-              <ArrowLeft className="size-4" /> {parentLabel}
+            <Link to="/medical-tourism-china" className="inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground transition hover:text-foreground">
+              <ArrowLeft className="size-4" /> Medical tourism in China guide
             </Link>
-            <div className="mt-8 grid grid-cols-[minmax(0,1fr)] gap-8 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start">
-              <div className="min-w-0">
+            <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start">
+              <div>
                 <span className="pill mb-4 bg-accent text-accent-foreground"><FileCheck2 className="size-3.5 text-primary" />{guide.kicker}</span>
                 <h1 className="max-w-5xl font-display text-4xl font-medium leading-[1.06] tracking-tight md:text-6xl">{guide.heading}</h1>
-                <p className="mt-5 max-w-[65ch] text-body text-muted-foreground md:text-body-lg">{guide.intro}</p>
-                <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-label font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+                <p className="mt-5 max-w-3xl text-base leading-7 text-muted-foreground md:text-lg">{guide.intro}</p>
+                <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground">
                   <span>Updated {guide.updated}</span>
                   <span className="inline-flex items-center gap-1.5"><Clock3 className="size-3.5" />{guide.readingTime}</span>
                   <span>General information</span>
                 </div>
               </div>
-              <aside className="min-w-0 border-l-2 border-primary pl-5" aria-label="Direct answer">
-                <p className="text-label font-bold uppercase tracking-[0.18em] text-brand">Direct answer</p>
-                <p className="mt-3 max-w-[65ch] text-body text-muted-foreground">{guide.answer}</p>
+              <aside className="border-l-2 border-primary pl-5" aria-label="Direct answer">
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Direct answer</p>
+                <p className="mt-3 text-sm leading-7 text-foreground/85">{guide.answer}</p>
               </aside>
             </div>
           </div>
         </header>
 
-        <div className="container grid grid-cols-[minmax(0,1fr)] gap-12 py-12 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-start lg:py-20">
-          <article className="reading-copy mx-auto w-full min-w-0 max-w-4xl lg:mx-0">
+        <div className="container grid gap-12 py-12 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-start lg:py-20">
+          <article className="mx-auto min-w-0 max-w-4xl lg:mx-0">
             <section aria-labelledby="key-takeaways" className="border-y border-border py-7">
               <h2 id="key-takeaways" className="font-display text-2xl font-medium">What to know first</h2>
               <ul className="mt-5 grid gap-4 md:grid-cols-3">
                 {guide.takeaways.map((item) => (
-                  <li key={item} className="flex gap-3 text-body text-muted-foreground">
+                  <li key={item} className="flex gap-3 text-sm leading-6 text-muted-foreground">
                     <CheckCircle2 className="mt-0.5 size-5 shrink-0 text-primary" /><span>{item}</span>
                   </li>
                 ))}
@@ -87,30 +84,29 @@ const MedicalTourismArticle = ({ guideSlug }: { guideSlug?: string }) => {
 
             <div className="mt-12 space-y-14">
               {guide.sections.map((section, index) => (
-                <section key={section.title} id={`section-${index + 1}`} className="min-w-0 scroll-mt-28">
-                  <div className="grid grid-cols-[minmax(0,1fr)] gap-3 sm:grid-cols-[3rem_minmax(0,1fr)]">
-                    <span className="font-display text-2xl text-brand">0{index + 1}</span>
-                    <div className="min-w-0">
+                <section key={section.title} id={`section-${index + 1}`} className="scroll-mt-28">
+                  <div className="grid gap-3 sm:grid-cols-[3rem_1fr]">
+                    <span className="font-display text-2xl text-primary/65">0{index + 1}</span>
+                    <div>
                       <h2 className="font-display text-3xl font-medium leading-tight">{section.title}</h2>
-                      <div className="mt-5 max-w-[65ch] space-y-4 break-words text-body text-muted-foreground md:text-body-lg">
+                      <div className="mt-5 space-y-4 text-[15px] leading-7 text-muted-foreground md:text-base md:leading-8">
                         {section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
                       </div>
                       {section.bullets && (
-                        <ul className="mt-6 max-w-[65ch] space-y-3 border-l border-primary/40 pl-5 text-body text-muted-foreground md:text-body-lg">
+                        <ul className="mt-6 space-y-3 border-l border-primary/40 pl-5 text-sm leading-6 text-foreground/80">
                           {section.bullets.map((item) => <li key={item} className="flex gap-3"><CheckCircle2 className="mt-0.5 size-4 shrink-0 text-primary" /><span>{item}</span></li>)}
                         </ul>
                       )}
                       {section.table && (
-                        <div className="mt-7 w-full min-w-0 max-w-full border border-border">
-                          <p id={`table-scroll-hint-${index}`} className="border-b border-border bg-muted/30 px-4 py-2 text-caption text-muted-foreground">Scroll horizontally to see all columns when needed.</p>
-                          <div role="region" aria-labelledby={`table-caption-${index}`} aria-describedby={`table-scroll-hint-${index}`} tabIndex={0} className="w-full min-w-0 max-w-full overflow-x-auto overscroll-x-contain focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
-                            <table className="w-full min-w-[620px] text-left text-body">
-                              <caption id={`table-caption-${index}`} className="border-b border-border bg-muted/50 px-4 py-3 text-left font-semibold text-foreground">{section.table.caption}</caption>
-                              <thead className="bg-muted/30 text-label uppercase tracking-[0.1em] text-muted-foreground">
+                        <div className="mt-7 overflow-hidden border border-border">
+                          <div className="overflow-x-auto">
+                            <table className="w-full min-w-[620px] text-left text-sm">
+                              <caption className="border-b border-border bg-muted/50 px-4 py-3 text-left font-semibold text-foreground">{section.table.caption}</caption>
+                              <thead className="bg-muted/30 text-xs uppercase tracking-[0.1em] text-muted-foreground">
                                 <tr>{section.table.headers.map((header) => <th key={header} scope="col" className="px-4 py-3">{header}</th>)}</tr>
                               </thead>
                               <tbody>
-                                {section.table.rows.map((row) => <tr key={row.join("|")} className="border-t border-border">{row.map((cell, cellIndex) => <td key={cell} className={`px-4 py-4 align-top ${cellIndex === 0 ? "font-semibold text-foreground" : "text-muted-foreground"}`}>{cell}</td>)}</tr>)}
+                                {section.table.rows.map((row) => <tr key={row.join("|")} className="border-t border-border">{row.map((cell, cellIndex) => <td key={cell} className={`px-4 py-4 align-top leading-6 ${cellIndex === 0 ? "font-semibold text-foreground" : "text-muted-foreground"}`}>{cell}</td>)}</tr>)}
                               </tbody>
                             </table>
                           </div>
@@ -123,13 +119,13 @@ const MedicalTourismArticle = ({ guideSlug }: { guideSlug?: string }) => {
             </div>
 
             <section className="mt-16 border-y border-border py-10" aria-labelledby="guide-faq">
-              <p className="text-label font-bold uppercase tracking-[0.18em] text-brand">Questions patients ask</p>
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Questions patients ask</p>
               <h2 id="guide-faq" className="mt-3 font-display text-3xl font-medium">Frequently asked questions</h2>
               <div className="mt-7 divide-y divide-border">
                 {guide.faqs.map(([question, answer]) => (
                   <div key={question} className="py-6 first:pt-0 last:pb-0">
                     <h3 className="font-display text-xl font-medium">{question}</h3>
-                    <p className="mt-2 max-w-[65ch] break-words text-body text-muted-foreground md:text-body-lg">{answer}</p>
+                    <p className="mt-2 text-sm leading-7 text-muted-foreground">{answer}</p>
                   </div>
                 ))}
               </div>
@@ -137,11 +133,11 @@ const MedicalTourismArticle = ({ guideSlug }: { guideSlug?: string }) => {
 
             <section className="mt-12" aria-labelledby="guide-sources">
               <h2 id="guide-sources" className="font-display text-2xl font-medium">Sources and review notes</h2>
-              <p className="mt-3 max-w-[65ch] text-body text-muted-foreground md:text-body-lg">This page uses official and public-health sources for general planning information. Requirements and clinical guidance can change; verify current details with the responsible authority and your treating professionals.</p>
+              <p className="mt-3 text-sm leading-7 text-muted-foreground">This page uses official and public-health sources for general planning information. Requirements and clinical guidance can change; verify current details with the responsible authority and your treating professionals.</p>
               <ul className="mt-5 space-y-3">
                 {guide.sources.map((source) => (
                   <li key={source.url}>
-                    <a href={source.url} target="_blank" rel="noreferrer" className="inline-flex items-start gap-2 text-body font-semibold text-brand underline decoration-primary/40 underline-offset-4 hover:text-foreground">
+                    <a href={source.url} target="_blank" rel="noreferrer" className="inline-flex items-start gap-2 text-sm font-semibold text-primary underline decoration-primary/40 underline-offset-4 hover:text-foreground">
                       <span>{source.title} · {source.publisher}</span><ExternalLink className="mt-0.5 size-3.5 shrink-0" />
                     </a>
                   </li>
@@ -155,9 +151,9 @@ const MedicalTourismArticle = ({ guideSlug }: { guideSlug?: string }) => {
             </section>
           </article>
 
-          <aside className="min-w-0 space-y-8 lg:sticky lg:top-28">
+          <aside className="space-y-8 lg:sticky lg:top-28">
             <nav aria-label="On this page">
-              <p className="text-label font-bold uppercase tracking-[0.18em] text-brand">On this page</p>
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">On this page</p>
               <ol className="mt-4 space-y-3 border-l border-border pl-4 text-sm text-muted-foreground">
                 {guide.sections.map((section, index) => <li key={section.title}><a href={`#section-${index + 1}`} className="transition hover:text-foreground">{section.title}</a></li>)}
                 <li><a href="#guide-faq" className="transition hover:text-foreground">Frequently asked questions</a></li>
@@ -165,7 +161,7 @@ const MedicalTourismArticle = ({ guideSlug }: { guideSlug?: string }) => {
               </ol>
             </nav>
             <div className="border-t border-border pt-7">
-              <p className="text-label font-bold uppercase tracking-[0.18em] text-brand">Related guides</p>
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Related guides</p>
               <ul className="mt-4 space-y-3">
                 {guide.related.map((item) => <li key={item.href}><Link to={item.href} className="group flex items-start justify-between gap-3 text-sm font-semibold leading-5"><span>{item.label}</span><ArrowRight className="mt-0.5 size-4 shrink-0 transition group-hover:translate-x-0.5" /></Link></li>)}
               </ul>

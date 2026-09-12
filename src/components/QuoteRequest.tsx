@@ -251,7 +251,7 @@ const QuoteDialog = ({
       if (error) console.warn("quote notification could not be sent", error);
     });
     const message = [
-      "Hi Cosmetics Asia, I would like to start a consultation.",
+      "Hi CeladonChina, I would like to start a consultation.",
       expertLabel ? `Expert: ${expertLabel}` : "",
       "Request: Consultation",
       `Name: ${name}`,

@@ -17,7 +17,6 @@ const JSONLD_ID = "page-meta-jsonld";
 const SECTION_LABELS: Record<string, string> = {
   cases: "Patient Diaries",
   cities: "Destinations",
-  clinics: "Clinics & Hospitals",
   doctors: "Experts",
   treatments: "Procedures",
   "travel-packages": "Travel Support",
@@ -25,6 +24,9 @@ const SECTION_LABELS: Record<string, string> = {
   "medical-tourism-china": "Medical Tourism in China",
   "plastic-surgery-china": "Plastic Surgery in China",
   about: "About CeladonChina",
+  contact: "Contact CeladonChina",
+  terms: "Terms of Use",
+  "legal-notice": "Legal Notice",
   "provider-verification": "Provider Verification Standards",
   "medical-review-policy": "Medical Review Policy",
   "editorial-policy": "Editorial Policy",

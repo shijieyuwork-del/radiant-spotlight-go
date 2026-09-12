@@ -22,7 +22,7 @@ const AppPlan = () => {
     { id: "consultation", icon: MessageCircle, title: c("Book a consultation", "预约咨询", "Запишитесь на консультацию", "Reserva una consulta"), note: c("Confirm candidacy, risks, recovery and the itemized quote.", "确认适应性、风险、恢复期和明细报价。", "Уточните показания, риски, восстановление и цену.", "Confirma idoneidad, riesgos, recuperación y presupuesto.") },
   ];
 
-  const whatsapp = `https://wa.me/14708613825?text=${encodeURIComponent(`Hi Cosmetics Asia, I am considering ${plan.procedure} in ${plan.destination}. I would like help reviewing my options.`)}`;
+  const whatsapp = `https://wa.me/14708613825?text=${encodeURIComponent(`Hi CeladonChina, I am considering ${plan.procedure} in ${plan.destination}. I would like help reviewing my options.`)}`;
 
   const sharePlan = async () => {
     setShareUnavailable(false);
@@ -75,7 +75,7 @@ const AppPlan = () => {
       <button type="button" onClick={sharePlan} className="mt-3 flex min-h-12 w-full items-center justify-center gap-2 rounded-full border border-foreground/20 bg-card px-5 text-sm font-semibold text-foreground"><Share2 className="size-4 text-primary" />{c("Share my plan", "分享我的行程", "Поделиться планом", "Compartir mi plan")}</button>
       {shareUnavailable && <p role="status" className="mt-2 text-center text-xs text-muted-foreground">{c("Sharing is not available on this device.", "当前设备暂不支持分享。", "Функция недоступна на этом устройстве.", "Compartir no está disponible en este dispositivo.")}</p>}
       <InstallAppButton className="mt-3 flex min-h-12 w-full items-center justify-center gap-2 rounded-full border border-foreground/20 bg-card px-5 text-sm font-semibold text-foreground" />
-      <p className="mt-3 text-center text-[10px] leading-4 text-muted-foreground">{c("Information and coordination only — not medical advice.", "仅提供信息与协调服务，不构成医疗建议。", "Только информация и координация — не медицинская консультация.", "Solo información y coordinación; no es consejo médico.")} <a href="https://cosmetics-asia.com/privacy" target="_blank" rel="noreferrer" className="font-semibold underline underline-offset-2">{c("Privacy", "隐私", "Конфиденциальность", "Privacidad")}</a></p>
+      <p className="mt-3 text-center text-[10px] leading-4 text-muted-foreground">{c("Information and coordination only — not medical advice.", "仅提供信息与协调服务，不构成医疗建议。", "Только информация и координация — не медицинская консультация.", "Solo información y coordinación; no es consejo médico.")} <a href="https://celadonchina.com/privacy" target="_blank" rel="noreferrer" className="font-semibold underline underline-offset-2">{c("Privacy", "隐私", "Конфиденциальность", "Privacidad")}</a></p>
     </div>
   );
 };

@@ -9,7 +9,7 @@ These answers must be checked against the exact production analytics configurati
 - Health platform APIs: none
 - Runtime permissions: none beyond network access
 - User-initiated communication: opens external Email or WhatsApp flows; the user controls whether to send
-- Privacy choices: optional analytics consent is available; form answers and contact details are excluded from analytics events
+- Privacy choices: analytics requires prior consent in the EEA, United Kingdom and Switzerland; elsewhere it is enabled by default with a persistent opt-out available; form answers and contact details are excluded from analytics events
 - Deletion: uninstalling the app or clearing app storage removes the local care plan
 
 ## Apple App Privacy draft

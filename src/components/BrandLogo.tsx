@@ -4,11 +4,10 @@ type BrandLogoProps = {
   className?: string;
   markClassName?: string;
   textClassName?: string;
-  showTagline?: boolean;
 };
 
-const BrandLogo = ({ className, markClassName, textClassName, showTagline = false }: BrandLogoProps) => (
-  <span className={cn("inline-flex items-center gap-2.5", className)} aria-label="CeladonChina — Your cosmetic care journey, all in one place.">
+const BrandLogo = ({ className, markClassName, textClassName }: BrandLogoProps) => (
+  <span className={cn("inline-flex items-center gap-2.5", className)} aria-label="CeladonChina">
     <svg
       viewBox="0 0 120 120"
       aria-hidden="true"
@@ -37,18 +36,12 @@ const BrandLogo = ({ className, markClassName, textClassName, showTagline = fals
       />
       <circle cx="93" cy="64" r="7" fill="#55BE98" />
     </svg>
-    <span className="inline-flex min-w-0 flex-col justify-center">
-      <span
-        className={cn("whitespace-nowrap text-xl font-extrabold leading-none tracking-[-0.025em] text-[#1C5A49]", textClassName)}
-        style={{ fontFamily: "'Nunito Sans Variable', 'Inter Variable', system-ui, sans-serif" }}
-      >
-        Celadon<span className="text-[#4EB58F]">China</span>
-      </span>
-      {showTagline && (
-        <span className="mt-1 max-w-[30ch] text-label font-medium text-muted-foreground">
-          Your cosmetic care journey, all in one place.
-        </span>
-      )}
+    <span
+      className={cn("inline-flex items-baseline whitespace-nowrap text-xl font-extrabold leading-none tracking-[-0.025em]", textClassName)}
+      style={{ fontFamily: "'Nunito Sans', 'Manrope', system-ui, sans-serif" }}
+    >
+      <span className="text-[#1C5A49]">Celadon</span>
+      <span className="text-[#4EB58F]">China</span>
     </span>
   </span>
 );

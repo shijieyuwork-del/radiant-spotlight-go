@@ -41,6 +41,9 @@ const WhyChina = lazy(() => import("./pages/WhyChina.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 const Privacy = lazy(() => import("./pages/Privacy.tsx"));
 const About = lazy(() => import("./pages/About.tsx"));
+const Contact = lazy(() => import("./pages/Contact.tsx"));
+const Terms = lazy(() => import("./pages/Terms.tsx"));
+const LegalNotice = lazy(() => import("./pages/LegalNotice.tsx"));
 const ProviderVerification = lazy(() => import("./pages/ProviderVerification.tsx"));
 const MedicalReviewPolicy = lazy(() => import("./pages/MedicalReviewPolicy.tsx"));
 const EditorialPolicy = lazy(() => import("./pages/EditorialPolicy.tsx"));
@@ -98,13 +101,12 @@ export const AppRoutes = () => (
                     <Route path="/medical-tourism-china" element={<ChinaSeoGuide kind="medical-tourism" />} />
                     <Route path="/medical-tourism-china/:slug" element={<MedicalTourismArticle />} />
                     <Route path="/china-vs-korea-cosmetic-surgery" element={<MedicalTourismArticle guideSlug="china-vs-korea-cosmetic-surgery" />} />
-                    <Route path="/cosmetic-surgery-tourism-china" element={<MedicalTourismArticle guideSlug="cosmetic-surgery-tourism-china" />} />
-                    <Route path="/cosmetic-surgery-china-for-international-patients" element={<MedicalTourismArticle guideSlug="cosmetic-surgery-china-for-international-patients" />} />
-                    <Route path="/choose-plastic-surgeon-china" element={<MedicalTourismArticle guideSlug="choose-plastic-surgeon-china" />} />
-                    <Route path="/cosmetic-surgery-recovery-china" element={<MedicalTourismArticle guideSlug="cosmetic-surgery-recovery-china" />} />
                     <Route path="/plastic-surgery-china" element={<ChinaSeoGuide kind="plastic-surgery" />} />
                     <Route path="/privacy" element={<Privacy />} />
                     <Route path="/about" element={<About />} />
+                    <Route path="/contact" element={<Contact />} />
+                    <Route path="/terms" element={<Terms />} />
+                    <Route path="/legal-notice" element={<LegalNotice />} />
                     <Route path="/provider-verification" element={<ProviderVerification />} />
                     <Route path="/medical-review-policy" element={<MedicalReviewPolicy />} />
                     <Route path="/editorial-policy" element={<EditorialPolicy />} />

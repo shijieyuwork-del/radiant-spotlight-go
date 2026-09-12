@@ -17,8 +17,8 @@ const Cities = () => {
   return (
     <>
       <PageMeta
-        title="Cosmetic Surgery Destinations in China"
-        description="Explore Shanghai, Guangzhou, Beijing, Hainan and Hangzhou, with procedure information, indicative pricing and practical travel planning in China."
+        title="Top Cosmetic Surgery Destinations in China"
+        description="Explore Shanghai, Beijing, Guangzhou, Hangzhou and Hainan — China's cosmetic surgery destinations with specialties, USD pricing, visa information and travel planning."
         path="/cities"
       />
       <div className="min-h-screen bg-background">
@@ -33,29 +33,29 @@ const Cities = () => {
         <h1 className="font-display text-4xl md:text-5xl font-medium tracking-tight max-w-3xl">
           {lang === "zh" ? (
             <>
-              选择城市，<em className="text-brand not-italic">找到主刀专家</em>
+              选择城市，<em className="text-primary not-italic">找到主刀专家</em>
             </>
           ) : lang === "ru" ? (
             <>
-              Выберите город — <em className="text-brand not-italic">найдите своего эксперта</em>
+              Выберите город — <em className="text-primary not-italic">найдите своего эксперта</em>
             </>
           ) : lang === "es" ? (
             <>
-              Elige una ciudad, <em className="text-brand not-italic">encuentra a tu cirujano</em>
+              Elige una ciudad, <em className="text-primary not-italic">encuentra a tu cirujano</em>
             </>
           ) : (
             <>
               Choose a city,{" "}
-              <em className="text-brand not-italic">find your surgeon</em>
+              <em className="text-primary not-italic">find your surgeon</em>
             </>
           )}
         </h1>
         <p className="text-muted-foreground mt-3 max-w-2xl">
           {c(
-            "China's leading medical-aesthetic destinations — from Shanghai and Beijing to Guangzhou and Hainan — each with its own specialties, price level and travel logistics.",
-            "从上海、北京到广州、海南，中国热门医美目的地各有强势项目、价格区间与出行配套。",
-            "Ведущие направления медицинской эстетики Китая — от Шанхая и Пекина до Гуанчжоу и Хайнаня — со своими специализациями, ценами и логистикой.",
-            "Los principales destinos de estética médica en China — de Shanghái y Pekín a Cantón y Hainan — cada uno con sus especialidades, nivel de precios y logística de viaje.",
+            "China's leading medical-aesthetic destinations — from Shanghai and Beijing to Guangzhou, Hangzhou and Hainan — each with its own specialties and travel logistics.",
+            "从上海、北京到广州、杭州和海南，中国热门医美目的地各有强势项目与出行配套。",
+            "Ведущие направления медицинской эстетики Китая — Шанхай, Пекин, Гуанчжоу, Ханчжоу и Хайнань — со своими специализациями и логистикой.",
+            "Los principales destinos de estética médica en China — Shanghái, Pekín, Cantón, Hangzhou y Hainan — cada uno con sus especialidades y logística de viaje.",
           )}
         </p>
 
@@ -71,7 +71,7 @@ const Cities = () => {
                 `${filter.results.length} ${filter.results.length === 1 ? "ciudad encontrada" : "ciudades encontradas"}`,
               )}
               {" · "}
-              <button type="button" onClick={filter.clear} className="font-semibold text-brand hover:underline">
+              <button type="button" onClick={filter.clear} className="font-semibold text-primary hover:underline">
                 {c("Reset", "重置", "Сбросить", "Restablecer")}
               </button>
             </p>
@@ -129,7 +129,7 @@ const Cities = () => {
                         <Highlight text={lang === "zh" ? city.en : city.zh} query={filter.query} className="rounded bg-primary/80 px-0.5 text-primary-foreground" />
                       </p>
                     </div>
-                    <span className="pill bg-background/95 text-foreground text-label"><Wallet className="size-3 text-primary" />{c("Travel guide", "行程指南", "Путеводитель", "Guía de viaje")}</span>
+                    <span className="pill bg-background/95 text-foreground text-[10px]"><Wallet className="size-3 text-primary" />{c("Travel guide", "行程指南", "Путеводитель", "Guía de viaje")}</span>
                   </div>
                 </div>
 
@@ -155,7 +155,7 @@ const Cities = () => {
                     {(lang === "zh" ? city.hotZh : city.hotEn).slice(0, 4).map((h) => (
                       <span
                         key={h}
-                        className="text-label px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground"
+                        className="text-[10px] px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground"
                       >
                         <Highlight text={h} query={filter.query} />
                       </span>
@@ -163,7 +163,7 @@ const Cities = () => {
                   </div>
 
                   <div className="mt-auto pt-3 flex items-center justify-between gap-2">
-                    <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand">
+                    <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary">
                       {c("Explore the city", "查看城市详情", "Узнать о городе", "Explorar la ciudad")}
                       <ArrowRight className="size-4 group-hover:translate-x-1 transition" />
                     </span>
@@ -171,7 +171,7 @@ const Cities = () => {
                       <button
                         type="button"
                         onClick={(e) => { e.stopPropagation(); navigate(`/cases?city=${encodeURIComponent(city.en)}`); }}
-                        className="inline-flex items-center gap-1 rounded-full bg-accent px-3 py-1.5 text-label font-semibold text-accent-foreground transition hover:opacity-80"
+                        className="inline-flex items-center gap-1 rounded-full bg-accent px-3 py-1.5 text-[11px] font-semibold text-accent-foreground transition hover:opacity-80"
                       >
                         <Video className="size-3" />
                         {c("Cases", "案例", "Кейсы", "Casos")}
@@ -179,7 +179,7 @@ const Cities = () => {
                       <button
                         type="button"
                         onClick={(e) => { e.stopPropagation(); navigate(`/doctors?city=${encodeURIComponent(city.en)}`); }}
-                        className="inline-flex items-center gap-1 rounded-full bg-primary px-3 py-1.5 text-label font-semibold text-primary-foreground transition hover:bg-primary/90"
+                        className="inline-flex items-center gap-1 rounded-full bg-primary px-3 py-1.5 text-[11px] font-semibold text-primary-foreground transition hover:bg-primary/90"
                       >
                         <Stethoscope className="size-3" />
                         {c("Experts", "专家", "Эксперты", "Expertos")}
@@ -263,7 +263,7 @@ const Stat = ({
     <p className="font-display text-base font-semibold flex items-center justify-center gap-1">
       {value}
     </p>
-    <p className="text-label text-muted-foreground flex items-center justify-center gap-1 mt-0.5">
+    <p className="text-[10px] text-muted-foreground flex items-center justify-center gap-1 mt-0.5">
       {icon}
       {label}
     </p>

@@ -9,7 +9,7 @@
  * WhatsApp）永远只能看到 index.html 里的那一份默认值 —— 27 个页面在它们眼里
  * 标题描述完全相同，canonical 还全部指向首页。
  *
- * 核心指南、治疗页、城市页和医院目录/详情页同时进行 React SSG，正文直接写入 HTML；
+ * 核心指南、治疗页和城市页同时进行 React SSG，正文直接写入 HTML；
  * 其他路由仍输出独立的 head，并由客户端渲染正文。
  */
 import { build } from "esbuild";
@@ -33,9 +33,7 @@ async function loadAppData() {
         export { TREATMENTS } from "@/data/treatments";
         export { PROCEDURE_CATALOG } from "@/data/procedureCatalog";
         export { MEDICAL_TOURISM_GUIDES, medicalTourismGuidePath } from "@/data/medicalTourismGuides";
-        export { STATIC_CLINICS } from "@/data/clinicDirectory";
-        export { CLINIC_DIRECTORY_META, clinicPageMeta } from "@/lib/clinic-seo";
-        export { SITE_URL, SITE_NAME, OG_IMAGE, TWITTER_HANDLE, ORGANIZATION_SCHEMA, ORGANIZATION_ENTITY, WEBSITE_ENTITY } from "@/lib/seo-config";
+        export { SITE_URL, SITE_NAME, OG_IMAGE, TWITTER_HANDLE, ORGANIZATION_SCHEMA } from "@/lib/seo-config";
       `,
       resolveDir: __dirname,
       loader: "ts",
@@ -67,11 +65,8 @@ function createBreadcrumbSchema(p, pageTitle, siteUrl) {
     cases: "Patient Diaries", cities: "Destinations", clinics: "Clinics & Hospitals", doctors: "Experts",
     treatments: "Procedures", "travel-packages": "Travel Support", "why-china": "Why China",
     "medical-tourism-china": "Medical Tourism in China", "plastic-surgery-china": "Plastic Surgery in China",
-    "cosmetic-surgery-tourism-china": "Cosmetic Surgery Tourism in China",
-    "cosmetic-surgery-china-for-international-patients": "Cosmetic Surgery in China for International Patients",
-    "choose-plastic-surgeon-china": "Choose a Plastic Surgeon in China",
-    "cosmetic-surgery-recovery-china": "Cosmetic Surgery Recovery in China",
-    about: "About CeladonChina", "provider-verification": "Provider Verification Standards",
+    about: "About CeladonChina", contact: "Contact CeladonChina", terms: "Terms of Use",
+    "legal-notice": "Legal Notice", "provider-verification": "Provider Verification Standards",
     "medical-review-policy": "Medical Review Policy", "editorial-policy": "Editorial Policy",
   };
   const segments = p.split("?")[0].split("/").filter(Boolean);
@@ -92,10 +87,10 @@ function createBreadcrumbSchema(p, pageTitle, siteUrl) {
   return { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement };
 }
 
-function renderMeta({ title, absoluteTitle = false, description, path: p, image, type = "website", schema, robots = "index, follow, max-image-preview:large" }, cfg) {
+function renderMeta({ title, description, path: p, image, type = "website", schema, robots = "index, follow, max-image-preview:large" }, cfg) {
   const { SITE_URL, SITE_NAME, OG_IMAGE, TWITTER_HANDLE } = cfg;
   const url = `${SITE_URL}${p}`;
-  const full = absoluteTitle || title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
+  const full = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
   const img = image && !image.startsWith("data:") && !image.startsWith("/src/") ? image : OG_IMAGE;
 
   const tags = [
@@ -134,33 +129,34 @@ function buildRoutes(d) {
   const routes = [
     {
       path: "/",
-      title: "Cosmetic Surgery in China | Doctors & Travel Support | CeladonChina",
-      absoluteTitle: true,
+      title: "Cosmetic Surgery in Asia | Patient Diaries",
       description:
-        "Explore cosmetic surgery in China with published doctor profiles, online consultations, procedure guidance, and coordinated travel, translation and aftercare from CeladonChina.",
+        "Explore published cosmetic expert profiles, patient journey previews, procedure guides, and practical travel and aftercare support for cosmetic care in China.",
       schema: d.ORGANIZATION_SCHEMA,
     },
     {
       path: "/cities",
-      title: "Cosmetic Surgery Destinations in China",
+      title: "Top Surgery Destinations in Asia",
       description:
-        "Explore Shanghai, Guangzhou, Beijing, Hainan and Hangzhou, with procedure information, indicative pricing and practical travel planning in China.",
+        "Explore Seoul, Shanghai, Bangkok, Tokyo, Singapore and more — Asia's cosmetic surgery hubs with specialties, USD pricing, visa info and travel planning.",
     },
     {
-      ...d.CLINIC_DIRECTORY_META,
-      schema: d.CLINIC_DIRECTORY_META.structuredData,
+      path: "/clinics",
+      title: "Clinic & Hospital Directory in Asia",
+      description:
+        "Browse clinics and hospitals currently included in Cosmetics Asia destination guides, organized by city and country.",
     },
     {
       path: "/doctors",
-      title: "Cosmetic Expert Profiles in China",
+      title: "Cosmetic Expert Profiles in Asia",
       description:
-        "Explore published cosmetic expert profiles in China, compare listed specialties and credentials, and ask about English-language coordination.",
+        "Explore published cosmetic expert profiles across Asia, compare listed specialties and credentials, and ask about English-language coordination.",
     },
     {
       path: "/cases",
       title: "Patient Recovery Journey Previews",
       description:
-        "Explore cosmetic care journey previews by procedure and city in China, with recovery-stage information where available.",
+        "Explore cosmetic care journey previews by procedure and city across Asia, with recovery-stage information where available.",
     },
     {
       path: "/travel-packages",
@@ -169,8 +165,8 @@ function buildRoutes(d) {
     },
     {
       path: "/why-china",
-      title: "Why Choose China for Cosmetic Medical Travel",
-      description: "Evidence-based reasons to consider cosmetic medical travel in China, plus a practical safety checklist and original sources.",
+      title: "Why Choose Asia for Surgery",
+      description: "Evidence-based reasons to consider cosmetic medical travel in Asia, plus a practical safety checklist and original sources.",
     },
     {
       path: "/medical-tourism-china",
@@ -190,49 +186,41 @@ function buildRoutes(d) {
       description: "How CeladonChina uses essential storage, optional analytics, and the information you choose to share.",
     },
     {
+      path: "/contact",
+      title: "Contact CeladonChina",
+      description: "Contact our coordination team about consultations, travel support, provider information, privacy, or corrections.",
+    },
+    {
+      path: "/terms",
+      title: "Terms of Use",
+      description: "The terms that apply when you use CeladonChina information, consultation and travel-coordination services.",
+    },
+    {
+      path: "/legal-notice",
+      title: "Legal Notice",
+      description: "Legal operator and registered-office information for the CeladonChina website.",
+    },
+    {
       path: "/about",
-      title: "About CeladonChina",
-      description: "Learn how CeladonChina supports cosmetic medical travel research and coordination exclusively in China, what we check, and where our role ends.",
-      schema: [
-        {
-          "@context": "https://schema.org",
-          "@type": "AboutPage",
-          "@id": `${d.SITE_URL}/about#page`,
-          url: `${d.SITE_URL}/about`,
-          name: "About CeladonChina",
-          description: "How CeladonChina helps people research and coordinate cosmetic medical travel in China, including the limits of our role.",
-          mainEntity: { "@id": `${d.SITE_URL}/#organization` },
-          publisher: { "@id": `${d.SITE_URL}/#organization` },
-          dateModified: "2026-09-07",
-        },
-        { "@context": "https://schema.org", "@graph": [d.ORGANIZATION_ENTITY, d.WEBSITE_ENTITY] },
-        {
-          "@context": "https://schema.org",
-          "@type": "FAQPage",
-          mainEntity: [
-            ["What is CeladonChina?", "CeladonChina is a China-focused cosmetic medical travel information and non-clinical coordination platform for international patients considering cosmetic care in China."],
-            ["Does CeladonChina provide medical treatment or medical advice?", "No. CeladonChina is not a hospital, clinic or medical practice. It does not diagnose, prescribe, select a procedure for a patient, control clinical care or guarantee an outcome."],
-            ["How can CeladonChina help an international patient?", "CeladonChina can help people compare published provider and procedure information, prepare consultation questions, organize records, and coordinate appointments, translation and practical travel support when confirmed."],
-            ["Who is responsible for the medical care?", "The treating clinician and licensed medical facility are responsible for medical assessment, informed consent, treatment, anesthesia and clinical aftercare. Patients should independently verify current credentials and facility licensing before payment or travel."],
-          ].map(([name, text]) => ({ "@type": "Question", name, acceptedAnswer: { "@type": "Answer", text } })),
-        },
-      ],
+      title: "About Cosmetics Asia",
+      description: "Learn how Cosmetics Asia supports cosmetic medical travel research and coordination, what we check, and where our role ends.",
+      schema: { "@context": "https://schema.org", "@type": "AboutPage", name: "About Cosmetics Asia" },
     },
     {
       path: "/provider-verification",
       title: "Provider Verification Standards",
-      description: "The checks, labels, evidence, and limits behind provider profiles published by CeladonChina.",
+      description: "The checks, labels, evidence, and limits behind provider profiles published by Cosmetics Asia.",
     },
     {
       path: "/medical-review-policy",
       title: "Medical Review Policy",
-      description: "How CeladonChina labels, sources, reviews, and updates medical information, including when content is not medically reviewed.",
+      description: "How Cosmetics Asia labels, sources, reviews, and updates medical information, including when content is not medically reviewed.",
       schema: { "@context": "https://schema.org", "@type": "MedicalWebPage", name: "Medical Review Policy" },
     },
     {
       path: "/editorial-policy",
       title: "Editorial Policy",
-      description: "The sourcing, labeling, correction, translation, and commercial disclosure standards used by CeladonChina.",
+      description: "The sourcing, labeling, correction, translation, and commercial disclosure standards used by Cosmetics Asia.",
     },
     {
       path: "/lp/rhinoplasty-china",
@@ -332,14 +320,6 @@ function buildRoutes(d) {
     });
   }
 
-  for (const clinic of d.STATIC_CLINICS) {
-    const metadata = d.clinicPageMeta(clinic);
-    routes.push({
-      ...metadata,
-      schema: metadata.structuredData,
-    });
-  }
-
   for (const doc of d.DOCTORS) {
     routes.push({
       path: `/doctors/${doc.id}`,
@@ -404,16 +384,9 @@ async function main() {
     const isSsgRoute = r.path === "/medical-tourism-china" ||
       r.path.startsWith("/medical-tourism-china/") ||
       r.path === "/china-vs-korea-cosmetic-surgery" ||
-      r.path === "/cosmetic-surgery-tourism-china" ||
-      r.path === "/cosmetic-surgery-china-for-international-patients" ||
-      r.path === "/choose-plastic-surgeon-china" ||
-      r.path === "/cosmetic-surgery-recovery-china" ||
       r.path === "/plastic-surgery-china" ||
-      r.path === "/about" ||
-      r.path === "/travel-packages" ||
       r.path === "/treatments" || r.path.startsWith("/treatments/") ||
-      r.path === "/cities" || r.path.startsWith("/cities/") ||
-      r.path === "/clinics" || r.path.startsWith("/clinics/");
+      r.path === "/cities" || r.path.startsWith("/cities/");
     if (isSsgRoute) {
       const body = render(r.path);
       html = html.replace('<div id="root"></div>', `<div id="root">${body}</div>`);
@@ -446,7 +419,7 @@ async function main() {
   );
 
   await Promise.all([rm(TMP, { force: true }), rm(SSR_DIR, { recursive: true, force: true })]);
-  console.log(`prerender: 已生成 ${routes.length} 个页面，核心指南、治疗页、城市页及医院目录/详情页包含静态正文`);
+  console.log(`prerender: 已生成 ${routes.length} 个页面，核心指南、治疗页和城市页包含静态正文`);
 }
 
 main().catch((e) => {
