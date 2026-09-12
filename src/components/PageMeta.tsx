@@ -17,6 +17,7 @@ const JSONLD_ID = "page-meta-jsonld";
 const SECTION_LABELS: Record<string, string> = {
   cases: "Patient Diaries",
   cities: "Destinations",
+  clinics: "Clinics & Hospitals",
   doctors: "Experts",
   treatments: "Procedures",
   "travel-packages": "Travel Support",
