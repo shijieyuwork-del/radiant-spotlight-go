@@ -23,7 +23,8 @@ export const ORGANIZATION_ENTITY = {
   "@type": "Organization",
   "@id": `${SITE_URL}/#organization`,
   name: SITE_NAME,
-  alternateName: ["Celadon China", "CeladonChina Medical Travel"],
+  legalName: "Celadon Limited",
+  alternateName: ["Celadon China", "CeladonChina Medical Travel", "青慈有限公司"],
   description: SITE_DESCRIPTION,
   url: SITE_URL,
   logo: {
@@ -32,6 +33,13 @@ export const ORGANIZATION_ENTITY = {
   },
   email: "contact@celadonchina.com",
   telephone: "+1-470-861-3825",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Room 18, 2/F, TusPark, 118 Wai Yip Street",
+    addressLocality: "Kwun Tong",
+    addressRegion: "Kowloon",
+    addressCountry: "HK",
+  },
   areaServed: {
     "@type": "Country",
     name: "China",

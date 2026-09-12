@@ -190,6 +190,21 @@ function buildRoutes(d) {
       description: "How CeladonChina uses essential storage, optional analytics, and the information you choose to share.",
     },
     {
+      path: "/contact",
+      title: "Contact CeladonChina",
+      description: "Contact our coordination team about consultations, travel support, provider information, privacy, or corrections.",
+    },
+    {
+      path: "/terms",
+      title: "Terms of Use",
+      description: "The terms that apply when you use CeladonChina information, consultation and travel-coordination services.",
+    },
+    {
+      path: "/legal-notice",
+      title: "Legal Notice",
+      description: "Legal operator and registered-office information for the CeladonChina website.",
+    },
+    {
       path: "/about",
       title: "About CeladonChina",
       description: "Learn how CeladonChina supports cosmetic medical travel research and coordination exclusively in China, what we check, and where our role ends.",

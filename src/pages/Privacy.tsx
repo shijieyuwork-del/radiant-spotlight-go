@@ -4,6 +4,7 @@ import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
 import { analyticsConfigured, openPrivacyChoices } from "@/lib/analytics";
+import CompanyDetails from "@/components/CompanyDetails";
 
 const Privacy = () => (
   <>
@@ -76,6 +77,7 @@ const Privacy = () => (
             <a href="mailto:contact@celadonchina.com" className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-foreground"><Mail className="size-4 text-primary" /> Email CeladonChina</a>
           </section>
         </div>
+        <div className="mt-6"><CompanyDetails showContacts /></div>
       </main>
       <Footer />
     </div>
