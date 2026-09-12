@@ -15,7 +15,7 @@ describe("public directory uses managed gallery data", () => {
     directory.mockReturnValue({ clinics: [clinic], isError: false });
     render(<MemoryRouter><Clinics /></MemoryRouter>);
     expect(screen.getByRole("img", { name: clinic.nameEn })).toHaveAttribute("src", "/saved-cover.jpg");
-    expect(screen.getByRole("link", { name: clinic.nameEn })).toHaveAttribute("href", getClinicPath(clinic));
+    expect(screen.getByRole("link", { name: `View ${clinic.nameEn}` })).toHaveAttribute("href", getClinicPath(clinic));
   });
   it("does not replace an empty gallery with a generic or original hospital photo", () => {
     const clinic = { ...STATIC_CLINICS[0], photoGallery: [] };
