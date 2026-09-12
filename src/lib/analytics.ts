@@ -39,6 +39,7 @@ const hasGtm = /^GTM-[A-Z0-9]+$/i.test(GTM_ID);
 const hasGa4 = /^G-[A-Z0-9]+$/i.test(GA4_ID);
 let runtimeConsent: AnalyticsConsent = "unset";
 let analyticsRegion: AnalyticsRegion = "pending";
+let googleTagsScheduled = false;
 
 // EEA (EU + Iceland, Liechtenstein and Norway), United Kingdom and Switzerland.
 // If Cloudflare cannot resolve a country, the visitor stays consent-required.
@@ -149,7 +150,30 @@ const loadGa4 = () => {
 const loadGoogleTags = () => {
   if (!analyticsConfigured()) return;
   loadGtm();
-  loadGa4();
+  // A configured GTM container owns GA4 delivery. Loading gtag.js as well adds
+  // another third-party bundle and can emit duplicate page views.
+  if (!hasGtm) loadGa4();
+};
+
+const scheduleGoogleTags = () => {
+  if (googleTagsScheduled || !analyticsConfigured()) return;
+  googleTagsScheduled = true;
+  const load = () => {
+    const loadWhenGranted = () => {
+      if (getAnalyticsConsent() === "granted") loadGoogleTags();
+      else googleTagsScheduled = false;
+    };
+    const win = window as Window & {
+      requestIdleCallback?: (callback: () => void, options?: { timeout: number }) => number;
+    };
+    if (win.requestIdleCallback) {
+      win.requestIdleCallback(loadWhenGranted, { timeout: 3000 });
+    } else {
+      window.setTimeout(loadWhenGranted, 1200);
+    }
+  };
+  if (document.readyState === "complete") load();
+  else window.addEventListener("load", load, { once: true });
 };
 
 const resolveCountryCode = async (): Promise<string | null> => {
@@ -179,7 +203,7 @@ export const bootstrapAnalytics = () => {
   if (savedConsent === "granted") {
     runtimeConsent = "granted";
     gtag("consent", "update", { analytics_storage: "granted" });
-    loadGoogleTags();
+    scheduleGoogleTags();
   }
 
   void resolveCountryCode().then((countryCode) => {
@@ -192,7 +216,7 @@ export const bootstrapAnalytics = () => {
     if (savedConsent !== "unset") return;
     runtimeConsent = "granted";
     gtag("consent", "update", { analytics_storage: "granted" });
-    loadGoogleTags();
+    scheduleGoogleTags();
     window.dispatchEvent(new CustomEvent("ca:analytics-consent", { detail: "granted" }));
   });
 };
@@ -206,7 +230,7 @@ export const setAnalyticsConsent = (consent: Exclude<AnalyticsConsent, "unset">)
     ad_user_data: "denied",
     ad_personalization: "denied",
   });
-  if (consent === "granted") loadGoogleTags();
+  if (consent === "granted") scheduleGoogleTags();
   window.dispatchEvent(new CustomEvent("ca:analytics-consent", { detail: consent }));
 };
 
@@ -228,7 +252,7 @@ export const trackEvent = (event: AnalyticsEventName, params: SafeEventParams = 
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({ event, ...payload });
   }
-  if (hasGa4) {
+  if (hasGa4 && !hasGtm) {
     gtag("event", event, payload);
   }
   return true;
@@ -247,7 +271,7 @@ export const trackPageView = (pathname: string) => {
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({ event: "page_view", ...payload });
   }
-  if (hasGa4) {
+  if (hasGa4 && !hasGtm) {
     gtag("event", "page_view", payload);
   }
   return true;

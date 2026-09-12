@@ -50,12 +50,14 @@ const GalleryCard = ({
   onPlay,
   size,
   actionLabel,
+  priority = false,
 }: {
   item: TikTokItem;
   lang: Lang;
   onPlay: (item: TikTokItem, opener: HTMLButtonElement) => void;
   size: "default" | "large";
   actionLabel?: string;
+  priority?: boolean;
 }) => {
   const t = item.treatment[lang === "zh" ? "zh" : "en"];
   return (
@@ -65,12 +67,12 @@ const GalleryCard = ({
       className={`group relative aspect-[9/16] shrink-0 snap-start overflow-hidden rounded-[1.35rem] border border-white/55 bg-foreground/90 text-left shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-pop ${size === "large" ? "w-[48vw] min-w-[48vw] sm:w-44 sm:min-w-44 md:w-[15.5rem] md:min-w-[15.5rem] lg:w-[17rem] lg:min-w-[17rem]" : "w-[42vw] min-w-[42vw] sm:w-36 sm:min-w-36 lg:w-[9.25rem] lg:min-w-[9.25rem]"}`}
       aria-label={`${actionLabel ?? ui[lang].fullscreen}: ${t}`}
     >
-      <video
-        src={item.src}
-        poster={item.poster ?? DEFAULT_VIDEO_POSTER}
-        muted
-        playsInline
-        preload="none"
+      <img
+        src={item.poster ?? DEFAULT_VIDEO_POSTER}
+        alt=""
+        loading={priority ? "eager" : "lazy"}
+        fetchpriority={priority ? "high" : "auto"}
+        decoding="async"
         className="absolute inset-0 size-full object-cover opacity-90 transition-opacity group-hover:opacity-100"
       />
       <span className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-black/20" />
@@ -225,15 +227,15 @@ const HeroVideoGallery = ({ items, lang, size = "default" }: HeroVideoGalleryPro
             </div>
           </div>
           <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-4 scrollbar-hide sm:-mx-6 sm:px-6 md:mx-0 md:mt-6 md:px-0">
-            {visibleItems.map((item) => (
-              <GalleryCard key={item.id} item={item} lang={lang} onPlay={openPlayer} size="default" />
+            {visibleItems.map((item, index) => (
+              <GalleryCard key={item.id} item={item} lang={lang} onPlay={openPlayer} size="default" priority={index === 0} />
             ))}
           </div>
         </>
       ) : (
         <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-4 scrollbar-hide sm:-mx-6 sm:px-6">
-          {visibleItems.map((item) => (
-            <GalleryCard key={item.id} item={item} lang={lang} onPlay={openPlayer} size={size} />
+          {visibleItems.map((item, index) => (
+            <GalleryCard key={item.id} item={item} lang={lang} onPlay={openPlayer} size={size} priority={index === 0} />
           ))}
         </div>
       )}

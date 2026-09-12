@@ -1164,7 +1164,7 @@ const TreatmentsSection = () => {
     },
     {
       key: "network",
-      image: "/generated/clinic-network-asia-v2.png",
+      image: "/generated/clinic-network-asia-v2.webp",
       eyebrow: c("China-only coordination", "仅提供中国境内协调服务", "Координация только в Китае", "Coordinación solo en China"),
       title: c("Plan your care in China", "规划你的中国医美行程", "Планируйте лечение в Китае", "Planifica tu atención en China"),
       detail: c(
