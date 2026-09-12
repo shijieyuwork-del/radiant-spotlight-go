@@ -4,22 +4,22 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { signedUrls } from "@/lib/storage-urls";
 import { uploadMedia } from "@/lib/upload-media";
-import { PHOTO_RULES } from "@/lib/media-validation";
 import { useRealtimeRefresh } from "@/hooks/use-realtime-refresh";
-import { STATIC_CLINICS, getClinicPath } from "@/data/clinicDirectory";
+import { mergeClinicDirectory, getClinicPath, type PublishedClinicDoctor } from "@/data/clinicDirectory";
+import { findRealHospitalPhoto } from "@/data/realHospitalPhotos";
+import { clinicGalleryPaths, parseClinicGallery, MAX_CLINIC_PHOTOS, type ClinicGalleryItem } from "@/lib/clinic-gallery";
+import type { Json } from "@/integrations/supabase/types";
 import { CITIES } from "@/data/cities";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Progress } from "@/components/ui/progress";
-import FileDropZone from "@/components/FileDropZone";
+import ClinicGalleryEditor, { type DraftClinicPhoto } from "@/components/ClinicGalleryEditor";
 import ClinicPdfExtractor from "@/components/ClinicPdfExtractor";
 
-
-const PHOTO_ACCEPT = "image/jpeg,image/png,image/webp";
 
 type ClinicRow = {
   id: string;
@@ -32,11 +32,13 @@ type ClinicRow = {
   description_en: string | null;
   description_zh: string | null;
   photo_path: string | null;
+  photo_gallery?: Json | null;
   website_url: string | null;
   is_public: boolean;
   hidden: boolean;
   status: string;
   photoUrl?: string;
+  photoUrls?: Map<string, string>;
 };
 
 type Entry = {
@@ -53,6 +55,7 @@ type Entry = {
   isPublic: boolean;
   hidden: boolean;
   photoUrl: string;
+  photos: DraftClinicPhoto[];
   websiteUrl: string;
   href: string | null;
 };
@@ -68,16 +71,22 @@ type Draft = {
   descriptionEn: string;
   descriptionZh: string;
   isPublic: boolean;
-  photoPath: string | null;
-  photoUrl: string;
+  photos: DraftClinicPhoto[];
   websiteUrl: string;
 };
 
 const emptyDraft = (): Draft => ({
   id: null, staticSlug: null, citySlug: CITIES[0]?.slug ?? "shanghai",
   nameEn: "", nameZh: "", areaEn: "", areaZh: "", descriptionEn: "", descriptionZh: "",
-  isPublic: false, photoPath: null, photoUrl: "", websiteUrl: "",
+  isPublic: false, photos: [], websiteUrl: "",
 });
+
+function editablePhotos(row: ClinicRow | null, originalUrl = ""): DraftClinicPhoto[] {
+  const stored = parseClinicGallery(row?.photo_gallery);
+  const items: ClinicGalleryItem[] = stored ?? (row?.photo_path ? [{ kind: "upload", path: row.photo_path }] : originalUrl ? [{ kind: "original" }] : []);
+  return items.map((item, index) => ({ key: `${index}-${item.kind === "upload" ? item.path : "original"}`, item,
+    url: item.kind === "original" ? originalUrl : row?.photoUrls?.get(item.path) ?? "" }));
+}
 
 const normalizeWebsite = (value: string): string | null => {
   const trimmed = value.trim();
@@ -101,31 +110,38 @@ const slugForCity = (value: string): string | null => {
 
 export default function ClinicAdmin() {
   const [rows, setRows] = useState<ClinicRow[]>([]);
+  const [doctors, setDoctors] = useState<PublishedClinicDoctor[]>([]);
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState("");
   const [cityFilter, setCityFilter] = useState("all");
   const [draft, setDraft] = useState<Draft | null>(null);
-  const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [saving, setSaving] = useState(false);
   const [progress, setProgress] = useState(0);
 
   const load = async () => {
     setLoading(true);
-    const { data, error } = await supabase.from("clinics").select("*").order("created_at", { ascending: false });
-    if (error) toast.error(error.message);
+    const [{ data, error }, doctorResult] = await Promise.all([
+      supabase.from("clinics").select("*").order("created_at", { ascending: false }),
+      supabase.from("doctors").select("id,name,title,hospital,city,i18n").eq("status", "published"),
+    ]);
+    if (error || doctorResult.error) { toast.error(error?.message ?? doctorResult.error?.message); setLoading(false); return; }
+    setDoctors(doctorResult.data ?? []);
     const list = (data ?? []) as ClinicRow[];
-    const urls = await signedUrls("clinic-photos", list.map((row) => row.photo_path));
-    setRows(list.map((row, index) => ({ ...row, photoUrl: urls[index] })));
+    const paths = list.flatMap((row) => clinicGalleryPaths(row.photo_gallery, row.photo_path));
+    const urls = await signedUrls("clinic-photos", paths);
+    const photoUrls = new Map(paths.map((path, index) => [path, urls[index]]));
+    setRows(list.map((row) => ({ ...row, photoUrls })));
     setLoading(false);
   };
 
   useEffect(() => { void load(); }, []);
-  useRealtimeRefresh(["clinics"], () => { void load(); });
+  useRealtimeRefresh(["clinics", "doctors"], () => { void load(); });
 
   const entries = useMemo<Entry[]>(() => {
     const overrides = new Map(rows.filter((row) => row.static_slug).map((row) => [row.static_slug!, row]));
-    const fromStatic = STATIC_CLINICS.map((clinic) => {
+    const fromStatic = mergeClinicDirectory(doctors).map((clinic) => {
       const row = overrides.get(clinic.slug) ?? null;
+      const photos = editablePhotos(row, findRealHospitalPhoto(clinic.nameZh, clinic.nameEn, ...clinic.aliases)?.src);
       return {
         key: clinic.slug,
         staticSlug: clinic.slug,
@@ -139,7 +155,8 @@ export default function ClinicAdmin() {
         descriptionZh: row?.description_zh ?? "",
         isPublic: row ? row.is_public : clinic.isPublic,
         hidden: Boolean(row?.hidden),
-        photoUrl: row?.photoUrl ?? "",
+        photoUrl: photos[0]?.url ?? "",
+        photos,
         websiteUrl: row?.website_url ?? "",
         href: getClinicPath(clinic),
       } satisfies Entry;
@@ -157,12 +174,13 @@ export default function ClinicAdmin() {
       descriptionZh: row.description_zh ?? "",
       isPublic: row.is_public,
       hidden: row.hidden,
-      photoUrl: row.photoUrl ?? "",
+      photoUrl: editablePhotos(row, findRealHospitalPhoto(row.name_zh, row.name_en)?.src)[0]?.url ?? "",
+      photos: editablePhotos(row, findRealHospitalPhoto(row.name_zh, row.name_en)?.src),
       websiteUrl: row.website_url ?? "",
       href: null,
     } satisfies Entry));
     return [...custom, ...fromStatic];
-  }, [rows]);
+  }, [rows, doctors]);
 
   const filtered = useMemo(() => {
     const term = query.trim().toLocaleLowerCase();
@@ -172,7 +190,6 @@ export default function ClinicAdmin() {
   }, [entries, query, cityFilter]);
 
   const openEditor = (entry?: Entry) => {
-    setPhotoFile(null);
     setProgress(0);
     if (!entry) return setDraft(emptyDraft());
     setDraft({
@@ -186,20 +203,31 @@ export default function ClinicAdmin() {
       descriptionEn: entry.descriptionEn,
       descriptionZh: entry.descriptionZh,
       isPublic: entry.isPublic,
-      photoPath: entry.row?.photo_path ?? null,
-      photoUrl: entry.photoUrl,
+      photos: entry.photos,
       websiteUrl: entry.websiteUrl,
     });
   };
 
   const save = async () => {
-    if (!draft) return;
+    if (!draft || saving) return;
     if (!draft.nameEn.trim() && !draft.nameZh.trim()) return toast.error("请至少填写一个医院名称");
+    if (draft.photos.length > MAX_CLINIC_PHOTOS) return toast.error("每家医院最多 6 张照片");
     setSaving(true);
     try {
-      let photoPath = draft.photoPath;
-      if (photoFile) {
-        photoPath = await uploadMedia("clinic-photos", photoFile, { onProgress: setProgress });
+      const gallery: ClinicGalleryItem[] = [];
+      const pendingCount = draft.photos.filter((photo) => !photo.item).length;
+      let completed = 0;
+      for (const photo of draft.photos) {
+        if (photo.item) { gallery.push(photo.item); continue; }
+        if (!photo.file) throw new Error("请重新选择未完成的照片");
+        const path = await uploadMedia("clinic-photos", photo.file, {
+          onProgress: (value) => setProgress((completed * 100 + value) / pendingCount),
+        });
+        const item: ClinicGalleryItem = { kind: "upload", path };
+        gallery.push(item);
+        completed += 1;
+        // Keep successful uploads in the draft if a later upload/save fails.
+        setDraft((current) => current && ({ ...current, photos: current.photos.map((p) => p.key === photo.key ? { ...p, item } : p) }));
       }
       const payload = {
         static_slug: draft.staticSlug,
@@ -211,7 +239,8 @@ export default function ClinicAdmin() {
         description_en: draft.descriptionEn.trim() || null,
         description_zh: draft.descriptionZh.trim() || null,
         is_public: draft.isPublic,
-        photo_path: photoPath,
+        photo_path: gallery[0]?.kind === "upload" ? gallery[0].path : null,
+        photo_gallery: gallery,
         website_url: normalizeWebsite(draft.websiteUrl),
         hidden: false,
         status: "published",
@@ -222,7 +251,6 @@ export default function ClinicAdmin() {
       if (error) throw new Error(error.message);
       toast.success("医院资料已保存");
       setDraft(null);
-      setPhotoFile(null);
       await load();
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "保存失败");
@@ -264,7 +292,7 @@ export default function ClinicAdmin() {
     if (!confirm(`确定删除「${entry.nameZh || entry.nameEn}」？该操作不可恢复。`)) return;
     const { error } = await supabase.from("clinics").delete().eq("id", entry.row.id);
     if (error) return toast.error(error.message);
-    if (entry.row.photo_path) await supabase.storage.from("clinic-photos").remove([entry.row.photo_path]);
+    // Unlinked uploads are retained; deleting a listing must not destroy a file used elsewhere.
     toast.success("已删除");
     await load();
   };
@@ -274,7 +302,7 @@ export default function ClinicAdmin() {
     if (!confirm("确定恢复这家医院的原始资料？自定义名称、介绍和图片会被清除。")) return;
     const { error } = await supabase.from("clinics").delete().eq("id", entry.row.id);
     if (error) return toast.error(error.message);
-    if (entry.row.photo_path) await supabase.storage.from("clinic-photos").remove([entry.row.photo_path]);
+    // Keep the former uploads recoverable in storage when restoring directory defaults.
     toast.success("已恢复原始资料");
     await load();
   };
@@ -297,7 +325,7 @@ export default function ClinicAdmin() {
       </div>
 
       <p className="text-sm text-muted-foreground">
-        共 {filtered.length} 家医院。可以修改名称、区域、介绍和照片；新增的医院会直接出现在医院目录里，隐藏的医院访客看不到。
+        共 {filtered.length} 家医院。可以修改名称、区域、介绍和照片（每家最多 6 张）；新增的医院会直接出现在医院目录里，隐藏的医院访客看不到。
       </p>
 
       {loading && <Loader2 className="size-5 animate-spin text-primary" />}
@@ -318,6 +346,7 @@ export default function ClinicAdmin() {
                 {!entry.staticSlug && <span className="shrink-0 rounded-full bg-muted px-2 py-0.5 text-[11px] text-muted-foreground">后台新增</span>}
               </div>
               <p className="truncate text-xs text-muted-foreground">{entry.nameEn}</p>
+              <p className="text-xs text-muted-foreground">照片 {entry.photos.length} / 6</p>
               <p className="truncate text-xs text-muted-foreground">{[cityName(entry.citySlug), entry.areaZh].filter(Boolean).join(" · ")}</p>
               <div className="mt-3 flex flex-wrap gap-2">
                 <Button size="sm" variant="outline" className="h-8 rounded-full" onClick={() => openEditor(entry)}><Pencil className="mr-1 size-3.5" />编辑</Button>
@@ -336,11 +365,14 @@ export default function ClinicAdmin() {
         {!loading && filtered.length === 0 && <p className="text-sm text-muted-foreground">没有符合条件的医院。</p>}
       </div>
 
-      <Dialog open={Boolean(draft)} onOpenChange={(open) => { if (!open) { setDraft(null); setPhotoFile(null); } }}>
+      <Dialog open={Boolean(draft)} onOpenChange={(open) => { if (!open && !saving) setDraft(null); }}>
         <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-lg">
-          <DialogHeader><DialogTitle>{draft?.staticSlug ? "编辑医院资料" : draft?.id ? "编辑医院" : "新增医院"}</DialogTitle></DialogHeader>
+          <DialogHeader>
+            <DialogTitle>{draft?.staticSlug ? "编辑医院资料" : draft?.id ? "编辑医院" : "新增医院"}</DialogTitle>
+            <DialogDescription>修改医院资料和照片，保存后更新网站。每家医院最多展示 6 张照片。</DialogDescription>
+          </DialogHeader>
           {draft && (
-            <div className="space-y-3">
+            <fieldset disabled={saving} className="min-w-0 space-y-3">
               <ClinicPdfExtractor
                 disabled={saving}
                 onExtract={(fields) => setDraft((prev) => prev && ({
@@ -406,24 +438,12 @@ export default function ClinicAdmin() {
                   </SelectContent>
                 </Select>
               </div>
-              <div>
-                <Label htmlFor="clinic-photo">医院照片</Label>
-                {draft.photoUrl && !photoFile && <img src={draft.photoUrl} alt="" className="mb-2 aspect-[2/1] w-full rounded-xl object-cover" />}
-                <FileDropZone
-                  id="clinic-photo"
-                  accept={PHOTO_ACCEPT}
-                  rules={PHOTO_RULES}
-                  disabled={saving}
-                  fileName={photoFile?.name ?? null}
-                  onFile={setPhotoFile}
-                  onInvalid={(m) => toast.error(m)}
-                />
-              </div>
+              <ClinicGalleryEditor photos={draft.photos} disabled={saving} onChange={(photos) => setDraft({ ...draft, photos })} />
               {saving && progress > 0 && <Progress value={progress} />}
-            </div>
+            </fieldset>
           )}
           <DialogFooter>
-            <Button variant="outline" className="rounded-full" onClick={() => { setDraft(null); setPhotoFile(null); }} disabled={saving}>取消</Button>
+            <Button variant="outline" className="rounded-full" onClick={() => setDraft(null)} disabled={saving}>取消</Button>
             <Button className="rounded-full" onClick={() => void save()} disabled={saving}>
               {saving ? <Loader2 className="size-4 animate-spin" /> : "保存"}
             </Button>

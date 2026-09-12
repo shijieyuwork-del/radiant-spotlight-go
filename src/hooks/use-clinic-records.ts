@@ -4,6 +4,7 @@ import type { ClinicRecord } from "@/data/clinicDirectory";
 import { supabase } from "@/integrations/supabase/client";
 import { signedUrls } from "@/lib/storage-urls";
 import { useRealtimeRefresh } from "@/hooks/use-realtime-refresh";
+import { clinicGalleryPaths, resolveClinicGallery } from "@/lib/clinic-gallery";
 
 export const clinicRecordsQueryKey = ["clinic-records"];
 
@@ -13,13 +14,15 @@ const text = (value: unknown): string => (typeof value === "string" ? value.trim
 export async function loadClinicRecords(): Promise<ClinicRecord[]> {
   const { data, error } = await supabase
     .from("clinics")
-    .select("id,static_slug,city_slug,name_en,name_zh,area_en,area_zh,description_en,description_zh,photo_path,website_url,is_public,hidden,status")
+    .select("*")
     .eq("status", "published")
     .order("id");
   if (error) throw new Error("Hospital records could not be loaded.");
   const rows = data ?? [];
-  const urls = await signedUrls("clinic-photos", rows.map((row) => row.photo_path));
-  return rows.map((row, index) => ({
+  const paths = rows.flatMap((row) => clinicGalleryPaths(row.photo_gallery, row.photo_path));
+  const urls = await signedUrls("clinic-photos", paths);
+  const byPath = new Map(paths.map((path, index) => [path, urls[index]]));
+  return rows.map((row) => ({
     id: row.id,
     staticSlug: text(row.static_slug) || null,
     citySlug: text(row.city_slug),
@@ -29,7 +32,8 @@ export async function loadClinicRecords(): Promise<ClinicRecord[]> {
     areaZh: text(row.area_zh),
     descriptionEn: text(row.description_en),
     descriptionZh: text(row.description_zh),
-    photoUrl: urls[index] ?? "",
+    photoUrl: byPath.get(row.photo_path ?? "") ?? "",
+    photoGallery: resolveClinicGallery(row.photo_gallery, byPath),
     websiteUrl: text(row.website_url),
     isPublic: Boolean(row.is_public),
     hidden: Boolean(row.hidden),
