@@ -14,7 +14,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { trackEvent } from "@/lib/analytics";
 
 export interface QuoteContext {
+  /** Pre-selected consultation flow. */
+  intent?: "question" | "care_plan";
   doctorName?: string;
+  hospitalName?: string;
   procedure?: string;
   city?: string;
   /** Non-sensitive placement label for aggregate funnel measurement. */

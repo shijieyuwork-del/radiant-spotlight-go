@@ -4,6 +4,7 @@ type BrandLogoProps = {
   className?: string;
   markClassName?: string;
   textClassName?: string;
+  showTagline?: boolean;
 };
 
 const BrandLogo = ({ className, markClassName, textClassName }: BrandLogoProps) => (
