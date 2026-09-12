@@ -34,7 +34,7 @@ export type City = {
   whyZh: string[];
   whyEn: string[];
   /** Top hospitals (display only) */
-  hospitals: { zh: string; en: string; areaZh: string; areaEn: string; isPublic?: boolean }[];
+  hospitals: { zh: string; en: string; areaZh: string; areaEn: string; isPublic?: boolean; img?: string }[];
   /** Travel essentials */
   travelZh: { airport: string; visa: string; hotel: string; lang: string };
   travelEn: { airport: string; visa: string; hotel: string; lang: string };

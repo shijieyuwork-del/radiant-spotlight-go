@@ -24,7 +24,7 @@ async function edit() {
   await waitFor(() => expect(screen.getByText(clinic.nameZh)).toBeInTheDocument());
   const card = screen.getByText(clinic.nameZh).closest("article")!;
   await waitFor(() => expect(within(card).getByRole("img")).toHaveAttribute("src", "/signed/old.jpg"));
-  fireEvent.click(within(card).getByRole("button", { name: "编辑", exact: true }));
+  fireEvent.click(within(card).getByRole("button", { name: "编辑" }));
   return screen.getByRole("dialog");
 }
 beforeEach(() => {

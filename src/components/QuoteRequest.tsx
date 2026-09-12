@@ -6,6 +6,8 @@ import { ConsultationDialog } from "@/components/ConsultationDialog";
 import { getConsultationPickerCopy } from "@/lib/consultation-picker-copy";
 
 export interface QuoteContext {
+  /** Pre-selected consultation flow. */
+  intent?: "question" | "care_plan";
   doctorName?: string;
   hospitalName?: string;
   procedure?: string;
