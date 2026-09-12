@@ -39,7 +39,7 @@ export function useClinicDirectory() {
     clinics,
     doctors: query.data ?? [],
     isLoading: query.isPending || records.isLoading,
-    isError: query.isError,
+    isError: query.isError || records.isError,
     refetch: () => { void records.refetch(); return query.refetch(); },
   };
 }

@@ -20,6 +20,7 @@ import { PHOTO_RULES, validateMediaFile } from "@/lib/media-validation";
 import { replaceMedia } from "@/lib/upload-media";
 import { useRealtimeRefresh } from "@/hooks/use-realtime-refresh";
 import BeforeAfterAdmin from "@/components/BeforeAfterAdmin";
+import ClinicAdmin from "@/components/ClinicAdmin";
 import DoctorAdmin from "./DoctorAdmin";
 import VideoAdmin from "./VideoAdmin";
 import QuoteRequestsAdmin, { type QuoteRequestRow } from "@/components/QuoteRequestsAdmin";
@@ -244,6 +245,7 @@ export default function ContentAdmin() {
             <TabsTrigger value="experts"><Stethoscope className="size-4 mr-1.5" />专家（{filteredExperts.length}）</TabsTrigger>
             <TabsTrigger value="videos"><Film className="size-4 mr-1.5" />视频（{filteredVideos.length}）</TabsTrigger>
             <TabsTrigger value="before-after"><Images className="size-4 mr-1.5" />术前术后对比</TabsTrigger>
+            <TabsTrigger value="clinics"><Images className="size-4 mr-1.5" />医院</TabsTrigger>
             <TabsTrigger value="new-expert"><Plus className="size-4 mr-1.5" />新增专家</TabsTrigger>
             <TabsTrigger value="new-video"><UploadCloud className="size-4 mr-1.5" />上传视频</TabsTrigger>
           </TabsList>
@@ -254,6 +256,9 @@ export default function ContentAdmin() {
 
           <TabsContent value="before-after" className="mt-4">
             <BeforeAfterAdmin experts={experts.map((e) => ({ id: e.id, name: e.name }))} />
+          </TabsContent>
+          <TabsContent value="clinics" className="mt-4">
+            <ClinicAdmin />
           </TabsContent>
 
           <TabsContent value="new-expert" className="mt-4 max-w-xl">

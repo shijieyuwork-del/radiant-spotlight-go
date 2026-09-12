@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useMemo } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import { BadgeCheck, Building2, MapPin, Search, ShieldCheck, X } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
@@ -8,18 +8,12 @@ import { Button } from "@/components/ui/button";
 import { CITIES } from "@/data/cities";
 import { useAsia } from "@/lib/asia-i18n";
 import { asiaCopy } from "@/lib/asia-copy";
-import { localizedField } from "@/lib/i18n-content";
-import { supabase } from "@/integrations/supabase/client";
-import { useRealtimeRefresh } from "@/hooks/use-realtime-refresh";
-import genericClinicImg from "@/assets/clinic1.jpg";
+import { useClinicDirectory } from "@/hooks/use-clinic-directory";
+import { getClinicPath, type DirectoryClinic } from "@/data/clinicDirectory";
+import { clinicPhoto } from "@/lib/clinic-photo";
+import { HospitalDirectoryPhoto } from "@/components/HospitalDirectoryPhoto";
 
 const normalize = (value: string) => value.trim().toLocaleLowerCase();
-
-type PublishedClinicRow = {
-  city: string;
-  hospital: string;
-  i18n: unknown;
-};
 
 type DirectoryFacility = {
   area: string;
@@ -27,7 +21,7 @@ type DirectoryFacility = {
   primary: string;
   published: boolean;
   secondary: string;
-  img: string;
+  clinic: DirectoryClinic;
 };
 
 const Clinics = () => {
@@ -36,61 +30,19 @@ const Clinics = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get("q") ?? "";
   const cityFilter = searchParams.get("city") ?? "all";
-  const [publishedClinics, setPublishedClinics] = useState<PublishedClinicRow[]>([]);
-
-  const loadPublishedClinics = useCallback(() => {
-    void supabase
-      .from("doctors")
-      .select("hospital,city,i18n")
-      .eq("status", "published")
-      .then(({ data }) => {
-        const unique = new Map<string, PublishedClinicRow>();
-        for (const row of data ?? []) {
-          if (!row.hospital?.trim() || !row.city?.trim()) continue;
-          unique.set(`${normalize(row.hospital)}:${normalize(row.city)}`, row as PublishedClinicRow);
-        }
-        setPublishedClinics(Array.from(unique.values()));
-      });
-  }, []);
-
-  useEffect(() => {
-    loadPublishedClinics();
-  }, [loadPublishedClinics]);
-  useRealtimeRefresh(["doctors"], loadPublishedClinics);
-
+  const { clinics, isError, refetch } = useClinicDirectory();
   const directory = useMemo(() => CITIES.map((city) => {
-    const hospitals: DirectoryFacility[] = city.hospitals.map((hospital) => ({
-      area: lang === "zh" ? hospital.areaZh : hospital.areaEn,
-      key: `guide:${city.slug}:${hospital.en}`,
-      primary: lang === "zh" ? hospital.zh : hospital.en,
-      published: false,
-      secondary: lang === "zh" ? hospital.en : hospital.zh,
-      img: hospital.img ?? genericClinicImg,
+    const hospitals: DirectoryFacility[] = clinics.filter((clinic) => clinic.citySlug === city.slug).map((clinic) => ({
+      area: lang === "zh" ? clinic.areaZh : clinic.areaEn,
+      key: clinic.slug,
+      primary: lang === "zh" ? clinic.nameZh : clinic.nameEn,
+      published: clinic.doctorIds.length > 0,
+      secondary: lang === "zh" ? clinic.nameEn : clinic.nameZh,
+      clinic,
     }));
 
-    for (const row of publishedClinics) {
-      const rowCity = normalize(row.city);
-      if (![normalize(city.en), normalize(city.zh)].some((name) => rowCity.includes(name) || name.includes(rowCity))) continue;
-      const primary = localizedField(row.i18n, "hospital", lang, row.hospital);
-      const secondaryLanguage = lang === "zh" ? "en" : "zh";
-      const secondary = localizedField(row.i18n, "hospital", secondaryLanguage, row.hospital);
-      const alreadyListed = hospitals.some((hospital) =>
-        [hospital.primary, hospital.secondary].some((name) => normalize(name) === normalize(primary) || normalize(name) === normalize(row.hospital)),
-      );
-      if (!alreadyListed) {
-        hospitals.unshift({
-          area: lang === "zh" ? city.zh : city.en,
-          key: `published:${city.slug}:${row.hospital}`,
-          primary,
-          published: true,
-          secondary: secondary === primary ? "" : secondary,
-          img: genericClinicImg,
-        });
-      }
-    }
-
     return { city, hospitals };
-  }), [lang, publishedClinics]);
+  }), [lang, clinics]);
 
   const filteredFacilities = useMemo(() => {
     const term = normalize(query);
@@ -194,6 +146,7 @@ const Clinics = () => {
               )}
             </div>
 
+            {isError && <p role="alert" className="mt-5 text-sm">{c("Hospital updates could not be loaded.", "医院更新暂时无法加载。", "Не удалось загрузить обновления.", "No se pudieron cargar los cambios.")} <Button variant="outline" onClick={() => void refetch()}>{c("Retry", "重试", "Повторить", "Reintentar")}</Button></p>}
             {filteredFacilities.length === 0 ? (
               <div role="status" className="mt-8 rounded-3xl border border-dashed border-border bg-card/60 px-6 py-14 text-center">
                 <Building2 className="mx-auto size-9 text-primary" />
@@ -211,9 +164,7 @@ const Clinics = () => {
               <ul className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-3" aria-label={c("All hospitals and clinics", "全部医院及诊所", "Все больницы и клиники", "Todos los hospitales y clínicas")}>
                 {filteredFacilities.map(({ city, hospital }) => (
                         <li key={hospital.key} className="flex min-h-36 flex-col overflow-hidden rounded-2xl border border-border/70 bg-card transition-colors hover:border-primary/30">
-                          <div className="relative aspect-[2/1] w-full overflow-hidden bg-muted">
-                            <img src={hospital.img} alt={hospital.primary} loading="lazy" decoding="async" className="size-full object-cover" />
-                          </div>
+                          <HospitalDirectoryPhoto key={clinicPhoto(hospital.clinic)?.src ?? "no-photo"} photo={clinicPhoto(hospital.clinic)} name={hospital.primary} href={getClinicPath(hospital.clinic)} />
                           <div className="flex flex-1 flex-col p-5">
                           <div className="flex items-start gap-3">
                             <span className="grid size-10 shrink-0 place-items-center rounded-full bg-primary/10 text-primary">
@@ -221,7 +172,7 @@ const Clinics = () => {
                             </span>
                             <div className="min-w-0">
                               <h4 className="font-display text-xl font-medium leading-snug text-foreground">
-                                {hospital.primary}
+                                <Link to={getClinicPath(hospital.clinic)} className="hover:underline">{hospital.primary}</Link>
                               </h4>
                               {hospital.secondary && <p className="mt-1 text-xs leading-5 text-muted-foreground">{hospital.secondary}</p>}
                               {hospital.published && (
