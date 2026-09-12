@@ -108,7 +108,6 @@ export type Database = {
       }
       clinics: {
         Row: {
-          photo_gallery: Json | null
           area_en: string | null
           area_zh: string | null
           city_slug: string
@@ -120,6 +119,7 @@ export type Database = {
           is_public: boolean
           name_en: string
           name_zh: string
+          photo_gallery: Json | null
           photo_path: string | null
           static_slug: string | null
           status: string
@@ -127,7 +127,6 @@ export type Database = {
           website_url: string | null
         }
         Insert: {
-          photo_gallery?: Json | null
           area_en?: string | null
           area_zh?: string | null
           city_slug: string
@@ -139,6 +138,7 @@ export type Database = {
           is_public?: boolean
           name_en?: string
           name_zh?: string
+          photo_gallery?: Json | null
           photo_path?: string | null
           static_slug?: string | null
           status?: string
@@ -146,7 +146,6 @@ export type Database = {
           website_url?: string | null
         }
         Update: {
-          photo_gallery?: Json | null
           area_en?: string | null
           area_zh?: string | null
           city_slug?: string
@@ -158,6 +157,7 @@ export type Database = {
           is_public?: boolean
           name_en?: string
           name_zh?: string
+          photo_gallery?: Json | null
           photo_path?: string | null
           static_slug?: string | null
           status?: string
@@ -551,6 +551,7 @@ export type Database = {
         Returns: boolean
       }
       run_security_watchdog: { Args: never; Returns: string }
+      valid_clinic_photo_gallery: { Args: { gallery: Json }; Returns: boolean }
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
