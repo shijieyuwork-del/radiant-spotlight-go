@@ -62,6 +62,24 @@ Deno.serve(async (req) => {
     let allowed: string[]
     if (isAdmin) {
       allowed = uniquePaths
+    } else if (bucket === 'clinic-photos') {
+      const published = new Set<string>()
+      // Only persisted photographs of visible, published clinics can be signed.
+      for (let offset = 0; ; offset += 500) {
+        const { data: rows, error } = await service.from('clinics')
+          .select('id,photo_path,photo_gallery').eq('status', 'published').eq('hidden', false)
+          .order('id').range(offset, offset + 499)
+        if (error) throw error
+        for (const row of rows ?? []) {
+          if (Array.isArray(row.photo_gallery)) {
+            for (const item of row.photo_gallery) {
+              if (item?.kind === 'upload' && typeof item.path === 'string') published.add(item.path)
+            }
+          } else if (row.photo_path) published.add(row.photo_path)
+        }
+        if (!rows || rows.length < 500) break
+      }
+      allowed = uniquePaths.filter((path) => published.has(path))
     } else if (bucket === 'before-after') {
       // Two path columns on one row — a path is public if either column matches a published case
       const { data: rows } = await service

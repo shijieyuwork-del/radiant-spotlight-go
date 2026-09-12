@@ -71,7 +71,7 @@ const GalleryCard = ({
         src={item.poster ?? DEFAULT_VIDEO_POSTER}
         alt=""
         loading={priority ? "eager" : "lazy"}
-        fetchpriority={priority ? "high" : "auto"}
+        fetchPriority={priority ? "high" : "auto"}
         decoding="async"
         className="absolute inset-0 size-full object-cover opacity-90 transition-opacity group-hover:opacity-100"
       />

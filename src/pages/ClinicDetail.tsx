@@ -5,14 +5,14 @@ import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
 import { Button } from "@/components/ui/button";
-import { HospitalDirectoryPhoto } from "@/components/HospitalDirectoryPhoto";
+import { ClinicPhotoGallery } from "@/components/clinics/ClinicPhotoGallery";
 import { ClinicExperts } from "@/components/clinics/ClinicExperts";
 import { ClinicComparisonInfo } from "@/components/clinics/ClinicComparisonInfo";
 import { useQuote } from "@/components/QuoteRequest";
 import { CITIES } from "@/data/cities";
 import { findClinicBySlug, getClinicPath } from "@/data/clinicDirectory";
 import { findClinicPublicProfile } from "@/data/clinicProfiles";
-import { clinicPhoto } from "@/lib/clinic-photo";
+import { clinicPhotos } from "@/lib/clinic-photo";
 import { useClinicDirectory } from "@/hooks/use-clinic-directory";
 import { useAsia } from "@/lib/asia-i18n";
 import { asiaCopy } from "@/lib/asia-copy";
@@ -52,7 +52,7 @@ export default function ClinicDetail() {
   const secondary = lang === "zh" ? clinic.nameEn : clinic.nameZh;
   const cityName = lang === "zh" ? city.zh : city.en;
   const area = lang === "zh" ? publicProfile?.campus?.areaZh ?? clinic.areaZh : publicProfile?.campus?.areaEn ?? clinic.areaEn;
-  const photo = clinicPhoto(clinic);
+  const photos = clinicPhotos(clinic);
   const description = (lang === "zh" ? clinic.descriptionZh : clinic.descriptionEn) ?? "";
   const related = clinics.filter((item) => item.citySlug === clinic.citySlug && item.slug !== clinic.slug).slice(0, 3);
   const experts = doctors.filter((doctor) => clinic.doctorIds.includes(doctor.id));
@@ -92,9 +92,7 @@ export default function ClinicDetail() {
 
         <div className="grid items-start gap-8 lg:grid-cols-3 lg:gap-10">
           <div className="min-w-0 space-y-8 lg:col-span-2">
-            <figure className="overflow-hidden rounded-2xl border border-border/70">
-              <HospitalDirectoryPhoto key={photo?.src ?? "no-photo"} photo={photo} name={name} priority className="aspect-[4/3] sm:aspect-[3/2]" />
-            </figure>
+            <ClinicPhotoGallery key={clinic.slug} photos={photos} name={name} />
             <section aria-labelledby="clinic-overview-title">
               <h2 id="clinic-overview-title" className="font-display text-2xl font-medium">{c("About this listing", "关于此机构资料", "Об этой странице", "Sobre esta ficha")}</h2>
               {description && <p className="mt-4 whitespace-pre-line text-base leading-7 text-foreground">{description}</p>}

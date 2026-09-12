@@ -1,5 +1,6 @@
 import { CITIES } from "./cities";
 import { ADDITIONAL_CLINICS } from "./additionalClinics";
+import type { ResolvedClinicGalleryItem } from "@/lib/clinic-gallery";
 
 export type DirectoryClinic = {
   slug: string;
@@ -20,6 +21,7 @@ export type DirectoryClinic = {
   descriptionZh?: string;
   /** Admin-uploaded hero photograph (signed URL). */
   photoUrl?: string;
+  photoGallery?: ResolvedClinicGalleryItem[] | null;
   /** Official hospital website (absolute URL). */
   websiteUrl?: string;
 };
@@ -286,6 +288,7 @@ export type ClinicRecord = {
   descriptionEn: string;
   descriptionZh: string;
   photoUrl: string;
+  photoGallery?: ResolvedClinicGalleryItem[] | null;
   websiteUrl: string;
   isPublic: boolean;
   hidden: boolean;
@@ -319,6 +322,7 @@ export const applyClinicRecords = (clinics: DirectoryClinic[], records: ClinicRe
       descriptionEn: override.descriptionEn || undefined,
       descriptionZh: override.descriptionZh || undefined,
       photoUrl: override.photoUrl || undefined,
+      photoGallery: override.photoGallery,
       websiteUrl: override.websiteUrl || undefined,
     });
   }
@@ -347,6 +351,7 @@ export const applyClinicRecords = (clinics: DirectoryClinic[], records: ClinicRe
       descriptionEn: record.descriptionEn || undefined,
       descriptionZh: record.descriptionZh || undefined,
       photoUrl: record.photoUrl || undefined,
+      photoGallery: record.photoGallery,
       websiteUrl: record.websiteUrl || undefined,
     });
   }

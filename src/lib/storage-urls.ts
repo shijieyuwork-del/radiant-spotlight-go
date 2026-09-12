@@ -6,13 +6,16 @@ import { supabase } from "@/integrations/supabase/client";
  * entry for every request (including denied attempts).
  */
 export const signedUrls = async (bucket: string, paths: (string | null | undefined)[]): Promise<string[]> => {
-  const valid = paths.filter((p): p is string => Boolean(p));
+  const valid = [...new Set(paths.filter((p): p is string => Boolean(p)))];
   if (valid.length === 0) return paths.map(() => "");
-  const { data, error } = await supabase.functions.invoke("request-file-access", {
-    body: { bucket, paths: valid },
-  });
-  const urls = (data as { urls?: Record<string, string> } | null)?.urls;
-  if (error || !urls) return paths.map(() => "");
+  const urls: Record<string, string> = {};
+  // The audited access endpoint accepts at most 50 paths per request.
+  for (let offset = 0; offset < valid.length; offset += 50) {
+    const { data, error } = await supabase.functions.invoke("request-file-access", {
+      body: { bucket, paths: valid.slice(offset, offset + 50) },
+    });
+    if (!error && data?.urls) Object.assign(urls, data.urls);
+  }
   return paths.map((p) => (p ? urls[p] ?? "" : ""));
 };
 
