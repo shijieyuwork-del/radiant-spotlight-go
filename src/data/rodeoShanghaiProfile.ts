@@ -1,9 +1,166 @@
-/** Brochure-based defaults for build-time HTML; admin descriptions override these at runtime. */
+/** Reviewed build-time defaults; admin descriptions override these at runtime. Sources: docs/rodeo-clinic-sources.md. */
 export const RODEO_SHANGHAI_SLUG = "shanghai-rodeo-rejuvenation-center-shanghai-flagship-n1yx3arfqnjp";
 
 export const RODEO_SHANGHAI_PROFILE = {
-  "websiteUrl": "https://rodeomed.com/",
-  "descriptionEn": "RODEO Rejuvenation Center, known in Chinese as 柔缇欧, brings an American-inspired approach to skin care and facial rejuvenation to central Shanghai. Its flagship focuses on doctor-led assessment, individual aesthetic planning and continuing care. Understanding your features and preferences comes before choosing a treatment.\n\n## Brand story and development\n\nThe supplied brand brochure identifies RODEO as the sister brand of Beverly Hills Rejuvenation Center (BHRC), founded in Los Angeles in 2005. It describes the RODEO founding team's involvement with BHRC's West Los Angeles operation in 2019 and the development of a China-market plan that year.\n\nRODEO was established in Shanghai in 2021. The brochure dates the opening of its Shanghai flagship near Huaihai Middle Road to 2024. These are separate milestones: BHRC's 2005 founding date is not the opening date of the Shanghai clinic.\n\nRODEO's stated aim is to adapt its American clinical-service approach to local skin concerns and aesthetic preferences. Its materials emphasise long-term planning, individual proportions and a natural-looking appearance rather than a uniform treatment template.\n\n## A doctor-led approach to aesthetics\n\nThe brochure describes a consultation model led by doctors and nurses, with attention to the patient's medical record and individual goals. Planning starts with an assessment rather than a predetermined product package.\n\nIts approach combines medical assessment with aesthetic design. For facial rejuvenation, the materials discuss balance, contour, support and the way light and shadow fall across the face. For skin concerns, the emphasis is on identifying the concern and considering suitable treatments over time.\n\nRODEO describes shared clinical-process guidance with BHRC covering consultation, diagnosis, treatment and medication use. This is the brand's description of its internal approach, not a separate government accreditation or a guarantee of safety or results.\n\n## Injectable treatments and facial contouring\n\nThe brochure lists hyaluronic acid fillers, botulinum toxin treatments and skin-booster injections among its injectable categories. Its stated areas of focus include facial lines, volume loss, contour definition and skin quality.\n\nThe medical-team introduction also discusses small-volume filling, facial support and personalised contour planning. A consultation is the place to clarify which product, treatment area and approach the doctor proposes, and why. A product mentioned in the brochure is not confirmation that it is currently available or suitable for every patient.\n\n## Laser, radiofrequency and ultrasound treatments\n\nRODEO's energy-based treatment categories include laser, radiofrequency and ultrasound technologies. The brochure describes their use in skin-care, firming, facial rejuvenation and body-contouring programmes, depending on the treatment selected.\n\nThe clinical team's listed interests include uneven skin tone, other skin concerns, full-face rejuvenation and combined energy-based contour treatments. The brochure names technologies and training affiliations, but does not provide a verified, current Shanghai device inventory. Confirm the exact device, indication and treating clinician before booking.\n\n## Medical team introduced in the brochure\n\nThese profiles summarise the supplied brand materials. They are not a live Shanghai appointment roster; current registration, branch attendance and availability should be confirmed directly.\n\n- Dr Chen Sikai (陈思凯), listed as RODEO's medical director and an attending physician in aesthetic dermatology. His described interests include personalised aesthetic planning, facial contouring, small-volume filling and facial support. The brochure lists product-training or teaching roles associated with Ellansé, Galderma, Aivlan, Allergan and Imeik, as well as thread-related training.\n- Dr Hu Lingling (胡玲玲), listed as technical director and an associate chief physician in aesthetic dermatology, with a master's degree in laser aesthetics from Anhui Medical University. Her described interests include skin concerns, skin-tone management, facial rejuvenation and combined energy-based contour treatments. The brochure lists Thermage and Peninsula ultrasound training roles, injectable-product certifications and dermatology publications.\n- Dr Liu Lunfei (刘伦飞), introduced as a medical expert adviser. The brochure identifies his dermatology leadership role at the Fourth Affiliated Hospital of Zhejiang University School of Medicine and describes work in inflammatory skin conditions, dermatologic surgery and clinical research. An advisory role does not mean he routinely sees patients at this Shanghai branch.\n\n## Founding team and operating approach\n\nThe brochure introduces Alex Wang Bowen (王渤文) as CEO and co-founder, with a UCLA Anderson MBA and product-management experience. Eric Zhang Yu (张煜), COO and co-founder, is described as having a USC materials-science background and operational experience in the United States.\n\nEllie Su Qingqing (苏青青), CFO and co-founder, is introduced through her accounting, business-analysis and finance background and involvement in BHRC's West Los Angeles operation. Kiki Han Shuqi (韩淑琪) is listed as an investor and consultant, with a USC finance background and a leadership role at BIOLAB. These profiles explain the brand's management background; they are not clinical qualifications.\n\n## Your consultation and continuing care\n\nRODEO's materials describe a continuing relationship between the patient and clinical team, rather than a single treatment visit.\n\n- Initial consultation: discuss your goals and medical background with the doctor and nursing team.\n- Individual planning: review the proposed approach, alternatives, product or device choices, expected recovery and limitations before deciding.\n- Treatment visit: receive the agreed treatment with the clinical team's support and explanations.\n- Aftercare: the brochure describes a multi-person support group involving doctors, nurses and front-desk staff, with attention to follow-up and recovery questions.\n\nThe brand website also describes appointment-based visits and a dedicated aftercare communication group. Confirm who handles follow-up, the available contact hours and what support is included in your written plan. This listing does not guarantee treatment outcomes or response times.\n\n## BIOLAB collaboration and home skin care\n\nThe brochure describes a collaboration with BIOLAB (听研) connecting in-clinic aesthetic services with skin-care routines at home. It discusses skin-type-specific MED-SPA programmes and skin care before, during and after treatment.\n\nThis adds context to RODEO's continuing-care approach, but does not establish that a retail product is needed for your treatment or will improve its outcome. Ask your treating clinician which products are appropriate and whether additional costs apply.\n\n## Shanghai flagship location and environment\n\nThe Shanghai flagship is at Room 202, 7 Maoming South Road, Huangpu District, near Huaihai Middle Road. The brochure identifies the premises as the second-floor Shanghai flagship. The photographs on this page come from that branch's brochure spread and show its reception and interior circulation spaces.\n\nThe brand presents the environment as part of the consultation experience, with attention to colour, furnishings and patient comfort. These are Shanghai branch images, not photographs of BHRC's overseas locations.\n\nThe official website lists telephone +86 21 5265 5715, email hello@rodeomed.com and opening hours of 10:00–18:30, Monday to Sunday. Check the schedule before travelling; opening hours do not guarantee a particular doctor's availability.\n\n## Planning a visit through CeladonChina\n\nContact CeladonChina to ask about this Shanghai clinic and help coordinating a consultation around your travel plans. Confirm your preferred language, interpretation requirements and appointment dates in advance; this listing does not assume that every clinician speaks English.\n\nThe brochure does not provide a current Shanghai price list. Request an itemised quote and confirmation of the treating clinician, clinic registration, proposed products or devices, consent process and follow-up arrangements before committing. Medical decisions remain between you and the treating clinician.\n\n## Sources and scope\n\nThis profile is based on the owner-supplied brand brochure, 品牌介绍2025103.pdf, especially pages 2, 8, 13–14, 17–20, 23, 25 and 28. Current contact details were checked against the [RODEO official brand page](https://rodeomed.com/about) on 13 September 2026. Team biographies and brand-history statements are attributed to the brochure, not independently verified current credentials.\n\nThe brochure also discusses hormone-management and cell-related programmes in its broader brand materials. Those are not presented here as confirmed Shanghai services, approved indications or proven anti-ageing benefits. Overseas network statistics, overseas awards, sales figures and outcome guarantees have not been assigned to this clinic.",
-  "descriptionZh": "RODEO Rejuvenation Center 柔缇欧是一家以美式医美理念为背景、关注皮肤管理和面部年轻化的品牌。上海旗舰店位于上海市中心，品牌倡导医生主导的面诊、结合个人特点的美学方案，以及治疗后的持续关怀。了解你的面部特征、皮肤需求和个人偏好，是选择项目之前的重要一步。\n\n## 品牌起源与发展\n\n品牌宣传册将 RODEO 介绍为 Beverly Hills Rejuvenation Center（BHRC）的姐妹品牌。BHRC 于2005年创立于美国洛杉矶比弗利山庄；宣传册记载，柔缇欧创始团队于2019年参与 BHRC 西洛杉矶门店运营，并于同年共同规划中国市场的发展。\n\nRODEO 于2021年在上海创立，宣传册将淮海中路附近的上海旗舰店开幕时间记载为2024年。这几个时间点分别对应姐妹品牌成立、柔缇欧品牌创立和上海旗舰店开业，不应将2005年理解为上海店的开业年份。\n\n品牌希望把美式诊疗服务理念与本地求美者的肤质、轮廓和审美需求结合起来。资料强调长期规划、个体比例与自然美感，不以统一的项目模板替代每个人的具体需求。\n\n## 医生主导的美学理念\n\n宣传册介绍了医生和护士共同参与的首诊模式，重视医疗档案、既往情况和个人目标。方案设计从面诊评估开始，而不是先确定产品套餐，再寻找适用人群。\n\n柔缇欧将医学评估与美学设计结合：面部年轻化关注轮廓、支撑、比例及面部光影；皮肤管理则围绕具体问题讨论治疗选择与后续安排。品牌资料强调根据个人特点制定方案，并关注随时间变化的需求。\n\n宣传册还介绍了 RODEO 与 BHRC 共同指导的内部流程，涉及就诊、诊断、治疗及用药。这里描述的是品牌自述的内部管理方式，不等同于额外的政府认证，也不构成安全或效果保证。\n\n## 注射类项目与面部轮廓管理\n\n宣传册列举的注射类项目包括玻尿酸填充、肉毒素治疗及水光类注射。资料中介绍的关注方向有面部细纹、凹陷、轮廓塑形和皮肤状态管理。\n\n医生团队资料也提到微量填充、面部支撑和个性化轮廓设计。面诊时可以进一步了解医生拟采用的产品、部位、方法及其理由。宣传册出现的产品或品牌名称，不代表上海店当前一定提供，也不意味着适合所有人。\n\n## 光电项目与皮肤年轻化\n\n资料中的光电类技术涵盖激光、射频和超声，介绍的方向包括皮肤美容、紧致、面部年轻化及身体轮廓管理，具体取决于所选项目。\n\n团队专长部分还提到肤色综合管理、问题性肌肤、全面部年轻化及光电联合轮廓管理。宣传册虽然列出了部分设备相关培训背景，但不构成上海店当前设备库存清单。预约前应确认具体设备、适用项目及操作医生。\n\n## 宣传册介绍的医疗团队\n\n以下内容是对品牌资料中医生介绍的整理，并非上海店的实时排班表。医生当前执业注册、出诊门店和可预约时间，需要向机构再次确认。\n\n- 陈思凯医生：资料列为柔缇欧总院长、美容皮肤科主治医师。介绍的专长包括个性化美学方案、面部轮廓管理、精细化微整形、支点提升与微填充，以及面部光影设计。宣传册同时列有伊妍仕、高德美、艾维岚、艾尔建、爱美客等产品相关培训或讲师背景，以及线材操作培训经历。\n- 胡玲玲医生：资料列为柔缇欧技术院长、美容皮肤科副主任医师，并记载其安徽医科大学激光美容学硕士背景。介绍的专长包括问题性肌肤、肤色综合管理、全面部年轻化及光电联合轮廓管理。宣传册列有热玛吉、半岛超声相关培训导师经历、多种注射产品认证，以及皮肤科相关论文发表记录。\n- 刘伦飞医生：资料以医疗专家导师身份介绍，记载其浙江大学医学院附属第四医院皮肤科相关任职，以及炎症性皮肤病、皮肤外科和临床研究经历。专家顾问或导师身份不等于在上海店日常坐诊。\n\n## 创始团队与运营背景\n\n宣传册介绍，王渤文（Alex）为 CEO、联合创始人，具有 UCLA Anderson MBA 及产品管理背景；张煜（Eric）为 COO、联合创始人，具有 USC 材料学及美国企业运营经历。\n\n苏青青（Ellie）为 CFO、联合创始人，资料介绍了其会计、商业分析及财务管理背景，以及参与 BHRC 西洛杉矶门店运营的经历。韩淑琪（Kiki）以投资人、顾问身份出现，具有 USC 金融学背景，并与 BIOLAB 听研的品牌经营相关。这些内容用于说明品牌管理背景，不应视为医疗执业资格。\n\n## 从面诊到后续护理\n\n柔缇欧的资料将服务描述为患者与医护团队之间持续的沟通关系，而不仅是完成某一次治疗。\n\n- 初次面诊：与医生、护理团队沟通个人目标及医疗背景。\n- 个性化规划：在决定前了解拟定方案、替代选择、产品或设备、预期恢复安排及局限。\n- 到店治疗：由临床团队提供约定的治疗，并进行相应沟通与说明。\n- 后续护理：宣传册介绍了包含医生、护士及前台人员的多人服务小组，关注治疗后的沟通、护理和恢复问题。\n\n品牌官网也介绍了预约制到店及专属术后服务对接群。请在书面安排中确认由谁负责后续联系、可联系时段和具体服务范围。本介绍不承诺治疗结果或即时回复时间。\n\n## BIOLAB 听研合作与居家护肤\n\n宣传册介绍了柔缇欧与 BIOLAB 听研的合作，希望将院内医美服务与居家护肤衔接起来。内容包括按肤质设计 MED-SPA 项目，以及治疗前、中、后的分阶段护肤安排。\n\n这说明了品牌的持续护理思路，但并不代表某款零售护肤品是治疗必需，或必然能够提高疗效。具体适用产品、使用方式及额外费用，应向接诊医生确认。\n\n## 上海旗舰店位置与环境\n\n上海旗舰店地址为上海市黄浦区茂名南路7号202室，邻近淮海中路。宣传册将该店标注为二层上海旗舰店。本页图片提取自上海门店的介绍页面，展示接待及内部通行空间。\n\n品牌将空间体验视为就诊体验的一部分，在色调、陈设和舒适度上作出安排。本页使用的是上海店实景，不是 BHRC 海外门店的照片。\n\n品牌官网公布的联系电话为 +86 21 5265 5715，邮箱为 hello@rodeomed.com，营业时间为周一至周日10:00–18:30。出行前请再次确认，营业时间不代表指定医生一定出诊。\n\n## 通过 CeladonChina 安排咨询\n\n你可以联系 CeladonChina，了解这家上海机构，并协助围绕行程协调面诊。请提前说明偏好的语言、翻译需求及预约日期；本页不默认每位医生都提供英语服务。\n\n宣传册没有提供上海店当前的完整价格表。决定治疗前，请取得明细报价，并确认机构与医生执业信息、拟用产品或设备、知情同意及后续护理安排。医疗决定由你与接诊医生共同作出。\n\n## 资料来源与介绍范围\n\n本介绍主要依据用户提供的《品牌介绍2025103.pdf》，对应第2、8、13–14、17–20、23、25及28页；当前联系方式于2026年9月13日对照[RODEO 品牌官网](https://rodeomed.com/about)核对。医生履历和品牌发展信息注明来自宣传册，不代表已独立核实的最新执业资质。\n\n宣传册还在更广泛的品牌资料中讨论了荷尔蒙管理及细胞相关项目。本页未将这些内容列为已确认的上海店服务、获批适应证或已证实的抗衰效果，也未将海外门店数量、海外奖项、营收数据和疗效保证套用到上海店。"
-} as const;
+  websiteUrl: "https://rodeomed.com/",
+  descriptionEn: `RODEO Rejuvenation Center, known in Chinese as 柔缇欧, brings an American-inspired approach to skin care and facial rejuvenation to central Shanghai. Its flagship combines doctor-led assessment with individual aesthetic planning and continuing care. Your features, skin concerns and preferences come first.
 
+## Brand story and development
+
+RODEO is the sister brand of Beverly Hills Rejuvenation Center (BHRC), founded in Los Angeles in 2005. Its founding team became involved in BHRC's West Los Angeles operation in 2019 and began planning the brand's development in China that year.
+
+RODEO was established in Shanghai in 2021, followed by the opening of its Shanghai flagship near Huaihai Middle Road in 2024.
+
+The brand combines its American clinical-service background with local skin concerns and aesthetic preferences. Its approach centres on long-term planning, individual proportions and natural-looking changes.
+
+## A doctor-led approach to aesthetics
+
+Your first consultation brings together the doctor and nursing team to understand your medical history and goals. Assessment comes before selecting a treatment or product.
+
+Facial planning considers balance, contour, support and the way light and shadow fall across your features. Skin-care planning starts with your specific concerns and how your needs may change over time.
+
+RODEO and BHRC share internal clinical-process guidance covering consultation, diagnosis, treatment and medication use. This internal framework is separate from local medical licensing requirements.
+
+## Injectable treatments and facial contouring
+
+Treatment categories include hyaluronic acid fillers, botulinum toxin treatments and skin-booster injections, with a focus on facial lines, volume loss, contour definition and skin quality.
+
+Personalised contour planning may involve small-volume filling and facial support. During your consultation, the doctor can explain the proposed product, treatment area and approach, alongside alternatives and limitations. Product availability and suitability are confirmed individually.
+
+## Laser, radiofrequency and ultrasound treatments
+
+Laser, radiofrequency and ultrasound technologies form part of RODEO's approach to skin care, firming, facial rejuvenation and body-contouring programmes.
+
+Areas of focus include uneven skin tone, other skin concerns, full-face rejuvenation and combined energy-based treatments. The exact device and treatment plan depend on your assessment and current clinic availability.
+
+## Medical team
+
+Meet the clinical leaders and advisers behind RODEO's approach. Shanghai appointments depend on each doctor's current registration, branch schedule and availability.
+
+- Dr Chen Sikai (陈思凯), medical director and attending physician in aesthetic dermatology. His focus includes personalised aesthetic planning, facial contouring, small-volume filling, facial support and light-and-shadow design. His background includes product-training or teaching roles associated with Ellansé, Galderma, Aivlan, Allergan and Imeik, alongside thread-related training.
+- Dr Hu Lingling (胡玲玲), technical director and associate chief physician in aesthetic dermatology, with a master's degree in laser aesthetics from Anhui Medical University. Her focus includes skin concerns, skin-tone management, facial rejuvenation and combined energy-based contour treatments. Her background includes Thermage and Peninsula ultrasound training roles, injectable-product certifications and dermatology publications.
+- Dr Liu Lunfei (刘伦飞), medical expert adviser, with a dermatology leadership background at the Fourth Affiliated Hospital of Zhejiang University School of Medicine. His work covers inflammatory skin conditions, dermatologic surgery and clinical research. His advisory role is separate from routine appointments at the Shanghai branch.
+
+## Founding team and operating approach
+
+Alex Wang Bowen (王渤文), CEO and co-founder, has a UCLA Anderson MBA and a product-management background. Eric Zhang Yu (张煜), COO and co-founder, brings a USC materials-science background and operational experience in the United States.
+
+Ellie Su Qingqing (苏青青), CFO and co-founder, has experience in accounting, business analysis and finance, including involvement in BHRC's West Los Angeles operation. Kiki Han Shuqi (韩淑琪), investor and consultant, has a USC finance background and brand-management experience with BIOLAB. This team supports the business and service operation; clinical care is led by medical professionals.
+
+## Your consultation and continuing care
+
+Your care continues beyond the treatment appointment, with communication between you and the clinical team.
+
+- Initial consultation: discuss your goals and medical background with the doctor and nursing team.
+- Individual planning: review the proposed approach, alternatives, products or devices, expected recovery and limitations before deciding.
+- Treatment visit: receive the agreed treatment with explanations and support from the clinical team.
+- Aftercare: a support group involving doctors, nurses and front-desk staff helps coordinate follow-up and recovery questions.
+
+Visits are appointment-based. Your written plan should identify who handles follow-up, when support is available and which services are included.
+
+## BIOLAB collaboration and home skin care
+
+RODEO's collaboration with BIOLAB (听研) connects in-clinic aesthetic care with skin-care routines at home. It includes skin-type-specific MED-SPA programmes and care before, during and after treatment.
+
+Your clinician can advise on appropriate products, how to use them and any additional costs. Retail skin-care products are optional unless your treating clinician recommends them as part of your care plan.
+
+## Shanghai flagship location and environment
+
+Address: Room 202, 7 Maoming South Road, Huangpu District, Shanghai.
+
+The second-floor flagship is near Huaihai Middle Road. Its reception and interior spaces combine cool tones, curved details and glass partitions, creating a distinctive setting for your visit.
+
+You can explore the brand on the [RODEO official website](https://rodeomed.com/).
+
+## Planning a visit through CeladonChina
+
+CeladonChina can help coordinate a consultation at the Shanghai flagship around your travel plans. Tell us your preferred language, interpretation needs and appointment dates so we can help you prepare.
+
+Before deciding, request an itemised quote and confirm the treating clinician, clinic registration, proposed products or devices, consent process and aftercare arrangements. Medical decisions remain between you and your treating clinician.
+
+## Before you book
+
+Services, products and doctor schedules can change. We can help you check the details for your intended visit before you commit to travel or treatment.
+
+Your treatment plan, recovery and results depend on your individual assessment. Take time to discuss benefits, risks and alternatives with your doctor; no treatment outcome is guaranteed.`,
+  descriptionZh: `RODEO Rejuvenation Center 柔缇欧将美式医美理念带入上海，关注皮肤管理与面部年轻化。上海旗舰店以医生主导的面诊、个性化美学规划和后续护理为核心，从你的面部特征、皮肤需求与个人偏好出发，讨论适合你的方案。
+
+## 品牌起源与发展
+
+RODEO 是 Beverly Hills Rejuvenation Center（BHRC）的姐妹品牌。BHRC 于2005年创立于美国洛杉矶；柔缇欧创始团队于2019年参与 BHRC 西洛杉矶门店运营，并于同年开始规划中国市场的发展。
+
+RODEO 于2021年在上海创立，位于淮海中路附近的上海旗舰店于2024年开业。
+
+品牌将美式诊疗服务经验与本地求美者的肤质、轮廓和审美偏好结合，重视长期规划、个体比例与自然美感。
+
+## 医生主导的美学理念
+
+首次面诊由医生和护理团队共同参与，了解你的医疗背景、既往情况与个人目标。先完成评估，再讨论项目及产品选择。
+
+面部年轻化关注轮廓、支撑、比例及光影；皮肤管理则围绕具体问题讨论治疗选择，并兼顾需求随时间发生的变化。
+
+RODEO 与 BHRC 共享涵盖就诊、诊断、治疗及用药的内部流程指导。机构及医生的执业仍须符合当地医疗许可要求。
+
+## 注射类项目与面部轮廓管理
+
+项目类别包括玻尿酸填充、肉毒素治疗及水光类注射，关注面部细纹、凹陷、轮廓塑形与皮肤状态。
+
+个性化轮廓设计可涉及微量填充及面部支撑。面诊时，医生会与你讨论拟用产品、治疗部位和方法，以及替代选择与局限。具体产品是否可用、是否适合你，需要结合个人情况确认。
+
+## 光电项目与皮肤年轻化
+
+光电类技术涵盖激光、射频与超声，可用于不同的皮肤管理、紧致、面部年轻化及身体轮廓管理方案。
+
+团队关注肤色综合管理、问题性肌肤、全面部年轻化及光电联合治疗。具体设备与项目安排取决于面诊评估和门店当前可提供的服务。
+
+## 医疗团队
+
+了解柔缇欧临床负责人及专家顾问的背景与专长。上海店的面诊预约需结合医生当前执业注册、出诊安排和可预约时间确认。
+
+- 陈思凯医生：柔缇欧总院长、美容皮肤科主治医师，关注个性化美学方案、面部轮廓管理、精细化微整形、支点提升与微填充，以及面部光影设计。具有伊妍仕、高德美、艾维岚、艾尔建、爱美客等产品相关培训或讲师背景，以及线材操作培训经历。
+- 胡玲玲医生：柔缇欧技术院长、美容皮肤科副主任医师，具有安徽医科大学激光美容学硕士背景。关注问题性肌肤、肤色综合管理、全面部年轻化及光电联合轮廓管理，具有热玛吉、半岛超声相关培训导师经历、多种注射产品认证及皮肤科论文发表记录。
+- 刘伦飞医生：医疗专家导师，具有浙江大学医学院附属第四医院皮肤科相关任职背景，研究与诊疗方向涉及炎症性皮肤病、皮肤外科及临床研究。专家顾问身份与上海店日常坐诊安排分开确认。
+
+## 创始团队与运营背景
+
+王渤文（Alex）为 CEO、联合创始人，具有 UCLA Anderson MBA 及产品管理背景；张煜（Eric）为 COO、联合创始人，具有 USC 材料学背景及美国企业运营经历。
+
+苏青青（Ellie）为 CFO、联合创始人，具有会计、商业分析及财务管理经验，并参与过 BHRC 西洛杉矶门店运营。韩淑琪（Kiki）为投资人、顾问，具有 USC 金融学背景及 BIOLAB 听研品牌经营经验。创始团队负责品牌与服务运营，临床诊疗由医疗专业人员承担。
+
+## 从面诊到后续护理
+
+治疗完成后，你与医护团队的沟通仍会继续。
+
+- 初次面诊：与医生及护理团队沟通个人目标和医疗背景。
+- 个性化规划：决定前了解拟定方案、替代选择、产品或设备、预期恢复安排及局限。
+- 到店治疗：由临床团队提供约定的治疗，并给予相应说明与支持。
+- 后续护理：由医生、护士及前台人员组成的服务小组协助对接随访、护理与恢复问题。
+
+门店采用预约制。请在书面安排中确认后续对接人员、服务时段及具体支持范围。
+
+## BIOLAB 听研合作与居家护肤
+
+柔缇欧与 BIOLAB 听研合作，将院内医美服务与居家护肤衔接，涵盖按肤质设计的 MED-SPA 项目及治疗前、中、后的分阶段护理。
+
+医生可根据你的情况建议适用产品、使用方式及后续护理安排，并说明额外费用。除接诊医生明确建议纳入护理方案外，零售护肤品可自行选择。
+
+## 上海旗舰店位置与环境
+
+地址：上海市黄浦区茂名南路7号202室。
+
+旗舰店位于二层，邻近淮海中路。接待与内部空间以冷色调、弧形细节和玻璃隔断营造鲜明的空间风格。
+
+更多品牌信息可浏览[RODEO 品牌官网](https://rodeomed.com/)。
+
+## 通过 CeladonChina 安排咨询
+
+CeladonChina 可以协助你围绕旅行计划，协调上海旗舰店的面诊。提前告诉我们偏好的语言、翻译需求及预约日期，我们会帮你准备就诊安排。
+
+决定治疗前，请取得明细报价，并确认机构与医生执业信息、拟用产品或设备、知情同意及后续护理安排。医疗决定由你与接诊医生共同作出。
+
+## 预约前须知
+
+服务项目、产品供应及医生排班可能调整。出行或决定治疗前，我们可以协助你核对本次预约的具体安排。
+
+治疗方案、恢复情况与结果因人而异。请与医生充分讨论获益、风险及替代选择，不必急于决定；任何项目都不保证特定效果。`,
+} as const;

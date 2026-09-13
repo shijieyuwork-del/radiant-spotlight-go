@@ -26,14 +26,14 @@ export function getClinicReadingGuide(description: string, chapters: ClinicChapt
       ["面诊方式", "医生主导，个性化规划"],
       ["门店位置", "上海 · 黄浦区"],
     ],
-    note: "项目和医生资料来自品牌宣传册，当前服务与出诊安排请在预约前确认。",
+    note: "预约前，我们可以协助你确认项目与医生的出诊安排。",
     groups: [
       ["项目与诊疗理念", "注射、光电与个性化面诊", [1, 2, 3]],
       ["认识医疗团队", "三位医生的背景与专长", [4]],
       ["面诊与后续护理", "到店流程、护理支持与居家护肤", [6, 7]],
-      ["上海店与预约", "地址、联系方式和预约前需确认的事项", [8, 9]],
+      ["上海店与预约", "门店地址、官网和面诊安排", [8, 9]],
       ["品牌与创始团队", "发展历程、BHRC 背景及运营团队", [0, 5]],
-      ["资料来源与说明", "信息出处及本介绍的范围", [10]],
+      ["预约前须知", "提前确认安排，了解治疗与恢复", [10]],
     ],
   } : {
     title: "At a glance", prompt: "Choose a topic to see the details.", expand: "Expand all", collapse: "Collapse all",
@@ -43,14 +43,14 @@ export function getClinicReadingGuide(description: string, chapters: ClinicChapt
       ["Approach", "Doctor-led, individual planning"],
       ["Location", "Huangpu, Shanghai"],
     ],
-    note: "Treatments and team details come from the brand brochure. Confirm current services and doctor availability before booking.",
+    note: "We can help confirm current treatments and doctor availability before you book.",
     groups: [
       ["Treatments & approach", "Injectables, skin treatments and individual planning", [1, 2, 3]],
       ["Meet the medical team", "Three doctors, their backgrounds and specialties", [4]],
       ["Your visit & aftercare", "Consultation, follow-up and home skin care", [6, 7]],
-      ["Shanghai clinic & booking", "Address, contact details and what to confirm", [8, 9]],
+      ["Shanghai clinic & booking", "Clinic address, official website and appointments", [8, 9]],
       ["Brand & founding team", "The RODEO story, BHRC and the people behind it", [0, 5]],
-      ["Sources & important details", "Where the information comes from and its scope", [10]],
+      ["Before you book", "Confirm your plans and understand treatment and recovery", [10]],
     ],
   };
   const groups: ClinicReadingGroup[] = reviewed
