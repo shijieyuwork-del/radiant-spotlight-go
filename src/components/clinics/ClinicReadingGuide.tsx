@@ -1,6 +1,7 @@
 import { useRef, useState, type ReactNode } from "react";
 import { ChevronDown } from "lucide-react";
 import { getClinicReadingGuide, type ClinicChapter } from "@/lib/clinic-reading-guide";
+import { RodeoMedicalTeam } from "./RodeoMedicalTeam";
 
 type Props = {
   description: string;
@@ -58,10 +59,13 @@ export function ClinicReadingGuide({ description, language, chapters, intro, ren
           </summary>
           <div className="reading-copy space-y-7 px-5 pb-6 pt-2 sm:px-6">
             {group.includesIntro && <div className="max-w-prose space-y-4">{intro}</div>}
-            {group.chapters.map((chapter) => <section key={chapter.title} className="max-w-prose space-y-4">
-              <h4 className="text-base font-semibold leading-normal">{chapter.title}</h4>
-              {renderBlocks(chapter.blocks)}
-            </section>)}
+            {group.chapters.map((chapter) => {
+              const isMedicalTeam = guide.reviewed && /^(Medical team|医疗团队)$/.test(chapter.title);
+              return <section key={chapter.title} className={isMedicalTeam ? "space-y-4" : "max-w-prose space-y-4"}>
+                <h4 className="text-base font-semibold leading-normal">{chapter.title}</h4>
+                {isMedicalTeam ? <RodeoMedicalTeam language={language} /> : renderBlocks(chapter.blocks)}
+              </section>;
+            })}
           </div>
         </details>)}
       </div>

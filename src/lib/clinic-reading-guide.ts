@@ -56,5 +56,5 @@ export function getClinicReadingGuide(description: string, chapters: ClinicChapt
   const groups: ClinicReadingGroup[] = reviewed
     ? copy.groups.map(([title, hint, indices]) => ({ title: title as string, hint: hint as string, chapters: (indices as number[]).map((i) => chapters[i]), includesIntro: (indices as number[]).includes(0) }))
     : chapters.map((chapter) => ({ title: chapter.title, hint: "", chapters: [chapter] }));
-  return { ...copy, summary: reviewed ? copy.summary : "", facts: reviewed ? copy.facts : [], note: reviewed ? copy.note : "", groups };
+  return { ...copy, reviewed, summary: reviewed ? copy.summary : "", facts: reviewed ? copy.facts : [], note: reviewed ? copy.note : "", groups };
 }

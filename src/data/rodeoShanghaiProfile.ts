@@ -39,7 +39,7 @@ Meet the clinical leaders and advisers behind RODEO's approach. Shanghai appoint
 
 - Dr Chen Sikai (陈思凯), medical director and attending physician in aesthetic dermatology. His focus includes personalised aesthetic planning, facial contouring, small-volume filling, facial support and light-and-shadow design. His background includes product-training or teaching roles associated with Ellansé, Galderma, Aivlan, Allergan and Imeik, alongside thread-related training.
 - Dr Hu Lingling (胡玲玲), technical director and associate chief physician in aesthetic dermatology, with a master's degree in laser aesthetics from Anhui Medical University. Her focus includes skin concerns, skin-tone management, facial rejuvenation and combined energy-based contour treatments. Her background includes Thermage and Peninsula ultrasound training roles, injectable-product certifications and dermatology publications.
-- Dr Liu Lunfei (刘伦飞), medical expert adviser, with a dermatology leadership background at the Fourth Affiliated Hospital of Zhejiang University School of Medicine. His work covers inflammatory skin conditions, dermatologic surgery and clinical research. His advisory role is separate from routine appointments at the Shanghai branch.
+- Dr. Dan, RODEO's chief medical officer and a Boston University Medical Center professor. His profile focuses on facial rejuvenation, non-invasive treatments and injectables. Confirm his current Shanghai attendance and appointment availability before booking.
 
 ## Founding team and operating approach
 
@@ -119,7 +119,7 @@ RODEO 与 BHRC 共享涵盖就诊、诊断、治疗及用药的内部流程指�
 
 - 陈思凯医生：柔缇欧总院长、美容皮肤科主治医师，关注个性化美学方案、面部轮廓管理、精细化微整形、支点提升与微填充，以及面部光影设计。具有伊妍仕、高德美、艾维岚、艾尔建、爱美客等产品相关培训或讲师背景，以及线材操作培训经历。
 - 胡玲玲医生：柔缇欧技术院长、美容皮肤科副主任医师，具有安徽医科大学激光美容学硕士背景。关注问题性肌肤、肤色综合管理、全面部年轻化及光电联合轮廓管理，具有热玛吉、半岛超声相关培训导师经历、多种注射产品认证及皮肤科论文发表记录。
-- 刘伦飞医生：医疗专家导师，具有浙江大学医学院附属第四医院皮肤科相关任职背景，研究与诊疗方向涉及炎症性皮肤病、皮肤外科及临床研究。专家顾问身份与上海店日常坐诊安排分开确认。
+- Dr. Dan：柔缇欧首席医疗官、波士顿大学医学中心教授，官网介绍的专长包括全面部年轻化、非侵入性治疗与注射治疗。预约前请确认其当前上海出诊及可预约时间。
 
 ## 创始团队与运营背景
 

@@ -28,7 +28,10 @@ describe("admin-editable clinic descriptions", () => {
     expect(screen.getByRole("heading", { name: "Medical team" })).toBeVisible();
     expect(screen.getByText(/Dr Chen Sikai/)).toBeInTheDocument();
     expect(screen.getByText(/Dr Hu Lingling/)).toBeInTheDocument();
-    expect(screen.getByText(/Dr Liu Lunfei/)).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: /Dr\. Dan, official RODEO photograph/ })).toBeVisible();
+    expect(screen.getByRole("img", { name: /Dr Chen Sikai, official RODEO photograph/ })).toBeVisible();
+    expect(screen.getByRole("img", { name: /Dr Hu Lingling, official RODEO photograph/ })).toBeVisible();
+    expect(screen.getByRole("link", { name: /View the medical team on RODEO/ })).toHaveAttribute("href", "https://rodeomed.com/doctors");
     expect(screen.getAllByRole("listitem")).toHaveLength(7);
     expect(screen.getByRole("link", { name: "RODEO official website" })).toHaveAttribute("href", "https://rodeomed.com/");
     screen.getByRole("button", { name: "Collapse all" }).focus();
@@ -43,7 +46,7 @@ describe("admin-editable clinic descriptions", () => {
     fireEvent.click(screen.getByRole("button", { name: "展开全部" }));
     expect(screen.getAllByRole("heading", { level: 4 })).toHaveLength(11);
     expect(screen.getByRole("heading", { name: "BIOLAB 听研合作与居家护肤" })).toBeInTheDocument();
-    expect(screen.getByText(/陈思凯医生/)).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: /陈思凯 院长，柔缇欧官网照片/ })).toBeVisible();
     expect(screen.getByRole("link", { name: "RODEO 品牌官网" })).toHaveAttribute("rel", "noopener noreferrer nofollow");
   });
 

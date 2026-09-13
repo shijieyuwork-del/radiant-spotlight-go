@@ -39,3 +39,7 @@ Expanded the gallery using six original images from the official about-page gall
 | clinic-10.jpg | rodeo-shanghai-lounge.webp | Lounge seating |
 
 The previous montage remains in storage for recovery but is no longer the selected gallery. All six new images remain editable through the existing clinic admin gallery. No storage objects, clinic records, DNS records or permissions were deleted or changed outside this listing's content fields.
+
+## Official medical-team cards, 2026-09-13
+
+The site owner confirmed permission to reuse material from https://rodeomed.com/. The medical-team disclosure now uses the official portraits and current summary information published at https://rodeomed.com/doctors for Dr. Dan, Chen Sikai and Hu Lingling. The images are stored locally as `rodeo-dr-dan.jpg`, `rodeo-chen-sikai.jpg` and `rodeo-hu-lingling.jpg`; no generated portraits are used. The public page links back to the official team page and continues to tell readers to confirm current registration, Shanghai attendance and availability before booking.
