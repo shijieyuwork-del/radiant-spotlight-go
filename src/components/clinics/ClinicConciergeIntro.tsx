@@ -16,7 +16,7 @@ const COPY: Record<AsiaLang, ConciergeCopy> = {
   en: {
     eyebrow: "Why CeladonChina",
     title: "One conversation. The right clinic. Support from start to finish.",
-    body: "Tell us what you are considering. CeladonChina helps you compare suitable hospitals and clinics, coordinates introductions, consultations and appointments, and supports your journey in China—all through one dedicated team. You pay all medical fees directly to your chosen provider.",
+    body: "Compare hospitals and clinics with CeladonChina. One team for appointments and support in China. Pay medical fees directly to your provider.",
     directPay: "We coordinate your care journey. You pay your chosen provider directly.",
     benefits: ["Airport pickup", "In-clinic interpretation", "Two hotel nights", "Dedicated concierge support"],
     note: "Included at no additional service fee for eligible confirmed journeys. Dates, visits and services are confirmed in writing before travel.",
