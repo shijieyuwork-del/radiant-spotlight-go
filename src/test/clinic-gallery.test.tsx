@@ -6,7 +6,7 @@ import ClinicGalleryEditor, { type DraftClinicPhoto } from "@/components/ClinicG
 import { ClinicPhotoGallery } from "@/components/clinics/ClinicPhotoGallery";
 import { STATIC_CLINICS } from "@/data/clinicDirectory";
 import { clinicPhoto, clinicPhotos } from "@/lib/clinic-photo";
-import { clinicGalleryPaths, parseClinicGallery, resolveClinicGallery } from "@/lib/clinic-gallery";
+import { MAX_CLINIC_PHOTOS, clinicGalleryPaths, parseClinicGallery, resolveClinicGallery } from "@/lib/clinic-gallery";
 
 vi.mock("@/lib/asia-i18n", () => ({ useAsia: () => ({ lang: "en" }) }));
 beforeEach(() => {
@@ -44,24 +44,39 @@ describe("clinic gallery references", () => {
     expect(clinicGalleryPaths([], "old.jpg")).toEqual([]);
     expect(clinicGalleryPaths([{ kind: "original" }, { kind: "upload", path: "new.jpg" }], "old.jpg")).toEqual(["new.jpg"]);
     expect(resolveClinicGallery([{ kind: "upload", path: "new.jpg" }], new Map([["new.jpg", "/signed.jpg"]]))).toEqual([{ kind: "upload", path: "new.jpg", url: "/signed.jpg" }]);
-    expect(parseClinicGallery(Array.from({ length: 7 }, () => ({ kind: "original" })))).toHaveLength(6);
+    expect(MAX_CLINIC_PHOTOS).toBe(12);
+    expect(parseClinicGallery(Array.from({ length: 6 }, () => ({ kind: "original" })))).toHaveLength(6);
+    expect(parseClinicGallery(Array.from({ length: 13 }, () => ({ kind: "original" })))).toHaveLength(12);
+  });
+  it("preserves and resolves all twelve stored photos in order", () => {
+    const gallery = Array.from({ length: 12 }, (_, index) => ({ kind: "upload" as const, path: `${index}.jpg` }));
+    const paths = gallery.map((item) => item.path);
+    expect(parseClinicGallery(gallery)).toEqual(gallery);
+    expect(clinicGalleryPaths(gallery)).toEqual(paths);
+    expect(resolveClinicGallery(gallery, new Map(paths.map((path) => [path, `/signed/${path}`])))).toEqual(
+      gallery.map((item) => ({ ...item, url: `/signed/${item.path}` })),
+    );
   });
 });
 
 describe("clinic gallery editing", () => {
-  it("adds multiple images, disables add at six, and allows adding after removal", () => {
+  it("adds multiple images, disables add at twelve, and allows adding after removal", () => {
     const { container } = render(<Editor initial={[photo(0)]} />);
     fireEvent.click(screen.getByRole("button", { name: "添加照片" }));
-    upload(container, Array.from({ length: 5 }, file));
-    expect(screen.getAllByRole("img")).toHaveLength(6);
+    upload(container, Array.from({ length: 11 }, file));
+    expect(screen.getAllByRole("img")).toHaveLength(12);
+    expect(screen.getByRole("heading", { name: "医院照片 12 / 12" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "添加照片" })).toBeDisabled();
-    fireEvent.click(screen.getByRole("button", { name: "删除照片 6" }));
+    fireEvent.click(screen.getByRole("button", { name: "删除照片 12" }));
     expect(screen.getByRole("button", { name: "添加照片" })).toBeEnabled();
+    upload(container, [file()]);
+    expect(screen.getAllByRole("img")).toHaveLength(12);
+    expect(screen.getByRole("button", { name: "添加照片" })).toBeDisabled();
   });
   it("rejects an oversized batch without losing existing images", () => {
     const { container } = render(<Editor initial={[photo(0)]} />);
-    upload(container, Array.from({ length: 6 }, file));
-    expect(screen.getByRole("alert")).toHaveTextContent("最多 6 张");
+    upload(container, Array.from({ length: 12 }, file));
+    expect(screen.getByRole("alert")).toHaveTextContent("最多 12 张照片，还可以添加 11 张");
     expect(screen.getAllByRole("img")).toHaveLength(1);
   });
   it("rejects non-image and oversize files", () => {
@@ -74,11 +89,11 @@ describe("clinic gallery editing", () => {
     expect(screen.getByRole("alert")).toHaveTextContent("10");
     expect(screen.queryByRole("img")).not.toBeInTheDocument();
   });
-  it("replaces an image at the six-photo limit and revokes temporary previews", () => {
-    const { container, unmount } = render(<Editor initial={Array.from({ length: 6 }, (_, i) => photo(i))} />);
+  it("replaces an image at the twelve-photo limit and revokes temporary previews", () => {
+    const { container, unmount } = render(<Editor initial={Array.from({ length: 12 }, (_, i) => photo(i))} />);
     fireEvent.click(screen.getByRole("button", { name: "替换照片 2" }));
     upload(container, [file()]);
-    expect(screen.getAllByRole("img")).toHaveLength(6);
+    expect(screen.getAllByRole("img")).toHaveLength(12);
     expect(screen.getAllByRole("img")[1]).toHaveAttribute("src", "blob:test");
     unmount();
     expect(URL.revokeObjectURL).toHaveBeenCalledWith("blob:test");
@@ -100,5 +115,14 @@ describe("clinic gallery editing", () => {
     expect(screen.getByRole("img", { name: "Hospital" })).toHaveAttribute("src", "/new.jpg");
     expect(screen.queryByText("Photo credit")).not.toBeInTheDocument();
     expect(screen.getByRole("button", { name: "View photo 2 of 2" })).toHaveAttribute("aria-pressed", "true");
+  });
+  it("displays and selects the twelfth photo on the public page", () => {
+    const clinic = STATIC_CLINICS[0];
+    const photos = clinicPhotos({ ...clinic, photoGallery: Array.from({ length: 12 }, (_, i) => ({ kind: "upload", path: `${i}.jpg`, url: `/photo-${i}.jpg` })) });
+    render(<MemoryRouter><ClinicPhotoGallery photos={photos} name="Hospital" /></MemoryRouter>);
+    expect(screen.getAllByRole("button", { name: /View photo/ })).toHaveLength(12);
+    fireEvent.click(screen.getByRole("button", { name: "View photo 12 of 12" }));
+    expect(screen.getByRole("img", { name: "Hospital" })).toHaveAttribute("src", "/photo-11.jpg");
+    expect(screen.getByText("12 / 12")).toBeInTheDocument();
   });
 });

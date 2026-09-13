@@ -211,7 +211,7 @@ export default function ClinicAdmin() {
   const save = async () => {
     if (!draft || saving) return;
     if (!draft.nameEn.trim() && !draft.nameZh.trim()) return toast.error("请至少填写一个医院名称");
-    if (draft.photos.length > MAX_CLINIC_PHOTOS) return toast.error("每家医院最多 6 张照片");
+    if (draft.photos.length > MAX_CLINIC_PHOTOS) return toast.error(`每家医院最多 ${MAX_CLINIC_PHOTOS} 张照片`);
     setSaving(true);
     try {
       const gallery: ClinicGalleryItem[] = [];
@@ -325,7 +325,7 @@ export default function ClinicAdmin() {
       </div>
 
       <p className="text-sm text-muted-foreground">
-        共 {filtered.length} 家医院。可以修改名称、区域、介绍和照片（每家最多 6 张）；新增的医院会直接出现在医院目录里，隐藏的医院访客看不到。
+        共 {filtered.length} 家医院。可以修改名称、区域、介绍和照片（每家最多 {MAX_CLINIC_PHOTOS} 张）；新增的医院会直接出现在医院目录里，隐藏的医院访客看不到。
       </p>
 
       {loading && <Loader2 className="size-5 animate-spin text-primary" />}
@@ -346,7 +346,7 @@ export default function ClinicAdmin() {
                 {!entry.staticSlug && <span className="shrink-0 rounded-full bg-muted px-2 py-0.5 text-[11px] text-muted-foreground">后台新增</span>}
               </div>
               <p className="truncate text-xs text-muted-foreground">{entry.nameEn}</p>
-              <p className="text-xs text-muted-foreground">照片 {entry.photos.length} / 6</p>
+              <p className="text-xs text-muted-foreground">照片 {entry.photos.length} / {MAX_CLINIC_PHOTOS}</p>
               <p className="truncate text-xs text-muted-foreground">{[cityName(entry.citySlug), entry.areaZh].filter(Boolean).join(" · ")}</p>
               <div className="mt-3 flex flex-wrap gap-2">
                 <Button size="sm" variant="outline" className="h-8 rounded-full" onClick={() => openEditor(entry)}><Pencil className="mr-1 size-3.5" />编辑</Button>

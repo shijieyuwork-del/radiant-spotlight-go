@@ -40,6 +40,19 @@ beforeEach(() => {
 afterEach(cleanup);
 
 describe("clinic gallery persistence", () => {
+  it("loads and saves all twelve stored photos without truncating or reuploading", async () => {
+    const gallery = ["old.jpg", ...Array.from({ length: 11 }, (_, i) => `photo-${i + 2}.jpg`)]
+      .map((path) => ({ kind: "upload", path }));
+    mock.rows[0].photo_gallery = gallery;
+    const dialog = await edit();
+    expect(screen.getByText("照片 12 / 12")).toBeInTheDocument();
+    expect(within(dialog).getAllByRole("img")).toHaveLength(12);
+    expect(within(dialog).getByRole("button", { name: "添加照片" })).toBeDisabled();
+    fireEvent.click(within(dialog).getByRole("button", { name: "保存" }));
+    await waitFor(() => expect(mock.save).toHaveBeenCalledWith(expect.objectContaining({ photo_gallery: gallery, photo_path: "old.jpg" })));
+    expect(mock.upload).not.toHaveBeenCalled();
+    expect(mock.remove).not.toHaveBeenCalled();
+  });
   it("cancelling a removal leaves the record and stored files untouched", async () => {
     const dialog = await edit();
     fireEvent.click(within(dialog).getByRole("button", { name: "删除照片 1" }));

@@ -42,7 +42,7 @@ export default function ClinicGalleryEditor({ photos, onChange, disabled = false
   const receive = (files: File[]) => {
     if (!files.length || disabled) return;
     if (!replaceKey && photos.length + files.length > MAX_CLINIC_PHOTOS) {
-      setError(`每家医院最多 6 张照片，还可以添加 ${MAX_CLINIC_PHOTOS - photos.length} 张。`);
+      setError(`每家医院最多 ${MAX_CLINIC_PHOTOS} 张照片，还可以添加 ${MAX_CLINIC_PHOTOS - photos.length} 张。`);
       return;
     }
     const invalid = files.map((file) => validateMediaFile(file, PHOTO_RULES)).find(Boolean);
@@ -56,7 +56,7 @@ export default function ClinicGalleryEditor({ photos, onChange, disabled = false
   };
   return <section className="space-y-3" aria-label="医院照片管理">
     <div className="flex items-center justify-between gap-3">
-      <h3 className="text-sm font-medium">医院照片 <span className="text-muted-foreground">{photos.length} / 6</span></h3>
+      <h3 className="text-sm font-medium">医院照片 <span className="text-muted-foreground">{photos.length} / {MAX_CLINIC_PHOTOS}</span></h3>
       <Button type="button" size="sm" variant="outline" disabled={disabled || photos.length >= MAX_CLINIC_PHOTOS} onClick={() => choose(null)}>
         <ImagePlus className="mr-1.5 size-4" />添加照片
       </Button>

@@ -1,7 +1,7 @@
 /** Stored references, never temporary signed URLs or browser object URLs. */
 export type ClinicGalleryItem = { kind: "original" } | { kind: "upload"; path: string };
 export type ResolvedClinicGalleryItem = ClinicGalleryItem & { url?: string };
-export const MAX_CLINIC_PHOTOS = 6;
+export const MAX_CLINIC_PHOTOS = 12;
 
 /** null inherits the legacy photograph; [] intentionally displays no photographs. */
 export function parseClinicGallery(value: unknown): ClinicGalleryItem[] | null {
