@@ -22,3 +22,20 @@ Additional brochure pages reviewed: 17–20 (founding team and medical advisers)
 The brand website's contact details, hours and appointment/aftercare-group descriptions were checked on 2026-09-13. These are brand-published statements. BHRC's 2005 founding date is distinguished from RODEO's 2021 Shanghai founding and 2024 Shanghai flagship opening. Overseas branch counts, awards, sales figures, guaranteed treatment outcomes and unverified Shanghai hormone/cell-service claims are excluded.
 
 Full English and Chinese text is stored in the clinic admin description fields. Matching build-time defaults are in src/data/rodeoShanghaiProfile.ts so the expanded profile is also present in initial HTML. Admin edits still override those defaults. Descriptions support double-hash subsection headings, hyphen list items and HTTPS source links, with raw HTML always escaped.
+
+## Customer-facing revision and expanded gallery, 2026-09-13
+
+The owner requested natural clinic copy without repeated brochure/reporting language. Rewrote both languages and the topic summaries while retaining eleven chapters and six disclosure groups. Source provenance stays in this internal record; doctor registration, attendance and treatment availability still require booking-time confirmation. Removed the hospital's phone, email and opening-hours paragraph. The owner explicitly clarified that the official website link should remain, alongside the Shanghai address and CeladonChina consultation controls.
+
+Expanded the gallery using six original images from the official about-page gallery (https://rodeomed.com/about). Browser-observed assets were exported without AI editing or retouching. Clinic image 1 visibly carries the Shanghai clinic name; the reception, blue counter, curved partitions and corridor match the owner-supplied Shanghai spread. Images from Suzhou or overseas branches are not used.
+
+| Official gallery image | Stored clinic-photos path | View |
+| --- | --- | --- |
+| clinic-2.jpg | rodeo-shanghai-reception.webp | Reception overview / cover |
+| clinic-1.jpg | rodeo-shanghai-entrance.webp | Entrance with Shanghai clinic sign |
+| clinic-5.jpg | rodeo-shanghai-retail.webp | Retail display space |
+| clinic-7.jpg | rodeo-shanghai-corridor.webp | Corridor and greenery |
+| clinic-8.jpg | rodeo-shanghai-window.webp | Window and glass partition |
+| clinic-10.jpg | rodeo-shanghai-lounge.webp | Lounge seating |
+
+The previous montage remains in storage for recovery but is no longer the selected gallery. All six new images remain editable through the existing clinic admin gallery. No storage objects, clinic records, DNS records or permissions were deleted or changed outside this listing's content fields.

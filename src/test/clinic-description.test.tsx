@@ -25,12 +25,12 @@ describe("admin-editable clinic descriptions", () => {
     expect(screen.getByRole("heading", { name: "Brand story and development", hidden: true })).not.toBeVisible();
     fireEvent.click(screen.getByRole("button", { name: "Expand all" }));
     expect(container.querySelectorAll("details[open]")).toHaveLength(6);
-    expect(screen.getByRole("heading", { name: "Medical team introduced in the brochure" })).toBeVisible();
+    expect(screen.getByRole("heading", { name: "Medical team" })).toBeVisible();
     expect(screen.getByText(/Dr Chen Sikai/)).toBeInTheDocument();
     expect(screen.getByText(/Dr Hu Lingling/)).toBeInTheDocument();
     expect(screen.getByText(/Dr Liu Lunfei/)).toBeInTheDocument();
     expect(screen.getAllByRole("listitem")).toHaveLength(7);
-    expect(screen.getByRole("link", { name: "RODEO official brand page" })).toHaveAttribute("href", "https://rodeomed.com/about");
+    expect(screen.getByRole("link", { name: "RODEO official website" })).toHaveAttribute("href", "https://rodeomed.com/");
     screen.getByRole("button", { name: "Collapse all" }).focus();
     fireEvent.click(screen.getByRole("button", { name: "Collapse all" }));
     expect(container.querySelectorAll("details[open]")).toHaveLength(0);
@@ -80,7 +80,7 @@ describe("admin-editable clinic descriptions", () => {
     expect(html).toContain("<details");
     expect(html).toContain("<summary");
     expect(html).toContain("Dr Chen Sikai");
-    expect(html).toContain("https://rodeomed.com/about");
+    expect(html).toContain("https://rodeomed.com/");
     expect(html).not.toContain("display:none");
   });
 
@@ -93,5 +93,15 @@ describe("admin-editable clinic descriptions", () => {
   it("does not create an empty content container", () => {
     const { container } = render(<ClinicDescription description="  " />);
     expect(container).toBeEmptyDOMElement();
+  });
+
+  it("uses customer-facing copy without hospital phone or email in either language", () => {
+    for (const [language, description] of [["en", RODEO_SHANGHAI_PROFILE.descriptionEn], ["zh", RODEO_SHANGHAI_PROFILE.descriptionZh]]) {
+      const html = renderToStaticMarkup(<ClinicDescription description={description} language={language} />);
+      expect(html).not.toMatch(/brochure|宣传册|资料列为|资料中|5265|hello@|mailto:|tel:/i);
+      expect(html).toContain("https://rodeomed.com/");
+      expect(html).toContain("CeladonChina");
+      expect(html).toContain(language === "zh" ? "茂名南路7号202室" : "Room 202, 7 Maoming South Road");
+    }
   });
 });
