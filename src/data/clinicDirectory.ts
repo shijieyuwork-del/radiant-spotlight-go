@@ -1,6 +1,7 @@
 import { CITIES } from "./cities";
 import { ADDITIONAL_CLINICS } from "./additionalClinics";
 import type { ResolvedClinicGalleryItem } from "@/lib/clinic-gallery";
+import { RODEO_SHANGHAI_PROFILE, RODEO_SHANGHAI_SLUG } from "./rodeoShanghaiProfile";
 
 export type DirectoryClinic = {
   slug: string;
@@ -81,6 +82,7 @@ export const STATIC_CLINICS: DirectoryClinic[] = CITIES.flatMap((city) => [
   doctorIds: [],
   origin: "directory" as const,
   isPublic,
+  ...(clinicSlug(city.slug, hospital.en || hospital.zh) === RODEO_SHANGHAI_SLUG ? RODEO_SHANGHAI_PROFILE : {}),
 })));
 
 if (new Set(STATIC_CLINICS.map((clinic) => clinic.slug)).size !== STATIC_CLINICS.length) {

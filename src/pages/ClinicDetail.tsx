@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
 import { Button } from "@/components/ui/button";
 import { ClinicPhotoGallery } from "@/components/clinics/ClinicPhotoGallery";
+import { ClinicDescription } from "@/components/clinics/ClinicDescription";
 import { ClinicExperts } from "@/components/clinics/ClinicExperts";
 import { ClinicComparisonInfo } from "@/components/clinics/ClinicComparisonInfo";
 import { useQuote } from "@/components/QuoteRequest";
@@ -95,7 +96,7 @@ export default function ClinicDetail() {
             <ClinicPhotoGallery key={clinic.slug} photos={photos} name={name} />
             <section aria-labelledby="clinic-overview-title">
               <h2 id="clinic-overview-title" className="font-display text-2xl font-medium">{c("About this listing", "关于此机构资料", "Об этой странице", "Sobre esta ficha")}</h2>
-              {description && <p className="mt-4 whitespace-pre-line text-base leading-7 text-foreground">{description}</p>}
+              {description && <ClinicDescription description={description} />}
               <p className="mt-4 text-base leading-7 text-muted-foreground">{c(
                 `This page brings together the directory information, available photographs and published expert profiles for ${clinic.nameEn} in ${city.en}.`,
                 `本页汇集${city.zh}${clinic.nameZh}的目录资料、现有实拍图片和已发布的关联专家资料。`,

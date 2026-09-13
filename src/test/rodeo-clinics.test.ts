@@ -14,6 +14,8 @@ describe("RODEO branch onboarding", () => {
       "/clinics/shanghai-rodeo-rejuvenation-center-shanghai-flagship-n1yx3arfqnjp",
     ]);
     expect(branches[0].areaEn).toContain("Maoming South Road");
+    expect(branches[0].descriptionEn).toContain("## Medical team introduced in the brochure");
+    expect(branches[0].descriptionZh).toContain("## 品牌起源与发展");
   });
 
   it("does not add Suzhou and gives the flagship Shanghai metadata", () => {
