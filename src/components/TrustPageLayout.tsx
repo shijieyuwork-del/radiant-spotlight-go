@@ -75,8 +75,8 @@ const TrustPageLayout = ({ children, effectiveDate = "August 29, 2026", eyebrow,
   );
 };
 
-export const TrustSection = ({ children, title }: { children: React.ReactNode; title: string }) => (
-  <section className="rounded-[2rem] border border-border bg-card p-6 shadow-soft md:p-9">
+export const TrustSection = ({ children, id, title }: { children: React.ReactNode; id?: string; title: string }) => (
+  <section id={id} className="scroll-mt-28 rounded-[2rem] border border-border bg-card p-6 shadow-soft md:p-9">
     <h2 className="font-display text-2xl font-semibold tracking-tight md:text-3xl">{title}</h2>
     <div className="mt-4 space-y-4 text-sm leading-7 text-muted-foreground md:text-base">{children}</div>
   </section>

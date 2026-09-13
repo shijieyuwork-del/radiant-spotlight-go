@@ -1,4 +1,4 @@
-import { Building2, Headphones, Hotel, Languages, Plane, Wallet } from "lucide-react";
+import { ArrowRight, Building2, Headphones, Hotel, Languages, Plane, Wallet } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAsia, type AsiaLang } from "@/lib/asia-i18n";
 
@@ -10,6 +10,7 @@ type ConciergeCopy = {
   benefits: [string, string, string, string];
   note: string;
   terms: string;
+  partnershipLink: string;
 };
 
 const COPY: Record<AsiaLang, ConciergeCopy> = {
@@ -21,6 +22,7 @@ const COPY: Record<AsiaLang, ConciergeCopy> = {
     benefits: ["Airport pickup", "In-clinic interpretation", "Two hotel nights", "Dedicated concierge support"],
     note: "Included at no additional service fee for eligible confirmed journeys. Dates, visits and services are confirmed in writing before travel.",
     terms: "See $200 deposit terms",
+    partnershipLink: "Why clinics work with CeladonChina",
   },
   zh: {
     eyebrow: "为什么选择 CeladonChina",
@@ -30,6 +32,7 @@ const COPY: Record<AsiaLang, ConciergeCopy> = {
     benefits: ["免费机场接送", "免费院内翻译", "免费两晚酒店", "专属客服支持"],
     note: "符合条件并已确认的行程可免费包含以上服务。具体日期、就诊安排和服务内容将在出发前以书面形式确认。",
     terms: "查看 200 美元押金条款",
+    partnershipLink: "为什么医院选择与 CeladonChina 合作？",
   },
   ru: {
     eyebrow: "Почему CeladonChina",
@@ -39,6 +42,7 @@ const COPY: Record<AsiaLang, ConciergeCopy> = {
     benefits: ["Трансфер из аэропорта", "Перевод в клинике", "Две ночи в отеле", "Персональная поддержка"],
     note: "Для подходящих подтверждённых поездок эти услуги предоставляются без дополнительной платы. Состав услуг подтверждается письменно до поездки.",
     terms: "Условия депозита $200",
+    partnershipLink: "Почему клиники работают с CeladonChina",
   },
   es: {
     eyebrow: "Por qué CeladonChina",
@@ -48,6 +52,7 @@ const COPY: Record<AsiaLang, ConciergeCopy> = {
     benefits: ["Recogida en el aeropuerto", "Interpretación en clínica", "Dos noches de hotel", "Apoyo personal de conserjería"],
     note: "Incluido sin coste de servicio adicional en viajes elegibles y confirmados. Las fechas, visitas y servicios se confirman por escrito antes del viaje.",
     terms: "Ver condiciones del depósito de 200 USD",
+    partnershipLink: "Por qué las clínicas colaboran con CeladonChina",
   },
   th: {
     eyebrow: "ทำไมต้อง CeladonChina",
@@ -57,6 +62,7 @@ const COPY: Record<AsiaLang, ConciergeCopy> = {
     benefits: ["รับจากสนามบิน", "ล่ามในคลินิก", "โรงแรมสองคืน", "คอนเซียร์จส่วนตัว"],
     note: "รวมโดยไม่มีค่าบริการเพิ่มเติมสำหรับทริปที่เข้าเกณฑ์และยืนยันแล้ว รายละเอียดจะยืนยันเป็นลายลักษณ์อักษรก่อนเดินทาง",
     terms: "ดูเงื่อนไขเงินมัดจำ 200 ดอลลาร์",
+    partnershipLink: "ทำไมคลินิกจึงร่วมงานกับ CeladonChina",
   },
   ms: {
     eyebrow: "Mengapa CeladonChina",
@@ -66,6 +72,7 @@ const COPY: Record<AsiaLang, ConciergeCopy> = {
     benefits: ["Pengambilan di lapangan terbang", "Jurubahasa di klinik", "Dua malam hotel", "Sokongan concierge khusus"],
     note: "Disertakan tanpa caj perkhidmatan tambahan bagi perjalanan layak yang telah disahkan. Butiran disahkan secara bertulis sebelum perjalanan.",
     terms: "Lihat terma deposit USD200",
+    partnershipLink: "Mengapa klinik bekerjasama dengan CeladonChina",
   },
   vi: {
     eyebrow: "Vì sao chọn CeladonChina",
@@ -75,6 +82,7 @@ const COPY: Record<AsiaLang, ConciergeCopy> = {
     benefits: ["Đón tại sân bay", "Phiên dịch tại phòng khám", "Hai đêm khách sạn", "Hỗ trợ chuyên trách"],
     note: "Được bao gồm mà không tính thêm phí dịch vụ cho các hành trình đủ điều kiện đã xác nhận. Chi tiết được xác nhận bằng văn bản trước chuyến đi.",
     terms: "Xem điều khoản tiền cọc 200 USD",
+    partnershipLink: "Vì sao các phòng khám hợp tác với CeladonChina",
   },
   ko: {
     eyebrow: "CeladonChina를 선택하는 이유",
@@ -84,6 +92,7 @@ const COPY: Record<AsiaLang, ConciergeCopy> = {
     benefits: ["공항 픽업", "병원 통역", "호텔 2박", "전담 컨시어지 지원"],
     note: "조건을 충족하고 확정된 일정에는 추가 서비스 비용 없이 포함됩니다. 세부 내용은 출발 전 서면으로 확인합니다.",
     terms: "200달러 보증금 조건 보기",
+    partnershipLink: "병원이 CeladonChina와 협력하는 이유",
   },
   ja: {
     eyebrow: "CeladonChinaを選ぶ理由",
@@ -93,6 +102,7 @@ const COPY: Record<AsiaLang, ConciergeCopy> = {
     benefits: ["空港送迎", "院内通訳", "ホテル2泊", "専任コンシェルジュサポート"],
     note: "条件を満たす確定済みの渡航には追加サービス料なしで含まれます。内容は渡航前に書面で確認します。",
     terms: "200ドルのデポジット条件を見る",
+    partnershipLink: "医療機関がCeladonChinaと提携する理由",
   },
 };
 
@@ -118,6 +128,10 @@ export function ClinicConciergeIntro() {
             <Wallet aria-hidden="true" className="size-4 shrink-0 text-primary" />
             {copy.directPay}
           </p>
+          <Link to="/about#clinic-partnerships" className="group mt-4 flex w-fit min-h-11 items-center gap-2 rounded-full px-1 text-sm font-semibold text-foreground underline decoration-primary/40 underline-offset-4 hover:decoration-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">
+            {copy.partnershipLink}
+            <ArrowRight aria-hidden="true" className="size-4 shrink-0 transition-transform group-hover:translate-x-1 motion-reduce:transition-none" />
+          </Link>
         </div>
 
         <div>
