@@ -1,4 +1,6 @@
 import { Fragment, type ReactNode } from "react";
+import { parseClinicDescription } from "@/lib/clinic-reading-guide";
+import { ClinicReadingGuide } from "./ClinicReadingGuide";
 
 /** Small, safe formatting for admin text: headings, lists and HTTPS sources, never HTML. */
 function sourceLinks(text: string): ReactNode[] {
@@ -9,15 +11,17 @@ function sourceLinks(text: string): ReactNode[] {
   });
 }
 
-export function ClinicDescription({ description }: { description: string }) {
-  const blocks = description.replace(/\r\n/g, "\n").trim().split(/\n\s*\n/).filter(Boolean);
-  if (!blocks.length) return null;
-  return <div className="mt-4 max-w-prose space-y-5 text-base leading-7 text-foreground">
-    {blocks.map((block, index) => {
-      if (/^## [^\n]+$/.test(block)) return <h3 key={index} className="!mt-8 break-words font-display text-xl font-semibold leading-snug">{block.slice(3)}</h3>;
-      const lines = block.split("\n");
-      if (lines.every((line) => line.startsWith("- "))) return <ul key={index} className="list-disc space-y-3 pl-5 marker:text-primary">{lines.map((line, item) => <li key={item}>{sourceLinks(line.slice(2))}</li>)}</ul>;
-      return <p key={index} className="whitespace-pre-line break-words">{sourceLinks(block)}</p>;
-    })}
-  </div>;
+function renderBlocks(blocks: string[]) {
+  return blocks.map((block, index) => {
+    const lines = block.split("\n");
+    if (lines.every((line) => line.startsWith("- "))) return <ul key={index} className="list-disc space-y-5 ps-5 marker:text-primary">{lines.map((line, item) => <li key={item}>{sourceLinks(line.slice(2))}</li>)}</ul>;
+    return <p key={index} className="whitespace-pre-line break-words">{sourceLinks(block)}</p>;
+  });
+}
+
+export function ClinicDescription({ description, language = "en" }: { description: string; language?: string }) {
+  const { intro, chapters } = parseClinicDescription(description);
+  if (!intro.length && !chapters.length) return null;
+  if (chapters.length) return <ClinicReadingGuide key={`${language}:${description}`} description={description} language={language} chapters={chapters} intro={renderBlocks(intro)} renderBlocks={renderBlocks} />;
+  return <div className="reading-copy mt-4 max-w-prose space-y-5 text-base leading-relaxed text-foreground">{renderBlocks(intro)}</div>;
 }

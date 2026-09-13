@@ -96,7 +96,7 @@ export default function ClinicDetail() {
             <ClinicPhotoGallery key={clinic.slug} photos={photos} name={name} />
             <section aria-labelledby="clinic-overview-title">
               <h2 id="clinic-overview-title" className="font-display text-2xl font-medium">{c("About this listing", "关于此机构资料", "Об этой странице", "Sobre esta ficha")}</h2>
-              {description && <ClinicDescription description={description} />}
+              {description && <ClinicDescription description={description} language={lang} />}
               <p className="mt-4 text-base leading-7 text-muted-foreground">{c(
                 `This page brings together the directory information, available photographs and published expert profiles for ${clinic.nameEn} in ${city.en}.`,
                 `本页汇集${city.zh}${clinic.nameZh}的目录资料、现有实拍图片和已发布的关联专家资料。`,
