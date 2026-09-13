@@ -65,10 +65,10 @@ const JOURNEY_STEPS = [
     eyebrow: ["Arrival & airport pickup", "抵达与接机", "Прибытие и встреча в аэропорту", "Llegada y recogida en el aeropuerto"],
     title: ["A warm welcome, from the moment you land", "落地的第一刻，就有人迎接你", "Прибудьте в Китай и встретьтесь с нашей командой", "Llega a China y reúnete con nuestro equipo"],
     text: [
-      "A new country, a friendly face waiting for you. Our team meets you at the airport and takes you to your hotel or straight to the clinic. Haven’t booked a hotel yet? No worries. Bring your passport, and we’ll help you find a place to stay and get checked in.",
-      "初到中国，迎接你的是我们熟悉行程的接机团队。与我们会合后，前往酒店休息，或直接前往诊所。还没订酒店？没关系。带好护照，我们会帮你寻找住宿并协助办理入住。",
-      "Наша команда встретит вас в аэропорту и отвезёт в отель или прямо в клинику.",
-      "Nuestro equipo te recibirá en el aeropuerto y te llevará al hotel o directamente a la clínica.",
+      "A new country, a friendly face waiting for you. Our team meets you at the airport and takes you to your hotel or straight to the clinic. For eligible confirmed journeys, your first two nights in a standard room at a selected three-star hotel are covered by CeladonChina. We arrange the booking and help you check in; additional nights and room upgrades are paid separately.",
+      "初到中国，迎接你的是我们熟悉行程的接机团队。与我们会合后，前往酒店休息，或直接前往诊所。对于符合条件并已确认的行程，CeladonChina 承担指定三星级酒店标准客房的前两晚住宿，并协助预订和办理入住；额外住宿及房型升级费用需另行支付。",
+      "Наша команда встретит вас в аэропорту и отвезёт в отель или прямо в клинику. Для подходящих подтверждённых поездок CeladonChina оплачивает первые две ночи в стандартном номере выбранного трёхзвёздочного отеля, организует бронирование и помогает при заселении. Дополнительные ночи и повышение категории номера оплачиваются отдельно.",
+      "Nuestro equipo te recibirá en el aeropuerto y te llevará al hotel o directamente a la clínica. Para viajes elegibles y confirmados, CeladonChina cubre las dos primeras noches en una habitación estándar de un hotel de tres estrellas seleccionado, organiza la reserva y te ayuda con el registro. Las noches adicionales y las mejoras de habitación se pagan por separado.",
     ],
   },
   {
