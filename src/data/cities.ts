@@ -232,6 +232,7 @@ const CITY_CATALOG: City[] = [
       { zh: "上海华美医疗美容医院", en: "Shanghai Huamei Plastic Surgery Hospital", areaZh: "浦东新区", areaEn: "Pudong New Area" },
       { zh: "上海九院 整形外科", en: "Shanghai Ninth People's Hospital · Plastic Surgery", areaZh: "黄浦区", areaEn: "Huangpu District", isPublic: true },
       { zh: "上海薇琳医疗美容医院", en: "Shanghai Weilin Aesthetic Hospital", areaZh: "静安区", areaEn: "Jing'an District" },
+      { zh: "RODEO柔缇欧（上海旗舰店）", en: "RODEO Rejuvenation Center - Shanghai Flagship", areaZh: "黄浦区茂名南路7号202室", areaEn: "Room 202, 7 Maoming South Road, Huangpu District" },
     ],
     travelZh: {
       airport: "PVG / SHA · 直飞欧美 / 东南亚",

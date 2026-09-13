@@ -15,11 +15,11 @@ const doctor = (id: string, overrides: Partial<PublishedClinicDoctor> = {}): Pub
 const added = (rows: PublishedClinicDoctor[]) => mergeClinicDirectory(rows).filter((clinic) => clinic.origin === "published");
 
 describe("clinic directory data", () => {
-  it("preserves all 101 static records with unique, stable ASCII city-prefixed paths", () => {
+  it("preserves all 102 static records with unique, stable ASCII city-prefixed paths", () => {
     const source = CITIES.flatMap((city) => [...city.hospitals, ...(ADDITIONAL_CLINICS[city.slug] ?? [])]
       .map((hospital) => ({ citySlug: city.slug, nameEn: hospital.en, nameZh: hospital.zh, areaEn: hospital.areaEn, areaZh: hospital.areaZh })));
-    expect(STATIC_CLINICS).toHaveLength(101);
-    expect(new Set(STATIC_CLINICS.map(getClinicPath)).size).toBe(101);
+    expect(STATIC_CLINICS).toHaveLength(102);
+    expect(new Set(STATIC_CLINICS.map(getClinicPath)).size).toBe(102);
     expect(STATIC_CLINICS.map(({ citySlug, nameEn, nameZh, areaEn, areaZh }) => ({ citySlug, nameEn, nameZh, areaEn, areaZh }))).toEqual(source);
     for (const clinic of STATIC_CLINICS) {
       expect(clinic.slug).toMatch(new RegExp(`^${clinic.citySlug}-[a-z0-9-]+$`));
@@ -44,7 +44,7 @@ describe("clinic directory data", () => {
       doctor("zh", { hospital: clinic.nameZh, city: " shanghai " }),
       doctor("bundle", { hospital: "华山（上海）", i18n: { en: { hospital: clinic.nameEn }, zh: { hospital: clinic.nameZh } } }),
     ]);
-    expect(result).toHaveLength(101);
+    expect(result).toHaveLength(STATIC_CLINICS.length);
     expect(findClinicBySlug(clinic.slug, result)).toMatchObject({ doctorIds: ["bundle", "en", "zh"], origin: "directory" });
     expect(findClinicBySlug(clinic.slug, result)?.aliases).toContain("华山（上海）");
   });
@@ -92,7 +92,7 @@ describe("clinic directory data", () => {
       "Shanghai Celebright Medical Clinic",
       "上海曼领医疗（Shanghai Celebright）",
     ]));
-    expect(result).toHaveLength(102);
+    expect(result).toHaveLength(STATIC_CLINICS.length + 1);
   });
 
   it("keeps same-name hospitals in different cities separate", () => {
@@ -137,7 +137,7 @@ describe("clinic directory data", () => {
       doctor("bad-translation", { hospital: first.nameEn, i18n: { zh: { hospital: second.nameZh } } }),
     ];
     const result = mergeClinicDirectory(rows);
-    expect(result).toHaveLength(101);
+    expect(result).toHaveLength(STATIC_CLINICS.length);
     expect(findClinicBySlug(first.slug, result)?.doctorIds).toEqual(["valid-a"]);
     expect(findClinicBySlug(second.slug, result)?.doctorIds).toEqual(["valid-b"]);
     expect(mergeClinicDirectory([...rows].reverse())).toEqual(result);
@@ -152,7 +152,7 @@ describe("clinic directory data", () => {
       doctor("indirect-bridge", { hospital: "First Exact Alias", i18n: { en: { hospital: "Second Exact Alias" } } }),
     ];
     const result = mergeClinicDirectory(rows);
-    expect(result).toHaveLength(101);
+    expect(result).toHaveLength(STATIC_CLINICS.length);
     expect(findClinicBySlug(first.slug, result)?.doctorIds).toEqual(["valid-a"]);
     expect(findClinicBySlug(second.slug, result)?.doctorIds).toEqual(["valid-b"]);
     expect(result.flatMap((entry) => entry.doctorIds)).not.toContain("indirect-bridge");

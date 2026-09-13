@@ -75,7 +75,7 @@ describe("clinic metadata shared by the browser and prerender", () => {
 
   it("gives every static directory entry a unique indexable path and title", () => {
     const metadata = STATIC_CLINICS.map(clinicPageMeta);
-    expect(metadata).toHaveLength(101);
+    expect(metadata).toHaveLength(102);
     expect(new Set(metadata.map((meta) => meta.path)).size).toBe(metadata.length);
     expect(new Set(metadata.map((meta) => meta.title)).size).toBe(metadata.length);
     for (const meta of metadata) {
