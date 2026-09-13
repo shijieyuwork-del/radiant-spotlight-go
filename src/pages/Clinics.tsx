@@ -11,6 +11,7 @@ import { asiaCopy } from "@/lib/asia-copy";
 import { clinicPhoto } from "@/lib/clinic-photo";
 import { useClinicDirectory } from "@/hooks/use-clinic-directory";
 import { ClinicCard } from "@/components/clinics/ClinicCard";
+import { ClinicConciergeIntro } from "@/components/clinics/ClinicConciergeIntro";
 import { CLINIC_DIRECTORY_META } from "@/lib/clinic-seo";
 
 const normalize = (value: string) => value.trim().toLocaleLowerCase();
@@ -128,7 +129,9 @@ const Clinics = () => {
         <AsiaNavbar />
         <main>
           <section className="container pb-20 pt-6 md:pt-10" aria-labelledby="clinic-directory-title">
-            <div className="sticky top-[6.25rem] z-30 rounded-3xl border border-border/70 bg-background/95 p-3 shadow-soft backdrop-blur-xl md:top-[6.1rem] md:p-4 xl:top-36">
+            <ClinicConciergeIntro />
+
+            <div className="sticky top-[6.25rem] z-30 mt-6 rounded-3xl border border-border/70 bg-background/95 p-3 shadow-soft backdrop-blur-xl md:top-[6.1rem] md:mt-8 md:p-4 xl:top-36">
               <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
                 <label className="relative block min-w-0 flex-1">
                   <span className="sr-only">

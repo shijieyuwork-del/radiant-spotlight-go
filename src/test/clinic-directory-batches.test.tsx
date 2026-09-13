@@ -53,20 +53,20 @@ afterEach(cleanup);
 describe("clinic directory batches", () => {
   it("starts with 24 and reveals every nationwide facility without duplicates", async () => {
     openDirectory();
-    expect(STATIC_CLINICS).toHaveLength(101);
+    expect(STATIC_CLINICS).toHaveLength(102);
     expect(cards()).toHaveLength(24);
-    expect(screen.getByText("Showing 24 of 101 facilities")).toHaveAttribute("role", "status");
+    expect(screen.getByText("Showing 24 of 102 facilities")).toHaveAttribute("role", "status");
 
-    for (const count of [48, 72, 96, 101]) {
+    for (const count of [48, 72, 96, 102]) {
       const firstNewIndex = cards().length;
       fireEvent.click(screen.getByRole("button", { name: /Show \d+ more facilities/ }));
       expect(cards()).toHaveLength(count);
-      expect(screen.getByText(`Showing ${count} of 101 facilities`)).toBeVisible();
+      expect(screen.getByText(`Showing ${count} of 102 facilities`)).toBeVisible();
       await waitFor(() => expect(cards()[firstNewIndex].querySelector("[data-clinic-primary-link]")).toHaveFocus());
     }
     expect(screen.queryByRole("button", { name: /Show \d+ more facilities/ })).not.toBeInTheDocument();
     const paths = cards().map((card) => card.querySelector("[data-clinic-primary-link]")?.getAttribute("href"));
-    expect(new Set(paths).size).toBe(101);
+    expect(new Set(paths).size).toBe(102);
     expect(paths.sort()).toEqual(STATIC_CLINICS.map(getClinicPath).sort());
   });
 
@@ -105,7 +105,7 @@ describe("clinic directory batches", () => {
 
   it("bounds an oversized batch to the real count and offers recovery from no results", () => {
     openDirectory("/clinics?page=999");
-    expect(cards()).toHaveLength(101);
+    expect(cards()).toHaveLength(102);
     fireEvent.change(screen.getByRole("searchbox"), { target: { value: "not-a-matching-facility" } });
     expect(screen.getByText("Showing 0 of 0 facilities")).toBeVisible();
     expect(screen.queryByRole("list", { name: "All hospitals and clinics" })).not.toBeInTheDocument();
@@ -128,12 +128,12 @@ describe("clinic directory batches", () => {
   });
 
   it.each([
-    ["en", "Showing 24 of 101 facilities", "Show 24 more facilities"],
-    ["zh", "已显示 24 家，共 101 家机构", "再显示 24 家机构"],
-    ["ru", "Показано 24 из 101 учреждений", "Показать ещё 24 учреждений"],
-    ["es", "Mostrando 24 de 101 centros", "Mostrar 24 centros más"],
-    ["th", "แสดง 24 จาก 101 สถานพยาบาล", "แสดงสถานพยาบาลอีก 24 แห่ง"],
-    ["ms", "Memaparkan 24 daripada 101 pusat perubatan", "Lihat 24 lagi pusat perubatan"],
+    ["en", "Showing 24 of 102 facilities", "Show 24 more facilities"],
+    ["zh", "已显示 24 家，共 102 家机构", "再显示 24 家机构"],
+    ["ru", "Показано 24 из 102 учреждений", "Показать ещё 24 учреждений"],
+    ["es", "Mostrando 24 de 102 centros", "Mostrar 24 centros más"],
+    ["th", "แสดง 24 จาก 102 สถานพยาบาล", "แสดงสถานพยาบาลอีก 24 แห่ง"],
+    ["ms", "Memaparkan 24 daripada 102 pusat perubatan", "Lihat 24 lagi pusat perubatan"],
   ])("labels the count and reveal action in %s", (lang, count, action) => {
     mocks.lang = lang as AsiaLang;
     openDirectory();
