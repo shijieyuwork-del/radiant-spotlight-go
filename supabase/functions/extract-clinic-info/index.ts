@@ -45,11 +45,11 @@ Deno.serve(async (req) => {
       if (!role) return json({ error: 'forbidden: admin only' }, 403)
     }
 
-    const body = await req.json() as { images?: string[]; text?: string }
+    const body = await req.json() as { images?: string[]; text?: string; pageCount?: number; processedPages?: number }
     const images = (body.images ?? [])
       .filter((s) => typeof s === 'string' && s.startsWith('data:image/'))
-      .slice(0, 6)
-    const text = typeof body.text === 'string' ? body.text.slice(0, 20000).trim() : ''
+      .slice(0, 8)
+    const text = typeof body.text === 'string' ? body.text.slice(0, 80000).trim() : ''
     if (images.length === 0 && text.length < 20) return json({ error: '没有可识别的 PDF 内容' }, 400)
 
     const apiKey = Deno.env.get('LOVABLE_API_KEY')
@@ -59,8 +59,8 @@ Deno.serve(async (req) => {
       {
         type: 'text',
         text: text
-          ? `请识别这份 PDF 的医院资料并按要求输出 JSON。以下是 PDF 中提取到的文本：\n\n${text}`
-          : '请识别这份 PDF 页面截图中的医院资料，按要求输出 JSON。',
+          ? `请识别这份 PDF 的医院资料并按要求输出 JSON。文档共 ${body.pageCount ?? '未知'} 页，本次读取 ${body.processedPages ?? '未知'} 页；截图从整份文档中均匀抽取。以下是 PDF 中提取到的分页文本：\n\n${text}`
+          : `请识别这份 PDF 页面截图中的医院资料，按要求输出 JSON。文档共 ${body.pageCount ?? '未知'} 页，截图从整份文档中均匀抽取。`,
       },
       ...images.map((url) => ({ type: 'image_url', image_url: { url } })),
     ]
