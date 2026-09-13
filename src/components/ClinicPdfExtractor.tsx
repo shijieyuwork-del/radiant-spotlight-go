@@ -9,7 +9,7 @@ import FileDropZone from "@/components/FileDropZone";
 export const PDF_RULES: MediaRules = {
   types: ["application/pdf"],
   exts: ["pdf"],
-  maxBytes: 20 * 1024 * 1024,
+  maxBytes: 50 * 1024 * 1024,
   label: "PDF",
   formatLabel: "PDF",
 };
@@ -39,15 +39,21 @@ const ClinicPdfExtractor = ({
 }) => {
   const [busy, setBusy] = useState(false);
   const [notes, setNotes] = useState<string | null>(null);
+  const [progress, setProgress] = useState<{ processed: number; total: number } | null>(null);
 
   const run = async (file: File) => {
     setBusy(true);
     setNotes(null);
+    setProgress(null);
     try {
-      const { text, images } = await extractPdf(file);
+      const { text, images, pageCount, processedPages } = await extractPdf(file, {
+        maxPages: 60,
+        maxRenderedPages: 8,
+        onProgress: (processed, total) => setProgress({ processed, total }),
+      });
       if (!text.trim() && images.length === 0) throw new Error("这份 PDF 没有可读取的内容");
       const { data, error } = await supabase.functions.invoke("extract-clinic-info", {
-        body: { text, images },
+        body: { text, images, pageCount, processedPages },
       });
       if (error) throw error;
       const fields = data?.fields as ExtractedClinicFields | undefined;
@@ -59,11 +65,12 @@ const ClinicPdfExtractor = ({
       }
       onExtract(fields);
       setNotes(typeof data?.notes === "string" && data.notes.trim() ? data.notes.trim() : null);
-      toast.success(`已识别并填入 ${filled} 项内容，请人工核对后再保存`);
+      toast.success(`已读取 ${processedPages} 页并填入 ${filled} 项内容，请人工核对后再保存`);
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "识别失败，请稍后重试");
     } finally {
       setBusy(false);
+      setProgress(null);
     }
   };
 
@@ -71,11 +78,19 @@ const ClinicPdfExtractor = ({
     <div className="rounded-2xl border border-dashed border-primary/40 bg-primary/5 p-3 space-y-2">
       <p className="text-sm font-medium flex items-center gap-1.5">
         {busy ? <Loader2 className="size-4 animate-spin text-primary" /> : <FileText className="size-4 text-primary" />}
-        {busy ? "AI 识别中…" : "上传 PDF 自动识别并润色"}
+        {busy ? "正在读取并识别 PDF…" : "上传 PDF 自动识别并润色"}
       </p>
       <p className="text-xs text-muted-foreground">
-        医院简介、宣传册、资质文件都可以；读取前 4 页，AI 会整理成中英文介绍并填入下方表单，可随时修改。
+        支持最长 60 页、最大 50MB 的医院简介、宣传册或资质文件。系统读取全文，并从整份文档抽取代表页面，整理成可修改的中英文介绍。
       </p>
+      {busy && progress && (
+        <div className="space-y-1" role="status" aria-live="polite">
+          <div className="h-1.5 overflow-hidden rounded-full bg-primary/10">
+            <div className="h-full rounded-full bg-primary transition-[width]" style={{ width: `${Math.round((progress.processed / progress.total) * 100)}%` }} />
+          </div>
+          <p className="text-xs text-muted-foreground">正在读取第 {progress.processed} / {progress.total} 页</p>
+        </div>
+      )}
       <FileDropZone
         id="clinic-pdf-extract"
         accept="application/pdf"
