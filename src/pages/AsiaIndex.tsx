@@ -1220,6 +1220,60 @@ const TreatmentsSection = () => {
 
 // ClinicsSection removed — patients only browse experts.
 
+const getDoctorMarketingLine = (doctor: DoctorFlipCardData, lang: string) => {
+  const name = doctor.name.toLowerCase();
+  const key = name.includes("ning jin") || name.includes("靳宁")
+    ? "ning"
+    : name.includes("li lin") || name.includes("李林")
+      ? "lin"
+      : name.includes("xun wang") || name.includes("王洵")
+        ? "wang"
+        : "fallback";
+  const specialty = doctor.specialties[0] || doctor.title;
+
+  const copy = {
+    en: {
+      ning: "Complex rhinoplasty planning for patients seeking a considered path through revision.",
+      lin: "Detail-led nasal revision with an emphasis on refined, proportion-conscious planning.",
+      wang: "Structural rhinoplasty using rib or ear cartilage, planned around each patient’s anatomy.",
+      fallback: `Personalized guidance for patients exploring ${specialty.toLowerCase()}.`,
+    },
+    zh: {
+      ning: "专注复杂鼻整形与鼻修复，为多重鼻部问题规划清晰、审慎的改善路径。",
+      lin: "以精细化鼻修复与比例设计为核心，注重自然、克制的鼻部调整。",
+      wang: "专注耳软骨与肋软骨结构性鼻整形，依据个人基础规划支撑与轮廓。",
+      fallback: `为关注${specialty}的患者提供个性化方案参考。`,
+    },
+    ja: {
+      ning: "複雑な鼻整形や修正手術を検討する方へ、丁寧な治療計画をご提案します。",
+      lin: "繊細な修正と顔全体のバランスを重視した鼻整形プランニング。",
+      wang: "耳介軟骨・肋軟骨を用い、一人ひとりの骨格に合わせた構造的な鼻整形。",
+      fallback: `${specialty}を検討する方へ、一人ひとりに合わせた選択肢をご案内します。`,
+    },
+    ko: {
+      ning: "복잡한 코 성형과 재수술을 고민하는 환자를 위한 신중한 맞춤 계획.",
+      lin: "섬세한 코 재수술과 얼굴 비율을 고려한 정교한 디자인에 집중합니다.",
+      wang: "귀연골·늑연골을 활용해 개인의 해부학적 구조에 맞춘 코 성형을 계획합니다.",
+      fallback: `${specialty}을(를) 고려하는 환자를 위한 개인 맞춤형 안내.`,
+    },
+    ru: {
+      ning: "Продуманное планирование сложной и повторной ринопластики.",
+      lin: "Деликатная коррекция носа с вниманием к пропорциям и естественности.",
+      wang: "Структурная ринопластика с хрящом уха или ребра с учетом анатомии пациента.",
+      fallback: `Индивидуальная навигация для пациентов, рассматривающих ${specialty.toLowerCase()}.`,
+    },
+    es: {
+      ning: "Planificación cuidadosa para pacientes que consideran una rinoplastia compleja o de revisión.",
+      lin: "Revisión nasal detallista, con atención a unas proporciones refinadas y naturales.",
+      wang: "Rinoplastia estructural con cartílago costal o auricular, adaptada a cada anatomía.",
+      fallback: `Orientación personalizada para pacientes que consideran ${specialty.toLowerCase()}.`,
+    },
+  } as const;
+
+  const languageCopy = copy[lang as keyof typeof copy] || copy.en;
+  return languageCopy[key];
+};
+
 const DoctorsSection = () => {
   const { t, lang } = useAsia();
   const [publishedDoctors, setPublishedDoctors] = useState<Array<DoctorFlipCardData & { photo_path: string | null }>>([]);
@@ -1282,6 +1336,7 @@ const DoctorsSection = () => {
           >
             <DoctorFlipCard
               doctor={d}
+              marketingLine={getDoctorMarketingLine(d, lang)}
               viewProfileLabel={viewProfileLabel}
               detailsLabel={detailsLabel}
               backLabel={backLabel}

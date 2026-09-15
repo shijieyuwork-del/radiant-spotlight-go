@@ -16,6 +16,8 @@ export type DoctorFlipCardData = {
 
 type DoctorFlipCardProps = {
   doctor: DoctorFlipCardData;
+  /** Short patient-facing positioning statement shown on the front face. */
+  marketingLine?: string;
   viewProfileLabel: string;
   detailsLabel: string;
   backLabel: string;
@@ -33,6 +35,7 @@ type DoctorFlipCardProps = {
  */
 export function DoctorFlipCard({
   doctor,
+  marketingLine,
   viewProfileLabel,
   detailsLabel,
   backLabel,
@@ -102,6 +105,12 @@ export function DoctorFlipCard({
               <MapPin className="size-3.5 shrink-0 text-primary" aria-hidden="true" />
               {doctor.city}
             </p>
+
+            {marketingLine ? (
+              <p className="mt-3 line-clamp-2 min-h-[3.25rem] text-[0.95rem] font-medium leading-[1.65] text-foreground/75">
+                {marketingLine}
+              </p>
+            ) : null}
 
             <div className="mt-3.5 min-h-[4.5rem] flex flex-wrap content-start gap-1.5">
               {doctor.specialties.slice(0, 3).map((specialty) => (
