@@ -107,7 +107,7 @@ export function DoctorFlipCard({
             </p>
 
             {marketingLine ? (
-              <p className="mt-3 line-clamp-2 min-h-[3.25rem] text-[0.95rem] font-medium leading-[1.65] text-foreground/75">
+              <p className="mt-3 line-clamp-3 min-h-[4.875rem] text-[0.95rem] font-medium leading-[1.65] text-foreground/75">
                 {marketingLine}
               </p>
             ) : null}
