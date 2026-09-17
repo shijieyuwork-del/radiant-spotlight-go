@@ -237,7 +237,7 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase, 
 
     return (
       <div
-        className="relative touch-pan-y select-none overflow-hidden overscroll-x-contain rounded-[1.75rem] border border-primary/15 bg-[radial-gradient(ellipse_at_50%_100%,hsl(var(--primary)/.18),transparent_62%)] px-2 pb-5 pt-3 shadow-pop outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4 sm:rounded-[2.25rem] sm:px-6 sm:pb-6 sm:pt-4 md:pt-6"
+        className="relative touch-pan-y select-none overflow-hidden overscroll-x-contain bg-[radial-gradient(ellipse_at_50%_100%,hsl(var(--primary)/.18),transparent_62%)] px-2 pb-5 pt-3 outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4 sm:px-6 sm:pb-6 sm:pt-4 md:pt-6"
         role="region"
         aria-roledescription="carousel"
         aria-label={lang === "zh" ? "患者视频聚焦轮播" : "Patient video focus carousel"}
@@ -317,19 +317,13 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase, 
           })}
         </div>
 
-        <div className="relative z-20 mt-1 flex items-center justify-center gap-4">
-          <Button type="button" variant="outline" size="icon" className="size-12 rounded-full bg-card shadow-soft sm:size-11" onClick={() => move(-1)} disabled={items.length < 2} aria-label={videoControlsCopy[lang].previous}>
-            <ChevronLeft className="size-5" />
-          </Button>
+        <div className="relative z-20 mt-1 flex items-center justify-center">
           <div className="flex items-center gap-1.5" aria-hidden="true">
             {items.map((item, index) => (
               <span key={item.id} className={`h-1.5 rounded-full ${index === active ? "w-6 bg-primary" : "w-1.5 bg-border"}`} />
             ))}
           </div>
           <span className="sr-only" aria-live="polite">{items.length ? active + 1 : 0} / {items.length}</span>
-          <Button type="button" variant="outline" size="icon" className="size-12 rounded-full bg-card shadow-soft sm:size-11" onClick={() => move(1)} disabled={items.length < 2} aria-label={videoControlsCopy[lang].next}>
-            <ChevronRight className="size-5" />
-          </Button>
         </div>
       </div>
     );
