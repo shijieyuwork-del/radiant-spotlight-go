@@ -294,7 +294,7 @@ const Hero = () => {
                 {lang === "zh" ? "浏览全部日记" : lang === "ru" ? "Все дневники" : lang === "es" ? "Ver todos los diarios" : translatedUiText(lang, "Explore all diaries")} <ArrowRight className="size-3.5" />
               </Link>
             </div>
-            <TikTokWall items={diaryItems.slice(0, 7)} lang={lang} fmtPrice={fmt} variant="preview" />
+            <TikTokWall items={diaryItems.slice(0, 7)} lang={lang} fmtPrice={fmt} variant="focus" />
           </div>
       </div>
     </section>

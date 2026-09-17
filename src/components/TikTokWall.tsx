@@ -34,8 +34,8 @@ export type TikTokWallProps = {
   items: TikTokItem[];
   lang: AsiaLang;
   fmtPrice: (cny: number) => string;
-  /** 'preview' = small grid, 'wall' = larger immersive wall */
-  variant?: "preview" | "wall" | "cases";
+  /** 'focus' = homepage focus carousel, 'preview' = compact carousel, 'wall' = immersive wall */
+  variant?: "focus" | "preview" | "wall" | "cases";
   caseHrefBase?: string;       // default "/cases/"
   /** 搜索关键词，命中片段在卡片文字里高亮 */
   highlight?: string;
@@ -57,9 +57,9 @@ const labels: Record<AsiaLang, { play: string; verified: string }> = {
 const MARK_CLASS = "rounded bg-primary/70 px-0.5 text-primary-foreground";
 
 const TikTokCard = ({
-  item, lang, fmtPrice, caseHrefBase = "/cases/", playbackEnabled = true, discovery = false, eager = false, beforeNavigate, onBeforeNavigate, highlight,
-}: { item: TikTokItem; lang: AsiaLang; fmtPrice: (n: number) => string; caseHrefBase?: string; playbackEnabled?: boolean; discovery?: boolean; eager?: boolean; beforeNavigate?: () => boolean; onBeforeNavigate?: (caseId: string) => void; highlight?: string }) => {
-  const { attachRef, playing, playbackFailed, toggle } = useQuietVideo(item.src, playbackEnabled);
+  item, lang, fmtPrice, caseHrefBase = "/cases/", playbackEnabled = true, autoPlayFocused = false, discovery = false, eager = false, beforeNavigate, onBeforeNavigate, highlight,
+}: { item: TikTokItem; lang: AsiaLang; fmtPrice: (n: number) => string; caseHrefBase?: string; playbackEnabled?: boolean; autoPlayFocused?: boolean; discovery?: boolean; eager?: boolean; beforeNavigate?: () => boolean; onBeforeNavigate?: (caseId: string) => void; highlight?: string }) => {
+  const { attachRef, playing, playbackFailed, play, pause, toggle } = useQuietVideo(item.src, playbackEnabled);
   const wrapRef = useRef<HTMLDivElement>(null);
   const [muted, setMuted] = useState(true);
   const [near, setNear] = useState(eager);
@@ -94,6 +94,29 @@ const TikTokCard = ({
     io.observe(el);
     return () => io.disconnect();
   }, [near]);
+
+  // The focused homepage diary plays silently only while most of it is visible.
+  // Inactive cards and reduced-motion visitors keep a static poster.
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el || !autoPlayFocused || !playbackEnabled || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      pause();
+      return;
+    }
+    if (typeof IntersectionObserver === "undefined") return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.55) void play();
+        else pause();
+      },
+      { threshold: [0, 0.55] },
+    );
+    observer.observe(el);
+    return () => {
+      observer.disconnect();
+      pause();
+    };
+  }, [autoPlayFocused, pause, play, playbackEnabled]);
 
   const toggleMute = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -192,14 +215,15 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase, 
   const [active, setActive] = useState(0);
   const [previewAnimation, setPreviewAnimation] = useState(false);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
+  const dragStart = useRef<{ x: number; y: number } | null>(null);
   const swipeMoved = useRef(false);
   const suppressClick = useRef(false);
+  const wheelLocked = useRef(false);
   useEffect(() => { if (active >= items.length) setActive(0); }, [active, items.length]);
 
-  if (variant === "preview") {
-    const move = (direction: number, animate = false) => {
+  if (variant === "focus") {
+    const move = (direction: number) => {
       if (!items.length) return;
-      setPreviewAnimation(animate);
       setActive((current) => (current + direction + items.length) % items.length);
     };
     const distanceFromActive = (index: number) => {
@@ -213,23 +237,137 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase, 
 
     return (
       <div
-        className="relative touch-pan-y select-none overflow-hidden overscroll-x-contain rounded-[1.75rem] border border-primary/15 bg-[radial-gradient(ellipse_at_50%_100%,hsl(var(--primary)/.22),transparent_62%)] px-2 pb-5 pt-3 shadow-pop sm:rounded-[2.25rem] sm:px-6 sm:pb-6 sm:pt-4 md:pt-6"
-        onTouchStart={(e) => {
-          touchStart.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        className="relative touch-pan-y select-none overflow-hidden overscroll-x-contain rounded-[1.75rem] border border-primary/15 bg-[radial-gradient(ellipse_at_50%_100%,hsl(var(--primary)/.18),transparent_62%)] px-2 pb-5 pt-3 shadow-pop outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4 sm:rounded-[2.25rem] sm:px-6 sm:pb-6 sm:pt-4 md:pt-6"
+        role="region"
+        aria-roledescription="carousel"
+        aria-label={lang === "zh" ? "患者视频聚焦轮播" : "Patient video focus carousel"}
+        tabIndex={0}
+        onKeyDown={(event) => {
+          if (event.key === "ArrowLeft") { event.preventDefault(); move(-1); }
+          if (event.key === "ArrowRight") { event.preventDefault(); move(1); }
+        }}
+        onWheel={(event) => {
+          if (Math.abs(event.deltaX) < 18 || Math.abs(event.deltaX) < Math.abs(event.deltaY) || wheelLocked.current) return;
+          event.preventDefault();
+          wheelLocked.current = true;
+          move(event.deltaX > 0 ? 1 : -1);
+          window.setTimeout(() => { wheelLocked.current = false; }, 450);
+        }}
+        onPointerDown={(event) => {
+          if (event.button !== 0) return;
+          dragStart.current = { x: event.clientX, y: event.clientY };
           swipeMoved.current = false;
         }}
-        onTouchMove={(e) => {
-          const start = touchStart.current;
+        onPointerMove={(event) => {
+          const start = dragStart.current;
           if (!start || swipeMoved.current) return;
-          const dx = e.touches[0].clientX - start.x;
-          const dy = e.touches[0].clientY - start.y;
+          const dx = event.clientX - start.x;
+          const dy = event.clientY - start.y;
           if (Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy)) swipeMoved.current = true;
         }}
-        onTouchEnd={(e) => {
+        onPointerUp={(event) => {
+          const start = dragStart.current;
+          dragStart.current = null;
+          if (!start || !swipeMoved.current) return;
+          const dx = event.clientX - start.x;
+          if (Math.abs(dx) > 40) {
+            suppressClick.current = true;
+            move(dx < 0 ? 1 : -1);
+            window.setTimeout(() => { suppressClick.current = false; }, 450);
+          }
+        }}
+        onPointerCancel={() => { dragStart.current = null; swipeMoved.current = false; }}
+      >
+        <div className="relative mx-auto h-[500px] max-w-[90rem] sm:h-[590px] md:h-[650px]">
+          {items.map((it, index) => {
+            const distance = distanceFromActive(index);
+            const depth = Math.abs(distance);
+            const visible = depth <= 3;
+            if (!visible) return null;
+            const positiveOffsets = ["0px", "clamp(12rem,23vw,18rem)", "clamp(20rem,37vw,29rem)", "clamp(26rem,48vw,36rem)"];
+            const negativeOffsets = ["0px", "clamp(-18rem,-23vw,-12rem)", "clamp(-29rem,-37vw,-20rem)", "clamp(-36rem,-48vw,-26rem)"];
+            const scales = [1, 0.72, 0.54, 0.4];
+            const scale = scales[depth] ?? 0.4;
+            const offset = distance < 0 ? negativeOffsets[depth] : positiveOffsets[depth];
+
+            return (
+              <div
+                key={it.id}
+                className="absolute left-1/2 top-1/2 w-[72vw] max-w-[340px] transition-[transform,opacity,filter] duration-400 motion-reduce:transition-none [backface-visibility:hidden] sm:w-[310px] md:w-[340px]"
+                style={{
+                  opacity: visible ? [1, 0.78, 0.55, 0.32][depth] : 0,
+                  filter: `brightness(${1 - depth * 0.11}) saturate(${1 - depth * 0.08})`,
+                  transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
+                  pointerEvents: visible ? "auto" : "none",
+                  zIndex: 10 - depth,
+                  transform: `translate3d(calc(-50% + ${offset}), -50%, 0) scale(${scale})`,
+                }}
+              >
+                <TikTokCard item={it} lang={lang} fmtPrice={fmtPrice} caseHrefBase={caseHrefBase} playbackEnabled={distance === 0} autoPlayFocused={distance === 0} eager={index === 0} beforeNavigate={allowClick} onBeforeNavigate={onBeforeNavigate} highlight={highlight} />
+                {distance !== 0 && (
+                  <button
+                    type="button"
+                    className="absolute inset-0 z-50 rounded-3xl"
+                    onClick={() => { if (!allowClick()) return; setActive(index); }}
+                    aria-label={diaryText(it.caption, lang)}
+                  />
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="relative z-20 mt-1 flex items-center justify-center gap-4">
+          <Button type="button" variant="outline" size="icon" className="size-12 rounded-full bg-card shadow-soft sm:size-11" onClick={() => move(-1)} disabled={items.length < 2} aria-label={videoControlsCopy[lang].previous}>
+            <ChevronLeft className="size-5" />
+          </Button>
+          <div className="flex items-center gap-1.5" aria-hidden="true">
+            {items.map((item, index) => (
+              <span key={item.id} className={`h-1.5 rounded-full ${index === active ? "w-6 bg-primary" : "w-1.5 bg-border"}`} />
+            ))}
+          </div>
+          <span className="sr-only" aria-live="polite">{items.length ? active + 1 : 0} / {items.length}</span>
+          <Button type="button" variant="outline" size="icon" className="size-12 rounded-full bg-card shadow-soft sm:size-11" onClick={() => move(1)} disabled={items.length < 2} aria-label={videoControlsCopy[lang].next}>
+            <ChevronRight className="size-5" />
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  if (variant === "preview") {
+    const move = (direction: number, animate = false) => {
+      if (!items.length) return;
+      setPreviewAnimation(animate);
+      setActive((current) => (current + direction + items.length) % items.length);
+    };
+    const distanceFromActive = (index: number) => {
+      let distance = index - active;
+      if (distance > items.length / 2) distance -= items.length;
+      if (distance < -items.length / 2) distance += items.length;
+      return distance;
+    };
+    const allowClick = () => !suppressClick.current;
+
+    return (
+      <div
+        className="relative touch-pan-y select-none overflow-hidden overscroll-x-contain rounded-[1.75rem] border border-primary/15 bg-[radial-gradient(ellipse_at_50%_100%,hsl(var(--primary)/.22),transparent_62%)] px-2 pb-5 pt-3 shadow-pop sm:rounded-[2.25rem] sm:px-6 sm:pb-6 sm:pt-4 md:pt-6"
+        onTouchStart={(event) => {
+          touchStart.current = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+          swipeMoved.current = false;
+        }}
+        onTouchMove={(event) => {
+          const start = touchStart.current;
+          if (!start || swipeMoved.current) return;
+          const dx = event.touches[0].clientX - start.x;
+          const dy = event.touches[0].clientY - start.y;
+          if (Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy)) swipeMoved.current = true;
+        }}
+        onTouchEnd={(event) => {
           const start = touchStart.current;
           touchStart.current = null;
           if (!start || !swipeMoved.current) return;
-          const dx = e.changedTouches[0].clientX - start.x;
+          const dx = event.changedTouches[0].clientX - start.x;
           if (Math.abs(dx) > 40) {
             suppressClick.current = true;
             move(dx < 0 ? 1 : -1, true);
@@ -241,51 +379,28 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase, 
           {items.map((it, index) => {
             const distance = distanceFromActive(index);
             const depth = Math.abs(distance);
-            const visible = depth <= 3;
-            if (!visible) return null;
+            if (depth > 3) return null;
             const direction = distance < 0 ? "-" : "+";
-            const offset = distance === 0
-              ? "-50%"
-              : `calc(-50% ${direction} clamp(${depth * 155}px, ${depth * 22}vw, ${depth * 340}px))`;
-
+            const offset = distance === 0 ? "-50%" : `calc(-50% ${direction} clamp(${depth * 155}px, ${depth * 22}vw, ${depth * 340}px))`;
             return (
               <div
                 key={it.id}
                 className={`absolute left-1/2 top-3 w-[74vw] max-w-[280px] transition-[transform,opacity] ${previewAnimation ? "duration-200" : "duration-0"} ease-out motion-reduce:transition-none [backface-visibility:hidden] sm:w-[270px] sm:max-w-[270px] md:w-[300px] md:max-w-[300px] lg:w-[320px] lg:max-w-[320px]`}
-                style={{
-                  opacity: visible ? 1 - depth * 0.18 : 0,
-                  pointerEvents: visible ? "auto" : "none",
-                  zIndex: 10 - depth,
-                  transform: `translate3d(${offset}, 0, 0)`,
-                }}
+                style={{ opacity: 1 - depth * 0.18, pointerEvents: "auto", zIndex: 10 - depth, transform: `translate3d(${offset}, 0, 0)` }}
               >
                 <TikTokCard item={it} lang={lang} fmtPrice={fmtPrice} caseHrefBase={caseHrefBase} playbackEnabled={distance === 0} eager={index === 0} beforeNavigate={allowClick} onBeforeNavigate={onBeforeNavigate} highlight={highlight} />
                 {distance !== 0 && (
-                  <button
-                    type="button"
-                    className="absolute inset-0 z-50 rounded-3xl"
-                    onClick={(event) => { if (!allowClick()) return; setPreviewAnimation(event.detail > 0); setActive(index); }}
-                    aria-label={diaryText(it.caption, lang)}
-                  />
+                  <button type="button" className="absolute inset-0 z-50 rounded-3xl" onClick={(event) => { if (!allowClick()) return; setPreviewAnimation(event.detail > 0); setActive(index); }} aria-label={diaryText(it.caption, lang)} />
                 )}
               </div>
             );
           })}
         </div>
-
         <div className="relative z-20 mt-1 flex items-center justify-center gap-4">
-          <Button type="button" variant="outline" size="icon" className="size-12 rounded-full bg-card shadow-soft sm:size-11" onClick={(event) => move(-1, event.detail > 0)} disabled={items.length < 2} aria-label={videoControlsCopy[lang].previous}>
-            <ChevronLeft className="size-5" />
-          </Button>
-          <div className="flex items-center gap-1.5" aria-hidden="true">
-            {items.map((item, index) => (
-              <span key={item.id} className={`h-1.5 rounded-full ${index === active ? "w-6 bg-primary" : "w-1.5 bg-border"}`} />
-            ))}
-          </div>
+          <Button type="button" variant="outline" size="icon" className="size-12 rounded-full bg-card shadow-soft sm:size-11" onClick={(event) => move(-1, event.detail > 0)} disabled={items.length < 2} aria-label={videoControlsCopy[lang].previous}><ChevronLeft className="size-5" /></Button>
+          <div className="flex items-center gap-1.5" aria-hidden="true">{items.map((item, index) => <span key={item.id} className={`h-1.5 rounded-full ${index === active ? "w-6 bg-primary" : "w-1.5 bg-border"}`} />)}</div>
           <span className="sr-only" aria-live="polite">{items.length ? active + 1 : 0} / {items.length}</span>
-          <Button type="button" variant="outline" size="icon" className="size-12 rounded-full bg-card shadow-soft sm:size-11" onClick={(event) => move(1, event.detail > 0)} disabled={items.length < 2} aria-label={videoControlsCopy[lang].next}>
-            <ChevronRight className="size-5" />
-          </Button>
+          <Button type="button" variant="outline" size="icon" className="size-12 rounded-full bg-card shadow-soft sm:size-11" onClick={(event) => move(1, event.detail > 0)} disabled={items.length < 2} aria-label={videoControlsCopy[lang].next}><ChevronRight className="size-5" /></Button>
         </div>
       </div>
     );
