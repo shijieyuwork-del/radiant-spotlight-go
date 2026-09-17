@@ -22,8 +22,6 @@ type DoctorFlipCardProps = {
   detailsLabel: string;
   backLabel: string;
   profileLabel: string;
-  /** Heading above the specialty chips on the back face. */
-  focusLabel?: string;
   /** Shown on the back face when the expert has no published introduction yet. */
   bioFallback?: string;
 };
@@ -40,7 +38,6 @@ export function DoctorFlipCard({
   detailsLabel,
   backLabel,
   profileLabel,
-  focusLabel = "Areas of focus",
   bioFallback = "Published profile details are available from this expert's full profile.",
 }: DoctorFlipCardProps) {
   const [isHovered, setIsHovered] = useState(false);
@@ -112,14 +109,6 @@ export function DoctorFlipCard({
               </p>
             ) : null}
 
-            <div className="mt-3.5 min-h-[4.5rem] flex flex-wrap content-start gap-1.5">
-              {doctor.specialties.slice(0, 3).map((specialty) => (
-                <span key={specialty} className="rounded-full bg-accent px-2.5 py-1 text-label text-accent-foreground">
-                  {specialty}
-                </span>
-              ))}
-            </div>
-
             <div className="mt-auto flex flex-wrap items-center justify-between gap-3 border-t border-border pt-4 text-sm font-semibold text-foreground">
               <Link to={profileHref} aria-label={`${viewProfileLabel}: ${doctor.name}`} tabIndex={isFlipped ? -1 : 0} className="inline-flex min-h-10 items-center gap-2 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
                 {viewProfileLabel}
@@ -155,14 +144,6 @@ export function DoctorFlipCard({
 
           <div className="mt-7 min-h-0 grow overflow-y-auto pr-1">
             <p className="text-base leading-relaxed text-background/85">{bio}</p>
-            <p className="mt-6 text-label font-semibold uppercase tracking-[0.16em] text-background/60">{focusLabel}</p>
-            <div className="mt-3 flex flex-wrap gap-1.5">
-              {doctor.specialties.slice(0, 3).map((specialty) => (
-                <span key={specialty} className="rounded-full border border-background/25 bg-background/10 px-2.5 py-1 text-label text-background/90">
-                  {specialty}
-                </span>
-              ))}
-            </div>
           </div>
 
           <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-background/20 pt-4 text-sm font-semibold">

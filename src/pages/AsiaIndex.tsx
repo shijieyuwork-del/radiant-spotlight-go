@@ -1303,7 +1303,6 @@ const DoctorsSection = () => {
   const detailsLabel = lang === "zh" ? "查看专家介绍" : lang === "ru" ? "Об эксперте" : lang === "es" ? "Conoce al experto" : translatedUiText(lang, "Meet this expert");
   const backLabel = lang === "zh" ? "返回卡片" : lang === "ru" ? "Назад" : lang === "es" ? "Volver" : translatedUiText(lang, "Back to card");
   const profileLabel = lang === "zh" ? "专家简介" : lang === "ru" ? "Профиль эксперта" : lang === "es" ? "Perfil del experto" : translatedUiText(lang, "Expert profile");
-  const focusLabel = lang === "zh" ? "专长领域" : lang === "ru" ? "Специализация" : lang === "es" ? "Áreas de enfoque" : translatedUiText(lang, "Areas of focus");
   const bioFallback = lang === "zh"
     ? "完整介绍请见专家详情页。"
     : lang === "ru"
@@ -1341,7 +1340,6 @@ const DoctorsSection = () => {
               detailsLabel={detailsLabel}
               backLabel={backLabel}
               profileLabel={profileLabel}
-              focusLabel={focusLabel}
               bioFallback={bioFallback}
             />
           </div>
