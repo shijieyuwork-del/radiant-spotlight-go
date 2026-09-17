@@ -1545,7 +1545,7 @@ const AsiaIndex = () => {
       />
       <div className="home-water-page min-h-screen overflow-x-clip">
         <HeroAmbientBackground lang={lang} />
-        <AsiaNavbar floating />
+        <AsiaNavbar />
         <main className="home-content-flow">
           <Hero />
           <TreatmentsSection />
