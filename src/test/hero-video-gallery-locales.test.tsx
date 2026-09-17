@@ -43,12 +43,13 @@ describe("Thai and Malay homepage video gallery", () => {
 });
 
 describe("cinematic homepage gallery", () => {
-  it("lays out seven real diary controls in a symmetric arc, with no extra video downloads", () => {
+  it("lays out nine real diary controls in three counter-moving columns, with no video downloads", () => {
     const items = Array.from({ length: 9 }, (_, index) => ({ ...item, id: `diary-${index}` }));
     const { container } = render(<MemoryRouter><HeroVideoGallery items={items} lang="en" fmtPrice={String} layout="arc" /></MemoryRouter>);
     const gallery = screen.getByRole("group", { name: "Patient diaries" });
-    expect(within(gallery).getAllByRole("button")).toHaveLength(7);
-    expect(Array.from(gallery.children).map((slot) => (slot as HTMLElement).style.getPropertyValue("--arc-offset"))).toEqual(["-3", "-2", "-1", "0", "1", "2", "3"]);
+    expect(within(gallery).getAllByRole("button")).toHaveLength(9);
+    expect(gallery.querySelectorAll(".hero-film-wall__column")).toHaveLength(3);
+    expect(gallery.querySelectorAll(".hero-film-wall__track--down")).toHaveLength(1);
     expect(container.querySelectorAll("video")).toHaveLength(0);
     expect(screen.getByRole("link", { name: "More patient diaries" })).toHaveAttribute("href", "/cases");
   });
@@ -61,9 +62,9 @@ describe("cinematic homepage gallery", () => {
     expect(within(dialog).getByRole("link", { name: "查看案例" })).toHaveAttribute("href", "/cases/test-diary");
   });
 
-  it("centres a single available diary and keeps the directory reachable when empty", () => {
+  it("keeps a single available diary and the directory reachable when empty", () => {
     const { rerender } = render(<MemoryRouter><HeroVideoGallery items={[item]} lang="en" fmtPrice={String} layout="arc" /></MemoryRouter>);
-    expect((screen.getByRole("group", { name: "Patient diaries" }).firstElementChild as HTMLElement).style.getPropertyValue("--arc-offset")).toBe("0");
+    expect(within(screen.getByRole("group", { name: "Patient diaries" })).getAllByRole("button")).toHaveLength(1);
     rerender(<MemoryRouter><HeroVideoGallery items={[]} lang="en" fmtPrice={String} layout="arc" /></MemoryRouter>);
     expect(screen.queryByRole("button")).not.toBeInTheDocument();
     expect(screen.getByRole("link", { name: "More patient diaries" })).toHaveAttribute("href", "/cases");
