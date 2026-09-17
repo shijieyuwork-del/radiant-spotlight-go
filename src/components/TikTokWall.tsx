@@ -57,8 +57,8 @@ const labels: Record<AsiaLang, { play: string; verified: string }> = {
 const MARK_CLASS = "rounded bg-primary/70 px-0.5 text-primary-foreground";
 
 const TikTokCard = ({
-  item, lang, fmtPrice, caseHrefBase = "/cases/", playbackEnabled = true, autoPlayFocused = false, discovery = false, eager = false, beforeNavigate, onBeforeNavigate, highlight,
-}: { item: TikTokItem; lang: AsiaLang; fmtPrice: (n: number) => string; caseHrefBase?: string; playbackEnabled?: boolean; autoPlayFocused?: boolean; discovery?: boolean; eager?: boolean; beforeNavigate?: () => boolean; onBeforeNavigate?: (caseId: string) => void; highlight?: string }) => {
+  item, lang, fmtPrice, caseHrefBase = "/cases/", playbackEnabled = true, autoPlayFocused = false, focusPresentation = false, discovery = false, eager = false, beforeNavigate, onBeforeNavigate, highlight,
+}: { item: TikTokItem; lang: AsiaLang; fmtPrice: (n: number) => string; caseHrefBase?: string; playbackEnabled?: boolean; autoPlayFocused?: boolean; focusPresentation?: boolean; discovery?: boolean; eager?: boolean; beforeNavigate?: () => boolean; onBeforeNavigate?: (caseId: string) => void; highlight?: string }) => {
   const { attachRef, playing, playbackFailed, play, pause, toggle } = useQuietVideo(item.src, playbackEnabled);
   const wrapRef = useRef<HTMLDivElement>(null);
   const [muted, setMuted] = useState(true);
@@ -154,10 +154,24 @@ const TikTokCard = ({
         <span className="pill bg-white/90 backdrop-blur text-foreground text-label font-semibold">
           <Highlight text={diaryText(item.treatment, lang)} query={highlight} className={MARK_CLASS} />
         </span>
-        <span className="pill bg-primary/90 text-primary-foreground text-label font-semibold">
-          {discovery ? recoveryStage : labels[lang].verified}
-        </span>
+        {!focusPresentation && (
+          <span className="pill bg-primary/90 text-primary-foreground text-label font-semibold">
+            {discovery ? recoveryStage : labels[lang].verified}
+          </span>
+        )}
       </div>
+
+      {focusPresentation && playbackEnabled && (
+        <button
+          type="button"
+          onClick={toggleMute}
+          className="absolute right-3 top-3 z-30 grid size-10 place-items-center rounded-full border border-white/20 bg-black/45 text-white shadow-soft backdrop-blur-md transition-colors hover:bg-black/65 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          aria-label={muted ? controls.unmute : controls.mute}
+          aria-pressed={!muted}
+        >
+          {muted ? <VolumeX className="size-4.5" /> : <Volume2 className="size-4.5" />}
+        </button>
+      )}
 
       {/* The pause control stays available while the visitor watches. */}
         <button
@@ -185,15 +199,17 @@ const TikTokCard = ({
         </button>
         {playbackEnabled && <CaseShareButton href={caseUrl} title={diaryText(item.caption, lang)} lang={lang} className="grid size-12 place-items-center rounded-full bg-black/60 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-white" />}
 
-        <button
-          type="button"
-          disabled={!playbackEnabled}
-          onClick={toggleMute}
-          className="grid size-12 place-items-center rounded-full bg-black/60 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
-          aria-label={muted ? controls.unmute : controls.mute}
-        >
-          {muted ? <VolumeX className="size-5" /> : <Volume2 className="size-5" />}
-        </button>
+        {!focusPresentation && (
+          <button
+            type="button"
+            disabled={!playbackEnabled}
+            onClick={toggleMute}
+            className="grid size-12 place-items-center rounded-full bg-black/60 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
+            aria-label={muted ? controls.unmute : controls.mute}
+          >
+            {muted ? <VolumeX className="size-5" /> : <Volume2 className="size-5" />}
+          </button>
+        )}
       </div>
 
       {/* bottom info */}
@@ -303,7 +319,7 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase, 
                   transform: `translate3d(calc(-50% + ${offset}), -50%, 0) scale(${scale})`,
                 }}
               >
-                <TikTokCard item={it} lang={lang} fmtPrice={fmtPrice} caseHrefBase={caseHrefBase} playbackEnabled={distance === 0} autoPlayFocused={distance === 0} eager={index === 0} beforeNavigate={allowClick} onBeforeNavigate={onBeforeNavigate} highlight={highlight} />
+                <TikTokCard item={it} lang={lang} fmtPrice={fmtPrice} caseHrefBase={caseHrefBase} playbackEnabled={distance === 0} autoPlayFocused={distance === 0} focusPresentation eager={index === 0} beforeNavigate={allowClick} onBeforeNavigate={onBeforeNavigate} highlight={highlight} />
                 {distance !== 0 && (
                   <button
                     type="button"
