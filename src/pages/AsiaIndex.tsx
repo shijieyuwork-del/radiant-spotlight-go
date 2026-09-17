@@ -59,6 +59,7 @@ import { ManualRailControls } from "@/components/ManualRailControls";
 import { HomeSection } from "@/components/home/HomeSection";
 import { SectionActionLink, SectionHeader } from "@/components/home/SectionHeader";
 import DoctorFlipCard, { type DoctorFlipCardData } from "@/components/home/DoctorFlipCard";
+import "@/components/home/cinematic-hero.css";
 
 type ProcedureIconProps = { className?: string; strokeWidth?: number };
 
@@ -220,34 +221,35 @@ const Hero = () => {
           : { title: translatedUiText(lang, "Patient recovery diaries"), emphasis: "" };
   return (
     <section className="hero-motion relative overflow-hidden">
-      <div className="relative isolate">
-        <div className="container relative pb-16 pt-5 sm:py-14 md:py-20">
-          <div className="mx-auto w-full max-w-5xl text-center">
-            <span className="pill max-w-full justify-center bg-card/80 text-center leading-relaxed shadow-soft backdrop-blur">
+      <div className="cinematic-hero">
+        <div className="cinematic-hero__light" aria-hidden="true" />
+        <div className="cinematic-hero__content">
+          <div className="mx-auto w-full text-center">
+            <span className="cinematic-hero__badge pill max-w-full justify-center text-center leading-relaxed">
               <ShieldCheck className="size-3.5 text-primary" />
               {copy.badge}
             </span>
-            <h1 className="mx-auto mt-4 max-w-4xl font-display text-[1.95rem] font-medium leading-[1.01] tracking-tight min-[390px]:text-[2.15rem] sm:mt-5 sm:text-5xl md:text-[3.75rem]">
+            <h1 className="cinematic-hero__title">
               {marketing.title}
-              <em className="mt-1 block text-brand not-italic">{marketing.emphasis}</em>
+              <em className="mt-1 block not-italic">{marketing.emphasis}</em>
             </h1>
-            <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-[15px]">{marketing.subtitle}</p>
+            <p className="cinematic-hero__subtitle">{marketing.subtitle}</p>
 
-            <div className="mx-auto mt-5 flex max-w-3xl flex-col justify-center gap-3 sm:mt-7 sm:flex-row">
-              <QuoteCtaButton className="min-h-[3.25rem] w-full rounded-2xl border border-foreground px-5 py-3 text-[15px] shadow-pop sm:w-auto sm:rounded-full" quoteCtx={{ source: "home_hero" }} data-testid="home-hero-cta" />
-              <Button asChild size="lg" variant="outline" className="h-auto min-h-[3.25rem] w-full whitespace-normal rounded-2xl border-primary/25 bg-card/70 px-5 py-3 text-[15px] font-semibold backdrop-blur sm:w-auto sm:rounded-full">
+            <div className="cinematic-hero__actions mx-auto flex max-w-3xl flex-col justify-center gap-3 sm:flex-row">
+              <QuoteCtaButton className="min-h-[3.25rem] w-full px-6 py-3 text-[15px] sm:w-auto" quoteCtx={{ source: "home_hero" }} data-testid="home-hero-cta" />
+              <Button asChild size="lg" variant="outline" className="cinematic-hero__secondary h-auto min-h-[3.25rem] w-full whitespace-normal rounded-full px-6 py-3 text-[15px] font-semibold sm:w-auto">
                 <Link to="/cases">{marketing.diaries}<ArrowRight className="ml-1.5 size-4 shrink-0" /></Link>
               </Button>
             </div>
 
-            <p className="mx-auto mt-3 max-w-2xl text-xs leading-relaxed text-muted-foreground sm:text-sm">{policy.initialText} <Link to="/travel-packages#support" className="underline underline-offset-4 hover:text-foreground">{policy.depositTitle}</Link></p>
+            <p className="cinematic-hero__policy mx-auto mt-4 max-w-2xl text-xs leading-relaxed">{policy.initialText} <Link to="/travel-packages#support" className="underline underline-offset-4">{policy.depositTitle}</Link></p>
 
-            <div className="mx-auto mt-5 max-w-4xl sm:mt-9">
-              <HeroVideoGallery items={diaryItems.slice(0, 10)} lang={lang} fmtPrice={fmt} />
+            <div className="cinematic-hero__gallery">
+              <HeroVideoGallery items={diaryItems.slice(0, 10)} lang={lang} fmtPrice={fmt} layout="arc" />
             </div>
 
             <div
-              className="mx-auto mt-6 max-w-4xl rounded-full border border-primary/10 bg-card/80 px-4 py-3 shadow-[0_14px_40px_rgba(18,55,45,0.06)] backdrop-blur-xl sm:mt-7 sm:px-6"
+              className="cinematic-hero__services mx-auto max-w-4xl rounded-full px-4 py-3 sm:px-6"
               role="list"
               aria-label={lang === "zh" ? "协调服务" : lang === "ru" ? "Координационные услуги" : lang === "es" ? "Servicios de coordinación" : translatedUiText(lang, "Coordination services")}
             >
@@ -266,7 +268,7 @@ const Hero = () => {
                   <span className="grid size-7 shrink-0 place-items-center rounded-full bg-primary/[0.09] text-primary ring-1 ring-inset ring-primary/10">
                     <item.icon className="size-3.5" strokeWidth={1.8} />
                   </span>
-                  <strong className="text-xs font-semibold leading-snug text-foreground/80">{item.title}</strong>
+                  <strong className="text-xs font-semibold leading-snug">{item.title}</strong>
                 </div>
               ))}
               </div>
@@ -1543,7 +1545,7 @@ const AsiaIndex = () => {
       />
       <div className="home-water-page min-h-screen overflow-x-clip">
         <HeroAmbientBackground lang={lang} />
-        <AsiaNavbar />
+        <AsiaNavbar floating />
         <main className="home-content-flow">
           <Hero />
           <TreatmentsSection />

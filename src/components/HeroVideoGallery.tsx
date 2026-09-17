@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, type CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import { Maximize2, Play, Pause, Volume2, VolumeX, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import type { TikTokItem } from "@/components/TikTokWall";
@@ -9,6 +9,8 @@ import { videoControlsCopy } from "@/lib/video-controls-copy";
 import { translatedUiText } from "@/lib/locale-text";
 import { withVietnameseFallback } from "@/lib/asia-copy";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
+import { ManualRailControls } from "@/components/ManualRailControls";
+import { cn } from "@/lib/utils";
 
 type Lang = AsiaLang;
 
@@ -17,6 +19,7 @@ type HeroVideoGalleryProps = {
   lang: Lang;
   fmtPrice: (cny: number) => string;
   size?: "default" | "large";
+  layout?: "rail" | "arc";
 };
 
 type GalleryLabels = {
@@ -51,6 +54,7 @@ const GalleryCard = ({
   size,
   actionLabel,
   priority = false,
+  cinematic = false,
 }: {
   item: TikTokItem;
   lang: Lang;
@@ -58,34 +62,34 @@ const GalleryCard = ({
   size: "default" | "large";
   actionLabel?: string;
   priority?: boolean;
+  cinematic?: boolean;
 }) => {
   const t = item.treatment[lang === "zh" ? "zh" : "en"];
   return (
     <button
       type="button"
       onClick={(event) => onPlay(item, event.currentTarget)}
-      className={`group relative aspect-[9/16] shrink-0 snap-start overflow-hidden rounded-[1.35rem] border border-white/55 bg-foreground/90 text-left shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-pop ${size === "large" ? "w-[48vw] min-w-[48vw] sm:w-44 sm:min-w-44 md:w-[15.5rem] md:min-w-[15.5rem] lg:w-[17rem] lg:min-w-[17rem]" : "w-[42vw] min-w-[42vw] sm:w-36 sm:min-w-36 lg:w-[9.25rem] lg:min-w-[9.25rem]"}`}
+      className={cn("group relative shrink-0 overflow-hidden border border-white/55 bg-foreground/90 text-left shadow-soft", cinematic ? "hero-arc__card" : `aspect-[9/16] snap-start rounded-[1.35rem] transition-transform duration-150 hover:-translate-y-1 ${size === "large" ? "w-[48vw] min-w-[48vw] sm:w-44 sm:min-w-44 md:w-[15.5rem] md:min-w-[15.5rem] lg:w-[17rem] lg:min-w-[17rem]" : "w-[42vw] min-w-[42vw] sm:w-36 sm:min-w-36 lg:w-[9.25rem] lg:min-w-[9.25rem]"}`)}
       aria-label={`${actionLabel ?? ui[lang].fullscreen}: ${t}`}
     >
       <img
         src={item.poster ?? DEFAULT_VIDEO_POSTER}
         alt=""
         loading={priority ? "eager" : "lazy"}
-        fetchPriority={priority ? "high" : "auto"}
         decoding="async"
         className="absolute inset-0 size-full object-cover opacity-90 transition-opacity group-hover:opacity-100"
       />
       <span className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-black/20" />
-      <span className="absolute inset-0 grid place-items-center">
+      <span className="hero-gallery-play absolute inset-0 grid place-items-center">
         <span className="grid size-11 place-items-center rounded-full border border-white/60 bg-white/20 text-white backdrop-blur-md transition-transform duration-300 group-hover:scale-110">
           <Play className="size-4 fill-current" />
         </span>
       </span>
-      <span className="absolute right-2 top-2 grid size-7 place-items-center rounded-full bg-black/45 text-white backdrop-blur-sm">
+      <span className="hero-gallery-expand absolute right-2 top-2 grid size-7 place-items-center rounded-full bg-black/45 text-white backdrop-blur-sm">
         <Maximize2 className="size-3.5" />
       </span>
-      <span className="absolute inset-x-3.5 bottom-3.5">
-        <span className="mb-1 block text-label font-bold uppercase tracking-[0.16em] text-white/65">{lang === "zh" ? "患者日记" : lang === "ru" ? "История пациента" : lang === "es" ? "Diario del paciente" : translatedUiText(lang, "Patient diary")}</span>
+      <span className="hero-gallery-caption absolute inset-x-3.5 bottom-3.5">
+        <span className="hero-gallery-eyebrow mb-1 block text-label font-bold uppercase tracking-[0.16em] text-white/65">{lang === "zh" ? "患者日记" : lang === "ru" ? "История пациента" : lang === "es" ? "Diario del paciente" : translatedUiText(lang, "Patient diary")}</span>
         <span className="block font-display text-lg font-medium leading-tight text-white">{t}</span>
         <span className="mt-1.5 block truncate text-xs font-medium text-white/75">
           {item.city?.[lang === "zh" ? "zh" : "en"]}
@@ -95,7 +99,8 @@ const GalleryCard = ({
   );
 };
 
-const HeroVideoGallery = ({ items, lang, size = "default" }: HeroVideoGalleryProps) => {
+const HeroVideoGallery = ({ items, lang, size = "default", layout = "rail" }: HeroVideoGalleryProps) => {
+  const arcRail = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState<TikTokItem | null>(null);
   const [activeExplainerIndex, setActiveExplainerIndex] = useState(0);
   const [muted, setMuted] = useState(false);
@@ -152,8 +157,24 @@ const HeroVideoGallery = ({ items, lang, size = "default" }: HeroVideoGalleryPro
   };
 
   return (
-    <div className="w-full">
-      {size === "large" ? (
+    <div className={cn("w-full", layout === "arc" && "hero-cinema-gallery")}>
+      {layout === "arc" ? (
+        <>
+          <div id="hero-arc-rail" ref={arcRail} className="hero-arc" role="group" aria-label={t.patientDiaries}>
+            {visibleItems.map((item, index) => {
+              const offset = index - (visibleItems.length - 1) / 2;
+              return (
+                <div key={item.id} className="hero-arc__slot" style={{ "--arc-offset": offset, "--arc-distance": Math.abs(offset) } as CSSProperties}>
+                  <GalleryCard item={item} lang={lang} onPlay={openPlayer} size="default" priority={index < 3} cinematic />
+                </div>
+              );
+            })}
+          </div>
+          <div className="hero-arc__controls lg:hidden">
+            <ManualRailControls railRef={arcRail} railId="hero-arc-rail" count={visibleItems.length} lang={lang} />
+          </div>
+        </>
+      ) : size === "large" ? (
         <>
           <div className="overflow-hidden rounded-[1.5rem] border border-primary/15 bg-foreground p-2 text-white shadow-pop md:hidden">
             <video ref={mobileExplainer.attachRef} key={`mobile-${activeExplainer.id}`} src={activeExplainer.src} poster={activeExplainer.poster} controls playsInline preload="metadata" className="aspect-video w-full rounded-[1.1rem] bg-black object-cover" />
@@ -240,7 +261,7 @@ const HeroVideoGallery = ({ items, lang, size = "default" }: HeroVideoGalleryPro
         </div>
       )}
 
-      <p className="mt-3 text-center text-xs font-semibold text-muted-foreground sm:text-right">
+      <p className={cn("mt-3 text-center text-xs font-semibold text-muted-foreground sm:text-right", layout === "arc" && "hero-cinema-gallery__more")}>
         <Link to="/cases" className="inline-flex items-center gap-1.5 text-brand transition-colors hover:text-foreground">
           {t.more} <ArrowRight className="size-3" />
         </Link>

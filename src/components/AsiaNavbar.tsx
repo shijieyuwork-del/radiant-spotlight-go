@@ -69,7 +69,7 @@ const AccountMenu = ({ lang, onClose }: { lang: Lang; onClose?: () => void }) =>
   );
 };
 
-const AsiaNavbar = () => {
+const AsiaNavbar = ({ floating = false }: { floating?: boolean }) => {
   const { t, lang, setLang, currency, setCurrency } = useAsia();
   const { open } = useQuote();
   const { pathname } = useLocation();
@@ -93,8 +93,8 @@ const AsiaNavbar = () => {
   const moreIsActive = moreDesktopLinks.some((link) => isActive(link.to));
   return (
     <>
-      <div className="fixed inset-x-0 top-0 z-[70]">
-        <div className="hidden h-11 bg-[hsl(var(--brand-emerald))] text-foreground xl:block">
+      <div className={`fixed inset-x-0 top-0 z-[70] ${floating ? "home-floating-nav" : ""}`}>
+        <div className="nav-contact-strip hidden h-11 bg-[hsl(var(--brand-emerald))] text-foreground xl:block">
           <div className="container flex h-full items-center justify-between gap-8 text-sm font-medium">
             <div className="flex items-center gap-6">
               <a href="https://wa.me/14708613825" target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center gap-2 text-foreground/90 transition hover:text-foreground">
@@ -251,7 +251,7 @@ const AsiaNavbar = () => {
           </nav>
         </header>
       </div>
-      <div className="h-16 xl:h-32" aria-hidden="true" />
+      {!floating && <div className="h-16 xl:h-32" aria-hidden="true" />}
     </>
   );
 };

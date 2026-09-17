@@ -1,0 +1,175 @@
+/* ClipCut-inspired spatial composition, expressed in Celadon's own palette.
+   Keep these tokens local: the rest of the website retains its light theme. */
+.cinematic-hero {
+  --cinema-surface: var(--background);
+  --cinema-text: var(--foreground);
+  --cinema-muted: var(--muted-foreground);
+  --cinema-highlight: var(--brand-text);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  margin: 0.5rem;
+  padding: 8rem 1rem 2rem;
+  border: 1px solid hsl(var(--brand-text) / 0.15);
+  border-radius: 1.5rem;
+  color: hsl(var(--cinema-text));
+  background: transparent;
+}
+
+.cinematic-hero__light {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 0% 0%, hsl(var(--primary) / 0.13), transparent 47%),
+    radial-gradient(ellipse at 92% 76%, hsl(var(--primary) / 0.08), transparent 40%);
+}
+
+.cinematic-hero__content { position: relative; margin-inline: auto; max-width: 92rem; }
+.cinematic-hero__badge {
+  border: 1px solid hsl(var(--cinema-text) / 0.18);
+  background: hsl(var(--background) / 0.75);
+  color: hsl(var(--cinema-text));
+  font-weight: 500;
+}
+.cinematic-hero__badge svg { color: hsl(var(--cinema-highlight)); }
+.cinematic-hero__title {
+  max-width: 18ch;
+  margin: 1.5rem auto 0;
+  font-size: clamp(1.9375rem, 5.3vw, 5rem);
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -0.045em;
+  color: hsl(var(--cinema-text));
+  text-wrap: balance;
+}
+.cinematic-hero__title em { color: hsl(var(--cinema-highlight)); }
+.cinematic-hero__subtitle {
+  max-width: 42rem;
+  margin: 1.5rem auto 0;
+  font-size: clamp(0.9375rem, 1.35vw, 1.125rem);
+  line-height: 1.65;
+  color: hsl(var(--cinema-muted));
+}
+.cinematic-hero__actions { margin-top: 1.75rem; }
+.cinematic-hero__secondary {
+  border-color: hsl(var(--cinema-highlight) / 0.4);
+  color: hsl(var(--cinema-text));
+  background: hsl(var(--background) / 0.7);
+}
+.cinematic-hero__secondary:hover,
+.cinematic-hero__secondary:focus-visible {
+  color: hsl(var(--cinema-text));
+  background: hsl(var(--primary) / 0.12);
+}
+.cinematic-hero__policy { color: hsl(var(--cinema-muted)); }
+.cinematic-hero__policy a:hover { color: hsl(var(--cinema-text)); }
+.cinematic-hero__gallery { margin-top: 2rem; }
+.cinematic-hero__services {
+  margin-top: 1.5rem;
+  border: 1px solid hsl(var(--cinema-text) / 0.15);
+  background: hsl(var(--background) / 0.75);
+  color: hsl(var(--cinema-muted));
+}
+.cinematic-hero__services svg { color: hsl(var(--cinema-highlight)); }
+.cinematic-hero :focus-visible { outline: 2px solid hsl(var(--cinema-highlight)); outline-offset: 4px; }
+
+/* The arc is a presentation of real, playable case cards, not a flat image. */
+.hero-arc {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  overflow-x: auto;
+  margin-inline: -1rem;
+  padding: 0.5rem 1rem 1rem;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 1rem;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+.hero-arc::-webkit-scrollbar { display: none; }
+.hero-arc__slot { flex: 0 0 min(66vw, 17rem); scroll-snap-align: start; }
+.hero-arc__card {
+  width: 100%;
+  aspect-ratio: 9 / 14;
+  border-radius: 1rem;
+  border-color: hsl(var(--cinema-text) / 0.2);
+  touch-action: manipulation;
+  transition: transform 140ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.hero-arc__card .hero-gallery-eyebrow { display: none; }
+.hero-arc__card .hero-gallery-play > span { width: 2.5rem; height: 2.5rem; }
+.hero-arc__card .hero-gallery-expand { background: hsl(var(--foreground) / 0.65); }
+.hero-arc__card:active { transform: scale(0.98); transition-duration: 0ms; }
+.hero-arc__controls { margin-top: 0.25rem; }
+.hero-cinema-gallery .hero-cinema-gallery__more { text-align: center; }
+.hero-cinema-gallery__more a { min-height: 2.75rem; color: hsl(var(--cinema-muted)); }
+.hero-cinema-gallery__more a:hover { color: hsl(var(--cinema-text)); }
+
+/* Preserve all existing navigation/account controls in a floating shell. */
+.home-water-page .home-floating-nav {
+  top: 1rem;
+  right: 0.75rem;
+  left: 0.75rem;
+  max-width: 90rem;
+  margin-inline: auto;
+  overflow: hidden;
+  border: 1px solid hsl(var(--primary) / 0.2);
+  border-radius: 2rem;
+  background: hsl(var(--background) / 0.96);
+  box-shadow: 0 8px 32px hsl(var(--foreground) / 0.1);
+}
+.home-floating-nav header { border: 0; background: transparent; box-shadow: none; }
+.home-floating-nav nav { gap: 0.5rem; padding-inline: 0.5rem; }
+.home-floating-nav .nav-contact-strip { background: hsl(var(--primary) / 0.1); }
+
+@media (min-width: 1024px) {
+  .cinematic-hero { margin: 0.75rem; padding: 9.5rem 2rem 2.5rem; border-radius: 2rem; }
+  .cinematic-hero__title { max-width: 21ch; margin-top: 1.75rem; }
+  .cinematic-hero__subtitle { margin-top: 1.75rem; }
+  .cinematic-hero__actions { margin-top: 2rem; }
+  .cinematic-hero__gallery { margin-top: 3rem; }
+  .hero-arc {
+    justify-content: center;
+    gap: clamp(0.75rem, 1.6vw, 1.5rem);
+    margin-inline: -4rem;
+    padding: 1rem 0 2rem;
+    overflow: visible;
+    perspective: 75rem;
+    min-height: 24rem;
+  }
+  .hero-arc__slot {
+    flex: 0 0 clamp(6rem, calc(8.6vw + var(--arc-distance) * 1.3vw), 12.5rem);
+    transform: translateY(calc((3 - var(--arc-distance)) * 1.75rem)) rotateY(calc(var(--arc-offset) * -9deg));
+    transform-style: preserve-3d;
+  }
+  .hero-arc__card {
+    aspect-ratio: auto;
+    height: calc(clamp(10rem, 15vw, 13.5rem) + var(--arc-distance) * 2.5rem);
+    border-radius: 0.75rem;
+  }
+  .hero-arc__card .hero-gallery-caption { left: 0.75rem; right: 0.75rem; bottom: 0.75rem; }
+  .hero-arc__card .hero-gallery-caption > .font-display { font-size: clamp(0.75rem, 1.2vw, 1rem); line-height: 1.25; }
+  .hero-arc__card .hero-gallery-caption > .text-xs { font-size: 0.75rem; margin-top: 0.25rem; }
+  .hero-arc__card .hero-gallery-expand { display: none; }
+  .cinematic-hero__services { margin-top: 0.5rem; }
+  .home-water-page .home-floating-nav { top: 1.5rem; right: 2.5rem; left: 2.5rem; }
+}
+
+@media (min-width: 1280px) {
+  .cinematic-hero { padding-top: 12rem; }
+  .cinematic-hero__gallery { margin-top: -2rem; }
+  .home-floating-nav .nav-contact-strip { height: 2.5rem; }
+  .home-floating-nav nav { height: 4.5rem; padding-inline: 1.5rem; }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hero-arc__card:hover { transform: translateY(-0.5rem); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-arc__card,
+  .hero-arc__card * { transition: none; }
+  .hero-arc__card:hover,
+  .hero-arc__card:active { transform: none; }
+}
