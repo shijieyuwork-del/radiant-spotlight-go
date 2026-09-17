@@ -9,7 +9,7 @@
   isolation: isolate;
   overflow: hidden;
   margin: 0.5rem;
-  padding: 8rem 1rem 2rem;
+  padding: 3.5rem 1rem 2rem;
   border: 1px solid hsl(var(--brand-text) / 0.15);
   border-radius: 1.5rem;
   color: hsl(var(--cinema-text));
@@ -125,7 +125,7 @@
 .home-floating-nav .nav-contact-strip { background: hsl(var(--primary) / 0.1); }
 
 @media (min-width: 1024px) {
-  .cinematic-hero { margin: 0.75rem; padding: 9.5rem 2rem 2.5rem; border-radius: 2rem; }
+  .cinematic-hero { margin: 0.75rem; padding: 4.5rem 2rem 2.5rem; border-radius: 2rem; }
   .cinematic-hero__title { max-width: 21ch; margin-top: 1.75rem; }
   .cinematic-hero__subtitle { margin-top: 1.75rem; }
   .cinematic-hero__actions { margin-top: 2rem; }
@@ -158,7 +158,7 @@
 }
 
 @media (min-width: 1280px) {
-  .cinematic-hero { padding-top: 12rem; }
+  .cinematic-hero { padding-top: 5rem; }
   .cinematic-hero__gallery { margin-top: -2rem; }
   .home-floating-nav .nav-contact-strip { height: 2.5rem; }
   .home-floating-nav nav { height: 4.5rem; padding-inline: 1.5rem; }
