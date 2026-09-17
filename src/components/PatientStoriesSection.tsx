@@ -1,10 +1,9 @@
-import { useEffect, useRef, useState } from "react";
-import { ArrowRight, Quote } from "lucide-react";
+import { useRef, useState } from "react";
+import { Quote, Star } from "lucide-react";
 
 import PatientStoryDialog from "@/components/PatientStoryDialog";
 import { HomeSection } from "@/components/home/HomeSection";
 import { SectionHeader } from "@/components/home/SectionHeader";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi } from "@/components/ui/carousel";
 import { patientStories, type PatientStory } from "@/data/patientStories";
 import { useAsia } from "@/lib/asia-i18n";
 import { translatedUiText } from "@/lib/locale-text";
@@ -12,138 +11,96 @@ import { translatedUiText } from "@/lib/locale-text";
 const PatientStoriesSection = ({ ambient = false }: { ambient?: boolean }) => {
   const { lang } = useAsia();
   const zh = lang === "zh";
-  // Chinese copy is authored alongside the English; every other language reads the English string through the catalog.
   const text = (en: string, zhText: string) => (zh ? zhText : translatedUiText(lang, en));
   const ageLine = (story: PatientStory) =>
     zh ? `${story.age} 岁 · ${story.countryZh}`
       : lang === "vi" ? `${story.age} tuổi · ${translatedUiText(lang, story.country)}`
         : `${translatedUiText(lang, "Age")} ${story.age} · ${translatedUiText(lang, story.country)}`;
   const [selectedStory, setSelectedStory] = useState<PatientStory | null>(null);
-  const [carouselApi, setCarouselApi] = useState<CarouselApi>();
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const [autoplayPaused, setAutoplayPaused] = useState(false);
+  const [paused, setPaused] = useState(false);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
 
-  useEffect(() => {
-    if (!carouselApi) return;
-    const updateSelected = () => setSelectedIndex(carouselApi.selectedScrollSnap());
-    updateSelected();
-    carouselApi.on("select", updateSelected);
-    carouselApi.on("reInit", updateSelected);
-    return () => {
-      carouselApi.off("select", updateSelected);
-      carouselApi.off("reInit", updateSelected);
-    };
-  }, [carouselApi]);
+  const openStory = (story: PatientStory, trigger: HTMLButtonElement) => {
+    triggerRef.current = trigger;
+    setSelectedStory(story);
+  };
 
-  useEffect(() => {
-    if (!carouselApi || autoplayPaused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const timer = window.setInterval(() => carouselApi.scrollNext(), 5500);
-    return () => window.clearInterval(timer);
-  }, [autoplayPaused, carouselApi, selectedIndex]);
+  const reviewCard = (story: PatientStory, duplicate = false) => (
+    <button
+      key={`${duplicate ? "copy" : "review"}-${story.name}`}
+      type="button"
+      tabIndex={duplicate ? -1 : 0}
+      aria-hidden={duplicate || undefined}
+      aria-haspopup={duplicate ? undefined : "dialog"}
+      aria-label={duplicate ? undefined : zh ? `阅读全文：${story.name}` : `${translatedUiText(lang, "Read full story")}: ${story.name}`}
+      onClick={(event) => openStory(story, event.currentTarget)}
+      className="group/review flex h-[15.5rem] w-[19rem] shrink-0 flex-col rounded-2xl border border-border/80 bg-card/95 p-5 text-left shadow-[0_8px_24px_rgba(22,63,52,0.08)] backdrop-blur-sm transition-[transform,border-color,box-shadow] duration-200 hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_14px_34px_rgba(22,63,52,0.13)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 motion-reduce:transform-none motion-reduce:transition-none sm:h-[16rem] sm:w-[23rem] sm:p-6"
+    >
+      <div className="flex items-center justify-between gap-4">
+        <Quote className="size-5 fill-primary/20 text-primary/75" aria-hidden="true" />
+        <span className="flex items-center gap-0.5" aria-hidden="true">
+          {Array.from({ length: 5 }, (_, index) => (
+            <Star key={index} className="size-4 fill-amber-400 text-amber-400" />
+          ))}
+        </span>
+      </div>
+      <blockquote className="mt-5 line-clamp-4 text-[0.95rem] leading-6 text-muted-foreground sm:text-base sm:leading-7">
+        “{text(story.excerpt, story.excerptZh)}”
+      </blockquote>
+      <div className="mt-auto flex items-center gap-3 border-t border-border/60 pt-4">
+        <span className="grid size-11 shrink-0 place-items-center rounded-full bg-secondary font-display text-sm font-semibold text-foreground ring-1 ring-primary/15" aria-hidden="true">
+          {story.name.slice(0, 1)}
+        </span>
+        <span className="min-w-0">
+          <span role="heading" aria-level={3} className="block truncate font-display text-sm font-semibold text-foreground">{story.name}</span>
+          <span className="mt-0.5 block truncate text-xs text-muted-foreground">{ageLine(story)}</span>
+        </span>
+      </div>
+      <span className="sr-only">{text("Read full story", "阅读全文")}</span>
+    </button>
+  );
 
   return (
     <HomeSection
       tone="white"
       ariaLabelledBy="patient-stories-title"
       lang={lang}
-      // The homepage (ambient) sits on the shared white/sage rhythm; other pages keep their warm gradient band.
-      className={ambient ? undefined : "bg-gradient-hero dark:bg-none"}
+      className={ambient ? "overflow-hidden" : "overflow-hidden bg-gradient-hero dark:bg-none"}
     >
-      <Carousel
-        setApi={setCarouselApi}
-        opts={{
-          align: "center",
-          loop: true,
-          slidesToScroll: 1,
-          breakpoints: { "(prefers-reduced-motion: reduce)": { duration: 0 } },
-        }}
-        onMouseEnter={() => setAutoplayPaused(true)}
-        onMouseLeave={() => setAutoplayPaused(false)}
-        onFocusCapture={() => setAutoplayPaused(true)}
+      <SectionHeader
+        icon={Quote}
+        eyebrow={text("Patient stories", "患者故事")}
+        titleId="patient-stories-title"
+        title={<>{text("400+ patients trust", "400+ 位患者信任")} <em className="not-italic text-brand">CeladonChina</em></>}
+      />
+
+      <div
+        className="review-motion-viewport relative left-1/2 mt-8 w-screen -translate-x-1/2 overflow-hidden py-3"
+        role="region"
+        aria-label={text("Automatically scrolling patient reviews", "自动滚动的患者评价")}
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+        onFocusCapture={() => setPaused(true)}
         onBlurCapture={(event) => {
-          if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setAutoplayPaused(false);
+          if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setPaused(false);
         }}
-        aria-label={text("Patient stories carousel", "患者故事轮播")}
+        onPointerDown={() => setPaused(true)}
+        onPointerUp={() => setPaused(false)}
+        onPointerCancel={() => setPaused(false)}
       >
-        <SectionHeader
-          icon={Quote}
-          eyebrow={text("Patient stories", "患者故事")}
-          titleId="patient-stories-title"
-          title={<>{text("400+ patients trust", "400+ 位患者信任")} <em className="not-italic text-brand">CeladonChina</em></>}
-        />
-
-        <div className="relative mx-auto mt-2 max-w-6xl px-0 sm:px-14 lg:px-20">
-          <CarouselContent className="ml-0">
-          {patientStories.map((story, index) => (
-            <CarouselItem key={story.name} className="pl-0" aria-label={`${story.name}, ${index + 1} / ${patientStories.length}`}>
-              <article className="mx-auto flex min-h-[390px] max-w-4xl flex-col items-center justify-center px-5 py-9 text-center sm:min-h-[430px] sm:px-12 sm:py-12">
-                <span className="grid size-[4.5rem] place-items-center rounded-full border border-primary/30 bg-secondary text-xl font-semibold text-foreground shadow-[0_12px_35px_rgba(22,63,52,0.10)]" aria-hidden="true">
-                  {story.name.slice(0, 1)}
-                </span>
-
-                <span className="mt-6 inline-flex items-center gap-2 text-brand" aria-hidden="true">
-                  <span className="h-px w-8 bg-primary/35" />
-                  <Quote className="size-5 fill-primary/10" />
-                  <span className="h-px w-8 bg-primary/35" />
-                </span>
-
-                <blockquote className="mt-5 max-w-3xl font-display text-xl font-medium leading-[1.55] text-foreground sm:text-2xl md:text-[1.75rem]">
-                  <p>“{text(story.excerpt, story.excerptZh)}”</p>
-                </blockquote>
-
-                <div className="mt-7">
-                  <h3 className="font-display text-lg font-semibold leading-snug text-foreground">{story.name}</h3>
-                  <p className="mt-1 text-sm leading-snug text-muted-foreground">{ageLine(story)}</p>
-                </div>
-
-                <button
-                  type="button"
-                  aria-haspopup="dialog"
-                  aria-label={zh ? `阅读全文：${story.name}` : `${translatedUiText(lang, "Read full story")}: ${story.name}`}
-                  onClick={(event) => {
-                    triggerRef.current = event.currentTarget;
-                    setSelectedStory(story);
-                  }}
-                  className="mt-6 inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-border bg-card px-5 py-2 text-sm font-semibold text-foreground shadow-sm transition-[background-color,border-color,transform] duration-150 hover:-translate-y-0.5 hover:border-primary/35 hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 motion-reduce:transform-none motion-reduce:transition-none"
-                >
-                  {text("Read full story", "阅读全文")}
-                  <ArrowRight className="size-4 shrink-0" aria-hidden="true" />
-                </button>
-              </article>
-            </CarouselItem>
-          ))}
-          </CarouselContent>
-
-          <CarouselPrevious
-            className="!left-1 !top-1/2 !size-11 border-border bg-card text-foreground shadow-[0_8px_24px_rgba(22,63,52,0.10)] hover:bg-secondary hover:text-foreground focus-visible:ring-foreground disabled:opacity-35 motion-reduce:transition-none sm:!left-2"
-            aria-label={text("View previous patient", "查看上一位患者")}
-          />
-          <CarouselNext
-            className="!right-1 !top-1/2 !size-11 border-border bg-card text-foreground shadow-[0_8px_24px_rgba(22,63,52,0.10)] hover:bg-secondary hover:text-foreground focus-visible:ring-foreground disabled:opacity-35 motion-reduce:transition-none sm:!right-2"
-            aria-label={text("View next patient", "查看下一位患者")}
-          />
+        <div className={`review-motion-track flex w-max gap-4 sm:gap-5 ${paused ? "is-paused" : ""}`}>
+          <div className="flex gap-4 pl-4 sm:gap-5 sm:pl-6">
+            {patientStories.map((story) => reviewCard(story))}
+          </div>
+          <div className="flex gap-4 pl-4 sm:gap-5 sm:pl-6" aria-hidden="true">
+            {patientStories.map((story) => reviewCard(story, true))}
+          </div>
         </div>
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-background to-transparent sm:w-20" aria-hidden="true" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-background to-transparent sm:w-20" aria-hidden="true" />
+      </div>
 
-        <div className="mt-1 flex items-center justify-center gap-2" role="tablist" aria-label={text("Choose a patient story", "选择患者故事")}>
-          {patientStories.map((story, index) => (
-            <button
-              key={story.name}
-              type="button"
-              role="tab"
-              aria-selected={selectedIndex === index}
-              aria-label={zh ? `查看第 ${index + 1} 个患者故事` : `${translatedUiText(lang, "View patient story")} ${index + 1}`}
-              onClick={() => carouselApi?.scrollTo(index)}
-              className={`h-2 rounded-full transition-[width,background-color] duration-300 motion-reduce:transition-none ${selectedIndex === index ? "w-7 bg-primary" : "w-2 bg-primary/20 hover:bg-primary/40"}`}
-            />
-          ))}
-        </div>
-
-        <p className="sr-only" aria-live="polite">
-          {text("Patient story", "患者故事")} {selectedIndex + 1} / {patientStories.length}
-        </p>
-      </Carousel>
-
+      <p className="sr-only">{text("The reviews pause while you hover or focus a card.", "鼠标悬停或聚焦评价卡片时，滚动会暂停。")}</p>
       <PatientStoryDialog
         story={selectedStory}
         zh={zh}
