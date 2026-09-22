@@ -50,6 +50,13 @@ import chineseDoctorTeam from "@/assets/chinese-doctor-team-candid-v1.webp";
 import shanghaiHuameiClinic from "@/assets/clinics/shanghai-huamei.jpg";
 import beijingBadachuClinic from "@/assets/clinics/beijing-badachu.jpg";
 import guangzhouHuameiClinic from "@/assets/clinics/guangzhou-huamei.jpg";
+import shanghaiNinthClinic from "@/assets/clinics/shanghai-ninth.jpg";
+import shanghaiWeilinClinic from "@/assets/clinics/shanghai-weilin.jpg";
+import beijingYestarClinic from "@/assets/clinics/beijing-yestar.jpg";
+import guangzhouNanfangClinic from "@/assets/clinics/guangzhou-nanfang.jpg";
+import hangzhouZju2Clinic from "@/assets/clinics/hangzhou-zju2.jpg";
+import hangzhouPlasticClinic from "@/assets/clinics/hangzhou-plastic.jpg";
+import hainanGeneralClinic from "@/assets/clinics/hainan-general.jpg";
 import PatientStoriesSection from "@/components/PatientStoriesSection";
 import { supabase } from "@/integrations/supabase/client";
 import { useRealtimeRefresh } from "@/hooks/use-realtime-refresh";
@@ -730,6 +737,7 @@ const ClinicsSection = () => {
   const { t, lang } = useAsia();
   const clinicText = (en: string, zh: string) => lang === "zh" ? zh : translatedUiText(lang, en);
   const clinicRailRef = useRef<HTMLDivElement>(null);
+  const clinicRailPausedRef = useRef(false);
   const clinics = [
     {
       en: "Shanghai Huamei Plastic Surgery Hospital",
@@ -764,7 +772,103 @@ const ClinicsSection = () => {
       tagsEn: ["Cosmetic surgery", "Dermatology", "Dental"],
       tagsZh: ["美容外科", "美容皮肤科", "美容牙科"],
     },
+    {
+      en: "Shanghai Ninth People's Hospital · Plastic Surgery",
+      zh: "上海九院 整形外科",
+      cityEn: "Shanghai · Huangpu District",
+      cityZh: "上海 · 黄浦区",
+      image: shanghaiNinthClinic,
+      descriptionEn: "A major public teaching hospital with an established plastic and reconstructive surgery department.",
+      descriptionZh: "大型公立教学医院，设有成熟的整复外科与修复重建诊疗体系。",
+      tagsEn: ["Public hospital", "Reconstructive", "Academic center"],
+      tagsZh: ["公立医院", "整形修复", "学术中心"],
+    },
+    {
+      en: "Shanghai Weilin Aesthetic Hospital",
+      zh: "上海薇琳医疗美容医院",
+      cityEn: "Shanghai · Jing'an District",
+      cityZh: "上海 · 静安区",
+      image: shanghaiWeilinClinic,
+      descriptionEn: "A centrally located aesthetic hospital offering surgical and non-surgical consultations in Shanghai.",
+      descriptionZh: "位于上海市中心，提供手术与非手术医美项目咨询。",
+      tagsEn: ["Aesthetic surgery", "Skin treatments", "Central Shanghai"],
+      tagsZh: ["美容外科", "皮肤管理", "上海市中心"],
+    },
+    {
+      en: "Beijing Yestar Aesthetic Hospital",
+      zh: "北京艺星医疗美容医院",
+      cityEn: "Beijing · Chaoyang District",
+      cityZh: "北京 · 朝阳区",
+      image: beijingYestarClinic,
+      descriptionEn: "A private aesthetic hospital in Chaoyang with surgical, dermatology and consultation services.",
+      descriptionZh: "位于朝阳区的医美机构，提供美容外科、皮肤与面诊服务。",
+      tagsEn: ["Cosmetic surgery", "Dermatology", "Private hospital"],
+      tagsZh: ["美容外科", "美容皮肤科", "私立医院"],
+    },
+    {
+      en: "Nanfang Hospital · Plastic Surgery",
+      zh: "南方医科大学南方医院 整形美容外科",
+      cityEn: "Guangzhou · Baiyun District",
+      cityZh: "广州 · 白云区",
+      image: guangzhouNanfangClinic,
+      descriptionEn: "A university-affiliated public hospital with specialist plastic and aesthetic surgery services.",
+      descriptionZh: "大学附属公立医院，设有专业的整形美容外科诊疗服务。",
+      tagsEn: ["Public hospital", "University affiliated", "Plastic surgery"],
+      tagsZh: ["公立医院", "大学附属", "整形外科"],
+    },
+    {
+      en: "Second Affiliated Hospital of Zhejiang University · Plastic Surgery",
+      zh: "浙江大学医学院附属第二医院 整形科",
+      cityEn: "Hangzhou · Shangcheng District",
+      cityZh: "杭州 · 上城区",
+      image: hangzhouZju2Clinic,
+      descriptionEn: "A Zhejiang University teaching hospital providing specialist plastic and reconstructive care.",
+      descriptionZh: "浙江大学附属教学医院，提供专业整形与修复重建诊疗。",
+      tagsEn: ["Public hospital", "Teaching hospital", "Reconstructive"],
+      tagsZh: ["公立医院", "教学医院", "整形修复"],
+    },
+    {
+      en: "Hangzhou Plastic Surgery Hospital",
+      zh: "杭州整形医院",
+      cityEn: "Hangzhou · Shangcheng District",
+      cityZh: "杭州 · 上城区",
+      image: hangzhouPlasticClinic,
+      descriptionEn: "A specialist hospital focused on plastic surgery, aesthetic procedures and coordinated consultations.",
+      descriptionZh: "专注整形外科、美容项目与就诊咨询的专科医院。",
+      tagsEn: ["Specialist hospital", "Aesthetic surgery", "Consultations"],
+      tagsZh: ["专科医院", "美容外科", "就诊咨询"],
+    },
+    {
+      en: "Hainan General Hospital · Plastic Surgery",
+      zh: "海南省人民医院 整形美容外科",
+      cityEn: "Hainan · Haikou",
+      cityZh: "海南 · 海口",
+      image: hainanGeneralClinic,
+      descriptionEn: "A major public hospital in Haikou with plastic surgery and multidisciplinary medical support.",
+      descriptionZh: "海口大型公立医院，设有整形美容外科及多学科医疗支持。",
+      tagsEn: ["Public hospital", "Plastic surgery", "Haikou"],
+      tagsZh: ["公立医院", "整形外科", "海口"],
+    },
   ];
+
+  useEffect(() => {
+    const rail = clinicRailRef.current;
+    if (!rail || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const advance = () => {
+      if (clinicRailPausedRef.current) return;
+      const firstCard = rail.firstElementChild as HTMLElement | null;
+      if (!firstCard) return;
+      const gap = Number.parseFloat(window.getComputedStyle(rail).columnGap || "0");
+      const step = firstCard.getBoundingClientRect().width + gap;
+      const atEnd = rail.scrollLeft + rail.clientWidth >= rail.scrollWidth - step / 2;
+      rail.scrollTo({ left: atEnd ? 0 : rail.scrollLeft + step, behavior: "smooth" });
+    };
+
+    const timer = window.setInterval(advance, 4500);
+    return () => window.clearInterval(timer);
+  }, []);
+
   return (
     <HomeSection id="clinics" tone="sage" ariaLabelledBy="home-clinics-title">
       <SectionHeader
@@ -778,10 +882,20 @@ const ClinicsSection = () => {
       <div
         ref={clinicRailRef}
         id="home-clinics-rail"
-        className="home-rail flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain py-1 scrollbar-hide md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:py-0"
+        className="home-rail flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain py-1 scrollbar-hide md:gap-6"
+        onMouseEnter={() => { clinicRailPausedRef.current = true; }}
+        onMouseLeave={() => { clinicRailPausedRef.current = false; }}
+        onFocusCapture={() => { clinicRailPausedRef.current = true; }}
+        onBlurCapture={(event) => {
+          if (!event.currentTarget.contains(event.relatedTarget as Node | null)) clinicRailPausedRef.current = false;
+        }}
+        onPointerDown={() => { clinicRailPausedRef.current = true; }}
+        onPointerUp={() => { clinicRailPausedRef.current = false; }}
+        onPointerCancel={() => { clinicRailPausedRef.current = false; }}
+        aria-label={clinicText("Featured clinic carousel", "精选医院轮播")}
       >
         {clinics.map((clinic) => (
-          <Link key={clinic.en} to={(() => { const listing = STATIC_CLINICS.find((item) => item.nameEn === clinic.en); return listing ? getClinicPath(listing) : `/clinics?q=${encodeURIComponent(clinic.en)}`; })()} className="group flex min-w-[82vw] snap-center rounded-3xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 sm:min-w-[62vw] md:min-w-0">
+          <Link key={clinic.en} to={(() => { const listing = STATIC_CLINICS.find((item) => item.nameEn === clinic.en); return listing ? getClinicPath(listing) : `/clinics?q=${encodeURIComponent(clinic.en)}`; })()} className="group flex min-w-[82vw] snap-center rounded-3xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 sm:min-w-[62vw] md:min-w-[calc(33.333%_-_1rem)] md:max-w-[calc(33.333%_-_1rem)]">
             <article className="home-clinic-card flex w-full flex-col rounded-3xl border border-border bg-card p-6 shadow-soft transition duration-300 group-hover:-translate-y-1 group-hover:border-primary/35 group-hover:shadow-pop md:min-h-[300px]">
               <div className="flex min-w-0 items-center gap-4">
                 <img src={clinic.image} alt="" loading="lazy" decoding="async" className="size-20 shrink-0 rounded-full border-2 border-primary/15 object-cover transition-transform duration-500 group-hover:scale-105" />
