@@ -75,34 +75,77 @@
 .cinematic-hero__services svg { color: hsl(var(--cinema-highlight)); }
 .cinematic-hero :focus-visible { outline: 2px solid hsl(var(--cinema-highlight)); outline-offset: 4px; }
 
-/* The arc is a presentation of real, playable case cards, not a flat image. */
-.hero-arc {
-  display: flex;
-  align-items: flex-start;
-  gap: 1rem;
-  overflow-x: auto;
-  margin-inline: -1rem;
-  padding: 0.5rem 1rem 1rem;
-  scroll-snap-type: x mandatory;
-  scroll-padding-inline: 1rem;
-  scrollbar-width: none;
-  overscroll-behavior-x: contain;
+/* Three counter-moving film strips made from real, playable patient diaries. */
+.hero-film-wall {
+  position: relative;
+  width: min(100%, 67rem);
+  height: clamp(24rem, 72vw, 43rem);
+  margin-inline: auto;
+  overflow: hidden;
+  isolation: isolate;
 }
-.hero-arc::-webkit-scrollbar { display: none; }
-.hero-arc__slot { flex: 0 0 min(66vw, 17rem); scroll-snap-align: start; }
-.hero-arc__card {
+.hero-film-wall__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(0.5rem, 1.8vw, 1.5rem);
+  height: 100%;
+  padding-inline: 0.25rem;
+}
+.hero-film-wall__column { min-width: 0; }
+.hero-film-wall__track {
+  --film-wall-gap: clamp(0.5rem, 1.8vw, 1.5rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--film-wall-gap);
+  will-change: transform;
+  animation: hero-film-scroll-up 44s linear infinite;
+}
+.hero-film-wall__track--down { animation-name: hero-film-scroll-down; animation-duration: 50s; }
+.hero-film-wall__track.is-paused,
+.hero-film-wall:hover .hero-film-wall__track,
+.hero-film-wall:focus-within .hero-film-wall__track { animation-play-state: paused; }
+.hero-film-wall__set {
+  display: flex;
+  flex-direction: column;
+  gap: var(--film-wall-gap);
+}
+.hero-film-wall__slot { min-width: 0; }
+.hero-film-wall__card {
+  width: 100%;
   width: 100%;
   aspect-ratio: 9 / 14;
-  border-radius: 1rem;
+  border-radius: clamp(0.75rem, 2vw, 2rem);
   border-color: hsl(var(--cinema-text) / 0.2);
   touch-action: manipulation;
-  transition: transform 140ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1), filter 260ms ease;
 }
-.hero-arc__card .hero-gallery-eyebrow { display: none; }
-.hero-arc__card .hero-gallery-play > span { width: 2.5rem; height: 2.5rem; }
-.hero-arc__card .hero-gallery-expand { background: hsl(var(--foreground) / 0.65); }
-.hero-arc__card:active { transform: scale(0.98); transition-duration: 0ms; }
-.hero-arc__controls { margin-top: 0.25rem; }
+.hero-film-wall__card .hero-gallery-play > span { width: clamp(2rem, 4vw, 3rem); height: clamp(2rem, 4vw, 3rem); }
+.hero-film-wall__card .hero-gallery-expand { background: hsl(var(--foreground) / 0.65); }
+.hero-film-wall__card:active { transform: scale(0.98); transition-duration: 0ms; }
+.hero-film-wall__fade {
+  position: absolute;
+  z-index: 2;
+  right: 0;
+  left: 0;
+  height: 20%;
+  pointer-events: none;
+}
+.hero-film-wall__fade--top {
+  top: 0;
+  background: linear-gradient(to bottom, hsl(var(--background)) 0%, hsl(var(--background) / 0.82) 32%, transparent 100%);
+}
+.hero-film-wall__fade--bottom {
+  bottom: 0;
+  background: linear-gradient(to top, hsl(var(--background)) 0%, hsl(var(--background) / 0.82) 32%, transparent 100%);
+}
+@keyframes hero-film-scroll-up {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(0, calc(-50% - (var(--film-wall-gap) / 2)), 0); }
+}
+@keyframes hero-film-scroll-down {
+  from { transform: translate3d(0, calc(-50% - (var(--film-wall-gap) / 2)), 0); }
+  to { transform: translate3d(0, 0, 0); }
+}
 .hero-cinema-gallery .hero-cinema-gallery__more { text-align: center; }
 .hero-cinema-gallery__more a { min-height: 2.75rem; color: hsl(var(--cinema-muted)); }
 .hero-cinema-gallery__more a:hover { color: hsl(var(--cinema-text)); }
@@ -130,29 +173,8 @@
   .cinematic-hero__subtitle { margin-top: 1.75rem; }
   .cinematic-hero__actions { margin-top: 2rem; }
   .cinematic-hero__gallery { margin-top: 3rem; }
-  .hero-arc {
-    justify-content: center;
-    gap: clamp(0.75rem, 1.6vw, 1.5rem);
-    margin-inline: -4rem;
-    padding: 1rem 0 2rem;
-    overflow: visible;
-    perspective: 75rem;
-    min-height: 24rem;
-  }
-  .hero-arc__slot {
-    flex: 0 0 clamp(6rem, calc(8.6vw + var(--arc-distance) * 1.3vw), 12.5rem);
-    transform: translateY(calc((3 - var(--arc-distance)) * 1.75rem)) rotateY(calc(var(--arc-offset) * -9deg));
-    transform-style: preserve-3d;
-  }
-  .hero-arc__card {
-    aspect-ratio: auto;
-    height: calc(clamp(10rem, 15vw, 13.5rem) + var(--arc-distance) * 2.5rem);
-    border-radius: 0.75rem;
-  }
-  .hero-arc__card .hero-gallery-caption { left: 0.75rem; right: 0.75rem; bottom: 0.75rem; }
-  .hero-arc__card .hero-gallery-caption > .font-display { font-size: clamp(0.75rem, 1.2vw, 1rem); line-height: 1.25; }
-  .hero-arc__card .hero-gallery-caption > .text-xs { font-size: 0.75rem; margin-top: 0.25rem; }
-  .hero-arc__card .hero-gallery-expand { display: none; }
+  .hero-film-wall__card .hero-gallery-caption { left: 1rem; right: 1rem; bottom: 1rem; }
+  .hero-film-wall__card .hero-gallery-caption > .font-display { font-size: clamp(0.9rem, 1.4vw, 1.2rem); line-height: 1.25; }
   .cinematic-hero__services { margin-top: 0.5rem; }
   .home-water-page .home-floating-nav { top: 1.5rem; right: 2.5rem; left: 2.5rem; }
 }
@@ -165,11 +187,14 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .hero-arc__card:hover { transform: translateY(-0.5rem); }
+  .hero-film-wall__card:hover { transform: scale(1.018); filter: saturate(1.08); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .hero-arc__card,
-  .hero-arc__card * { transition: none; }
-  .hero-arc__card:hover,
-  .hero-arc__card:active { transform: none; }
+  .hero-film-wall { overflow-y: auto; }
+  .hero-film-wall__track { animation: none; transform: none; }
+  .hero-film-wall__set[aria-hidden="true"] { display: none; }
+  .hero-film-wall__card,
+  .hero-film-wall__card * { transition: none; }
+  .hero-film-wall__card:hover,
+  .hero-film-wall__card:active { transform: none; filter: none; }
 }

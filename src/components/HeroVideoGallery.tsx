@@ -1,4 +1,4 @@
-import { useRef, useState, type CSSProperties } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Maximize2, Play, Pause, Volume2, VolumeX, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import type { TikTokItem } from "@/components/TikTokWall";
@@ -9,7 +9,6 @@ import { videoControlsCopy } from "@/lib/video-controls-copy";
 import { translatedUiText } from "@/lib/locale-text";
 import { withVietnameseFallback } from "@/lib/asia-copy";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
-import { ManualRailControls } from "@/components/ManualRailControls";
 import { cn } from "@/lib/utils";
 
 type Lang = AsiaLang;
@@ -69,7 +68,7 @@ const GalleryCard = ({
     <button
       type="button"
       onClick={(event) => onPlay(item, event.currentTarget)}
-      className={cn("group relative shrink-0 overflow-hidden border border-white/55 bg-foreground/90 text-left shadow-soft", cinematic ? "hero-arc__card" : `aspect-[9/16] snap-start rounded-[1.35rem] transition-transform duration-150 hover:-translate-y-1 ${size === "large" ? "w-[48vw] min-w-[48vw] sm:w-44 sm:min-w-44 md:w-[15.5rem] md:min-w-[15.5rem] lg:w-[17rem] lg:min-w-[17rem]" : "w-[42vw] min-w-[42vw] sm:w-36 sm:min-w-36 lg:w-[9.25rem] lg:min-w-[9.25rem]"}`)}
+      className={cn("group relative shrink-0 overflow-hidden border border-white/55 bg-foreground/90 text-left shadow-soft", cinematic ? "hero-film-wall__card" : `aspect-[9/16] snap-start rounded-[1.35rem] transition-transform duration-150 hover:-translate-y-1 ${size === "large" ? "w-[48vw] min-w-[48vw] sm:w-44 sm:min-w-44 md:w-[15.5rem] md:min-w-[15.5rem] lg:w-[17rem] lg:min-w-[17rem]" : "w-[42vw] min-w-[42vw] sm:w-36 sm:min-w-36 lg:w-[9.25rem] lg:min-w-[9.25rem]"}`)}
       aria-label={`${actionLabel ?? ui[lang].fullscreen}: ${t}`}
     >
       <img
@@ -100,8 +99,8 @@ const GalleryCard = ({
 };
 
 const HeroVideoGallery = ({ items, lang, size = "default", layout = "rail" }: HeroVideoGalleryProps) => {
-  const arcRail = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState<TikTokItem | null>(null);
+  const [wallPaused, setWallPaused] = useState(false);
   const [activeExplainerIndex, setActiveExplainerIndex] = useState(0);
   const [muted, setMuted] = useState(false);
   const player = useQuietVideo(active?.src ?? "", !!active);
@@ -109,7 +108,12 @@ const HeroVideoGallery = ({ items, lang, size = "default", layout = "rail" }: He
   const playerOpener = useRef<HTMLButtonElement | null>(null);
   const controlCopy = videoControlsCopy[lang];
   const t = ui[lang];
-  const visibleItems = items.slice(0, 7);
+  const visibleItems = items.slice(0, layout === "arc" ? 9 : 7);
+  const filmColumns = [
+    visibleItems.filter((_, index) => index % 3 === 0),
+    visibleItems.filter((_, index) => index % 3 === 1),
+    visibleItems.filter((_, index) => index % 3 === 2),
+  ];
   const explainers = [
     {
       id: "care-coordination-overview",
@@ -159,21 +163,40 @@ const HeroVideoGallery = ({ items, lang, size = "default", layout = "rail" }: He
   return (
     <div className={cn("w-full", layout === "arc" && "hero-cinema-gallery")}>
       {layout === "arc" ? (
-        <>
-          <div id="hero-arc-rail" ref={arcRail} className="hero-arc" role="group" aria-label={t.patientDiaries}>
-            {visibleItems.map((item, index) => {
-              const offset = index - (visibleItems.length - 1) / 2;
-              return (
-                <div key={item.id} className="hero-arc__slot" style={{ "--arc-offset": offset, "--arc-distance": Math.abs(offset) } as CSSProperties}>
-                  <GalleryCard item={item} lang={lang} onPlay={openPlayer} size="default" priority={index < 3} cinematic />
+        <div
+          className="hero-film-wall"
+          role="group"
+          aria-label={t.patientDiaries}
+          onMouseEnter={() => setWallPaused(true)}
+          onMouseLeave={() => setWallPaused(false)}
+          onFocusCapture={() => setWallPaused(true)}
+          onBlurCapture={(event) => {
+            if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setWallPaused(false);
+          }}
+          onPointerDown={() => setWallPaused(true)}
+          onPointerUp={() => setWallPaused(false)}
+          onPointerCancel={() => setWallPaused(false)}
+        >
+          <div className="hero-film-wall__grid">
+            {filmColumns.map((column, columnIndex) => (
+              <div className="hero-film-wall__column" key={`film-column-${columnIndex}`}>
+                <div className={cn("hero-film-wall__track", columnIndex === 1 && "hero-film-wall__track--down", wallPaused && "is-paused")}>
+                  {[false, true].map((duplicate) => (
+                    <div className="hero-film-wall__set" aria-hidden={duplicate || undefined} key={duplicate ? "duplicate" : "original"}>
+                      {column.map((item, itemIndex) => (
+                        <div className="hero-film-wall__slot" key={`${duplicate ? "copy" : "diary"}-${item.id}`}>
+                          <GalleryCard item={item} lang={lang} onPlay={openPlayer} size="default" priority={!duplicate && itemIndex === 0} cinematic />
+                        </div>
+                      ))}
+                    </div>
+                  ))}
                 </div>
-              );
-            })}
+              </div>
+            ))}
           </div>
-          <div className="hero-arc__controls lg:hidden">
-            <ManualRailControls railRef={arcRail} railId="hero-arc-rail" count={visibleItems.length} lang={lang} />
-          </div>
-        </>
+          <div className="hero-film-wall__fade hero-film-wall__fade--top" aria-hidden="true" />
+          <div className="hero-film-wall__fade hero-film-wall__fade--bottom" aria-hidden="true" />
+        </div>
       ) : size === "large" ? (
         <>
           <div className="overflow-hidden rounded-[1.5rem] border border-primary/15 bg-foreground p-2 text-white shadow-pop md:hidden">

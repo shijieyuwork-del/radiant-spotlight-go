@@ -736,8 +736,7 @@ const TravelBar = () => {
 const ClinicsSection = () => {
   const { t, lang } = useAsia();
   const clinicText = (en: string, zh: string) => lang === "zh" ? zh : translatedUiText(lang, en);
-  const clinicRailRef = useRef<HTMLDivElement>(null);
-  const clinicRailPausedRef = useRef(false);
+  const [clinicMotionPaused, setClinicMotionPaused] = useState(false);
   const clinics = [
     {
       en: "Shanghai Huamei Plastic Surgery Hospital",
@@ -850,25 +849,34 @@ const ClinicsSection = () => {
       tagsZh: ["公立医院", "整形外科", "海口"],
     },
   ];
+  const clinicCard = (clinic: (typeof clinics)[number], duplicate = false) => {
+    const listing = STATIC_CLINICS.find((item) => item.nameEn === clinic.en);
+    const destination = listing ? getClinicPath(listing) : `/clinics?q=${encodeURIComponent(clinic.en)}`;
 
-  useEffect(() => {
-    const rail = clinicRailRef.current;
-    if (!rail || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    const advance = () => {
-      if (clinicRailPausedRef.current) return;
-      const firstCard = rail.firstElementChild as HTMLElement | null;
-      if (!firstCard) return;
-      const gap = Number.parseFloat(window.getComputedStyle(rail).columnGap || "0");
-      const step = firstCard.getBoundingClientRect().width + gap;
-      const atEnd = rail.scrollLeft + rail.clientWidth >= rail.scrollWidth - step / 2;
-      rail.scrollTo({ left: atEnd ? 0 : rail.scrollLeft + step, behavior: "smooth" });
-    };
-
-    const timer = window.setInterval(advance, 4500);
-    return () => window.clearInterval(timer);
-  }, []);
-
+    return (
+      <Link
+        key={`${duplicate ? "copy" : "clinic"}-${clinic.en}`}
+        to={destination}
+        tabIndex={duplicate ? -1 : 0}
+        aria-hidden={duplicate || undefined}
+        className="group flex w-[82vw] max-w-[29rem] shrink-0 rounded-3xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 sm:w-[27rem]"
+      >
+        <article className="home-clinic-card flex min-h-[300px] w-full flex-col rounded-3xl border border-border bg-card p-6 shadow-soft transition duration-300 group-hover:-translate-y-1 group-hover:border-primary/35 group-hover:shadow-pop motion-reduce:transform-none motion-reduce:transition-none">
+          <div className="flex min-w-0 items-center gap-4">
+            <img src={clinic.image} alt="" loading="lazy" decoding="async" className="size-20 shrink-0 rounded-full border-2 border-primary/15 object-cover transition-transform duration-500 group-hover:scale-105 motion-reduce:transform-none motion-reduce:transition-none" />
+            <div className="min-w-0">
+              <h3 className="line-clamp-2 min-h-[3.25rem] font-display text-xl font-semibold leading-tight text-foreground">{clinicText(clinic.en, clinic.zh)}</h3>
+              <p className="mt-1.5 inline-flex items-center gap-1.5 text-sm font-medium text-foreground"><MapPin className="size-3.5 text-primary" />{clinicText(clinic.cityEn, clinic.cityZh)}</p>
+            </div>
+          </div>
+          <p className="mt-5 line-clamp-3 min-h-[4.5rem] text-sm leading-relaxed text-muted-foreground">{clinicText(clinic.descriptionEn, clinic.descriptionZh)}</p>
+          <div className="mt-auto flex flex-wrap gap-1.5 pt-4">
+            {clinic.tagsEn.map((tag, index) => <span key={tag} className="rounded-full bg-accent px-2.5 py-1 text-label text-accent-foreground">{clinicText(tag, clinic.tagsZh[index])}</span>)}
+          </div>
+        </article>
+      </Link>
+    );
+  };
   return (
     <HomeSection id="clinics" tone="sage" ariaLabelledBy="home-clinics-title">
       <SectionHeader
@@ -878,43 +886,29 @@ const ClinicsSection = () => {
         title={<>{t("cities.title1")} <em className="not-italic text-brand">{t("cities.titleEm")}</em></>}
         action={<SectionActionLink to="/clinics" className="hidden sm:inline-flex">{clinicText("All clinics", "全部机构")}</SectionActionLink>}
       />
-      {/* Snap rail below md; a plain three-column grid of equal-height cards from md up. */}
       <div
-        ref={clinicRailRef}
         id="home-clinics-rail"
-        className="home-rail flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain py-1 scrollbar-hide md:gap-6"
-        onMouseEnter={() => { clinicRailPausedRef.current = true; }}
-        onMouseLeave={() => { clinicRailPausedRef.current = false; }}
-        onFocusCapture={() => { clinicRailPausedRef.current = true; }}
+        className="review-motion-viewport relative left-1/2 w-screen -translate-x-1/2 overflow-hidden py-2"
+        role="region"
+        aria-label={clinicText("Automatically scrolling featured clinics", "自动滚动的精选医院")}
+        onMouseEnter={() => setClinicMotionPaused(true)}
+        onMouseLeave={() => setClinicMotionPaused(false)}
+        onFocusCapture={() => setClinicMotionPaused(true)}
         onBlurCapture={(event) => {
-          if (!event.currentTarget.contains(event.relatedTarget as Node | null)) clinicRailPausedRef.current = false;
+          if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setClinicMotionPaused(false);
         }}
-        onPointerDown={() => { clinicRailPausedRef.current = true; }}
-        onPointerUp={() => { clinicRailPausedRef.current = false; }}
-        onPointerCancel={() => { clinicRailPausedRef.current = false; }}
-        aria-label={clinicText("Featured clinic carousel", "精选医院轮播")}
+        onPointerDown={() => setClinicMotionPaused(true)}
+        onPointerUp={() => setClinicMotionPaused(false)}
+        onPointerCancel={() => setClinicMotionPaused(false)}
       >
-        {clinics.map((clinic) => (
-          <Link key={clinic.en} to={(() => { const listing = STATIC_CLINICS.find((item) => item.nameEn === clinic.en); return listing ? getClinicPath(listing) : `/clinics?q=${encodeURIComponent(clinic.en)}`; })()} className="group flex min-w-[82vw] snap-center rounded-3xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 sm:min-w-[62vw] md:min-w-[calc(33.333%_-_1rem)] md:max-w-[calc(33.333%_-_1rem)]">
-            <article className="home-clinic-card flex w-full flex-col rounded-3xl border border-border bg-card p-6 shadow-soft transition duration-300 group-hover:-translate-y-1 group-hover:border-primary/35 group-hover:shadow-pop md:min-h-[300px]">
-              <div className="flex min-w-0 items-center gap-4">
-                <img src={clinic.image} alt="" loading="lazy" decoding="async" className="size-20 shrink-0 rounded-full border-2 border-primary/15 object-cover transition-transform duration-500 group-hover:scale-105" />
-                <div className="min-w-0">
-                  {/* Fixed two-line title box so a longer hospital name cannot push the rows below out of line. */}
-                  <h3 className="line-clamp-2 min-h-[3.25rem] font-display text-xl font-semibold leading-tight text-foreground">{clinicText(clinic.en, clinic.zh)}</h3>
-                  <p className="mt-1.5 inline-flex items-center gap-1.5 text-sm font-medium text-foreground"><MapPin className="size-3.5 text-primary" />{clinicText(clinic.cityEn, clinic.cityZh)}</p>
-                </div>
-              </div>
-              <p className="mt-5 line-clamp-3 min-h-[4.5rem] text-sm leading-relaxed text-muted-foreground">{clinicText(clinic.descriptionEn, clinic.descriptionZh)}</p>
-              <div className="mt-auto flex flex-wrap gap-1.5 pt-4">
-                {clinic.tagsEn.map((tag, index) => <span key={tag} className="rounded-full bg-accent px-2.5 py-1 text-label text-accent-foreground">{clinicText(tag, clinic.tagsZh[index])}</span>)}
-              </div>
-            </article>
-          </Link>
-        ))}
-      </div>
-      <div className="md:hidden">
-        <ManualRailControls railRef={clinicRailRef} railId="home-clinics-rail" count={clinics.length} lang={lang} />
+        <div className={`review-motion-track clinic-motion-track flex w-max gap-4 sm:gap-5 ${clinicMotionPaused ? "is-paused" : ""}`}>
+          <div className="flex gap-4 pl-4 sm:gap-5 sm:pl-6">
+            {clinics.map((clinic) => clinicCard(clinic))}
+          </div>
+          <div className="flex gap-4 pl-4 sm:gap-5 sm:pl-6" aria-hidden="true">
+            {clinics.map((clinic) => clinicCard(clinic, true))}
+          </div>
+        </div>
       </div>
       <div className="mt-4 flex justify-center sm:hidden">
         <Link to="/clinics" className="inline-flex min-h-12 items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90">
