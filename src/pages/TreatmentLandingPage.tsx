@@ -69,7 +69,7 @@ const LANDINGS: Record<TreatmentLandingKind, LandingCopy> = {
     faq: [
       { question: "What does the published price range include?", answer: "The range is a general market reference for primary surgery and may include the surgeon, anaesthesia, and facility. Revision work, cartilage grafting, tests, travel, accommodation, and later procedures can change the total. A clinic must provide the final quote." },
       { question: "When can I fly after rhinoplasty?", answer: "There is no universal flight date. Your treating clinician must assess swelling, bleeding risk, breathing, and your flight length before clearing travel." },
-      { question: "Can CeladonChina recommend a specific surgical plan?", answer: "No. We can help you organize questions, compare published provider information, and coordinate communication. Only a licensed clinician who evaluates you can recommend a plan." },
+      { question: "Can Sino Aesthetics recommend a specific surgical plan?", answer: "No. We can help you organize questions, compare published provider information, and coordinate communication. Only a licensed clinician who evaluates you can recommend a plan." },
     ],
   },
   blepharoplasty: {
@@ -123,7 +123,7 @@ const LandingHeader = ({ onQuote }: { onQuote: (position: string) => void }) => 
   return (
     <header className="border-b border-primary/15 bg-background/95 backdrop-blur-xl">
       <div className="container flex min-h-[4.75rem] flex-col items-stretch gap-3 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-        <Link to="/" aria-label="CeladonChina home" className="shrink-0 self-start sm:self-auto"><BrandLogo /></Link>
+        <Link to="/" aria-label="Sino Aesthetics home" className="shrink-0 self-start sm:self-auto"><BrandLogo /></Link>
         <button type="button" onClick={() => onQuote("header")} className="cta-primary inline-flex min-h-11 min-w-0 max-w-full items-center justify-center gap-2 whitespace-normal rounded-full px-4 py-3 text-center text-sm font-semibold leading-snug sm:max-w-[26rem] sm:px-6">
           <span>{t("hero.cta")}</span><ArrowRight aria-hidden="true" className="size-4 shrink-0" />
         </button>
@@ -299,7 +299,7 @@ const TreatmentLandingPage = ({ kind }: { kind: TreatmentLandingKind }) => {
         </main>
 
         <footer className="border-t border-border bg-card/60">
-          <div className="container flex flex-col gap-4 py-8 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between"><div><BrandLogo /><p className="mt-2">Questions before you decide. Coordination when you are ready.</p></div><div className="flex flex-wrap gap-4"><Link to="/privacy" className="hover:text-foreground">Privacy</Link><Link to={`/treatments/${kind}`} className="hover:text-foreground">Full procedure guide</Link><a href="mailto:contact@celadonchina.com" className="hover:text-foreground">contact@celadonchina.com</a></div></div>
+          <div className="container flex flex-col gap-4 py-8 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between"><div><BrandLogo /><p className="mt-2">Questions before you decide. Coordination when you are ready.</p></div><div className="flex flex-wrap gap-4"><Link to="/privacy" className="hover:text-foreground">Privacy</Link><Link to={`/treatments/${kind}`} className="hover:text-foreground">Full procedure guide</Link><a href="mailto:contact@sinoaesthetics.com" className="hover:text-foreground">contact@sinoaesthetics.com</a></div></div>
         </footer>
       </div>
     </>

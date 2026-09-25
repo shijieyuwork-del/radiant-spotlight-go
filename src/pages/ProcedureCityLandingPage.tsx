@@ -60,7 +60,7 @@ const LandingHeader = ({ onQuote }: { onQuote: (position: string) => void }) => 
   return (
     <header className="border-b border-primary/15 bg-background/95 backdrop-blur-xl">
       <div className="container flex min-h-[4.75rem] flex-col items-stretch gap-3 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-        <Link to="/" aria-label="CeladonChina home" className="shrink-0 self-start sm:self-auto"><BrandLogo /></Link>
+        <Link to="/" aria-label="Sino Aesthetics home" className="shrink-0 self-start sm:self-auto"><BrandLogo /></Link>
         <button type="button" onClick={() => onQuote("header")} className="cta-primary inline-flex min-h-11 min-w-0 max-w-full items-center justify-center gap-2 whitespace-normal rounded-full px-4 py-3 text-center text-sm font-semibold leading-snug sm:max-w-[26rem] sm:px-6">
           <span>{t("hero.cta")}</span><ArrowRight aria-hidden="true" className="size-4 shrink-0" />
         </button>
@@ -259,7 +259,7 @@ const onQuote = (position: string) => {
                 <div>
                   <span className="text-xs font-bold uppercase tracking-[0.18em] text-brand">Verified experts</span>
                   <h2 className="mt-3 font-display text-4xl font-medium md:text-5xl">Experts in {city.en}</h2>
-                  <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground">Licensed specialists published on CeladonChina. Ask them directly about technique, quotes, and follow-up.</p>
+                  <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground">Licensed specialists published on Sino Aesthetics. Ask them directly about technique, quotes, and follow-up.</p>
                 </div>
                 <Link to={`/doctors?city=${city.en}`} className="inline-flex items-center gap-2 text-sm font-semibold underline decoration-primary/60 underline-offset-4">All experts in {city.en} <ArrowRight className="size-4" /></Link>
               </div>
@@ -407,7 +407,7 @@ const onQuote = (position: string) => {
               <Link to="/privacy" className="hover:text-foreground">Privacy</Link>
               <Link to={`/cities/${city.slug}`} className="hover:text-foreground">{city.en} guide</Link>
               <Link to="/doctors" className="hover:text-foreground">Experts</Link>
-              <a href="mailto:contact@celadonchina.com" className="hover:text-foreground">contact@celadonchina.com</a>
+              <a href="mailto:contact@sinoaesthetics.com" className="hover:text-foreground">contact@sinoaesthetics.com</a>
             </div>
           </div>
         </footer>

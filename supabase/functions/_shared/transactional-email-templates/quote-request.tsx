@@ -16,7 +16,7 @@ interface Props {
   adminLink?: string
 }
 
-const ADMIN_LINK = 'https://celadonchina.com/admin/content'
+const ADMIN_LINK = 'https://sinoaesthetics.com/admin/content'
 
 const QuoteRequestEmail = ({ fields = [], adminLink = ADMIN_LINK }: Props) => (
   <Html lang="en" dir="ltr">

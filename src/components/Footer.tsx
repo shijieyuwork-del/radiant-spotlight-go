@@ -17,12 +17,12 @@ const Footer = () => {
         <div className="space-y-4 col-span-2 md:col-span-4 xl:col-span-1">
           <BrandLogo showTagline />
           <p className="text-sm text-muted-foreground max-w-xs">{asiaCopy(lang, {
-            en: "CeladonChina provides information, consultation coordination and travel support for cosmetic care in China only.",
-            zh: "CeladonChina 仅提供中国医美相关的信息、咨询协调与行程支持。",
-            ru: "CeladonChina предоставляет информацию, координацию консультаций и поездок для эстетической медицины только в Китае.",
-            es: "CeladonChina ofrece información, coordinación de consultas y apoyo de viaje para atención estética exclusivamente en China.",
-            th: "CeladonChina ให้ข้อมูล ประสานงานการปรึกษา และสนับสนุนการเดินทางเพื่อรับบริการด้านความงามในประเทศจีนเท่านั้น",
-            ms: "CeladonChina menyediakan maklumat, penyelarasan perundingan dan sokongan perjalanan untuk rawatan estetik di China sahaja.",
+            en: "Sino Aesthetics provides information, consultation coordination and travel support for cosmetic care in China only.",
+            zh: "Sino Aesthetics 仅提供中国医美相关的信息、咨询协调与行程支持。",
+            ru: "Sino Aesthetics предоставляет информацию, координацию консультаций и поездок для эстетической медицины только в Китае.",
+            es: "Sino Aesthetics ofrece información, coordinación de consultas y apoyo de viaje para atención estética exclusivamente en China.",
+            th: "Sino Aesthetics ให้ข้อมูล ประสานงานการปรึกษา และสนับสนุนการเดินทางเพื่อรับบริการด้านความงามในประเทศจีนเท่านั้น",
+            ms: "Sino Aesthetics menyediakan maklumat, penyelarasan perundingan dan sokongan perjalanan untuk rawatan estetik di China sahaja.",
           })}</p>
         </div>
         {[
@@ -47,7 +47,7 @@ const Footer = () => {
         <MedicalDisclaimer variant="inline" className="max-w-3xl" />
       </div>
       <div className="container pb-10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
-        <p>© {new Date().getFullYear()} Celadon Limited · Hong Kong</p>
+        <p>© {new Date().getFullYear()} SinoAesthetics Limited · Hong Kong</p>
         <div className="flex flex-wrap items-center justify-center gap-3">
           <Link to="/privacy" className="hover:text-foreground">Privacy notice</Link>
           <Link to="/terms" className="hover:text-foreground">Terms</Link>

@@ -72,9 +72,9 @@ The second-floor flagship is near Huaihai Middle Road. Its reception and interio
 
 You can explore the brand on the [RODEO official website](https://rodeomed.com/).
 
-## Planning a visit through CeladonChina
+## Planning a visit through Sino Aesthetics
 
-CeladonChina can help coordinate a consultation at the Shanghai flagship around your travel plans. Tell us your preferred language, interpretation needs and appointment dates so we can help you prepare.
+Sino Aesthetics can help coordinate a consultation at the Shanghai flagship around your travel plans. Tell us your preferred language, interpretation needs and appointment dates so we can help you prepare.
 
 Before deciding, request an itemised quote and confirm the treating clinician, clinic registration, proposed products or devices, consent process and aftercare arrangements. Medical decisions remain between you and your treating clinician.
 
@@ -152,9 +152,9 @@ RODEO 与 BHRC 共享涵盖就诊、诊断、治疗及用药的内部流程指�
 
 更多品牌信息可浏览[RODEO 品牌官网](https://rodeomed.com/)。
 
-## 通过 CeladonChina 安排咨询
+## 通过 Sino Aesthetics 安排咨询
 
-CeladonChina 可以协助你围绕旅行计划，协调上海旗舰店的面诊。提前告诉我们偏好的语言、翻译需求及预约日期，我们会帮你准备就诊安排。
+Sino Aesthetics 可以协助你围绕旅行计划，协调上海旗舰店的面诊。提前告诉我们偏好的语言、翻译需求及预约日期，我们会帮你准备就诊安排。
 
 决定治疗前，请取得明细报价，并确认机构与医生执业信息、拟用产品或设备、知情同意及后续护理安排。医疗决定由你与接诊医生共同作出。
 

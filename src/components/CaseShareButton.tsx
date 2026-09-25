@@ -8,7 +8,7 @@ export function CaseShareButton({ href, title, lang, className }: { href: string
   const [busy, setBusy] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const t = videoControlsCopy[lang];
-  const url = new URL(href, "https://celadonchina.com").href;
+  const url = new URL(href, "https://sinoaesthetics.com").href;
   const share = async () => {
     setBusy(true);
     setStatus(null);

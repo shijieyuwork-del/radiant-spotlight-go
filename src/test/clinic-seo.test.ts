@@ -95,7 +95,7 @@ describe("clinic metadata shared by the browser and prerender", () => {
   it("applies the shared metadata and readable clinic breadcrumb to the client head", () => {
     const meta = clinicPageMeta(facility);
     render(createElement(PageMeta, meta));
-    expect(document.title).toBe(`${meta.title} | CeladonChina`);
+    expect(document.title).toBe(`${meta.title} | Sino Aesthetics`);
     expect(document.head.querySelector('meta[name="description"]')).toHaveAttribute("content", meta.description);
     expect(document.head.querySelector('link[rel="canonical"]')).toHaveAttribute("href", `${SITE_URL}${meta.path}`);
     const schemas = JSON.parse(document.getElementById("page-meta-jsonld")!.textContent!);

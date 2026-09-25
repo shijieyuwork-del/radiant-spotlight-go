@@ -19,13 +19,13 @@ const en = {
   notes: "Questions or goals (optional)", back: "Change request type", continueEmail: "Continue by email", continueWhatsapp: "Continue on WhatsApp",
   handoffNote: "We’ll prepare a message. Review and send it in your email app or WhatsApp to contact us.",
   privacy: "These details stay in this form until you open your chosen app. Nothing is sent automatically.",
-  ready: "Your message is ready", readyDescription: "Send the prepared message in your chosen app to contact CeladonChina. It has not been sent by this website.",
+  ready: "Your message is ready", readyDescription: "Send the prepared message in your chosen app to contact Sino Aesthetics. It has not been sent by this website.",
   reopenEmail: "Open email draft", reopenWhatsapp: "Open WhatsApp message", edit: "Edit my details", draft: "Review your message",
   openError: "We couldn’t open the app. Use the link below, or copy your message and send it to the contact shown.",
   emailError: "Enter an email address such as name@example.com.", phoneError: "Enter your WhatsApp number with a country code, starting with +.",
   questionError: "Enter the question you would like us to answer.", procedureError: "Enter a procedure or choose ‘Not sure yet’.",
   close: "Close", expert: "Expert", hospital: "Clinic or hospital", askExpert: "Ask about this expert",
-  questionMessage: "Hi CeladonChina, I have a question about care in China.", carePlanMessage: "Hi CeladonChina, I would like help planning care in China.",
+  questionMessage: "Hi Sino Aesthetics, I have a question about care in China.", carePlanMessage: "Hi Sino Aesthetics, I would like help planning care in China.",
 };
 
 export type ConsultationPickerCopy = { [K in keyof typeof en]: (typeof en)[K] extends string[] ? string[] : string };
@@ -41,9 +41,9 @@ export const consultationPickerCopy: Record<AsiaLang, ConsultationPickerCopy> = 
     budgetOptions: ["低于 $2,000", "$2,000–$5,000", "$5,000–$10,000", "高于 $10,000"], timingOptions: ["3个月内", "3–6个月后", "6–12个月后", "一年以后"], cities: ["上海", "北京", "广州", "杭州", "海南"],
     notes: "问题或目标（选填）", back: "更换咨询类型", continueEmail: "继续使用电子邮件", continueWhatsapp: "继续使用 WhatsApp",
     handoffNote: "我们会生成消息草稿。请在邮件应用或 WhatsApp 中检查并发送，才能联系我们。", privacy: "打开所选应用前，信息仅保留在当前表单中，不会自动发送。",
-    ready: "消息草稿已准备好", readyDescription: "请在所选应用中发送草稿，联系 CeladonChina。本网站尚未发送你的消息。", reopenEmail: "打开邮件草稿", reopenWhatsapp: "打开 WhatsApp 消息", edit: "修改信息", draft: "检查消息内容",
+    ready: "消息草稿已准备好", readyDescription: "请在所选应用中发送草稿，联系 Sino Aesthetics。本网站尚未发送你的消息。", reopenEmail: "打开邮件草稿", reopenWhatsapp: "打开 WhatsApp 消息", edit: "修改信息", draft: "检查消息内容",
     openError: "未能打开应用。请使用下方链接，或复制消息并发送到所示联系方式。", emailError: "请填写邮箱地址，例如 name@example.com。", phoneError: "请填写包含国家区号的 WhatsApp 号码，以 + 开头。", questionError: "请填写你希望我们解答的问题。", procedureError: "请填写项目，或选择“尚未确定”。",
-    close: "关闭", expert: "专家", hospital: "诊所或医院", askExpert: "咨询这位专家", questionMessage: "你好 CeladonChina，我想咨询在中国就医的问题。", carePlanMessage: "你好 CeladonChina，我希望获得中国就医规划协助。",
+    close: "关闭", expert: "专家", hospital: "诊所或医院", askExpert: "咨询这位专家", questionMessage: "你好 Sino Aesthetics，我想咨询在中国就医的问题。", carePlanMessage: "你好 Sino Aesthetics，我希望获得中国就医规划协助。",
   },
   ru: {
     headline: "С чего начнём?", aboutHeadline: "Узнать о {subject}", intro: "Задайте вопрос или расскажите о планах на лечение в Китае.", free: "Первое общение бесплатно",
@@ -54,9 +54,9 @@ export const consultationPickerCopy: Record<AsiaLang, ConsultationPickerCopy> = 
     budgetOptions: ["До $2,000", "$2,000–$5,000", "$5,000–$10,000", "Более $10,000"], timingOptions: ["В течение 3 месяцев", "Через 3–6 месяцев", "Через 6–12 месяцев", "Более чем через год"], cities: ["Шанхай", "Пекин", "Гуанчжоу", "Ханчжоу", "Хайнань"],
     notes: "Вопросы или цели (необязательно)", back: "Изменить тип обращения", continueEmail: "Продолжить по почте", continueWhatsapp: "Продолжить в WhatsApp",
     handoffNote: "Мы подготовим сообщение. Проверьте и отправьте его в почтовом приложении или WhatsApp.", privacy: "Данные остаются в форме до открытия приложения. Ничего не отправляется автоматически.",
-    ready: "Сообщение подготовлено", readyDescription: "Отправьте сообщение в выбранном приложении, чтобы связаться с CeladonChina. Сайт ещё не отправил его.", reopenEmail: "Открыть черновик письма", reopenWhatsapp: "Открыть сообщение WhatsApp", edit: "Изменить данные", draft: "Проверить сообщение",
+    ready: "Сообщение подготовлено", readyDescription: "Отправьте сообщение в выбранном приложении, чтобы связаться с Sino Aesthetics. Сайт ещё не отправил его.", reopenEmail: "Открыть черновик письма", reopenWhatsapp: "Открыть сообщение WhatsApp", edit: "Изменить данные", draft: "Проверить сообщение",
     openError: "Не удалось открыть приложение. Нажмите ссылку ниже или скопируйте сообщение и отправьте по указанному контакту.", emailError: "Введите адрес почты, например name@example.com.", phoneError: "Введите номер WhatsApp с кодом страны, начиная с +.", questionError: "Введите вопрос, на который вы хотите получить ответ.", procedureError: "Введите процедуру или выберите «Пока не знаю».",
-    close: "Закрыть", expert: "Эксперт", hospital: "Клиника или больница", askExpert: "Спросить об эксперте", questionMessage: "Здравствуйте, CeladonChina! У меня вопрос о лечении в Китае.", carePlanMessage: "Здравствуйте, CeladonChina! Мне нужна помощь с планированием лечения в Китае.",
+    close: "Закрыть", expert: "Эксперт", hospital: "Клиника или больница", askExpert: "Спросить об эксперте", questionMessage: "Здравствуйте, Sino Aesthetics! У меня вопрос о лечении в Китае.", carePlanMessage: "Здравствуйте, Sino Aesthetics! Мне нужна помощь с планированием лечения в Китае.",
   },
   es: {
     headline: "¿Por dónde quieres empezar?", aboutHeadline: "Pregunta sobre {subject}", intro: "Haz una pregunta o comparte tus preferencias para planificar tu atención en China.", free: "Primera conversación gratuita",
@@ -67,9 +67,9 @@ export const consultationPickerCopy: Record<AsiaLang, ConsultationPickerCopy> = 
     budgetOptions: ["Menos de $2,000", "$2,000–$5,000", "$5,000–$10,000", "Más de $10,000"], timingOptions: ["En los próximos 3 meses", "En 3–6 meses", "En 6–12 meses", "Dentro de más de un año"], cities: ["Shanghái", "Pekín", "Cantón", "Hangzhou", "Hainan"],
     notes: "Preguntas u objetivos (opcional)", back: "Cambiar tipo de solicitud", continueEmail: "Continuar por correo", continueWhatsapp: "Continuar en WhatsApp",
     handoffNote: "Prepararemos un mensaje. Revísalo y envíalo desde tu correo o WhatsApp para contactarnos.", privacy: "Los datos permanecen en este formulario hasta que abras la aplicación. Nada se envía automáticamente.",
-    ready: "Tu mensaje está preparado", readyDescription: "Envía el mensaje desde la aplicación elegida para contactar con CeladonChina. Este sitio aún no lo ha enviado.", reopenEmail: "Abrir borrador del correo", reopenWhatsapp: "Abrir mensaje de WhatsApp", edit: "Editar mis datos", draft: "Revisar tu mensaje",
+    ready: "Tu mensaje está preparado", readyDescription: "Envía el mensaje desde la aplicación elegida para contactar con Sino Aesthetics. Este sitio aún no lo ha enviado.", reopenEmail: "Abrir borrador del correo", reopenWhatsapp: "Abrir mensaje de WhatsApp", edit: "Editar mis datos", draft: "Revisar tu mensaje",
     openError: "No pudimos abrir la aplicación. Usa el enlace o copia el mensaje y envíalo al contacto indicado.", emailError: "Introduce un correo, por ejemplo name@example.com.", phoneError: "Introduce tu número de WhatsApp con el prefijo del país, empezando por +.", questionError: "Escribe la pregunta que quieres que respondamos.", procedureError: "Introduce un procedimiento o elige «Aún no lo sé».",
-    close: "Cerrar", expert: "Experto", hospital: "Clínica u hospital", askExpert: "Preguntar sobre este experto", questionMessage: "Hola, CeladonChina. Tengo una pregunta sobre la atención en China.", carePlanMessage: "Hola, CeladonChina. Me gustaría recibir ayuda para planificar mi atención en China.",
+    close: "Cerrar", expert: "Experto", hospital: "Clínica u hospital", askExpert: "Preguntar sobre este experto", questionMessage: "Hola, Sino Aesthetics. Tengo una pregunta sobre la atención en China.", carePlanMessage: "Hola, Sino Aesthetics. Me gustaría recibir ayuda para planificar mi atención en China.",
   },
   th: {
     headline: "คุณอยากเริ่มจากตรงไหน?", aboutHeadline: "สอบถามเกี่ยวกับ {subject}", intro: "เริ่มจากคำถาม หรือแจ้งรายละเอียดเพื่อวางแผนรับบริการในจีน", free: "พูดคุยเบื้องต้นฟรี",
@@ -80,9 +80,9 @@ export const consultationPickerCopy: Record<AsiaLang, ConsultationPickerCopy> = 
     budgetOptions: ["ต่ำกว่า $2,000", "$2,000–$5,000", "$5,000–$10,000", "มากกว่า $10,000"], timingOptions: ["ภายใน 3 เดือน", "ในอีก 3–6 เดือน", "ในอีก 6–12 เดือน", "อีกมากกว่าหนึ่งปี"], cities: ["เซี่ยงไฮ้", "ปักกิ่ง", "กว่างโจว", "หางโจว", "ไห่หนาน"],
     notes: "คำถามหรือเป้าหมาย (ไม่บังคับ)", back: "เปลี่ยนประเภทคำขอ", continueEmail: "ดำเนินการต่อทางอีเมล", continueWhatsapp: "ดำเนินการต่อใน WhatsApp",
     handoffNote: "เราจะเตรียมข้อความให้คุณ โปรดตรวจสอบและส่งในแอปอีเมลหรือ WhatsApp เพื่อติดต่อเรา", privacy: "ข้อมูลอยู่ในแบบฟอร์มนี้จนกว่าคุณจะเปิดแอปที่เลือก ไม่มีการส่งโดยอัตโนมัติ",
-    ready: "เตรียมข้อความพร้อมแล้ว", readyDescription: "ส่งข้อความในแอปที่เลือกเพื่อติดต่อ CeladonChina เว็บไซต์นี้ยังไม่ได้ส่งข้อความของคุณ", reopenEmail: "เปิดอีเมลฉบับร่าง", reopenWhatsapp: "เปิดข้อความ WhatsApp", edit: "แก้ไขข้อมูล", draft: "ตรวจสอบข้อความ",
+    ready: "เตรียมข้อความพร้อมแล้ว", readyDescription: "ส่งข้อความในแอปที่เลือกเพื่อติดต่อ Sino Aesthetics เว็บไซต์นี้ยังไม่ได้ส่งข้อความของคุณ", reopenEmail: "เปิดอีเมลฉบับร่าง", reopenWhatsapp: "เปิดข้อความ WhatsApp", edit: "แก้ไขข้อมูล", draft: "ตรวจสอบข้อความ",
     openError: "เปิดแอปไม่สำเร็จ ใช้ลิงก์ด้านล่าง หรือคัดลอกข้อความแล้วส่งไปยังช่องทางที่แสดง", emailError: "กรอกอีเมล เช่น name@example.com", phoneError: "กรอกหมายเลข WhatsApp พร้อมรหัสประเทศ โดยเริ่มด้วย +", questionError: "กรอกคำถามที่คุณต้องการให้เราตอบ", procedureError: "กรอกหัตถการหรือเลือก “ยังไม่แน่ใจ”",
-    close: "ปิด", expert: "ผู้เชี่ยวชาญ", hospital: "คลินิกหรือโรงพยาบาล", askExpert: "สอบถามเกี่ยวกับผู้เชี่ยวชาญคนนี้", questionMessage: "สวัสดี CeladonChina ฉันมีคำถามเกี่ยวกับการรับบริการในจีน", carePlanMessage: "สวัสดี CeladonChina ฉันต้องการความช่วยเหลือในการวางแผนรับบริการในจีน",
+    close: "ปิด", expert: "ผู้เชี่ยวชาญ", hospital: "คลินิกหรือโรงพยาบาล", askExpert: "สอบถามเกี่ยวกับผู้เชี่ยวชาญคนนี้", questionMessage: "สวัสดี Sino Aesthetics ฉันมีคำถามเกี่ยวกับการรับบริการในจีน", carePlanMessage: "สวัสดี Sino Aesthetics ฉันต้องการความช่วยเหลือในการวางแผนรับบริการในจีน",
   },
   ms: {
     headline: "Di mana anda mahu bermula?", aboutHeadline: "Tanya tentang {subject}", intro: "Tanya soalan atau kongsi butiran untuk merancang penjagaan anda di China.", free: "Perbualan awal percuma",
@@ -93,9 +93,9 @@ export const consultationPickerCopy: Record<AsiaLang, ConsultationPickerCopy> = 
     budgetOptions: ["Bawah $2,000", "$2,000–$5,000", "$5,000–$10,000", "Melebihi $10,000"], timingOptions: ["Dalam 3 bulan", "Dalam 3–6 bulan", "Dalam 6–12 bulan", "Lebih daripada setahun lagi"], cities: ["Shanghai", "Beijing", "Guangzhou", "Hangzhou", "Hainan"],
     notes: "Soalan atau matlamat (pilihan)", back: "Tukar jenis permintaan", continueEmail: "Teruskan melalui e-mel", continueWhatsapp: "Teruskan di WhatsApp",
     handoffNote: "Kami akan menyediakan mesej. Semak dan hantar dalam aplikasi e-mel atau WhatsApp untuk menghubungi kami.", privacy: "Butiran kekal dalam borang ini sehingga anda membuka aplikasi pilihan. Tiada apa dihantar secara automatik.",
-    ready: "Mesej anda sudah disediakan", readyDescription: "Hantar mesej dalam aplikasi pilihan untuk menghubungi CeladonChina. Laman ini belum menghantarnya.", reopenEmail: "Buka draf e-mel", reopenWhatsapp: "Buka mesej WhatsApp", edit: "Edit butiran saya", draft: "Semak mesej anda",
+    ready: "Mesej anda sudah disediakan", readyDescription: "Hantar mesej dalam aplikasi pilihan untuk menghubungi Sino Aesthetics. Laman ini belum menghantarnya.", reopenEmail: "Buka draf e-mel", reopenWhatsapp: "Buka mesej WhatsApp", edit: "Edit butiran saya", draft: "Semak mesej anda",
     openError: "Aplikasi tidak dapat dibuka. Gunakan pautan di bawah atau salin mesej dan hantar ke hubungan yang dipaparkan.", emailError: "Masukkan alamat e-mel seperti name@example.com.", phoneError: "Masukkan nombor WhatsApp dengan kod negara, bermula dengan +.", questionError: "Masukkan soalan yang anda mahu kami jawab.", procedureError: "Masukkan prosedur atau pilih “Belum pasti”.",
-    close: "Tutup", expert: "Pakar", hospital: "Klinik atau hospital", askExpert: "Tanya tentang pakar ini", questionMessage: "Hai CeladonChina, saya ada soalan tentang penjagaan di China.", carePlanMessage: "Hai CeladonChina, saya ingin bantuan merancang penjagaan di China.",
+    close: "Tutup", expert: "Pakar", hospital: "Klinik atau hospital", askExpert: "Tanya tentang pakar ini", questionMessage: "Hai Sino Aesthetics, saya ada soalan tentang penjagaan di China.", carePlanMessage: "Hai Sino Aesthetics, saya ingin bantuan merancang penjagaan di China.",
   },
 });
 

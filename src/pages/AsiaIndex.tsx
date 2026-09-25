@@ -586,10 +586,10 @@ const TravelBar = () => {
     {
       icon: MapPin,
       image: journeyGroundSupport,
-      en: ["A warm welcome, from the moment you land", "A new country, a friendly face waiting for you. Our team meets you at the airport and takes you to your hotel or straight to the clinic. For eligible confirmed journeys, your first two nights in a standard room at a selected three-star hotel are covered by CeladonChina. We arrange the booking and help you check in; additional nights and room upgrades are paid separately."],
-      zh: ["落地的第一刻，就有人迎接你", "初到中国，迎接你的是我们熟悉行程的接机团队。与我们会合后，前往酒店休息，或直接前往诊所。对于符合条件并已确认的行程，CeladonChina 承担指定三星级酒店标准客房的前两晚住宿，并协助预订和办理入住；额外住宿及房型升级费用需另行支付。"],
-      ru: ["Прибудьте в Китай и встретьтесь с нашей командой", "Наша команда встретит вас в аэропорту и отвезёт в отель или прямо в клинику. Для подходящих подтверждённых поездок CeladonChina оплачивает первые две ночи в стандартном номере выбранного трёхзвёздочного отеля, организует бронирование и помогает при заселении. Дополнительные ночи и повышение категории номера оплачиваются отдельно."],
-      es: ["Llega a China y reúnete con nuestro equipo", "Nuestro equipo te recibirá en el aeropuerto y te llevará al hotel o directamente a la clínica. Para viajes elegibles y confirmados, CeladonChina cubre las dos primeras noches en una habitación estándar de un hotel de tres estrellas seleccionado, organiza la reserva y te ayuda con el registro. Las noches adicionales y las mejoras de habitación se pagan por separado."],
+      en: ["A warm welcome, from the moment you land", "A new country, a friendly face waiting for you. Our team meets you at the airport and takes you to your hotel or straight to the clinic. For eligible confirmed journeys, your first two nights in a standard room at a selected three-star hotel are covered by Sino Aesthetics. We arrange the booking and help you check in; additional nights and room upgrades are paid separately."],
+      zh: ["落地的第一刻，就有人迎接你", "初到中国，迎接你的是我们熟悉行程的接机团队。与我们会合后，前往酒店休息，或直接前往诊所。对于符合条件并已确认的行程，Sino Aesthetics 承担指定三星级酒店标准客房的前两晚住宿，并协助预订和办理入住；额外住宿及房型升级费用需另行支付。"],
+      ru: ["Прибудьте в Китай и встретьтесь с нашей командой", "Наша команда встретит вас в аэропорту и отвезёт в отель или прямо в клинику. Для подходящих подтверждённых поездок Sino Aesthetics оплачивает первые две ночи в стандартном номере выбранного трёхзвёздочного отеля, организует бронирование и помогает при заселении. Дополнительные ночи и повышение категории номера оплачиваются отдельно."],
+      es: ["Llega a China y reúnete con nuestro equipo", "Nuestro equipo te recibirá en el aeropuerto y te llevará al hotel o directamente a la clínica. Para viajes elegibles y confirmados, Sino Aesthetics cubre las dos primeras noches en una habitación estándar de un hotel de tres estrellas seleccionado, organiza la reserva y te ayuda con el registro. Las noches adicionales y las mejoras de habitación se pagan por separado."],
     },
     {
       icon: HeartPulse,
@@ -1303,11 +1303,11 @@ const TreatmentsSection = () => {
         icon={ShieldCheck}
         eyebrow={c("Why choose us", "为什么选择我们", "Почему выбирают нас", "Por qué elegirnos")}
         titleId="why-celadonchina-title"
-        title={<>Why <em className="not-italic text-brand">CeladonChina</em></>}
+        title={<>Why <em className="not-italic text-brand">Sino Aesthetics</em></>}
         subtitle={c("More experts, more destinations and one coordinated journey.", "更多专家、更多目的地，一站式行程协调。", "Больше специалистов и направлений, одна команда на всём пути.", "Más especialistas y destinos, con un solo equipo durante todo el viaje.")}
       />
 
-      <div className="grid gap-4 md:grid-cols-3 md:gap-6" aria-label={c("Three reasons to choose CeladonChina", "选择 CeladonChina 的三个理由", "Три причины выбрать CeladonChina", "Tres razones para elegir CeladonChina")}>
+      <div className="grid gap-4 md:grid-cols-3 md:gap-6" aria-label={c("Three reasons to choose Sino Aesthetics", "选择 Sino Aesthetics 的三个理由", "Три причины выбрать Sino Aesthetics", "Tres razones para elegir Sino Aesthetics")}>
         {whyReasons.map((reason, index) => (
           <article key={reason.key} className="home-proof-card group relative min-h-[340px] overflow-hidden rounded-3xl bg-foreground shadow-soft md:min-h-[420px]">
             <img src={reason.image} alt="" loading="lazy" decoding="async" className="absolute inset-0 z-0 size-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.025]" />
@@ -1548,7 +1548,7 @@ const HomeFaq = () => {
   const c = (en: string, cn: string, Russian: string, Spanish: string) => zh ? cn : ru ? Russian : es ? Spanish : en;
   const questions = [
     {
-      q: c("Do I need to pay CeladonChina?", "我需要向 CeladonChina 支付费用吗？", "Нужно ли платить CeladonChina?", "¿Necesito pagarle a CeladonChina?"),
+      q: c("Do I need to pay Sino Aesthetics?", "我需要向 Sino Aesthetics 支付费用吗？", "Нужно ли платить Sino Aesthetics?", "¿Necesito pagarle a Sino Aesthetics?"),
       a: `${policy.medical} ${policy.depositPurpose} ${policy.refund}`,
     },
     {
@@ -1557,7 +1557,7 @@ const HomeFaq = () => {
     },
     {
       q: c("Who receives my medical payment?", "手术和治疗费用支付给谁？", "Кому оплачиваются медицинские услуги?", "¿Quién recibe mi pago médico?"),
-      a: c("All surgery, examination, anesthesia and other medical fees are charged directly by the clinic or hospital. CeladonChina does not collect your medical payment.", "全部手术、检查、麻醉及其他医疗费用均由诊所或医院直接收取。CeladonChina 不代收医疗费用。", "Операция, обследования, анестезия и другие медицинские услуги оплачиваются напрямую клинике или больнице. CeladonChina не принимает медицинские платежи.", "Todos los honorarios de cirugía, exámenes, anestesia y otros servicios médicos son cobrados directamente por la clínica u hospital. CeladonChina no cobra tu pago médico."),
+      a: c("All surgery, examination, anesthesia and other medical fees are charged directly by the clinic or hospital. Sino Aesthetics does not collect your medical payment.", "全部手术、检查、麻醉及其他医疗费用均由诊所或医院直接收取。Sino Aesthetics 不代收医疗费用。", "Операция, обследования, анестезия и другие медицинские услуги оплачиваются напрямую клинике или больнице. Sino Aesthetics не принимает медицинские платежи.", "Todos los honorarios de cirugía, exámenes, anestesia y otros servicios médicos son cobrados directamente por la clínica u hospital. Sino Aesthetics no cobra tu pago médico."),
     },
     {
       q: c("Can my consultation be conducted in English?", "线上咨询可以使用英语吗？", "Можно ли провести консультацию на английском?", "¿Puede realizarse mi consulta en inglés?"),
@@ -1596,7 +1596,7 @@ const HomeFaq = () => {
                 <h3 className="mt-1 font-display text-xl font-medium leading-tight text-foreground sm:text-2xl">{c("Pay the clinic directly", "直接支付给诊所或医院", "Оплачивайте напрямую клинике", "Paga directamente a la clínica")}</h3>
               </div>
             </div>
-            <p className="relative mt-5 max-w-xl text-[15px] leading-7 text-foreground/70 sm:text-base">{c("Your clinic or hospital collects all surgery, examination and anesthesia fees. CeladonChina does not collect your medical payment.", "手术、检查和麻醉等医疗费用均由诊所或医院直接收取，CeladonChina 不代收。", "Операция, обследования и анестезия оплачиваются напрямую клинике или больнице. CeladonChina не принимает медицинские платежи.", "Tu clínica u hospital cobra todos los honorarios de cirugía, exámenes y anestesia. CeladonChina no cobra tu pago médico.")}</p>
+            <p className="relative mt-5 max-w-xl text-[15px] leading-7 text-foreground/70 sm:text-base">{c("Your clinic or hospital collects all surgery, examination and anesthesia fees. Sino Aesthetics does not collect your medical payment.", "手术、检查和麻醉等医疗费用均由诊所或医院直接收取，Sino Aesthetics 不代收。", "Операция, обследования и анестезия оплачиваются напрямую клинике или больнице. Sino Aesthetics не принимает медицинские платежи.", "Tu clínica u hospital cobra todos los honorarios de cirugía, exámenes y anestesia. Sino Aesthetics no cobra tu pago médico.")}</p>
           </article>
 
           <article className="group relative overflow-hidden rounded-[1.75rem] border border-[hsl(43_70%_72%/.65)] bg-[hsl(48_82%_94%)] p-5 shadow-soft transition-[transform,box-shadow,border-color] duration-150 hover:-translate-y-0.5 hover:border-[hsl(43_70%_62%/.8)] hover:shadow-pop sm:p-7">
@@ -1645,7 +1645,7 @@ const AsiaIndex = () => {
   return (
     <>
       <PageMeta
-        title="Cosmetic Surgery in China | Doctors & Travel Support | CeladonChina"
+        title="Cosmetic Surgery in China | Doctors & Travel Support | Sino Aesthetics"
         absoluteTitle
         description={getPlanningMarketingCopy(lang).subtitle}
         path="/"

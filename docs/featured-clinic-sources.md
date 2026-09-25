@@ -16,7 +16,7 @@ Exact directory identity: `beijing` / `Plastic Surgery Hospital, CAMS (Badachu)`
 
 - [Official hospital introduction](https://www.zhengxing.com.cn/page/yiyuanjianjie): published departments cover nose, breast, fat surgery, face/neck, scars/wounds, laser, injections and hair transplantation. These are department categories, not confirmation that any requested procedure is available or suitable.
 - [Official location information](https://www.zhengxing.com.cn/page/dlwz): No. 33 Badachu Road, Shijingshan District, Beijing.
-- [Official doctor schedule](https://www.zhengxing.com.cn/page/chuzhenanpai): linked as an external source, separate from CeladonChina's published doctor profiles. No physician names or qualifications were inferred or copied into platform profiles.
+- [Official doctor schedule](https://www.zhengxing.com.cn/page/chuzhenanpai): linked as an external source, separate from Sino Aesthetics's published doctor profiles. No physician names or qualifications were inferred or copied into platform profiles.
 - The official introduction states the former East campus closed in April 2023. That legacy campus is not included in the current comparison panel.
 - Language support was not confirmed in the reviewed sources.
 

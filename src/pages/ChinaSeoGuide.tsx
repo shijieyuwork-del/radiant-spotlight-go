@@ -29,7 +29,7 @@ const guideCopy = {
     faqs: [
       ["Is medical tourism in China safe?", "Safety depends on the individual clinician, facility, procedure, anesthesia plan and follow-up arrangements. Verify each provider and discuss your personal risks with a qualified clinician before travel."],
       ["Do I need a special visa for medical treatment in China?", "Entry requirements vary by nationality, itinerary, length of stay and purpose. Check the latest official Chinese government guidance and confirm documentation with the treating institution before booking."],
-      ["Can CeladonChina recommend a treatment?", "No. CeladonChina provides information and coordination. Diagnosis, treatment selection, consent and medical decisions remain between the patient and licensed medical professionals."],
+      ["Can Sino Aesthetics recommend a treatment?", "No. Sino Aesthetics provides information and coordination. Diagnosis, treatment selection, consent and medical decisions remain between the patient and licensed medical professionals."],
       ["What documents should I bring?", "Ask the provider which records are relevant. Common items include medical history, medication and allergy lists, recent reports, imaging, prescriptions, passport details and the clinic's written appointment confirmation."],
     ],
   },
@@ -49,7 +49,7 @@ const guideCopy = {
     ],
     faqs: [
       ["How much does plastic surgery in China cost?", "Cost depends on the procedure, surgeon, facility, anesthesia, tests and recovery needs. Obtain an individualized written estimate after clinical review rather than relying on a headline package price."],
-      ["How do I find a plastic surgeon in China?", "Start with published profiles, then independently confirm identity, license, specialty, facility privileges and the evidence behind experience claims. CeladonChina explains its profile checks in its Provider Verification Standards."],
+      ["How do I find a plastic surgeon in China?", "Start with published profiles, then independently confirm identity, license, specialty, facility privileges and the evidence behind experience claims. Sino Aesthetics explains its profile checks in its Provider Verification Standards."],
       ["Can I fly home immediately after surgery?", "Not necessarily. Flying and long-distance travel can add risk after some procedures. The treating surgeon should set the timing based on your operation, recovery and health."],
       ["Are results guaranteed?", "No. Cosmetic surgery has risks and outcomes vary. A responsible provider should discuss limitations, alternatives, likely recovery and possible complications before consent."],
     ],
@@ -103,7 +103,7 @@ const ChinaSeoGuide = ({ kind }: { kind: GuideKind }) => {
     url: `${SITE_URL}${copy.path}`,
     dateModified: "2026-09-07",
     datePublished: "2026-08-31",
-    author: { "@type": "Organization", name: "CeladonChina Editorial Team", url: `${SITE_URL}/editorial-policy` },
+    author: { "@type": "Organization", name: "Sino Aesthetics Editorial Team", url: `${SITE_URL}/editorial-policy` },
     publisher: { "@id": `${SITE_URL}/#organization` },
     audience: { "@type": "Patient" },
   };
@@ -245,7 +245,7 @@ const ChinaSeoGuide = ({ kind }: { kind: GuideKind }) => {
           <section id="sources" className="container scroll-mt-32 py-12">
             <div className="mx-auto max-w-5xl rounded-3xl border border-border bg-card p-6 md:p-8">
               <h2 className="font-display text-2xl font-medium">Sources and methodology</h2>
-              <p className="mt-3 max-w-4xl text-sm leading-7 text-muted-foreground">CeladonChina separates general planning information from individualized medical advice. Price and recovery ranges are broad editorial planning ranges compiled from the procedure information published on this site; they are not promises of price, candidacy or outcome. Provider information should be verified with the named clinician, facility and relevant regulator before payment or travel.</p>
+              <p className="mt-3 max-w-4xl text-sm leading-7 text-muted-foreground">Sino Aesthetics separates general planning information from individualized medical advice. Price and recovery ranges are broad editorial planning ranges compiled from the procedure information published on this site; they are not promises of price, candidacy or outcome. Provider information should be verified with the named clinician, facility and relevant regulator before payment or travel.</p>
               <div className="mt-5 flex flex-wrap gap-4 text-sm font-semibold">
                 <Link className="text-brand underline underline-offset-4" to="/editorial-policy">Editorial policy</Link>
                 <Link className="text-brand underline underline-offset-4" to="/medical-review-policy">Medical review policy</Link>

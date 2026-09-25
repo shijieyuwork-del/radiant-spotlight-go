@@ -37,7 +37,7 @@ const MedicalTourismArticle = ({ guideSlug }: { guideSlug?: string }) => {
     url: `${SITE_URL}${path}`,
     datePublished: "2026-09-07",
     dateModified: "2026-09-07",
-    author: { "@type": "Organization", name: "CeladonChina Editorial Team", url: `${SITE_URL}/editorial-policy` },
+    author: { "@type": "Organization", name: "Sino Aesthetics Editorial Team", url: `${SITE_URL}/editorial-policy` },
     publisher: { "@id": `${SITE_URL}/#organization` },
     audience: { "@type": "Patient" },
     citation: guide.sources.map((source) => source.url),
@@ -172,7 +172,7 @@ const MedicalTourismArticle = ({ guideSlug }: { guideSlug?: string }) => {
             </div>
             <div className="border-t border-border pt-7">
               <ShieldCheck className="size-6 text-primary" />
-              <p className="mt-3 text-sm leading-6 text-muted-foreground">CeladonChina provides information and coordination, not diagnosis or treatment recommendations.</p>
+              <p className="mt-3 text-sm leading-6 text-muted-foreground">Sino Aesthetics provides information and coordination, not diagnosis or treatment recommendations.</p>
               <Button onClick={() => open({ source: `medical_tourism_${guide.slug}` })} className="mt-5 w-full rounded-full">Ask a planning question<ArrowRight className="ml-2 size-4" /></Button>
             </div>
           </aside>

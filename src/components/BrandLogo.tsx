@@ -8,7 +8,7 @@ type BrandLogoProps = {
 };
 
 const BrandLogo = ({ className, markClassName, textClassName, showTagline = false }: BrandLogoProps) => (
-  <span className={cn("inline-flex items-center gap-2.5", className)} aria-label="CeladonChina — Your cosmetic care journey, all in one place.">
+  <span className={cn("inline-flex items-center gap-2.5", className)} aria-label="Sino Aesthetics — Your cosmetic care journey, all in one place.">
     <svg
       viewBox="0 0 120 120"
       aria-hidden="true"

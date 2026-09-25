@@ -103,7 +103,7 @@ describe("admin-editable clinic descriptions", () => {
       const html = renderToStaticMarkup(<ClinicDescription description={description} language={language} />);
       expect(html).not.toMatch(/brochure|宣传册|资料列为|资料中|5265|hello@|mailto:|tel:/i);
       expect(html).toContain("https://rodeomed.com/");
-      expect(html).toContain("CeladonChina");
+      expect(html).toContain("Sino Aesthetics");
       expect(html).toContain(language === "zh" ? "茂名南路7号202室" : "Room 202, 7 Maoming South Road");
     }
   });

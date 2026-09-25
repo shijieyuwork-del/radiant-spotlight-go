@@ -131,7 +131,7 @@ export const ConsultationDialog = ({ isOpen, onOpenChange, ctx, onCloseAutoFocus
     ].filter(Boolean).join("\n");
     const emailSubject = `${intent === "question" ? copy.questionTitle : copy.carePlanTitle}${subject ? ` — ${subject}` : ""}`;
     const url = contactMethod === "email"
-      ? `mailto:contact@celadonchina.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(message)}`
+      ? `mailto:contact@sinoaesthetics.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(message)}`
       : `https://wa.me/14708613825?text=${encodeURIComponent(message)}`;
     setDraft({ message, url, method: contactMethod });
     void saveRequest(message);

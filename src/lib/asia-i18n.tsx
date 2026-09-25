@@ -93,8 +93,8 @@ const dict: Record<Exclude<AsiaLang, "th" | "ms">, Dict> = {
     "case.related": "Related cases",
     "case.book": "Book this treatment",
     "ba.expert": "Treating expert",
-    "disclaimer.text": "CeladonChina is an information and travel-coordination platform, not a medical provider. We do not offer medical advice, diagnosis, or treatment. All medical decisions are made directly between you and licensed medical institutions.",
-    "disclaimer.short": "Not medical advice — CeladonChina provides information and coordination only. All medical decisions are made between you and licensed medical institutions.",
+    "disclaimer.text": "Sino Aesthetics is an information and travel-coordination platform, not a medical provider. We do not offer medical advice, diagnosis, or treatment. All medical decisions are made directly between you and licensed medical institutions.",
+    "disclaimer.short": "Not medical advice — Sino Aesthetics provides information and coordination only. All medical decisions are made between you and licensed medical institutions.",
   },
   zh: {
     "brand.suffix": "中国医美",
@@ -245,8 +245,8 @@ const dict: Record<Exclude<AsiaLang, "th" | "ms">, Dict> = {
     "case.related": "Похожие кейсы",
     "case.book": "Записаться на эту процедуру",
     "ba.expert": "Лечащий эксперт",
-    "disclaimer.text": "CeladonChina — информационная и координационная платформа, а не медицинское учреждение. Мы не предоставляем медицинских советов, диагностики или лечения. Все медицинские решения принимаются напрямую между вами и лицензированными медицинскими учреждениями.",
-    "disclaimer.short": "Не является медицинской консультацией — CeladonChina предоставляет только информацию и координацию. Все медицинские решения принимаются между вами и лицензированными медицинскими учреждениями.",
+    "disclaimer.text": "Sino Aesthetics — информационная и координационная платформа, а не медицинское учреждение. Мы не предоставляем медицинских советов, диагностики или лечения. Все медицинские решения принимаются напрямую между вами и лицензированными медицинскими учреждениями.",
+    "disclaimer.short": "Не является медицинской консультацией — Sino Aesthetics предоставляет только информацию и координацию. Все медицинские решения принимаются между вами и лицензированными медицинскими учреждениями.",
   },
   es: {
     "brand.suffix": "China",
@@ -321,8 +321,8 @@ const dict: Record<Exclude<AsiaLang, "th" | "ms">, Dict> = {
     "case.related": "Casos relacionados",
     "case.book": "Reservar este tratamiento",
     "ba.expert": "Especialista tratante",
-    "disclaimer.text": "CeladonChina es una plataforma de información y coordinación de viajes, no un proveedor médico. No ofrecemos consejo médico, diagnóstico ni tratamiento. Todas las decisiones médicas se toman directamente entre usted y las instituciones médicas autorizadas.",
-    "disclaimer.short": "No es consejo médico: CeladonChina solo ofrece información y coordinación. Todas las decisiones médicas se toman entre usted y las instituciones médicas autorizadas.",
+    "disclaimer.text": "Sino Aesthetics es una plataforma de información y coordinación de viajes, no un proveedor médico. No ofrecemos consejo médico, diagnóstico ni tratamiento. Todas las decisiones médicas se toman directamente entre usted y las instituciones médicas autorizadas.",
+    "disclaimer.short": "No es consejo médico: Sino Aesthetics solo ofrece información y coordinación. Todas las decisiones médicas se toman entre usted y las instituciones médicas autorizadas.",
   },
   ko: {
     "brand.suffix": "중국 의료미용",
@@ -395,8 +395,8 @@ const dict: Record<Exclude<AsiaLang, "th" | "ms">, Dict> = {
     "case.related": "관련 사례",
     "case.book": "이 시술 예약",
     "ba.expert": "담당 전문가",
-    "disclaimer.text": "CeladonChina는 정보 및 여행 조정 플랫폼이며 의료기관이 아닙니다. 의료 조언, 진단 또는 치료를 제공하지 않습니다. 모든 의료 결정은 귀하와 허가된 의료기관이 직접 내립니다.",
-    "disclaimer.short": "의료 조언이 아닙니다 — CeladonChina는 정보와 조정만 제공합니다.",
+    "disclaimer.text": "Sino Aesthetics는 정보 및 여행 조정 플랫폼이며 의료기관이 아닙니다. 의료 조언, 진단 또는 치료를 제공하지 않습니다. 모든 의료 결정은 귀하와 허가된 의료기관이 직접 내립니다.",
+    "disclaimer.short": "의료 조언이 아닙니다 — Sino Aesthetics는 정보와 조정만 제공합니다.",
   },
   ja: {
     "brand.suffix": "中国美容医療",
@@ -469,8 +469,8 @@ const dict: Record<Exclude<AsiaLang, "th" | "ms">, Dict> = {
     "case.related": "関連する事例",
     "case.book": "この施術を予約",
     "ba.expert": "担当専門医",
-    "disclaimer.text": "CeladonChinaは情報提供と旅行調整のプラットフォームであり、医療機関ではありません。医療上の助言、診断、治療は提供していません。すべての医療上の判断は、患者様と認可された医療機関が直接行います。",
-    "disclaimer.short": "医療上の助言ではありません — CeladonChinaは情報提供と調整のみを行います。",
+    "disclaimer.text": "Sino Aestheticsは情報提供と旅行調整のプラットフォームであり、医療機関ではありません。医療上の助言、診断、治療は提供していません。すべての医療上の判断は、患者様と認可された医療機関が直接行います。",
+    "disclaimer.short": "医療上の助言ではありません — Sino Aestheticsは情報提供と調整のみを行います。",
   },
   vi: {
     // Only the localized keys; t() falls back to the English entry for the rest.
@@ -488,10 +488,10 @@ const dict: Record<Exclude<AsiaLang, "th" | "ms">, Dict> = {
     "cases.tabAll": "Tất cả", "cases.viewAll": "Xem toàn bộ nhật ký", "cases.wallTitle": "Nhật ký hồi phục của bệnh nhân",
     "cases.wallTitleMain": "Nhật ký hồi phục ", "cases.wallTitleEm": "của bệnh nhân", "cases.wallSub": "Khám phá theo quy trình và điểm đến tại Trung Quốc. Nhãn xác minh chỉ xuất hiện sau khi kiểm duyệt.",
     "case.back": "Quay lại", "case.related": "Ca liên quan", "case.book": "Đặt quy trình này",
-    "disclaimer.text": "CeladonChina là nền tảng thông tin và điều phối du lịch, không phải cơ sở y tế. Chúng tôi không cung cấp tư vấn, chẩn đoán hay điều trị y khoa. Mọi quyết định y tế được đưa ra trực tiếp giữa bạn và cơ sở y tế được cấp phép.",
+    "disclaimer.text": "Sino Aesthetics là nền tảng thông tin và điều phối du lịch, không phải cơ sở y tế. Chúng tôi không cung cấp tư vấn, chẩn đoán hay điều trị y khoa. Mọi quyết định y tế được đưa ra trực tiếp giữa bạn và cơ sở y tế được cấp phép.",
     "cities.kicker": "Phòng khám hàng đầu", "cities.title1": "Khám phá các phòng khám hàng đầu", "cities.titleEm": "trên khắp Trung Quốc",
     "cities.clinics": "phòng khám đã xác minh",
-    "disclaimer.short": "Không phải tư vấn y tế — CeladonChina chỉ cung cấp thông tin và điều phối.",
+    "disclaimer.short": "Không phải tư vấn y tế — Sino Aesthetics chỉ cung cấp thông tin và điều phối.",
   },
 };
 

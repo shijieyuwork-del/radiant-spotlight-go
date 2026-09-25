@@ -82,14 +82,14 @@ export const analyticsPagePath = (pathname: string) => {
 export const analyticsPageTitle = (pathname: string) => {
   const group = pageGroup(pathname);
   const titles: Record<string, string> = {
-    treatment_landing: "Treatment consultation | CeladonChina",
-    treatment_education: "Procedure guide | CeladonChina",
-    provider_profile: "Provider profile | CeladonChina",
-    recovery_diary: "Recovery diary | CeladonChina",
-    privacy: "Privacy notice | CeladonChina",
-    home: "CeladonChina",
+    treatment_landing: "Treatment consultation | Sino Aesthetics",
+    treatment_education: "Procedure guide | Sino Aesthetics",
+    provider_profile: "Provider profile | Sino Aesthetics",
+    recovery_diary: "Recovery diary | Sino Aesthetics",
+    privacy: "Privacy notice | Sino Aesthetics",
+    home: "Sino Aesthetics",
   };
-  return titles[group] || "CeladonChina";
+  return titles[group] || "Sino Aesthetics";
 };
 
 export const analyticsConfigured = () => hasGtm || hasGa4;

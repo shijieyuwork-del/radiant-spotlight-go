@@ -5,7 +5,7 @@ describe("privacy-safe analytics page grouping", () => {
   it("groups treatment landing pages instead of sending the procedure slug", () => {
     expect(analyticsPagePath("/lp/rhinoplasty-china")).toBe("/lp/treatment-consultation");
     expect(analyticsPagePath("/lp/blepharoplasty-china")).toBe("/lp/treatment-consultation");
-    expect(analyticsPageTitle("/lp/facelift-china")).toBe("Treatment consultation | CeladonChina");
+    expect(analyticsPageTitle("/lp/facelift-china")).toBe("Treatment consultation | Sino Aesthetics");
   });
 
   it("groups other sensitive public paths", () => {

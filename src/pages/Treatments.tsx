@@ -413,12 +413,12 @@ const Treatments = () => {
                 <div className="flex items-center gap-2 text-sm font-semibold">
                   <FileText className="size-4 text-primary" />
                   {asiaCopy(lang, {
-                    en: "CeladonChina procedure guides",
-                    zh: "CeladonChina 项目指南",
-                    ru: "Руководства по процедурам CeladonChina",
-                    es: "Guías de procedimientos de CeladonChina",
-                    th: "คู่มือหัตถการของ CeladonChina",
-                    ms: "Panduan prosedur CeladonChina",
+                    en: "Sino Aesthetics procedure guides",
+                    zh: "Sino Aesthetics 项目指南",
+                    ru: "Руководства по процедурам Sino Aesthetics",
+                    es: "Guías de procedimientos de Sino Aesthetics",
+                    th: "คู่มือหัตถการของ Sino Aesthetics",
+                    ms: "Panduan prosedur Sino Aesthetics",
                   })}
                 </div>
                 <span className="text-xs text-muted-foreground">

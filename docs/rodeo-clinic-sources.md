@@ -25,7 +25,7 @@ Full English and Chinese text is stored in the clinic admin description fields. 
 
 ## Customer-facing revision and expanded gallery, 2026-09-13
 
-The owner requested natural clinic copy without repeated brochure/reporting language. Rewrote both languages and the topic summaries while retaining eleven chapters and six disclosure groups. Source provenance stays in this internal record; doctor registration, attendance and treatment availability still require booking-time confirmation. Removed the hospital's phone, email and opening-hours paragraph. The owner explicitly clarified that the official website link should remain, alongside the Shanghai address and CeladonChina consultation controls.
+The owner requested natural clinic copy without repeated brochure/reporting language. Rewrote both languages and the topic summaries while retaining eleven chapters and six disclosure groups. Source provenance stays in this internal record; doctor registration, attendance and treatment availability still require booking-time confirmation. Removed the hospital's phone, email and opening-hours paragraph. The owner explicitly clarified that the official website link should remain, alongside the Shanghai address and Sino Aesthetics consultation controls.
 
 Expanded the gallery using six original images from the official about-page gallery (https://rodeomed.com/about). Browser-observed assets were exported without AI editing or retouching. Clinic image 1 visibly carries the Shanghai clinic name; the reception, blue counter, curved partitions and corridor match the owner-supplied Shanghai spread. Images from Suzhou or overseas branches are not used.
 

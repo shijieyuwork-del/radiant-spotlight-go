@@ -218,7 +218,7 @@ describe("consultation contact picker", () => {
     fireEvent.change(dialog.getByLabelText("邮箱地址"), { target: { value: "question@example.com" } });
     fireEvent.change(dialog.getByLabelText("你的问题"), { target: { value: "这位专家在哪所医院？" } });
     fireEvent.click(dialog.getByRole("button", { name: "继续使用电子邮件" }));
-    expect(location.href).toMatch(/^mailto:contact@celadonchina.com\?/);
+    expect(location.href).toMatch(/^mailto:contact@sinoaesthetics.com\?/);
     expect(decodeURIComponent(location.href)).toContain("专家: 林医生");
     expect(decodeURIComponent(location.href)).toContain("中国意向城市: 上海");
     expect(dialog.getByRole("heading", { name: "消息草稿已准备好" })).toBeInTheDocument();
@@ -232,7 +232,7 @@ describe("consultation contact picker", () => {
 
   it("keeps the handoff and draft when a new window is blocked, and restores the selected channel on back", async () => {
     vi.mocked(window.open).mockReturnValue(null);
-    const location = { href: "https://celadonchina.com/doctors/profile/example" };
+    const location = { href: "https://sinoaesthetics.com/doctors/profile/example" };
     Object.defineProperty(window, "location", { configurable: true, value: location });
     renderPage(<OpenContact context={{ doctorName: "Published Expert", city: "Shanghai" }} />);
     fireEvent.click(screen.getByRole("button", { name: "Open contact" }));
@@ -243,7 +243,7 @@ describe("consultation contact picker", () => {
     fireEvent.click(screen.getByRole("button", { name: "Continue on WhatsApp" }));
     expect(screen.getByRole("dialog")).toBeInTheDocument();
     expect((screen.getByRole("textbox", { name: "Review your message" }) as HTMLTextAreaElement).value).toContain("Expert: Published Expert");
-    expect(location.href).toBe("https://celadonchina.com/doctors/profile/example");
+    expect(location.href).toBe("https://sinoaesthetics.com/doctors/profile/example");
     expect(screen.getByRole("link", { name: "Open WhatsApp message" })).toHaveAttribute("target", "_blank");
     fireEvent.click(screen.getByRole("button", { name: "Edit my details" }));
     expect(screen.getByRole("radio", { name: "WhatsApp" })).toHaveFocus();

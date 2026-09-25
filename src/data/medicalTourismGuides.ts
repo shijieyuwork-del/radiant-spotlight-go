@@ -97,7 +97,7 @@ export const MEDICAL_TOURISM_GUIDES: MedicalTourismGuide[] = [
         title: "Understand coordination and translation charges",
         paragraphs: [
           "Ask whether interpretation is provided by the hospital, by an independent interpreter or by a travel coordinator. Confirm the language, hours and settings covered. Interpretation during consent and discharge is different from general travel translation.",
-          "CeladonChina currently provides initial coordination, airport pickup, interpretation assistance and hotel-booking support without a separate service charge when confirmed for an eligible care journey. Medical treatment, travel, accommodation and third-party services remain separate. The written journey summary should show the distinction before you book.",
+          "Sino Aesthetics currently provides initial coordination, airport pickup, interpretation assistance and hotel-booking support without a separate service charge when confirmed for an eligible care journey. Medical treatment, travel, accommodation and third-party services remain separate. The written journey summary should show the distinction before you book.",
         ],
       },
       {
@@ -122,7 +122,7 @@ export const MEDICAL_TOURISM_GUIDES: MedicalTourismGuide[] = [
     ],
     faqs: [
       ["Is medical treatment in China always cheaper?", "No. Cost varies by institution, clinician, procedure and service level. International departments and private facilities can cost substantially more than local public-hospital services."],
-      ["Does CeladonChina set medical prices?", "No. Treating institutions set their own charges. CeladonChina can help organize estimates so patients can compare what is included."],
+      ["Does Sino Aesthetics set medical prices?", "No. Treating institutions set their own charges. Sino Aesthetics can help organize estimates so patients can compare what is included."],
       ["Should I pay the full amount before traveling?", "Payment terms vary. Before paying, confirm the recipient, refund conditions, proposed clinician and facility, and obtain the terms in writing."],
     ],
     sources: [
@@ -262,13 +262,13 @@ export const MEDICAL_TOURISM_GUIDES: MedicalTourismGuide[] = [
         title: "Recheck immediately before departure",
         paragraphs: [
           "Visa and entry policies can change after an article is published. Recheck the official authority, airline and destination requirements shortly before departure. Confirm passport validity, permitted stay, number of entries and any conditions attached to the visa or exemption.",
-          "CeladonChina can help organize appointment and itinerary information, but cannot issue a visa, guarantee approval or replace advice from a Chinese consular authority.",
+          "Sino Aesthetics can help organize appointment and itinerary information, but cannot issue a visa, guarantee approval or replace advice from a Chinese consular authority.",
         ],
       },
     ],
     faqs: [
       ["Do I always need a special medical visa for China?", "Not necessarily. The correct entry route depends on nationality, residence, purpose, itinerary and length of stay. Confirm with the responsible official Chinese authority."],
-      ["Can CeladonChina guarantee visa approval?", "No. Visas and entry decisions are made by the relevant authorities. CeladonChina can only help organize available appointment and itinerary information."],
+      ["Can Sino Aesthetics guarantee visa approval?", "No. Visas and entry decisions are made by the relevant authorities. Sino Aesthetics can only help organize available appointment and itinerary information."],
       ["Should I book treatment before applying?", "You may need appointment documentation, but avoid assuming approval. Confirm document requirements and understand all cancellation terms before making non-refundable payments."],
     ],
     sources: [
@@ -413,7 +413,7 @@ export const MEDICAL_TOURISM_GUIDES: MedicalTourismGuide[] = [
         title: "Compare evidence, not convenience alone",
         paragraphs: [
           "A hospital with an English website may be easier to contact, but convenience does not establish clinical quality for a particular procedure. Evaluate the treating clinician, relevant department, facility capability and follow-up plan together.",
-          "CeladonChina can organize publicly available and provider-supplied information, but patients should independently confirm material claims with the named institution and seek personalized advice from qualified medical professionals.",
+          "Sino Aesthetics can organize publicly available and provider-supplied information, but patients should independently confirm material claims with the named institution and seek personalized advice from qualified medical professionals.",
         ],
       },
     ],
@@ -671,7 +671,7 @@ export const MEDICAL_TOURISM_GUIDES: MedicalTourismGuide[] = [
     faqs: [
       ["Why do international patients consider cosmetic surgery in China?", "Patients may consider China for specialist choice, procedure availability, cost or because they already travel there. Those advantages should be assessed alongside provider verification, communication, recovery and follow-up."],
       ["Is cosmetic surgery tourism in China safe?", "No destination can guarantee safety. Risk depends on the patient, procedure, surgeon, facility, anesthesia and continuity of care. Verify each part and obtain individualized medical advice."],
-      ["Can CeladonChina choose a surgeon or procedure for me?", "No. CeladonChina can organize published information, questions, appointments and practical travel support. Medical recommendations and consent remain with licensed treating professionals."],
+      ["Can Sino Aesthetics choose a surgeon or procedure for me?", "No. Sino Aesthetics can organize published information, questions, appointments and practical travel support. Medical recommendations and consent remain with licensed treating professionals."],
       ["Should tourism be scheduled before or after surgery?", "Keep postoperative plans flexible and follow the treating clinician's restrictions. More demanding tourism is generally easier to plan before treatment, but the final itinerary must reflect the individual care plan."],
     ],
     sources: [
@@ -841,7 +841,7 @@ export const MEDICAL_TOURISM_GUIDES: MedicalTourismGuide[] = [
     ],
     related: [
       { label: "Browse published expert profiles", href: "/doctors" },
-      { label: "CeladonChina provider verification standards", href: "/provider-verification" },
+      { label: "Sino Aesthetics provider verification standards", href: "/provider-verification" },
       { label: "Cosmetic surgery tourism in China", href: "/cosmetic-surgery-tourism-china" },
     ],
   },
@@ -977,7 +977,7 @@ export const MEDICAL_TOURISM_GUIDES: MedicalTourismGuide[] = [
         title: "Make the decision at provider level",
         paragraphs: [
           "Shortlist clinicians in both countries using the same questions. Eliminate any option that will not identify the treating surgeon, explain material risks, provide written terms or define follow-up. Then compare the remaining options based on relevant experience and how well the plan fits you.",
-          "CeladonChina is China-focused but may coordinate selected visiting international clinicians where their identity, schedule and treating facility can be confirmed. Any medical recommendation and consent must still come from the licensed treating team.",
+          "Sino Aesthetics is China-focused but may coordinate selected visiting international clinicians where their identity, schedule and treating facility can be confirmed. Any medical recommendation and consent must still come from the licensed treating team.",
         ],
       },
     ],

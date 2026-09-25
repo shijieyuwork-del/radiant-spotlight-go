@@ -5,7 +5,7 @@ import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 
 export const trustLinks = [
-  { label: "About CeladonChina", to: "/about" },
+  { label: "About Sino Aesthetics", to: "/about" },
   { label: "Provider verification", to: "/provider-verification" },
   { label: "Medical review policy", to: "/medical-review-policy" },
   { label: "Editorial policy", to: "/editorial-policy" },
@@ -61,7 +61,7 @@ const TrustPageLayout = ({ children, effectiveDate = "August 29, 2026", eyebrow,
             </nav>
             <div className="mt-4 rounded-2xl bg-muted/70 p-4">
               <p className="text-xs font-semibold text-foreground">See something that needs correcting?</p>
-              <a href="mailto:contact@celadonchina.com?subject=Correction%20request" className="mt-2 inline-flex min-h-8 items-center gap-1.5 text-xs font-semibold text-brand hover:underline">
+              <a href="mailto:contact@sinoaesthetics.com?subject=Correction%20request" className="mt-2 inline-flex min-h-8 items-center gap-1.5 text-xs font-semibold text-brand hover:underline">
                 Send a correction request<ArrowRight className="size-3" />
               </a>
             </div>

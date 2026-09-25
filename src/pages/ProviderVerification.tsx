@@ -6,7 +6,7 @@ const ProviderVerification = () => (
   <>
     <PageMeta
       title="Provider Verification Standards"
-      description="The checks, labels, evidence, and limits behind provider profiles published by CeladonChina."
+      description="The checks, labels, evidence, and limits behind provider profiles published by Sino Aesthetics."
       path="/provider-verification"
       structuredData={{ "@context": "https://schema.org", "@type": "WebPage", name: "Provider Verification Standards" }}
     />
@@ -14,12 +14,12 @@ const ProviderVerification = () => (
       eyebrow="Provider verification standards"
       icon={BadgeCheck}
       title="What we check, what we label, and what remains yours to confirm."
-      intro="A provider profile should make its evidence visible. These standards explain the checks required before CeladonChina describes a provider as verified."
+      intro="A provider profile should make its evidence visible. These standards explain the checks required before Sino Aesthetics describes a provider as verified."
     >
       <TrustSection title="Our profile labels">
         <TrustList items={[
           "Sample profile means the person and details are demonstration content. Sample pages must not be treated as real provider recommendations and are excluded from search indexing.",
-          "Published profile means information is displayed on CeladonChina. Publication alone does not mean every claim has been independently verified.",
+          "Published profile means information is displayed on Sino Aesthetics. Publication alone does not mean every claim has been independently verified.",
           "Verified facts are individual details checked against acceptable evidence. A profile may only use a broader verified label when the required checks below are complete and dated.",
         ]} />
       </TrustSection>
@@ -49,7 +49,7 @@ const ProviderVerification = () => (
 
       <TrustSection title="Ongoing review and corrections">
         <p>Material profile facts should be rechecked when a license expires, a provider changes facilities, a credible correction is received, or a source becomes unavailable. We may remove a label or unpublish a profile while evidence is incomplete.</p>
-        <p>To question a claim, email <a className="font-semibold text-foreground underline decoration-primary/50 underline-offset-4" href="mailto:contact@celadonchina.com?subject=Provider%20profile%20correction">contact@celadonchina.com</a> with the profile URL and supporting source. We will acknowledge the request and review material corrections before updating the page.</p>
+        <p>To question a claim, email <a className="font-semibold text-foreground underline decoration-primary/50 underline-offset-4" href="mailto:contact@sinoaesthetics.com?subject=Provider%20profile%20correction">contact@sinoaesthetics.com</a> with the profile URL and supporting source. We will acknowledge the request and review material corrections before updating the page.</p>
       </TrustSection>
     </TrustPageLayout>
   </>

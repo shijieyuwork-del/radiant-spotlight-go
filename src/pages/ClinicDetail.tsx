@@ -118,7 +118,7 @@ export default function ClinicDetail() {
             <p className="mt-5 text-xs leading-5 text-muted-foreground">{c("Confirm the exact campus and street address before travelling.", "出行前请确认具体院区及街道地址。", "Перед поездкой уточните корпус и точный адрес.", "Confirma la sede y la dirección exacta antes de viajar.")}</p>
             <Link to={`/cities/${city.slug}`} className="mt-5 inline-flex items-center gap-2 rounded-sm text-sm font-medium underline underline-offset-4">{c(`Explore ${cityName}`, `查看${cityName}指南`, `О городе ${cityName}`, `Explorar ${cityName}`)}<ArrowRight className="size-4" aria-hidden="true" /></Link>
             <div className="mt-6 border-t border-primary/20 pt-6">
-              <h3 className="font-medium">{c("Talk to CeladonChina", "联系 CeladonChina", "Связаться с CeladonChina", "Habla con CeladonChina")}</h3>
+              <h3 className="font-medium">{c("Talk to Sino Aesthetics", "联系 Sino Aesthetics", "Связаться с Sino Aesthetics", "Habla con Sino Aesthetics")}</h3>
               <p className="mt-2 text-sm leading-6 text-muted-foreground">{c("Ask our team about this hospital and your travel plans.", "向我们的团队咨询此医院及出行安排。", "Задайте нашей команде вопросы об учреждении и поездке.", "Pregunta a nuestro equipo sobre este centro y tus planes de viaje.")}</p>
               <Button className="mt-5 h-auto min-h-12 w-full whitespace-normal rounded-full px-5 py-3 text-foreground" onClick={() => open({ hospitalName: clinic.nameEn, city: city.en, source: "clinic_detail" })}>{c("Ask about this hospital", "咨询这家医院", "Узнать об учреждении", "Consultar sobre este centro")}<ArrowRight className="ml-2 size-4 shrink-0" aria-hidden="true" /></Button>
             </div>

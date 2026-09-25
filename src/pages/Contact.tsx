@@ -3,7 +3,7 @@ import CompanyDetails, { COMPANY } from "@/components/CompanyDetails";
 import CompanyPageLayout from "@/components/CompanyPageLayout";
 
 const Contact = () => (
-  <CompanyPageLayout title="Contact CeladonChina" description="Contact our coordination team about consultations, travel support, provider information, privacy, or corrections." path="/contact" eyebrow="Contact" icon={MessageCircle}>
+  <CompanyPageLayout title="Contact Sino Aesthetics" description="Contact our coordination team about consultations, travel support, provider information, privacy, or corrections." path="/contact" eyebrow="Contact" icon={MessageCircle}>
     <CompanyDetails showContacts />
     <section className="rounded-[2rem] border border-border bg-card p-6 shadow-soft md:p-9">
       <h2 className="font-display text-2xl font-semibold tracking-tight md:text-3xl">How to reach us</h2>
