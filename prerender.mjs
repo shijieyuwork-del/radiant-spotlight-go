@@ -51,7 +51,7 @@ async function loadAppData() {
       ".mp4": "empty", ".css": "empty",
     },
     // seo-config 读 import.meta.env，Node 下没有，喂一个等价值进去
-    define: { "import.meta.env.VITE_SITE_URL": JSON.stringify(process.env.VITE_SITE_URL || "https://celadonchina.com") },
+    define: { "import.meta.env.VITE_SITE_URL": JSON.stringify(process.env.VITE_SITE_URL || "https://sinoaesthetics.com") },
     logLevel: "silent",
   });
   return import(pathToFileURL(TMP).href + "?t=" + Date.now());
@@ -71,7 +71,7 @@ function createBreadcrumbSchema(p, pageTitle, siteUrl) {
     "cosmetic-surgery-china-for-international-patients": "Cosmetic Surgery in China for International Patients",
     "choose-plastic-surgeon-china": "Choose a Plastic Surgeon in China",
     "cosmetic-surgery-recovery-china": "Cosmetic Surgery Recovery in China",
-    about: "About CeladonChina", "provider-verification": "Provider Verification Standards",
+    about: "About Sino Aesthetics", "provider-verification": "Provider Verification Standards",
     "medical-review-policy": "Medical Review Policy", "editorial-policy": "Editorial Policy",
   };
   const segments = p.split("?")[0].split("/").filter(Boolean);
@@ -134,10 +134,10 @@ function buildRoutes(d) {
   const routes = [
     {
       path: "/",
-      title: "Cosmetic Surgery in China | Doctors & Travel Support | CeladonChina",
+      title: "Cosmetic Surgery in China | Doctors & Travel Support | Sino Aesthetics",
       absoluteTitle: true,
       description:
-        "Explore cosmetic surgery in China with published doctor profiles, online consultations, procedure guidance, and coordinated travel, translation and aftercare from CeladonChina.",
+        "Explore cosmetic surgery in China with published doctor profiles, online consultations, procedure guidance, and coordinated travel, translation and aftercare from Sino Aesthetics.",
       schema: d.ORGANIZATION_SCHEMA,
     },
     {
@@ -187,35 +187,35 @@ function buildRoutes(d) {
     {
       path: "/privacy",
       title: "Privacy Notice",
-      description: "How CeladonChina uses essential storage, optional analytics, and the information you choose to share.",
+      description: "How Sino Aesthetics uses essential storage, optional analytics, and the information you choose to share.",
     },
     {
       path: "/contact",
-      title: "Contact CeladonChina",
+      title: "Contact Sino Aesthetics",
       description: "Contact our coordination team about consultations, travel support, provider information, privacy, or corrections.",
     },
     {
       path: "/terms",
       title: "Terms of Use",
-      description: "The terms that apply when you use CeladonChina information, consultation and travel-coordination services.",
+      description: "The terms that apply when you use Sino Aesthetics information, consultation and travel-coordination services.",
     },
     {
       path: "/legal-notice",
       title: "Legal Notice",
-      description: "Legal operator and registered-office information for the CeladonChina website.",
+      description: "Legal operator and registered-office information for the Sino Aesthetics website.",
     },
     {
       path: "/about",
-      title: "About CeladonChina",
-      description: "Learn how CeladonChina supports cosmetic medical travel research and coordination exclusively in China, what we check, and where our role ends.",
+      title: "About Sino Aesthetics",
+      description: "Learn how Sino Aesthetics supports cosmetic medical travel research and coordination exclusively in China, what we check, and where our role ends.",
       schema: [
         {
           "@context": "https://schema.org",
           "@type": "AboutPage",
           "@id": `${d.SITE_URL}/about#page`,
           url: `${d.SITE_URL}/about`,
-          name: "About CeladonChina",
-          description: "How CeladonChina helps people research and coordinate cosmetic medical travel in China, including the limits of our role.",
+          name: "About Sino Aesthetics",
+          description: "How Sino Aesthetics helps people research and coordinate cosmetic medical travel in China, including the limits of our role.",
           mainEntity: { "@id": `${d.SITE_URL}/#organization` },
           publisher: { "@id": `${d.SITE_URL}/#organization` },
           dateModified: "2026-09-07",
@@ -225,9 +225,9 @@ function buildRoutes(d) {
           "@context": "https://schema.org",
           "@type": "FAQPage",
           mainEntity: [
-            ["What is CeladonChina?", "CeladonChina is a China-focused cosmetic medical travel information and non-clinical coordination platform for international patients considering cosmetic care in China."],
-            ["Does CeladonChina provide medical treatment or medical advice?", "No. CeladonChina is not a hospital, clinic or medical practice. It does not diagnose, prescribe, select a procedure for a patient, control clinical care or guarantee an outcome."],
-            ["How can CeladonChina help an international patient?", "CeladonChina can help people compare published provider and procedure information, prepare consultation questions, organize records, and coordinate appointments, translation and practical travel support when confirmed."],
+            ["What is Sino Aesthetics?", "Sino Aesthetics is a China-focused cosmetic medical travel information and non-clinical coordination platform for international patients considering cosmetic care in China."],
+            ["Does Sino Aesthetics provide medical treatment or medical advice?", "No. Sino Aesthetics is not a hospital, clinic or medical practice. It does not diagnose, prescribe, select a procedure for a patient, control clinical care or guarantee an outcome."],
+            ["How can Sino Aesthetics help an international patient?", "Sino Aesthetics can help people compare published provider and procedure information, prepare consultation questions, organize records, and coordinate appointments, translation and practical travel support when confirmed."],
             ["Who is responsible for the medical care?", "The treating clinician and licensed medical facility are responsible for medical assessment, informed consent, treatment, anesthesia and clinical aftercare. Patients should independently verify current credentials and facility licensing before payment or travel."],
           ].map(([name, text]) => ({ "@type": "Question", name, acceptedAnswer: { "@type": "Answer", text } })),
         },
@@ -236,18 +236,18 @@ function buildRoutes(d) {
     {
       path: "/provider-verification",
       title: "Provider Verification Standards",
-      description: "The checks, labels, evidence, and limits behind provider profiles published by CeladonChina.",
+      description: "The checks, labels, evidence, and limits behind provider profiles published by Sino Aesthetics.",
     },
     {
       path: "/medical-review-policy",
       title: "Medical Review Policy",
-      description: "How CeladonChina labels, sources, reviews, and updates medical information, including when content is not medically reviewed.",
+      description: "How Sino Aesthetics labels, sources, reviews, and updates medical information, including when content is not medically reviewed.",
       schema: { "@context": "https://schema.org", "@type": "MedicalWebPage", name: "Medical Review Policy" },
     },
     {
       path: "/editorial-policy",
       title: "Editorial Policy",
-      description: "The sourcing, labeling, correction, translation, and commercial disclosure standards used by CeladonChina.",
+      description: "The sourcing, labeling, correction, translation, and commercial disclosure standards used by Sino Aesthetics.",
     },
     {
       path: "/lp/rhinoplasty-china",
@@ -289,7 +289,7 @@ function buildRoutes(d) {
           url: `${d.SITE_URL}${guidePath}`,
           datePublished: "2026-09-07",
           dateModified: "2026-09-07",
-          author: { "@type": "Organization", name: "CeladonChina Editorial Team", url: `${d.SITE_URL}/editorial-policy` },
+          author: { "@type": "Organization", name: "Sino Aesthetics Editorial Team", url: `${d.SITE_URL}/editorial-policy` },
           publisher: { "@id": `${d.SITE_URL}/#organization` },
           audience: { "@type": "Patient" },
           citation: guide.sources.map((source) => source.url),

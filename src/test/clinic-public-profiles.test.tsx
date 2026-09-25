@@ -36,7 +36,7 @@ describe("source-backed clinic comparison details", () => {
     }
   });
 
-  it("separates the hospital's official directory from CeladonChina's own profiles", () => {
+  it("separates the hospital's official directory from Sino Aesthetics's own profiles", () => {
     const profile = CLINIC_PUBLIC_PROFILES.find((item) => item.identity.citySlug === "beijing")!;
     const onAsk = vi.fn();
     render(<ClinicComparisonInfo profile={profile} onAsk={onAsk} />);
@@ -60,7 +60,7 @@ describe("source-backed clinic comparison details", () => {
     expect(screen.getByText(clinicProfileCopy.languageMissing.en)).toBeInTheDocument();
     expect(screen.getByText("Institution language support")).toBeInTheDocument();
     expect(screen.getByText(clinicProfileCopy.celadonLanguage.en)).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "View CeladonChina support" })).toHaveAttribute("href", "/travel-packages#support");
+    expect(screen.getByRole("link", { name: "View Sino Aesthetics support" })).toHaveAttribute("href", "/travel-packages#support");
     expect(screen.queryByRole("link", { name: /official doctor/ })).not.toBeInTheDocument();
   });
 

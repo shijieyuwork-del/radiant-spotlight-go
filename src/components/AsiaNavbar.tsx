@@ -102,9 +102,9 @@ const AsiaNavbar = ({ floating = false }: { floating?: boolean }) => {
                 <span>+1 470 861 3825</span>
               </a>
               <span className="h-5 w-px bg-foreground/20" aria-hidden="true" />
-              <a href="mailto:contact@celadonchina.com" className="inline-flex min-h-11 items-center gap-2 text-foreground/90 transition hover:text-foreground">
+              <a href="mailto:contact@sinoaesthetics.com" className="inline-flex min-h-11 items-center gap-2 text-foreground/90 transition hover:text-foreground">
                 <Mail className="size-4" aria-hidden="true" />
-                <span>contact@celadonchina.com</span>
+                <span>contact@sinoaesthetics.com</span>
               </a>
             </div>
             <div className="flex items-center gap-1 text-foreground">

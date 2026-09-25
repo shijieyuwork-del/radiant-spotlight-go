@@ -69,9 +69,9 @@ export const vietnameseTranslations: Record<string, string> = {
   "Allow analytics": "Cho phép phân tích",
   "Essential only": "Chỉ thiết yếu",
   "Optional analytics help us improve the site. We never send your form answers or contact details.": "Phân tích tùy chọn giúp chúng tôi cải thiện trang web. Chúng tôi không bao giờ gửi câu trả lời biểu mẫu hay thông tin liên hệ của bạn.",
-  "CeladonChina provides information, consultation coordination and travel support for cosmetic care in China only.": "CeladonChina chỉ cung cấp thông tin, điều phối tư vấn và hỗ trợ đi lại cho dịch vụ chăm sóc thẩm mỹ tại Trung Quốc.",
-  "CeladonChina is an information and travel-coordination platform, not a medical provider. We do not offer medical advice, diagnosis, or treatment. All medical decisions are made directly between you and licensed medical institutions.": "CeladonChina là nền tảng thông tin và điều phối du lịch, không phải cơ sở y tế. Chúng tôi không cung cấp tư vấn, chẩn đoán hay điều trị y khoa. Mọi quyết định y tế được đưa ra trực tiếp giữa bạn và các cơ sở y tế được cấp phép.",
-  "Not medical advice — CeladonChina provides information and coordination only. All medical decisions are made between you and licensed medical institutions.": "Không phải tư vấn y tế — CeladonChina chỉ cung cấp thông tin và điều phối. Mọi quyết định y tế được đưa ra giữa bạn và các cơ sở y tế được cấp phép.",
+  "Sino Aesthetics provides information, consultation coordination and travel support for cosmetic care in China only.": "Sino Aesthetics chỉ cung cấp thông tin, điều phối tư vấn và hỗ trợ đi lại cho dịch vụ chăm sóc thẩm mỹ tại Trung Quốc.",
+  "Sino Aesthetics is an information and travel-coordination platform, not a medical provider. We do not offer medical advice, diagnosis, or treatment. All medical decisions are made directly between you and licensed medical institutions.": "Sino Aesthetics là nền tảng thông tin và điều phối du lịch, không phải cơ sở y tế. Chúng tôi không cung cấp tư vấn, chẩn đoán hay điều trị y khoa. Mọi quyết định y tế được đưa ra trực tiếp giữa bạn và các cơ sở y tế được cấp phép.",
+  "Not medical advice — Sino Aesthetics provides information and coordination only. All medical decisions are made between you and licensed medical institutions.": "Không phải tư vấn y tế — Sino Aesthetics chỉ cung cấp thông tin và điều phối. Mọi quyết định y tế được đưa ra giữa bạn và các cơ sở y tế được cấp phép.",
 
   // Shared controls
   "All clinics": "Tất cả phòng khám",
@@ -97,10 +97,10 @@ export const vietnameseTranslations: Record<string, string> = {
   "Patient diary": "Nhật ký bệnh nhân",
   "$200 coordination deposit": "Tiền cọc điều phối 200 USD",
 
-  // Why CeladonChina
+  // Why Sino Aesthetics
   "Why choose us": "Vì sao chọn chúng tôi",
   "More experts, more destinations and one coordinated journey.": "Nhiều chuyên gia hơn, nhiều điểm đến hơn và một hành trình được điều phối trọn vẹn.",
-  "Three reasons to choose CeladonChina": "Ba lý do chọn CeladonChina",
+  "Three reasons to choose Sino Aesthetics": "Ba lý do chọn Sino Aesthetics",
   "300+ specialists": "Hơn 300 chuyên gia",
   "More experts to compare": "Nhiều chuyên gia hơn để so sánh",
   "Compare 300+ cosmetic medicine specialists across China.": "So sánh hơn 300 chuyên gia thẩm mỹ trên khắp Trung Quốc.",
@@ -154,7 +154,7 @@ export const vietnameseTranslations: Record<string, string> = {
   "Medical license:": "Giấy phép hành nghề:",
   "License No.": "Số giấy phép",
   "License:": "Giấy phép:",
-  "No CeladonChina-listed surgeons yet for this city — request a match below.": "Chưa có bác sĩ phẫu thuật nào của CeladonChina tại thành phố này — hãy yêu cầu ghép nối bên dưới.",
+  "No Sino Aesthetics-listed surgeons yet for this city — request a match below.": "Chưa có bác sĩ phẫu thuật nào của Sino Aesthetics tại thành phố này — hãy yêu cầu ghép nối bên dưới.",
   "No experts in this city yet — try another city or ask us for a match.": "Chưa có chuyên gia tại thành phố này — hãy thử thành phố khác hoặc nhờ chúng tôi ghép nối.",
   "Other verified surgeons": "Các bác sĩ phẫu thuật đã xác minh khác",
   "Platform expert profile": "Hồ sơ chuyên gia trên nền tảng",
@@ -294,7 +294,7 @@ export const vietnameseTranslations: Record<string, string> = {
 
   // Cases, diaries and before & after
   "All cases": "Tất cả ca điều trị",
-  "Before & after photo results | CeladonChina": "Kết quả ảnh trước & sau | CeladonChina",
+  "Before & after photo results | Sino Aesthetics": "Kết quả ảnh trước & sau | Sino Aesthetics",
   "Before & after photo sets": "Bộ ảnh trước & sau",
   "Photo results": "Kết quả bằng ảnh",
   "Drag the slider on each photo to compare. Every set is published by the platform and linked to the expert who performed it.": "Kéo thanh trượt trên mỗi ảnh để so sánh. Mọi bộ ảnh đều do nền tảng công bố và liên kết với chuyên gia thực hiện.",
@@ -336,10 +336,10 @@ export const vietnameseTranslations: Record<string, string> = {
   "Know what is included and what is not.": "Biết rõ những gì được bao gồm và không bao gồm.",
   "Medical fees go straight to the facility": "Chi phí y tế được trả thẳng cho cơ sở",
   "All clinic and hospital medical fees": "Toàn bộ chi phí y tế của phòng khám và bệnh viện",
-  "All surgery, examination, anesthesia and other medical fees are charged directly by the clinic or hospital. CeladonChina does not collect your medical payment.": "Mọi chi phí phẫu thuật, thăm khám, gây mê và chi phí y tế khác đều do phòng khám hoặc bệnh viện thu trực tiếp. CeladonChina không thu khoản thanh toán y tế của bạn.",
-  "Your clinic or hospital collects all surgery, examination and anesthesia fees. CeladonChina does not collect your medical payment.": "Phòng khám hoặc bệnh viện của bạn thu toàn bộ chi phí phẫu thuật, thăm khám và gây mê. CeladonChina không thu khoản thanh toán y tế của bạn.",
+  "All surgery, examination, anesthesia and other medical fees are charged directly by the clinic or hospital. Sino Aesthetics does not collect your medical payment.": "Mọi chi phí phẫu thuật, thăm khám, gây mê và chi phí y tế khác đều do phòng khám hoặc bệnh viện thu trực tiếp. Sino Aesthetics không thu khoản thanh toán y tế của bạn.",
+  "Your clinic or hospital collects all surgery, examination and anesthesia fees. Sino Aesthetics does not collect your medical payment.": "Phòng khám hoặc bệnh viện của bạn thu toàn bộ chi phí phẫu thuật, thăm khám và gây mê. Sino Aesthetics không thu khoản thanh toán y tế của bạn.",
   "Who receives my medical payment?": "Ai nhận khoản thanh toán y tế của tôi?",
-  "Do I need to pay CeladonChina?": "Tôi có cần trả tiền cho CeladonChina không?",
+  "Do I need to pay Sino Aesthetics?": "Tôi có cần trả tiền cho Sino Aesthetics không?",
   "Paid separately": "Thanh toán riêng",
   "Hotel charges unless specifically included": "Chi phí khách sạn, trừ khi được ghi rõ là bao gồm",
   "Optional touring and personal expenses": "Tham quan tùy chọn và chi phí cá nhân",
@@ -414,12 +414,12 @@ export const vietnameseTranslations: Record<string, string> = {
   "Lower-eyelid treatment": "Điều trị mí dưới",
   "Skin treatment program": "Liệu trình điều trị da",
   "A coordinator met me at the airport with a sign bearing my name and flowers, then supported me through the consultation, interpretation and recovery.": "Một điều phối viên đón tôi ở sân bay với tấm bảng ghi tên tôi cùng bó hoa, rồi đồng hành cùng tôi suốt buổi tư vấn, phiên dịch và giai đoạn hồi phục.",
-  "CeladonChina introduced me to several established clinic groups, so I could compare options by budget and priorities.": "CeladonChina giới thiệu cho tôi vài hệ thống phòng khám uy tín, nhờ vậy tôi có thể so sánh các lựa chọn theo ngân sách và ưu tiên của mình.",
+  "Sino Aesthetics introduced me to several established clinic groups, so I could compare options by budget and priorities.": "Sino Aesthetics giới thiệu cho tôi vài hệ thống phòng khám uy tín, nhờ vậy tôi có thể so sánh các lựa chọn theo ngân sách và ưu tiên của mình.",
   "They matched me with a Korean doctor whose aesthetic approach felt right and booked him two months ahead during his China visit.": "Họ kết nối tôi với một bác sĩ Hàn Quốc có phong cách thẩm mỹ phù hợp và đặt lịch trước hai tháng trong chuyến làm việc của ông tại Trung Quốc.",
   "A coordinator met me at Pudong Airport, and an interpreter stayed through the consultation. When swelling worried me, the team arranged an extra check.": "Một điều phối viên đón tôi ở sân bay Phố Đông, và phiên dịch viên ở bên suốt buổi tư vấn. Khi tôi lo lắng vì sưng, đội ngũ đã sắp xếp thêm một lần kiểm tra.",
   "An interpreter supported the hairline design and aftercare instructions, and a coordinator recorded my first-wash demonstration.": "Phiên dịch viên hỗ trợ khi thiết kế đường chân tóc và hướng dẫn chăm sóc sau cấy, còn điều phối viên quay lại buổi hướng dẫn gội đầu lần đầu cho tôi.",
   "When one eye was more swollen after surgery, the coordinator checked my daily photos with the nurse.": "Khi một bên mắt sưng nhiều hơn sau phẫu thuật, điều phối viên đã cùng y tá kiểm tra ảnh chụp hằng ngày của tôi.",
-  "CeladonChina planned my 12-day Shanghai trip around the full veneer process, from examination to final fitting.": "CeladonChina lên kế hoạch chuyến đi Thượng Hải 12 ngày của tôi xoay quanh toàn bộ quy trình làm mặt dán sứ, từ thăm khám đến lắp hoàn thiện.",
+  "Sino Aesthetics planned my 12-day Shanghai trip around the full veneer process, from examination to final fitting.": "Sino Aesthetics lên kế hoạch chuyến đi Thượng Hải 12 ngày của tôi xoay quanh toàn bộ quy trình làm mặt dán sứ, từ thăm khám đến lắp hoàn thiện.",
   "The coordinator translated my questions, and the clinic checked me twice before I flew home.": "Điều phối viên dịch các câu hỏi của tôi, và phòng khám kiểm tra cho tôi hai lần trước khi tôi bay về.",
   "The coordinator translated every label, and the doctor adjusted one product after reviewing my photos.": "Điều phối viên dịch từng nhãn sản phẩm, và bác sĩ điều chỉnh một sản phẩm sau khi xem ảnh của tôi.",
 };

@@ -24,7 +24,7 @@ describe("hospital detail pages", () => {
   it.each(STATIC_CLINICS)("renders $nameEn at its own URL", (clinic) => {
     openPage(clinic.slug);
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(clinic.nameEn);
-    expect(document.querySelector('link[rel="canonical"]')).toHaveAttribute("href", `https://celadonchina.com${getClinicPath(clinic)}`);
+    expect(document.querySelector('link[rel="canonical"]')).toHaveAttribute("href", `https://sinoaesthetics.com${getClinicPath(clinic)}`);
   });
 
   it("shows sourced featured-clinic details and keeps its inquiry context", () => {
@@ -84,7 +84,7 @@ describe("hospital detail pages", () => {
     const clinic = STATIC_CLINICS[0];
     openPage(clinic.slug);
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(clinic.nameZh);
-    expect(document.querySelector('link[rel="canonical"]')).toHaveAttribute("href", `https://celadonchina.com${getClinicPath(clinic)}`);
+    expect(document.querySelector('link[rel="canonical"]')).toHaveAttribute("href", `https://sinoaesthetics.com${getClinicPath(clinic)}`);
   });
 
   it("keeps photo source links outside hospital navigation links", () => {

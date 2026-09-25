@@ -11,7 +11,7 @@ describe("case sharing", () => {
     renderShare();
     fireEvent.click(screen.getByRole("button", { name: "Share this case" }));
     expect(await screen.findByRole("status")).toHaveTextContent("Share completed");
-    expect(share).toHaveBeenCalledWith({ title: "Recovery diary", url: "https://celadonchina.com/cases/diary-1" });
+    expect(share).toHaveBeenCalledWith({ title: "Recovery diary", url: "https://sinoaesthetics.com/cases/diary-1" });
   });
   it("copies the public link when native sharing is unavailable", async () => {
     Object.defineProperty(navigator, "share", { configurable: true, value: undefined });
@@ -20,7 +20,7 @@ describe("case sharing", () => {
     renderShare();
     fireEvent.click(screen.getByRole("button", { name: "Share this case" }));
     expect(await screen.findByRole("status")).toHaveTextContent("Link copied");
-    expect(writeText).toHaveBeenCalledWith("https://celadonchina.com/cases/diary-1");
+    expect(writeText).toHaveBeenCalledWith("https://sinoaesthetics.com/cases/diary-1");
   });
   it("provides a selectable link if both native sharing and clipboard fail", async () => {
     Object.defineProperty(navigator, "share", { configurable: true, value: vi.fn().mockRejectedValue(new Error("Unavailable")) });
@@ -28,7 +28,7 @@ describe("case sharing", () => {
     renderShare();
     fireEvent.click(screen.getByRole("button", { name: "Share this case" }));
     const input = await screen.findByRole("textbox", { name: "Case link" });
-    expect(input).toHaveValue("https://celadonchina.com/cases/diary-1");
+    expect(input).toHaveValue("https://sinoaesthetics.com/cases/diary-1");
     fireEvent.focus(input);
     expect((input as HTMLInputElement).selectionStart).toBe(0);
     fireEvent.click(screen.getByRole("button", { name: "Close" }));

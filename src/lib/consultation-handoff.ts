@@ -3,12 +3,12 @@ import type { AsiaLang } from "@/lib/asia-i18n";
 import type { QuoteContext } from "@/components/QuoteRequest";
 
 export type ContactMethod = "email" | "whatsapp";
-export const CONSULTATION_EMAIL = "contact@celadonchina.com";
+export const CONSULTATION_EMAIL = "contact@sinoaesthetics.com";
 export const CONSULTATION_PHONE = "+1 470 861 3825";
 
 /** The existing coordinator message format; never stored or sent to analytics. */
 export const consultationMessage = (ctx: QuoteContext) => [
-  "Hi CeladonChina, I would like to start a consultation.",
+  "Hi Sino Aesthetics, I would like to start a consultation.",
   ctx.doctorName ? `Expert: ${ctx.doctorName}` : "",
   ctx.hospitalName ? `Hospital: ${ctx.hospitalName}` : "",
   ctx.procedure ? `Procedure: ${ctx.procedure}` : "",

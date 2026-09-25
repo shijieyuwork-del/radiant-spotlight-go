@@ -66,9 +66,9 @@ npm run build
 
 ## 发布目标核对
 
-2026-09-07 已在登录后的 Lovable 域名设置中核实：`celadonchina.com` 显示 **Live / Primary domain**。因此正式站需要在同一个 Lovable 项目中发布。
+2026-09-07 已在登录后的 Lovable 域名设置中核实：`sinoaesthetics.com` 显示 **Live / Primary domain**。因此正式站需要在同一个 Lovable 项目中发布。
 
-Cloudflare 的 `cosmetics-asia` Pages 项目未绑定该主域名；向那个项目上传不代表 CeladonChina 正式站已更新。此次不更改域名/DNS 配置。
+Cloudflare 的 `cosmetics-asia` Pages 项目未绑定该主域名；向那个项目上传不代表 Sino Aesthetics 正式站已更新。此次不更改域名/DNS 配置。
 
 ## 原有测试提示
 

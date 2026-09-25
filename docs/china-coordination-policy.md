@@ -4,7 +4,7 @@ Updated: 2026-09-08
 
 ## Confirmed by the business owner
 
-- CeladonChina coordinates cosmetic-care visits and related travel in China only.
+- Sino Aesthetics coordinates cosmetic-care visits and related travel in China only.
 - The coordination deposit is USD 200.
 - It is collected before the patient departs for China.
 - After cancellation, the deposit can be held for one year.
@@ -29,5 +29,5 @@ Public copy states the confirmed before-departure collection and one-year hold a
 - The actual free coordination scope remains visible alongside these terms. This wording does not turn airport transfers or agreed interpretation into paid coordination services.
 - Medical payments and separate travel costs appear after the two cards.
 - The lower free-support section repeats both the free initial conversation and the deposit summary, then links to the full explanation.
-- Institution-provided language support is separate from CeladonChina's agreed interpretation arrangements.
+- Institution-provided language support is separate from Sino Aesthetics's agreed interpretation arrangements.
 - See `featured-clinic-sources.md` for the three priority institutions. A source review date is not a medical, licensing or partnership verification date.

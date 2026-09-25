@@ -1,4 +1,4 @@
-# Rename CeladonChina to Sino Aesthetics
+# Rename Sino Aesthetics to Sino Aesthetics
 
 ## Scope
 - Apply the six requested case-sensitive replacements, in the stated order, across all project-owned text files.
@@ -9,7 +9,7 @@
 - Do not redesign, refactor, alter unrelated copy, change infrastructure, publish, or deploy.
 
 ## Safety checks
-- Detect any `CeladonChina` occurrences used as code identifiers; rename only those identifiers consistently to `SinoAesthetics` and report them.
+- Detect any `Sino Aesthetics` occurrences used as code identifiers; rename only those identifiers consistently to `SinoAesthetics` and report them.
 - Re-scan all project-owned files after replacement for every old brand, email, domain, and logo filename.
 - Confirm no unintended change to `青慈有限公司`.
 - Run TypeScript checks, relevant tests, the production build, and load the local preview without console/runtime errors.

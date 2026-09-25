@@ -141,7 +141,7 @@ const Auth = () => {
           <div className="mb-3 text-center">
             <span className="pill bg-accent text-accent-foreground">
               <Sparkles className="size-3.5" />
-              {t("Your CeladonChina account", "你的 CeladonChina 账户")}
+              {t("Your Sino Aesthetics account", "你的 Sino Aesthetics 账户")}
             </span>
           </div>
           <h1 className="font-display text-2xl md:text-3xl font-semibold text-center tracking-tight">
@@ -150,7 +150,7 @@ const Auth = () => {
           <p className="text-sm text-muted-foreground text-center mt-1.5">
             {mode === "forgot" ? t("Enter your email and we’ll send you a secure reset link.", "输入邮箱，我们会发送安全的重置链接。") : mode === "reset" ? t("Enter a new password with at least 8 characters.", "请输入至少 8 位的新密码。") : tab === "signin"
               ? getSavedCasesCopy(lang).guest
-              : t("Join CeladonChina in 30 seconds — totally free.", "30 秒注册 CeladonChina，完全免费。")}
+              : t("Join Sino Aesthetics in 30 seconds — totally free.", "30 秒注册 Sino Aesthetics，完全免费。")}
           </p>
 
           {mode === "auth" && searchParams.get("reason") === "save-case" && (

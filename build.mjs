@@ -8,7 +8,7 @@ const __dirname = dirname(__filename);
 
 // Ensure environment variables are set for build
 // Supabase vars come from the platform env / .env files — never hardcode a project here.
-process.env.VITE_SITE_URL = process.env.VITE_SITE_URL || 'https://celadonchina.com';
+process.env.VITE_SITE_URL = process.env.VITE_SITE_URL || 'https://sinoaesthetics.com';
 
 const run = (cmd, args) =>
   new Promise((resolve, reject) => {

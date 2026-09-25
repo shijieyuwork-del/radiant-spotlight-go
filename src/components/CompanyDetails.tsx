@@ -1,10 +1,10 @@
 import { Building2, Mail, MapPin, Phone } from "lucide-react";
 
 export const COMPANY = {
-  brandName: "CeladonChina",
-  legalName: "Celadon Limited",
+  brandName: "Sino Aesthetics",
+  legalName: "SinoAesthetics Limited",
   legalNameZh: "青慈有限公司",
-  email: "contact@celadonchina.com",
+  email: "contact@sinoaesthetics.com",
   telephone: "+1 470 861 3825",
   telephoneHref: "+14708613825",
   address: "Room 18, 2/F, TusPark, 118 Wai Yip Street, Kwun Tong, Kowloon, Hong Kong",
@@ -19,7 +19,7 @@ const CompanyDetails = ({ showContacts = false }: { showContacts?: boolean }) =>
       <div className="min-w-0">
         <h2 id="company-details-title" className="font-display text-2xl font-semibold tracking-tight md:text-3xl">Company details</h2>
         <p className="mt-3 max-w-3xl text-sm leading-7 text-muted-foreground md:text-base">
-          <strong className="font-semibold text-foreground">CeladonChina is operated by Celadon Limited (青慈有限公司), a company incorporated in Hong Kong.</strong>
+          <strong className="font-semibold text-foreground">Sino Aesthetics is operated by SinoAesthetics Limited (青慈有限公司), a company incorporated in Hong Kong.</strong>
         </p>
       </div>
     </div>

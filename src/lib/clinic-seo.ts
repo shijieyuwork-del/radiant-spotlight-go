@@ -19,7 +19,7 @@ export type ClinicPageMetadata = {
 /** Shared by the directory's client render and its build-time HTML. */
 export const CLINIC_DIRECTORY_META: ClinicPageMetadata = {
   title: "Clinics & Hospitals in China",
-  description: "Browse CeladonChina's clinic and hospital directory in Shanghai, Guangzhou, Beijing, Hainan and Hangzhou. Filter the listed facilities by location.",
+  description: "Browse Sino Aesthetics's clinic and hospital directory in Shanghai, Guangzhou, Beijing, Hainan and Hangzhou. Filter the listed facilities by location.",
   path: "/clinics",
   structuredData: {
     "@context": "https://schema.org",
@@ -38,7 +38,7 @@ export function clinicPageMeta(clinic: DirectoryClinic): ClinicPageMetadata {
   const path = getClinicPath(clinic);
   const url = `${SITE_URL}${path}`;
   const title = `${clinic.nameEn} | ${destination ? `${destination}, ` : ""}China`;
-  const description = `${clinic.nameEn}${clinic.nameZh && clinic.nameZh !== clinic.nameEn ? ` (${clinic.nameZh})` : ""} — ${location}. A listing in the CeladonChina clinic and hospital directory.`;
+  const description = `${clinic.nameEn}${clinic.nameZh && clinic.nameZh !== clinic.nameEn ? ` (${clinic.nameZh})` : ""} — ${location}. A listing in the Sino Aesthetics clinic and hospital directory.`;
   const isMedicalTourismZone = /医疗旅游先行区/.test(clinic.nameZh) || /medical tourism pilot zone/i.test(clinic.nameEn);
   const address = {
     "@type": "PostalAddress",

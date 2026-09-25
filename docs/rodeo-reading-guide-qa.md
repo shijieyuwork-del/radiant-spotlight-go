@@ -35,7 +35,7 @@ The owner's follow-up supersedes the original instruction to preserve contact/so
 
 - Saved matching English/Chinese descriptions in the clinic record and build-time defaults. Verified database MD5 values: English `538a46463436db5f4fc9c7137bb60cde`, Chinese `b22d5d8f1f6f690cb870240a58af3deb`.
 - Uploaded and assigned six original Shanghai photographs. All six loaded at 1280 px width; selecting the sixth displayed the lounge photograph, and selecting the first restored the reception cover. Original stored montage retained for recovery.
-- Preview checked in English and Chinese. Six disclosure groups and eleven chapters remain; expand/collapse works. No brochure wording or hospital telephone/email in the expanded page. Official website, Shanghai address and CeladonChina contact controls retained.
+- Preview checked in English and Chinese. Six disclosure groups and eleven chapters remain; expand/collapse works. No brochure wording or hospital telephone/email in the expanded page. Official website, Shanghai address and Sino Aesthetics contact controls retained.
 - 390 px mobile screenshot inspected: six usable thumbnails, no document overflow. Temporary viewport reset. Desktop also has no overflow. No preview console errors.
 - 145 focused clinic/gallery/storage tests passed. TypeScript and production build passed; 208 pages prerendered. Full-suite run reported 497 passes, 7 skips and 10 failures in other suites; no unrelated assertions were modified for this scoped change.
 - Incorporated the latest remote clinic-concierge copy without overwriting it before publishing this update.

@@ -8,7 +8,7 @@ type BrandLogoProps = {
 };
 
 const BrandLogo = ({ className, markClassName, textClassName, showTagline = false }: BrandLogoProps) => (
-  <span className={cn("inline-flex items-center gap-2.5", className)} aria-label="CeladonChina — Your cosmetic care journey, all in one place.">
+  <span className={cn("inline-flex items-center gap-2.5", className)} aria-label="Sino Aesthetics — Your cosmetic care journey, all in one place.">
     <svg
       viewBox="0 0 120 120"
       aria-hidden="true"
@@ -42,7 +42,7 @@ const BrandLogo = ({ className, markClassName, textClassName, showTagline = fals
         className={cn("whitespace-nowrap text-xl font-extrabold leading-none tracking-[-0.025em] text-[#1C5A49]", textClassName)}
         style={{ fontFamily: "'Nunito Sans Variable', 'Inter Variable', system-ui, sans-serif" }}
       >
-        Celadon<span className="text-[#4EB58F]">China</span>
+        Sino <span className="text-[#4EB58F]">Aesthetics</span>
       </span>
       {showTagline && (
         <span className="mt-1 max-w-[30ch] text-label font-medium text-muted-foreground">

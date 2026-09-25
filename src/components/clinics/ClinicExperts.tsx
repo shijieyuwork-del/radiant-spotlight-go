@@ -43,7 +43,7 @@ export function ClinicExperts({ doctors, isLoading, isError, retry }: {
           </ul>
         </>
       ) : (
-        <p className="mt-4 text-sm leading-6 text-muted-foreground">{c("No expert profiles have been published for this institution on CeladonChina yet.", "CeladonChina 暂未发布与此机构关联的专家资料。", "На CeladonChina пока нет опубликованных профилей специалистов этого учреждения.", "Todavía no hay perfiles de especialistas de este centro publicados en CeladonChina.")}</p>
+        <p className="mt-4 text-sm leading-6 text-muted-foreground">{c("No expert profiles have been published for this institution on Sino Aesthetics yet.", "Sino Aesthetics 暂未发布与此机构关联的专家资料。", "На Sino Aesthetics пока нет опубликованных профилей специалистов этого учреждения.", "Todavía no hay perfiles de especialistas de este centro publicados en Sino Aesthetics.")}</p>
       )}
     </section>
   );

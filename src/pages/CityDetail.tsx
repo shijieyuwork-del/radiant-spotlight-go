@@ -195,7 +195,7 @@ const CityDetail = () => {
 
         {cityDoctors.length === 0 && cityDemoDoctors.length === 0 ? (
           <p className="text-sm text-muted-foreground">
-            {c("No CeladonChina-listed surgeons yet for this city — request a match below.", "本城市暂无平台主推专家，可在下方提交匹配申请。", "В этом городе пока нет опубликованных экспертов CeladonChina — отправьте запрос на подбор ниже.", "Aún no hay expertos listados por CeladonChina en esta ciudad — solicita una recomendación abajo.")}
+            {c("No Sino Aesthetics-listed surgeons yet for this city — request a match below.", "本城市暂无平台主推专家，可在下方提交匹配申请。", "В этом городе пока нет опубликованных экспертов Sino Aesthetics — отправьте запрос на подбор ниже.", "Aún no hay expertos listados por Sino Aesthetics en esta ciudad — solicita una recomendación abajo.")}
           </p>
         ) : cityDoctors.length === 0 ? (
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -307,7 +307,7 @@ const CityDetail = () => {
         <div className="rounded-3xl bg-foreground text-background p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <div>
             <h2 className="font-display text-2xl md:text-3xl font-semibold">
-              {c(`Plan your ${city.en} trip with CeladonChina`, `让 CeladonChina 为你规划 ${city.zh} 行程`, `Спланируйте поездку в ${city.en} с CeladonChina`, `Planifica tu viaje a ${city.en} con CeladonChina`)}
+              {c(`Plan your ${city.en} trip with Sino Aesthetics`, `让 Sino Aesthetics 为你规划 ${city.zh} 行程`, `Спланируйте поездку в ${city.en} с Sino Aesthetics`, `Planifica tu viaje a ${city.en} con Sino Aesthetics`)}
             </h2>
             <p className="text-sm text-background/80 mt-2 max-w-xl">
               {c("Surgeon shortlist, price quote, hospital booking and recovery hotel — handled by an English-speaking coordinator.", "主刀候选 / 报价 / 机构预约 / 恢复酒店，全程中英文专属顾问对接。", "Подбор экспертов, смета, запись в клинику и отель для восстановления — с поддержкой англоязычного координатора.", "Preselección de expertos, cotización, reserva de hospital y hotel de recuperación — gestionado por un coordinador de habla inglesa.")}

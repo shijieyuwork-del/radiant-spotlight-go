@@ -50,11 +50,11 @@ describe("consultation handoff recovery", () => {
     expect(screen.getByRole("status")).toHaveTextContent("Message copied");
     fireEvent.click(screen.getByRole("button", { name: "Copy contact details" }));
     await screen.findByRole("button", { name: "Contact details copied" });
-    expect(copyText).toHaveBeenLastCalledWith("contact@celadonchina.com");
+    expect(copyText).toHaveBeenLastCalledWith("contact@sinoaesthetics.com");
   });
   it("keeps a visitor's typed question and care-plan details in the draft, retry link and copied message", async () => {
     const message = "Procedure: Rhinoplasty\nBudget: $2,000–$5,000\nMy question: Can you coordinate translation?";
-    const url = `mailto:contact@celadonchina.com?body=${encodeURIComponent(message)}`;
+    const url = `mailto:contact@sinoaesthetics.com?body=${encodeURIComponent(message)}`;
     const onBack = vi.fn();
     render(<AsiaI18nProvider><ConsultationHandoff method="email" context={context}
       draft={{ message, url }} labels={{ back: "Edit my details", openApp: "Open email draft", message: "Review your message" }}

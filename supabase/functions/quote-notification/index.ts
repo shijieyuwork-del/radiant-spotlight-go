@@ -8,7 +8,7 @@ const corsHeaders = {
 }
 
 const ADMIN_EMAIL = 'shijieyuwork@gmail.com'
-const ADMIN_LINK = 'https://celadonchina.com/admin/content'
+const ADMIN_LINK = 'https://sinoaesthetics.com/admin/content'
 const MAX_AGE_MS = 15 * 60 * 1000
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i

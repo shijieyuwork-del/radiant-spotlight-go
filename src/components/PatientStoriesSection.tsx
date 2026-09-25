@@ -71,7 +71,7 @@ const PatientStoriesSection = ({ ambient = false }: { ambient?: boolean }) => {
         icon={Quote}
         eyebrow={text("Patient stories", "患者故事")}
         titleId="patient-stories-title"
-        title={<>{text("400+ patients trust", "400+ 位患者信任")} <em className="not-italic text-brand">CeladonChina</em></>}
+        title={<>{text("400+ patients trust", "400+ 位患者信任")} <em className="not-italic text-brand">Sino Aesthetics</em></>}
       />
 
       <div

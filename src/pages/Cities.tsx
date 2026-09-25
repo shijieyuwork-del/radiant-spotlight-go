@@ -225,12 +225,12 @@ const Cities = () => {
             <a
               href={`https://wa.me/14708613825?text=${encodeURIComponent(
                 lang === "zh"
-                  ? "你好 CeladonChina，我想咨询一个目前城市列表中没有的城市。"
+                  ? "你好 Sino Aesthetics，我想咨询一个目前城市列表中没有的城市。"
                   : lang === "ru"
-                    ? "Здравствуйте, CeladonChina. Я хочу узнать о городе, которого пока нет в списке."
+                    ? "Здравствуйте, Sino Aesthetics. Я хочу узнать о городе, которого пока нет в списке."
                     : lang === "es"
-                      ? "Hola CeladonChina, me gustaría preguntar por una ciudad que no está en la lista actual."
-                      : "Hi CeladonChina, I’d like to ask about a city that is not currently listed."
+                      ? "Hola Sino Aesthetics, me gustaría preguntar por una ciudad que no está en la lista actual."
+                      : "Hi Sino Aesthetics, I’d like to ask about a city that is not currently listed."
               )}`}
               target="_blank"
               rel="noreferrer"

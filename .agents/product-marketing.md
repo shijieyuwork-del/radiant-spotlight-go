@@ -1,8 +1,8 @@
-# CeladonChina product marketing context
+# Sino Aesthetics product marketing context
 
 ## Product
 
-CeladonChina helps international patients understand cosmetic-care options in China, compare published clinic and expert information, and coordinate consultations and the practical steps around travel and care. The service covers China only.
+Sino Aesthetics helps international patients understand cosmetic-care options in China, compare published clinic and expert information, and coordinate consultations and the practical steps around travel and care. The service covers China only.
 
 ## Primary audience
 
@@ -25,7 +25,7 @@ Start a free planning conversation. Visitors can use “Ask a question” with c
 - The initial conversation is free and carries no obligation: “Free initial conversation. Start with questions at no cost and no obligation.”
 - Free coordination includes consultation and appointment coordination, airport transfers, interpretation during agreed clinic visits, records organization, hotel booking guidance and follow-up coordination. The written support plan defines included visits and services.
 - Medical fees are paid directly to the treating clinic or hospital.
-- CeladonChina collects a $200 coordination deposit before departure for China to reserve the procedure appointment and agreed coordination support. The deposit is separate from medical fees.
+- Sino Aesthetics collects a $200 coordination deposit before departure for China to reserve the procedure appointment and agreed coordination support. The deposit is separate from medical fees.
 - The deposit is returned on surgery day. If the patient cancels, it can be held for one year.
 - Other circumstances are confirmed in writing. Rescheduling, being unable to have surgery and the end of the one-year hold do not have business-confirmed outcomes yet. Do not invent forfeiture rules, an unconditional cancellation refund or a one-year expiry from payment.
 - Flights, visas, hotel accommodation, optional outings and personal expenses are paid separately unless expressly included in the written plan.

@@ -5,7 +5,7 @@ Disallow: /admin/
 Disallow: /auth
 Disallow: /upload
 
-# OpenAI search crawler: allows CeladonChina pages to be considered for
+# OpenAI search crawler: allows Sino Aesthetics pages to be considered for
 # citations and results in ChatGPT Search.
 User-agent: OAI-SearchBot
 Allow: /
@@ -28,7 +28,7 @@ Disallow: /auth
 Disallow: /upload
 
 # Sitemap for search engines
-Sitemap: https://celadonchina.com/sitemap.xml
+Sitemap: https://sinoaesthetics.com/sitemap.xml
 
 # Crawl delay (optional, prevents overwhelming the server)
 Crawl-delay: 1

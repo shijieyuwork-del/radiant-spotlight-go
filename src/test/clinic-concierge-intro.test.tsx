@@ -11,7 +11,7 @@ describe("clinic concierge introduction", () => {
   it("keeps the English summary short without losing comparison, support or direct payment", () => {
     render(<MemoryRouter><ClinicConciergeIntro /></MemoryRouter>);
 
-    const summary = screen.getByText(/^Compare hospitals and clinics with CeladonChina\./).textContent!;
+    const summary = screen.getByText(/^Compare hospitals and clinics with Sino Aesthetics\./).textContent!;
     expect(summary.split(/\s+/).length).toBeLessThanOrEqual(26);
     expect(summary).toContain("One team for appointments and support in China.");
     expect(summary).toContain("Pay medical fees directly to your provider.");
