@@ -56,7 +56,7 @@ const labels: Record<AsiaLang, { play: string; verified: string }> = {
 
 const MARK_CLASS = "rounded bg-primary/70 px-0.5 text-primary-foreground";
 
-const TikTokCard = ({
+export const TikTokCard = ({
   item, lang, fmtPrice, caseHrefBase = "/cases/", playbackEnabled = true, autoPlayFocused = false, focusPresentation = false, discovery = false, eager = false, beforeNavigate, onBeforeNavigate, highlight,
 }: { item: TikTokItem; lang: AsiaLang; fmtPrice: (n: number) => string; caseHrefBase?: string; playbackEnabled?: boolean; autoPlayFocused?: boolean; focusPresentation?: boolean; discovery?: boolean; eager?: boolean; beforeNavigate?: () => boolean; onBeforeNavigate?: (caseId: string) => void; highlight?: string }) => {
   const { attachRef, playing, playbackFailed, play, pause, toggle } = useQuietVideo(item.src, playbackEnabled);

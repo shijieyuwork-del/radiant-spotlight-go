@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import {
   Sparkles, ArrowRight, MapPin, ShieldCheck,
@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import Footer from "@/components/Footer";
 import AsiaNavbar from "@/components/AsiaNavbar";
-import TikTokWall from "@/components/TikTokWall";
+import PatientVideoWall from "@/components/home/PatientVideoWall";
 import HeroVideoGallery from "@/components/HeroVideoGallery";
 import HeroAmbientBackground from "@/components/HeroAmbientBackground";
 import { usePublishedVideos } from "@/hooks/use-published-videos";
@@ -23,7 +23,6 @@ import { getClinicPath, STATIC_CLINICS } from "@/data/clinicDirectory";
 import { useAsia } from "@/lib/asia-i18n";
 import { translatedUiText } from "@/lib/locale-text";
 import { getPlanningMarketingCopy } from "@/lib/planning-marketing-copy";
-import { localizeDoctorRow } from "@/lib/i18n-content";
 import QuoteCtaButton from "@/components/QuoteCtaButton";
 import { ORGANIZATION_SCHEMA } from "@/lib/seo-config";
 import { useQuote } from "@/components/QuoteRequest";
@@ -58,10 +57,8 @@ import hangzhouZju2Clinic from "@/assets/clinics/hangzhou-zju2.jpg";
 import hangzhouPlasticClinic from "@/assets/clinics/hangzhou-plastic.jpg";
 import hainanGeneralClinic from "@/assets/clinics/hainan-general.jpg";
 import PatientStoriesSection from "@/components/PatientStoriesSection";
-import { supabase } from "@/integrations/supabase/client";
-import { useRealtimeRefresh } from "@/hooks/use-realtime-refresh";
-import { signedUrls } from "@/lib/storage-urls";
-import { DEMO_CHINA_DOCTORS } from "@/data/demoChinaDoctors";
+import { usePublishedDoctors } from "@/hooks/use-published-doctors";
+import { selectHomepageDoctors } from "@/data/homepage-doctors";
 import { ManualRailControls } from "@/components/ManualRailControls";
 import { HomeSection } from "@/components/home/HomeSection";
 import { SectionActionLink, SectionHeader } from "@/components/home/SectionHeader";
@@ -303,7 +300,7 @@ const Hero = () => {
                 {lang === "zh" ? "浏览全部日记" : lang === "ru" ? "Все дневники" : lang === "es" ? "Ver todos los diarios" : translatedUiText(lang, "Explore all diaries")} <ArrowRight className="size-3.5" />
               </Link>
             </div>
-            <TikTokWall items={diaryItems.slice(0, 7)} lang={lang} fmtPrice={fmt} variant="focus" />
+            <PatientVideoWall items={diaryItems.slice(0, 12)} lang={lang} fmtPrice={fmt} />
           </div>
       </div>
     </section>
@@ -1386,27 +1383,8 @@ const getDoctorMarketingLine = (doctor: DoctorFlipCardData, lang: string) => {
 
 const DoctorsSection = () => {
   const { t, lang } = useAsia();
-  const [publishedDoctors, setPublishedDoctors] = useState<Array<DoctorFlipCardData & { photo_path: string | null }>>([]);
+  const { doctors: publishedDoctors, status, refresh } = usePublishedDoctors(lang);
   const doctorRailRef = useRef<HTMLDivElement>(null);
-  const displayedDoctors = publishedDoctors.length > 0
-    ? publishedDoctors.map((doctor) => ({ ...doctor, photo: doctor.photo ?? "", demo: false as const }))
-    : DEMO_CHINA_DOCTORS.map((doctor) => ({ ...doctor, photo_path: null }));
-  const loadPublishedDoctors = useCallback(() => {
-    const chinaCities = ["Shanghai", "Beijing", "Guangzhou", "Hangzhou", "Hainan", "上海", "北京", "广州", "杭州", "海南"];
-    supabase
-      .from("doctors")
-      .select("id,name,title,city,specialties,bio,photo_path,i18n")
-      .eq("status", "published")
-      .order("created_at", { ascending: false })
-      .then(async ({ data }) => {
-        const rows = (data ?? []).filter((doctor) => chinaCities.some((city) => doctor.city?.toLowerCase().includes(city.toLowerCase())));
-        const photos = await signedUrls("doctor-photos", rows.map((doctor) => doctor.photo_path));
-        setPublishedDoctors(rows.map((doctor, index) => localizeDoctorRow({ ...doctor, photo: photos[index] } as Record<string, unknown>, lang)) as typeof publishedDoctors);
-      });
-  }, [lang]);
-  useEffect(() => { loadPublishedDoctors(); }, [loadPublishedDoctors]);
-  // 后台发布新专家后首页自动更新
-  useRealtimeRefresh(["doctors"], loadPublishedDoctors);
   const viewProfileLabel = lang === "zh" ? "查看专家资料" : lang === "ru" ? "Профиль эксперта" : lang === "es" ? "Ver perfil del experto" : translatedUiText(lang, "View expert profile");
   const allExpertsLabel = lang === "zh" ? "全部专家" : lang === "ru" ? "Все специалисты" : lang === "es" ? "Todos los especialistas" : translatedUiText(lang, "All experts");
   // "Expert" rather than "doctor": the platform coordinates, it does not give medical advice (see copy-compliance.test.ts).
@@ -1421,7 +1399,7 @@ const DoctorsSection = () => {
         ? "Los detalles publicados están disponibles en el perfil completo del experto."
         : translatedUiText(lang, "Published profile details are available from this expert's full profile.");
   // The homepage shows at most two rows of three; the full list lives on /doctors.
-  const homepageDoctors = displayedDoctors.slice(0, 6);
+  const homepageDoctors = selectHomepageDoctors(publishedDoctors);
   return (
     <HomeSection id="compliance" tone="white" ariaLabelledBy="home-doctors-title">
       <SectionHeader
@@ -1431,6 +1409,23 @@ const DoctorsSection = () => {
         title={<>{t("doctors.title1")} <em className="not-italic text-brand">{t("doctors.titleEm")}</em></>}
         action={<SectionActionLink to="/doctors" className="hidden sm:inline-flex">{allExpertsLabel}</SectionActionLink>}
       />
+      {status === "loading" && (
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3" role="status" aria-busy="true">
+          <span className="sr-only">{lang === "zh" ? "正在加载专家资料…" : translatedUiText(lang, "Loading expert profiles…")}</span>
+          {Array.from({ length: 6 }, (_, index) => (
+            <div key={index} aria-hidden="true" className={`min-h-[560px] overflow-hidden rounded-3xl border border-border bg-card ${index > 0 ? "hidden md:block" : ""}`}>
+              <div className="h-[250px] bg-primary/5" />
+              <div className="space-y-5 p-6"><div className="h-3 w-2/3 rounded bg-primary/10" /><div className="h-6 w-1/2 rounded bg-primary/10" /><div className="h-3 w-1/3 rounded bg-primary/5" /></div>
+            </div>
+          ))}
+        </div>
+      )}
+      {status === "error" && (
+        <div role="status" className="rounded-3xl border border-border bg-card p-6 text-muted-foreground">
+          <p>{lang === "zh" ? "专家资料暂时无法加载。" : translatedUiText(lang, "Expert profiles could not be loaded.")}</p>
+          <Button variant="outline" className="mt-3" onClick={refresh}>{lang === "zh" ? "重试" : translatedUiText(lang, "Try again")}</Button>
+        </div>
+      )}
       {/* Snap rail below md; a plain three-column grid from md up, so one or two experts never leave a half-empty rail. */}
       <div
         ref={doctorRailRef}

@@ -7,6 +7,7 @@ import ManagedDoctorDetail from "@/pages/ManagedDoctorDetail";
 import { QuoteProvider, useQuote, type QuoteContext } from "@/components/QuoteRequest";
 import { AsiaI18nProvider, type AsiaLang } from "@/lib/asia-i18n";
 import { consultationPickerCopy } from "@/lib/consultation-picker-copy";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const mocks = vi.hoisted(() => ({ list: vi.fn(), detail: vi.fn(), from: vi.fn(), invoke: vi.fn(), track: vi.fn() }));
 vi.mock("@/components/AsiaNavbar", () => ({ default: () => <nav aria-label="Site" /> }));
@@ -34,7 +35,9 @@ const expert = {
 const originalLocation = window.location;
 
 const renderPage = (children: ReactNode, path = "/") => render(
-  <AsiaI18nProvider><MemoryRouter initialEntries={[path]}><QuoteProvider>{children}</QuoteProvider></MemoryRouter></AsiaI18nProvider>,
+  <QueryClientProvider client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}>
+    <AsiaI18nProvider><MemoryRouter initialEntries={[path]}><QuoteProvider>{children}</QuoteProvider></MemoryRouter></AsiaI18nProvider>
+  </QueryClientProvider>,
 );
 const OpenContact = ({ context }: { context?: QuoteContext }) => {
   const { open } = useQuote();
@@ -50,7 +53,9 @@ beforeEach(() => {
     const query = {
       select: () => query,
       eq: () => query,
-      order: () => mocks.list(table),
+      order: () => query,
+      abortSignal: () => mocks.list(table),
+      then: (resolve: (value: unknown) => unknown, reject?: (reason: unknown) => unknown) => mocks.list(table).then(resolve, reject),
       insert: () => ({ select: () => ({ maybeSingle: () => Promise.resolve({ data: { id: "11111111-1111-4111-8111-111111111111" }, error: null }) }) }),
       maybeSingle: () => mocks.detail(table),
     };
@@ -85,7 +90,7 @@ describe("expert directory states", () => {
     expect(await screen.findByRole("heading", { name: "Published Expert" })).toBeInTheDocument();
     expect(screen.queryByRole("alert")).not.toBeInTheDocument();
     expect(screen.queryByText(/under review/i)).not.toBeInTheDocument();
-    expect(screen.getByText("Listed Clinic")).toBeInTheDocument();
+    expect(screen.queryByText("Listed Clinic")).not.toBeInTheDocument();
   });
 
   it("shows a recoverable empty search and restores the published results", async () => {
@@ -99,13 +104,13 @@ describe("expert directory states", () => {
     expect(screen.getByRole("heading", { name: "Published Expert" })).toBeInTheDocument();
   });
 
-  it("keeps successful empty-directory demo profiles explicitly distinguished", async () => {
+  it("keeps an empty published directory empty rather than substituting demo profiles", async () => {
     mocks.list.mockResolvedValue({ data: [], error: null });
     renderPage(<Doctors />, "/doctors");
-    expect(await screen.findByRole("heading", { name: "Sample doctor profiles" })).toBeInTheDocument();
-    expect(screen.getAllByText("Sample profile")).toHaveLength(5);
+    expect(await screen.findByRole("heading", { name: "No matching expert profiles" })).toBeInTheDocument();
+    expect(screen.queryByText("Sample profile")).not.toBeInTheDocument();
     expect(screen.queryByRole("heading", { name: "Published doctors" })).not.toBeInTheDocument();
-    expect(screen.getAllByRole("link", { name: "Expert & cases" })[0]).toHaveAttribute("href", "/doctors/demo/demo-lin");
+    expect(screen.queryByRole("link", { name: "Expert & cases" })).not.toBeInTheDocument();
   });
 });
 
@@ -158,7 +163,7 @@ describe("published profile consultation", () => {
   it("preserves supplied details in disclosures and carries the selected expert and city", async () => {
     renderPage(<Routes><Route path="/doctors/profile/:id" element={<ManagedDoctorDetail />} /></Routes>, "/doctors/profile/published-expert");
     await screen.findByRole("heading", { name: "Published Expert" });
-    expect(screen.getByText("Listed Clinic")).toBeInTheDocument();
+    expect(screen.queryByText("Listed Clinic")).not.toBeInTheDocument();
     expect(screen.getByText("Specialty A")).toBeVisible();
     const moreSpecialties = screen.getByText("View all specialties (4)").closest("details")!;
     expect(moreSpecialties).not.toHaveAttribute("open");

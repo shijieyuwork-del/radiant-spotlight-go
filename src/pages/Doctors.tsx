@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import {
   Search, Filter, Stethoscope, ArrowRight, MapPin, MessageCircle, Navigation,
@@ -8,12 +8,7 @@ import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
 import { Button } from "@/components/ui/button";
 import { useAsia } from "@/lib/asia-i18n";
-import { supabase } from "@/integrations/supabase/client";
-import { useRealtimeRefresh } from "@/hooks/use-realtime-refresh";
-import { localizeDoctorRow } from "@/lib/i18n-content";
-import { signedUrls } from "@/lib/storage-urls";
-
-import { DEMO_CHINA_DOCTORS } from "@/data/demoChinaDoctors";
+import { usePublishedDoctors, type PublishedDoctor } from "@/hooks/use-published-doctors";
 import { CITIES } from "@/data/cities";
 import { asiaCopy } from "@/lib/asia-copy";
 import QuoteCtaButton from "@/components/QuoteCtaButton";
@@ -26,8 +21,7 @@ const PAGE_SIZE = 9;
 
 // Hospital affiliations remain available to administrators, but are intentionally
 // not part of the public doctor directory payload or card presentation.
-type ManagedDoctor = { id:string; name:string; title:string; city:string; specialties:string[]; bio:string; photo_path:string|null; photo?:string; created_at?:string };
-type DirectoryDoctor = ManagedDoctor & { demo?: boolean };
+type DirectoryDoctor = PublishedDoctor;
 
 const Experts = () => {
   const { t, lang } = useAsia();
@@ -35,41 +29,7 @@ const Experts = () => {
   const { q, city, sort, page, setFilter, setPage, reset } = useDirectoryState("doctors");
   const setQ = (value: string) => setFilter("q", value);
   const setCity = (value: string) => setFilter("city", value);
-  const [managedDoctors, setManagedDoctors] = useState<ManagedDoctor[]>([]);
-  const [directoryStatus, setDirectoryStatus] = useState<"loading" | "ready" | "error">("loading");
-  const requestId = useRef(0);
-
-  const loadManagedDoctors = useCallback(async () => {
-    const currentRequest = ++requestId.current;
-    setDirectoryStatus("loading");
-    try {
-      const { data, error } = await supabase.from("doctors")
-        .select("id,name,title,city,specialties,bio,photo_path,created_at,i18n")
-        .eq("status", "published").order("created_at", { ascending: false });
-      if (error) throw error;
-      const chinaCities = ["shanghai", "beijing", "guangzhou", "hangzhou", "hainan", "上海", "北京", "广州", "杭州", "海南"];
-      const rows = ((data ?? []) as unknown as ManagedDoctor[])
-        .filter((doctor) => chinaCities.some((cityName) => doctor.city?.toLowerCase().includes(cityName)));
-      const photos = await signedUrls("doctor-photos", rows.map((doctor) => doctor.photo_path));
-      if (currentRequest !== requestId.current) return;
-      setManagedDoctors(rows.map((doctor, index) => localizeDoctorRow({ ...doctor, photo: photos[index] }, lang)));
-      setDirectoryStatus("ready");
-    } catch {
-      if (currentRequest === requestId.current) setDirectoryStatus("error");
-    }
-  }, [lang]);
-  useEffect(() => {
-    void loadManagedDoctors();
-    return () => { requestId.current += 1; };
-  }, [loadManagedDoctors]);
-  useRealtimeRefresh(["doctors"], loadManagedDoctors);
-
-  const directoryDoctors = useMemo<DirectoryDoctor[]>(() => {
-    if (directoryStatus !== "ready") return [];
-    return managedDoctors.length > 0
-      ? managedDoctors.map((doctor) => ({ ...doctor, demo: false, photo: doctor.photo ?? "" }))
-      : DEMO_CHINA_DOCTORS.map((doctor) => ({ ...doctor, photo_path: null }));
-  }, [managedDoctors, directoryStatus]);
+  const { doctors: directoryDoctors, status: directoryStatus, refresh: loadManagedDoctors } = usePublishedDoctors(lang);
   const cities = useMemo(() => {
     const set = new Map<string, string>();
     directoryDoctors.forEach((d) => { if (d.city) set.set(d.city, d.city); });
@@ -195,7 +155,7 @@ const Experts = () => {
         </div>}
 
         <div ref={resultsRef} className="mb-10" data-testid="doctor-directory-results">
-            {directoryStatus === "ready" && visibleDirectoryDoctors.length > 0 && <h2 className="mb-4 font-display text-2xl">{managedDoctors.length > 0 ? c("Published doctors", "已发布专家", "Опубликованные эксперты", "Expertos publicados") : c("Sample doctor profiles", "专家展示样例", "Примеры профилей экспертов", "Perfiles de expertos de muestra")}</h2>}
+            {directoryStatus === "ready" && visibleDirectoryDoctors.length > 0 && <h2 className="mb-4 font-display text-2xl">{c("Published doctors", "已发布专家", "Опубликованные эксперты", "Expertos publicados")}</h2>}
             {directoryStatus === "ready" && visibleDirectoryDoctors.length > 0 && <div className="mb-5">
               <SortChips
                 label={c("Sort", "排序", "Сортировка", "Ordenar")}

@@ -1,0 +1,133 @@
+.patient-video-wall {
+  --wall-gap: clamp(0.5rem, 1.8vw, 1.5rem);
+  width: 100%;
+}
+
+.patient-video-wall__viewport {
+  height: clamp(23rem, 140vw, 34rem);
+  overflow: hidden;
+  /* Transparent edges reveal the actual ambient background, not a white overlay. */
+  mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 86%, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 86%, transparent);
+}
+
+.patient-video-wall__columns {
+  display: grid;
+  grid-template-columns: repeat(var(--wall-columns, 3), minmax(0, 1fr));
+  gap: var(--wall-gap);
+  max-width: 70rem;
+  margin-inline: auto;
+}
+
+.patient-video-wall__column { min-width: 0; }
+.patient-video-wall__track {
+  animation: patient-wall-rise 56s linear infinite;
+  animation-delay: -8s;
+  animation-play-state: paused;
+}
+.patient-video-wall__column:nth-child(2) .patient-video-wall__track {
+  animation-direction: reverse;
+  animation-duration: 64s;
+  animation-delay: -21s;
+}
+.patient-video-wall__column:nth-child(3) .patient-video-wall__track {
+  animation-duration: 60s;
+  animation-delay: -16s;
+}
+.patient-video-wall[data-running="true"] .patient-video-wall__track {
+  animation-play-state: running;
+  will-change: transform;
+}
+.patient-video-wall__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wall-gap);
+  padding-bottom: var(--wall-gap);
+}
+.patient-video-wall__card {
+  position: relative;
+  display: block;
+  flex-shrink: 0;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  overflow: hidden;
+  border-radius: clamp(0.8rem, 2vw, 1.65rem);
+  background: hsl(var(--foreground));
+  border: 1px solid hsl(var(--primary) / 0.18);
+  text-align: left;
+  color: white;
+  touch-action: manipulation;
+}
+.patient-video-wall__card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.patient-video-wall__shade { position: absolute; inset: 0; background: linear-gradient(180deg, #0002, transparent 38%, #0009); }
+.patient-video-wall__tag {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  right: 1rem;
+  width: fit-content;
+  max-width: calc(100% - 2rem);
+  padding: 0.35rem 0.65rem;
+  border-radius: 100px;
+  background: hsl(var(--background) / 0.94);
+  color: hsl(var(--foreground));
+  font-size: 0.75rem;
+  font-weight: 650;
+  line-height: 1.3;
+}
+.patient-video-wall__play {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  display: grid;
+  place-items: center;
+  width: clamp(2.75rem, 4.5vw, 3.75rem);
+  height: clamp(2.75rem, 4.5vw, 3.75rem);
+  border: 1px solid #fff8;
+  border-radius: 50%;
+  background: hsl(var(--background) / 0.9);
+  color: hsl(var(--foreground));
+  transition: background-color 140ms ease;
+}
+.patient-video-wall__caption { position: absolute; inset-inline: 1.25rem; bottom: 1.25rem; }
+.patient-video-wall__caption > span { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; font-size: 0.9375rem; line-height: 1.4; font-weight: 550; }
+.patient-video-wall__caption small { display: block; margin-top: 0.4rem; font-size: 0.75rem; color: #fffd; }
+.patient-video-wall__card:focus-visible { outline: 3px solid hsl(var(--foreground)); outline-offset: 3px; }
+.patient-video-wall__card:active .patient-video-wall__play { background: hsl(var(--primary)); }
+.patient-video-wall__toolbar { display: flex; justify-content: center; margin-top: 0.5rem; }
+.patient-video-wall__toolbar button {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  min-height: 44px; padding: 0.5rem 1rem; border: 1px solid hsl(var(--primary) / 0.18);
+  border-radius: 100px; color: hsl(var(--foreground)); background: hsl(var(--background) / 0.85); font-size: 0.75rem;
+}
+.patient-video-wall__toolbar button:focus-visible { outline: 2px solid hsl(var(--foreground)); outline-offset: 3px; }
+.patient-video-wall__dialog { width: min(92vw, 25rem, calc((100svh - 8rem) * 9 / 16)); padding: 0; gap: 0.75rem; border: 0; background: transparent; box-shadow: none; }
+.patient-video-wall__dialog > button:last-child { top: -3.25rem; right: 0; background: hsl(var(--background)); opacity: 1; }
+.patient-video-wall__case-link { display: flex; min-height: 44px; align-items: center; justify-content: center; gap: 0.5rem; border-radius: 100px; background: hsl(var(--background)); color: hsl(var(--foreground)); font-size: 0.875rem; font-weight: 600; }
+
+@keyframes patient-wall-rise { from { transform: translateY(0); } to { transform: translateY(-50%); } }
+
+@media (min-width: 640px) {
+  .patient-video-wall__viewport { height: clamp(38rem, 64vw, 49rem); }
+  .patient-video-wall__card { aspect-ratio: 3 / 4; }
+}
+@media (max-width: 639px) {
+  .patient-video-wall__tag { top: 0.5rem; left: 0.35rem; right: 0.35rem; max-width: calc(100% - 0.7rem); padding: 0.25rem 0.35rem; font-size: 0.625rem; }
+  .patient-video-wall__caption { display: none; }
+}
+@media (hover: hover) and (pointer: fine) {
+  .patient-video-wall__card:hover .patient-video-wall__play { background: hsl(var(--background)); }
+}
+
+/* Keyboard and reduced-motion users can browse every original without chasing cards. */
+.patient-video-wall[data-static="true"] .patient-video-wall__viewport { overflow-y: auto; mask-image: none; -webkit-mask-image: none; padding: 0.35rem; }
+.patient-video-wall[data-static="true"] .patient-video-wall__track { animation: none; transform: none; will-change: auto; }
+.patient-video-wall[data-static="true"] [data-duplicate="true"],
+.patient-video-wall[data-static="true"] [data-copy="true"] { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  .patient-video-wall__track { animation: none !important; transform: none; will-change: auto !important; }
+  .patient-video-wall__viewport { overflow-y: auto; mask-image: none; -webkit-mask-image: none; }
+  .patient-video-wall [data-duplicate="true"], .patient-video-wall [data-copy="true"] { display: none; }
+  .patient-video-wall__play { transition: none; }
+  .patient-video-wall__dialog { animation: none !important; }
+}
