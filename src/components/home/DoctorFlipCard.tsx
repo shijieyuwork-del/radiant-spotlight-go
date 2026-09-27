@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, MapPin, RotateCcw, Stethoscope } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { HOMEPAGE_DOCTOR_PORTRAIT_OFFSETS } from "@/data/homepage-doctors";
 
 export type DoctorFlipCardData = {
   id: string;
@@ -79,14 +80,15 @@ export function DoctorFlipCard({
           )}
           aria-hidden={isFlipped}
         >
-          <div className="relative h-[250px] shrink-0 overflow-hidden bg-primary/10">
+          <div className="relative flex h-[250px] shrink-0 items-center justify-center overflow-hidden bg-white">
             {doctor.photo ? (
               <img
                 src={doctor.photo}
                 alt={doctor.name}
                 loading="lazy"
                 decoding="async"
-                className="size-full object-cover object-top"
+                className="h-full w-auto max-w-none shrink-0 object-contain object-center"
+                style={{ transform: `translateX(${HOMEPAGE_DOCTOR_PORTRAIT_OFFSETS[doctor.id] ?? 0}%)` }}
               />
             ) : (
               <div className="grid size-full place-items-center text-primary">

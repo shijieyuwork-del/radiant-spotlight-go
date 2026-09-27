@@ -33,6 +33,27 @@ function renderCard(overrides: Partial<DoctorFlipCardData> = {}) {
 afterEach(cleanup);
 
 describe("concise homepage doctor cards", () => {
+  it("fits the complete portrait in a centered frame instead of cropping from the top", () => {
+    renderCard();
+    const portrait = screen.getByRole("img", { name: doctor.name });
+    expect(portrait).toHaveClass("object-contain", "object-center", "h-full", "w-auto");
+    expect(portrait).not.toHaveClass("object-cover", "object-top");
+    expect(portrait.parentElement).toHaveClass("items-center", "justify-center");
+    expect(portrait).toHaveStyle({ transform: "translateX(0%)" });
+  });
+
+  it.each([
+    ["78b0fec5-0a51-4b54-88bf-a5de66e0c67e", -6],
+    ["64a2b418-ea5a-4ef5-9655-37bfac12b42d", 1],
+    ["313fb63c-2904-44d7-b12d-2447c0ea1ce1", 12],
+    ["c4188a03-c11e-4543-8deb-ea91c6dd5e85", 6],
+    ["e1be754d-aa22-4ca6-913e-ed1ceab3cd8b", 1],
+    ["3676bf83-40ed-4503-bca2-e9184062384e", 23],
+  ])("optically centers the original portrait for %s", (id, offset) => {
+    renderCard({ id: String(id) });
+    expect(screen.getByRole("img", { name: doctor.name })).toHaveStyle({ transform: `translateX(${offset}%)` });
+  });
+
   it("keeps the key introduction without rendering specialty chips on either face", () => {
     const { container } = renderCard();
     expect(screen.getByRole("heading", { name: doctor.name })).toBeInTheDocument();
