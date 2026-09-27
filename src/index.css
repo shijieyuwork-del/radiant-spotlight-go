@@ -59,6 +59,13 @@
     --input: 50 25% 90%;
     --ring: 158 45% 55%;
 
+    /* Patient diaries cinema surface */
+    --diary-surface: 155 18% 10%;
+    --diary-ink: 120 13% 95%;
+    --diary-subtle: 154 13% 71%;
+    --diary-accent: 157 43% 62%;
+    --diary-frame: 155 17% 18%;
+
     --radius: 1.25rem;
 
     /* Gradients */
@@ -136,6 +143,11 @@
     --border: 160 20% 18%;
     --input: 160 20% 18%;
     --ring: 158 60% 65%;
+    --diary-surface: 155 18% 10%;
+    --diary-ink: 120 13% 95%;
+    --diary-subtle: 154 13% 71%;
+    --diary-accent: 157 43% 62%;
+    --diary-frame: 155 17% 18%;
     --warning: 38 92% 60%;
     --warning-foreground: 45 95% 92%;
     --warning-soft: 38 40% 18%;

@@ -281,27 +281,29 @@ const Hero = () => {
 
         </div>
       </div>
-      <div className="container relative pb-9 sm:pb-14 md:pb-20">
-          <div className="w-full border-t border-primary/10 pt-8 md:pt-14">
+      <div className="patient-diaries-band relative py-12 sm:py-16 md:py-20">
+        <div className="container">
+          <div className="w-full">
             <div className="mb-6 flex flex-col items-start justify-between gap-4 px-1 sm:flex-row sm:items-end md:mb-8">
               <div>
-                <span className="inline-flex items-center gap-1.5 text-label font-bold uppercase tracking-[0.16em] text-brand">
+                <span className="inline-flex items-center gap-1.5 text-label font-bold uppercase tracking-[0.16em] text-[hsl(var(--diary-accent))]">
                   <Sparkles className="size-3.5" /> {lang === "zh" ? "我们的核心优势" : lang === "ru" ? "Наше главное отличие" : lang === "es" ? "Nuestra mayor diferencia" : translatedUiText(lang, "Our biggest difference")}
                 </span>
                 <h2 className="mt-2 max-w-4xl font-display text-3xl font-medium leading-tight tracking-tight sm:text-4xl md:text-5xl">
                   {diariesHeading.title}
-                  {diariesHeading.emphasis && <em className="not-italic text-brand">{diariesHeading.emphasis}</em>}
+                  {diariesHeading.emphasis && <em className="not-italic text-[hsl(var(--diary-accent))]">{diariesHeading.emphasis}</em>}
                 </h2>
               </div>
               <Link
                 to="/cases"
-                className="cta-primary inline-flex min-h-11 w-full shrink-0 items-center justify-center gap-1.5 rounded-full px-5 py-2.5 text-sm font-bold shadow-soft transition-all sm:w-auto sm:text-xs"
+                className="inline-flex min-h-11 w-full shrink-0 items-center justify-center gap-1.5 rounded-full border border-[hsl(var(--diary-accent))] px-5 py-2.5 text-sm font-bold text-[hsl(var(--diary-ink))] transition-colors hover:bg-[hsl(var(--diary-frame))] sm:w-auto sm:text-xs"
               >
                 {lang === "zh" ? "浏览全部日记" : lang === "ru" ? "Все дневники" : lang === "es" ? "Ver todos los diarios" : translatedUiText(lang, "Explore all diaries")} <ArrowRight className="size-3.5" />
               </Link>
             </div>
             <PatientVideoWall items={diaryItems.slice(0, 12)} lang={lang} fmtPrice={fmt} />
           </div>
+        </div>
       </div>
     </section>
   );
