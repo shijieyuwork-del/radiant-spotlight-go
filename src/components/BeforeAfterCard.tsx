@@ -12,6 +12,8 @@ interface BeforeAfterCardProps {
   defaultBlur?: boolean;
   /** 单张拼好的对比图：不显示滑块，直接整图展示 */
   single?: boolean;
+  /** Wider presentation for the two-column gallery page. */
+  layout?: "portrait" | "wide";
 }
 
 const BeforeAfterCard = ({
@@ -22,6 +24,7 @@ const BeforeAfterCard = ({
   procedure,
   defaultBlur = true,
   single = false,
+  layout = "portrait",
 }: BeforeAfterCardProps) => {
   const { t } = useAsia();
   const [pos, setPos] = useState(50);
@@ -40,7 +43,7 @@ const BeforeAfterCard = ({
     <div className="rounded-[2rem] overflow-hidden glow-card bg-card">
       {/* Swipe reveal area */}
       {single ? (
-        <div className="relative aspect-[4/5] cursor-zoom-in select-none" onClick={() => setLightboxOpen(true)}>
+        <div className={`relative cursor-zoom-in select-none ${layout === "wide" ? "aspect-[16/10]" : "aspect-[4/5]"}`} onClick={() => setLightboxOpen(true)}>
           <img src={before} alt={`${procedure} before and after`} className={`absolute inset-0 size-full object-cover ${blur ? "blur-[14px] scale-110" : ""}`} />
           <span className="absolute top-3 left-3 pill bg-background/90 backdrop-blur shadow-soft text-foreground">Before · After</span>
           <span className="absolute bottom-3 left-3 pill bg-primary text-primary-foreground shadow-pop">
@@ -57,7 +60,7 @@ const BeforeAfterCard = ({
       ) : (
       <div
         ref={ref}
-        className="relative aspect-[4/5] select-none cursor-ew-resize touch-none"
+        className={`relative select-none cursor-ew-resize touch-none ${layout === "wide" ? "aspect-[16/10]" : "aspect-[4/5]"}`}
         onMouseMove={(e) => e.buttons === 1 && move(e.clientX)}
         onMouseDown={(e) => move(e.clientX)}
         onTouchMove={(e) => move(e.touches[0].clientX)}

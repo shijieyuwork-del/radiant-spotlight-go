@@ -106,7 +106,7 @@ const BeforeAfterGallery = () => {
             </p>
           )}
 
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mt-8">
+          <div className="mt-8 grid gap-x-6 gap-y-10 sm:grid-cols-2">
             {filtered.map((item) => (
               <div key={item.id} className="space-y-2">
                 <BeforeAfterCard
@@ -118,6 +118,7 @@ const BeforeAfterGallery = () => {
                     .filter(Boolean)
                     .join(" · ")}
                   procedure={item.procedure || item.title}
+                  layout="wide"
                 />
                 {item.caption && <p className="text-sm text-muted-foreground px-1">{item.caption}</p>}
                 {item.doctor_id && (
