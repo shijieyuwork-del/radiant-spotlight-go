@@ -11,7 +11,10 @@
 }
 .patient-video-wall__item { min-width: 0; }
 .patient-video-wall__card {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
   width: 100%;
   padding: 0;
   border: 0;
