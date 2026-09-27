@@ -887,7 +887,7 @@ const ClinicsSection = () => {
       />
       <div
         id="home-clinics-rail"
-        className="review-motion-viewport relative left-1/2 w-screen -translate-x-1/2 overflow-hidden py-2"
+        className="review-motion-viewport edge-fade-x relative mx-auto w-full overflow-hidden py-2"
         role="region"
         aria-label={clinicText("Automatically scrolling featured clinics", "自动滚动的精选医院")}
         onMouseEnter={() => setClinicMotionPaused(true)}

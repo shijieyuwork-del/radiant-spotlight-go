@@ -75,7 +75,7 @@ const PatientStoriesSection = ({ ambient = false }: { ambient?: boolean }) => {
       />
 
       <div
-        className="review-motion-viewport relative left-1/2 mt-8 w-screen -translate-x-1/2 overflow-hidden py-3"
+        className="review-motion-viewport edge-fade-x relative mx-auto mt-8 w-full overflow-hidden py-3"
         role="region"
         aria-label={text("Automatically scrolling patient reviews", "自动滚动的患者评价")}
         onMouseEnter={() => setPaused(true)}
@@ -96,8 +96,6 @@ const PatientStoriesSection = ({ ambient = false }: { ambient?: boolean }) => {
             {patientStories.map((story) => reviewCard(story, true))}
           </div>
         </div>
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-background to-transparent sm:w-20" aria-hidden="true" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-background to-transparent sm:w-20" aria-hidden="true" />
       </div>
 
       <p className="sr-only">{text("The reviews pause while you hover or focus a card.", "鼠标悬停或聚焦评价卡片时，滚动会暂停。")}</p>
