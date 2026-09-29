@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { act, cleanup, renderHook, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { usePublishedDoctors, type PublishedDoctor } from "@/hooks/use-published-doctors";
-import { HOMEPAGE_DOCTOR_IDS, selectHomepageDoctors } from "@/data/homepage-doctors";
+import { HOMEPAGE_DOCTOR_IDS, HOMEPAGE_DOCTOR_LIMIT, selectHomepageDoctors } from "@/data/homepage-doctors";
 import type { AsiaLang } from "@/lib/asia-i18n";
 
 const mock = vi.hoisted(() => ({ fetch: vi.fn(), photos: vi.fn(), filter: vi.fn(), order: vi.fn() }));
@@ -83,11 +83,14 @@ describe("published-only first doctor render", () => {
     expect(result.current.doctors[0].name).toBe("Dr. Wu Hao");
   });
 
-  it("keeps the chosen six in the same order and omits unpublished/removed records", () => {
-    const chosen = HOMEPAGE_DOCTOR_IDS.map((id) => ({ ...doctor, id }));
-    const shuffled = [{ ...doctor, id: "new-unselected-profile" }, ...chosen.slice().reverse()];
-    expect(selectHomepageDoctors(shuffled).map((item) => item.id)).toEqual(HOMEPAGE_DOCTOR_IDS);
-    expect(selectHomepageDoctors(shuffled.filter((item) => item.id !== chosen[0].id)).map((item) => item.id)).toEqual(HOMEPAGE_DOCTOR_IDS.slice(1));
+  it("shows the final six published profiles in the same order as the doctor directory", () => {
+    const directory = Array.from({ length: 10 }, (_, index) => ({ ...doctor, id: `doctor-${index}` }));
+    expect(selectHomepageDoctors(directory).map((item) => item.id)).toEqual(
+      directory.slice(-HOMEPAGE_DOCTOR_LIMIT).map((item) => item.id),
+    );
+    expect(selectHomepageDoctors(directory.slice(0, 4)).map((item) => item.id)).toEqual(
+      directory.slice(0, 4).map((item) => item.id),
+    );
     expect(selectHomepageDoctors([])).toEqual([]);
   });
 });
