@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, MapPin, RotateCcw, Stethoscope } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { HOMEPAGE_DOCTOR_PORTRAIT_OFFSETS } from "@/data/homepage-doctors";
+import { HOMEPAGE_DOCTOR_PORTRAIT_FRAMING } from "@/data/homepage-doctors";
 
 export type DoctorFlipCardData = {
   id: string;
@@ -49,6 +49,7 @@ export function DoctorFlipCard({
   const isFlipped = isHovered || isManuallyFlipped;
   const profileHref = doctor.demo ? `/doctors/demo/${doctor.id}` : `/doctors/profile/${doctor.id}`;
   const bio = doctor.bio?.trim() || bioFallback;
+  const portrait = HOMEPAGE_DOCTOR_PORTRAIT_FRAMING[doctor.id];
 
   useEffect(() => {
     if (!focusAfterFlipRef.current) return;
@@ -80,7 +81,7 @@ export function DoctorFlipCard({
           )}
           aria-hidden={isFlipped}
         >
-          <div className="relative flex h-[250px] shrink-0 items-center justify-center overflow-hidden bg-white">
+          <div className="relative flex h-[250px] shrink-0 items-center justify-center overflow-hidden bg-card">
             {doctor.photo ? (
               <img
                 src={doctor.photo}
@@ -88,7 +89,7 @@ export function DoctorFlipCard({
                 loading="lazy"
                 decoding="async"
                 className="h-full w-auto max-w-none shrink-0 object-contain object-center"
-                style={{ transform: `translateX(${HOMEPAGE_DOCTOR_PORTRAIT_OFFSETS[doctor.id] ?? 0}%)` }}
+                style={{ transform: `translate(${portrait?.x ?? 0}%, ${portrait?.y ?? 0}%) scale(${portrait?.scale ?? 1})` }}
               />
             ) : (
               <div className="grid size-full place-items-center text-primary">
