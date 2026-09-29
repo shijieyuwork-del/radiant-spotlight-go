@@ -24,6 +24,17 @@ const PAGE_SIZE = 9;
 // not part of the public doctor directory payload or card presentation.
 type DirectoryDoctor = PublishedDoctor;
 
+const FEATURED_DOCTOR_ORDER = [
+  ["li lin", "李林"],
+  ["xun wang", "王洵"],
+];
+
+const featuredDoctorRank = (doctor: DirectoryDoctor) => {
+  const name = doctor.name.trim().toLowerCase();
+  const rank = FEATURED_DOCTOR_ORDER.findIndex((aliases) => aliases.some((alias) => name.includes(alias)));
+  return rank === -1 ? FEATURED_DOCTOR_ORDER.length : rank;
+};
+
 const Experts = () => {
   const { t, lang } = useAsia();
   const c = <T,>(en: T, zh: T, ru: T, es?: T, th?: T, ms?: T) => asiaCopy(lang, { en, zh, ru, es, th, ms });
@@ -67,7 +78,11 @@ const Experts = () => {
 
   const sortedDoctors = useMemo(() => {
     const arr = [...visibleDirectoryDoctors];
-    if (sort === "hot") {
+    if (sort === "recommended") {
+      // Keep the two requested featured experts first; preserve the existing
+      // order of every other profile.
+      arr.sort((a, b) => featuredDoctorRank(a) - featuredDoctorRank(b));
+    } else if (sort === "hot") {
       // 已发布的真实专家排在示例资料前
       arr.sort((a, b) => Number(!b.demo) - Number(!a.demo));
     } else if (sort === "latest") {
