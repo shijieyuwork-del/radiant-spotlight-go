@@ -164,7 +164,7 @@ const HeroVideoGallery = ({ items, lang, size = "default", layout = "rail" }: He
             {visibleItems.map((item, index) => {
               const offset = index - (visibleItems.length - 1) / 2;
               return (
-                <div key={item.id} className="hero-arc__slot" style={{ "--arc-offset": offset, "--arc-distance": Math.abs(offset) } as CSSProperties}>
+                <div key={item.id} className="hero-arc__slot" style={{ "--arc-offset": offset, "--arc-distance": Math.abs(offset), "--arc-index": index } as CSSProperties}>
                   <GalleryCard item={item} lang={lang} onPlay={openPlayer} size="default" priority={index < 3} cinematic />
                 </div>
               );

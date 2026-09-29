@@ -24,6 +24,7 @@
   background:
     radial-gradient(ellipse at 0% 0%, hsl(var(--primary) / 0.13), transparent 47%),
     radial-gradient(ellipse at 92% 76%, hsl(var(--primary) / 0.08), transparent 40%);
+  animation: cinematic-light-drift 12s ease-in-out infinite alternate;
 }
 
 .cinematic-hero__content { position: relative; margin-inline: auto; max-width: 92rem; }
@@ -32,6 +33,7 @@
   background: hsl(var(--accent));
   color: hsl(var(--accent-foreground));
   font-weight: 600;
+  animation: cinematic-rise-in 340ms cubic-bezier(0.22, 1, 0.36, 1) 40ms both;
 }
 .cinematic-hero__badge svg { color: currentColor; }
 .cinematic-hero__title {
@@ -43,6 +45,7 @@
   letter-spacing: -0.045em;
   color: hsl(var(--cinema-text));
   text-wrap: balance;
+  animation: cinematic-rise-in 400ms cubic-bezier(0.22, 1, 0.36, 1) 100ms both;
 }
 .cinematic-hero__title em { color: hsl(var(--cinema-highlight)); }
 .cinematic-hero__subtitle {
@@ -51,8 +54,12 @@
   font-size: clamp(0.9375rem, 1.35vw, 1.125rem);
   line-height: 1.65;
   color: hsl(var(--cinema-muted));
+  animation: cinematic-rise-in 400ms cubic-bezier(0.22, 1, 0.36, 1) 160ms both;
 }
-.cinematic-hero__actions { margin-top: 1.75rem; }
+.cinematic-hero__actions {
+  margin-top: 1.75rem;
+  animation: cinematic-rise-in 400ms cubic-bezier(0.22, 1, 0.36, 1) 220ms both;
+}
 .cinematic-hero__secondary {
   border-color: hsl(var(--cinema-highlight) / 0.4);
   color: hsl(var(--cinema-text));
@@ -63,7 +70,10 @@
   color: hsl(var(--cinema-text));
   background: hsl(var(--primary) / 0.12);
 }
-.cinematic-hero__policy { color: hsl(var(--cinema-muted)); }
+.cinematic-hero__policy {
+  color: hsl(var(--cinema-muted));
+  animation: cinematic-rise-in 400ms cubic-bezier(0.22, 1, 0.36, 1) 280ms both;
+}
 .cinematic-hero__policy a:hover { color: hsl(var(--cinema-text)); }
 .cinematic-hero__gallery { margin-top: 2rem; }
 .cinematic-hero__services {
@@ -89,7 +99,11 @@
   overscroll-behavior-x: contain;
 }
 .hero-arc::-webkit-scrollbar { display: none; }
-.hero-arc__slot { flex: 0 0 min(66vw, 17rem); scroll-snap-align: start; }
+.hero-arc__slot {
+  flex: 0 0 min(66vw, 17rem);
+  scroll-snap-align: start;
+  animation: hero-card-arrive 400ms cubic-bezier(0.22, 1, 0.36, 1) calc(300ms + var(--arc-index) * 55ms) both;
+}
 .hero-arc__card {
   width: 100%;
   aspect-ratio: 9 / 14;
@@ -97,6 +111,7 @@
   border-color: hsl(var(--cinema-text) / 0.2);
   touch-action: manipulation;
   transition: transform 140ms cubic-bezier(0.22, 1, 0.36, 1);
+  animation: hero-card-float 5.5s ease-in-out calc(850ms + var(--arc-index) * 120ms) infinite alternate;
 }
 .hero-arc__card .hero-gallery-eyebrow { display: none; }
 .hero-arc__card .hero-gallery-play > span { width: 2.5rem; height: 2.5rem; }
@@ -106,6 +121,26 @@
 .hero-cinema-gallery .hero-cinema-gallery__more { text-align: center; }
 .hero-cinema-gallery__more a { min-height: 2.75rem; color: hsl(var(--cinema-muted)); }
 .hero-cinema-gallery__more a:hover { color: hsl(var(--cinema-text)); }
+
+@keyframes cinematic-rise-in {
+  from { opacity: 0; translate: 0 1.5rem; scale: 0.98; }
+  to { opacity: 1; translate: 0 0; scale: 1; }
+}
+
+@keyframes cinematic-light-drift {
+  from { transform: translate3d(-1.5%, -1%, 0) scale(1.02); }
+  to { transform: translate3d(1.5%, 1%, 0) scale(1.08); }
+}
+
+@keyframes hero-card-arrive {
+  from { opacity: 0; translate: 0 3rem; scale: 0.82; }
+  to { opacity: 1; translate: 0 0; scale: 1; }
+}
+
+@keyframes hero-card-float {
+  from { translate: 0 0; }
+  to { translate: 0 -0.4rem; }
+}
 
 /* Preserve all existing navigation/account controls in a floating shell. */
 .home-water-page .home-floating-nav {
@@ -165,11 +200,18 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .hero-arc__card:hover { transform: translateY(-0.5rem); }
+  .hero-arc__card:hover { animation-play-state: paused; transform: translateY(-0.5rem); }
 }
 @media (prefers-reduced-motion: reduce) {
+  .cinematic-hero__light,
+  .cinematic-hero__badge,
+  .cinematic-hero__title,
+  .cinematic-hero__subtitle,
+  .cinematic-hero__actions,
+  .cinematic-hero__policy,
+  .hero-arc__slot,
   .hero-arc__card,
-  .hero-arc__card * { transition: none; }
+  .hero-arc__card * { animation: none; transition: none; }
   .hero-arc__card:hover,
   .hero-arc__card:active { transform: none; }
 }
