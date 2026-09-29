@@ -3,12 +3,15 @@
  *
  * 覆盖矩阵：
  *   角色          doctors / videos                profiles                storage
- *   anon          只能读 published；写操作全拒     完全不可读               不能上传；只列出 published 关联文件
+ *   anon          只能读 published；写操作全拒     完全不可读               不能上传/列出文件；已发布素材走授权接口
  *   authenticated 同 anon（非管理员无写权限）      只能读/改自己的那一行     同 anon
  *   admin         全部权限（需真实管理员凭据，见下）
  *
  * 运行：
  *   bunx vitest run src/test/rls.test.ts
+ *
+ * 注意：本文件含真实写入/删除探测，只能对隔离的测试数据库运行。
+ * 生产环境只读检查：node scripts/audit-media-storage-access.mjs
  *
  * 默认以匿名身份跑全部用例。如提供测试用户凭据（一个普通注册用户），
  * 会额外跑 authenticated 用例：
@@ -103,21 +106,13 @@ describe("RLS: anon 匿名角色", () => {
     expect(error).not.toBeNull();
   });
 
-  it("storage: 匿名列表只能看到与 published 记录关联的文件", async () => {
-    const publishedDoctors = await anon.from("doctors").select("photo_path").not("photo_path", "is", null);
-    const publishedVideos = await anon.from("videos").select("storage_path").not("storage_path", "is", null);
-    const photos = await anon.storage.from("doctor-photos").list();
-    const videos = await anon.storage.from("short-videos").list();
-    expect(photos.error).toBeNull();
-    expect(videos.error).toBeNull();
-
-    // list() 在桶根目录返回文件名或首级文件夹名；每一项都必须能追溯到
-    // 匿名角色可见（即 published）的医生或视频记录。
-    const allowedPhotoRoots = new Set((publishedDoctors.data ?? []).map((row) => row.photo_path?.split("/")[0]).filter(Boolean));
-    const allowedVideoRoots = new Set((publishedVideos.data ?? []).map((row) => row.storage_path?.split("/")[0]).filter(Boolean));
-    for (const item of photos.data ?? []) expect(allowedPhotoRoots.has(item.name)).toBe(true);
-    for (const item of videos.data ?? []) expect(allowedVideoRoots.has(item.name)).toBe(true);
-  });
+  it.each(["doctor-photos", "short-videos", "video-covers", "before-after", "clinic-photos"])(
+    "storage: 匿名不能直接列出 %s 文件", async (bucket) => {
+      const listing = await anon.storage.from(bucket).list();
+      expect(listing.error).toBeNull();
+      expect(listing.data).toEqual([]);
+    },
+  );
 
   it("storage: 匿名不能为无 published 关联的文件生成签名 URL", async () => {
     const { data, error } = await anon.storage
