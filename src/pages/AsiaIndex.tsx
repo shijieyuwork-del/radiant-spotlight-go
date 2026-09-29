@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import Footer from "@/components/Footer";
 import AsiaNavbar from "@/components/AsiaNavbar";
-import PatientVideoWall from "@/components/home/PatientVideoWall";
+import HomeBeforeAfterGallery from "@/components/home/HomeBeforeAfterGallery";
 import HeroVideoGallery from "@/components/HeroVideoGallery";
 import HeroAmbientBackground from "@/components/HeroAmbientBackground";
 import { usePublishedVideos } from "@/hooks/use-published-videos";
@@ -214,15 +214,6 @@ const Hero = () => {
           pricing: translatedUiText(lang, "Aftercare support"),
           pricingDetail: translatedUiText(lang, "Coordinated support throughout recovery"),
         };
-  const diariesHeading = lang === "zh"
-    ? { title: "患者恢复日记，", emphasis: "帮助你做功课" }
-    : lang === "ru"
-      ? { title: "Дневники восстановления пациентов — ", emphasis: "изучите до выбора" }
-      : lang === "es"
-        ? { title: "Diarios de recuperación de pacientes, ", emphasis: "antes de elegir" }
-        : lang === "vi"
-          ? { title: "Nhật ký hồi phục của bệnh nhân, ", emphasis: "giúp bạn tìm hiểu trước khi chọn" }
-          : { title: translatedUiText(lang, "Patient recovery diaries"), emphasis: "" };
   return (
     <section className="hero-motion relative overflow-hidden">
       <div className="cinematic-hero">
@@ -281,30 +272,7 @@ const Hero = () => {
 
         </div>
       </div>
-      <div className="patient-diaries-band relative py-12 sm:py-16 md:py-20">
-        <div className="container">
-          <div className="w-full">
-            <div className="mb-6 flex flex-col items-start justify-between gap-4 px-1 sm:flex-row sm:items-end md:mb-8">
-              <div>
-                <span className="inline-flex items-center gap-1.5 text-label font-bold uppercase tracking-[0.16em] text-[hsl(var(--diary-accent))]">
-                  <Sparkles className="size-3.5" /> {lang === "zh" ? "我们的核心优势" : lang === "ru" ? "Наше главное отличие" : lang === "es" ? "Nuestra mayor diferencia" : translatedUiText(lang, "Our biggest difference")}
-                </span>
-                <h2 className="mt-2 max-w-4xl font-display text-3xl font-medium leading-tight tracking-tight sm:text-4xl md:text-5xl">
-                  {diariesHeading.title}
-                  {diariesHeading.emphasis && <em className="not-italic text-[hsl(var(--diary-accent))]">{diariesHeading.emphasis}</em>}
-                </h2>
-              </div>
-              <Link
-                to="/cases"
-                className="inline-flex min-h-11 w-full shrink-0 items-center justify-center gap-1.5 rounded-full border border-[hsl(var(--diary-accent))] px-5 py-2.5 text-sm font-bold text-[hsl(var(--diary-ink))] transition-colors hover:bg-[hsl(var(--diary-frame))] sm:w-auto sm:text-xs"
-              >
-                {lang === "zh" ? "浏览全部日记" : lang === "ru" ? "Все дневники" : lang === "es" ? "Ver todos los diarios" : translatedUiText(lang, "Explore all diaries")} <ArrowRight className="size-3.5" />
-              </Link>
-            </div>
-            <PatientVideoWall items={diaryItems.slice(0, 12)} lang={lang} fmtPrice={fmt} />
-          </div>
-        </div>
-      </div>
+      <HomeBeforeAfterGallery />
     </section>
   );
 };
