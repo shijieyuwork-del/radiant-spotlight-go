@@ -63,9 +63,9 @@ describe("concise homepage doctor cards", () => {
   });
 
   it("uses the premium environment portraits for the three published experts", () => {
-    expect(DOCTOR_PORTRAIT_RETOUCHES["6c64e796-bbc8-4500-8d28-53e191d3d1aa"].photo).toBe("/images/doctors/premium-bg-v1/ning-jin.webp");
-    expect(DOCTOR_PORTRAIT_RETOUCHES["19cfa4fc-8608-4d98-b20e-beaebff32bc4"].photo).toBe("/images/doctors/premium-bg-v1/li-lin.webp");
-    expect(DOCTOR_PORTRAIT_RETOUCHES["65658e20-07d8-40d3-b366-edc0cf016542"].photo).toBe("/images/doctors/premium-bg-v1/xun-wang.webp");
+    expect(DOCTOR_PORTRAIT_RETOUCHES["6c64e796-bbc8-4500-8d28-53e191d3d1aa"].photo).toBe("/images/doctors/premium-bg-v2/ning-jin.webp");
+    expect(DOCTOR_PORTRAIT_RETOUCHES["19cfa4fc-8608-4d98-b20e-beaebff32bc4"].photo).toBe("/images/doctors/premium-bg-v2/li-lin.webp");
+    expect(DOCTOR_PORTRAIT_RETOUCHES["65658e20-07d8-40d3-b366-edc0cf016542"].photo).toBe("/images/doctors/premium-bg-v2/xun-wang.webp");
   });
 
   it.each([
