@@ -45,10 +45,10 @@ describe("concise homepage doctor cards", () => {
   it.each([
     ["78b0fec5-0a51-4b54-88bf-a5de66e0c67e", -6, 0, 1],
     ["64a2b418-ea5a-4ef5-9655-37bfac12b42d", 1, 6, 1],
-    ["313fb63c-2904-44d7-b12d-2447c0ea1ce1", 12, 5, 1],
-    ["c4188a03-c11e-4543-8deb-ea91c6dd5e85", 6, 5, 1],
-    ["e1be754d-aa22-4ca6-913e-ed1ceab3cd8b", 1, 4, 1],
-    ["3676bf83-40ed-4503-bca2-e9184062384e", 38, 5, 1.12],
+    ["313fb63c-2904-44d7-b12d-2447c0ea1ce1", 6, 5, 1],
+    ["c4188a03-c11e-4543-8deb-ea91c6dd5e85", 1, 9, 1],
+    ["e1be754d-aa22-4ca6-913e-ed1ceab3cd8b", 5, 4, 1],
+    ["3676bf83-40ed-4503-bca2-e9184062384e", 27, 2, 1.12],
   ])("optically centers the original portrait for %s", (id, x, y, scale) => {
     renderCard({ id: String(id) });
     expect(screen.getByRole("img", { name: doctor.name })).toHaveStyle({ transform: `translate(${x}%, ${y}%) scale(${scale})` });
