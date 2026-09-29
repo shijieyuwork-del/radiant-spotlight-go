@@ -38,6 +38,13 @@ const featuredDoctorRank = (doctor: DirectoryDoctor) => {
 const Experts = () => {
   const { t, lang } = useAsia();
   const c = <T,>(en: T, zh: T, ru: T, es?: T, th?: T, ms?: T) => asiaCopy(lang, { en, zh, ru, es, th, ms });
+  const cityOption = (value: string) => {
+    const normalized = value.trim().toLowerCase();
+    const known = CITIES.find((item) => item.en.toLowerCase() === normalized || item.zh === value.trim());
+    return known
+      ? { key: known.en, label: lang === "zh" ? known.zh : known.en }
+      : { key: value.trim(), label: value.trim() };
+  };
   const compactSpecialtyLabels = (specialties: string[]) => {
     const areas = [
       { pattern: /rhino|nose|nasal|alar|sept|鼻/i, label: c("Rhinoplasty", "鼻整形", "Ринопластика", "Rinoplastia") },
@@ -59,10 +66,18 @@ const Experts = () => {
   const { doctors: directoryDoctors, status: directoryStatus, refresh: loadManagedDoctors } = usePublishedDoctors(lang);
   const cities = useMemo(() => {
     const set = new Map<string, string>();
-    directoryDoctors.forEach((d) => { if (d.city) set.set(d.city, d.city); });
-    if (city !== "all" && !set.has(city)) set.set(city, city);
+    directoryDoctors.forEach((doctor) => {
+      if (!doctor.city) return;
+      const option = cityOption(doctor.city);
+      set.set(option.key, option.label);
+    });
+    if (city !== "all") {
+      const option = cityOption(city);
+      if (!set.has(option.key)) set.set(option.key, option.label);
+    }
     return Array.from(set, ([key, label]) => ({ key, label }));
-  }, [directoryDoctors, city]);
+  }, [directoryDoctors, city, lang]);
+  const activeCityKey = city === "all" ? "all" : cityOption(city).key;
 
   /** 专家资料里的城市是自由文本，匹配时同时认英文名与中文名 */
   const matchesCity = (docCity: string | undefined, filter: string) => {
@@ -178,7 +193,7 @@ const Experts = () => {
               {t("cases.tabAll")}
             </Button>
             {cities.map((c) => (
-              <Button key={c.key} variant={city === c.key ? "default" : "outline"} size="sm" className="rounded-full" onClick={() => setCity(c.key)}>
+              <Button key={c.key} variant={activeCityKey === c.key ? "default" : "outline"} size="sm" className="rounded-full" onClick={() => setCity(c.key)}>
                 {c.label}
               </Button>
             ))}

@@ -104,6 +104,17 @@ describe("expert directory states", () => {
     expect(screen.getByRole("heading", { name: "Published Expert" })).toBeInTheDocument();
   });
 
+  it("merges Chinese and English aliases into one city filter", async () => {
+    mocks.list.mockResolvedValue({
+      data: [expert, { ...expert, id: "published-expert-zh-city", name: "Second Expert", city: "上海" }],
+      error: null,
+    });
+    renderPage(<Doctors />, "/doctors");
+    await screen.findByRole("heading", { name: "Published Expert" });
+    expect(screen.getAllByRole("button", { name: "Shanghai" })).toHaveLength(1);
+    expect(screen.queryByRole("button", { name: "上海" })).not.toBeInTheDocument();
+  });
+
   it("keeps an empty published directory empty rather than substituting demo profiles", async () => {
     mocks.list.mockResolvedValue({ data: [], error: null });
     renderPage(<Doctors />, "/doctors");
