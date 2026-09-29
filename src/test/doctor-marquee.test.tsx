@@ -64,14 +64,11 @@ describe("homepage doctor marquee", () => {
     expect(disconnect).toHaveBeenCalled();
   });
 
-  it("lets the visitor pause and resume the continuous loop", () => {
+  it("keeps the continuous loop running without a visible pause control", () => {
     const { container } = render(view());
     intersect(true);
-    fireEvent.click(screen.getByRole("button", { name: "Pause scrolling" }));
-    expect(container.querySelector(".doctor-marquee__track")).toHaveAttribute("data-running", "false");
-    expect(screen.getByRole("button", { name: "Resume scrolling" })).toHaveAttribute("aria-pressed", "true");
-    fireEvent.click(screen.getByRole("button", { name: "Resume scrolling" }));
     expect(container.querySelector(".doctor-marquee__track")).toHaveAttribute("data-running", "true");
+    expect(screen.queryByRole("button", { name: "Pause scrolling" })).not.toBeInTheDocument();
   });
 
   it("provides a stationary native scroller for keyboard browsing", () => {

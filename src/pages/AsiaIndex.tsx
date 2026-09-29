@@ -1371,7 +1371,7 @@ const DoctorsSection = () => {
   // Loop the same six published profiles in one row; the full directory stays on /doctors.
   const homepageDoctors = selectHomepageDoctors(publishedDoctors);
   return (
-    <HomeSection id="compliance" tone="white" ariaLabelledBy="home-doctors-title">
+    <HomeSection id="compliance" tone="white" ariaLabelledBy="home-doctors-title" className="py-12 md:py-16">
       <SectionHeader
         icon={Stethoscope}
         eyebrow={t("doctors.kicker")}

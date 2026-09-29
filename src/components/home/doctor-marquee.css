@@ -64,6 +64,5 @@
   .doctor-marquee__track,
   .doctor-marquee__track[data-running="true"] { animation: none; transform: none; will-change: auto; }
   .doctor-marquee__viewport { overflow-x: auto; }
-  .doctor-marquee__group[aria-hidden="true"],
-  .doctor-marquee__controls { display: none; }
+  .doctor-marquee__group[aria-hidden="true"] { display: none; }
 }
