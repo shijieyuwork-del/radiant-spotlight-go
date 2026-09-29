@@ -28,12 +28,12 @@
 
 .cinematic-hero__content { position: relative; margin-inline: auto; max-width: 92rem; }
 .cinematic-hero__badge {
-  border: 1px solid hsl(var(--cinema-text) / 0.18);
-  background: hsl(var(--background) / 0.75);
-  color: hsl(var(--cinema-text));
-  font-weight: 500;
+  border: 1px solid hsl(var(--accent));
+  background: hsl(var(--accent));
+  color: hsl(var(--accent-foreground));
+  font-weight: 600;
 }
-.cinematic-hero__badge svg { color: hsl(var(--cinema-highlight)); }
+.cinematic-hero__badge svg { color: currentColor; }
 .cinematic-hero__title {
   max-width: 18ch;
   margin: 1.5rem auto 0;
