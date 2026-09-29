@@ -18,10 +18,10 @@ beforeEach(() => { state.items = photos(); state.loading = false; state.lang = "
 afterEach(cleanup);
 
 describe("homepage before and after photos", () => {
-  it("replaces video previews with six published photo sets in two columns / three rows", () => {
+  it("shows six published photo sets in three columns / two rows without white letterboxing", () => {
     const { container } = gallery();
     const grid = screen.getByTestId("home-before-after-grid");
-    expect(grid).toHaveClass("grid-cols-2");
+    expect(grid).toHaveClass("grid-cols-3");
     expect(within(grid).getAllByRole("article")).toHaveLength(6);
     expect(within(grid).getAllByRole("img")).toHaveLength(6);
     expect(within(grid).queryByText("Photo set 6")).not.toBeInTheDocument();
@@ -29,7 +29,14 @@ describe("homepage before and after photos", () => {
     expect(screen.getByRole("link", { name: "View all photos" })).toHaveAttribute("href", "/before-after");
     expect(screen.queryByRole("button", { name: /play/i })).not.toBeInTheDocument();
     expect(container.querySelector("video")).toBeNull();
-    within(grid).getAllByRole("img").forEach((img) => expect(img).toHaveClass("object-contain"));
+    within(grid).getAllByRole("img").forEach((img) => {
+      expect(img).toHaveClass("w-full", "h-auto");
+      expect(img).not.toHaveClass("object-cover");
+    });
+    within(grid).getAllByRole("button").forEach((button) => {
+      expect(button).toHaveClass("bg-transparent");
+      expect(button).not.toHaveClass("bg-white", "aspect-[16/10]");
+    });
   });
 
   it("opens the actual comparison image and returns focus to its thumbnail after close", async () => {

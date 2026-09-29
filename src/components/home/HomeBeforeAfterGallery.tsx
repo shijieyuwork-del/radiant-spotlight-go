@@ -6,7 +6,7 @@ import { usePublishedBeforeAfter, type BeforeAfterRow } from "@/hooks/use-before
 import { useAsia } from "@/lib/asia-i18n";
 import { asiaCopy } from "@/lib/asia-copy";
 
-/** Six published photo sets, in two columns and three rows; never video/demo covers. */
+/** Six published photo sets in three columns and two rows, with edge-to-edge original photos. */
 export default function HomeBeforeAfterGallery() {
   const { lang } = useAsia();
   const { items, loading } = usePublishedBeforeAfter(lang);
@@ -20,7 +20,7 @@ export default function HomeBeforeAfterGallery() {
   const imageSet = (item: BeforeAfterRow, expanded = false) => {
     const single = item.before_path === item.after_path;
     return (
-      <div className={`grid size-full ${single ? "grid-cols-1" : "grid-cols-2 gap-1"}`}>
+      <div className={`grid ${expanded ? "size-full" : "w-full items-start"} ${single ? "grid-cols-1" : "grid-cols-2"}`}>
         {(single ? [item.beforeUrl] : [item.beforeUrl, item.afterUrl]).map((src, index) => (
           <div key={index} className="relative min-h-0 min-w-0">
             <img
@@ -28,7 +28,7 @@ export default function HomeBeforeAfterGallery() {
               alt={`${item.title} — ${single ? title : index === 0 ? c("Before", "术前", "До", "Antes") : c("After", "术后", "После", "Después")}`}
               loading={expanded ? "eager" : "lazy"}
               decoding="async"
-              className="size-full object-contain"
+              className={expanded ? "size-full object-contain" : "block h-auto w-full"}
             />
             {!single && <span className="absolute bottom-2 left-2 rounded-full bg-white/95 px-2 py-1 text-xs font-semibold text-foreground">
               {index === 0 ? c("Before", "术前", "До", "Antes") : c("After", "术后", "После", "Después")}
@@ -57,24 +57,24 @@ export default function HomeBeforeAfterGallery() {
         {loading ? (
           <div role="status" aria-busy="true">
             <span className="sr-only">{c("Loading photos…", "正在加载照片…", "Загрузка фотографий…", "Cargando fotos…")}</span>
-            <div className="grid grid-cols-2 gap-x-3 gap-y-6 sm:gap-x-6 sm:gap-y-10" aria-hidden="true">
-              {Array.from({ length: 6 }, (_, index) => <div key={index} className="aspect-[16/10] rounded-2xl bg-primary/10" />)}
+            <div className="grid grid-cols-3 gap-x-3 gap-y-6 sm:gap-x-6 sm:gap-y-10" aria-hidden="true">
+              {Array.from({ length: 6 }, (_, index) => <div key={index} className="aspect-[2/3] rounded-2xl bg-primary/10" />)}
             </div>
           </div>
         ) : photos.length === 0 ? (
           <p role="status" className="py-8 text-muted-foreground">{c("No photo sets available yet.", "暂时没有可展示的对比照片。", "Фотографии пока недоступны.", "Aún no hay fotos disponibles.")}</p>
         ) : (
-          <div className="grid grid-cols-2 gap-x-3 gap-y-6 sm:gap-x-6 sm:gap-y-10" data-testid="home-before-after-grid">
+          <div className="grid grid-cols-3 items-start gap-x-3 gap-y-6 sm:gap-x-6 sm:gap-y-10" data-testid="home-before-after-grid">
             {photos.map((item) => (
               <article key={item.id} className="min-w-0">
                 <button
                   type="button"
                   aria-label={`${enlarge}: ${item.title}`}
                   aria-haspopup="dialog"
-                  className="group relative block aspect-[16/10] w-full overflow-hidden rounded-2xl bg-white shadow-soft outline outline-1 -outline-offset-1 outline-black/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand sm:rounded-3xl"
+                  className="group relative block w-full overflow-hidden rounded-2xl bg-transparent shadow-soft outline outline-1 -outline-offset-1 outline-black/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand sm:rounded-3xl"
                   onClick={(event) => { opener.current = event.currentTarget; setSelected(item); }}
                 >
-                  <div className="absolute inset-0">{imageSet(item)}</div>
+                  {imageSet(item)}
                   <span className="absolute right-2 top-2 grid size-8 place-items-center rounded-full bg-white/90 text-foreground sm:right-3 sm:top-3" aria-hidden="true"><Maximize2 className="size-4" /></span>
                 </button>
                 <h3 className="mt-3 text-sm font-semibold leading-snug text-foreground sm:text-lg">{item.title}</h3>
