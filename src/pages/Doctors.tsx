@@ -16,6 +16,7 @@ import { Highlight } from "@/components/HighlightText";
 import { Pagination, SortChips } from "@/components/ListControls";
 import { cityCoordsOf, haversineKm, useUserLocation } from "@/lib/geo";
 import { useDirectoryReturnPosition, useDirectoryState } from "@/hooks/use-directory-state";
+import { getDirectoryDoctorPortraitRetouch } from "@/data/directory-doctor-portrait-retouches";
 
 const PAGE_SIZE = 9;
 
@@ -216,12 +217,13 @@ const Experts = () => {
             ) : (
             <div className="grid gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
               {pagedDoctors.map((d) => {
-                const photo = d.photo;
+                const portraitRetouch = getDirectoryDoctorPortraitRetouch(d);
+                const photo = portraitRetouch?.photo || d.photo;
                 return (
                   <article key={d.id} className="flex min-h-0 flex-col rounded-3xl bg-card p-5 shadow-pop transition hover:shadow-glow md:min-h-[25rem] md:p-6">
                     <div className="flex gap-4">
                       {photo
-                        ? <span className="block size-28 shrink-0 overflow-hidden rounded-full border-2 border-primary/15 bg-card md:size-24"><img src={photo} alt={d.name} className={`size-full object-cover object-center ${/\/(?:fu-013|fu-016)\.webp$/.test(d.photo_path ?? "") ? "translate-x-[30%]" : /\/(?:fu-018|fu-008|guimeishi-013)\.webp$/.test(d.photo_path ?? "") ? "translate-x-[12%]" : ""}`} /></span>
+                        ? <span className={`block size-28 shrink-0 overflow-hidden rounded-full border-2 border-primary/15 md:size-24 ${portraitRetouch ? "bg-[#e7e7e7]" : "bg-card"}`}><img src={photo} alt={d.name} className={`size-full object-cover object-center ${/\/(?:fu-013|fu-016)\.webp$/.test(d.photo_path ?? "") ? "translate-x-[30%]" : /\/(?:fu-018|fu-008|guimeishi-013)\.webp$/.test(d.photo_path ?? "") ? "translate-x-[12%]" : ""}`} /></span>
                         : <div className="grid size-28 shrink-0 place-items-center rounded-full bg-muted md:size-24"><Stethoscope /></div>}
                       <div className="min-w-0">
                         <h3 className="font-display text-xl font-semibold leading-tight"><Highlight text={d.name} query={q} /></h3>

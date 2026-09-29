@@ -23,6 +23,7 @@ import CoverVideo from "@/components/CoverVideo";
 import { useAsia } from "@/lib/asia-i18n";
 import BeforeAfterCard from "@/components/BeforeAfterCard";
 import { usePublishedBeforeAfter } from "@/hooks/use-before-after";
+import { getDirectoryDoctorPortraitRetouch } from "@/data/directory-doctor-portrait-retouches";
 
 type Doctor = {
   id: string;
@@ -73,7 +74,8 @@ const ManagedDoctorDetail = () => {
           data as Record<string, unknown>,
           lang,
         ) as unknown as Doctor;
-        const nextPhoto = await signedUrl("doctor-photos", (data as Doctor).photo_path);
+        const nextPhoto = getDirectoryDoctorPortraitRetouch(nextDoctor)?.photo
+          || await signedUrl("doctor-photos", (data as Doctor).photo_path);
         if (cancelled) return;
         const r = await supabase
           .from("videos")
