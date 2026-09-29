@@ -221,7 +221,7 @@ const Experts = () => {
                   <article key={d.id} className="flex min-h-0 flex-col rounded-3xl bg-card p-5 shadow-pop transition hover:shadow-glow md:min-h-[25rem] md:p-6">
                     <div className="flex gap-4">
                       {photo
-                        ? <img src={photo} alt={d.name} className="size-28 shrink-0 rounded-full border-2 border-primary/15 object-cover md:size-24" />
+                        ? <span className="block size-28 shrink-0 overflow-hidden rounded-full border-2 border-primary/15 bg-card md:size-24"><img src={photo} alt={d.name} className={`size-full object-cover object-center ${/\/(?:fu-013|fu-016)\.webp$/.test(d.photo_path ?? "") ? "translate-x-[17%]" : ""}`} /></span>
                         : <div className="grid size-28 shrink-0 place-items-center rounded-full bg-muted md:size-24"><Stethoscope /></div>}
                       <div className="min-w-0">
                         <h3 className="font-display text-xl font-semibold leading-tight"><Highlight text={d.name} query={q} /></h3>
