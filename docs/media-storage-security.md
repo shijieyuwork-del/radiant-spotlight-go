@@ -50,9 +50,12 @@ their expiry. This change does not retroactively revoke those URLs.
 - The live homepage's six Before & After images loaded successfully after the
   change. TypeScript checking and the five selected read-only storage-list
   integration tests passed (36 other integration tests were intentionally skipped).
-- Lovable's Security screen no longer listed this storage finding after its
-  automatic quick scan refreshed to “Up to date”. Its separate deep scan still
-  reported an incomplete scan, and dependency findings were not part of this fix.
+- Lovable's Security screen no longer listed this storage finding and briefly
+  showed the quick scan as “Up to date”. A manual quick-scan retry after source
+  synchronization returned to “We couldn’t finish the security scan”, without
+  advancing its last-scan time. Neither that retry nor the separate incomplete
+  deep scan is counted as a completed clean scan. The access checks above are the
+  verification evidence; dependency findings were not part of this fix.
 
 The older `src/test/rls.test.ts` suite includes mutation probes and must only run
 against an isolated test database. Use the dedicated read-only script in
