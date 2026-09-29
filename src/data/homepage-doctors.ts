@@ -1,7 +1,6 @@
 import type { PublishedDoctor } from "@/hooks/use-published-doctors";
 
-// The six published profiles selected for the homepage, in the displayed order.
-// IDs, not translated names, keep the selection stable across locales and tied dates.
+// Legacy portrait framing offsets for profiles that have appeared on the homepage.
 export const HOMEPAGE_DOCTOR_IDS = [
   "78b0fec5-0a51-4b54-88bf-a5de66e0c67e", // Wu Hao
   "64a2b418-ea5a-4ef5-9655-37bfac12b42d", // Li Bing
@@ -10,6 +9,8 @@ export const HOMEPAGE_DOCTOR_IDS = [
   "e1be754d-aa22-4ca6-913e-ed1ceab3cd8b", // Zhou Hongqing
   "3676bf83-40ed-4503-bca2-e9184062384e", // Wang Peisheng
 ] as const;
+
+export const HOMEPAGE_DOCTOR_LIMIT = 6;
 
 // Optical centering of the existing square portraits. Offsets are percentages
 // of the image width, so the same framing works on desktop and the mobile rail.
@@ -23,9 +24,7 @@ export const HOMEPAGE_DOCTOR_PORTRAIT_OFFSETS: Record<string, number> = {
 };
 
 export function selectHomepageDoctors<T extends Pick<PublishedDoctor, "id">>(published: T[]): T[] {
-  // Only render records returned by the published-only API; never resurrect a withdrawn profile.
-  return HOMEPAGE_DOCTOR_IDS.flatMap((id) => {
-    const doctor = published.find((item) => item.id === id);
-    return doctor ? [doctor] : [];
-  });
+  // The doctor directory and homepage share the same published-only ordering.
+  // Show the final six profiles from that directory, preserving their visible order.
+  return published.slice(-HOMEPAGE_DOCTOR_LIMIT);
 }
