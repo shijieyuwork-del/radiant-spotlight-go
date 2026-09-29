@@ -66,10 +66,10 @@ export default function HomeBeforeAfterGallery() {
       <div className="container">
         <div className="mb-6 flex flex-col items-start justify-between gap-4 px-1 sm:flex-row sm:items-end md:mb-8">
           <div>
-            <span className="inline-flex items-center gap-1.5 text-label font-bold uppercase tracking-[0.16em] text-[hsl(var(--brand-text))]">
+            <span className="pill mb-3 bg-accent text-accent-foreground">
               <Images className="size-3.5" aria-hidden="true" />{c("Photo results", "图片对比", "Фотографии", "Fotos")}
             </span>
-            <h2 id="home-before-after-title" className="mt-2 font-display text-3xl font-medium leading-tight tracking-tight sm:text-4xl md:text-5xl">{title}</h2>
+            <h2 id="home-before-after-title" className="font-display text-3xl font-medium leading-tight tracking-tight sm:text-4xl md:text-5xl">{title}</h2>
           </div>
           <Link to="/before-after" className="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-sm font-bold text-background transition-colors hover:bg-foreground/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand">
             {c("View all photos", "查看全部照片", "Все фотографии", "Ver todas las fotos")}<ArrowRight className="size-3.5" aria-hidden="true" />
