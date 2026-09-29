@@ -1067,7 +1067,7 @@ const PricingPreviewSection = () => {
         action={<QuoteCtaButton variant="primary" className="min-h-11 shrink-0 whitespace-nowrap px-6" quoteCtx={{ source: "home_sample_pricing" }} />}
       />
 
-      <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 md:gap-6">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
         {SAMPLE_PRICES.map((item) => (
           <Link
             key={item.en}
