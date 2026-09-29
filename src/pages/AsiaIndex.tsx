@@ -1380,12 +1380,12 @@ const DoctorsSection = () => {
         action={<SectionActionLink to="/doctors" className="hidden sm:inline-flex">{allExpertsLabel}</SectionActionLink>}
       />
       {status === "loading" && (
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3" role="status" aria-busy="true">
+        <div className="flex gap-4 overflow-hidden" role="status" aria-busy="true">
           <span className="sr-only">{lang === "zh" ? "正在加载专家资料…" : translatedUiText(lang, "Loading expert profiles…")}</span>
-          {Array.from({ length: 3 }, (_, index) => (
-            <div key={index} aria-hidden="true" className={`min-h-[560px] overflow-hidden rounded-3xl border border-border bg-card ${index > 0 ? "hidden md:block" : ""}`}>
-              <div className="h-[250px] bg-primary/5" />
-              <div className="space-y-5 p-6"><div className="h-3 w-2/3 rounded bg-primary/10" /><div className="h-6 w-1/2 rounded bg-primary/10" /><div className="h-3 w-1/3 rounded bg-primary/5" /></div>
+          {Array.from({ length: 5 }, (_, index) => (
+            <div key={index} aria-hidden="true" className="min-h-[410px] w-[min(17.5rem,84vw)] shrink-0 overflow-hidden rounded-3xl border border-border bg-card">
+              <div className="h-[160px] bg-primary/5" />
+              <div className="space-y-3 p-4"><div className="h-6 w-2/3 rounded bg-primary/10" /><div className="h-3 w-1/2 rounded bg-primary/10" /><div className="h-3 w-1/3 rounded bg-primary/5" /></div>
             </div>
           ))}
         </div>

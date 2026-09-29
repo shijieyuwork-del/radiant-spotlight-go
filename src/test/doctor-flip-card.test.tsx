@@ -84,7 +84,7 @@ describe("concise homepage doctor cards", () => {
     const { container } = renderCard();
     expect(screen.getByRole("heading", { name: doctor.name })).toBeInTheDocument();
     expect(screen.getByRole("img", { name: doctor.name })).toBeInTheDocument();
-    expect(screen.getByText(doctor.title)).toBeInTheDocument();
+    expect(screen.getAllByText(doctor.title)).toHaveLength(2);
     expect(screen.getByText(marketingLine)).toBeInTheDocument();
     expect(screen.getByText(doctor.bio!)).toBeInTheDocument();
     doctor.specialties.forEach((specialty) => expect(screen.queryByText(specialty)).not.toBeInTheDocument());
@@ -96,19 +96,37 @@ describe("concise homepage doctor cards", () => {
     });
   });
 
+  it("keeps readable type and moves the longer introduction to the compact card's back", () => {
+    const { container } = renderCard();
+    const front = container.querySelector(".doctor-flip-card__face--front")!;
+    const back = container.querySelector(".doctor-flip-card__face--back")!;
+    expect(screen.getByRole("article")).toHaveClass("min-h-[410px]");
+    expect(screen.getByRole("heading", { name: doctor.name })).toHaveClass("text-[22px]");
+    expect(screen.getByRole("img").parentElement).toHaveClass("h-[160px]");
+    expect(front).not.toHaveTextContent(marketingLine);
+    expect(back).toHaveTextContent(marketingLine);
+    expect(screen.getByRole("button", { name: "Meet this expert" })).toHaveClass("size-11");
+    fireEvent.click(screen.getByRole("button", { name: "Meet this expert" }));
+    expect(screen.getByText(marketingLine)).toBeVisible();
+    expect(screen.getByText(doctor.bio!)).toBeVisible();
+  });
+
   it("preserves manual flipping, focus transfer and a single accessible face", () => {
     renderCard();
     const article = screen.getByRole("article");
     const opener = screen.getByRole("button", { name: "Meet this expert" });
+    const focus = vi.spyOn(HTMLElement.prototype, "focus");
     fireEvent.click(opener);
     expect(article).toHaveAttribute("data-flipped", "true");
     expect(screen.getByRole("button", { name: "Back to card" })).toHaveFocus();
+    expect(focus).toHaveBeenLastCalledWith({ preventScroll: true });
     expect(opener).toHaveAttribute("tabindex", "-1");
     expect(screen.getAllByRole("link")).toHaveLength(1);
     fireEvent.click(screen.getByRole("button", { name: "Back to card" }));
     expect(article).toHaveAttribute("data-flipped", "false");
     expect(opener).toHaveFocus();
     expect(screen.getAllByRole("link")).toHaveLength(1);
+    focus.mockRestore();
   });
 
   it("preserves mouse hover flipping without treating touch as hover", () => {

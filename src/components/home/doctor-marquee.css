@@ -1,5 +1,5 @@
 .doctor-marquee {
-  --doctor-gap: 1.5rem;
+  --doctor-gap: 1rem;
   container-type: inline-size;
 }
 
@@ -30,14 +30,14 @@
 .doctor-marquee__item {
   display: flex;
   flex: 0 0 auto;
-  /* Three cards on wide screens; a hint of the next card on small screens. */
-  width: max(19rem, calc((100cqw - 2 * var(--doctor-gap)) / 3));
+  /* About half the former card area without shrinking readable text. */
+  width: clamp(16.5rem, calc((100cqw - 3 * var(--doctor-gap)) / 4.25), 18rem);
 }
 
 .doctor-marquee__item > .doctor-flip-card { width: 100%; }
 
 @container (max-width: 36rem) {
-  .doctor-marquee__item { width: min(22rem, 86cqw); }
+  .doctor-marquee__item { width: min(17.5rem, 84cqw); }
 }
 
 @keyframes doctor-marquee-left {

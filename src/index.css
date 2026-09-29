@@ -282,13 +282,14 @@
     scroll-padding-inline: 0.25rem;
   }
 
-  /* Doctor cards share one grid row on desktop. The two faces stack in the same
-     grid area so the tallest back copy determines one stable, aligned height. */
+  /* The compact front determines card height; long back copy scrolls inside
+     its face instead of stretching the entire marquee. */
   .doctor-flip-card {
     perspective: 1400px;
   }
 
   .doctor-flip-card__inner {
+    position: relative;
     display: grid;
     transform-style: preserve-3d;
     transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -305,6 +306,8 @@
   }
 
   .doctor-flip-card__face--back {
+    position: absolute;
+    inset: 0;
     transform: rotateY(180deg);
   }
 

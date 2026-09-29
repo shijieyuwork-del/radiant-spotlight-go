@@ -43,7 +43,7 @@ describe("homepage doctor marquee", () => {
     expect(screen.getAllByRole("heading")).toHaveLength(6);
     expect(screen.getAllByRole("link")).toHaveLength(6);
     groups[1].querySelectorAll("a,button").forEach((control) => expect(control).toHaveAttribute("tabindex", "-1"));
-    const duplicateToggle = within(groups[1] as HTMLElement).getAllByText("Meet this expert")[0];
+    const duplicateToggle = within(groups[1] as HTMLElement).getAllByTitle("Meet this expert")[0];
     fireEvent.click(duplicateToggle);
     expect(groups[1].querySelector("article")).toHaveAttribute("data-flipped", "true");
     expect(groups[1].contains(document.activeElement)).toBe(false);
