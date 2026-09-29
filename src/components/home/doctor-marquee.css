@@ -1,25 +1,33 @@
 .doctor-marquee {
   --doctor-gap: 1rem;
+  --doctor-edge-fade: clamp(4rem, 9vw, 8rem);
   container-type: inline-size;
+  position: relative;
+}
+
+.doctor-marquee::before,
+.doctor-marquee::after {
+  position: absolute;
+  z-index: 2;
+  inset-block: 0.5rem 1rem;
+  width: var(--doctor-edge-fade);
+  content: "";
+  pointer-events: none;
+}
+
+.doctor-marquee::before {
+  inset-inline-start: 0;
+  background: linear-gradient(to right, #fff 0%, rgb(255 255 255 / 0.96) 28%, transparent 100%);
+}
+
+.doctor-marquee::after {
+  inset-inline-end: 0;
+  background: linear-gradient(to left, #fff 0%, rgb(255 255 255 / 0.96) 28%, transparent 100%);
 }
 
 .doctor-marquee__viewport {
   overflow-x: hidden;
   padding-block: 0.5rem 1rem;
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent 0,
-    #000 4.5rem,
-    #000 calc(100% - 4.5rem),
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    to right,
-    transparent 0,
-    #000 4.5rem,
-    #000 calc(100% - 4.5rem),
-    transparent 100%
-  );
 }
 
 .doctor-marquee__track {
@@ -51,11 +59,8 @@
 .doctor-marquee__item > .doctor-flip-card { width: 100%; }
 
 @container (max-width: 36rem) {
+  .doctor-marquee { --doctor-edge-fade: 2rem; }
   .doctor-marquee__item { width: min(17.5rem, 84cqw); }
-  .doctor-marquee__viewport {
-    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 1.5rem, #000 calc(100% - 1.5rem), transparent 100%);
-    mask-image: linear-gradient(to right, transparent 0, #000 1.5rem, #000 calc(100% - 1.5rem), transparent 100%);
-  }
 }
 
 @keyframes doctor-marquee-left {
