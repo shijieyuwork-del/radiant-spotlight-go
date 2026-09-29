@@ -17,6 +17,7 @@ import { Pagination, SortChips } from "@/components/ListControls";
 import { cityCoordsOf, haversineKm, useUserLocation } from "@/lib/geo";
 import { useDirectoryReturnPosition, useDirectoryState } from "@/hooks/use-directory-state";
 import { getDirectoryDoctorPortraitRetouch } from "@/data/directory-doctor-portrait-retouches";
+import { getDoctorSpecialtyAreas, type DoctorSpecialtyArea } from "@/lib/doctor-specialty-areas";
 
 const PAGE_SIZE = 9;
 
@@ -46,18 +47,19 @@ const Experts = () => {
       : { key: value.trim(), label: value.trim() };
   };
   const compactSpecialtyLabels = (specialties: string[]) => {
-    const areas = [
-      { pattern: /rhino|nose|nasal|alar|sept|鼻/i, label: c("Rhinoplasty", "鼻整形", "Ринопластика", "Rinoplastia") },
-      { pattern: /eye|eyelid|bleph|ptosis|cantho|tear trough|眼|睑|重睑/i, label: c("Eyelid surgery", "双眼皮", "Пластика век", "Cirugía de párpados") },
-      { pattern: /face|facial|facelift|contour|chin|jaw|zygoma|lip|forehead|temple|面|脸|颌|下巴|唇/i, label: c("Facial surgery", "面部整形", "Пластика лица", "Cirugía facial") },
-      { pattern: /breast|mamm|乳|胸/i, label: c("Breast surgery", "胸部整形", "Пластика груди", "Cirugía mamaria") },
-      { pattern: /body|liposuction|\blipo\b|abdomen|abdomin|waist|thigh|arm|buttock|tummy|脂肪|吸脂|腰|腹|大腿|手臂|臀/i, label: c("Body contouring", "身体塑形", "Контурирование тела", "Contorno corporal") },
-      { pattern: /dental|tooth|teeth|implant|crown|veneer|occlus|牙|齿/i, label: c("Dental", "牙科", "Стоматология", "Odontología") },
-      { pattern: /hair|follic|\bfue\b|\bfut\b|头发|毛发|植发/i, label: c("Hair restoration", "植发", "Восстановление волос", "Restauración capilar") },
-      { pattern: /skin|dermat|laser|inject|botox|filler|rejuvenation|皮肤|注射|填充/i, label: c("Skin treatments", "皮肤治疗", "Лечение кожи", "Tratamientos de piel") },
-    ];
-    const text = specialties.join(" ");
-    const labels = areas.filter(({ pattern }) => pattern.test(text)).map(({ label }) => label);
+    const labelsByArea: Record<DoctorSpecialtyArea, string> = {
+      nose: c("Rhinoplasty", "鼻整形", "Ринопластика", "Rinoplastia"),
+      eyes: c("Eyelid surgery", "双眼皮", "Пластика век", "Cirugía de párpados"),
+      face: c("Facial surgery", "面部整形", "Пластика лица", "Cirugía facial"),
+      breast: c("Breast surgery", "胸部整形", "Пластика груди", "Cirugía mamaria"),
+      body: c("Body contouring", "身体塑形", "Контурирование тела", "Contorno corporal"),
+      dental: c("Dental", "牙科", "Стоматология", "Odontología"),
+      hair: c("Hair restoration", "植发", "Восстановление волос", "Restauración capilar"),
+      skin: c("Skin treatments", "皮肤治疗", "Лечение кожи", "Tratamientos de piel"),
+      intimate: c("Intimate care", "私密整形", "Интимная пластика", "Cirugía íntima"),
+      ears: c("Ear surgery", "耳部整形", "Пластика ушей", "Cirugía de orejas"),
+    };
+    const labels = getDoctorSpecialtyAreas(specialties).map((area) => labelsByArea[area]);
     return labels.length > 0 ? labels : [c("Aesthetic care", "医美治疗", "Эстетическая медицина", "Medicina estética")];
   };
   const { q, city, sort, page, setFilter, setPage, reset } = useDirectoryState("doctors");
