@@ -827,18 +827,18 @@ const ClinicsSection = () => {
         to={destination}
         tabIndex={duplicate ? -1 : 0}
         aria-hidden={duplicate || undefined}
-        className="group flex w-[82vw] max-w-[29rem] shrink-0 rounded-3xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 sm:w-[27rem]"
+        className="group flex w-[80vw] max-w-[25rem] shrink-0 rounded-3xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 sm:w-[24rem]"
       >
-        <article className="home-clinic-card flex min-h-[300px] w-full flex-col rounded-3xl border border-border bg-card p-6 shadow-soft transition duration-300 group-hover:-translate-y-1 group-hover:border-primary/35 group-hover:shadow-pop motion-reduce:transform-none motion-reduce:transition-none">
-          <div className="flex min-w-0 items-center gap-4">
-            <img src={clinic.image} alt="" loading="lazy" decoding="async" className="size-20 shrink-0 rounded-full border-2 border-primary/15 object-cover transition-transform duration-500 group-hover:scale-105 motion-reduce:transform-none motion-reduce:transition-none" />
+        <article className="home-clinic-card flex min-h-[252px] w-full flex-col rounded-3xl border border-border bg-card p-5 shadow-soft transition duration-300 group-hover:-translate-y-1 group-hover:border-primary/35 group-hover:shadow-pop motion-reduce:transform-none motion-reduce:transition-none sm:p-5">
+          <div className="flex min-w-0 items-center gap-3.5">
+            <img src={clinic.image} alt="" loading="lazy" decoding="async" className="size-16 shrink-0 rounded-full border-2 border-primary/15 object-cover transition-transform duration-500 group-hover:scale-105 motion-reduce:transform-none motion-reduce:transition-none" />
             <div className="min-w-0">
-              <h3 className="line-clamp-2 min-h-[3.25rem] font-display text-xl font-semibold leading-tight text-foreground">{clinicText(clinic.en, clinic.zh)}</h3>
-              <p className="mt-1.5 inline-flex items-center gap-1.5 text-sm font-medium text-foreground"><MapPin className="size-3.5 text-primary" />{clinicText(clinic.cityEn, clinic.cityZh)}</p>
+              <h3 className="line-clamp-2 min-h-[3rem] font-display text-lg font-semibold leading-tight text-foreground">{clinicText(clinic.en, clinic.zh)}</h3>
+              <p className="mt-1 inline-flex items-center gap-1.5 text-sm font-medium text-foreground"><MapPin className="size-3.5 text-primary" />{clinicText(clinic.cityEn, clinic.cityZh)}</p>
             </div>
           </div>
-          <p className="mt-5 line-clamp-3 min-h-[4.5rem] text-sm leading-relaxed text-muted-foreground">{clinicText(clinic.descriptionEn, clinic.descriptionZh)}</p>
-          <div className="mt-auto flex flex-wrap gap-1.5 pt-4">
+          <p className="mt-4 line-clamp-3 min-h-[4rem] text-sm leading-relaxed text-muted-foreground">{clinicText(clinic.descriptionEn, clinic.descriptionZh)}</p>
+          <div className="mt-4 flex flex-wrap gap-1.5">
             {clinic.tagsEn.map((tag, index) => <span key={tag} className="rounded-full bg-accent px-2.5 py-1 text-label text-accent-foreground">{clinicText(tag, clinic.tagsZh[index])}</span>)}
           </div>
         </article>
