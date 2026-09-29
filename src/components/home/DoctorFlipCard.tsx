@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, MapPin, RotateCcw, Stethoscope } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { HOMEPAGE_DOCTOR_PORTRAIT_OFFSETS } from "@/data/homepage-doctors";
+import { getDoctorPortraitRetouch } from "@/data/doctor-portrait-retouches";
 
 export type DoctorFlipCardData = {
   id: string;
@@ -12,6 +13,7 @@ export type DoctorFlipCardData = {
   specialties: string[];
   bio?: string;
   photo?: string;
+  photo_path?: string | null;
   demo?: boolean;
 };
 
@@ -52,6 +54,8 @@ export function DoctorFlipCard({
   const isFlipped = isHovered || isManuallyFlipped;
   const profileHref = doctor.demo ? `/doctors/demo/${doctor.id}` : `/doctors/profile/${doctor.id}`;
   const bio = doctor.bio?.trim() || bioFallback;
+  const portraitRetouch = getDoctorPortraitRetouch(doctor);
+  const portrait = portraitRetouch?.photo || doctor.photo;
 
   useEffect(() => {
     if (!focusAfterFlipRef.current) return;
@@ -87,15 +91,15 @@ export function DoctorFlipCard({
           )}
           aria-hidden={isFlipped}
         >
-          <div className="relative flex h-[250px] shrink-0 items-center justify-center overflow-hidden bg-white">
-            {doctor.photo ? (
+          <div className="relative flex h-[250px] shrink-0 items-center justify-center overflow-hidden bg-[#e7e7e7]">
+            {portrait ? (
               <img
-                src={doctor.photo}
+                src={portrait}
                 alt={doctor.name}
                 loading="lazy"
                 decoding="async"
-                className="h-full w-auto max-w-none shrink-0 object-contain object-center"
-                style={{ transform: `translateX(${HOMEPAGE_DOCTOR_PORTRAIT_OFFSETS[doctor.id] ?? 0}%)` }}
+                className={cn("h-full max-w-none shrink-0 object-contain object-center", portraitRetouch ? "w-full" : "w-auto")}
+                style={{ transform: `translateX(${portraitRetouch ? 0 : HOMEPAGE_DOCTOR_PORTRAIT_OFFSETS[doctor.id] ?? 0}%)` }}
               />
             ) : (
               <div className="grid size-full place-items-center text-primary">
