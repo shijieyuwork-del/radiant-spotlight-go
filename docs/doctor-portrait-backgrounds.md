@@ -34,3 +34,23 @@ The card frame uses a matching neutral gray (`#e7e7e7`) across its full width. `
 - 29 targeted doctor card, marquee and published-data tests passed; targeted ESLint, TypeScript and production build passed.
 - Original photos remain in storage; replacement/removal precedence is regression-tested.
 - 200% zoom and RTL: not verified for this background-only change.
+
+## Follow-up: restrained portrait refinement
+
+The user subsequently requested slightly more handsome, authoritative-looking portraits, then explicitly excluded **Ning Jin, Li Lin and Xun Wang**. Those three keep their existing `light-gray-v1` images, byte-for-byte unchanged.
+
+Only these three new assets are used on the homepage:
+
+- `public/images/doctors/refined-v2/zhang-wenkai.webp`
+- `public/images/doctors/refined-v2/huang-xingguo.webp`
+- `public/images/doctors/refined-v2/huang-liewen.webp`
+
+Mode: built-in `image_gen`, separate edit calls using each existing `light-gray-v1` portrait as its edit target. Existing files are preserved for rollback. New outputs were visually reviewed and converted to 800px-wide WebP at quality 90.
+
+Final shared prompt, with `{name}` replaced by Dr. Zhang Wenkai, Dr. Huang Xingguo or Dr. Huang Liewen:
+
+> Use case: identity-preserve. Edit target: attached real portrait of {name}. Asset: professional doctor website portrait. Apply restrained, natural executive-portrait retouching so this same person looks slightly more handsome, well-rested, composed and authoritative. Improve flattering soft facial lighting and balanced contrast; subtly tidy flyaway hair and brow edges; reduce temporary blemishes and under-eye darkness only a little; bring clarity and gentle catchlights to the eyes without enlarging or changing them; define existing facial contours only with subtle dodge and burn. Preserve the person's recognizable identity, age, natural skin texture, facial proportions, eye shape, nose shape, mouth shape, hairstyle, facial hair and glasses if present. Keep the existing expression, pose, clothing, body, framing and aspect ratio unchanged. Keep the entire edge-to-edge neutral light gray background exactly as in the input, no white border. Do not add credentials, insignia, text, props or objects. No face replacement, model-like makeover, artificial skin smoothing, face slimming, exaggerated jawline, changed anatomy or younger appearance. The result should look like tasteful professional photo retouching of the same doctor, not a new person.
+
+The existing source-path guard, full-width gray frame, and marquee/flip behavior remain unchanged. Generative retouching is not a guarantee of pixel-identical facial features.
+
+Verification: all 30 targeted doctor tests passed, including the three exclusions; targeted lint, TypeScript and production build passed. The rendered homepage was checked for all six image paths and the three new portraits were visually checked in their cards.
