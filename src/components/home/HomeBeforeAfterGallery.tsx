@@ -42,7 +42,7 @@ export default function HomeBeforeAfterGallery() {
   const photoCard = (item: BeforeAfterRow, duplicate = false) => (
     <article
       key={`${duplicate ? "copy" : "photo"}-${item.id}`}
-      className="w-[66vw] max-w-[18rem] shrink-0 sm:w-[18rem] lg:w-[19rem] lg:max-w-none"
+      className="w-[48vw] max-w-[13rem] shrink-0 sm:w-[12rem] lg:w-[12.5rem] lg:max-w-none"
     >
       <button
         type="button"
@@ -56,8 +56,8 @@ export default function HomeBeforeAfterGallery() {
         {imageSet(item)}
         <span className="absolute right-2 top-2 grid size-8 place-items-center rounded-full bg-white/90 text-foreground sm:right-3 sm:top-3" aria-hidden="true"><Maximize2 className="size-4" /></span>
       </button>
-      <h3 className="mt-3 text-sm font-semibold leading-snug text-foreground sm:text-lg">{item.title}</h3>
-      {(item.city || item.procedure) && <p className="mt-1 text-xs leading-relaxed text-muted-foreground sm:text-sm">{[item.city, item.procedure].filter(Boolean).join(" · ")}</p>}
+      <h3 className="mt-2.5 text-sm font-semibold leading-snug text-foreground sm:text-base">{item.title}</h3>
+      {(item.city || item.procedure) && <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{[item.city, item.procedure].filter(Boolean).join(" · ")}</p>}
     </article>
   );
 
@@ -80,7 +80,7 @@ export default function HomeBeforeAfterGallery() {
           <div role="status" aria-busy="true">
             <span className="sr-only">{c("Loading photos…", "正在加载照片…", "Загрузка фотографий…", "Cargando fotos…")}</span>
             <div className="flex gap-4 overflow-hidden sm:gap-6" aria-hidden="true">
-              {Array.from({ length: 4 }, (_, index) => <div key={index} className="aspect-[2/3] w-[66vw] max-w-[18rem] shrink-0 rounded-2xl bg-primary/10 lg:w-[19rem] lg:max-w-none" />)}
+              {Array.from({ length: 5 }, (_, index) => <div key={index} className="aspect-[2/3] w-[48vw] max-w-[13rem] shrink-0 rounded-2xl bg-primary/10 sm:w-[12rem] lg:w-[12.5rem] lg:max-w-none" />)}
             </div>
           </div>
         ) : photos.length === 0 ? (
