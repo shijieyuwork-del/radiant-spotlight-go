@@ -18,22 +18,24 @@ beforeEach(() => { state.items = photos(); state.loading = false; state.lang = "
 afterEach(cleanup);
 
 describe("homepage before and after photos", () => {
-  it("shows six published photo sets in three columns / two rows without white letterboxing", () => {
+  it("shows six published photo sets in one continuously moving row without white letterboxing", () => {
     const { container } = gallery();
-    const grid = screen.getByTestId("home-before-after-grid");
-    expect(grid).toHaveClass("grid-cols-3");
-    expect(within(grid).getAllByRole("article")).toHaveLength(6);
-    expect(within(grid).getAllByRole("img")).toHaveLength(6);
-    expect(within(grid).queryByText("Photo set 6")).not.toBeInTheDocument();
+    const marquee = screen.getByTestId("home-before-after-marquee");
+    const row = screen.getByTestId("home-before-after-row");
+    expect(marquee).toHaveClass("overflow-hidden");
+    expect(row).toHaveClass("flex");
+    expect(within(row).getAllByRole("article")).toHaveLength(6);
+    expect(within(row).getAllByRole("img")).toHaveLength(6);
+    expect(within(row).queryByText("Photo set 6")).not.toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Before & After" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "View all photos" })).toHaveAttribute("href", "/before-after");
     expect(screen.queryByRole("button", { name: /play/i })).not.toBeInTheDocument();
     expect(container.querySelector("video")).toBeNull();
-    within(grid).getAllByRole("img").forEach((img) => {
+    within(row).getAllByRole("img").forEach((img) => {
       expect(img).toHaveClass("w-full", "h-auto");
       expect(img).not.toHaveClass("object-cover");
     });
-    within(grid).getAllByRole("button").forEach((button) => {
+    within(row).getAllByRole("button").forEach((button) => {
       expect(button).toHaveClass("bg-transparent");
       expect(button).not.toHaveClass("bg-white", "aspect-[16/10]");
     });

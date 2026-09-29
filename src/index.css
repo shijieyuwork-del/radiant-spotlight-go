@@ -630,6 +630,10 @@
   will-change: transform;
 }
 
+.home-before-after-track {
+  animation-duration: 72s;
+}
+
 .review-motion-track.is-paused,
 .review-motion-viewport:hover .review-motion-track,
 .review-motion-viewport:focus-within .review-motion-track {
