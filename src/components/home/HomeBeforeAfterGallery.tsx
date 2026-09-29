@@ -42,7 +42,7 @@ export default function HomeBeforeAfterGallery() {
   const photoCard = (item: BeforeAfterRow, duplicate = false) => (
     <article
       key={`${duplicate ? "copy" : "photo"}-${item.id}`}
-      className="w-[78vw] max-w-[22rem] shrink-0 sm:w-[22rem] lg:w-[24rem] lg:max-w-none"
+      className="w-[66vw] max-w-[18rem] shrink-0 sm:w-[18rem] lg:w-[19rem] lg:max-w-none"
     >
       <button
         type="button"
@@ -80,7 +80,7 @@ export default function HomeBeforeAfterGallery() {
           <div role="status" aria-busy="true">
             <span className="sr-only">{c("Loading photos…", "正在加载照片…", "Загрузка фотографий…", "Cargando fotos…")}</span>
             <div className="flex gap-4 overflow-hidden sm:gap-6" aria-hidden="true">
-              {Array.from({ length: 4 }, (_, index) => <div key={index} className="aspect-[2/3] w-[78vw] max-w-[22rem] shrink-0 rounded-2xl bg-primary/10 lg:w-[24rem] lg:max-w-none" />)}
+              {Array.from({ length: 4 }, (_, index) => <div key={index} className="aspect-[2/3] w-[66vw] max-w-[18rem] shrink-0 rounded-2xl bg-primary/10 lg:w-[19rem] lg:max-w-none" />)}
             </div>
           </div>
         ) : photos.length === 0 ? (
