@@ -1042,6 +1042,8 @@ const SAMPLE_PRICES = [
   { en: "Breast Augmentation", zh: "隆胸", ru: "Увеличение груди", es: "Aumento de senos", from: 45000, href: "/treatments/breast-augmentation" },
   { en: "Facelift (SMAS)", zh: "面部拉皮", ru: "Подтяжка лица", es: "Lifting facial", from: 58000, href: "/treatments/facelift" },
   { en: "FUE Hair Transplant", zh: "FUE 植发", ru: "Пересадка волос FUE", es: "Trasplante capilar FUE", from: 18000, href: "/treatments/fue-hair-transplant" },
+  { en: "Full-Mouth Reconstruction", zh: "全口重建", ru: "Полная реконструкция зубов", es: "Reconstrucción bucal completa", from: 80000, href: "/treatments/full-mouth-reconstruction" },
+  { en: "Porcelain Veneers", zh: "牙贴片", ru: "Керамические виниры", es: "Carillas de porcelana", from: 3000, href: "/treatments/porcelain-veneers" },
 ];
 
 const PricingPreviewSection = () => {
