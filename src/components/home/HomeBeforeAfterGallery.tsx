@@ -6,7 +6,7 @@ import { usePublishedBeforeAfter, type BeforeAfterRow } from "@/hooks/use-before
 import { useAsia } from "@/lib/asia-i18n";
 import { asiaCopy } from "@/lib/asia-copy";
 
-/** Six published photo sets in three columns and two rows, with edge-to-edge original photos. */
+/** Six published photo sets in one continuously moving row, with edge-to-edge original photos. */
 export default function HomeBeforeAfterGallery() {
   const { lang } = useAsia();
   const { items, loading } = usePublishedBeforeAfter(lang);
@@ -39,6 +39,28 @@ export default function HomeBeforeAfterGallery() {
     );
   };
 
+  const photoCard = (item: BeforeAfterRow, duplicate = false) => (
+    <article
+      key={`${duplicate ? "copy" : "photo"}-${item.id}`}
+      className="w-[78vw] max-w-[22rem] shrink-0 sm:w-[22rem] lg:w-[24rem] lg:max-w-none"
+    >
+      <button
+        type="button"
+        tabIndex={duplicate ? -1 : 0}
+        aria-hidden={duplicate || undefined}
+        aria-label={duplicate ? undefined : `${enlarge}: ${item.title}`}
+        aria-haspopup={duplicate ? undefined : "dialog"}
+        className="group relative block w-full overflow-hidden rounded-2xl bg-transparent shadow-soft outline outline-1 -outline-offset-1 outline-black/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand sm:rounded-3xl"
+        onClick={(event) => { opener.current = event.currentTarget; setSelected(item); }}
+      >
+        {imageSet(item)}
+        <span className="absolute right-2 top-2 grid size-8 place-items-center rounded-full bg-white/90 text-foreground sm:right-3 sm:top-3" aria-hidden="true"><Maximize2 className="size-4" /></span>
+      </button>
+      <h3 className="mt-3 text-sm font-semibold leading-snug text-foreground sm:text-lg">{item.title}</h3>
+      {(item.city || item.procedure) && <p className="mt-1 text-xs leading-relaxed text-muted-foreground sm:text-sm">{[item.city, item.procedure].filter(Boolean).join(" · ")}</p>}
+    </article>
+  );
+
   return (
     <section className="patient-diaries-band relative py-12 sm:py-16 md:py-20" aria-labelledby="home-before-after-title">
       <div className="container">
@@ -57,32 +79,31 @@ export default function HomeBeforeAfterGallery() {
         {loading ? (
           <div role="status" aria-busy="true">
             <span className="sr-only">{c("Loading photos…", "正在加载照片…", "Загрузка фотографий…", "Cargando fotos…")}</span>
-            <div className="grid grid-cols-3 gap-x-3 gap-y-6 sm:gap-x-6 sm:gap-y-10" aria-hidden="true">
-              {Array.from({ length: 6 }, (_, index) => <div key={index} className="aspect-[2/3] rounded-2xl bg-primary/10" />)}
+            <div className="flex gap-4 overflow-hidden sm:gap-6" aria-hidden="true">
+              {Array.from({ length: 4 }, (_, index) => <div key={index} className="aspect-[2/3] w-[78vw] max-w-[22rem] shrink-0 rounded-2xl bg-primary/10 lg:w-[24rem] lg:max-w-none" />)}
             </div>
           </div>
         ) : photos.length === 0 ? (
           <p role="status" className="py-8 text-muted-foreground">{c("No photo sets available yet.", "暂时没有可展示的对比照片。", "Фотографии пока недоступны.", "Aún no hay fotos disponibles.")}</p>
         ) : (
-          <div className="grid grid-cols-3 items-start gap-x-3 gap-y-6 sm:gap-x-6 sm:gap-y-10" data-testid="home-before-after-grid">
-            {photos.map((item) => (
-              <article key={item.id} className="min-w-0">
-                <button
-                  type="button"
-                  aria-label={`${enlarge}: ${item.title}`}
-                  aria-haspopup="dialog"
-                  className="group relative block w-full overflow-hidden rounded-2xl bg-transparent shadow-soft outline outline-1 -outline-offset-1 outline-black/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand sm:rounded-3xl"
-                  onClick={(event) => { opener.current = event.currentTarget; setSelected(item); }}
-                >
-                  {imageSet(item)}
-                  <span className="absolute right-2 top-2 grid size-8 place-items-center rounded-full bg-white/90 text-foreground sm:right-3 sm:top-3" aria-hidden="true"><Maximize2 className="size-4" /></span>
-                </button>
-                <h3 className="mt-3 text-sm font-semibold leading-snug text-foreground sm:text-lg">{item.title}</h3>
-                {(item.city || item.procedure) && <p className="mt-1 text-xs leading-relaxed text-muted-foreground sm:text-sm">{[item.city, item.procedure].filter(Boolean).join(" · ")}</p>}
-              </article>
-            ))}
+          <div
+            className="review-motion-viewport edge-fade-x relative overflow-hidden py-2"
+            data-testid="home-before-after-marquee"
+            role="region"
+            aria-label={c("Automatically scrolling before and after photos", "自动向左滚动的术前术后照片", "Автоматически прокручиваемые фотографии до и после", "Fotos de antes y después con desplazamiento automático")}
+          >
+            <div className="review-motion-track home-before-after-track flex w-max items-start gap-4 sm:gap-6">
+              <div className="flex items-start gap-4 pl-4 sm:gap-6 sm:pl-6" data-testid="home-before-after-row">
+                {photos.map((item) => photoCard(item))}
+              </div>
+              <div className="flex items-start gap-4 pl-4 sm:gap-6 sm:pl-6" aria-hidden="true">
+                {photos.map((item) => photoCard(item, true))}
+              </div>
+            </div>
           </div>
         )}
+
+        {!loading && photos.length > 0 && <p className="sr-only">{c("The photos move continuously to the left and pause while you hover or focus a photo.", "照片会持续向左移动，并在鼠标悬停或键盘聚焦时暂停。", "Фотографии непрерывно движутся влево и останавливаются при наведении или фокусе.", "Las fotos se mueven continuamente hacia la izquierda y se detienen al pasar el cursor o enfocarlas.")}</p>}
 
         <Dialog open={!!selected} onOpenChange={(open) => { if (!open) setSelected(null); }}>
           {selected && <DialogContent
