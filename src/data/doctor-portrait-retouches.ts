@@ -2,15 +2,15 @@
 export const DOCTOR_PORTRAIT_RETOUCHES: Record<string, { sourcePath: string; photo: string }> = {
   "cf43c07e-59e3-4d20-ba00-deeb08c00ce4": {
     sourcePath: "imports/shengya-001.webp",
-    photo: "/images/doctors/refined-v2/zhang-wenkai.webp",
+    photo: "/images/doctors/directory-canon-v3/shengya-001.webp",
   },
   "df23bee4-3634-47b7-93ad-d161e2032ba3": {
     sourcePath: "imports/xinnamei-003.webp",
-    photo: "/images/doctors/refined-v2/huang-xingguo.webp",
+    photo: "/images/doctors/directory-canon-v3/xinnamei-003.webp",
   },
   "f5fd0352-0a8d-40ee-932b-0df5377108d8": {
     sourcePath: "imports/xinnamei-008.webp",
-    photo: "/images/doctors/refined-v2/huang-liewen.webp",
+    photo: "/images/doctors/directory-canon-v3/xinnamei-008.webp",
   },
   "6c64e796-bbc8-4500-8d28-53e191d3d1aa": {
     sourcePath: "2a53e6a2-a75d-4a42-9ea3-ba1700c07395/1789038718936-6a983e54-a299-4500-9037-61716a4e2043.webp",

@@ -1,5 +1,7 @@
 # Directory portrait refinements
 
+This records the original nine-doctor batch. The subsequent 98-doctor expansion is documented in [remaining-doctor-portrait-refinements.md](remaining-doctor-portrait-refinements.md).
+
 Scope: the nine doctors shown in the user's screenshot of the first directory page, not all 110 published records. Homepage portraits, including the three previously excluded doctors, are untouched.
 
 ## Saved assets

@@ -14,6 +14,7 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/compone
 import { TIKTOK_CASES } from "@/data/tiktokCases";
 import { DOCTORS } from "@/data/doctors";
 import { DEMO_CHINA_DOCTORS } from "@/data/demoChinaDoctors";
+import { getDirectoryDoctorPortraitRetouch } from "@/data/directory-doctor-portrait-retouches";
 import { useAsia } from "@/lib/asia-i18n";
 import { useSavedCase } from "@/lib/saved-cases";
 import { supabase } from "@/integrations/supabase/client";
@@ -67,7 +68,8 @@ const CaseDetail = () => {
           id: string; name: string; title: string; city: string;
           bio: string; specialties: string[] | null; photo_path: string | null;
         };
-        const photoUrl = d.photo_path ? await signedUrl("doctor-photos", d.photo_path) : null;
+        const photoUrl = getDirectoryDoctorPortraitRetouch(d)?.photo
+          || (d.photo_path ? await signedUrl("doctor-photos", d.photo_path) : null);
         if (active) setLinkedExpert({
           id: d.id, name: d.name, title: d.title, city: d.city,
           bio: d.bio, specialties: d.specialties ?? [], photoUrl,

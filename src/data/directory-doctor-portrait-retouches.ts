@@ -1,4 +1,6 @@
-/** Non-destructive photo refinements for the nine directory doctors requested. */
+import { REMAINING_DOCTOR_PORTRAIT_RETOUCHES } from "./remaining-doctor-portrait-retouches";
+
+/** Non-destructive photo refinements for 107 published doctors; three are excluded. */
 export const DIRECTORY_DOCTOR_PORTRAIT_RETOUCHES: Record<string, { sourcePath: string; photo: string }> = {
   "13582f96-51c6-432d-ae88-6a8d468ec76d": { sourcePath: "imports/fu-018.webp", photo: "/images/doctors/directory-canon-v2/yuan-ju.webp" },
   "13df49f7-b9d0-4414-b676-a722b4f71724": { sourcePath: "imports/fu-013.webp", photo: "/images/doctors/directory-canon-v2/liu-yafei.webp" },
@@ -9,6 +11,7 @@ export const DIRECTORY_DOCTOR_PORTRAIT_RETOUCHES: Record<string, { sourcePath: s
   "5ea7356c-f60d-40a2-8bb5-eb592897b2ad": { sourcePath: "imports/fu-016.webp", photo: "/images/doctors/directory-canon-v2/wang-mingming.webp" },
   "64a2b418-ea5a-4ef5-9655-37bfac12b42d": { sourcePath: "imports/fu-004.webp", photo: "/images/doctors/directory-canon-v2/li-bing.webp" },
   "742762a5-cc01-4ce3-a362-9f6e584a1510": { sourcePath: "imports/fu-006.webp", photo: "/images/doctors/directory-canon-v2/zhao.webp" },
+  ...REMAINING_DOCTOR_PORTRAIT_RETOUCHES,
 };
 
 export function getDirectoryDoctorPortraitRetouch(doctor: { id: string; photo_path?: string | null; demo?: boolean }) {
