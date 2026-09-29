@@ -40,8 +40,8 @@ describe("concise homepage doctor cards", () => {
     expect(portrait).toHaveClass("object-contain", "object-center", "h-full", "w-auto");
     expect(portrait).not.toHaveClass("object-cover", "object-top");
     expect(portrait.parentElement).toHaveClass("absolute", "inset-0", "items-center", "justify-center");
-    expect(portrait.parentElement).toHaveClass("bg-[#e7e7e7]");
-    expect(portrait.parentElement).not.toHaveClass("bg-white");
+    expect(portrait.parentElement).toHaveClass("bg-card");
+    expect(portrait.parentElement).not.toHaveClass("bg-[#e7e7e7]");
     expect(portrait).toHaveStyle({ transform: "translateX(0%)" });
   });
 
@@ -50,7 +50,7 @@ describe("concise homepage doctor cards", () => {
     const portrait = screen.getByRole("img", { name: doctor.name });
     expect(portrait).toHaveAttribute("src", retouch.photo);
     expect(portrait).toHaveClass("w-full", "h-full", "object-contain", "object-center");
-    expect(portrait.parentElement).toHaveClass("bg-[#e7e7e7]");
+    expect(portrait.parentElement).toHaveClass("bg-card");
   });
 
   it("respects replacement and removal of a doctor's original photo in admin", () => {

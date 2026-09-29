@@ -91,7 +91,7 @@ export function DoctorFlipCard({
           )}
           aria-hidden={isFlipped}
         >
-          <div className="absolute inset-0 flex items-center justify-center overflow-hidden bg-[#e7e7e7]">
+          <div className="absolute inset-0 flex items-center justify-center overflow-hidden bg-card">
             {portrait ? (
               <img
                 src={portrait}
