@@ -1,0 +1,69 @@
+.doctor-marquee {
+  --doctor-gap: 1.5rem;
+  container-type: inline-size;
+}
+
+.doctor-marquee__viewport {
+  overflow-x: hidden;
+  padding-block: 0.5rem 1rem;
+}
+
+.doctor-marquee__track {
+  display: flex;
+  width: max-content;
+  animation: doctor-marquee-left 72s linear infinite;
+  animation-play-state: paused;
+}
+
+.doctor-marquee__track[data-running="true"] {
+  animation-play-state: running;
+  will-change: transform;
+}
+
+.doctor-marquee__group {
+  display: flex;
+  align-items: stretch;
+  gap: var(--doctor-gap);
+  padding-inline-end: var(--doctor-gap);
+}
+
+.doctor-marquee__item {
+  display: flex;
+  flex: 0 0 auto;
+  /* Three cards on wide screens; a hint of the next card on small screens. */
+  width: max(19rem, calc((100cqw - 2 * var(--doctor-gap)) / 3));
+}
+
+.doctor-marquee__item > .doctor-flip-card { width: 100%; }
+
+@container (max-width: 36rem) {
+  .doctor-marquee__item { width: min(22rem, 86cqw); }
+}
+
+@keyframes doctor-marquee-left {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .doctor-marquee__viewport:hover .doctor-marquee__track {
+    animation-play-state: paused;
+    will-change: auto;
+  }
+}
+
+.doctor-marquee[data-static="true"] .doctor-marquee__track {
+  animation: none;
+  transform: none;
+  will-change: auto;
+}
+.doctor-marquee[data-static="true"] .doctor-marquee__viewport { overflow-x: auto; }
+.doctor-marquee[data-static="true"] .doctor-marquee__group[aria-hidden="true"] { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .doctor-marquee__track,
+  .doctor-marquee__track[data-running="true"] { animation: none; transform: none; will-change: auto; }
+  .doctor-marquee__viewport { overflow-x: auto; }
+  .doctor-marquee__group[aria-hidden="true"],
+  .doctor-marquee__controls { display: none; }
+}

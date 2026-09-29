@@ -17,6 +17,8 @@ export type DoctorFlipCardData = {
 
 type DoctorFlipCardProps = {
   doctor: DoctorFlipCardData;
+  /** The marquee's visual repeat stays clickable but is not a second tab stop. */
+  duplicate?: boolean;
   /** Short patient-facing positioning statement shown on the front face. */
   marketingLine?: string;
   viewProfileLabel: string;
@@ -34,6 +36,7 @@ type DoctorFlipCardProps = {
  */
 export function DoctorFlipCard({
   doctor,
+  duplicate = false,
   marketingLine,
   viewProfileLabel,
   detailsLabel,
@@ -57,7 +60,7 @@ export function DoctorFlipCard({
   }, [isFlipped]);
 
   const toggleDetails = () => {
-    focusAfterFlipRef.current = true;
+    focusAfterFlipRef.current = !duplicate;
     setIsManuallyFlipped((flipped) => !flipped);
   };
 
@@ -65,6 +68,10 @@ export function DoctorFlipCard({
     <article
       className="doctor-flip-card h-full min-h-[560px]"
       data-flipped={isFlipped}
+      onPointerDown={(event) => {
+        // Do not move focus into the screen-reader-hidden visual repeat.
+        if (duplicate) event.preventDefault();
+      }}
       onPointerEnter={(event) => {
         if (event.pointerType === "mouse") setIsHovered(true);
       }}
@@ -112,7 +119,7 @@ export function DoctorFlipCard({
             ) : null}
 
             <div className="mt-auto flex flex-wrap items-center justify-between gap-3 border-t border-border pt-4 text-sm font-semibold text-foreground">
-              <Link to={profileHref} aria-label={`${viewProfileLabel}: ${doctor.name}`} tabIndex={isFlipped ? -1 : 0} className="inline-flex min-h-10 items-center gap-2 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
+              <Link to={profileHref} aria-label={`${viewProfileLabel}: ${doctor.name}`} tabIndex={duplicate || isFlipped ? -1 : 0} className="inline-flex min-h-10 items-center gap-2 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
                 {viewProfileLabel}
                 <ArrowRight className="size-4 text-primary" aria-hidden="true" />
               </Link>
@@ -121,7 +128,7 @@ export function DoctorFlipCard({
                 type="button"
                 onClick={toggleDetails}
                 aria-expanded={isFlipped}
-                tabIndex={isFlipped ? -1 : 0}
+                tabIndex={duplicate || isFlipped ? -1 : 0}
                 className="inline-flex min-h-10 items-center gap-1.5 rounded-md text-brand transition-colors hover:text-brand/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               >
                 {detailsLabel}
@@ -149,7 +156,7 @@ export function DoctorFlipCard({
           </div>
 
           <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-background/20 pt-4 text-sm font-semibold">
-            <Link to={profileHref} aria-label={`${viewProfileLabel}: ${doctor.name}`} tabIndex={isFlipped ? 0 : -1} className="inline-flex min-h-10 items-center gap-2 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-background focus-visible:ring-offset-2 focus-visible:ring-offset-brand">
+            <Link to={profileHref} aria-label={`${viewProfileLabel}: ${doctor.name}`} tabIndex={!duplicate && isFlipped ? 0 : -1} className="inline-flex min-h-10 items-center gap-2 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-background focus-visible:ring-offset-2 focus-visible:ring-offset-brand">
               {viewProfileLabel}
               <ArrowRight className="size-4" aria-hidden="true" />
             </Link>
@@ -157,7 +164,7 @@ export function DoctorFlipCard({
               ref={backToggleRef}
               type="button"
               onClick={toggleDetails}
-              tabIndex={isFlipped ? 0 : -1}
+              tabIndex={!duplicate && isFlipped ? 0 : -1}
               className="inline-flex min-h-10 items-center gap-1.5 rounded-md text-background/85 transition-colors hover:text-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-background focus-visible:ring-offset-2 focus-visible:ring-offset-brand"
             >
               <RotateCcw className="size-4" aria-hidden="true" />

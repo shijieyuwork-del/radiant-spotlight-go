@@ -63,6 +63,7 @@ import { ManualRailControls } from "@/components/ManualRailControls";
 import { HomeSection } from "@/components/home/HomeSection";
 import { SectionActionLink, SectionHeader } from "@/components/home/SectionHeader";
 import DoctorFlipCard, { type DoctorFlipCardData } from "@/components/home/DoctorFlipCard";
+import DoctorMarquee from "@/components/home/DoctorMarquee";
 import "@/components/home/cinematic-hero.css";
 
 type ProcedureIconProps = { className?: string; strokeWidth?: number };
@@ -1354,7 +1355,6 @@ const getDoctorMarketingLine = (doctor: DoctorFlipCardData, lang: string) => {
 const DoctorsSection = () => {
   const { t, lang } = useAsia();
   const { doctors: publishedDoctors, status, refresh } = usePublishedDoctors(lang);
-  const doctorRailRef = useRef<HTMLDivElement>(null);
   const viewProfileLabel = lang === "zh" ? "查看专家资料" : lang === "ru" ? "Профиль эксперта" : lang === "es" ? "Ver perfil del experto" : translatedUiText(lang, "View expert profile");
   const allExpertsLabel = lang === "zh" ? "全部专家" : lang === "ru" ? "Все специалисты" : lang === "es" ? "Todos los especialistas" : translatedUiText(lang, "All experts");
   // "Expert" rather than "doctor": the platform coordinates, it does not give medical advice (see copy-compliance.test.ts).
@@ -1368,7 +1368,7 @@ const DoctorsSection = () => {
       : lang === "es"
         ? "Los detalles publicados están disponibles en el perfil completo del experto."
         : translatedUiText(lang, "Published profile details are available from this expert's full profile.");
-  // The homepage shows at most two rows of three; the full list lives on /doctors.
+  // Loop the same six published profiles in one row; the full directory stays on /doctors.
   const homepageDoctors = selectHomepageDoctors(publishedDoctors);
   return (
     <HomeSection id="compliance" tone="white" ariaLabelledBy="home-doctors-title">
@@ -1382,7 +1382,7 @@ const DoctorsSection = () => {
       {status === "loading" && (
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3" role="status" aria-busy="true">
           <span className="sr-only">{lang === "zh" ? "正在加载专家资料…" : translatedUiText(lang, "Loading expert profiles…")}</span>
-          {Array.from({ length: 6 }, (_, index) => (
+          {Array.from({ length: 3 }, (_, index) => (
             <div key={index} aria-hidden="true" className={`min-h-[560px] overflow-hidden rounded-3xl border border-border bg-card ${index > 0 ? "hidden md:block" : ""}`}>
               <div className="h-[250px] bg-primary/5" />
               <div className="space-y-5 p-6"><div className="h-3 w-2/3 rounded bg-primary/10" /><div className="h-6 w-1/2 rounded bg-primary/10" /><div className="h-3 w-1/3 rounded bg-primary/5" /></div>
@@ -1396,33 +1396,22 @@ const DoctorsSection = () => {
           <Button variant="outline" className="mt-3" onClick={refresh}>{lang === "zh" ? "重试" : translatedUiText(lang, "Try again")}</Button>
         </div>
       )}
-      {/* Snap rail below md; a plain three-column grid from md up, so one or two experts never leave a half-empty rail. */}
-      <div
-        ref={doctorRailRef}
-        id="home-doctors-rail"
-        className="home-rail flex touch-pan-x snap-x snap-mandatory items-stretch gap-4 overflow-x-auto overscroll-x-contain py-1 scrollbar-hide md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:py-0"
-      >
-        {homepageDoctors.map((d) => {
-          return (
-          <div
-            key={d.id}
-            className="flex min-w-[82vw] snap-center sm:min-w-[62vw] md:min-w-0"
-          >
-            <DoctorFlipCard
-              doctor={d}
-              marketingLine={getDoctorMarketingLine(d, lang)}
-              viewProfileLabel={viewProfileLabel}
-              detailsLabel={detailsLabel}
-              backLabel={backLabel}
-              profileLabel={profileLabel}
-              bioFallback={bioFallback}
-            />
-          </div>
-        )})}
-      </div>
-      <div className="md:hidden">
-        <ManualRailControls railRef={doctorRailRef} railId="home-doctors-rail" count={homepageDoctors.length} lang={lang} />
-      </div>
+      <DoctorMarquee
+        doctors={homepageDoctors}
+        lang={lang}
+        renderDoctor={(d, duplicate) => (
+          <DoctorFlipCard
+            doctor={d}
+            duplicate={duplicate}
+            marketingLine={getDoctorMarketingLine(d, lang)}
+            viewProfileLabel={viewProfileLabel}
+            detailsLabel={detailsLabel}
+            backLabel={backLabel}
+            profileLabel={profileLabel}
+            bioFallback={bioFallback}
+          />
+        )}
+      />
       <div className="mt-4 flex justify-center sm:hidden">
         <Link to="/doctors" className="inline-flex min-h-12 items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90">
           {allExpertsLabel} <ArrowRight className="size-4" />
