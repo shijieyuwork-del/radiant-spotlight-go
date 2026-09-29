@@ -5,29 +5,24 @@
   position: relative;
 }
 
-.doctor-marquee::before,
-.doctor-marquee::after {
-  position: absolute;
-  z-index: 2;
-  inset-block: 0.5rem 1rem;
-  width: var(--doctor-edge-fade);
-  content: "";
-  pointer-events: none;
-}
-
-.doctor-marquee::before {
-  inset-inline-start: 0;
-  background: linear-gradient(to right, #fff 0%, rgb(255 255 255 / 0.96) 28%, transparent 100%);
-}
-
-.doctor-marquee::after {
-  inset-inline-end: 0;
-  background: linear-gradient(to left, #fff 0%, rgb(255 255 255 / 0.96) 28%, transparent 100%);
-}
-
 .doctor-marquee__viewport {
   overflow-x: hidden;
   padding-block: 0.5rem 1rem;
+  /* Fade the clipped rail itself, avoiding seams between overlay edges and
+     composited 3D cards. A transparent pixel also hides subpixel clip lines. */
+  --doctor-edge-mask: linear-gradient(
+    to right,
+    transparent 0,
+    transparent 1px,
+    rgb(0 0 0 / 0.04) calc(var(--doctor-edge-fade) * 0.28),
+    #000 var(--doctor-edge-fade),
+    #000 calc(100% - var(--doctor-edge-fade)),
+    rgb(0 0 0 / 0.04) calc(100% - var(--doctor-edge-fade) * 0.28),
+    transparent calc(100% - 1px),
+    transparent 100%
+  );
+  -webkit-mask-image: var(--doctor-edge-mask);
+  mask-image: var(--doctor-edge-mask);
 }
 
 .doctor-marquee__track {
@@ -59,7 +54,7 @@
 .doctor-marquee__item > .doctor-flip-card { width: 100%; }
 
 @container (max-width: 36rem) {
-  .doctor-marquee { --doctor-edge-fade: 2rem; }
+  .doctor-marquee__viewport { --doctor-edge-fade: 2rem; }
   .doctor-marquee__item { width: min(17.5rem, 84cqw); }
 }
 

@@ -1,8 +1,12 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { act, cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { MemoryRouter } from "react-router-dom";
 import DoctorMarquee from "@/components/home/DoctorMarquee";
 import DoctorFlipCard, { type DoctorFlipCardData } from "@/components/home/DoctorFlipCard";
+
+const marqueeStyles = readFileSync(join(__dirname, "..", "components", "home", "doctor-marquee.css"), "utf8");
 
 const doctors: DoctorFlipCardData[] = Array.from({ length: 6 }, (_, index) => ({
   id: `doctor-${index}`, name: `Expert ${index + 1}`, title: "Surgeon", city: "Shanghai", specialties: [],
@@ -33,6 +37,14 @@ const intersect = (visible: boolean) => act(() => onIntersection(
 ));
 
 describe("homepage doctor marquee", () => {
+  it("fades the clipped rail to transparent without separate edge overlays", () => {
+    expect(marqueeStyles).toContain("-webkit-mask-image: var(--doctor-edge-mask)");
+    expect(marqueeStyles).toContain("mask-image: var(--doctor-edge-mask)");
+    expect(marqueeStyles).toContain("transparent 1px");
+    expect(marqueeStyles).toContain("transparent calc(100% - 1px)");
+    expect(marqueeStyles).not.toMatch(/\.doctor-marquee::(?:before|after)/);
+  });
+
   it("repeats the same six profiles in order without duplicate screen-reader or tab stops", () => {
     const { container } = render(view());
     const groups = container.querySelectorAll(".doctor-marquee__group");
