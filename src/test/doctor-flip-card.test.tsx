@@ -39,7 +39,7 @@ describe("concise homepage doctor cards", () => {
     const portrait = screen.getByRole("img", { name: doctor.name });
     expect(portrait).toHaveClass("object-contain", "object-center", "h-full", "w-auto");
     expect(portrait).not.toHaveClass("object-cover", "object-top");
-    expect(portrait.parentElement).toHaveClass("items-center", "justify-center");
+    expect(portrait.parentElement).toHaveClass("absolute", "inset-0", "items-center", "justify-center");
     expect(portrait.parentElement).toHaveClass("bg-[#e7e7e7]");
     expect(portrait.parentElement).not.toHaveClass("bg-white");
     expect(portrait).toHaveStyle({ transform: "translateX(0%)" });
@@ -80,15 +80,18 @@ describe("concise homepage doctor cards", () => {
     expect(screen.getByRole("img", { name: doctor.name })).toHaveStyle({ transform: `translateX(${offset}%)` });
   });
 
-  it("keeps the key introduction without rendering specialty chips on either face", () => {
+  it("shows title, focus areas and a concise quote over the portrait", () => {
     const { container } = renderCard();
     expect(screen.getByRole("heading", { name: doctor.name })).toBeInTheDocument();
     expect(screen.getByRole("img", { name: doctor.name })).toBeInTheDocument();
     expect(screen.getAllByText(doctor.title)).toHaveLength(2);
+    expect(screen.getAllByText(`“${marketingLine}”`)).toHaveLength(1);
     expect(screen.getByText(marketingLine)).toBeInTheDocument();
     expect(screen.getByText(doctor.bio!)).toBeInTheDocument();
-    doctor.specialties.forEach((specialty) => expect(screen.queryByText(specialty)).not.toBeInTheDocument());
-    expect(screen.queryByText("Areas of focus")).not.toBeInTheDocument();
+    expect(screen.getByText(doctor.specialties[0])).toBeInTheDocument();
+    expect(screen.getByText(doctor.specialties[1])).toBeInTheDocument();
+    expect(screen.queryByText(doctor.specialties[2])).not.toBeInTheDocument();
+    expect(screen.getByLabelText("Areas of focus")).toBeInTheDocument();
     expect(container.querySelector(".bg-accent")).toBeNull();
     expect(screen.getAllByRole("link", { hidden: true })).toHaveLength(2);
     screen.getAllByRole("link", { hidden: true }).forEach((link) => {
@@ -96,16 +99,16 @@ describe("concise homepage doctor cards", () => {
     });
   });
 
-  it("keeps readable type and moves the longer introduction to the compact card's back", () => {
+  it("keeps readable type and the full biography on the compact card's back", () => {
     const { container } = renderCard();
     const front = container.querySelector(".doctor-flip-card__face--front")!;
     const back = container.querySelector(".doctor-flip-card__face--back")!;
     expect(screen.getByRole("article")).toHaveClass("min-h-[410px]");
     expect(screen.getByRole("heading", { name: doctor.name })).toHaveClass("text-[22px]");
-    expect(screen.getByRole("img").parentElement).toHaveClass("h-[160px]");
-    expect(front).not.toHaveTextContent(marketingLine);
+    expect(screen.getByRole("img").parentElement).toHaveClass("absolute", "inset-0");
+    expect(front).toHaveTextContent(marketingLine);
     expect(back).toHaveTextContent(marketingLine);
-    expect(screen.getByRole("button", { name: "Meet this expert" })).toHaveClass("size-11");
+    expect(screen.getByRole("button", { name: "Meet this expert" })).toHaveClass("size-10");
     fireEvent.click(screen.getByRole("button", { name: "Meet this expert" }));
     expect(screen.getByText(marketingLine)).toBeVisible();
     expect(screen.getByText(doctor.bio!)).toBeVisible();

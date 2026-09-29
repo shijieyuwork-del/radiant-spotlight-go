@@ -91,14 +91,14 @@ export function DoctorFlipCard({
           )}
           aria-hidden={isFlipped}
         >
-          <div className="relative flex h-[160px] shrink-0 items-center justify-center overflow-hidden bg-[#e7e7e7]">
+          <div className="absolute inset-0 flex items-center justify-center overflow-hidden bg-[#e7e7e7]">
             {portrait ? (
               <img
                 src={portrait}
                 alt={doctor.name}
                 loading="lazy"
                 decoding="async"
-                className={cn("h-full max-w-none shrink-0 object-contain object-center", portraitRetouch ? "w-full" : "w-auto")}
+                className={cn("h-full max-w-none shrink-0 object-contain object-center transition-transform duration-500 ease-out", portraitRetouch ? "w-full" : "w-auto")}
                 style={{ transform: `translateX(${portraitRetouch ? 0 : HOMEPAGE_DOCTOR_PORTRAIT_OFFSETS[doctor.id] ?? 0}%)` }}
               />
             ) : (
@@ -107,32 +107,43 @@ export function DoctorFlipCard({
               </div>
             )}
           </div>
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0a2e27]/95 via-[#0a2e27]/38 via-[48%] to-transparent" />
 
-          <div className="flex min-h-0 grow flex-col p-4">
-            <h3 className="font-display text-[22px] font-semibold leading-tight text-foreground">{doctor.name}</h3>
-            <p className="mt-2 line-clamp-2 min-h-9 text-label font-semibold uppercase leading-normal tracking-[0.12em] text-brand">{doctor.title}</p>
-            <p className="mt-2 flex items-center gap-1.5 text-sm font-medium text-foreground">
-              <MapPin className="size-3.5 shrink-0 text-primary" aria-hidden="true" />
-              {doctor.city}
-            </p>
+          <button
+            ref={frontToggleRef}
+            type="button"
+            onClick={toggleDetails}
+            aria-label={detailsLabel}
+            title={detailsLabel}
+            aria-expanded={isFlipped}
+            tabIndex={duplicate || isFlipped ? -1 : 0}
+            className="absolute right-3 top-3 z-10 inline-flex size-10 items-center justify-center rounded-full border border-white/35 bg-[#0a2e27]/35 text-white backdrop-blur-md transition-colors hover:bg-[#0a2e27]/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-brand"
+          >
+            <Info className="size-4" aria-hidden="true" />
+          </button>
 
-            <div className="mt-auto flex items-center justify-between gap-3 border-t border-border pt-2 text-sm font-semibold text-foreground">
-              <Link to={profileHref} aria-label={`${viewProfileLabel}: ${doctor.name}`} tabIndex={duplicate || isFlipped ? -1 : 0} className="inline-flex min-h-11 min-w-0 items-center gap-2 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
+          <div className="relative z-[1] mt-auto flex min-h-0 flex-col p-5 text-white">
+            <h3 className="font-display text-[22px] font-semibold leading-tight text-white">{doctor.name}</h3>
+            <p className="mt-1.5 line-clamp-2 text-[0.68rem] font-semibold uppercase leading-relaxed tracking-[0.14em] text-white/75">{doctor.title}</p>
+            {doctor.specialties.length > 0 ? (
+              <div className="mt-3 flex flex-wrap gap-1.5" aria-label="Areas of focus">
+                {doctor.specialties.slice(0, 2).map((specialty) => (
+                  <span key={specialty} className="rounded-full border border-white/25 bg-white/[0.12] px-2.5 py-1 text-[0.68rem] font-semibold leading-none text-white/90 backdrop-blur-sm">
+                    {specialty}
+                  </span>
+                ))}
+              </div>
+            ) : null}
+            {marketingLine ? <blockquote className="mt-3 line-clamp-3 text-[0.92rem] font-medium leading-snug text-white">“{marketingLine}”</blockquote> : null}
+            <div className="mt-3 flex items-end justify-between gap-3 border-t border-white/20 pt-3">
+              <div className="flex items-center gap-1.5 text-xs font-medium text-white/75">
+                <MapPin className="size-3.5 shrink-0 text-primary" aria-hidden="true" />
+                {doctor.city}
+              </div>
+              <Link to={profileHref} aria-label={`${viewProfileLabel}: ${doctor.name}`} tabIndex={duplicate || isFlipped ? -1 : 0} className="inline-flex min-h-10 items-center gap-1.5 rounded-full border border-white/25 bg-white/10 px-3 text-xs font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
                 {viewProfileLabel}
-                <ArrowRight className="size-4 shrink-0 text-primary" aria-hidden="true" />
+                <ArrowRight className="size-3.5 shrink-0" aria-hidden="true" />
               </Link>
-              <button
-                ref={frontToggleRef}
-                type="button"
-                onClick={toggleDetails}
-                aria-label={detailsLabel}
-                title={detailsLabel}
-                aria-expanded={isFlipped}
-                tabIndex={duplicate || isFlipped ? -1 : 0}
-                className="inline-flex size-11 shrink-0 items-center justify-center rounded-full border border-primary/20 bg-primary/5 text-brand transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-              >
-                <Info className="size-4" aria-hidden="true" />
-              </button>
             </div>
           </div>
         </div>
