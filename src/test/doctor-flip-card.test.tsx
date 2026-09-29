@@ -34,11 +34,11 @@ function renderCard(overrides: Partial<DoctorFlipCardData> = {}) {
 afterEach(cleanup);
 
 describe("concise homepage doctor cards", () => {
-  it("fits the complete portrait in a centered frame instead of cropping from the top", () => {
+  it("fits the complete portrait high in the frame so overlay text stays below the eyes", () => {
     renderCard();
     const portrait = screen.getByRole("img", { name: doctor.name });
-    expect(portrait).toHaveClass("object-contain", "object-center", "h-full", "w-auto");
-    expect(portrait).not.toHaveClass("object-cover", "object-top");
+    expect(portrait).toHaveClass("object-contain", "object-top", "h-full", "w-auto");
+    expect(portrait).not.toHaveClass("object-cover", "object-center");
     expect(portrait.parentElement).toHaveClass("absolute", "inset-0", "items-center", "justify-center");
     expect(portrait.parentElement).toHaveClass("bg-card");
     expect(portrait.parentElement).not.toHaveClass("bg-[#e7e7e7]");
@@ -49,7 +49,7 @@ describe("concise homepage doctor cards", () => {
     renderCard({ id, photo_path: retouch.sourcePath, photo: "" });
     const portrait = screen.getByRole("img", { name: doctor.name });
     expect(portrait).toHaveAttribute("src", retouch.photo);
-    expect(portrait).toHaveClass("w-full", "h-full", "object-contain", "object-center");
+    expect(portrait).toHaveClass("w-full", "h-full", "object-contain", "object-top");
     expect(portrait.parentElement).toHaveClass("bg-card");
   });
 

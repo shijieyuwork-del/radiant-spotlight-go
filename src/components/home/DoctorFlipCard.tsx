@@ -98,7 +98,7 @@ export function DoctorFlipCard({
                 alt={doctor.name}
                 loading="lazy"
                 decoding="async"
-                className={cn("h-full max-w-none shrink-0 object-contain object-center transition-transform duration-500 ease-out", portraitRetouch ? "w-full" : "w-auto")}
+                className={cn("h-full max-w-none shrink-0 object-contain object-top transition-transform duration-500 ease-out", portraitRetouch ? "w-full" : "w-auto")}
                 style={{ transform: `translateX(${portraitRetouch ? 0 : HOMEPAGE_DOCTOR_PORTRAIT_OFFSETS[doctor.id] ?? 0}%)` }}
               />
             ) : (
