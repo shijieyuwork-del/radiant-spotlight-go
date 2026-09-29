@@ -1302,6 +1302,41 @@ const TreatmentsSection = () => {
 
 const getDoctorMarketingLine = (doctor: DoctorFlipCardData, lang: string) => {
   const name = doctor.name.toLowerCase();
+  const homepageQuotes = [
+    {
+      matches: ["zhang wenkai", "张文凯"],
+      en: "I listen first. The treatment plan follows.",
+      zh: "我会先倾听，再制定治疗方案。",
+    },
+    {
+      matches: ["huang xingguo", "黄兴国"],
+      en: "Natural results begin with understanding what suits you.",
+      zh: "自然的效果，始于了解什么真正适合你。",
+    },
+    {
+      matches: ["huang liewen", "黄列文"],
+      en: "A good plan should feel clear before treatment begins.",
+      zh: "好的治疗方案，应当在治疗开始前就让你清楚明白。",
+    },
+    {
+      matches: ["ning jin", "靳宁"],
+      en: "My goal is to refine, not redefine, what makes you unique.",
+      zh: "我的目标是精细改善，而不是改变你的独特之处。",
+    },
+    {
+      matches: ["li lin", "李林"],
+      en: "We will discuss what is possible, what is appropriate, and what is not.",
+      zh: "我们会坦诚讨论什么可以做、什么适合你，以及什么不应该做。",
+    },
+    {
+      matches: ["xun wang", "王洵"],
+      en: "Every detail matters, but your safety always comes first.",
+      zh: "每个细节都很重要，但你的安全永远优先。",
+    },
+  ];
+  const homepageQuote = homepageQuotes.find(({ matches }) => matches.some((candidate) => name.includes(candidate)));
+  if (homepageQuote) return lang === "zh" ? homepageQuote.zh : translatedUiText(lang, homepageQuote.en);
+
   const key = name.includes("ning jin") || name.includes("靳宁")
     ? "ning"
     : name.includes("li lin") || name.includes("李林")
