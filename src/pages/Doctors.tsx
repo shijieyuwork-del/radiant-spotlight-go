@@ -38,6 +38,21 @@ const featuredDoctorRank = (doctor: DirectoryDoctor) => {
 const Experts = () => {
   const { t, lang } = useAsia();
   const c = <T,>(en: T, zh: T, ru: T, es?: T, th?: T, ms?: T) => asiaCopy(lang, { en, zh, ru, es, th, ms });
+  const compactSpecialtyLabels = (specialties: string[]) => {
+    const areas = [
+      { pattern: /rhino|nose|nasal|alar|sept|鼻/i, label: c("Rhinoplasty", "鼻整形", "Ринопластика", "Rinoplastia") },
+      { pattern: /eye|eyelid|bleph|ptosis|cantho|tear trough|眼|睑|重睑/i, label: c("Eyelid surgery", "双眼皮", "Пластика век", "Cirugía de párpados") },
+      { pattern: /face|facial|facelift|contour|chin|jaw|zygoma|lip|forehead|temple|面|脸|颌|下巴|唇/i, label: c("Facial surgery", "面部整形", "Пластика лица", "Cirugía facial") },
+      { pattern: /breast|mamm|乳|胸/i, label: c("Breast surgery", "胸部整形", "Пластика груди", "Cirugía mamaria") },
+      { pattern: /body|liposuction|\blipo\b|abdomen|abdomin|waist|thigh|arm|buttock|tummy|脂肪|吸脂|腰|腹|大腿|手臂|臀/i, label: c("Body contouring", "身体塑形", "Контурирование тела", "Contorno corporal") },
+      { pattern: /dental|tooth|teeth|implant|crown|veneer|occlus|牙|齿/i, label: c("Dental", "牙科", "Стоматология", "Odontología") },
+      { pattern: /hair|follic|\bfue\b|\bfut\b|头发|毛发|植发/i, label: c("Hair restoration", "植发", "Восстановление волос", "Restauración capilar") },
+      { pattern: /skin|dermat|laser|inject|botox|filler|rejuvenation|皮肤|注射|填充/i, label: c("Skin treatments", "皮肤治疗", "Лечение кожи", "Tratamientos de piel") },
+    ];
+    const text = specialties.join(" ");
+    const labels = areas.filter(({ pattern }) => pattern.test(text)).map(({ label }) => label);
+    return labels.length > 0 ? labels : [c("Aesthetic care", "医美治疗", "Эстетическая медицина", "Medicina estética")];
+  };
   const { q, city, sort, page, setFilter, setPage, reset } = useDirectoryState("doctors");
   const setQ = (value: string) => setFilter("q", value);
   const setCity = (value: string) => setFilter("city", value);
@@ -248,7 +263,7 @@ const Experts = () => {
                       </div>
                     </div>
                     {d.bio && <p className="mt-4 line-clamp-2 text-sm leading-relaxed text-muted-foreground"><Highlight text={d.bio} query={q} /></p>}
-                    <div className="mt-4 flex flex-wrap gap-1.5">{d.specialties.map((s) => <span key={s} className="rounded-full bg-accent px-2.5 py-1 text-label"><Highlight text={s} query={q} /></span>)}</div>
+                    <div className="mt-4 flex flex-wrap gap-1.5">{compactSpecialtyLabels(d.specialties).map((label) => <span key={label} className="rounded-full bg-accent px-2.5 py-1 text-label"><Highlight text={label} query={q} /></span>)}</div>
                     <div className="mt-auto grid gap-2 pt-6 min-[430px]:grid-cols-[0.9fr_1.1fr]">
                       <Link data-directory-item={d.id} onClick={() => rememberReturnPosition(d.id)} to={d.demo ? `/doctors/demo/${d.id}` : `/doctors/profile/${d.id}`} className="flex min-h-12 items-center justify-center rounded-xl border border-primary/30 px-3 py-3 text-center text-xs font-semibold text-brand hover:bg-primary/10">
                         {c("Expert & cases", "专家与案例", "Эксперт и истории пациентов", "Experto y casos")}
