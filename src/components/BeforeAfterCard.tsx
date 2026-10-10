@@ -12,7 +12,7 @@ interface BeforeAfterCardProps {
   defaultBlur?: boolean;
   /** 单张拼好的对比图：不显示滑块，直接整图展示 */
   single?: boolean;
-  /** Wider presentation for the two-column gallery page. */
+  /** Wider presentation for the multi-column gallery page. */
   layout?: "portrait" | "wide";
 }
 
