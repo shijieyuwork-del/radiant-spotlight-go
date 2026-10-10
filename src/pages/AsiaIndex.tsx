@@ -1233,37 +1233,37 @@ const TreatmentsSection = () => {
     {
       key: "experts",
       image: procedureRhinoplasty,
-      eyebrow: c("300+ specialists", "300+ 位专家", "Более 300 специалистов", "Más de 300 especialistas"),
-      title: c("More experts to compare", "更多专家可比较", "Больше специалистов на выбор", "Más especialistas para comparar"),
+      eyebrow: c("300+ specialists across China", "覆盖中国的 300+ 位专家", "Более 300 специалистов по всему Китаю", "Más de 300 especialistas en China"),
+      title: c("Find the doctor who fits your goals", "找到更适合你需求的医生", "Найдите врача под ваши цели", "Encuentra al médico que mejor se adapte a tus objetivos"),
       detail: c(
-        "Compare 300+ cosmetic medicine specialists across China.",
-        "比较遍布中国的 300 多位医美专家。",
-        "Сравните более 300 специалистов эстетической медицины по всему Китаю.",
-        "Compara más de 300 especialistas en medicina estética de toda China.",
+        "Tell us what you are considering. We help you compare suitable specialists and coordinate the introduction.",
+        "告诉我们你在考虑什么。我们帮你比较合适的专家，并协调对接。",
+        "Расскажите, что вы рассматриваете. Мы поможем сравнить подходящих специалистов и организуем знакомство.",
+        "Cuéntanos qué estás considerando. Te ayudamos a comparar especialistas adecuados y coordinamos la presentación.",
       ),
     },
     {
       key: "network",
       image: "/generated/clinic-network-asia-v2.webp",
-      eyebrow: c("China-only coordination", "仅提供中国境内协调服务", "Координация только в Китае", "Coordinación solo en China"),
-      title: c("Plan your care in China", "规划你的中国医美行程", "Планируйте лечение в Китае", "Planifica tu atención en China"),
+      eyebrow: c("From online consultation to admission", "从线上问诊到入院", "От онлайн-консультации до госпитализации", "De la consulta en línea al ingreso"),
+      title: c("Every step, already coordinated", "每一步，都有人提前协调", "Каждый шаг уже скоординирован", "Cada paso, ya coordinado"),
       detail: c(
-        "Explore clinics in China and get help coordinating consultations and travel within China.",
-        "了解中国的医疗机构，获取中国境内的咨询与行程协调支持。",
-        "Изучайте клиники Китая и получайте помощь с координацией консультаций и поездок внутри страны.",
-        "Explora clínicas en China y recibe ayuda para coordinar consultas y viajes dentro del país.",
+        "Online consultation, airport pickup, hospital admission and in-clinic interpretation, with a clear next step throughout.",
+        "线上问诊、接送机、入院和院内翻译，全程清楚下一步该做什么。",
+        "Онлайн-консультация, трансфер из аэропорта, госпитализация и перевод в клинике — с понятным следующим шагом на всём пути.",
+        "Consulta en línea, recogida en el aeropuerto, ingreso e interpretación en la clínica, siempre con un siguiente paso claro.",
       ),
     },
     {
       key: "service",
       image: journeyGroundSupport,
-      eyebrow: c("One coordinated journey", "一站式行程支持", "Единая координация", "Un viaje coordinado"),
-      title: c("One team, start to finish", "一支团队，全程协调", "Одна команда на всём пути", "Un equipo de principio a fin"),
+      eyebrow: c("One team through follow-up", "一支团队跟进到底", "Одна команда до завершения наблюдения", "Un equipo hasta el seguimiento"),
+      title: c("Never guess what comes next", "每一步，都不必再猜", "Всегда знайте, что будет дальше", "Nunca tendrás que adivinar qué sigue"),
       detail: c(
-        "Consultation coordination, plus interpretation, airport pickup and hotel booking.",
-        "免费协调问诊，并提供翻译、接机和酒店预订支持。",
-        "Бесплатная координация консультации, а также перевод, трансфер и бронирование отеля.",
-        "Coordinación gratuita de consultas, más interpretación, recogida y reserva de hotel.",
+        "A dedicated team supports your journey in China and keeps follow-up communication moving after your appointment.",
+        "专属团队支持你的赴华行程，并在就诊后继续协调后续沟通。",
+        "Выделенная команда сопровождает вашу поездку в Китай и помогает поддерживать связь после приёма.",
+        "Un equipo dedicado te acompaña durante tu viaje a China y mantiene la comunicación de seguimiento tras la cita.",
       ),
     },
   ];
@@ -1273,8 +1273,13 @@ const TreatmentsSection = () => {
         icon={ShieldCheck}
         eyebrow={c("Why choose us", "为什么选择我们", "Почему выбирают нас", "Por qué elegirnos")}
         titleId="why-celadonchina-title"
-        title={<>Why <em className="not-italic text-brand">Sino Aesthetics</em></>}
-        subtitle={c("More experts, more destinations and one coordinated journey.", "更多专家、更多目的地，一站式行程协调。", "Больше специалистов и направлений, одна команда на всём пути.", "Más especialistas y destinos, con un solo equipo durante todo el viaje.")}
+        title={<>{c("Make your aesthetic journey in China", "让赴华变美", "Сделайте эстетическое путешествие в Китай", "Haz que tu viaje estético a China sea")} <em className="not-italic text-brand">{c("simpler than you imagined.", "比想象中更简单。", "проще, чем вы думали.", "más sencillo de lo que imaginabas.")}</em></>}
+        subtitle={c(
+          "From online consultation and airport pickup to hospital admission, interpretation and follow-up, every step is coordinated. Access a China-wide network of 300+ specialists and find the doctor best suited to your goals.",
+          "从线上问诊、接送机，到入院、翻译和后续跟进，每一步都有人协调，不必再靠猜。连接覆盖中国的 300+ 医美专家网络，帮你找到更适合自身需求的医生。",
+          "От онлайн-консультации и встречи в аэропорту до госпитализации, перевода и последующего наблюдения — каждый шаг скоординирован. Получите доступ к сети из более чем 300 специалистов по всему Китаю и найдите врача, подходящего вашим целям.",
+          "Desde la consulta en línea y la recogida en el aeropuerto hasta el ingreso, la interpretación y el seguimiento, cada paso está coordinado. Accede a una red de más de 300 especialistas en China y encuentra al médico más adecuado para tus objetivos.",
+        )}
       />
 
       <div className="grid gap-4 md:grid-cols-3 md:gap-6" aria-label={c("Three reasons to choose Sino Aesthetics", "选择 Sino Aesthetics 的三个理由", "Три причины выбрать Sino Aesthetics", "Tres razones para elegir Sino Aesthetics")}>
