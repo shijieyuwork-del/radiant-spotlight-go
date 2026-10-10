@@ -20,7 +20,7 @@ import { TIKTOK_CASES } from "@/data/tiktokCases";
 import { getCoordinationPolicy } from "@/data/coordination-policy";
 import { getClinicPath, STATIC_CLINICS } from "@/data/clinicDirectory";
 
-import { useAsia } from "@/lib/asia-i18n";
+import { useAsia, type AsiaLang } from "@/lib/asia-i18n";
 import { translatedUiText } from "@/lib/locale-text";
 import { getPlanningMarketingCopy } from "@/lib/planning-marketing-copy";
 import QuoteCtaButton from "@/components/QuoteCtaButton";
@@ -1305,7 +1305,7 @@ const TreatmentsSection = () => {
 
 // ClinicsSection removed — patients only browse experts.
 
-const getDoctorMarketingLine = (doctor: DoctorFlipCardData, lang: string) => {
+const getDoctorMarketingLine = (doctor: DoctorFlipCardData, lang: AsiaLang) => {
   const name = doctor.name.toLowerCase();
   const homepageQuotes = [
     {
