@@ -51,7 +51,7 @@ const BeforeAfterGallery = () => {
       />
       <div className="min-h-screen bg-background">
         <AsiaNavbar />
-        <main className="container py-10 max-w-6xl">
+        <main className="container py-10 max-w-7xl">
           <header className="mx-auto max-w-2xl text-center">
             <span className="pill bg-accent text-accent-foreground">
               <Images className="size-3.5" />
@@ -106,7 +106,7 @@ const BeforeAfterGallery = () => {
             </p>
           )}
 
-          <div className="mt-8 grid gap-x-6 gap-y-10 sm:grid-cols-2">
+          <div className="mt-8 grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
             {filtered.map((item) => (
               <div key={item.id} className="space-y-2">
                 <BeforeAfterCard
