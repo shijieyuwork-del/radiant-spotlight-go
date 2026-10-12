@@ -1036,14 +1036,14 @@ const TreatmentsSectionLegacy = () => {
 
 // ============== Sample pricing ==============
 const SAMPLE_PRICES = [
-  { en: "Double Eyelid Surgery", zh: "双眼皮手术", ru: "Двойное веко", es: "Doble párpado", from: 8000, href: "/treatments/double-eyelid-surgery" },
-  { en: "Rhinoplasty", zh: "鼻综合", ru: "Ринопластика", es: "Rinoplastia", from: 22800, href: "/treatments/rhinoplasty" },
-  { en: "Liposuction", zh: "吸脂塑形", ru: "Липосакция", es: "Liposucción", from: 20000, href: "/treatments/liposuction" },
-  { en: "Breast Augmentation", zh: "隆胸", ru: "Увеличение груди", es: "Aumento de senos", from: 45000, href: "/treatments/breast-augmentation" },
-  { en: "Facelift (SMAS)", zh: "面部拉皮", ru: "Подтяжка лица", es: "Lifting facial", from: 58000, href: "/treatments/facelift" },
-  { en: "FUE Hair Transplant", zh: "FUE 植发", ru: "Пересадка волос FUE", es: "Trasplante capilar FUE", from: 18000, href: "/treatments/fue-hair-transplant" },
-  { en: "Full-Mouth Reconstruction", zh: "全口重建", ru: "Полная реконструкция зубов", es: "Reconstrucción bucal completa", from: 80000, href: "/treatments/full-mouth-reconstruction" },
-  { en: "Porcelain Veneers", zh: "牙贴片", ru: "Керамические виниры", es: "Carillas de porcelana", from: 3000, href: "/treatments/porcelain-veneers" },
+  { en: "Double Eyelid Surgery", zh: "双眼皮手术", ru: "Двойное веко", es: "Doble párpado", from: 8000, usReference: "$3,000–$5,500", href: "/treatments/double-eyelid-surgery" },
+  { en: "Rhinoplasty", zh: "鼻综合", ru: "Ринопластика", es: "Rinoplastia", from: 22800, usReference: "$7,500–$12,500", href: "/treatments/rhinoplasty" },
+  { en: "Liposuction", zh: "吸脂塑形", ru: "Липосакция", es: "Liposucción", from: 20000, usReference: "$4,300–$7,500", href: "/treatments/liposuction" },
+  { en: "Breast Augmentation", zh: "隆胸", ru: "Увеличение груди", es: "Aumento de senos", from: 45000, usReference: "$4,575–$8,000", href: "/treatments/breast-augmentation" },
+  { en: "Facelift (SMAS)", zh: "面部拉皮", ru: "Подтяжка лица", es: "Lifting facial", from: 58000, usReference: "$12,000–$19,000", href: "/treatments/facelift" },
+  { en: "FUE Hair Transplant", zh: "FUE 植发", ru: "Пересадка волос FUE", es: "Trasplante capilar FUE", from: 18000, usReference: "$6,000–$12,000", href: "/treatments/fue-hair-transplant" },
+  { en: "Full-Mouth Reconstruction", zh: "全口重建", ru: "Полная реконструкция зубов", es: "Reconstrucción bucal completa", from: 80000, usReference: "$15,000–$80,000+", href: "/treatments/full-mouth-reconstruction" },
+  { en: "Porcelain Veneers", zh: "牙贴片", ru: "Керамические виниры", es: "Carillas de porcelana", from: 3000, usReference: "$1,000–$2,000 / tooth", href: "/treatments/porcelain-veneers" },
 ];
 
 const PricingPreviewSection = () => {
@@ -1075,12 +1075,17 @@ const PricingPreviewSection = () => {
           <Link
             key={item.en}
             to={item.href}
-            className="group flex min-h-[100px] items-center justify-between gap-4 rounded-3xl border border-border bg-card px-6 py-5 shadow-soft transition-[border-color,transform] duration-150 hover:-translate-y-0.5 hover:border-primary/40"
+            className="group flex min-h-[116px] items-center justify-between gap-4 rounded-3xl border border-border bg-card px-6 py-5 shadow-soft transition-[border-color,transform] duration-150 hover:-translate-y-0.5 hover:border-primary/40"
           >
             <div className="min-w-0">
               <p className="truncate text-base font-semibold leading-snug text-foreground">{c(item.en, item.zh, item.ru, item.es)}</p>
               <p className="mt-1 text-[13px] leading-snug text-muted-foreground">
                 {c("from", "起步价", "от", "desde")} <span className="font-display text-[22px] font-semibold tabular-nums text-brand">{fmt(item.from)}</span>
+              </p>
+              <p className="mt-1.5 text-[12px] leading-snug text-muted-foreground">
+                <span className="font-medium text-foreground/60">{c("vs. U.S.", "对比美国", "в США", "vs. EE. UU.")}</span>{" "}
+                <span className="font-semibold tabular-nums text-foreground/75">{item.usReference}</span>
+                <sup className="ml-0.5">*</sup>
               </p>
             </div>
             <ArrowRight className="size-4 shrink-0 text-primary transition-transform duration-150 group-hover:translate-x-1" />
@@ -1090,10 +1095,10 @@ const PricingPreviewSection = () => {
 
       <p className="mt-5 text-[13px] leading-relaxed text-muted-foreground">
         {c(
-          "Prices vary by expert, facility and treatment plan. Travel and accommodation are quoted separately.",
-          "价格因专家、机构与治疗方案而异；差旅与住宿费用单独报价。",
-          "Цены зависят от эксперта, клиники и плана лечения. Поездка и проживание рассчитываются отдельно.",
-          "Los precios varían según el experto, la clínica y el plan de tratamiento. El viaje y el alojamiento se presupuestan por separado.",
+          "Prices vary by expert, facility and treatment plan. *U.S. surgical comparisons are 2024 ASPS projected surgeon-fee ranges only; facility, anesthesia and other costs are additional. Hair and dental figures are broad U.S. planning references and may use different inclusions. Travel and accommodation are quoted separately.",
+          "价格因专家、机构与治疗方案而异。*美国整形项目对比采用 ASPS 2024 年预计医生费区间，不含医院、麻醉及其他费用；植发与牙科为美国市场的大致规划参考，所含项目可能不同。差旅与住宿费用单独报价。",
+          "Цены зависят от эксперта, клиники и плана лечения. *Сравнения по хирургии в США основаны только на прогнозируемых гонорарах хирургов ASPS за 2024 год; клиника, анестезия и другие расходы оплачиваются дополнительно. Данные по волосам и стоматологии являются общими ориентирами и могут включать разные услуги. Поездка и проживание рассчитываются отдельно.",
+          "Los precios varían según el experto, la clínica y el plan de tratamiento. *Las comparaciones quirúrgicas de EE. UU. corresponden solo a los honorarios proyectados por ASPS para 2024; hospital, anestesia y otros costes son adicionales. Las cifras capilares y dentales son referencias generales y pueden incluir conceptos distintos. El viaje y el alojamiento se presupuestan por separado.",
         )}
       </p>
     </HomeSection>
