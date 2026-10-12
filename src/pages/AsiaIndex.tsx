@@ -1283,7 +1283,7 @@ const TreatmentsSection = () => {
           "From online consultation and airport pickup to hospital admission, interpretation and follow-up, every step is coordinated. Access a China-wide network of 300+ specialists and meet the one who fits you.",
           "从线上问诊、接送机，到入院、翻译和后续跟进，每一步都有人协调，不必再靠猜。连接覆盖中国的 300+ 医美专家网络，帮你找到最适合你的那一位。",
           "От онлайн-консультации и встречи в аэропорту до госпитализации, перевода и последующего наблюдения — каждый шаг скоординирован. Получите доступ к сети из более чем 300 специалистов по всему Китаю и найдите своего специалиста.",
-          "Desde la consulta en línea y la recogida en el aeropuerto hasta el ingreso, la interpretación y el seguimiento, cada paso está coordinado. Accede a una red de más de 300 especialistas en China y encuentra al médico más adecuado para tus objetivos.",
+          "Desde la consulta en línea y la recogida en el aeropuerto hasta el ingreso, la interpretación y el seguimiento, cada paso está coordinado. Accede a una red de más de 300 especialistas en China y conoce al que mejor encaja contigo.",
         )}
       />
 
