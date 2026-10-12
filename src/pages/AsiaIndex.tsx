@@ -1239,12 +1239,12 @@ const TreatmentsSection = () => {
       key: "experts",
       image: procedureRhinoplasty,
       eyebrow: c("300+ specialists across China", "覆盖中国的 300+ 位专家", "Более 300 специалистов по всему Китаю", "Más de 300 especialistas en China"),
-      title: c("Find the doctor who fits your goals", "找到更适合你需求的医生", "Найдите врача под ваши цели", "Encuentra al médico que mejor se adapte a tus objetivos"),
+      title: c("We find your expert.", "我们帮你找对专家。", "Мы найдём вашего специалиста.", "Encontramos a tu especialista."),
       detail: c(
-        "Tell us what you are considering. We help you compare suitable specialists and coordinate the introduction.",
-        "告诉我们你在考虑什么。我们帮你比较合适的专家，并协调对接。",
-        "Расскажите, что вы рассматриваете. Мы поможем сравнить подходящих специалистов и организуем знакомство.",
-        "Cuéntanos qué estás considerando. Te ayudamos a comparar especialistas adecuados y coordinamos la presentación.",
+        "Tell us your goal. We shortlist the specialists who fit and make the introduction.",
+        "说出你的目标，我们筛出合适的专家，并安排面诊。",
+        "Опишите свою цель. Мы подберём подходящих специалистов и организуем знакомство.",
+        "Cuéntanos tu objetivo. Seleccionamos a los especialistas que encajan y hacemos la presentación.",
       ),
     },
     {
@@ -1280,10 +1280,10 @@ const TreatmentsSection = () => {
         titleId="why-celadonchina-title"
         title={<>{c("Make your aesthetic journey in China", "让赴华变美", "Сделайте эстетическое путешествие в Китай", "Haz que tu viaje estético a China sea")} <em className="not-italic text-brand">{c("simpler than you imagined.", "比想象中更简单。", "проще, чем вы думали.", "más sencillo de lo que imaginabas.")}</em></>}
         subtitle={c(
-          "From online consultation and airport pickup to hospital admission, interpretation and follow-up, every step is coordinated. Access a China-wide network of 300+ specialists and find the doctor best suited to your goals.",
-          "从线上问诊、接送机，到入院、翻译和后续跟进，每一步都有人协调，不必再靠猜。连接覆盖中国的 300+ 医美专家网络，帮你找到更适合自身需求的医生。",
-          "От онлайн-консультации и встречи в аэропорту до госпитализации, перевода и последующего наблюдения — каждый шаг скоординирован. Получите доступ к сети из более чем 300 специалистов по всему Китаю и найдите врача, подходящего вашим целям.",
-          "Desde la consulta en línea y la recogida en el aeropuerto hasta el ingreso, la interpretación y el seguimiento, cada paso está coordinado. Accede a una red de más de 300 especialistas en China y encuentra al médico más adecuado para tus objetivos.",
+          "From online consultation and airport pickup to hospital admission, interpretation and follow-up, every step is coordinated. Access a China-wide network of 300+ specialists and meet the one who fits you.",
+          "从线上问诊、接送机，到入院、翻译和后续跟进，每一步都有人协调，不必再靠猜。连接覆盖中国的 300+ 医美专家网络，帮你找到最适合你的那一位。",
+          "От онлайн-консультации и встречи в аэропорту до госпитализации, перевода и последующего наблюдения — каждый шаг скоординирован. Получите доступ к сети из более чем 300 специалистов по всему Китаю и найдите своего специалиста.",
+          "Desde la consulta en línea y la recogida en el aeropuerto hasta el ingreso, la interpretación y el seguimiento, cada paso está coordinado. Accede a una red de más de 300 especialistas en China y conoce al que mejor encaja contigo.",
         )}
       />
 
