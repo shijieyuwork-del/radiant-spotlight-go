@@ -8,6 +8,7 @@ import { I18nProvider } from "@/lib/i18n";
 import { AsiaI18nProvider } from "@/lib/asia-i18n";
 import { QuoteProvider } from "@/components/QuoteRequest";
 import FloatingLiveChat from "@/components/FloatingLiveChat";
+import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 import { AuthProvider } from "@/lib/auth";
 import { SavedCasesSync } from "@/lib/saved-cases";
 import AsiaIndex from "./pages/AsiaIndex.tsx";
@@ -65,6 +66,7 @@ export const AppProviders = ({ children }: { children: ReactNode }) => (
                   <Sonner />
                   <AnalyticsRouteTracker />
                   <ConsentBanner />
+                  <FloatingWhatsApp />
                   <FloatingLiveChat />
                   {children}
                 </TooltipProvider>

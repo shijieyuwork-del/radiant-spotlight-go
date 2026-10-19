@@ -730,3 +730,12 @@
 @media (prefers-reduced-motion: reduce) {
   .consult-blink, .consult-blink-ring { animation: none; }
 }
+
+/* 浮动联系栏：WhatsApp 气泡常驻右下角（移动端不受滚动限制），
+   咨询快捷键排在它上方，两者不互相遮挡。 */
+.float-rail-above-wa {
+  bottom: calc(max(1rem, env(safe-area-inset-bottom)) + 4.5rem);
+}
+@media (min-width: 640px) {
+  .float-rail-above-wa { bottom: calc(1.5rem + 4.75rem); }
+}
