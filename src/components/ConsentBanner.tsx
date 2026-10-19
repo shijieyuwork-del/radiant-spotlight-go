@@ -73,6 +73,12 @@ const ConsentBanner = () => {
     return () => window.removeEventListener("keydown", onKey);
   }, [open, dismiss]);
 
+  // The prompt occupies the bottom of small screens, so the floating chat
+  // bubble waits for it to close instead of hiding behind it.
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent("ca:consent-banner", { detail: open }));
+  }, [open]);
+
   if (!analyticsConfigured() || !open) return null;
 
   const choose = (next: Exclude<AnalyticsConsent, "unset">) => {
@@ -88,7 +94,7 @@ const ConsentBanner = () => {
   });
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-[100] px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] pointer-events-none">
+    <div data-consent-banner="true" className="fixed inset-x-0 bottom-0 z-[100] px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] pointer-events-none">
       <aside
         className="pointer-events-auto relative mx-auto flex w-full max-w-3xl flex-col gap-3 rounded-2xl border border-border bg-card p-4 text-foreground shadow-soft sm:flex-row sm:items-center sm:gap-4"
         aria-label={asiaCopy(lang, { en: "Analytics privacy choices", zh: "分析数据隐私选项", ru: "Настройки конфиденциальности аналитики", es: "Opciones de privacidad de análisis", th: "ตัวเลือกความเป็นส่วนตัวของการวิเคราะห์", ms: "Pilihan privasi analitik" })}
