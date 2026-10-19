@@ -55,6 +55,7 @@ describe("floating WhatsApp bubble", () => {
 
   it("shows on the homepage and on deeper pages without any scroll gate", () => {
     for (const path of ["/", "/before-after", "/clinics", "/privacy"]) {
+      cleanup();
       at(path);
       expect(bubble()).toBeInTheDocument();
     }
