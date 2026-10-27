@@ -225,20 +225,35 @@ const Hero = () => {
               <ShieldCheck className="size-3.5 text-primary" />
               {copy.badge}
             </span>
-            <h1 className="cinematic-hero__title">
-              {marketing.title}
-              <em className="mt-1 block not-italic">{marketing.emphasis}</em>
-            </h1>
-            <p className="cinematic-hero__subtitle">{marketing.subtitle}</p>
+            <p className="mt-4 text-xs font-semibold uppercase tracking-[0.14em] text-primary">{hero.audience}</p>
+            <h1 className="cinematic-hero__title">{hero.title}</h1>
+            <p className="cinematic-hero__subtitle">{hero.subtitle}</p>
 
             <div className="cinematic-hero__actions mx-auto flex max-w-3xl flex-col justify-center gap-3 sm:flex-row">
-              <QuoteCtaButton className="min-h-[3.25rem] w-full px-6 py-3 text-[15px] sm:w-auto" quoteCtx={{ source: "home_hero" }} data-testid="home-hero-cta" />
+              <Button asChild size="lg" className="h-auto min-h-[3.25rem] w-full rounded-full px-6 py-3 text-[15px] font-semibold sm:w-auto">
+                <Link to="/clinics" data-testid="home-hero-explore">{hero.explore}<ArrowRight className="ml-1.5 size-4 shrink-0" /></Link>
+              </Button>
               <Button asChild size="lg" variant="outline" className="cinematic-hero__secondary h-auto min-h-[3.25rem] w-full whitespace-normal rounded-full px-6 py-3 text-[15px] font-semibold sm:w-auto">
-                <Link to="/cases">{marketing.diaries}<ArrowRight className="ml-1.5 size-4 shrink-0" /></Link>
+                <Link to="/travel-packages#support">{hero.how}</Link>
+              </Button>
+              <Button
+                type="button"
+                size="lg"
+                variant="outline"
+                data-testid="home-hero-cta"
+                onClick={() => openQuote({ source: "home_hero", intent: "question" })}
+                className="cinematic-hero__secondary h-auto min-h-[3.25rem] w-full whitespace-normal rounded-full px-6 py-3 text-[15px] font-semibold sm:w-auto"
+              >
+                <MessageCircle className="mr-1.5 size-4 shrink-0" />{hero.ask}
               </Button>
             </div>
 
-            <p className="cinematic-hero__policy mx-auto mt-4 max-w-2xl text-xs leading-relaxed">{policy.initialText} <Link to="/travel-packages#support" className="underline underline-offset-4">{policy.depositTitle}</Link></p>
+            <aside aria-label={hero.scopeTitle} className="mx-auto mt-5 max-w-2xl rounded-2xl border border-border/70 bg-card/70 px-4 py-3 text-left text-xs leading-relaxed text-muted-foreground backdrop-blur">
+              <strong className="mb-1 flex items-center gap-1.5 font-semibold text-foreground"><ShieldCheck className="size-3.5 text-primary" />{hero.scopeTitle}</strong>
+              {hero.scope}
+            </aside>
+
+            <p className="cinematic-hero__policy mx-auto mt-3 max-w-2xl text-xs leading-relaxed">{policy.initialText} <Link to="/travel-packages#support" className="underline underline-offset-4">{policy.depositTitle}</Link></p>
 
             <div className="cinematic-hero__gallery">
               <HeroVideoGallery items={diaryItems.slice(0, 10)} lang={lang} fmtPrice={fmt} layout="arc" />
