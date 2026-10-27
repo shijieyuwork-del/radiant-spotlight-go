@@ -35,7 +35,8 @@ async function loadAppData() {
         export { MEDICAL_TOURISM_GUIDES, medicalTourismGuidePath } from "@/data/medicalTourismGuides";
         export { STATIC_CLINICS } from "@/data/clinicDirectory";
         export { CLINIC_DIRECTORY_META, clinicPageMeta } from "@/lib/clinic-seo";
-        export { SITE_URL, SITE_NAME, OG_IMAGE, TWITTER_HANDLE, ORGANIZATION_SCHEMA, ORGANIZATION_ENTITY, WEBSITE_ENTITY, HOME_TITLE, SITE_DESCRIPTION, homeStructuredData } from "@/lib/seo-config";
+        export { SITE_URL, SITE_NAME, OG_IMAGE, TWITTER_HANDLE, ORGANIZATION_SCHEMA, ORGANIZATION_ENTITY, WEBSITE_ENTITY, HOME_TITLE, SITE_DESCRIPTION } from "@/lib/seo-config";
+        export { homeStructuredData } from "@/lib/home-structured-data";
       `,
       resolveDir: __dirname,
       loader: "ts",

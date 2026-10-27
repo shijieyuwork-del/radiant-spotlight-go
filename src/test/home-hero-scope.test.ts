@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { getHomeHeroCopy } from "@/lib/home-hero-copy";
-import { homeStructuredData } from "@/lib/seo-config";
+import { homeStructuredData } from "@/lib/home-structured-data";
 
 describe("homepage scope and audience", () => {
   it("states the audience: international visitors, women and men", () => {
