@@ -1662,11 +1662,11 @@ const AsiaIndex = () => {
   return (
     <>
       <PageMeta
-        title="Cosmetic Surgery in China | Doctors & Travel Support | Sino Aesthetics"
+        title={getHomeHeroCopy(lang).metaTitle}
         absoluteTitle
-        description={getPlanningMarketingCopy(lang).subtitle}
+        description={getHomeHeroCopy(lang).metaDescription}
         path="/"
-        structuredData={ORGANIZATION_SCHEMA}
+        structuredData={homeStructuredData(lang)}
       />
       <div className="home-water-page min-h-screen overflow-x-clip">
         <HeroAmbientBackground lang={lang} />
