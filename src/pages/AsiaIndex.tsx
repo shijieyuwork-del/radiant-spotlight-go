@@ -22,9 +22,9 @@ import { getClinicPath, STATIC_CLINICS } from "@/data/clinicDirectory";
 
 import { useAsia, type AsiaLang } from "@/lib/asia-i18n";
 import { translatedUiText } from "@/lib/locale-text";
-import { getPlanningMarketingCopy } from "@/lib/planning-marketing-copy";
+import { getHomeHeroCopy } from "@/lib/home-hero-copy";
 import QuoteCtaButton from "@/components/QuoteCtaButton";
-import { ORGANIZATION_SCHEMA } from "@/lib/seo-config";
+import { ORGANIZATION_SCHEMA, homeStructuredData } from "@/lib/seo-config";
 import { useQuote } from "@/components/QuoteRequest";
 import { MedicalDisclaimer } from "@/components/MedicalDisclaimer";
 import journeyConsultation from "@/assets/journey-premium-natural-consultation-v5.webp";
@@ -157,7 +157,8 @@ const treatments: Treatment[] = [
 // ============== Sections ==============
 const Hero = () => {
   const { t, lang, fmt } = useAsia();
-  const marketing = getPlanningMarketingCopy(lang);
+  const hero = getHomeHeroCopy(lang);
+  const { open: openQuote } = useQuote();
   const policy = getCoordinationPolicy(lang);
   // 后台上传并发布的视频排在演示日记前面
   const uploaded = usePublishedVideos(lang);
