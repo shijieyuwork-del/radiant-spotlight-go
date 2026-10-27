@@ -8,7 +8,8 @@ export const SITE_URL = import.meta.env.VITE_SITE_URL || "https://sinoaesthetics
 
 export const SITE_NAME = "Sino Aesthetics";
 export const SITE_DESCRIPTION =
-  "Explore cosmetic surgery in China with published doctor profiles, online consultations, procedure guidance, and coordinated travel, translation and aftercare from Sino Aesthetics.";
+  "Compare licensed hospitals and specialists in China, prepare for your consultation, and plan translation and travel support. Coordination only — not a clinic.";
+export const HOME_TITLE = "Cosmetic Care in China for International Visitors | Sino Aesthetics";
 export const SITE_AUTHOR = "Sino Aesthetics";
 
 // OG 分享卡片：public/og-image.jpg（1200×630），发布后可被社交平台抓取
