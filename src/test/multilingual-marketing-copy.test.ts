@@ -53,4 +53,17 @@ describe("multilingual marketing copy", () => {
       expect(source).not.toContain(outdatedClaim);
     }
   });
+
+  it("preserves the Sino Aesthetics brand and removes known machine-translation errors", () => {
+    const files = ["data/coordination-policy.ts", "lib/asia-i18n.tsx", "lib/generated-translations.ts"];
+    const source = files
+      .map((file) => readFileSync(resolve(process.cwd(), "src", file), "utf8"))
+      .join("\n");
+
+    expect(source).toContain("Sino Aesthetics");
+    expect(source).not.toContain("CeladonChina");
+    expect(source).not.toContain("ยังไม่มีคดีสาธารณะ");
+    expect(source).not.toContain("perlawanan");
+    expect(source).not.toContain('"Back": "belakang"');
+  });
 });

@@ -44,7 +44,7 @@ describe("coordination payment information", () => {
   it("states the confirmed collection time and cancellation hold in every language", () => {
     const expected: Record<AsiaLang, [string, string]> = {
       en: ["before you depart for China", "If you cancel, your deposit can be held for one year."],
-      zh: ["赴中国前收取", "取消后，押金可以保留一年。"],
+      zh: ["赴中国前收取", "如取消，押金可保留一年。"],
       ru: ["до выезда в Китай", "При отмене депозит можно сохранить на один год."],
       es: ["antes de tu salida hacia China", "Si cancelas, tu depósito puede mantenerse durante un año."],
       th: ["ก่อนที่คุณจะออกเดินทางไปจีน", "หากยกเลิก สามารถเก็บเงินมัดจำไว้ได้หนึ่งปี"],
@@ -52,7 +52,7 @@ describe("coordination payment information", () => {
       vi: ["trước khi bạn khởi hành đi Trung Quốc", "Nếu bạn hủy, khoản cọc có thể được giữ trong một năm."],
       ko: ["중국 출발 전에 납부", "취소 시 보증금은 1년간 보관할 수 있습니다."],
       ja: ["中国への出発前にお支払い", "キャンセル時はデポジットを1年間保留できます。"],
-      ar: ["قبل السفر إلى الصين", "عند الإلغاء يمكن الاحتفاظ بالوديعة لمدة سنة."],
+      ar: ["قبل السفر إلى الصين", "عند الإلغاء، يمكن الاحتفاظ بالوديعة لمدة سنة."],
       "pt-BR": ["antes da viagem", "Em caso de cancelamento, o depósito pode ficar retido por um ano."],
       id: ["sebelum keberangkatan", "Jika membatalkan, deposit dapat disimpan selama satu tahun."],
       fr: ["avant votre départ", "En cas d’annulation, le dépôt peut être conservé pendant un an."],
