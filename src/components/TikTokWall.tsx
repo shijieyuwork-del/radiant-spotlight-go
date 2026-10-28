@@ -28,8 +28,6 @@ export type TikTokItem = {
   priceCny: number;
   /** 日记发布日期（ISO），用于「最新」排序 */
   postedAt?: string;
-  /** false = standalone case video with no /cases/:id detail page and no patient-diary claims */
-  hasCasePage?: boolean;
 };
 
 export type TikTokWallProps = {

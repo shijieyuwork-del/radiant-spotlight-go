@@ -17,7 +17,6 @@ import HeroAmbientBackground from "@/components/HeroAmbientBackground";
 import { usePublishedVideos } from "@/hooks/use-published-videos";
 import PageMeta from "@/components/PageMeta";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
-import { HOMEPAGE_CASE_VIDEOS } from "@/data/homepageCaseVideos";
 import { getCoordinationPolicy } from "@/data/coordination-policy";
 import { getClinicPath, STATIC_CLINICS } from "@/data/clinicDirectory";
 
@@ -164,7 +163,7 @@ const Hero = () => {
   const policy = getCoordinationPolicy(lang);
   // 后台上传并发布的视频排在演示日记前面
   const uploaded = usePublishedVideos(lang);
-  const diaryItems = [...HOMEPAGE_CASE_VIDEOS, ...uploaded, ...TIKTOK_CASES];
+  const diaryItems = [...uploaded, ...TIKTOK_CASES];
 
   const copy = lang === "zh"
     ? {

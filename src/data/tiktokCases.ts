@@ -1,4 +1,7 @@
 import type { TikTokItem } from "@/components/TikTokWall";
+// Facelift card media: user-supplied replacement video (persistent asset).
+import faceliftCaseVideo from "@/assets/cases/homepage-case.mp4.asset.json";
+import faceliftCasePoster from "@/assets/cases/homepage-case-poster.jpg.asset.json";
 
 const DIARY_PREVIEWS: TikTokItem[] = [
   {
@@ -16,8 +19,8 @@ const DIARY_PREVIEWS: TikTokItem[] = [
   {
     id: "facelift-chengdu",
     postedAt: "2026-08-14",
-    src: "/videos/v3.mp4",
-    poster: "/videos/v3-poster.webp",
+    src: faceliftCaseVideo.url,
+    poster: faceliftCasePoster.url,
     user: { en: "@JiaSeoul", zh: "@嘉嘉_Seoul" },
     caption: { en: "SMAS facelift · 90-day reveal, jawline & neck", zh: "SMAS拉皮提升术后90天，下颌线与颈部对比" },
     treatment: { en: "Facelift", zh: "面部拉皮" },
