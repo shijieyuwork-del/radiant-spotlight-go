@@ -1,4 +1,4 @@
-import { Instagram, Youtube } from "lucide-react";
+import { Instagram, ShieldCheck, Youtube } from "lucide-react";
 import { Link } from "react-router-dom";
 import BrandLogo from "@/components/BrandLogo";
 import ConsultationCta from "@/components/ConsultationCta";
@@ -6,9 +6,11 @@ import { MedicalDisclaimer } from "@/components/MedicalDisclaimer";
 import { analyticsConfigured, openPrivacyChoices } from "@/lib/analytics";
 import { useAsia } from "@/lib/asia-i18n";
 import { asiaCopy } from "@/lib/asia-copy";
+import { getHomeHeroCopy } from "@/lib/home-hero-copy";
 
 const Footer = () => {
   const { lang } = useAsia();
+  const scope = getHomeHeroCopy(lang);
   return (
     <>
       <ConsultationCta />
@@ -44,7 +46,14 @@ const Footer = () => {
         ))}
       </div>
       <div className="container pb-6">
-        <MedicalDisclaimer variant="inline" className="max-w-3xl" />
+        <div role="note" aria-label={scope.scopeTitle} className="max-w-5xl border-t border-border/50 pt-5 text-[11px] leading-relaxed text-muted-foreground/80 sm:text-xs">
+          <strong className="mb-1.5 flex items-center gap-1.5 font-semibold text-foreground/75">
+            <ShieldCheck className="size-3.5 text-primary/70" aria-hidden />
+            {scope.scopeTitle}
+          </strong>
+          <p>{scope.scope}</p>
+          <MedicalDisclaimer className="mt-2 opacity-80" />
+        </div>
       </div>
       <div className="container pb-10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
         <p>© {new Date().getFullYear()} SinoAesthetics Limited · Hong Kong</p>

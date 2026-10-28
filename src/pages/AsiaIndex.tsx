@@ -250,11 +250,6 @@ const Hero = () => {
               </Button>
             </div>
 
-            <aside aria-label={hero.scopeTitle} className="mx-auto mt-5 max-w-2xl rounded-2xl border border-border/70 bg-card/70 px-4 py-3 text-left text-xs leading-relaxed text-muted-foreground backdrop-blur">
-              <strong className="mb-1 flex items-center gap-1.5 font-semibold text-foreground"><ShieldCheck className="size-3.5 text-primary" />{hero.scopeTitle}</strong>
-              {hero.scope}
-            </aside>
-
             <p className="cinematic-hero__policy mx-auto mt-3 max-w-2xl text-xs leading-relaxed">{policy.initialText} <Link to="/travel-packages#support" className="underline underline-offset-4">{policy.depositTitle}</Link></p>
 
             <div className="cinematic-hero__gallery">
