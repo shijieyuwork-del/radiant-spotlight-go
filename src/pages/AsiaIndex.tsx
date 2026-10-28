@@ -219,6 +219,7 @@ const Hero = () => {
         };
   return (
     <section className="hero-motion relative overflow-hidden">
+      <HeroAmbientBackground lang={lang} />
       <div className="cinematic-hero">
         <div className="cinematic-hero__light" aria-hidden="true" />
         <div className="cinematic-hero__content">
@@ -1665,7 +1666,6 @@ const AsiaIndex = () => {
         structuredData={homeStructuredData(lang)}
       />
       <div className="home-water-page min-h-screen overflow-x-clip">
-        <HeroAmbientBackground lang={lang} />
         <AsiaNavbar />
         <main className="home-content-flow">
           <Hero />

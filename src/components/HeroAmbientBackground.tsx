@@ -21,7 +21,7 @@ const motionLabels: Record<AsiaLang, { pause: string; play: string }> = {
   de: motionLabelsEnglishFallback,
 };
 
-/** User-supplied silent video loops behind the homepage; motion can be paused. */
+/** Silent video stays inside the first homepage section; motion can be paused. */
 export default function HeroAmbientBackground({ lang }: { lang: AsiaLang }) {
   const rootRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -73,7 +73,7 @@ export default function HeroAmbientBackground({ lang }: { lang: AsiaLang }) {
 
   return (
     <>
-      <div ref={rootRef} className="hero-ambient" data-testid="hero-ambient-background" data-motion={running ? "running" : "paused"}>
+      <div ref={rootRef} className="hero-ambient" style={{ position: "absolute" }} data-testid="hero-ambient-background" data-motion={running ? "running" : "paused"}>
         <div id="hero-ambient-field" className="hero-ambient__field" aria-hidden="true">
           <video
             ref={videoRef}
@@ -87,13 +87,13 @@ export default function HeroAmbientBackground({ lang }: { lang: AsiaLang }) {
             preload="metadata"
             tabIndex={-1}
             onError={() => setVideoFailed(true)}
-            style={{ opacity: videoFailed ? 0 : 1 }}
+            style={{ opacity: videoFailed ? 0 : 0.35 }}
           />
           <div className="hero-ambient__veil" />
         </div>
       </div>
       {!reducedMotion && (
-        <button type="button" className="hero-ambient__toggle" onClick={() => setUserPaused((paused) => !paused)} aria-label={label} title={label} aria-controls="hero-ambient-field">
+        <button type="button" className="hero-ambient__toggle" style={{ position: "absolute" }} onClick={() => setUserPaused((paused) => !paused)} aria-label={label} title={label} aria-controls="hero-ambient-field">
           {userPaused ? <Play className="size-3.5" aria-hidden="true" /> : <Pause className="size-3.5" aria-hidden="true" />}
         </button>
       )}
