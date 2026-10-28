@@ -4,4 +4,4 @@
 - [x] Add a floating WhatsApp button using the existing +1 470 861 3825 number, pinned on mobile; verify desktop/mobile.
 - [x] Homepage first screen: audience (international, women & men), Explore Providers / How It Works / Ask a Question, platform-scope notice.
 - [x] Homepage title/description + localized (en/zh/ru/es) meta and FAQ/Service structured data.
-- [ ] Add uploaded case video (homepage-case.mp4) to homepage case section as persistent asset; neutral title, click-to-play, preload=metadata.
+- [x] Add uploaded case video (homepage-case.mp4) to homepage case section as persistent asset; neutral title, click-to-play, preload=metadata.
