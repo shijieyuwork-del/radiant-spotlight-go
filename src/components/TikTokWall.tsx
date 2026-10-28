@@ -42,6 +42,8 @@ export type TikTokWallProps = {
   onBeforeNavigate?: (caseId: string) => void;
 };
 
+const labelsEnglishFallback = { play: "Tap to play", verified: "Diary preview" };
+
 const labels: Record<AsiaLang, { play: string; verified: string }> = {
   en: { play: "Tap to play", verified: "Diary preview" },
   zh: { play: "点击播放", verified: "日记预览" },
@@ -52,6 +54,11 @@ const labels: Record<AsiaLang, { play: string; verified: string }> = {
   vi: { play: "Chạm để phát", verified: "Xem trước nhật ký" },
   ko: { play: "탭하여 재생", verified: "회복 일지 미리보기" },
   ja: { play: "タップして再生", verified: "回復日記プレビュー" },
+  ar: labelsEnglishFallback,
+  "pt-BR": labelsEnglishFallback,
+  id: labelsEnglishFallback,
+  fr: labelsEnglishFallback,
+  de: labelsEnglishFallback,
 };
 
 const MARK_CLASS = "rounded bg-primary/70 px-0.5 text-primary-foreground";

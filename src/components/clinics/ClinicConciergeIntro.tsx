@@ -13,6 +13,17 @@ type ConciergeCopy = {
   partnershipLink: string;
 };
 
+const COPYEnglishFallback: ConciergeCopy = {
+    eyebrow: "Why Sino Aesthetics",
+    title: "One conversation. The right clinic. Support from start to finish.",
+    body: "Compare hospitals and clinics with Sino Aesthetics. One team for appointments and support in China. Pay medical fees directly to your provider.",
+    directPay: "We coordinate your care journey. You pay your chosen provider directly.",
+    benefits: ["Airport pickup", "In-clinic interpretation", "Two hotel nights", "Dedicated concierge support"],
+    note: "Included at no additional service fee for eligible confirmed journeys. Dates, visits and services are confirmed in writing before travel.",
+    terms: "See $200 deposit terms",
+    partnershipLink: "Why clinics work with Sino Aesthetics",
+  };
+
 const COPY: Record<AsiaLang, ConciergeCopy> = {
   en: {
     eyebrow: "Why Sino Aesthetics",
@@ -104,6 +115,11 @@ const COPY: Record<AsiaLang, ConciergeCopy> = {
     terms: "200ドルのデポジット条件を見る",
     partnershipLink: "医療機関がSino Aestheticsと提携する理由",
   },
+  ar: COPYEnglishFallback,
+  "pt-BR": COPYEnglishFallback,
+  id: COPYEnglishFallback,
+  fr: COPYEnglishFallback,
+  de: COPYEnglishFallback,
 };
 
 const BENEFIT_ICONS = [Plane, Languages, Hotel, Headphones] as const;

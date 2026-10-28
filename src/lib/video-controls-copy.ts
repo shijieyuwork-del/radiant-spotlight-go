@@ -1,6 +1,8 @@
 import type { AsiaLang } from "@/lib/asia-i18n";
 
 type VideoControlsCopy = { play: string; pause: string; mute: string; unmute: string; share: string; copied: string; shared: string; manualCopy: string; copyLink: string; close: string; failed: string; previous: string; next: string };
+const videoControlsCopyEnglishFallback = { play: "Play video", pause: "Pause video", mute: "Mute video", unmute: "Unmute video", share: "Share this case", copied: "Link copied", shared: "Share completed", manualCopy: "Copy the link below to share this case.", copyLink: "Case link", close: "Close", failed: "Video could not play. Try again or open the case.", previous: "Previous video", next: "Next video" };
+
 export const videoControlsCopy: Record<AsiaLang, VideoControlsCopy> = {
   en: { play: "Play video", pause: "Pause video", mute: "Mute video", unmute: "Unmute video", share: "Share this case", copied: "Link copied", shared: "Share completed", manualCopy: "Copy the link below to share this case.", copyLink: "Case link", close: "Close", failed: "Video could not play. Try again or open the case.", previous: "Previous video", next: "Next video" },
   zh: { play: "播放视频", pause: "暂停视频", mute: "视频静音", unmute: "开启视频声音", share: "分享此案例", copied: "链接已复制", shared: "已完成分享", manualCopy: "复制下方链接，即可分享此案例。", copyLink: "案例链接", close: "关闭", failed: "视频暂时无法播放，请重试或打开案例。", previous: "上一个视频", next: "下一个视频" },
@@ -11,4 +13,9 @@ export const videoControlsCopy: Record<AsiaLang, VideoControlsCopy> = {
   vi: { play: "Phát video", pause: "Tạm dừng video", mute: "Tắt tiếng video", unmute: "Bật tiếng video", share: "Chia sẻ ca này", copied: "Đã sao chép liên kết", shared: "Đã chia sẻ", manualCopy: "Sao chép liên kết bên dưới để chia sẻ ca này.", copyLink: "Liên kết ca", close: "Đóng", failed: "Không phát được video. Hãy thử lại hoặc mở trang ca này.", previous: "Video trước", next: "Video tiếp theo" },
   ko: { play: "동영상 재생", pause: "동영상 일시정지", mute: "동영상 음소거", unmute: "동영상 소리 켜기", share: "이 사례 공유", copied: "링크가 복사되었습니다", shared: "공유 완료", manualCopy: "아래 링크를 복사해 이 사례를 공유하세요.", copyLink: "사례 링크", close: "닫기", failed: "동영상을 재생할 수 없습니다. 다시 시도하거나 사례를 열어 보세요.", previous: "이전 동영상", next: "다음 동영상" },
   ja: { play: "動画を再生", pause: "動画を一時停止", mute: "動画をミュート", unmute: "動画の音声をオン", share: "この事例を共有", copied: "リンクをコピーしました", shared: "共有しました", manualCopy: "下のリンクをコピーしてこの事例を共有してください。", copyLink: "事例リンク", close: "閉じる", failed: "動画を再生できません。もう一度試すか事例を開いてください。", previous: "前の動画", next: "次の動画" },
+  ar: videoControlsCopyEnglishFallback,
+  "pt-BR": videoControlsCopyEnglishFallback,
+  id: videoControlsCopyEnglishFallback,
+  fr: videoControlsCopyEnglishFallback,
+  de: videoControlsCopyEnglishFallback,
 };

@@ -26,6 +26,8 @@ let removeMediaListener: ReturnType<typeof vi.fn>;
 
 beforeEach(() => {
   observers = [];
+  vi.spyOn(HTMLMediaElement.prototype, "play").mockResolvedValue(undefined);
+  vi.spyOn(HTMLMediaElement.prototype, "pause").mockImplementation(() => {});
   reducedMotion = false;
   documentHidden = false;
   mediaListeners = new Set();
@@ -94,27 +96,21 @@ function setReducedMotion(reduced: boolean) {
 const background = () => screen.getByTestId("hero-ambient-background");
 
 describe("homepage ambient background", () => {
-  it("keeps decorative layers out of the accessibility tree and its control outside the hidden field", () => {
+  it("loops the supplied silent video inline and keeps its control accessible", () => {
     const { container } = render(<HeroAmbientBackground lang="en" />);
     const field = container.querySelector("#hero-ambient-field");
+    const video = container.querySelector("video")!;
     expect(field).toHaveAttribute("aria-hidden", "true");
-    const ripples = field?.querySelectorAll<HTMLDivElement>(".hero-ambient__ripples");
-    expect(ripples).toHaveLength(2);
-    expect(field?.querySelector(".hero-ambient__ripples--near")).toBeInTheDocument();
-    expect(field?.querySelector(".hero-ambient__ripples--far")).toBeInTheDocument();
-    ripples?.forEach((ripple) => {
-      expect(field).toContainElement(ripple);
-      expect(ripple).not.toHaveAttribute("tabindex");
-      expect(ripple.querySelector("svg")).toHaveAttribute("focusable", "false");
-      expect(ripple.querySelector("path, ellipse, circle")).not.toBeNull();
-    });
-    expect(field?.querySelector("img, video, canvas, button, a, input, [tabindex] ")).toBeNull();
-    expect(field?.querySelector(".hero-ambient__organza, .hero-ambient__form, .hero-ambient__glint, .hero-ambient__form--champagne")).toBeNull();
-    const toggle = screen.getByRole("button");
-    expect(screen.getAllByRole("button")).toHaveLength(1);
-    expect(toggle).toHaveAttribute("aria-controls", "hero-ambient-field");
-    expect(toggle.closest('[aria-hidden="true"]')).toBeNull();
-    expect(container.querySelector("img, video, canvas")).toBeNull();
+    expect(video).toHaveAttribute("src", "/videos/homepage-background-loop.mp4");
+    expect(video).toHaveAttribute("loop");
+    expect(video).toHaveAttribute("playsinline");
+    expect(video.muted).toBe(true);
+    expect(video).toHaveAttribute("preload", "metadata");
+    expect(screen.getByRole("button").closest('[aria-hidden="true"]')).toBeNull();
+    intersect(true);
+    expect(HTMLMediaElement.prototype.play).toHaveBeenCalled();
+    fireEvent.click(screen.getByRole("button"));
+    expect(HTMLMediaElement.prototype.pause).toHaveBeenCalled();
   });
 
   it("gates both water-ripple layers with shared paused, running and reduced-motion rules", () => {
@@ -131,13 +127,12 @@ describe("homepage ambient background", () => {
     expect(ambientStyles).not.toMatch(/hero-ambient__(?:organza|form--champagne)|hero-organza-drift|hero-silk-champagne/);
   });
 
-  it("renders scalable water shapes without bitmap, video or canvas assets", () => {
+  it("keeps a still fallback when the supplied video fails", () => {
     const { container } = render(<HeroAmbientBackground lang="en" />);
-    expect(container.querySelector("img, video, canvas, svg image, svg animate, svg animateTransform")).toBeNull();
-    const componentSource = readFileSync(join(__dirname, "..", "components", "HeroAmbientBackground.tsx"), "utf8");
-    expect(componentSource).not.toMatch(/hero-ribbons|hero-luminous-silk|requestAnimationFrame|setInterval/);
-    expect(ambientStyles).not.toContain("hero-ribbons.png");
-    expect(ambientStyles).not.toContain("hero-luminous-silk.webp");
+    const video = container.querySelector("video")!;
+    fireEvent.error(video);
+    expect(video.style.opacity).toBe("0");
+    expect(container.querySelector(".hero-ambient__field")).toBeInTheDocument();
   });
 
   it("keeps the water loops on transforms instead of repainting filters or page layout", () => {
