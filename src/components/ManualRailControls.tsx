@@ -3,6 +3,8 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { AsiaLang } from "@/lib/asia-i18n";
 
+const labelsEnglishFallback = { previous: "Previous items", next: "Next items", position: "Visible items" };
+
 const labels: Record<AsiaLang, { previous: string; next: string; position: string }> = {
   en: { previous: "Previous items", next: "Next items", position: "Visible items" },
   zh: { previous: "上一组", next: "下一组", position: "当前显示" },
@@ -13,6 +15,11 @@ const labels: Record<AsiaLang, { previous: string; next: string; position: strin
   vi: { previous: "Mục trước", next: "Mục tiếp theo", position: "Mục đang hiển thị" },
   ko: { previous: "이전 항목", next: "다음 항목", position: "표시된 항목" },
   ja: { previous: "前の項目", next: "次の項目", position: "表示中の項目" },
+  ar: labelsEnglishFallback,
+  "pt-BR": labelsEnglishFallback,
+  id: labelsEnglishFallback,
+  fr: labelsEnglishFallback,
+  de: labelsEnglishFallback,
 };
 
 /** Navigation does not own a clock: the rail moves only on a visitor's action. */
