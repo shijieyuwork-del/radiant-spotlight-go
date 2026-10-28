@@ -89,7 +89,7 @@ const GalleryCard = ({
         <Maximize2 className="size-3.5" />
       </span>
       <span className="hero-gallery-caption absolute inset-x-3.5 bottom-3.5">
-        <span className="hero-gallery-eyebrow mb-1 block text-label font-bold uppercase tracking-[0.16em] text-white/65">{lang === "zh" ? "患者日记" : lang === "ru" ? "История пациента" : lang === "es" ? "Diario del paciente" : translatedUiText(lang, "Patient diary")}</span>
+        {item.hasCasePage !== false && <span className="hero-gallery-eyebrow mb-1 block text-label font-bold uppercase tracking-[0.16em] text-white/65">{lang === "zh" ? "患者日记" : lang === "ru" ? "История пациента" : lang === "es" ? "Diario del paciente" : translatedUiText(lang, "Patient diary")}</span>}
         <span className="block font-display text-lg font-medium leading-tight text-white">{t}</span>
         <span className="mt-1.5 block truncate text-xs font-medium text-white/75">
           {item.city?.[lang === "zh" ? "zh" : "en"]}
@@ -310,12 +310,14 @@ const HeroVideoGallery = ({ items, lang, size = "default", layout = "rail" }: He
               <DialogDescription className="min-w-0 flex-1 truncate text-xs font-medium text-white/85">
                 {active.caption[lang === "zh" ? "zh" : "en"]}
               </DialogDescription>
-              <Link
-                to={`/cases/${active.id}`}
-                className="cta-primary inline-flex shrink-0 items-center gap-1 rounded-full px-4 py-2 text-xs font-bold"
-              >
-                {t.viewCase} <ArrowRight className="size-3" />
-              </Link>
+              {active.hasCasePage !== false && (
+                <Link
+                  to={`/cases/${active.id}`}
+                  className="cta-primary inline-flex shrink-0 items-center gap-1 rounded-full px-4 py-2 text-xs font-bold"
+                >
+                  {t.viewCase} <ArrowRight className="size-3" />
+                </Link>
+              )}
             </div>
         </DialogContent>}
       </Dialog>
