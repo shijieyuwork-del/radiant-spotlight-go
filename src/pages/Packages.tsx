@@ -51,10 +51,10 @@ const JOURNEY_STEPS = [
     icon: Plane,
     image: journeyArrival,
     eyebrow: ["Travel planning", "行程规划", "Планирование поездки", "Planificación del viaje"],
-    title: ["Your China journey is taking shape", "你的中国之旅，即将启程", "Организуйте поездку и визу", "Organiza tu viaje y visado"],
+    title: ["Your China journey is taking shape", "准备好赴华行程", "Организуйте поездку и визу", "Organiza tu viaje y visado"],
     text: [
       "From appointments to arrival, we help you put the details in place. Get ready with your flights, visa and travel documents, knowing what comes next.",
-      "从预约到抵达，我们陪你理清每个细节。准备好航班、签证与旅行文件，让接下来的行程心中有数。",
+      "从预约到抵达，我们协助你确认就诊时间、航班、签证和旅行文件，让每一步都有明确安排。",
       "Подтвердите запись, перелёт, документы и детали прибытия.",
       "Confirma citas, vuelos, documentos de viaje y detalles de llegada.",
     ],
@@ -63,7 +63,7 @@ const JOURNEY_STEPS = [
     icon: MapPin,
     image: journeyGroundSupport,
     eyebrow: ["Arrival & airport pickup", "抵达与接机", "Прибытие и встреча в аэропорту", "Llegada y recogida en el aeropuerto"],
-    title: ["A warm welcome, from the moment you land", "落地的第一刻，就有人迎接你", "Прибудьте в Китай и встретьтесь с нашей командой", "Llega a China y reúnete con nuestro equipo"],
+    title: ["A warm welcome, from the moment you land", "落地后，有人接应", "Прибудьте в Китай и встретьтесь с нашей командой", "Llega a China y reúnete con nuestro equipo"],
     text: [
       "A new country, a friendly face waiting for you. Our team meets you at the airport and takes you to your hotel or straight to the clinic. For eligible confirmed journeys, your first two nights in a standard room at a selected three-star hotel are covered by Sino Aesthetics. We arrange the booking and help you check in; additional nights and room upgrades are paid separately.",
       "初到中国，迎接你的是我们熟悉行程的接机团队。与我们会合后，前往酒店休息，或直接前往诊所。对于符合条件并已确认的行程，Sino Aesthetics 承担指定三星级酒店标准客房的前两晚住宿，并协助预订和办理入住；额外住宿及房型升级费用需另行支付。",
@@ -75,7 +75,7 @@ const JOURNEY_STEPS = [
     icon: HeartPulse,
     image: journeyTreatment,
     eyebrow: ["Treatment support", "治疗支持", "Поддержка лечения", "Apoyo durante el tratamiento"],
-    title: ["Your transformation, with us by your side", "你的变美时刻，我们陪你", "Ваше преображение — мы рядом", "Tu transformación, con nosotros a tu lado"],
+    title: ["Your transformation, with us by your side", "手术当天，有人协助沟通", "Ваше преображение — мы рядом", "Tu transformación, con nosotros a tu lado"],
     text: [
       "On surgery day, we accompany you to the clinic, help you communicate and stay close when you need us. If your doctor doesn’t feel like the right fit, let us know. We can accompany you to meet another doctor or visit another clinic.",
       "手术当天，我们陪同你前往诊所，协助沟通，在你需要时陪伴左右。如果你觉得医生不合适，请告诉我们，我们可以陪同你面诊其他医生或前往其他诊所。",
@@ -87,7 +87,7 @@ const JOURNEY_STEPS = [
     icon: Map,
     image: journeyRecovery,
     eyebrow: ["Recovery", "恢复期", "Восстановление", "Recuperación"],
-    title: ["A little exploring, at your pace", "按你的节奏，感受中国", "Восстанавливайтесь и путешествуйте, когда будете готовы", "Recupérate y explora cuando estés listo"],
+    title: ["A little exploring, at your pace", "恢复期间，按医嘱安排行程", "Восстанавливайтесь и путешествуйте, когда будете готовы", "Recupérate y explora cuando estés listo"],
     text: [
       "If your doctor clears you for outings, we can help plan a gentle itinerary and connect you with travel services, or keep it as relaxed as a stroll in the beautiful park.",
       "如果医生确认你的恢复情况适合外出，我们可以协助规划轻松的行程、对接旅行服务，或只是安排去公园走走。",
@@ -99,7 +99,7 @@ const JOURNEY_STEPS = [
     icon: MessageCircle,
     image: journeyFollowUp,
     eyebrow: ["Follow-up", "后续随访", "Наблюдение", "Seguimiento"],
-    title: ["Back home, still by your side", "回到家，陪伴仍在", "Оставайтесь на связи после возвращения", "Mantente en contacto tras tu regreso"],
+    title: ["Back home, still by your side", "回国后，仍可协助随访", "Оставайтесь на связи после возвращения", "Mantente en contacto tras tu regreso"],
     text: [
       "Your journey with us doesn’t end at the airport. We help you stay connected with your clinic for recommended follow-ups, with translation support along the way.",
       "旅程结束，关怀继续。我们协助你与诊所保持联系，安排建议的远程复诊，并提供翻译支持。",
@@ -112,7 +112,7 @@ const JOURNEY_STEPS = [
 const SUPPORT_SERVICES = [
   {
     icon: Plane,
-    title: ["Airport pickup on us", "机场接送，我们承担", "Трансфер — за наш счёт", "Traslados incluidos"],
+    title: ["Airport pickup on us", "已包含机场接送", "Трансфер — за наш счёт", "Traslados incluidos"],
     text: [
       "Airport pickup and drop-off are included for your confirmed itinerary.",
       "按确认的行程提供机场接送。",
@@ -122,7 +122,7 @@ const SUPPORT_SERVICES = [
   },
   {
     icon: Languages,
-    title: ["In-clinic translation on us", "院内翻译，我们承担", "Перевод в клинике — за наш счёт", "Traducción en clínica incluida"],
+    title: ["In-clinic translation on us", "已包含院内翻译", "Перевод в клинике — за наш счёт", "Traducción en clínica incluida"],
     text: [
       "In-clinic translation is included during the visits listed in your support plan.",
       "在服务方案列明的就诊期间，提供院内翻译。",
@@ -132,7 +132,7 @@ const SUPPORT_SERVICES = [
   },
   {
     icon: Hotel,
-    title: ["Two hotel nights on us", "两晚酒店，我们承担", "Две ночи в отеле — за наш счёт", "Dos noches de hotel incluidas"],
+    title: ["Two hotel nights on us", "符合条件的行程包含两晚酒店", "Две ночи в отеле — за наш счёт", "Dos noches de hotel incluidas"],
     text: [
       "Two hotel nights are included for eligible journeys. Extra nights and upgrades are paid separately.",
       "符合条件的行程包含两晚酒店。额外晚数与房型升级需另行支付。",
@@ -142,7 +142,7 @@ const SUPPORT_SERVICES = [
   },
   {
     icon: Files,
-    title: ["Records prep on us", "病历整理，我们承担", "Подготовка документов — за наш счёт", "Organización de documentos incluida"],
+    title: ["Records prep on us", "已包含病历整理", "Подготовка документов — за наш счёт", "Organización de documentos incluida"],
     text: [
       "We organize the records you provide and help translate key details for your clinic.",
       "整理你提供的病历，协助翻译关键信息，方便与诊所沟通。",
@@ -152,7 +152,7 @@ const SUPPORT_SERVICES = [
   },
   {
     icon: Headphones,
-    title: ["24/7 support on us", "24/7 协调支持，我们承担", "Поддержка 24/7 — за наш счёт", "Apoyo 24/7 incluido"],
+    title: ["24/7 support on us", "已包含全天协调支持", "Поддержка 24/7 — за наш счёт", "Apoyo 24/7 incluido"],
     text: [
       "A coordinator is available 24/7 during your confirmed support period.",
       "在确认的支持期间，协调员提供 24 小时服务。",
@@ -221,8 +221,8 @@ const Packages = () => {
               <div className="mb-7 md:mb-9">
                 <div>
                   <span className="pill bg-primary/10 text-foreground"><ShieldCheck className="size-3.5 text-primary" />{policy.freeTitle}</span>
-                  <h2 className="mt-4 max-w-3xl font-display text-3xl font-medium leading-tight tracking-tight sm:text-4xl">{c("Your journey. Our support. On us.", "你的旅程，我们承担。", "Ваш путь. Наша поддержка.", "Tu viaje. Nuestro apoyo.")}</h2>
-                  <p className="mt-3 max-w-3xl text-sm leading-6 text-foreground/75">{c("Airport pickup on us. Two hotel nights on us. In-clinic translation on us. 24/7 coordinator support on us. All included for eligible journeys.", "机场接送由我们承担。两晚酒店由我们承担。院内翻译由我们承担。24 小时协调支持也由我们承担。符合条件的行程均可包含。", "Трансфер из аэропорта за наш счёт. Две ночи в отеле за наш счёт. Перевод в клинике за наш счёт. Координационная поддержка 24/7 за наш счёт. Всё включено для подходящих поездок.", "Traslados incluidos. Dos noches de hotel incluidas. Traducción en clínica incluida. Apoyo de coordinación 24/7 incluido. Todo forma parte de los viajes elegibles.")}</p>
+                  <h2 className="mt-4 max-w-3xl font-display text-3xl font-medium leading-tight tracking-tight sm:text-4xl">{c("Your journey. Our support. On us.", "你的中国行程，由我们协助安排。", "Ваш путь. Наша поддержка.", "Tu viaje. Nuestro apoyo.")}</h2>
+                  <p className="mt-3 max-w-3xl text-sm leading-6 text-foreground/75">{c("Airport pickup on us. Two hotel nights on us. In-clinic translation on us. 24/7 coordinator support on us. All included for eligible journeys.", "符合条件且已确认的行程可包含机场接送、两晚酒店、院内翻译和全天协调支持；具体日期、次数与范围以书面服务方案为准。", "Трансфер из аэропорта за наш счёт. Две ночи в отеле за наш счёт. Перевод в клинике за наш счёт. Координационная поддержка 24/7 за наш счёт. Всё включено для подходящих поездок.", "Traslados incluidos. Dos noches de hotel incluidas. Traducción en clínica incluida. Apoyo de coordinación 24/7 incluido. Todo forma parte de los viajes elegibles.")}</p>
                   <p className="mt-2 max-w-3xl text-sm leading-6 text-foreground/75"><span className="font-medium text-foreground">{policy.depositTitle}. </span>{policy.depositSummary}</p>
                 </div>
               </div>
