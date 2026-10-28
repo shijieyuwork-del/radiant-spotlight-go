@@ -50,9 +50,8 @@ describe("coordination payment information", () => {
       th: ["ก่อนที่คุณจะออกเดินทางไปจีน", "หากยกเลิก สามารถเก็บเงินมัดจำไว้ได้หนึ่งปี"],
       ms: ["sebelum anda berlepas ke China", "Jika anda membatalkan, deposit boleh disimpan selama satu tahun."],
       vi: ["trước khi bạn khởi hành đi Trung Quốc", "Nếu bạn hủy, khoản cọc có thể được giữ trong một năm."],
-      // Korean and Japanese policy copy falls back to English until it is translated.
-      ko: ["before you depart for China", "If you cancel, your deposit can be held for one year."],
-      ja: ["before you depart for China", "If you cancel, your deposit can be held for one year."],
+      ko: ["중국 출발 전에 납부", "취소 시 보증금은 1년간 보관할 수 있습니다."],
+      ja: ["中国への出発前にお支払い", "キャンセル時はデポジットを1年間保留できます。"],
     };
     for (const lang of Object.keys(expected) as AsiaLang[]) {
       const [collection, cancellation] = expected[lang];
