@@ -103,6 +103,8 @@ describe("homepage ambient background", () => {
     expect(field).toHaveAttribute("aria-hidden", "true");
     expect(video).toHaveAttribute("src", "/videos/homepage-background-loop.mp4");
     expect(video).toHaveAttribute("loop");
+    expect(video.style.opacity).toBe("0.35");
+    expect(background().style.position).toBe("absolute");
     expect(video).toHaveAttribute("playsinline");
     expect(video.muted).toBe(true);
     expect(video).toHaveAttribute("preload", "metadata");
@@ -144,14 +146,14 @@ describe("homepage ambient background", () => {
     }
   });
 
-  it("mounts one fixed background at the homepage root rather than within the hero", () => {
+  it("mounts one background only within the first hero section", () => {
     const source = ts.createSourceFile("AsiaIndex.tsx", homeSource, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
     const waterPages: ts.JsxElement[] = [];
     const mounts: ts.JsxSelfClosingElement[] = [];
     const visit = (node: ts.Node) => {
       if (ts.isJsxElement(node)) {
         const className = node.openingElement.attributes.properties.find((attribute): attribute is ts.JsxAttribute => ts.isJsxAttribute(attribute) && attribute.name.getText(source) === "className");
-        if (className?.initializer && ts.isStringLiteral(className.initializer) && className.initializer.text.split(/\s+/).includes("home-water-page")) waterPages.push(node);
+        if (className?.initializer && ts.isStringLiteral(className.initializer) && className.initializer.text.split(/\s+/).includes("hero-motion")) waterPages.push(node);
       }
       if (ts.isJsxSelfClosingElement(node) && node.tagName.getText(source) === "HeroAmbientBackground") mounts.push(node);
       ts.forEachChild(node, visit);
@@ -160,8 +162,8 @@ describe("homepage ambient background", () => {
     expect(waterPages).toHaveLength(1);
     expect(mounts).toHaveLength(1);
     expect(mounts[0].parent).toBe(waterPages[0]);
-    expect(waterPages[0].getText(source)).toContain('<main className="home-content-flow">');
-    expect(waterPages[0].getText(source)).toContain("<PatientStoriesSection ambient");
+    expect(mounts[0].parent.getText(source)).toContain("cinematic-hero");
+    expect(waterPages[0].getText(source)).not.toContain("<TreatmentsSection");
     expect(ambientStyles).toMatch(/\.home-water-page\s+\.home-content-flow\s*\{[^}]*background:\s*transparent\s*;/);
     expect(ambientStyles).toMatch(/\.hero-ambient\s*\{[^}]*position:\s*fixed\s*;[^}]*inset:\s*0\s*;/);
     expect(ambientStyles).toMatch(/\.hero-ambient__toggle\s*\{[^}]*position:\s*fixed\s*;/);
