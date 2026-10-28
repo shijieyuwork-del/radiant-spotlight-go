@@ -8,6 +8,8 @@ import type { AsiaLang } from "@/lib/asia-i18n";
 import { videoControlsCopy } from "@/lib/video-controls-copy";
 import "./patient-video-wall.css";
 
+const copyEnglishFallback = { wall: "Patient video wall", view: "View case" };
+
 const copy: Record<AsiaLang, { wall: string; view: string }> = {
   en: { wall: "Patient video wall", view: "View case" },
   zh: { wall: "患者视频墙", view: "查看案例" },
@@ -18,6 +20,11 @@ const copy: Record<AsiaLang, { wall: string; view: string }> = {
   vi: { wall: "Video hồi phục của bệnh nhân", view: "Xem ca này" },
   ko: { wall: "환자 회복 동영상", view: "사례 보기" },
   ja: { wall: "患者の回復動画", view: "事例を見る" },
+  ar: copyEnglishFallback,
+  "pt-BR": copyEnglishFallback,
+  id: copyEnglishFallback,
+  fr: copyEnglishFallback,
+  de: copyEnglishFallback,
 };
 
 type Props = { items: TikTokItem[]; lang: AsiaLang; fmtPrice: (amount: number) => string };
