@@ -67,8 +67,8 @@ const DIARY_PREVIEWS: TikTokItem[] = [
   {
     id: "liposuction-guangzhou",
     postedAt: "2026-07-19",
-    src: "/videos/v5.mp4",
-    poster: "/videos/v5-poster.webp",
+    src: "/videos/liposuction-case.mp4",
+    poster: "/videos/liposuction-case-poster.jpg",
     user: { en: "@Lulu", zh: "@Lulu" },
     caption: { en: "Waist & abdomen liposuction · 6-week recovery diary", zh: "腰腹吸脂塑形 · 6周恢复日记" },
     treatment: { en: "Liposuction", zh: "吸脂塑形" },
