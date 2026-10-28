@@ -5,6 +5,14 @@ import { koJaTranslations } from "@/lib/ko-ja-translations";
 
 type GeneratedLang = "th" | "ms" | "ko" | "ja";
 
+const expandedLanguageTranslations: Record<"ar" | "pt-BR" | "id" | "fr" | "de", Record<string, string>> = {
+  ar: { "Home": "الرئيسية", "Cities": "الوجهات", "Clinics": "العيادات", "Patient diaries": "يوميات المرضى", "Experts": "المتخصصون", "Procedures": "الإجراءات", "Travel support": "دعم السفر", "Before & after": "قبل وبعد", "Why China": "لماذا الصين", "About": "من نحن", "Standards": "المعايير", "More": "المزيد", "Start a consultation": "ابدأ محادثة مجانية", "Close": "إغلاق", "Back": "رجوع", "All": "الكل", "View profile": "عرض الملف", "View hospital": "عرض المؤسسة", "Ask us": "اسألنا", "Previous": "السابق", "Next": "التالي", "Age": "العمر", "China": "الصين", "English": "الإنجليزية", "Consultation": "استشارة" },
+  "pt-BR": { "Home": "Início", "Cities": "Destinos", "Clinics": "Clínicas", "Patient diaries": "Diários de pacientes", "Experts": "Especialistas", "Procedures": "Procedimentos", "Travel support": "Apoio de viagem", "Before & after": "Antes e depois", "Why China": "Por que a China", "About": "Sobre nós", "Standards": "Critérios", "More": "Mais", "Start a consultation": "Começar conversa gratuita", "Close": "Fechar", "Back": "Voltar", "All": "Todos", "View profile": "Ver perfil", "View hospital": "Ver instituição", "Ask us": "Fale conosco", "Previous": "Anterior", "Next": "Próximo", "Age": "Idade", "China": "China", "English": "Inglês", "Consultation": "Consulta" },
+  id: { "Home": "Beranda", "Cities": "Destinasi", "Clinics": "Klinik", "Patient diaries": "Jurnal pasien", "Experts": "Spesialis", "Procedures": "Prosedur", "Travel support": "Dukungan perjalanan", "Before & after": "Sebelum & sesudah", "Why China": "Mengapa Tiongkok", "About": "Tentang kami", "Standards": "Standar", "More": "Lainnya", "Start a consultation": "Mulai percakapan gratis", "Close": "Tutup", "Back": "Kembali", "All": "Semua", "View profile": "Lihat profil", "View hospital": "Lihat fasilitas", "Ask us": "Tanya kami", "Previous": "Sebelumnya", "Next": "Berikutnya", "Age": "Usia", "China": "Tiongkok", "English": "Bahasa Inggris", "Consultation": "Konsultasi" },
+  fr: { "Home": "Accueil", "Cities": "Destinations", "Clinics": "Cliniques", "Patient diaries": "Journaux de patients", "Experts": "Spécialistes", "Procedures": "Interventions", "Travel support": "Accompagnement", "Before & after": "Avant et après", "Why China": "Pourquoi la Chine", "About": "À propos", "Standards": "Critères", "More": "Plus", "Start a consultation": "Commencer un échange gratuit", "Close": "Fermer", "Back": "Retour", "All": "Tous", "View profile": "Voir le profil", "View hospital": "Voir l’établissement", "Ask us": "Nous contacter", "Previous": "Précédent", "Next": "Suivant", "Age": "Âge", "China": "Chine", "English": "Anglais", "Consultation": "Consultation" },
+  de: { "Home": "Startseite", "Cities": "Reiseziele", "Clinics": "Kliniken", "Patient diaries": "Patiententagebücher", "Experts": "Fachkräfte", "Procedures": "Behandlungen", "Travel support": "Reiseunterstützung", "Before & after": "Vorher & nachher", "Why China": "Warum China", "About": "Über uns", "Standards": "Prüfkriterien", "More": "Mehr", "Start a consultation": "Kostenloses Gespräch starten", "Close": "Schließen", "Back": "Zurück", "All": "Alle", "View profile": "Profil ansehen", "View hospital": "Einrichtung ansehen", "Ask us": "Fragen Sie uns", "Previous": "Zurück", "Next": "Weiter", "Age": "Alter", "China": "China", "English": "Englisch", "Consultation": "Beratung" },
+};
+
 const koreanTranslations: Record<string, string> = {
   "Start a consultation": "상담 시작하기",
   "Sign in": "로그인",
@@ -76,6 +84,7 @@ const japaneseTranslations: Record<string, string> = {
 /** Catalog lookup for languages whose UI copy is keyed by the English source string; English when a string is not translated yet. */
 export const translatedUiText = (lang: AsiaLang, english: string): string => {
   if (lang === "vi") return vietnameseTranslations[english] ?? english;
+  if (lang === "ar" || lang === "pt-BR" || lang === "id" || lang === "fr" || lang === "de") return expandedLanguageTranslations[lang][english] ?? english;
   if (lang !== "th" && lang !== "ms" && lang !== "ko" && lang !== "ja") return english;
   if (lang === "ko") return koreanTranslations[english] ?? koJaTranslations.ko[english] ?? english;
   if (lang === "ja") return japaneseTranslations[english] ?? koJaTranslations.ja[english] ?? english;

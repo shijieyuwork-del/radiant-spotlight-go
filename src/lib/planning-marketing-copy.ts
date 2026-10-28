@@ -143,6 +143,21 @@ const copy: Record<AsiaLang, PlanningMarketingCopy> = withVietnameseFallback({
     trip: "中国渡航の計画を相談したい",
     tripDetail: "目的、時期、希望をコーディネーターにお知らせください。",
   },
+  ar: {
+    title: "قارن الخيارات بوضوح.", emphasis: "سافر إلى الصين بخطة واضحة.", subtitle: "معلومات المؤسسات والمتخصصين والتكاليف التقريبية في مكان واحد. نساعدك على تجهيز الاستشارة وترتيب السفر.", diaries: "عرض يوميات تعافي المرضى", photoDescription: "صور قبل وبعد منشورة من متخصصين مدرجين في الصين.", choosePath: "من أين تود أن تبدأ؟", procedure: "أعرف الإجراء الذي أريده", procedureDetail: "اطّلع على دليل الإجراء والتكلفة التقريبية.", providers: "أقارن المؤسسات والمتخصصين", providersDetail: "استكشف المؤسسات ومعلومات المتخصصين المنشورة.", trip: "أحتاج مساعدة في تخطيط السفر", tripDetail: "شارك أهدافك ومواعيدك وتفضيلاتك مع المنسق.",
+  },
+  "pt-BR": {
+    title: "Compare com clareza.", emphasis: "Chegue à China com um plano.", subtitle: "Clínicas, especialistas e custos estimados em um só lugar. Ajudamos você a preparar a consulta e coordenar a viagem.", diaries: "Ver diários de recuperação", photoDescription: "Fotos de antes e depois publicadas por especialistas listados na China.", choosePath: "Por onde você quer começar?", procedure: "Já sei qual procedimento procuro", procedureDetail: "Consulte guias e custos estimados.", providers: "Estou comparando clínicas e especialistas", providersDetail: "Veja instituições e informações publicadas sobre seus especialistas.", trip: "Preciso de ajuda para planejar a viagem", tripDetail: "Compartilhe objetivos, datas e preferências com o coordenador.",
+  },
+  id: {
+    title: "Bandingkan dengan jelas.", emphasis: "Datang ke Tiongkok dengan rencana.", subtitle: "Informasi fasilitas, spesialis, dan perkiraan biaya dalam satu tempat. Kami membantu menyiapkan konsultasi dan mengoordinasikan perjalanan.", diaries: "Lihat jurnal pemulihan pasien", photoDescription: "Foto sebelum dan sesudah yang dipublikasikan oleh spesialis terdaftar di Tiongkok.", choosePath: "Anda ingin mulai dari mana?", procedure: "Saya sudah tahu prosedur yang diminati", procedureDetail: "Lihat panduan prosedur dan perkiraan biaya.", providers: "Saya sedang membandingkan fasilitas dan spesialis", providersDetail: "Jelajahi fasilitas dan informasi spesialis yang dipublikasikan.", trip: "Saya perlu bantuan merencanakan perjalanan", tripDetail: "Sampaikan tujuan, tanggal, dan preferensi kepada koordinator.",
+  },
+  fr: {
+    title: "Comparez en toute clarté.", emphasis: "Arrivez en Chine avec un plan.", subtitle: "Établissements, spécialistes et coûts indicatifs réunis au même endroit. Nous vous aidons à préparer la consultation et à coordonner le voyage.", diaries: "Voir les journaux de récupération", photoDescription: "Photos avant-après publiées par des spécialistes référencés en Chine.", choosePath: "Par où souhaitez-vous commencer ?", procedure: "Je connais l’intervention recherchée", procedureDetail: "Consultez les guides et coûts indicatifs.", providers: "Je compare les établissements et spécialistes", providersDetail: "Explorez les établissements et les informations publiées sur leurs spécialistes.", trip: "J’ai besoin d’aide pour organiser le voyage", tripDetail: "Partagez vos objectifs, dates et préférences avec le coordinateur.",
+  },
+  de: {
+    title: "Vergleichen Sie mit Klarheit.", emphasis: "Reisen Sie mit einem Plan nach China.", subtitle: "Einrichtungen, Fachkräfte und Richtpreise an einem Ort. Wir helfen bei der Vorbereitung der Beratung und der Reiseplanung.", diaries: "Genesungstagebücher ansehen", photoDescription: "Veröffentlichte Vorher-Nachher-Fotos gelisteter Fachkräfte in China.", choosePath: "Wo möchten Sie beginnen?", procedure: "Ich kenne die gewünschte Behandlung", procedureDetail: "Behandlungsinformationen und Richtpreise ansehen.", providers: "Ich vergleiche Einrichtungen und Fachkräfte", providersDetail: "Einrichtungen und veröffentlichte Fachinformationen ansehen.", trip: "Ich brauche Hilfe bei der Reiseplanung", tripDetail: "Teilen Sie Ziele, Termine und Wünsche mit dem Koordinator.",
+  },
 });
 
 export const getPlanningMarketingCopy = (lang: AsiaLang) => copy[lang];

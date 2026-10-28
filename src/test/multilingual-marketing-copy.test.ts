@@ -5,7 +5,7 @@ import { getCoordinationPolicy } from "@/data/coordination-policy";
 import { getPlanningMarketingCopy } from "@/lib/planning-marketing-copy";
 import type { AsiaLang } from "@/lib/asia-i18n";
 
-const nonEnglishLanguages: AsiaLang[] = ["zh", "ru", "es", "th", "ms", "vi", "ko", "ja"];
+const nonEnglishLanguages: AsiaLang[] = ["zh", "ru", "es", "th", "ms", "vi", "ko", "ja", "ar", "pt-BR", "id", "fr", "de"];
 
 describe("multilingual marketing copy", () => {
   it("provides reviewed planning copy for every non-English locale", () => {

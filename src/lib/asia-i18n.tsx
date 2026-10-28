@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { translatedUiText } from "@/lib/locale-text";
 
-export type AsiaLang = "en" | "zh" | "ru" | "es" | "th" | "ms" | "vi" | "ko" | "ja";
+export type AsiaLang = "en" | "zh" | "ru" | "es" | "th" | "ms" | "vi" | "ko" | "ja" | "ar" | "pt-BR" | "id" | "fr" | "de";
 export type AsiaCurrency = "USD" | "CNY";
 const RATE = 7.2;
 
@@ -15,6 +15,11 @@ export const asiaLangLabel: Record<AsiaLang, { label: string; flag: string }> = 
   vi: { label: "Tiếng Việt", flag: "🇻🇳" },
   ko: { label: "한국어", flag: "🇰🇷" },
   ja: { label: "日本語", flag: "🇯🇵" },
+  ar: { label: "العربية", flag: "🇸🇦" },
+  "pt-BR": { label: "Português (Brasil)", flag: "🇧🇷" },
+  id: { label: "Bahasa Indonesia", flag: "🇮🇩" },
+  fr: { label: "Français", flag: "🇫🇷" },
+  de: { label: "Deutsch", flag: "🇩🇪" },
 };
 
 type Dict = Record<string, string>;
@@ -493,6 +498,36 @@ const dict: Record<Exclude<AsiaLang, "th" | "ms">, Dict> = {
     "cities.clinics": "cơ sở trong danh mục",
     "disclaimer.short": "Không phải tư vấn y tế — Sino Aesthetics chỉ cung cấp thông tin và điều phối.",
   },
+  ar: {
+    "brand.suffix": "الصين", "nav.cities": "الوجهات", "nav.projects": "الإجراءات", "nav.clinics": "المستشفيات والعيادات", "nav.cases": "يوميات المرضى", "nav.compliance": "الأطباء والمتخصصون", "nav.signin": "تسجيل الدخول", "nav.signup": "إنشاء حساب",
+    "hero.badge": "معلومات عن المؤسسات والمتخصصين في الصين · دعم للزوار الدوليين", "hero.title1": "الرعاية التجميلية في الصين،", "hero.titleEm": "بخطة واضحة", "hero.subtitle": "قارن المعلومات المنشورة عن المؤسسات والمتخصصين والتكاليف التقريبية، واحصل على دعم للاستشارة والترجمة وترتيبات السفر.", "hero.searchPh": "ابحث عن إجراء أو متخصص أو مدينة", "hero.cta": "ابدأ محادثة مجانية", "hero.hot": "الأكثر بحثاً", "hero.feat1": "بيانات ترخيص المتخصص", "hero.feat2": "بيانات ترخيص المؤسسة", "hero.feat3": "ادفع الرسوم الطبية للمؤسسة مباشرة",
+    "doctors.kicker": "ملفات المتخصصين", "doctors.title1": "راجع المعلومات أولاً،", "doctors.titleEm": "ثم اختر المتخصص", "doctors.cta": "عرض الملف", "cases.kicker": "يوميات المرضى", "cases.title1": "يوميات التعافي ·", "cases.titleEm": "مرحلة بعد مرحلة", "cases.tabAll": "الكل", "cases.viewAll": "عرض جميع اليوميات", "case.back": "رجوع", "case.related": "يوميات مشابهة", "case.book": "ناقش هذا الإجراء",
+    "disclaimer.text": "Sino Aesthetics منصة للمعلومات وتنسيق السفر وليست جهة طبية. لا نقدم نصائح طبية أو تشخيصاً أو علاجاً. تُتخذ جميع القرارات الطبية مباشرة بينك وبين المؤسسة الطبية المرخصة.", "disclaimer.short": "ليست نصيحة طبية. تقدم Sino Aesthetics المعلومات والتنسيق فقط.",
+  },
+  "pt-BR": {
+    "brand.suffix": "China", "nav.cities": "Destinos", "nav.projects": "Procedimentos", "nav.clinics": "Hospitais e clínicas", "nav.cases": "Diários de pacientes", "nav.compliance": "Médicos e especialistas", "nav.signin": "Entrar", "nav.signup": "Criar conta",
+    "hero.badge": "Informações de clínicas e especialistas na China · Apoio para pacientes internacionais", "hero.title1": "Cuidados estéticos na China,", "hero.titleEm": "com um plano claro", "hero.subtitle": "Compare informações publicadas sobre clínicas, especialistas e custos estimados. Receba apoio para consulta, tradução e viagem.", "hero.searchPh": "Busque procedimento, especialista ou cidade", "hero.cta": "Começar conversa gratuita", "hero.hot": "Buscas populares", "hero.feat1": "Informações profissionais do especialista", "hero.feat2": "Informações de licença da instituição", "hero.feat3": "Pague as despesas médicas diretamente à instituição",
+    "doctors.kicker": "Perfis de especialistas", "doctors.title1": "Conheça as informações primeiro,", "doctors.titleEm": "depois escolha", "doctors.cta": "Ver perfil", "cases.kicker": "Diários de pacientes", "cases.title1": "Diários de recuperação ·", "cases.titleEm": "etapa por etapa", "cases.tabAll": "Todos", "cases.viewAll": "Ver todos os diários", "case.back": "Voltar", "case.related": "Diários relacionados", "case.book": "Conversar sobre este procedimento",
+    "disclaimer.text": "A Sino Aesthetics é uma plataforma de informação e coordenação de viagens, não uma prestadora de serviços médicos. Não oferecemos aconselhamento médico, diagnóstico ou tratamento. Todas as decisões médicas são tomadas diretamente entre você e a instituição médica licenciada.", "disclaimer.short": "Não é aconselhamento médico. A Sino Aesthetics oferece somente informação e coordenação.",
+  },
+  id: {
+    "brand.suffix": "Tiongkok", "nav.cities": "Destinasi", "nav.projects": "Prosedur", "nav.clinics": "Rumah sakit & klinik", "nav.cases": "Jurnal pasien", "nav.compliance": "Dokter & spesialis", "nav.signin": "Masuk", "nav.signup": "Daftar",
+    "hero.badge": "Informasi fasilitas dan spesialis di Tiongkok · Dukungan untuk pasien internasional", "hero.title1": "Perawatan estetika di Tiongkok,", "hero.titleEm": "dengan rencana yang jelas", "hero.subtitle": "Bandingkan informasi fasilitas, spesialis, dan perkiraan biaya. Dapatkan bantuan untuk konsultasi, penerjemahan, dan perjalanan.", "hero.searchPh": "Cari prosedur, spesialis, atau kota", "hero.cta": "Mulai percakapan gratis", "hero.hot": "Pencarian populer", "hero.feat1": "Informasi izin praktik spesialis", "hero.feat2": "Informasi izin fasilitas", "hero.feat3": "Bayar biaya medis langsung ke fasilitas",
+    "doctors.kicker": "Profil spesialis", "doctors.title1": "Pelajari informasinya,", "doctors.titleEm": "lalu tentukan pilihan", "doctors.cta": "Lihat profil", "cases.kicker": "Jurnal pasien", "cases.title1": "Jurnal pemulihan ·", "cases.titleEm": "tahap demi tahap", "cases.tabAll": "Semua", "cases.viewAll": "Lihat semua jurnal", "case.back": "Kembali", "case.related": "Jurnal terkait", "case.book": "Tanyakan prosedur ini",
+    "disclaimer.text": "Sino Aesthetics adalah platform informasi dan koordinasi perjalanan, bukan penyedia layanan medis. Kami tidak memberikan nasihat medis, diagnosis, atau perawatan. Semua keputusan medis dibuat langsung antara Anda dan fasilitas medis berizin.", "disclaimer.short": "Bukan nasihat medis. Sino Aesthetics hanya menyediakan informasi dan koordinasi.",
+  },
+  fr: {
+    "brand.suffix": "Chine", "nav.cities": "Destinations", "nav.projects": "Interventions", "nav.clinics": "Hôpitaux et cliniques", "nav.cases": "Journaux de patients", "nav.compliance": "Médecins et spécialistes", "nav.signin": "Se connecter", "nav.signup": "Créer un compte",
+    "hero.badge": "Informations sur les établissements et spécialistes en Chine · Accompagnement international", "hero.title1": "Des soins esthétiques en Chine,", "hero.titleEm": "avec un plan clair", "hero.subtitle": "Comparez les informations publiées sur les établissements, les spécialistes et les coûts indicatifs. Bénéficiez d’un accompagnement pour la consultation, l’interprétation et le voyage.", "hero.searchPh": "Rechercher une intervention, un spécialiste ou une ville", "hero.cta": "Commencer un échange gratuit", "hero.hot": "Recherches populaires", "hero.feat1": "Informations professionnelles du spécialiste", "hero.feat2": "Informations de licence de l’établissement", "hero.feat3": "Payez les frais médicaux directement à l’établissement",
+    "doctors.kicker": "Profils de spécialistes", "doctors.title1": "Informez-vous d’abord,", "doctors.titleEm": "choisissez ensuite", "doctors.cta": "Voir le profil", "cases.kicker": "Journaux de patients", "cases.title1": "Journaux de récupération ·", "cases.titleEm": "étape par étape", "cases.tabAll": "Tous", "cases.viewAll": "Voir tous les journaux", "case.back": "Retour", "case.related": "Journaux similaires", "case.book": "Parler de cette intervention",
+    "disclaimer.text": "Sino Aesthetics est une plateforme d’information et de coordination de voyage, et non un prestataire de soins. Nous ne fournissons ni conseil médical, ni diagnostic, ni traitement. Toutes les décisions médicales sont prises directement entre vous et l’établissement médical agréé.", "disclaimer.short": "Ceci ne constitue pas un avis médical. Sino Aesthetics fournit uniquement information et coordination.",
+  },
+  de: {
+    "brand.suffix": "China", "nav.cities": "Reiseziele", "nav.projects": "Behandlungen", "nav.clinics": "Kliniken und Krankenhäuser", "nav.cases": "Patiententagebücher", "nav.compliance": "Ärzte und Fachkräfte", "nav.signin": "Anmelden", "nav.signup": "Konto erstellen",
+    "hero.badge": "Informationen zu Einrichtungen und Fachkräften in China · Unterstützung für internationale Patienten", "hero.title1": "Ästhetische Behandlungen in China,", "hero.titleEm": "mit einem klaren Plan", "hero.subtitle": "Vergleichen Sie veröffentlichte Informationen zu Einrichtungen, Fachkräften und Richtpreisen. Wir unterstützen Sie bei Beratung, Übersetzung und Reiseplanung.", "hero.searchPh": "Behandlung, Fachkraft oder Stadt suchen", "hero.cta": "Kostenloses Gespräch starten", "hero.hot": "Häufig gesucht", "hero.feat1": "Berufsinformationen der Fachkraft", "hero.feat2": "Lizenzinformationen der Einrichtung", "hero.feat3": "Medizinkosten direkt an die Einrichtung zahlen",
+    "doctors.kicker": "Profile von Fachkräften", "doctors.title1": "Erst informieren,", "doctors.titleEm": "dann auswählen", "doctors.cta": "Profil ansehen", "cases.kicker": "Patiententagebücher", "cases.title1": "Genesungstagebücher ·", "cases.titleEm": "Schritt für Schritt", "cases.tabAll": "Alle", "cases.viewAll": "Alle Tagebücher ansehen", "case.back": "Zurück", "case.related": "Ähnliche Tagebücher", "case.book": "Diese Behandlung besprechen",
+    "disclaimer.text": "Sino Aesthetics ist eine Informations- und Reisekoordinationsplattform und kein medizinischer Anbieter. Wir geben keine medizinische Beratung, Diagnose oder Behandlung. Alle medizinischen Entscheidungen treffen Sie direkt mit der zugelassenen medizinischen Einrichtung.", "disclaimer.short": "Keine medizinische Beratung. Sino Aesthetics bietet nur Information und Koordination.",
+  },
 };
 
 export type AsiaDictKey = keyof typeof dict.en;
@@ -521,7 +556,8 @@ export const AsiaI18nProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     localStorage.setItem(STORE, JSON.stringify({ lang, currency }));
-    document.documentElement.lang = lang === "zh" ? "zh-CN" : lang === "ru" ? "ru" : lang;
+    document.documentElement.lang = lang === "zh" ? "zh-CN" : lang;
+    document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
   }, [lang, currency]);
 
   const t: AsiaI18nState["t"] = (k) => {

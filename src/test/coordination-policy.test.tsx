@@ -52,6 +52,11 @@ describe("coordination payment information", () => {
       vi: ["trước khi bạn khởi hành đi Trung Quốc", "Nếu bạn hủy, khoản cọc có thể được giữ trong một năm."],
       ko: ["중국 출발 전에 납부", "취소 시 보증금은 1년간 보관할 수 있습니다."],
       ja: ["中国への出発前にお支払い", "キャンセル時はデポジットを1年間保留できます。"],
+      ar: ["قبل السفر إلى الصين", "عند الإلغاء يمكن الاحتفاظ بالوديعة لمدة سنة."],
+      "pt-BR": ["antes da viagem", "Em caso de cancelamento, o depósito pode ficar retido por um ano."],
+      id: ["sebelum keberangkatan", "Jika membatalkan, deposit dapat disimpan selama satu tahun."],
+      fr: ["avant votre départ", "En cas d’annulation, le dépôt peut être conservé pendant un an."],
+      de: ["vor der Abreise", "Bei Stornierung kann die Kaution ein Jahr lang hinterlegt bleiben."],
     };
     for (const lang of Object.keys(expected) as AsiaLang[]) {
       const [collection, cancellation] = expected[lang];
