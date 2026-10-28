@@ -1,0 +1,201 @@
+[
+  {
+    "hospitalZh": "杭州整形医院",
+    "imgPath": "src/assets/real-photos/official-hangzhou-plastic-0.webp",
+    "author": "杭州整形医院 / official website",
+    "license": "Official website image · copyright retained by the source",
+    "licenseUrl": "https://www.health.citic/index.php?a=show&c=index&catid=28&id=6&m=content",
+    "sourceUrl": "https://www.health.citic/index.php?a=show&c=index&catid=28&id=6&m=content",
+    "description": "Hospital exterior shown by CITIC Healthcare.",
+    "modifications": "Converted to WebP without changing the scene; displayed with responsive cropping.",
+    "downloadUrl": "https://www.health.citic/uploadfile/2020/1124/20201124101452770.jpg",
+    "reviewedOn": "2026-10-28"
+  },
+  {
+    "hospitalZh": "中国医学科学院整形外科医院 (八大处)",
+    "imgPath": "src/assets/real-photos/official-badachu-about-1.webp",
+    "author": "中国医学科学院整形外科医院 (八大处) / official website",
+    "license": "Official website image · copyright retained by the source",
+    "licenseUrl": "https://www.zhengxing.com.cn/page/yiyuanjianjie",
+    "sourceUrl": "https://www.zhengxing.com.cn/page/yiyuanjianjie",
+    "description": "Badachu hospital building, from the official hospital introduction.",
+    "modifications": "Converted to WebP without changing the scene; displayed with responsive cropping.",
+    "downloadUrl": "https://www.zhengxing.com.cn/upload/20260214/1771001606735.jpg",
+    "reviewedOn": "2026-10-28"
+  },
+  {
+    "hospitalZh": "海南医学院第一附属医院 整形美容外科",
+    "aliases": [
+      "海南医科大学第一附属医院"
+    ],
+    "imgPath": "src/assets/real-photos/official-haiyi-0.webp",
+    "author": "海南医学院第一附属医院 整形美容外科 / official website",
+    "license": "Official website image · copyright retained by the source",
+    "licenseUrl": "https://www.hyyfyuan.cn/yygk/yyjj.htm",
+    "sourceUrl": "https://www.hyyfyuan.cn/yygk/yyjj.htm",
+    "description": "Longhua campus exterior, from the official hospital introduction.",
+    "modifications": "Converted to WebP without changing the scene; displayed with responsive cropping.",
+    "downloadUrl": "https://www.hyyfyuan.cn/__local/D/FB/04/81F9DD4D7D6F0EBE6E844C2FA81_03B5D0B3_24C23.png",
+    "reviewedOn": "2026-10-28"
+  },
+  {
+    "hospitalZh": "海南省中医院",
+    "imgPath": "src/assets/real-photos/official-hainan-tcm-0.webp",
+    "author": "海南省中医院 / official website",
+    "license": "Official website image · copyright retained by the source",
+    "licenseUrl": "https://www.gdszyyhnyy.cn/",
+    "sourceUrl": "https://www.gdszyyhnyy.cn/",
+    "description": "Hospital campus as shown on the official hospital website.",
+    "modifications": "Converted to WebP without changing the scene; displayed with responsive cropping.",
+    "downloadUrl": "https://31147790.s21i.faiusr.com/4/1/ABUIABAEGAAgg7K71gYogfyasQYwgA84uAg.png",
+    "reviewedOn": "2026-10-28"
+  },
+  {
+    "hospitalZh": "浙江省立同德医院",
+    "imgPath": "src/assets/real-photos/official-tongde-profile-0.webp",
+    "author": "浙江省立同德医院 / official website",
+    "license": "Official website image · copyright retained by the source",
+    "licenseUrl": "https://www.zjtongde.com/aboutsInfo",
+    "sourceUrl": "https://www.zjtongde.com/aboutsInfo",
+    "description": "Hospital exterior, from the official hospital introduction.",
+    "modifications": "Converted to WebP without changing the scene; displayed with responsive cropping.",
+    "downloadUrl": "https://www.zjtongde.com/static/web/images/p14.jpg",
+    "reviewedOn": "2026-10-28"
+  },
+  {
+    "hospitalZh": "广州市番禺区中心医院",
+    "imgPath": "src/assets/real-photos/official-panyu-profile-0.webp",
+    "author": "广州市番禺区中心医院 / official website",
+    "license": "Official website image · copyright retained by the source",
+    "licenseUrl": "https://www.pyhospital.com.cn/show_list.php?id=17",
+    "sourceUrl": "https://www.pyhospital.com.cn/show_list.php?id=17",
+    "description": "Hospital campus, from the official hospital introduction.",
+    "modifications": "Converted to WebP without changing the scene; displayed with responsive cropping.",
+    "downloadUrl": "https://www.pyhospital.com.cn/upload/image/20210928/1632797244274671.jpg",
+    "reviewedOn": "2026-10-28"
+  },
+  {
+    "hospitalZh": "海南省眼科医院",
+    "imgPath": "src/assets/real-photos/official-hn-eye-env-0.webp",
+    "author": "海南省眼科医院 / official website",
+    "license": "Official website image · copyright retained by the source",
+    "licenseUrl": "https://www.hnzoc.com.cn/Environment/ArticleList.aspx?CID=162",
+    "sourceUrl": "https://www.hnzoc.com.cn/Environment/ArticleList.aspx?CID=162",
+    "description": "Hospital exterior, from the official environment gallery.",
+    "modifications": "Converted to WebP without changing the scene; displayed with responsive cropping.",
+    "downloadUrl": "https://www.hnzoc.com.cn/upload/2/20250707/20250707160414_3033.jpg",
+    "reviewedOn": "2026-10-28"
+  },
+  {
+    "hospitalZh": "首都医科大学附属北京口腔医院",
+    "imgPath": "src/assets/real-photos/official-bj-dental-profile-1.webp",
+    "author": "首都医科大学附属北京口腔医院 / official website",
+    "license": "Official website image · copyright retained by the source",
+    "licenseUrl": "https://www.dentist.org.cn/Html/Hospitals/Main/Description.html",
+    "sourceUrl": "https://www.dentist.org.cn/Html/Hospitals/Main/Description.html",
+    "description": "Fanjia Village campus entrance, from the official hospital introduction.",
+    "modifications": "Converted to WebP without changing the scene; displayed with responsive cropping.",
+    "downloadUrl": "https://www.dentist.org.cn/Sites/Uploaded/UserUpLoad/20241230/20241230110858.jpg",
+    "reviewedOn": "2026-10-28"
+  },
+  {
+    "hospitalZh": "树兰（杭州）医院",
+    "imgPath": "src/assets/real-photos/official-shulan-hz-1.webp",
+    "author": "树兰（杭州）医院 / official website",
+    "license": "Official website image · copyright retained by the source",
+    "licenseUrl": "https://www.shulanhz.com.cn/",
+    "sourceUrl": "https://www.shulanhz.com.cn/",
+    "description": "Hangzhou hospital exterior, from the hospital homepage.",
+    "modifications": "Converted to WebP without changing the scene; displayed with responsive cropping.",
+    "downloadUrl": "https://www.shulanhz.com.cn/uploads/images/20200417/69055631a7a4345454d34ddf9ca63dfe.jpg",
+    "reviewedOn": "2026-10-28"
+  },
+  {
+    "hospitalZh": "北京加减美医疗美容医院",
+    "imgPath": "src/assets/real-photos/official-jiajianmei-2.webp",
+    "author": "北京加减美医疗美容医院 / official website",
+    "license": "Official website image · copyright retained by the source",
+    "licenseUrl": "https://m.jiajianmei.com/",
+    "sourceUrl": "https://m.jiajianmei.com/",
+    "description": "Clinic reception shown on the official Beijing Jiajianmei website.",
+    "modifications": "Converted to WebP without changing the scene; displayed with responsive cropping.",
+    "downloadUrl": "https://m.jiajianmei.com/gaiban/images/img/hushizhan.jpg",
+    "reviewedOn": "2026-10-28",
+    "aliases": [
+      "北京加减美医疗美容门诊部"
+    ]
+  },
+  {
+    "hospitalZh": "RODEO柔缇欧（上海旗舰店）",
+    "imgPath": "src/assets/real-photos/official-rodeomed-11.webp",
+    "author": "RODEO柔缇欧（上海旗舰店） / official website",
+    "license": "Official website image · copyright retained by the source",
+    "licenseUrl": "https://rodeomed.com/",
+    "sourceUrl": "https://rodeomed.com/",
+    "description": "Reception of the Shanghai flagship, from the official clinic website.",
+    "modifications": "Converted to WebP without changing the scene; displayed with responsive cropping.",
+    "downloadUrl": "https://rodeomed.com/images/visit-1.jpg",
+    "reviewedOn": "2026-10-28"
+  },
+  {
+    "hospitalZh": "海南省妇女儿童医学中心",
+    "imgPath": "src/assets/real-photos/official-hn-women-6.webp",
+    "author": "海南省妇女儿童医学中心 / official website",
+    "license": "Official website image · copyright retained by the source",
+    "licenseUrl": "https://www.hwcmc.cn/h-col-103.html",
+    "sourceUrl": "https://www.hwcmc.cn/h-col-103.html",
+    "description": "Changbin Road Children’s Hospital campus, from the official centre gallery.",
+    "modifications": "Converted to WebP without changing the scene; displayed with responsive cropping.",
+    "downloadUrl": "https://34143529.s21i.faiusr.com/2/ABUIABACGAAg9onKzgYomJG6xQcw4gg4xQY!400x400.jpg",
+    "reviewedOn": "2026-10-28"
+  },
+  {
+    "hospitalZh": "琼海市人民医院",
+    "imgPath": "src/assets/real-photos/official-qionghai-5.webp",
+    "author": "琼海市人民医院 / official website",
+    "license": "Official website image · copyright retained by the source",
+    "licenseUrl": "https://www.qhrmyy.cn/",
+    "sourceUrl": "https://www.qhrmyy.cn/",
+    "description": "Hospital exterior, from the official hospital homepage.",
+    "modifications": "Converted to WebP without changing the scene; displayed with responsive cropping.",
+    "downloadUrl": "https://32688489.s21i.faiusr.com/2/ABUIABACGAAgzvyRtgYotY3jwgIwsAk4-gM.jpg",
+    "reviewedOn": "2026-10-28"
+  },
+  {
+    "hospitalZh": "北京艺星医疗美容医院",
+    "imgPath": "src/assets/real-photos/official-yestar-outside.webp",
+    "author": "北京艺星医疗美容医院 / official website",
+    "license": "Official website image · copyright retained by the source",
+    "licenseUrl": "http://www.bjyestar.com/",
+    "sourceUrl": "http://www.bjyestar.com/",
+    "description": "Beijing Yestar hospital exterior, from its official environment gallery.",
+    "modifications": "Converted to WebP without changing the scene; displayed with responsive cropping.",
+    "downloadUrl": "http://www.bjyestar.com/zt/mbmb/images/index_hos_outside_02.jpg",
+    "reviewedOn": "2026-10-28",
+    "sourceTransport": "http-only"
+  },
+  {
+    "hospitalZh": "广东省第二人民医院 整形美容科",
+    "imgPath": "src/assets/real-photos/official-gd2-normalized-0.webp",
+    "author": "广东省第二人民医院 整形美容科 / official website",
+    "license": "Official website image · copyright retained by the source",
+    "licenseUrl": "https://www.gd2h.com/site/column/145_1_20.html",
+    "sourceUrl": "https://www.gd2h.com/site/column/145_1_20.html",
+    "description": "Hospital campus, from the official hospital introduction.",
+    "modifications": "Converted to WebP without changing the scene; displayed with responsive cropping.",
+    "downloadUrl": "https://gd2h.com/static/seygw/resources/upload/2024/05/28/f86bdaebd9b82727ff57165dcd492e232485321.jpg",
+    "reviewedOn": "2026-10-28"
+  },
+  {
+    "hospitalZh": "三亚中心医院",
+    "imgPath": "src/assets/real-photos/official-sanya-center-profile-0.webp",
+    "author": "三亚中心医院 / official website",
+    "license": "Official website image · copyright retained by the source",
+    "licenseUrl": "https://www.syzxyy.com.cn/yygk/yyjj",
+    "sourceUrl": "https://www.syzxyy.com.cn/yygk/yyjj",
+    "description": "Hospital campus, from the official hospital introduction.",
+    "modifications": "Converted to WebP without changing the scene; displayed with responsive cropping.",
+    "downloadUrl": "https://www.syzxyy.com.cn/upload/main/contentmanage/node/image/e4691145e61d497dbf77202b221e3bc6.jpg",
+    "reviewedOn": "2026-10-28"
+  }
+]

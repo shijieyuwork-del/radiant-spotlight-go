@@ -69,8 +69,8 @@ const clinicSlug = (citySlug: string, identityName: string): string => {
 
 export const STATIC_CLINICS: DirectoryClinic[] = CITIES.flatMap((city) => [
   ...city.hospitals.map((hospital) => ({ hospital, isPublic: Boolean("isPublic" in hospital && hospital.isPublic) })),
-  // The extended directory lists only public hospitals.
-  ...(ADDITIONAL_CLINICS[city.slug] ?? []).map((hospital) => ({ hospital, isPublic: true })),
+  // Preserve explicitly recorded private ownership in the extended directory.
+  ...(ADDITIONAL_CLINICS[city.slug] ?? []).map((hospital) => ({ hospital, isPublic: hospital.isPublic ?? true })),
 ].map(({ hospital, isPublic }) => ({
   slug: clinicSlug(city.slug, hospital.en || hospital.zh),
   citySlug: city.slug,

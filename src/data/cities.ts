@@ -273,7 +273,7 @@ const CITY_CATALOG: City[] = [
     hospitals: [
       { zh: "北京艺星医疗美容医院", en: "Beijing Yestar Aesthetic Hospital", areaZh: "朝阳区", areaEn: "Chaoyang District" },
       { zh: "中国医学科学院整形外科医院 (八大处)", en: "Plastic Surgery Hospital, CAMS (Badachu)", areaZh: "石景山区", areaEn: "Shijingshan District", isPublic: true },
-      { zh: "北京加减美医疗美容医院", en: "Beijing Jiajianmei Aesthetic Hospital", areaZh: "朝阳区", areaEn: "Chaoyang District" },
+      { zh: "北京加减美医疗美容门诊部", en: "Beijing Jiajianmei Aesthetic Hospital", areaZh: "西城区", areaEn: "Xicheng District" },
     ],
     travelZh: {
       airport: "PEK / PKX · 直飞欧美 / 中东",
