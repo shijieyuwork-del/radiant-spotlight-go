@@ -345,8 +345,7 @@
     z-index: 1;
   }
 
-  /* The homepage background is fixed behind every section, so the water/rainbow
-     field stays continuous while the visitor scrolls. */
+  /* The component anchors this background inside the first homepage section. */
   .hero-ambient {
     --hero-surface: var(--background);
     position: fixed;
@@ -373,8 +372,8 @@
     inset: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    object-position: center;
+    object-fit: contain;
+    object-position: center top;
   }
 
   .hero-ambient__photo {
