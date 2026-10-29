@@ -165,58 +165,6 @@ const Hero = () => {
   const uploaded = usePublishedVideos(lang);
   const diaryItems = [...uploaded, ...TIKTOK_CASES];
 
-  const copy = lang === "zh"
-    ? {
-        badge: "更清晰地了解中国医美",
-        cases: "观看患者短视频",
-        consultation: "在线面诊",
-        consultationDetail: "出发前与专家进行一对一线上沟通",
-        english: "英文院内翻译",
-        englishDetail: "协助就诊期间的现场沟通",
-        travel: "机场接送",
-        travelDetail: "机场与目的地之间的专车接送",
-        pricing: "术后支持",
-        pricingDetail: "恢复期间提供持续协调",
-      }
-    : lang === "ru"
-      ? {
-          badge: "Косметическая помощь в Китае — понятнее",
-          cases: "Смотреть видео пациентов",
-          consultation: "Онлайн-консультация",
-          consultationDetail: "Встреча с экспертом онлайн до поездки",
-          english: "Переводчик в клинике",
-          englishDetail: "Помощь в общении во время визита",
-          travel: "Трансфер из аэропорта",
-          travelDetail: "Индивидуальный трансфер до места назначения",
-          pricing: "Поддержка после лечения",
-          pricingDetail: "Координация во время восстановления",
-        }
-      : lang === "es"
-        ? {
-            badge: "Atención estética en China, más clara",
-            cases: "Ver videos de recuperación de pacientes",
-            consultation: "Consulta en línea",
-            consultationDetail: "Reúnete con tu experto en línea antes de viajar (no se brinda asesoría médica)",
-            english: "Traducción en inglés en la clínica",
-            englishDetail: "Apoyo de comunicación durante las visitas a la clínica",
-            travel: "Traslado desde y hacia el aeropuerto",
-            travelDetail: "Traslado privado hacia y desde tu destino",
-            pricing: "Apoyo posterior al tratamiento",
-            pricingDetail: "Apoyo coordinado durante toda la recuperación",
-          }
-        : {
-          // Thai, Malay and Vietnamese resolve through the UI catalogs; English is the fallback.
-          badge: translatedUiText(lang, "Cosmetic care in China, made clearer"),
-          cases: translatedUiText(lang, "Watch patient recovery videos"),
-          consultation: translatedUiText(lang, "Online consultation"),
-          consultationDetail: translatedUiText(lang, "Meet your expert online before you travel (not providing medical advice)"),
-          english: translatedUiText(lang, "English in-clinic translation"),
-          englishDetail: translatedUiText(lang, "Communication support during clinic visits"),
-          travel: translatedUiText(lang, "Airport pickup & drop-off"),
-          travelDetail: translatedUiText(lang, "Private transfer to and from your destination"),
-          pricing: translatedUiText(lang, "Aftercare support"),
-          pricingDetail: translatedUiText(lang, "Coordinated support throughout recovery"),
-        };
   return (
     <section className="hero-motion relative overflow-hidden">
       <HeroAmbientBackground lang={lang} />
@@ -226,11 +174,15 @@ const Hero = () => {
           <div className="mx-auto w-full text-center">
             <span className="cinematic-hero__badge pill max-w-full justify-center text-center leading-relaxed">
               <ShieldCheck className="size-3.5 text-primary" />
-              {copy.badge}
+              {hero.badge}
             </span>
             <p className="mt-4 text-xs font-semibold uppercase tracking-[0.14em] text-primary">{hero.audience}</p>
             <h1 className="cinematic-hero__title">{hero.title}</h1>
             <p className="cinematic-hero__subtitle">{hero.subtitle}</p>
+            <div className="mx-auto my-5 max-w-2xl rounded-2xl border border-primary/20 bg-background/80 px-5 py-4 backdrop-blur-sm" data-testid="home-payment-transparency">
+              <p className="text-base font-semibold text-foreground sm:text-lg">{hero.paymentHeadline}</p>
+              <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{hero.paymentDetail}</p>
+            </div>
 
             <div className="cinematic-hero__actions mx-auto flex max-w-3xl flex-col justify-center gap-3 sm:flex-row">
               <Button asChild size="lg" className="h-auto min-h-[3.25rem] w-full rounded-full px-6 py-3 text-[15px] font-semibold sm:w-auto">
@@ -260,14 +212,14 @@ const Hero = () => {
             <div
               className="cinematic-hero__services mx-auto max-w-4xl rounded-full px-4 py-3 sm:px-6"
               role="list"
-              aria-label={lang === "zh" ? "协调服务" : lang === "ru" ? "Координационные услуги" : lang === "es" ? "Servicios de coordinación" : translatedUiText(lang, "Coordination services")}
+              aria-label={hero.servicesLabel}
             >
               <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 sm:gap-x-8">
               {[
-                { icon: Video, title: copy.consultation },
-                { icon: MapPin, title: copy.travel },
-                { icon: Users, title: copy.english },
-                { icon: ShieldCheck, title: copy.pricing },
+                { icon: Video, title: hero.services[0] },
+                { icon: MapPin, title: hero.services[1] },
+                { icon: Users, title: hero.services[2] },
+                { icon: ShieldCheck, title: hero.services[3] },
               ].map((item) => (
                 <div
                   key={item.title}
