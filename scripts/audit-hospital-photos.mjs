@@ -49,7 +49,8 @@ for (const record of records) {
   }
   if (!record.imgPath.startsWith("src/assets/real-photos/") || !record.imgPath.endsWith(".webp")) errors.push(`Invalid asset path: ${record.imgPath}`);
   for (const field of ["licenseUrl", "sourceUrl"]) {
-    if (!/^https:\/\//.test(record[field])) errors.push(`Invalid ${field}: ${record.hospitalZh}`);
+    const explicitlyHttpSource = record.sourceTransport === "http-only" && record[field] === record.sourceUrl && /^http:\/\//.test(record[field]);
+    if (!/^https:\/\//.test(record[field]) && !explicitlyHttpSource) errors.push(`Invalid ${field}: ${record.hospitalZh}`);
   }
   const asset = path.resolve(root, record.imgPath);
   if (!fs.existsSync(asset)) errors.push(`Missing image: ${record.imgPath}`);

@@ -3,6 +3,7 @@ import { ArrowUpRight, BadgeCheck, MapPin } from "lucide-react";
 import type { City } from "@/data/cities";
 import { getClinicPath, type DirectoryClinic } from "@/data/clinicDirectory";
 import { findClinicPublicProfile } from "@/data/clinicProfiles";
+import { findClinicCredentials } from "@/data/clinicCredentials";
 import { clinicPhoto } from "@/lib/clinic-photo";
 import { HospitalDirectoryPhoto } from "@/components/HospitalDirectoryPhoto";
 import { useAsia } from "@/lib/asia-i18n";
@@ -17,13 +18,14 @@ export function ClinicCard({ clinic, city }: { clinic: DirectoryClinic; city: Ci
   const profile = findClinicPublicProfile(clinic);
   const area = lang === "zh" ? profile?.campus?.areaZh ?? clinic.areaZh : profile?.campus?.areaEn ?? clinic.areaEn;
   const photo = clinicPhoto(clinic);
+  const isMedicalZone = findClinicCredentials(clinic)?.institutionKind === "medical-zone";
 
   return (
     <li className="flex min-w-0 flex-col overflow-hidden rounded-2xl border border-border/70 bg-card transition-colors hover:border-primary/50 motion-reduce:transition-none">
       <HospitalDirectoryPhoto key={photo?.src ?? "no-photo"} photo={photo} name={name} href={getClinicPath(clinic)} reserveCreditSpace>
         <Link data-clinic-primary-link to={getClinicPath(clinic)} className="group flex flex-1 scroll-mt-64 flex-col p-5 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-foreground">
           <span className={`mb-3 inline-flex w-fit items-center rounded-full px-2.5 py-1 text-xs font-medium ${clinic.isPublic ? "bg-secondary text-secondary-foreground" : "bg-primary/10 text-foreground"}`}>
-            {clinic.isPublic
+            {isMedicalZone ? c("Medical tourism zone", "医疗旅游园区", "Медицинская туристическая зона", "Zona de turismo médico", "เขตท่องเที่ยวเชิงการแพทย์", "Zon pelancongan perubatan") : clinic.isPublic
               ? c("Public hospital", "公立医院", "Государственная больница", "Hospital público", "โรงพยาบาลรัฐ", "Hospital kerajaan")
               : c("Private clinic", "私立机构", "Частная клиника", "Clínica privada", "คลินิกเอกชน", "Klinik swasta")}
           </span>

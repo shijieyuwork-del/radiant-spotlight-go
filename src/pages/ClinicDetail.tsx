@@ -9,6 +9,8 @@ import { ClinicPhotoGallery } from "@/components/clinics/ClinicPhotoGallery";
 import { ClinicDescription } from "@/components/clinics/ClinicDescription";
 import { ClinicExperts } from "@/components/clinics/ClinicExperts";
 import { ClinicComparisonInfo } from "@/components/clinics/ClinicComparisonInfo";
+import { ClinicCredentials } from "@/components/clinics/ClinicCredentials";
+import { findClinicCredentials } from "@/data/clinicCredentials";
 import { useQuote } from "@/components/QuoteRequest";
 import { CITIES } from "@/data/cities";
 import { findClinicBySlug, getClinicPath } from "@/data/clinicDirectory";
@@ -50,6 +52,7 @@ export default function ClinicDetail() {
 
   const name = lang === "zh" ? clinic.nameZh : clinic.nameEn;
   const publicProfile = findClinicPublicProfile(clinic);
+  const websiteUrl = clinic.websiteUrl || findClinicCredentials(clinic)?.websiteUrl;
   const secondary = lang === "zh" ? clinic.nameEn : clinic.nameZh;
   const cityName = lang === "zh" ? city.zh : city.en;
   const area = lang === "zh" ? publicProfile?.campus?.areaZh ?? clinic.areaZh : publicProfile?.campus?.areaEn ?? clinic.areaEn;
@@ -79,10 +82,10 @@ export default function ClinicDetail() {
           <h1 className="mt-4 break-words font-display text-3xl font-medium leading-tight tracking-tight sm:text-4xl lg:text-5xl">{name}</h1>
           {secondary && secondary !== name && <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">{secondary}</p>}
           <p className="mt-5 flex items-center gap-2 text-sm"><MapPin className="size-4 shrink-0" aria-hidden="true" /><Link to={cityDirectory} className="underline underline-offset-4">{cityName}</Link><span className="text-muted-foreground">· {c("China", "中国", "Китай", "China")}</span></p>
-          {clinic.websiteUrl && (
+          {websiteUrl && (
             <p className="mt-3 flex items-center gap-2 text-sm">
               <Globe className="size-4 shrink-0" aria-hidden="true" />
-              <a href={clinic.websiteUrl} target="_blank" rel="noopener noreferrer nofollow" className="break-all underline underline-offset-4">
+              <a href={websiteUrl} target="_blank" rel="noopener noreferrer nofollow" className="break-all underline underline-offset-4">
                 {c("Official website", "官方网站", "Официальный сайт", "Sitio web oficial")}
               </a>
             </p>
@@ -90,6 +93,7 @@ export default function ClinicDetail() {
         </header>
 
         {publicProfile && <ClinicComparisonInfo profile={publicProfile} onAsk={() => open({ hospitalName: clinic.nameEn, city: city.en, source: "clinic_detail" })} />}
+        <ClinicCredentials clinic={clinic} />
 
         <div className="grid items-start gap-8 lg:grid-cols-3 lg:gap-10">
           <div className="min-w-0 space-y-8 lg:col-span-2">

@@ -1,4 +1,4 @@
-export type AdditionalClinic = { zh: string; en: string; areaZh: string; areaEn: string };
+export type AdditionalClinic = { zh: string; en: string; areaZh: string; areaEn: string; isPublic?: boolean };
 
 export const ADDITIONAL_CLINICS: Record<string, AdditionalClinic[]> = {
   shanghai: [
@@ -95,6 +95,6 @@ export const ADDITIONAL_CLINICS: Record<string, AdditionalClinic[]> = {
     { zh: "浙江省眼科医院杭州院区", en: "Eye Hospital of Wenzhou Medical University, Hangzhou", areaZh: "上城区", areaEn: "Shangcheng District" },
     { zh: "杭州市萧山区第一人民医院", en: "Xiaoshan First People's Hospital", areaZh: "萧山区", areaEn: "Xiaoshan District" },
     { zh: "杭州市临平区第一人民医院", en: "Linping District First People's Hospital", areaZh: "临平区", areaEn: "Linping District" },
-    { zh: "树兰（杭州）医院", en: "Shulan (Hangzhou) Hospital", areaZh: "拱墅区", areaEn: "Gongshu District" },
+    { zh: "树兰（杭州）医院", en: "Shulan (Hangzhou) Hospital", areaZh: "拱墅区", areaEn: "Gongshu District", isPublic: false },
   ],
 };

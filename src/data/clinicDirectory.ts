@@ -67,18 +67,21 @@ const clinicSlug = (citySlug: string, identityName: string): string => {
   return `${citySlug}-${readable || "clinic"}-${fingerprint(identity)}`;
 };
 
+// A corrected display name can retain the established URL and alias identity.
+const hospitalUrlIdentity = (hospital: { en: string; zh: string; urlIdentityEn?: string }) => hospital.urlIdentityEn || hospital.en || hospital.zh;
+
 export const STATIC_CLINICS: DirectoryClinic[] = CITIES.flatMap((city) => [
   ...city.hospitals.map((hospital) => ({ hospital, isPublic: Boolean("isPublic" in hospital && hospital.isPublic) })),
-  // The extended directory lists only public hospitals.
-  ...(ADDITIONAL_CLINICS[city.slug] ?? []).map((hospital) => ({ hospital, isPublic: true })),
+  // Preserve explicitly recorded private ownership in the extended directory.
+  ...(ADDITIONAL_CLINICS[city.slug] ?? []).map((hospital) => ({ hospital, isPublic: hospital.isPublic ?? true })),
 ].map(({ hospital, isPublic }) => ({
-  slug: clinicSlug(city.slug, hospital.en || hospital.zh),
+  slug: clinicSlug(city.slug, hospitalUrlIdentity(hospital)),
   citySlug: city.slug,
   nameEn: hospital.en,
   nameZh: hospital.zh,
   areaEn: hospital.areaEn,
   areaZh: hospital.areaZh,
-  aliases: uniqueNames([hospital.en, hospital.zh]),
+  aliases: uniqueNames([hospital.en, hospital.zh, hospitalUrlIdentity(hospital)]),
   doctorIds: [],
   origin: "directory" as const,
   isPublic,
