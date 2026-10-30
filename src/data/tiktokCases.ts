@@ -153,11 +153,16 @@ export const TIKTOK_CASES: TikTokItem[] = [
     clinic: { en: "Third-party source: RedNote · 毛馕宝宝Koni ｜KIBITION", zh: "第三方来源：小红书 · 毛馕宝宝Koni ｜KIBITION" },
     likes: "", comments: "", priceCny: 0,
   },
+  // Keep the user's facelift and liposuction videos within the seven homepage slots.
   ...DIARY_PREVIEWS.map((item) => ({
   ...item,
   clinic: { en: "Provider details pending review", zh: "机构资料待审核" },
   likes: "",
   comments: "",
   priceCny: 0,
-})),
+})).sort((a, b) => {
+  const priority = ["facelift-chengdu", "liposuction-guangzhou"];
+  const rank = (id: string) => priority.includes(id) ? priority.indexOf(id) : priority.length;
+  return rank(a.id) - rank(b.id);
+}),
 ];
