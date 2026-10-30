@@ -140,10 +140,24 @@ const DIARY_PREVIEWS: TikTokItem[] = [
 
 // These assets are layout previews until the related patient, clinic and price
 // records have completed review. Do not present demo metadata as verified fact.
-export const TIKTOK_CASES: TikTokItem[] = DIARY_PREVIEWS.map((item) => ({
+export const TIKTOK_CASES: TikTokItem[] = [
+  {
+    id: "hairline-vietnam-diary",
+    // Original public source: https://www.xiaohongshu.com/explore/6a02fa5c000000003600211e
+    // Re-encoded for web playback; original captions, privacy masking and source marks retained.
+    src: "/videos/hairline-vietnam-case.mp4",
+    poster: "/videos/hairline-vietnam-case-poster.jpg",
+    user: { en: "毛馕宝宝Koni ｜KIBITION", zh: "毛馕宝宝Koni ｜KIBITION" },
+    caption: { en: "A Vietnamese visitor’s hairline consultation and recovery diary. Independent third-party video; individual experiences and results vary.", zh: "越南访客的发际线面诊与恢复记录。独立第三方视频，个体经历和效果各有不同。" },
+    treatment: { en: "Hairline consultation & recovery", zh: "发际线面诊与恢复" },
+    clinic: { en: "Third-party source: RedNote · 毛馕宝宝Koni ｜KIBITION", zh: "第三方来源：小红书 · 毛馕宝宝Koni ｜KIBITION" },
+    likes: "", comments: "", priceCny: 0,
+  },
+  ...DIARY_PREVIEWS.map((item) => ({
   ...item,
   clinic: { en: "Provider details pending review", zh: "机构资料待审核" },
   likes: "",
   comments: "",
   priceCny: 0,
-}));
+})),
+];
