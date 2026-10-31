@@ -3,7 +3,7 @@ import { ArrowUpRight } from "lucide-react";
 import { useAsia, type AsiaLang } from "@/lib/asia-i18n";
 import type { TikTokItem } from "@/components/TikTokWall";
 
-// Classification structure reviewed at https://medorabeauty.com/procedure/videos on 2026-10-31.
+// Procedure groups used by the homepage and case directory.
 // The reference informs navigation only; counts come exclusively from our own case records.
 export const CASE_AREAS = [
   { id: "face", types: ["eyes", "nose", "contour"] },
