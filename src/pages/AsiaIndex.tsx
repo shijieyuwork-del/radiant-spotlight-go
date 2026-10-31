@@ -12,6 +12,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import Footer from "@/components/Footer";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import HomeBeforeAfterGallery from "@/components/home/HomeBeforeAfterGallery";
+import CaseCategoryNavigation from "@/components/CaseCategoryNavigation";
 import HeroVideoGallery from "@/components/HeroVideoGallery";
 import HeroAmbientBackground from "@/components/HeroAmbientBackground";
 import { usePublishedVideos } from "@/hooks/use-published-videos";
@@ -1621,6 +1622,7 @@ const AsiaIndex = () => {
         <AsiaNavbar />
         <main className="home-content-flow">
           <Hero />
+          <div className="container"><CaseCategoryNavigation /></div>
           <TreatmentsSection />
           <PricingPreviewSection />
           <DoctorsSection />

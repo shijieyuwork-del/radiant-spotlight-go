@@ -6,6 +6,7 @@ import PageMeta from "@/components/PageMeta";
 import TikTokWall, { type TikTokItem } from "@/components/TikTokWall";
 import { Pagination, SortChips } from "@/components/ListControls";
 import CasesFilterDisclosure from "@/components/CasesFilterDisclosure";
+import CaseCategoryNavigation, { caseCategoryLabel, matchesCaseCategory } from "@/components/CaseCategoryNavigation";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
 import { usePublishedVideos } from "@/hooks/use-published-videos";
 import { DOCTORS } from "@/data/doctors";
@@ -58,7 +59,7 @@ const Cases = () => {
     const set = new Map<string, string>();
     ALL_CASES.forEach((item) => set.set(item.treatment.en, lang === "zh" ? item.treatment.zh : translatedUiText(lang, item.treatment.en)));
     // Keep a linked selection readable before its published records arrive.
-    if (activeTreatment && !set.has(activeTreatment)) set.set(activeTreatment, translatedUiText(lang, activeTreatment));
+    if (activeTreatment && !set.has(activeTreatment)) set.set(activeTreatment, caseCategoryLabel(activeTreatment, lang) ?? translatedUiText(lang, activeTreatment));
     return Array.from(set, ([key, label]) => ({ key, label }));
   }, [ALL_CASES, lang, activeTreatment]);
 
@@ -92,7 +93,7 @@ const Cases = () => {
 
   const items = useMemo(() => {
     return ALL_CASES.filter((c) => {
-      if (activeTreatment && activeTreatment !== c.treatment.en) return false;
+      if (!matchesCaseCategory(c, activeTreatment)) return false;
       if (activeCity) {
         const city = caseCity.get(c.id);
         if (!city || activeCity !== city.en) return false;
@@ -190,6 +191,8 @@ const Cases = () => {
             {c("Real recovery journeys, ", "真实恢复历程，", "Реальные истории восстановления: ", "Historias reales de recuperación, ")}<em className="not-italic text-brand">{c("from consultation to final results.", "从面诊到最终效果", "от консультации до результата.", "desde la consulta hasta el resultado final.")}</em>
           </p>
         </div>
+
+        <CaseCategoryNavigation items={ALL_CASES} value={activeTreatment} onSelect={setActiveTreatment} />
 
         <div className="mx-auto mb-3 flex max-w-3xl rounded-2xl border border-border/70 bg-card shadow-soft sm:rounded-full">
           <div className="flex min-h-12 min-w-0 flex-1 items-center gap-3 px-4 py-3">
