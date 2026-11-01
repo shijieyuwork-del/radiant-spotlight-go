@@ -1,3 +1,5 @@
+import { usePublishedVideos } from "@/hooks/use-published-videos";
+import { caseProcedureType } from "@/components/CaseCategoryNavigation";
 import ProcedureGuideSections from "@/components/ProcedureGuideSections";
 import { PROCEDURE_BRIEFS } from "@/data/procedureGuides";
 import { consultationHandoffUrl } from "@/lib/consultation-handoff";
@@ -594,7 +596,8 @@ const relatedCaseTerms: Record<string, string[]> = {
   body: ["liposuction", "tummy tuck", "bbl", "body contouring"],
 };
 
-const getRelatedCases = (procedure: string) => {
+const getRelatedCases = (procedure: string, uploaded: typeof TIKTOK_CASES = []) => {
+  const cases = [...uploaded, ...TIKTOK_CASES];
   const query = procedure.toLowerCase();
   const group = query.match(/nose|rhino|nasal|sept|alar/) ? "nose"
     : query.match(/eye|eyelid|bleph|ptosis|epican|brow/) ? "eye"
@@ -603,9 +606,11 @@ const getRelatedCases = (procedure: string) => {
           : query.match(/face|facial|jaw|chin|neck|lift|contour|zygoma|genio/) ? "face"
             : "";
   const terms = group ? relatedCaseTerms[group] : [];
-  const exact = TIKTOK_CASES.filter((item) => query.includes(item.treatment.en.toLowerCase()) || item.treatment.en.toLowerCase().includes(query));
-  const grouped = TIKTOK_CASES.filter((item) => terms.some((term) => item.treatment.en.toLowerCase().includes(term)));
-  return [...exact, ...grouped, ...TIKTOK_CASES]
+  const exact = cases.filter((item) => query.includes(item.treatment.en.toLowerCase()) || item.treatment.en.toLowerCase().includes(query));
+  const grouped = cases.filter((item) => terms.some((term) => item.treatment.en.toLowerCase().includes(term)));
+  const canonical = caseProcedureType({ treatment: { en: procedure, zh: procedure } });
+  const categorized = canonical ? cases.filter(item => caseProcedureType(item) === canonical) : [];
+  return [...exact, ...grouped, ...categorized]
     .filter((item, index, all) => all.findIndex((candidate) => candidate.id === item.id) === index)
     .slice(0, 4);
 };
@@ -615,7 +620,8 @@ const ProcedureVideoRow = ({ procedure, lang, fmt }: { procedure: string; lang: 
   const ru = lang === "ru";
   const es = lang === "es";
   const c = (en: string, cn: string, russian: string, spanish?: string) => zh ? cn : ru ? russian : es ? (spanish ?? en) : en;
-  const items = getRelatedCases(procedure);
+  const uploaded = usePublishedVideos(lang);
+  const items = getRelatedCases(procedure, uploaded);
   return (
     <section className="mt-10 border-t border-border/60 pt-9">
       <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
@@ -624,7 +630,7 @@ const ProcedureVideoRow = ({ procedure, lang, fmt }: { procedure: string; lang: 
           <h2 className="mt-3 font-display text-2xl font-medium tracking-tight md:text-3xl">
             {c("Watch related recovery diaries", "观看相关恢复短视频", "Смотрите дневники восстановления", "Ver diarios de recuperación relacionados")}
           </h2>
-          <p className="mt-1 text-sm text-muted-foreground">{c("Swipe to explore patient journeys and recovery updates.", "左右滑动查看更多案例与恢复过程。", "Листайте, чтобы увидеть больше историй пациентов.", "Desliza para ver más historias de pacientes y actualizaciones de recuperación.")}</p>
+          <p className="mt-1 text-sm text-muted-foreground">{c("Explore related procedure categories; these cases do not necessarily show the exact technique on this page.", "同类项目案例仅供了解，不代表采用了本页所有具体术式。", "Листайте, чтобы увидеть больше историй пациентов.", "Desliza para ver más historias de pacientes y actualizaciones de recuperación.")}</p>
         </div>
         <Button asChild variant="outline" className="w-fit rounded-full">
           <Link to="/cases">{c("View all cases", "查看全部案例", "Все случаи", "Ver todos los casos")}<ArrowRight className="ml-2 size-4" /></Link>

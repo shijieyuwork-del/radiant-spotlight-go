@@ -90,7 +90,7 @@ const VideoAdmin = ({ embedded = false }: { embedded?: boolean } = {}) => {
   const [file, setFile] = useState<File | null>(null);
   const [title, setTitle] = useState("");
   const [caption, setCaption] = useState("");
-  const [city, setCity] = useState("上海");
+  const [city, setCity] = useState("未提供");
   const [procedure, setProcedure] = useState("");
   const [status, setStatus] = useState("published");
   const [doctorId, setDoctorId] = useState("none");
@@ -117,6 +117,10 @@ const VideoAdmin = ({ embedded = false }: { embedded?: boolean } = {}) => {
   const replaceAbortRef = useRef<AbortController | null>(null);
   const [submitRetry, setSubmitRetry] = useState<"failed" | "cancelled" | null>(null);
   const [failedReplace, setFailedReplace] = useState<{ videoId: string; file: File } | null>(null);
+  const [autoTranslate, setAutoTranslate] = useState(true);
+  const autoTranslateRef = useRef(true);
+  autoTranslateRef.current = autoTranslate;
+  const videoTranslations = (fields: Record<string, string | null>) => autoTranslateRef.current ? translateFields(fields, { revise: aiReviseRef.current }) : Promise.resolve({ zh: Object.fromEntries(Object.entries(fields).filter(([, value]) => !!value)) });
   const [aiRevise, setAiRevise] = useState(true);
   const aiReviseRef = useRef(true);
   aiReviseRef.current = aiRevise;
@@ -277,12 +281,12 @@ const VideoAdmin = ({ embedded = false }: { embedded?: boolean } = {}) => {
         coverPath = null; // 封面失败不阻塞上传，信息流显示默认海报
       }
       patchItem(item.id, { status: "saving" });
-      const i18nBatch = await translateFields({
+      const i18nBatch = await videoTranslations({
         title: item.title.trim() || item.file.name,
         caption: meta.caption ?? "",
         city: meta.city,
         procedure: meta.procedure,
-      }, { revise: aiReviseRef.current });
+      });
       const { error: dbError } = await supabase.from("videos").insert({
         title: item.title.trim() || item.file.name,
         caption: meta.caption,
@@ -390,7 +394,7 @@ const VideoAdmin = ({ embedded = false }: { embedded?: boolean } = {}) => {
         }
         setStage("saving");
 
-        const i18nSingle = await translateFields({ title: title.trim(), caption: meta.caption ?? "", city: meta.city, procedure: meta.procedure }, { revise: aiReviseRef.current });
+        const i18nSingle = await videoTranslations({ title: title.trim(), caption: meta.caption ?? "", city: meta.city, procedure: meta.procedure });
         const { error: dbError } = await supabase.from("videos").insert({
           title: title.trim(),
           caption: meta.caption,
@@ -669,6 +673,7 @@ const VideoAdmin = ({ embedded = false }: { embedded?: boolean } = {}) => {
               </div>
             )}
             <div>
+              <label className="mb-4 flex gap-2 text-sm"><input type="checkbox" checked={autoTranslate} onChange={(event) => setAutoTranslate(event.target.checked)} />自动翻译（关闭后仅保存原文，不调用 AI）</label>
               <Label htmlFor="video-title">标题 *</Label>
               <Input
                 id="video-title"
@@ -682,7 +687,7 @@ const VideoAdmin = ({ embedded = false }: { embedded?: boolean } = {}) => {
             </div>
             <div><Label htmlFor="video-caption">说明</Label><Textarea id="video-caption" value={caption} onChange={(e) => setCaption(e.target.value)} className="mt-1.5" placeholder="视频介绍（可选，队列中的视频共用）" /></div>
             <div className="grid grid-cols-2 gap-3">
-              <div><Label>城市</Label><Select value={city} onValueChange={setCity}><SelectTrigger className="mt-1.5"><SelectValue /></SelectTrigger><SelectContent>{["上海", "广州", "北京", "海南", "杭州"].map((item) => <SelectItem value={item} key={item}>{item}</SelectItem>)}</SelectContent></Select></div>
+              <div><Label>城市</Label><Select value={city} onValueChange={setCity}><SelectTrigger className="mt-1.5"><SelectValue /></SelectTrigger><SelectContent>{["未提供", "上海", "广州", "北京", "海南", "杭州"].map((item) => <SelectItem value={item} key={item}>{item}</SelectItem>)}</SelectContent></Select></div>
               <div><Label htmlFor="procedure">项目</Label><Input id="procedure" value={procedure} onChange={(e) => setProcedure(e.target.value)} className="mt-1.5" placeholder="例如：鼻综合" /></div>
             </div>
             <div><Label>对应专家</Label><Select value={doctorId} onValueChange={setDoctorId}><SelectTrigger className="mt-1.5"><SelectValue placeholder="选择专家"/></SelectTrigger><SelectContent><SelectItem value="none">暂不关联</SelectItem>{doctors.map(d=><SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>)}</SelectContent></Select></div>
