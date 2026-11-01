@@ -43,11 +43,11 @@ export function caseProcedureType(item: Pick<TikTokItem, "treatment">): string |
   const text = `${item.treatment.en} ${item.treatment.zh}`.toLowerCase();
   const rules: Array<[string, RegExp]> = [
     ["hair", /hair|fue\b|fut\b|植发|毛发|发际线|眉毛种植|胡须种植/],
-    ["eyes", /eyelid|bleph|epicanth|ptosis|under.?eye|眼整形|双眼皮|眼袋|上睑|下睑|眶隔/],
+    ["eyes", /eyelid|bleph|epicanth|ptosis|under.?eye|眼整形|眼部|眼睑|双眼皮|眼袋|上睑|下睑|眶隔/],
     ["nose", /rhinoplast|nose|nasal|alar|鼻/],
     ["breast", /breast|implant removal|implant revision|gynecomastia|隆胸|胸部|乳房|假体取出|假体修复/],
     ["body", /liposuction|lipo\b|tummy|body|bbl\b|butt|arm lift|thigh lift|mommy|panniculect|吸脂|身体|腹壁|提臀|上臂|大腿|产后塑形/],
-    ["injectables", /botox|botulin|filler|injectable|lip injection|肉毒|填充剂|玻尿酸|面部注射/],
+    ["injectables", /botox|botulin|filler|injectable|lip injection|肉毒|填充剂|玻尿酸|面部注射|注射类/],
     ["contour", /facelift|face.?lift|neck.?lift|brow.?lift|lip.?lift|deep.?plane|chin|jaw|zygoma|otoplast|facial fat|fat graft|拉皮|面部轮廓|面部脂肪|面部提升|颈部提升|眉提升|唇提升|下巴|下颌|颧骨|耳廓/],
     ["veneers", /veneer|贴面/], ["whitening", /whiten|美白牙|牙齿美白/],
     ["smile", /dental|tooth|teeth|smile|aligner|crown|口腔|牙|微笑/],
