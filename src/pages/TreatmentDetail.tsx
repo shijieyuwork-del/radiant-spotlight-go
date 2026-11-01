@@ -1,3 +1,6 @@
+import ProcedureGuideSections from "@/components/ProcedureGuideSections";
+import { PROCEDURE_BRIEFS } from "@/data/procedureGuides";
+import { consultationHandoffUrl } from "@/lib/consultation-handoff";
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, ArrowRight, BadgeCheck, ChevronDown, CircleHelp, CircleSlash, Clock, DollarSign, FileCheck2, HeartPulse, Pill, ShieldAlert, Sparkles, Stethoscope } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
@@ -98,7 +101,7 @@ const TreatmentDetail = () => {
     description: t.summaryEn,
     about: { "@type": "MedicalProcedure", name: t.en, procedureType: "https://schema.org/SurgicalProcedure" },
     audience: { "@type": "Patient" },
-    dateModified: "2026-08-30",
+    dateModified: "2026-11-01",
   };
 
   return (
@@ -387,7 +390,8 @@ const CatalogProcedureDetail = ({
   const intro = categoryCopy[procedure.categoryEn];
   const education = catalogEducation[procedure.categoryEn];
   const path = `/treatments/${procedureSlug(procedure.en)}`;
-  const description = treatment
+  const brief = PROCEDURE_BRIEFS[procedureSlug(procedure.en)];
+  const description = brief ? brief.overview[zh ? 1 : 0] : treatment
     ? (zh ? treatment.summaryZh : treatment.summaryEn)
     : (zh ? intro.zh : es ? (intro.es ?? intro.en) : intro.en);
   const planningRange = treatment
@@ -403,10 +407,10 @@ const CatalogProcedureDetail = ({
     "@context": "https://schema.org",
     "@type": "MedicalWebPage",
     name: `${procedure.en} in China | Procedure Overview`,
-    description: treatment?.summaryEn ?? `Learn what to discuss when considering ${procedure.en} in China, including planning, provider checks, risks and next steps.`,
+    description: brief?.overview[0] ?? treatment?.summaryEn ?? `Learn what to discuss when considering ${procedure.en} in China, including planning, provider checks, risks and next steps.`,
     about: { "@type": "MedicalProcedure", name: procedure.en },
     audience: { "@type": "Patient" },
-    dateModified: "2026-08-30",
+    dateModified: "2026-11-01",
     publisher: { "@id": "https://sinoaesthetics.com/#organization" },
   };
 
@@ -414,7 +418,7 @@ const CatalogProcedureDetail = ({
     <>
       <PageMeta
         title={`${procedure.en} in China | Procedure Overview`}
-        description={treatment?.summaryEn ?? `Learn what to discuss when considering ${procedure.en} in China, including planning, provider checks, risks and next steps.`}
+        description={brief?.overview[0] ?? treatment?.summaryEn ?? `Learn what to discuss when considering ${procedure.en} in China, including planning, provider checks, risks and next steps.`}
         path={path}
         structuredData={schema}
       />
@@ -432,7 +436,7 @@ const CatalogProcedureDetail = ({
           </section>
 
           <div className="mt-4 flex flex-col gap-2 rounded-2xl border border-primary/15 bg-primary/[0.045] px-4 py-3 text-xs leading-relaxed text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-            <p><span className="font-semibold text-foreground">Editorially researched, not medically reviewed.</span> Updated August 30, 2026.</p>
+            <p><span className="font-semibold text-foreground">{zh ? "资料经过编辑核对，尚未经临床医生逐篇审核。" : "Editorially researched, not medically reviewed."}</span> {zh ? "更新于 2026 年 11 月 1 日。" : "Updated November 1, 2026."}</p>
             <div className="flex flex-wrap gap-x-4 gap-y-1 font-semibold text-brand">
               <Link to="/medical-review-policy" className="hover:underline">Medical review policy</Link>
               <Link to="/editorial-policy" className="hover:underline">Editorial policy</Link>
@@ -455,14 +459,16 @@ const CatalogProcedureDetail = ({
             </div>
             <div className="mt-6 flex flex-col gap-3 rounded-2xl bg-primary/[0.07] p-4 sm:flex-row sm:items-center sm:justify-between">
               <p className="text-sm font-medium text-foreground">{c("Not sure what applies to you? Review it with a coordinator online.", "不确定哪些信息适合你？可以先和协调员在线聊一聊。", "Не уверены, что относится к вам? Обсудите это с координатором онлайн.", "¿No sabes qué aplica en tu caso? Revísalo con un coordinador en línea.")}</p>
-              <Button asChild className="shrink-0 rounded-full px-5"><a href="https://wa.me/14708613825" target="_blank" rel="noreferrer">{c("Free online consultation", "免费在线咨询", "Бесплатная онлайн-консультация", "Consulta en línea gratuita")}<ArrowRight className="ml-2 size-4" /></a></Button>
+              <Button asChild className="shrink-0 rounded-full px-5"><a href={consultationHandoffUrl("whatsapp", { procedure: procedure.en })} target="_blank" rel="noreferrer">{c("Free online consultation", "免费在线咨询", "Бесплатная онлайн-консультация", "Consulta en línea gratuita")}<ArrowRight className="ml-2 size-4" /></a></Button>
             </div>
           </section>
+
+          <ProcedureGuideSections name={procedure.en} category={procedure.categoryEn} zh={zh} treatment={treatment} />
 
           <section className="mt-8 overflow-hidden rounded-[2rem] border border-border/70 bg-card shadow-soft">
             <div className="border-b border-border/60 px-5 py-5 md:px-7">
               <span className="pill bg-accent text-accent-foreground"><FileCheck2 className="size-3.5" />{c("Only open what you need", "按需查看", "Откройте нужный раздел", "Abre solo lo que necesitas")}</span>
-              <h2 className="mt-3 font-display text-2xl font-medium tracking-tight md:text-3xl">{c("What to review before you decide", "决定前，重点看这三项", "Что проверить перед решением", "Qué revisar antes de decidir")}</h2>
+              <h2 className="mt-3 font-display text-2xl font-medium tracking-tight md:text-3xl">{c("Techniques, recovery and risks", "术式、恢复与风险", "Что проверить перед решением", "Qué revisar antes de decidir")}</h2>
             </div>
 
             {treatment && (
