@@ -489,6 +489,7 @@ export type Database = {
       }
       videos: {
         Row: {
+          placement: string
           caption: string | null
           city: string | null
           cover_path: string | null
@@ -502,6 +503,7 @@ export type Database = {
           title: string
         }
         Insert: {
+          placement?: string
           caption?: string | null
           city?: string | null
           cover_path?: string | null
@@ -515,6 +517,7 @@ export type Database = {
           title: string
         }
         Update: {
+          placement?: string
           caption?: string | null
           city?: string | null
           cover_path?: string | null
