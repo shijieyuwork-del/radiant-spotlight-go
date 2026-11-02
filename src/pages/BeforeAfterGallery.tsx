@@ -1,3 +1,5 @@
+import { GALLERY_CASES } from "@/data/galleryCases";
+import { usePublishedVideos } from "@/hooks/use-published-videos";
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Images, Loader2 } from "lucide-react";
@@ -18,12 +20,15 @@ const BeforeAfterGallery = () => {
   const marketing = getPlanningMarketingCopy(lang);
   const c = (en: string, zh: string, ru: string, es?: string) => asiaCopy(lang, { en, zh, ru, es });
   const { items, loading } = usePublishedBeforeAfter(lang);
+  const uploadedGallery = usePublishedVideos(lang, "before-after");
+  const videos = [...GALLERY_CASES, ...uploadedGallery];
+  const [videoLimit, setVideoLimit] = useState(12);
   const [q, setQ] = useState("");
   const [procedure, setProcedure] = useState<string | null>(null);
 
   const procedures = useMemo(
-    () => [...new Set(items.map((i) => i.procedure).filter((p): p is string => Boolean(p)))],
-    [items]
+    () => [...new Set([...items.map((i) => i.procedure), ...videos.map((v) => lang === "zh" ? v.treatment.zh : v.treatment.en)].filter((p): p is string => Boolean(p)))],
+    [items, videos, lang]
   );
 
   const filtered = useMemo(
@@ -36,6 +41,12 @@ const BeforeAfterGallery = () => {
       }),
     [items, q, procedure]
   );
+
+  const filteredVideos = videos.filter(item => {
+    const label = lang === "zh" ? item.treatment.zh : item.treatment.en;
+    if (procedure && label !== procedure) return false;
+    return !q.trim() || [item.caption.en, item.caption.zh, item.treatment.en, item.treatment.zh].join(" ").toLowerCase().includes(q.trim().toLowerCase());
+  });
 
   return (
     <>
@@ -76,12 +87,12 @@ const BeforeAfterGallery = () => {
           <div className="mx-auto mt-8 flex max-w-4xl flex-wrap justify-center gap-3">
             <Input
               value={q}
-              onChange={(e) => setQ(e.target.value)}
+              onChange={(e) => { setQ(e.target.value); setVideoLimit(12); }}
               placeholder={c("Search procedure, city or expert", "搜索项目、城市或专家", "Поиск процедуры, города или эксперта", "Buscar procedimiento, ciudad o experto")}
               className="w-full max-w-xs rounded-full"
             />
             <div className="flex flex-wrap justify-center gap-2">
-              <Button variant={procedure ? "outline" : "default"} size="sm" className="rounded-full" onClick={() => setProcedure(null)}>
+              <Button variant={procedure ? "outline" : "default"} size="sm" className="rounded-full" onClick={() => { setProcedure(null); setVideoLimit(12); }}>
                 {c("All", "全部", "Все", "Todos")}
               </Button>
               {procedures.map((p) => (
@@ -90,7 +101,7 @@ const BeforeAfterGallery = () => {
                   variant={procedure === p ? "default" : "outline"}
                   size="sm"
                   className="rounded-full"
-                  onClick={() => setProcedure(p)}
+                  onClick={() => { setProcedure(p); setVideoLimit(12); }}
                 >
                   {p}
                 </Button>
@@ -100,7 +111,7 @@ const BeforeAfterGallery = () => {
 
           {loading && <Loader2 className="size-6 animate-spin text-primary mt-10" />}
 
-          {!loading && filtered.length === 0 && (
+          {!loading && filtered.length === 0 && filteredVideos.length === 0 && (
             <p className="text-muted-foreground mt-10">
               {c("No photo sets published yet.", "暂时还没有发布的对比图。", "Пока нет опубликованных фотографий.", "Aún no hay fotos publicadas.")}
             </p>
@@ -129,6 +140,19 @@ const BeforeAfterGallery = () => {
               </div>
             ))}
           </div>
+
+          <section id="video-cases" data-testid="before-after-videos" className="mt-10 border-t pt-8">
+            <h2 className="font-display text-2xl">{lang === "zh" ? "术前术后视频案例" : "Before & after video cases"}</h2>
+            <p className="mt-2 text-sm text-muted-foreground">{lang === "zh" ? "按原视频展示对比与恢复记录，个体情况和效果存在差异。视频中的具体术式以原始说明为准。" : "Original comparison and recovery videos. Individual results vary; refer to the source description for the exact procedure."}</p>
+            <p role="status" className="mt-3 text-sm">{lang === "zh" ? "当前筛选：" : "Current results: "}{filtered.length}{lang === "zh" ? " 组图片 · " : " photo sets · "}{filteredVideos.length}{lang === "zh" ? " 个视频" : " videos"}</p>
+            <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {filteredVideos.slice(0, videoLimit).map(item => <article key={item.id} id={item.id} className="overflow-hidden rounded-3xl border bg-card shadow-soft">
+                <video controls playsInline preload="metadata" poster={item.poster} src={item.src} aria-label={lang === "zh" ? item.caption.zh : item.caption.en} className="aspect-[4/5] max-h-[480px] w-full bg-black object-contain" />
+                <div className="p-4"><p className="text-xs text-brand">{lang === "zh" ? item.treatment.zh : item.treatment.en}</p><h3 className="mt-2 text-sm font-medium">{lang === "zh" ? item.caption.zh : item.caption.en}</h3></div>
+              </article>)}
+            </div>
+            {videoLimit < filteredVideos.length && <Button variant="outline" className="mx-auto mt-6 block rounded-full" onClick={() => setVideoLimit(n => n + 12)}>{lang === "zh" ? "加载更多视频" : "Load more videos"}</Button>}
+          </section>
 
           <div className="mt-12">
             <MedicalDisclaimer />

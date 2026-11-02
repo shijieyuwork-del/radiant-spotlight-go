@@ -63,6 +63,7 @@ type QueueResult = "done" | "failed" | "cancelled";
 
 /** 队列条目共享的记录元数据（提交时快照，避免表单重置影响队列） */
 type SharedMeta = {
+  placement: string;
   caption: string | null;
   city: string;
   procedure: string | null;
@@ -93,6 +94,7 @@ const VideoAdmin = ({ embedded = false }: { embedded?: boolean } = {}) => {
   const [city, setCity] = useState("未提供");
   const [procedure, setProcedure] = useState("");
   const [status, setStatus] = useState("published");
+  const [placement, setPlacement] = useState("before-after");
   const [doctorId, setDoctorId] = useState("none");
   const [doctors, setDoctors] = useState<DoctorOption[]>([]);
   const [errors, setErrors] = useState<FieldErrors>({});
@@ -295,6 +297,7 @@ const VideoAdmin = ({ embedded = false }: { embedded?: boolean } = {}) => {
         storage_path: storagePath,
         cover_path: coverPath,
         status: meta.status,
+        placement: meta.placement,
         doctor_id: meta.doctorId,
         i18n: i18nBatch,
       });
@@ -324,6 +327,7 @@ const VideoAdmin = ({ embedded = false }: { embedded?: boolean } = {}) => {
     const item = queueRef.current.find((q) => q.id === id);
     if (!item || (item.status !== "failed" && item.status !== "cancelled")) return;
     const meta: SharedMeta = {
+      placement,
       caption: caption.trim() || null,
       city,
       procedure: procedure.trim() || null,
@@ -370,6 +374,7 @@ const VideoAdmin = ({ embedded = false }: { embedded?: boolean } = {}) => {
     mainAbortRef.current = abort;
     // 快照共享元数据：主文件上传成功后表单会重置，队列仍使用提交时的值
     const meta: SharedMeta = {
+      placement,
       caption: caption.trim() || null,
       city,
       procedure: procedure.trim() || null,
@@ -403,6 +408,7 @@ const VideoAdmin = ({ embedded = false }: { embedded?: boolean } = {}) => {
           storage_path: storagePath,
           cover_path: coverPath,
           status: meta.status,
+        placement: meta.placement,
           doctor_id: meta.doctorId,
           i18n: i18nSingle,
         });
@@ -691,6 +697,7 @@ const VideoAdmin = ({ embedded = false }: { embedded?: boolean } = {}) => {
               <div><Label htmlFor="procedure">项目</Label><Input id="procedure" value={procedure} onChange={(e) => setProcedure(e.target.value)} className="mt-1.5" placeholder="例如：鼻综合" /></div>
             </div>
             <div><Label>对应专家</Label><Select value={doctorId} onValueChange={setDoctorId}><SelectTrigger className="mt-1.5"><SelectValue placeholder="选择专家"/></SelectTrigger><SelectContent><SelectItem value="none">暂不关联</SelectItem>{doctors.map(d=><SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>)}</SelectContent></Select></div>
+            <div><Label htmlFor="video-placement">展示板块</Label><select id="video-placement" className="mt-1.5 w-full rounded-xl border bg-background p-2" value={placement} onChange={(event) => setPlacement(event.target.value)}><option value="before-after">术前术后对比图集（不进入首页）</option><option value="diary">患者日记 / 首页视频</option></select></div>
             <div><Label>状态</Label><Select value={status} onValueChange={setStatus}><SelectTrigger className="mt-1.5"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="published">立即发布</SelectItem><SelectItem value="draft">保存草稿</SelectItem></SelectContent></Select></div>
             {uploading && (
               <div className="space-y-1.5" aria-live="polite">
