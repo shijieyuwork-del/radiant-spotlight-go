@@ -32,16 +32,18 @@ export const toTikTokItem = (row: Row, url: string, cover: string): TikTokItem =
 };
 
 /** 已发布视频（后台上传），按当前语言本地化，后台变更后自动刷新。 */
-export const usePublishedVideos = (lang: AsiaLang): TikTokItem[] => {
+export const usePublishedVideos = (lang: AsiaLang, placement: "diary" | "before-after" | "all" = "diary"): TikTokItem[] => {
   const [items, setItems] = useState<TikTokItem[]>([]);
 
   const load = useCallback(() => {
     void (async () => {
-      const { data } = await supabase
+      let query = supabase
         .from("videos")
         .select("id,title,caption,city,procedure,storage_path,cover_path,created_at,doctor_id,i18n")
         .eq("status", "published")
         .order("created_at", { ascending: false });
+      if (placement !== "all") query = query.eq("placement", placement);
+      const { data } = await query;
       const rows = (data ?? []) as Row[];
       if (rows.length === 0) return setItems([]);
       const [urls, covers] = await Promise.all([
@@ -54,7 +56,7 @@ export const usePublishedVideos = (lang: AsiaLang): TikTokItem[] => {
         )
       );
     })();
-  }, [lang]);
+  }, [lang, placement]);
 
   useEffect(() => { load(); }, [load]);
   useRealtimeRefresh(["videos"], load);

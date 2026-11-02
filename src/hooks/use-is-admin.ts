@@ -8,6 +8,7 @@ import { useAuth } from "@/lib/auth";
  */
 export const useIsAdmin = () => {
   const { user, loading: authLoading } = useAuth();
+  const userId = user?.id;
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -17,7 +18,7 @@ export const useIsAdmin = () => {
       setLoading(true);
       return;
     }
-    if (!user) {
+    if (!userId) {
       setIsAdmin(false);
       setLoading(false);
       return;
@@ -26,7 +27,7 @@ export const useIsAdmin = () => {
     supabase
       .from("user_roles")
       .select("role")
-      .eq("user_id", user.id)
+      .eq("user_id", userId)
       .eq("role", "admin")
       .maybeSingle()
       .then(({ data }) => {
@@ -37,7 +38,7 @@ export const useIsAdmin = () => {
     return () => {
       active = false;
     };
-  }, [user, authLoading]);
+  }, [userId, authLoading]);
 
   return { isAdmin, loading };
 };
