@@ -14,6 +14,10 @@ import { cn } from "@/lib/utils";
 
 type Lang = AsiaLang;
 
+const heroCaseTitle = (item: TikTokItem, lang: AsiaLang) => item.id === "necklift-shanghai"
+  ? (lang === "zh" ? "眼鼻综合" : "Eye & Nose Procedures")
+  : item.treatment[lang === "zh" ? "zh" : "en"];
+
 type HeroVideoGalleryProps = {
   items: TikTokItem[];
   lang: Lang;
@@ -64,7 +68,7 @@ const GalleryCard = ({
   priority?: boolean;
   cinematic?: boolean;
 }) => {
-  const t = item.treatment[lang === "zh" ? "zh" : "en"];
+  const t = heroCaseTitle(item, lang);
   return (
     <button
       type="button"
@@ -281,7 +285,7 @@ const HeroVideoGallery = ({ items, lang, size = "default", layout = "rail" }: He
           }}
           className="z-[90] flex h-[92dvh] w-[min(92vw,32rem)] max-w-none flex-col overflow-hidden rounded-2xl border-0 bg-black p-3 text-white [&>button]:bg-white [&>button]:text-foreground"
         >
-          <DialogTitle className="pr-8 text-sm text-white">{active.treatment[lang] || active.treatment.en}</DialogTitle>
+          <DialogTitle className="pr-8 text-sm text-white">{heroCaseTitle(active, lang)}</DialogTitle>
             <video
               ref={player.attachRef}
               src={active.src}
