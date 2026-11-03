@@ -1,7 +1,8 @@
+import { TIKTOK_CASES } from "@/data/tiktokCases";
 import { GALLERY_CASES } from "@/data/galleryCases";
 import { usePublishedVideos } from "@/hooks/use-published-videos";
 import { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { Images, Loader2 } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
@@ -17,11 +18,13 @@ import { usePublishedBeforeAfter } from "@/hooks/use-before-after";
 
 const BeforeAfterGallery = () => {
   const { lang } = useAsia();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const selectedVideo = searchParams.get("video");
   const marketing = getPlanningMarketingCopy(lang);
   const c = (en: string, zh: string, ru: string, es?: string) => asiaCopy(lang, { en, zh, ru, es });
   const { items, loading } = usePublishedBeforeAfter(lang);
-  const uploadedGallery = usePublishedVideos(lang, "before-after");
-  const videos = [...GALLERY_CASES, ...uploadedGallery];
+  const uploadedGallery = usePublishedVideos(lang, selectedVideo ? "all" : "before-after");
+  const videos = [...GALLERY_CASES, ...uploadedGallery, ...(selectedVideo ? TIKTOK_CASES : [])];
   const [videoLimit, setVideoLimit] = useState(12);
   const [q, setQ] = useState("");
   const [procedure, setProcedure] = useState<string | null>(null);
@@ -34,15 +37,17 @@ const BeforeAfterGallery = () => {
   const filtered = useMemo(
     () =>
       items.filter((i) => {
+        if (selectedVideo) return false;
         if (procedure && i.procedure !== procedure) return false;
         if (!q.trim()) return true;
         const hay = [i.title, i.caption, i.procedure, i.city, i.doctorName].filter(Boolean).join(" ").toLowerCase();
         return hay.includes(q.trim().toLowerCase());
       }),
-    [items, q, procedure]
+    [items, q, procedure, selectedVideo]
   );
 
   const filteredVideos = videos.filter(item => {
+    if (selectedVideo && item.id !== selectedVideo) return false;
     const label = lang === "zh" ? item.treatment.zh : item.treatment.en;
     if (procedure && label !== procedure) return false;
     return !q.trim() || [item.caption.en, item.caption.zh, item.treatment.en, item.treatment.zh].join(" ").toLowerCase().includes(q.trim().toLowerCase());
@@ -92,7 +97,7 @@ const BeforeAfterGallery = () => {
               className="w-full max-w-xs rounded-full"
             />
             <div className="flex flex-wrap justify-center gap-2">
-              <Button variant={procedure ? "outline" : "default"} size="sm" className="rounded-full" onClick={() => { setProcedure(null); setVideoLimit(12); }}>
+              <Button variant={procedure ? "outline" : "default"} size="sm" className="rounded-full" onClick={() => { setProcedure(null); setVideoLimit(12); setSearchParams({}); }}>
                 {c("All", "全部", "Все", "Todos")}
               </Button>
               {procedures.map((p) => (
@@ -101,7 +106,7 @@ const BeforeAfterGallery = () => {
                   variant={procedure === p ? "default" : "outline"}
                   size="sm"
                   className="rounded-full"
-                  onClick={() => { setProcedure(p); setVideoLimit(12); }}
+                  onClick={() => { setProcedure(p); setVideoLimit(12); setSearchParams({}); }}
                 >
                   {p}
                 </Button>

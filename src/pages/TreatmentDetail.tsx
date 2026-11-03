@@ -637,7 +637,7 @@ const ProcedureVideoRow = ({ procedure, lang, fmt }: { procedure: string; lang: 
           <Link to="/cases">{c("View all cases", "查看全部案例", "Все случаи", "Ver todos los casos")}<ArrowRight className="ml-2 size-4" /></Link>
         </Button>
       </div>
-      <TikTokWall items={items} lang={lang} fmtPrice={fmt} variant="wall" />
+      <TikTokWall items={items} lang={lang} fmtPrice={fmt} variant="wall" caseHrefBase="/before-after?video=" />
     </section>
   );
 };
