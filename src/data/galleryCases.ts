@@ -1,7 +1,8 @@
+import { GALLERY_CASES_BATCH2 } from "./galleryCasesBatch2";
 import type { TikTokItem } from "@/components/TikTokWall";
 
 // User-provided gallery media; intentionally excluded from homepage and diary feeds.
-export const GALLERY_CASES: TikTokItem[] = [
+export const GALLERY_CASES: TikTokItem[] = [...GALLERY_CASES_BATCH2,
   {
     "id": "gallery-0307",
     "src": "/videos/gallery-case-0307.mp4",
