@@ -2325,4 +2325,4 @@ export const GALLERY_CASES: TikTokItem[] = [
     "comments": "",
     "priceCny": 0
   }
-].filter(item => ["gallery-0307","gallery-0308","gallery-0309","gallery-0310","gallery-0501","gallery-0502","gallery-0503","gallery-0504","gallery-0505","gallery-0506","gallery-0601","gallery-0602","gallery-0603","gallery-0604","gallery-0605","gallery-0606","gallery-0607","gallery-0608","gallery-0609","gallery-0610","gallery-0611","gallery-0701","gallery-0702","gallery-0703","gallery-0704","gallery-0705","gallery-0706","gallery-0707","gallery-0708","gallery-0709","gallery-0710","gallery-0711","gallery-0712"].includes(item.id));
+];
