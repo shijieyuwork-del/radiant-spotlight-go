@@ -2,7 +2,7 @@
   "en": {
     "title": "Considering cosmetic care in China?",
     "subtitle": "Compare provider information, prepare for a consultation, and plan translation and travel support. Medical care is provided by independent licensed hospitals and clinicians.",
-    "audience": "For international visitors — women and men",
+    "audience": "For all international visitors",
     "explore": "Explore Providers",
     "how": "How It Works",
     "ask": "Ask a Question",
@@ -24,7 +24,7 @@
   "zh": {
     "title": "考虑来中国做医美？",
     "subtitle": "比较机构与专家信息，做好面诊准备，并安排翻译与行程支持。医疗服务由独立的持牌医院和临床专家提供。",
-    "audience": "面向国际访客 —— 女性与男性均可",
+    "audience": "面向所有国际访客",
     "explore": "浏览机构与专家",
     "how": "服务流程",
     "ask": "提个问题",
@@ -46,7 +46,7 @@
   "ru": {
     "title": "Думаете об эстетической медицине в Китае?",
     "subtitle": "Сравните сведения о клиниках, подготовьтесь к консультации и спланируйте перевод и поездку. Медицинскую помощь оказывают независимые лицензированные больницы и специалисты.",
-    "audience": "Для иностранных гостей — женщин и мужчин",
+    "audience": "Для всех иностранных гостей",
     "explore": "Клиники и специалисты",
     "how": "Как это работает",
     "ask": "Задать вопрос",
@@ -68,7 +68,7 @@
   "es": {
     "title": "¿Estás pensando en un tratamiento estético en China?",
     "subtitle": "Compara información de proveedores, prepara tu consulta y planifica traducción y apoyo de viaje. La atención médica la prestan hospitales y especialistas independientes con licencia.",
-    "audience": "Para visitantes internacionales — mujeres y hombres",
+    "audience": "Para todos los visitantes internacionales",
     "explore": "Explorar proveedores",
     "how": "Cómo funciona",
     "ask": "Hacer una pregunta",
@@ -90,7 +90,7 @@
   "th": {
     "title": "กำลังพิจารณารับบริการความงามทางการแพทย์ในจีนใช่ไหม?",
     "subtitle": "เปรียบเทียบข้อมูลสถานพยาบาล เตรียมคำถามสำหรับการปรึกษา และวางแผนล่ามกับการเดินทาง การรักษาดำเนินการโดยโรงพยาบาลและบุคลากรทางการแพทย์ที่ได้รับอนุญาตอย่างเป็นอิสระ",
-    "audience": "สำหรับผู้เดินทางจากต่างประเทศ ทั้งผู้หญิงและผู้ชาย",
+    "audience": "สำหรับผู้เดินทางจากต่างประเทศทุกคน",
     "explore": "ดูสถานพยาบาลและผู้เชี่ยวชาญ",
     "how": "ขั้นตอนบริการ",
     "ask": "สอบถามข้อมูล",
@@ -112,7 +112,7 @@
   "ms": {
     "title": "Mempertimbangkan rawatan estetik di China?",
     "subtitle": "Bandingkan maklumat penyedia, bersedia untuk konsultasi dan rancang bantuan jurubahasa serta perjalanan. Rawatan diberikan oleh hospital dan pengamal perubatan berlesen yang bebas.",
-    "audience": "Untuk pelawat antarabangsa — wanita dan lelaki",
+    "audience": "Untuk semua pelawat antarabangsa",
     "explore": "Lihat penyedia",
     "how": "Cara perkhidmatan berfungsi",
     "ask": "Tanya soalan",
@@ -134,7 +134,7 @@
   "vi": {
     "title": "Bạn đang cân nhắc chăm sóc thẩm mỹ tại Trung Quốc?",
     "subtitle": "So sánh thông tin cơ sở, chuẩn bị cho buổi tư vấn và lên kế hoạch phiên dịch, đi lại. Dịch vụ y tế do các bệnh viện và nhân viên y tế độc lập có giấy phép cung cấp.",
-    "audience": "Dành cho khách quốc tế — cả nữ và nam",
+    "audience": "Dành cho mọi khách quốc tế",
     "explore": "Xem cơ sở và chuyên gia",
     "how": "Quy trình hỗ trợ",
     "ask": "Đặt câu hỏi",
@@ -156,7 +156,7 @@
   "ko": {
     "title": "중국에서 미용 의료를 고려하고 계신가요?",
     "subtitle": "의료기관 정보를 비교하고 상담을 준비하며 통역과 여행 지원을 계획하세요. 진료는 독립적으로 운영되는 허가받은 의료기관과 의료진이 담당합니다.",
-    "audience": "해외 방문객을 위한 안내 — 여성과 남성 모두",
+    "audience": "모든 해외 방문객을 위한 안내",
     "explore": "의료기관과 의료진 보기",
     "how": "이용 절차",
     "ask": "질문하기",
@@ -178,7 +178,7 @@
   "ja": {
     "title": "中国での美容医療を検討していますか？",
     "subtitle": "医療機関の情報を比較し、診察に備え、通訳や渡航サポートを計画できます。診療は、独立した認可医療機関と医療従事者が担当します。",
-    "audience": "海外からの訪問者向け — 女性・男性ともに",
+    "audience": "海外からのすべての訪問者へ",
     "explore": "医療機関と医療従事者を見る",
     "how": "ご利用の流れ",
     "ask": "質問する",
@@ -200,7 +200,7 @@
   "ar": {
     "title": "هل تفكر في الرعاية التجميلية في الصين؟",
     "subtitle": "قارن معلومات الجهات الطبية واستعد للاستشارة وخطّط للترجمة ودعم السفر. تقدم الرعاية الطبية مستشفيات وممارسون مرخّصون ومستقلون.",
-    "audience": "للزوار الدوليين — النساء والرجال",
+    "audience": "لجميع الزوار الدوليين",
     "explore": "استعرض الجهات الطبية",
     "how": "كيف تعمل الخدمة",
     "ask": "اطرح سؤالًا",
@@ -222,7 +222,7 @@
   "pt-BR": {
     "title": "Pensando em cuidados estéticos na China?",
     "subtitle": "Compare informações sobre os prestadores, prepare-se para a consulta e planeje interpretação e apoio de viagem. O atendimento médico é prestado por hospitais e profissionais independentes e licenciados.",
-    "audience": "Para visitantes internacionais — mulheres e homens",
+    "audience": "Para todos os visitantes internacionais",
     "explore": "Explorar prestadores",
     "how": "Como funciona",
     "ask": "Fazer uma pergunta",
@@ -244,7 +244,7 @@
   "id": {
     "title": "Mempertimbangkan perawatan estetika di Tiongkok?",
     "subtitle": "Bandingkan informasi penyedia, siapkan konsultasi, serta rencanakan penerjemah lisan dan dukungan perjalanan. Pelayanan medis diberikan oleh rumah sakit dan tenaga medis independen yang berizin.",
-    "audience": "Untuk pengunjung internasional — perempuan dan laki-laki",
+    "audience": "Untuk semua pengunjung internasional",
     "explore": "Lihat penyedia layanan",
     "how": "Cara kerja layanan",
     "ask": "Ajukan pertanyaan",
@@ -266,7 +266,7 @@
   "fr": {
     "title": "Vous envisagez des soins esthétiques en Chine ?",
     "subtitle": "Comparez les informations sur les établissements, préparez votre consultation et organisez l’interprétation ainsi que le voyage. Les soins sont assurés par des établissements et des professionnels indépendants, autorisés à exercer.",
-    "audience": "Pour les visiteurs internationaux — femmes et hommes",
+    "audience": "Pour tous les visiteurs internationaux",
     "explore": "Explorer les établissements",
     "how": "Comment ça marche",
     "ask": "Poser une question",
@@ -288,7 +288,7 @@
   "de": {
     "title": "Erwägen Sie eine ästhetische Behandlung in China?",
     "subtitle": "Vergleichen Sie Informationen über Anbieter, bereiten Sie Ihr Beratungsgespräch vor und planen Sie Dolmetsch- und Reiseunterstützung. Die medizinische Versorgung übernehmen unabhängige, zugelassene Einrichtungen und Behandelnde.",
-    "audience": "Für internationale Besucherinnen und Besucher — Frauen und Männer",
+    "audience": "Für alle internationalen Gäste",
     "explore": "Anbieter ansehen",
     "how": "So funktioniert es",
     "ask": "Frage stellen",
