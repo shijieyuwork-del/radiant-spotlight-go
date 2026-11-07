@@ -11,6 +11,8 @@ import { getHomeHeroCopy } from "@/lib/home-hero-copy";
 const Footer = () => {
   const { lang } = useAsia();
   const scope = getHomeHeroCopy(lang);
+  const zh: Record<string, string> = {"Explore":"探索","Patient Diaries":"患者日记","Experts in China":"中国医生与专家","Clinics & Hospitals":"医院与诊所","Procedure Academy":"项目指南","China Destinations":"中国城市","Plan Your Trip":"行程规划","Medical Tourism China":"赴华就医指南","Travel Support":"行程支持","Why China":"为什么选择中国","Shanghai":"上海","Popular Guides":"热门指南","Plastic Surgery China":"中国整形指南","Cosmetic Surgery Tourism":"整形医疗旅行","Rhinoplasty":"鼻整形","Eyelid Surgery":"眼部整形","Trust & Policies":"平台与政策","About Us":"关于我们","Contact":"联系我们","Provider Verification":"机构与医生信息核查","Medical Review Policy":"医疗内容审核政策","Editorial Policy":"编辑政策","Privacy notice":"隐私声明","Terms":"服务条款","Legal notice":"法律声明","Privacy choices":"隐私设置"};
+  const label = (text: string) => lang === "zh" ? zh[text] ?? text : text;
   return (
     <>
       <ConsultationCta />
@@ -34,11 +36,11 @@ const Footer = () => {
           { title: "Trust & Policies", items: [{ label: "About Us", to: "/about" }, { label: "Contact", to: "/contact" }, { label: "Provider Verification", to: "/provider-verification" }, { label: "Medical Review Policy", to: "/medical-review-policy" }, { label: "Editorial Policy", to: "/editorial-policy" }] },
         ].map((c) => (
           <div key={c.title}>
-            <h4 className="font-display text-base mb-3">{c.title}</h4>
+            <h4 className="font-display text-base mb-3">{label(c.title)}</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
               {c.items.map((i) => (
                 <li key={i.label} className="hover:text-foreground cursor-pointer">
-                  <Link to={i.to}>{i.label}</Link>
+                  <Link to={i.to}>{label(i.label)}</Link>
                 </li>
               ))}
             </ul>
@@ -58,10 +60,10 @@ const Footer = () => {
       <div className="container pb-10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
         <p>© {new Date().getFullYear()} SinoAesthetics Limited · Hong Kong</p>
         <div className="flex flex-wrap items-center justify-center gap-3">
-          <Link to="/privacy" className="hover:text-foreground">Privacy notice</Link>
-          <Link to="/terms" className="hover:text-foreground">Terms</Link>
-          <Link to="/legal-notice" className="hover:text-foreground">Legal notice</Link>
-          {analyticsConfigured() && <button type="button" onClick={openPrivacyChoices} className="hover:text-foreground">Privacy choices</button>}
+          <Link to="/privacy" className="hover:text-foreground">{label("Privacy notice")}</Link>
+          <Link to="/terms" className="hover:text-foreground">{label("Terms")}</Link>
+          <Link to="/legal-notice" className="hover:text-foreground">{label("Legal notice")}</Link>
+          {analyticsConfigured() && <button type="button" onClick={openPrivacyChoices} className="hover:text-foreground">{label("Privacy choices")}</button>}
           <Instagram className="size-4 hover:text-foreground cursor-pointer" />
           <Youtube className="size-4 hover:text-foreground cursor-pointer" />
         </div>
