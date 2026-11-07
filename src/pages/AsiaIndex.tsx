@@ -178,11 +178,11 @@ const Hero = () => {
               {hero.badge}
             </span>
             <p className="mt-4 text-xs font-semibold uppercase tracking-[0.14em] text-primary">{hero.audience}</p>
-            <h1 className="cinematic-hero__title">{hero.title}</h1>
-            <p className="cinematic-hero__subtitle">{hero.subtitle}</p>
-            <div className="mx-auto my-5 max-w-2xl rounded-2xl border border-primary/20 bg-background/80 px-5 py-4 backdrop-blur-sm" data-testid="home-payment-transparency">
+            <h1 className="cinematic-hero__title !max-w-[16ch] !text-[clamp(2rem,4.6vw,4.5rem)] !leading-[1.18] !tracking-[-0.025em]">{hero.title}</h1>
+            <p className="cinematic-hero__subtitle !max-w-[38rem] !leading-[1.85]">{hero.subtitle}</p>
+            <div className="mx-auto mb-2 mt-7 max-w-2xl rounded-2xl border border-primary/15 bg-background/90 px-5 py-5 shadow-sm backdrop-blur-sm sm:px-8" data-testid="home-payment-transparency">
               <p className="text-base font-semibold text-foreground sm:text-lg">{hero.paymentHeadline}</p>
-              <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{hero.paymentDetail}</p>
+              <p className="mx-auto mt-2 max-w-xl text-sm leading-7 text-muted-foreground">{policy.initialText} {hero.paymentDetail}</p>
             </div>
 
             <div className="cinematic-hero__actions mx-auto flex max-w-3xl flex-col justify-center gap-3 sm:flex-row">
@@ -204,7 +204,6 @@ const Hero = () => {
               </Button>
             </div>
 
-            <p className="cinematic-hero__policy mx-auto mt-3 max-w-2xl text-xs leading-relaxed">{policy.initialText} <Link to="/travel-packages#support" className="underline underline-offset-4">{policy.depositTitle}</Link></p>
 
             <div className="cinematic-hero__gallery">
               <HeroVideoGallery items={diaryItems.slice(0, 10)} lang={lang} fmtPrice={fmt} layout="arc" />
