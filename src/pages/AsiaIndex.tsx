@@ -178,7 +178,7 @@ const Hero = () => {
               {hero.badge}
             </span>
             <p className="mt-4 text-xs font-semibold uppercase tracking-[0.14em] text-primary">{hero.audience}</p>
-            <h1 className="cinematic-hero__title !max-w-[16ch] !text-[clamp(2rem,4.6vw,4.5rem)] !leading-[1.18] !tracking-[-0.025em]">{hero.title}</h1>
+            <h1 className="cinematic-hero__title !max-w-[24ch] !text-[clamp(1.75rem,4.3vw,4rem)] !leading-[1.18] !tracking-[-0.025em]">{lang === "zh" ? <><span className="block">让赴华医美</span><span className="block">少一些陌生与不确定</span></> : hero.title}</h1>
             <p className="cinematic-hero__subtitle !max-w-[38rem] !leading-[1.85]">{hero.subtitle}</p>
             <div className="mx-auto mb-2 mt-7 max-w-2xl rounded-2xl border border-primary/15 bg-background/90 px-5 py-5 shadow-sm backdrop-blur-sm sm:px-8" data-testid="home-payment-transparency">
               <p className="text-base font-semibold text-foreground sm:text-lg">{hero.paymentHeadline}</p>
