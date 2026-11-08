@@ -99,7 +99,8 @@ export const PageMeta = ({
   robots = "index, follow, max-image-preview:large",
 }: PageMetaProps) => {
   const url = `${SITE_URL}${path}`;
-  const fullTitle = absoluteTitle || title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
+  const branded = `${title} | ${SITE_NAME}`;
+  const fullTitle = absoluteTitle || title.includes(SITE_NAME) || branded.length > 65 ? title : branded;
   const breadcrumb = createBreadcrumbSchema(path, fullTitle);
   const schemas = [
     ...(Array.isArray(structuredData) ? structuredData : structuredData ? [structuredData] : []),
