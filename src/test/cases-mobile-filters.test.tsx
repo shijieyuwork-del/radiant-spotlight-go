@@ -18,6 +18,7 @@ const mocks = vi.hoisted(() => ({
 vi.mock("@/lib/asia-i18n", () => ({ useAsia: () => ({ lang: mocks.lang, t: () => "Patient diaries", fmt: (value: number) => String(value) }) }));
 vi.mock("@/hooks/use-published-videos", () => ({ usePublishedVideos: () => mocks.uploaded }));
 vi.mock("@/data/tiktokCases", () => ({ TIKTOK_CASES: mocks.cases }));
+vi.mock("@/data/galleryCases", () => ({ GALLERY_CASES: [] }));
 vi.mock("@/data/doctors", () => ({ DOCTORS: [] }));
 vi.mock("@/components/AsiaNavbar", () => ({ default: () => null }));
 vi.mock("@/components/Footer", () => ({ default: () => null }));

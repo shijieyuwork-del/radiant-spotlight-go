@@ -13,6 +13,7 @@ const cases = vi.hoisted(() => [{ id: "bundled", src: "", user: { en: "Anna", zh
 vi.mock("@/lib/asia-i18n", () => ({ useAsia: () => ({ lang: "en", t: (key: string) => key, fmt: String }) }));
 vi.mock("@/hooks/use-published-videos", () => ({ usePublishedVideos: () => mocks.uploaded }));
 vi.mock("@/data/tiktokCases", () => ({ TIKTOK_CASES: cases }));
+vi.mock("@/data/galleryCases", () => ({ GALLERY_CASES: [] }));
 vi.mock("@/data/doctors", () => ({ DOCTORS: [] }));
 vi.mock("@/components/AsiaNavbar", () => ({ default: () => null }));
 vi.mock("@/components/Footer", () => ({ default: () => null }));

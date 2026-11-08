@@ -1,8 +1,5 @@
-import { TIKTOK_CASES } from "@/data/tiktokCases";
-import { GALLERY_CASES } from "@/data/galleryCases";
-import { usePublishedVideos } from "@/hooks/use-published-videos";
-import { useMemo, useState, useRef } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { useMemo, useState } from "react";
+import { Link, Navigate, useSearchParams } from "react-router-dom";
 import { Images, Loader2 } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
@@ -18,62 +15,32 @@ import { usePublishedBeforeAfter } from "@/hooks/use-before-after";
 
 const BeforeAfterGallery = () => {
   const { lang } = useAsia();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const selectedVideo = searchParams.get("video");
   const marketing = getPlanningMarketingCopy(lang);
   const c = (en: string, zh: string, ru: string, es?: string) => asiaCopy(lang, { en, zh, ru, es });
   const { items, loading } = usePublishedBeforeAfter(lang);
-  const uploadedGallery = usePublishedVideos(lang, selectedVideo ? "all" : "before-after");
-  const videos = [...GALLERY_CASES, ...uploadedGallery, ...(selectedVideo ? TIKTOK_CASES : [])];
-  const [videoPage, setVideoPage] = useState(1);
-  const videoHeading = useRef<HTMLHeadingElement>(null);
   const [q, setQ] = useState("");
   const [procedure, setProcedure] = useState<string | null>(null);
 
   const procedures = useMemo(
-    () => [...new Set([...items.map((i) => i.procedure), ...videos.map((v) => lang === "zh" ? v.treatment.zh : v.treatment.en)].filter((p): p is string => Boolean(p)))],
-    [items, videos, lang]
+    () => [...new Set(items.map((i) => i.procedure).filter((p): p is string => Boolean(p)))],
+    [items]
   );
 
   const filtered = useMemo(
     () =>
       items.filter((i) => {
-        if (selectedVideo) return false;
         if (procedure && i.procedure !== procedure) return false;
         if (!q.trim()) return true;
         const hay = [i.title, i.caption, i.procedure, i.city, i.doctorName].filter(Boolean).join(" ").toLowerCase();
         return hay.includes(q.trim().toLowerCase());
       }),
-    [items, q, procedure, selectedVideo]
+    [items, q, procedure]
   );
 
-  const filteredVideos = videos.filter(item => {
-    if (selectedVideo && item.id !== selectedVideo) return false;
-    const label = lang === "zh" ? item.treatment.zh : item.treatment.en;
-    if (procedure && label !== procedure) return false;
-    return !q.trim() || [item.caption.en, item.caption.zh, item.treatment.en, item.treatment.zh].join(" ").toLowerCase().includes(q.trim().toLowerCase());
-  });
-
-  const pageSize = 12;
-  const pageCount = Math.max(1, Math.ceil(filteredVideos.length / pageSize));
-  const currentPage = Math.min(videoPage, pageCount);
-  const pageNumbers = Array.from({ length: pageCount }, (_, i) => i + 1)
-    .filter(p => p === 1 || p === pageCount || Math.abs(p - currentPage) <= 1);
-  const paginationLabels: Record<string, [string, string, string]> = {
-    en: ["Previous", "Next", "Video pages"], zh: ["上一页", "下一页", "视频页码"],
-    ru: ["Назад", "Далее", "Страницы видео"], es: ["Anterior", "Siguiente", "Páginas de vídeos"],
-    th: ["ก่อนหน้า", "ถัดไป", "หน้าวิดีโอ"], ms: ["Sebelumnya", "Seterusnya", "Halaman video"],
-    vi: ["Trước", "Sau", "Trang video"], ko: ["이전", "다음", "동영상 페이지"],
-    ja: ["前へ", "次へ", "動画のページ"], ar: ["السابق", "التالي", "صفحات الفيديو"],
-    "pt-BR": ["Anterior", "Próxima", "Páginas de vídeos"], id: ["Sebelumnya", "Berikutnya", "Halaman video"],
-    fr: ["Précédent", "Suivant", "Pages vidéo"], de: ["Zurück", "Weiter", "Videoseiten"],
-  };
-  const [previousLabel, nextLabel, pagesLabel] = paginationLabels[lang] ?? paginationLabels.en;
-  const changePage = (page: number) => {
-    setVideoPage(page);
-    videoHeading.current?.scrollIntoView({ block: "start", behavior: "auto" });
-    videoHeading.current?.focus({ preventScroll: true });
-  };
+  // Keep previously shared video links working after moving videos to Patient Diaries.
+  if (selectedVideo) return <Navigate replace to={`/cases/${encodeURIComponent(selectedVideo)}`} />;
 
   return (
     <>
@@ -114,12 +81,12 @@ const BeforeAfterGallery = () => {
           <div className="mx-auto mt-8 flex max-w-4xl flex-wrap justify-center gap-3">
             <Input
               value={q}
-              onChange={(e) => { setQ(e.target.value); setVideoPage(1); }}
+              onChange={(e) => setQ(e.target.value)}
               placeholder={c("Search procedure, city or expert", "搜索项目、城市或专家", "Поиск процедуры, города или эксперта", "Buscar procedimiento, ciudad o experto")}
               className="w-full max-w-xs rounded-full"
             />
             <div className="flex flex-wrap justify-center gap-2">
-              <Button variant={procedure ? "outline" : "default"} size="sm" className="rounded-full" onClick={() => { setProcedure(null); setVideoPage(1); setSearchParams({}); }}>
+              <Button variant={procedure ? "outline" : "default"} size="sm" className="rounded-full" onClick={() => setProcedure(null)}>
                 {c("All", "全部", "Все", "Todos")}
               </Button>
               {procedures.map((p) => (
@@ -128,7 +95,7 @@ const BeforeAfterGallery = () => {
                   variant={procedure === p ? "default" : "outline"}
                   size="sm"
                   className="rounded-full"
-                  onClick={() => { setProcedure(p); setVideoPage(1); setSearchParams({}); }}
+                  onClick={() => setProcedure(p)}
                 >
                   {p}
                 </Button>
@@ -138,7 +105,7 @@ const BeforeAfterGallery = () => {
 
           {loading && <Loader2 className="size-6 animate-spin text-primary mt-10" />}
 
-          {!loading && filtered.length === 0 && filteredVideos.length === 0 && (
+          {!loading && filtered.length === 0 && (
             <p className="text-muted-foreground mt-10">
               {c("No photo sets published yet.", "暂时还没有发布的对比图。", "Пока нет опубликованных фотографий.", "Aún no hay fotos publicadas.")}
             </p>
@@ -167,28 +134,6 @@ const BeforeAfterGallery = () => {
               </div>
             ))}
           </div>
-
-          <section id="video-cases" data-testid="before-after-videos" className="mt-10 border-t pt-8">
-            <h2 ref={videoHeading} tabIndex={-1} className="scroll-mt-32 font-display text-2xl">{lang === "zh" ? "术前术后视频案例" : "Before & after video cases"}</h2>
-            <p className="mt-2 text-sm text-muted-foreground">{lang === "zh" ? "按原视频展示对比与恢复记录，个体情况和效果存在差异。视频中的具体术式以原始说明为准。" : "Original comparison and recovery videos. Individual results vary; refer to the source description for the exact procedure."}</p>
-            <p role="status" className="mt-3 text-sm">{lang === "zh" ? "当前筛选：" : "Current results: "}{filtered.length}{lang === "zh" ? " 组图片 · " : " photo sets · "}{filteredVideos.length}{lang === "zh" ? " 个视频" : " videos"}</p>
-            <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {filteredVideos.slice((currentPage - 1) * pageSize, currentPage * pageSize).map(item => <article key={item.id} id={item.id} className="overflow-hidden rounded-3xl border bg-card shadow-soft">
-                <video controls playsInline preload="metadata" poster={item.poster} src={item.src} aria-label={lang === "zh" ? item.caption.zh : item.caption.en} className="aspect-[4/5] max-h-[480px] w-full bg-black object-contain" />
-                <div className="p-4"><p className="text-xs text-brand">{lang === "zh" ? item.treatment.zh : item.treatment.en}</p><h3 className="mt-2 text-sm font-medium">{lang === "zh" ? item.caption.zh : item.caption.en}</h3></div>
-              </article>)}
-            </div>
-
-            {pageCount > 1 && <nav aria-label={pagesLabel} className="mt-8 flex flex-wrap items-center justify-center gap-2">
-              <Button variant="outline" className="rounded-full" disabled={currentPage === 1} onClick={() => changePage(currentPage - 1)}>{previousLabel}</Button>
-              {pageNumbers.map((page, index) => <span key={page} className="inline-flex items-center gap-2">
-                {index > 0 && page - pageNumbers[index - 1] > 1 && <span aria-hidden="true" className="px-1 text-muted-foreground">…</span>}
-                <Button variant={currentPage === page ? "default" : "outline"} size="icon" className="size-10 rounded-full" aria-label={pagesLabel + " " + page} aria-current={currentPage === page ? "page" : undefined} onClick={() => changePage(page)}>{page}</Button>
-              </span>)}
-              <Button variant="outline" className="rounded-full" disabled={currentPage === pageCount} onClick={() => changePage(currentPage + 1)}>{nextLabel}</Button>
-              <span role="status" className="basis-full text-center text-sm text-muted-foreground">{currentPage} / {pageCount}</span>
-            </nav>}
-          </section>
 
           <div className="mt-12">
             <MedicalDisclaimer />

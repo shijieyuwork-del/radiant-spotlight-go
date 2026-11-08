@@ -7,7 +7,7 @@ import TikTokWall, { type TikTokItem } from "@/components/TikTokWall";
 import { Pagination, SortChips } from "@/components/ListControls";
 import CasesFilterDisclosure from "@/components/CasesFilterDisclosure";
 import CaseCategoryNavigation, { caseCategoryLabel, matchesCaseCategory } from "@/components/CaseCategoryNavigation";
-import { TIKTOK_CASES } from "@/data/tiktokCases";
+import { PATIENT_DIARY_CASES, mergePatientDiaryCases } from "@/data/patientDiaryCases";
 import { usePublishedVideos } from "@/hooks/use-published-videos";
 import { DOCTORS } from "@/data/doctors";
 import { CITIES } from "@/data/cities";
@@ -37,9 +37,9 @@ const Cases = () => {
   const setActiveStage = (value: string) => setFilter("stage", value);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
-  // 后台上传并发布的视频与演示日记合并展示
-  const uploaded = usePublishedVideos(lang);
-  const ALL_CASES = useMemo(() => [...uploaded, ...TIKTOK_CASES], [uploaded]);
+  // Include all published videos, including legacy Before & After placements.
+  const uploaded = usePublishedVideos(lang, "all");
+  const ALL_CASES = useMemo(() => mergePatientDiaryCases(uploaded, PATIENT_DIARY_CASES), [uploaded]);
 
   // Use the case's own China destination; fall back to expert data for legacy entries.
   const caseCity = useMemo(() => {

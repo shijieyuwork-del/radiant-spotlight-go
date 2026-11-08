@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { TIKTOK_CASES } from "@/data/tiktokCases";
+import { PATIENT_DIARY_CASES } from "@/data/patientDiaryCases";
+import { GALLERY_CASES } from "@/data/galleryCases";
 import { supabase } from "@/integrations/supabase/client";
 import { localizeVideoRow } from "@/lib/i18n-content";
 import { translatedUiText } from "@/lib/locale-text";
@@ -8,13 +9,13 @@ import type { AsiaLang } from "@/lib/asia-i18n";
 export type SavedCaseEntry = { id: string; kind: "demo" | "published" | "unavailable"; title?: string; caption?: string; city?: string };
 export type SavedPublishedRow = { id: string; title: string; caption?: string | null; city?: string | null; i18n?: unknown };
 const isPublishedId = (id: string) => /^[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/i.test(id);
-export const savedPublishedIds = (ids: string[]) => ids.filter((id) => isPublishedId(id) && !TIKTOK_CASES.some((item) => item.id === id));
+export const savedPublishedIds = (ids: string[]) => ids.filter((id) => isPublishedId(id) && !PATIENT_DIARY_CASES.some((item) => item.id === id));
 
 export function resolveSavedCases(ids: string[], lang: AsiaLang, published: SavedPublishedRow[]): SavedCaseEntry[] {
   return ids.map((id) => {
-    const demo = TIKTOK_CASES.find((item) => item.id === id);
+    const demo = PATIENT_DIARY_CASES.find((item) => item.id === id);
     if (demo) return {
-      id, kind: "demo", title: lang === "zh" ? demo.treatment.zh : translatedUiText(lang, demo.treatment.en),
+      id, kind: GALLERY_CASES.some((item) => item.id === id) ? "published" : "demo", title: lang === "zh" ? demo.treatment.zh : translatedUiText(lang, demo.treatment.en),
       caption: lang === "zh" ? demo.caption.zh : demo.caption.en,
       city: lang === "zh" ? demo.city?.zh : demo.city?.en,
     };

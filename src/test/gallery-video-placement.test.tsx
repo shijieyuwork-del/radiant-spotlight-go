@@ -11,6 +11,11 @@ vi.mock('@/lib/storage-urls', () => ({ signedUrls: vi.fn() }));
 vi.mock('@/hooks/use-realtime-refresh', () => ({ useRealtimeRefresh: vi.fn() }));
 afterEach(() => { cleanup(); vi.clearAllMocks(); });
 describe('video destination isolation', () => {
+  it('includes both legacy gallery and diary placements when the diary directory requests all videos', async () => {
+    renderHook(() => usePublishedVideos('en', 'all'));
+    await waitFor(() => expect(db.query.eq).toHaveBeenCalledWith('status', 'published'));
+    expect(db.query.eq).not.toHaveBeenCalledWith('placement', expect.anything());
+  });
   it('restricts the default homepage and diary feed to diary placement', async () => {
     renderHook(() => usePublishedVideos('zh'));
     await waitFor(() => expect(db.query.eq).toHaveBeenCalledWith('placement', 'diary'));

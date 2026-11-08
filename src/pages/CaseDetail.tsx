@@ -11,7 +11,8 @@ import TikTokWall from "@/components/TikTokWall";
 import { MedicalDisclaimer } from "@/components/MedicalDisclaimer";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
-import { TIKTOK_CASES } from "@/data/tiktokCases";
+import { PATIENT_DIARY_CASES } from "@/data/patientDiaryCases";
+import { GALLERY_CASES } from "@/data/galleryCases";
 import { DOCTORS } from "@/data/doctors";
 import { DEMO_CHINA_DOCTORS } from "@/data/demoChinaDoctors";
 import { getDirectoryDoctorPortraitRetouch } from "@/data/directory-doctor-portrait-retouches";
@@ -34,7 +35,8 @@ type LinkedExpert = {
 const CaseDetail = () => {
   const { id } = useParams();
   const { t, lang, fmt } = useAsia();
-  const staticItem = useMemo(() => TIKTOK_CASES.find((c) => c.id === id), [id]);
+  const staticItem = useMemo(() => PATIENT_DIARY_CASES.find((c) => c.id === id), [id]);
+  const isGalleryVideo = useMemo(() => GALLERY_CASES.some((c) => c.id === id), [id]);
   // 后台上传的视频不在静态数据里，按 id 从已发布视频中读取
   const [uploadedItem, setUploadedItem] = useState<TikTokItem | null>(null);
   const [linkedExpert, setLinkedExpert] = useState<LinkedExpert | null>(null);
@@ -90,12 +92,12 @@ const CaseDetail = () => {
   }, [item]);
   const doctorCases = useMemo(
     () => doctor
-      ? TIKTOK_CASES.filter((c) => c.id !== id && doctor.caseIds.includes(c.id))
+      ? PATIENT_DIARY_CASES.filter((c) => c.id !== id && doctor.caseIds.includes(c.id))
       : [],
     [doctor, id],
   );
   const related = useMemo(() => {
-    const candidates = TIKTOK_CASES.filter((c) => c.id !== id && !doctorCases.some((other) => other.id === c.id));
+    const candidates = PATIENT_DIARY_CASES.filter((c) => c.id !== id && !doctorCases.some((other) => other.id === c.id));
     const sameCity = candidates.filter((c) => c.city?.en === item?.city?.en);
     const otherCities = candidates.filter((c) => c.city?.en !== item?.city?.en);
     return [...sameCity, ...otherCities].slice(0, 5);
@@ -134,16 +136,16 @@ const CaseDetail = () => {
     );
   }
 
-  const currentIndex = TIKTOK_CASES.findIndex((caseItem) => caseItem.id === item.id);
-  const previousItem = TIKTOK_CASES[(currentIndex - 1 + TIKTOK_CASES.length) % TIKTOK_CASES.length];
-  const nextItem = TIKTOK_CASES[(currentIndex + 1) % TIKTOK_CASES.length];
+  const currentIndex = PATIENT_DIARY_CASES.findIndex((caseItem) => caseItem.id === item.id);
+  const previousItem = PATIENT_DIARY_CASES[(currentIndex - 1 + PATIENT_DIARY_CASES.length) % PATIENT_DIARY_CASES.length];
+  const nextItem = PATIENT_DIARY_CASES[(currentIndex + 1) % PATIENT_DIARY_CASES.length];
 
-  const treatment = item.treatment[lang];
+  const treatment = (item.treatment[lang] || item.treatment.en);
   const caseSchema = {
     "@context": "https://schema.org",
     "@type": "CreativeWork",
     name: treatment,
-    description: item.caption[lang],
+    description: (item.caption[lang] || item.caption.en),
     image: `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==`,
     creator: doctor ? {
       "@type": "Person",
@@ -185,7 +187,7 @@ const CaseDetail = () => {
                 playsInline
                 onPlay={() => setEnded(false)}
                 onEnded={() => setEnded(true)}
-                className="absolute inset-0 size-full object-cover"
+                className={`absolute inset-0 size-full ${isGalleryVideo ? "object-contain" : "object-cover"}`}
               />
               <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/50 to-transparent pointer-events-none" />
               <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 to-transparent pointer-events-none" />
@@ -209,8 +211,8 @@ const CaseDetail = () => {
                 <div className="absolute inset-0 z-20 grid place-items-center bg-black/65 p-6 backdrop-blur-[2px]" onClick={(event) => event.stopPropagation()}>
                   <div className="max-w-xs text-center text-white">
                     <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/65">{lang === "zh" ? "下一个案例" : lang === "ru" ? "Следующая история" : lang === "es" ? "A continuación" : "Up next"}</p>
-                    <p className="mt-2 font-display text-2xl font-medium leading-tight">{nextItem.treatment[lang]}</p>
-                    <p className="mt-2 line-clamp-2 text-sm text-white/75">{nextItem.caption[lang]}</p>
+                    <p className="mt-2 font-display text-2xl font-medium leading-tight">{(nextItem.treatment[lang] || nextItem.treatment.en)}</p>
+                    <p className="mt-2 line-clamp-2 text-sm text-white/75">{(nextItem.caption[lang] || nextItem.caption.en)}</p>
                     <Button asChild size="lg" className="mt-5 rounded-full bg-primary px-7 text-primary-foreground hover:bg-primary/90">
                       <Link to={`/cases/${nextItem.id}`}>{lang === "zh" ? "播放下一个" : lang === "ru" ? "Смотреть следующую" : lang === "es" ? "Ver siguiente caso" : "Watch next case"}<ArrowRight className="ml-2 size-4" /></Link>
                     </Button>
@@ -238,19 +240,19 @@ const CaseDetail = () => {
               </div>
 
               <div className="absolute left-3 right-16 bottom-3 text-white">
-                <p className="text-sm font-semibold">{item.user[lang]}</p>
-                <p className="text-[13px] mt-1 leading-snug">{item.caption[lang]}</p>
+                <p className="text-sm font-semibold">{(item.user[lang] || item.user.en)}</p>
+                <p className="text-[13px] mt-1 leading-snug">{(item.caption[lang] || item.caption.en)}</p>
               </div>
             </div>
 
             <nav className="mx-auto mt-4 grid w-full max-w-md grid-cols-2 gap-3 lg:max-w-none" aria-label={lang === "zh" ? "案例浏览" : lang === "ru" ? "Просмотр историй" : lang === "es" ? "Explorar casos" : "Browse cases"}>
               <Link to={`/cases/${previousItem.id}`} className="group rounded-2xl border border-border/70 bg-card p-3 shadow-soft transition hover:-translate-y-0.5 hover:border-primary/30">
                 <span className="flex items-center gap-1 text-label font-semibold uppercase tracking-wider text-muted-foreground"><ArrowLeft className="size-3.5" />{lang === "zh" ? "上一个" : lang === "ru" ? "Предыдущая" : lang === "es" ? "Anterior" : "Previous"}</span>
-                <span className="mt-1 block truncate text-sm font-semibold">{previousItem.treatment[lang]}</span>
+                <span className="mt-1 block truncate text-sm font-semibold">{(previousItem.treatment[lang] || previousItem.treatment.en)}</span>
               </Link>
               <Link to={`/cases/${nextItem.id}`} className="group rounded-2xl border border-primary/30 bg-primary/10 p-3 shadow-soft transition hover:-translate-y-0.5 hover:bg-primary/15">
                 <span className="flex items-center justify-end gap-1 text-label font-semibold uppercase tracking-wider text-brand">{lang === "zh" ? "下一个" : lang === "ru" ? "Следующая" : lang === "es" ? "Siguiente" : "Next"}<ArrowRight className="size-3.5" /></span>
-                <span className="mt-1 block truncate text-right text-sm font-semibold">{nextItem.treatment[lang]}</span>
+                <span className="mt-1 block truncate text-right text-sm font-semibold">{(nextItem.treatment[lang] || nextItem.treatment.en)}</span>
               </Link>
             </nav>
           </div>
@@ -258,16 +260,16 @@ const CaseDetail = () => {
           {/* Info */}
           <div className="min-w-0 space-y-5 lg:col-span-7">
             <div>
-              <span className="pill bg-accent text-accent-foreground"><BadgeCheck className="size-3.5 text-primary" /> {item.treatment[lang]}</span>
+              <span className="pill bg-accent text-accent-foreground"><BadgeCheck className="size-3.5 text-primary" /> {(item.treatment[lang] || item.treatment.en)}</span>
               <h1 className="font-display text-3xl md:text-4xl font-medium tracking-tight mt-3 leading-tight">
-                {item.caption[lang]}
+                {(item.caption[lang] || item.caption.en)}
               </h1>
-              <p className="text-muted-foreground mt-2">{item.user[lang]}</p>
+              <p className="text-muted-foreground mt-2">{(item.user[lang] || item.user.en)}</p>
             </div>
 
             <div className="rounded-3xl bg-card shadow-soft p-5 space-y-3">
               {item.city && (
-                <Link to={`/cities/${item.city.en.toLowerCase()}`} className="flex items-center gap-2 text-sm transition hover:text-brand"><MapPin className="size-4 text-primary" /> {item.city[lang]}, China · {lang === "zh" ? "查看城市指南" : lang === "ru" ? "Гид по городу" : lang === "es" ? "Ver guía de la ciudad" : "View city guide"}</Link>
+                <Link to={`/cities/${item.city.en.toLowerCase()}`} className="flex items-center gap-2 text-sm transition hover:text-brand"><MapPin className="size-4 text-primary" /> {(item.city[lang] || item.city.en)}, China · {lang === "zh" ? "查看城市指南" : lang === "ru" ? "Гид по городу" : lang === "es" ? "Ver guía de la ciudad" : "View city guide"}</Link>
               )}
               <p className="text-sm flex items-center gap-2"><ShieldCheck className="size-4 text-primary" /> {lang === "zh" ? "日记预览 · 核验状态待更新" : lang === "ru" ? "Предпросмотр дневника · проверка ожидается" : lang === "es" ? "Vista previa del diario · verificación pendiente" : "Diary preview · verification status pending"}</p>
             </div>
@@ -307,7 +309,7 @@ const CaseDetail = () => {
                   </a>
                 </div>
               </div>
-            ) : (
+            ) : !isGalleryVideo && (
             <div className="rounded-3xl border border-border/70 bg-card p-5 shadow-soft sm:p-6">
               <div className="mb-4 flex items-center justify-between gap-3">
                 <p className="text-label font-semibold uppercase tracking-wider text-muted-foreground">
@@ -425,7 +427,7 @@ const CaseDetail = () => {
 
       <Dialog open={expanded} onOpenChange={setExpanded}>
         <DialogContent className="flex h-[92vh] w-[min(96vw,1100px)] max-w-none flex-col overflow-hidden rounded-3xl border-0 bg-black p-3 sm:p-5">
-          <DialogTitle className="sr-only">{item.caption[lang]}</DialogTitle>
+          <DialogTitle className="sr-only">{(item.caption[lang] || item.caption.en)}</DialogTitle>
           <DialogDescription className="sr-only">
             {lang === "zh" ? "真实案例放大视频" : "Expanded real case video"}
           </DialogDescription>

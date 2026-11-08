@@ -94,7 +94,7 @@ const VideoAdmin = ({ embedded = false }: { embedded?: boolean } = {}) => {
   const [city, setCity] = useState("未提供");
   const [procedure, setProcedure] = useState("");
   const [status, setStatus] = useState("published");
-  const [placement, setPlacement] = useState("before-after");
+  const placement = "diary";
   const [doctorId, setDoctorId] = useState("none");
   const [doctors, setDoctors] = useState<DoctorOption[]>([]);
   const [errors, setErrors] = useState<FieldErrors>({});
@@ -697,7 +697,7 @@ const VideoAdmin = ({ embedded = false }: { embedded?: boolean } = {}) => {
               <div><Label htmlFor="procedure">项目</Label><Input id="procedure" value={procedure} onChange={(e) => setProcedure(e.target.value)} className="mt-1.5" placeholder="例如：鼻综合" /></div>
             </div>
             <div><Label>对应专家</Label><Select value={doctorId} onValueChange={setDoctorId}><SelectTrigger className="mt-1.5"><SelectValue placeholder="选择专家"/></SelectTrigger><SelectContent><SelectItem value="none">暂不关联</SelectItem>{doctors.map(d=><SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>)}</SelectContent></Select></div>
-            <div><Label htmlFor="video-placement">展示板块</Label><select id="video-placement" className="mt-1.5 w-full rounded-xl border bg-background p-2" value={placement} onChange={(event) => setPlacement(event.target.value)}><option value="before-after">术前术后对比图集（不进入首页）</option><option value="diary">患者日记 / 首页视频</option></select></div>
+            <div><p className="text-sm font-medium">展示板块：患者日记</p><p className="mt-1.5 text-sm text-muted-foreground">视频统一展示在 Patient Diaries；Before & After 仅展示图片。</p></div>
             <div><Label>状态</Label><Select value={status} onValueChange={setStatus}><SelectTrigger className="mt-1.5"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="published">立即发布</SelectItem><SelectItem value="draft">保存草稿</SelectItem></SelectContent></Select></div>
             {uploading && (
               <div className="space-y-1.5" aria-live="polite">
