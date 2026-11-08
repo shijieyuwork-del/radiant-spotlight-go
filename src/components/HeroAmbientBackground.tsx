@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Pause, Play } from "lucide-react";
 import type { AsiaLang } from "@/lib/asia-i18n";
+import { afterPageLoad } from "@/lib/deferred-work";
+import { Button } from "@/components/ui/button";
 
 const motionLabelsEnglishFallback = { pause: "Pause background animation", play: "Play background animation" };
 
@@ -30,17 +32,29 @@ export default function HeroAmbientBackground({ lang }: { lang: AsiaLang }) {
   const [pageVisible, setPageVisible] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(true);
   const [userPaused, setUserPaused] = useState(false);
+  const [videoAllowed, setVideoAllowed] = useState(false);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
 
     const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const updatePreference = () => setReducedMotion(preference.matches);
+    const mobile = window.matchMedia("(max-width: 767px)");
+    const connection = (navigator as Navigator & { connection?: { saveData?: boolean; addEventListener?: (name: string, fn: () => void) => void; removeEventListener?: (name: string, fn: () => void) => void } }).connection;
+    let cancel: (() => void) | undefined;
+    const updatePreference = () => {
+      setReducedMotion(preference.matches);
+      cancel?.();
+      if (preference.matches || mobile.matches || connection?.saveData) setVideoAllowed(false);
+      else cancel = afterPageLoad(() => setVideoAllowed(true));
+    };
     const updateVisibility = () => setPageVisible(document.visibilityState === "visible");
     updatePreference();
     updateVisibility();
     preference.addEventListener("change", updatePreference);
+    mobile.addEventListener("change", updatePreference);
+    connection?.addEventListener?.("change", updatePreference);
     document.addEventListener("visibilitychange", updateVisibility);
 
     // If visibility observation is unavailable, keep the decorative fallback still.
@@ -52,12 +66,15 @@ export default function HeroAmbientBackground({ lang }: { lang: AsiaLang }) {
 
     return () => {
       observer?.disconnect();
+      cancel?.();
       preference.removeEventListener("change", updatePreference);
+      mobile.removeEventListener("change", updatePreference);
+      connection?.removeEventListener?.("change", updatePreference);
       document.removeEventListener("visibilitychange", updateVisibility);
     };
   }, []);
 
-  const running = inView && pageVisible && !reducedMotion && !userPaused;
+  const running = videoAllowed && inView && pageVisible && !reducedMotion && !userPaused;
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -67,7 +84,7 @@ export default function HeroAmbientBackground({ lang }: { lang: AsiaLang }) {
     } else {
       video.pause();
     }
-  }, [running, videoFailed]);
+  }, [running, videoFailed, videoAllowed]);
 
   const label = userPaused ? motionLabels[lang].play : motionLabels[lang].pause;
 
@@ -75,7 +92,8 @@ export default function HeroAmbientBackground({ lang }: { lang: AsiaLang }) {
     <>
       <div ref={rootRef} className="hero-ambient" style={{ position: "absolute" }} data-testid="hero-ambient-background" data-motion={running ? "running" : "paused"}>
         <div id="hero-ambient-field" className="hero-ambient__field" aria-hidden="true">
-          <video
+          <img src="/videos/homepage-background-poster.jpg" alt="" decoding="async" fetchPriority="high" className="hero-ambient__video" style={{ opacity: 0.35 }} />
+          {videoAllowed && <video
             ref={videoRef}
             className="hero-ambient__video"
             src="/videos/homepage-background-loop.mp4"
@@ -84,18 +102,19 @@ export default function HeroAmbientBackground({ lang }: { lang: AsiaLang }) {
             muted
             loop
             playsInline
-            preload="metadata"
+            preload="none"
             tabIndex={-1}
             onError={() => setVideoFailed(true)}
-            style={{ opacity: videoFailed ? 0 : 0.35 }}
-          />
+            onLoadedData={() => setLoaded(true)}
+            style={{ opacity: videoFailed || !loaded ? 0 : 0.35 }}
+          />}
           <div className="hero-ambient__veil" />
         </div>
       </div>
-      {!reducedMotion && (
-        <button type="button" className="hero-ambient__toggle" style={{ position: "absolute" }} onClick={() => setUserPaused((paused) => !paused)} aria-label={label} title={label} aria-controls="hero-ambient-field">
+      {videoAllowed && !reducedMotion && (
+        <Button variant="ghost" size="icon" type="button" className="hero-ambient__toggle" style={{ position: "absolute" }} onClick={() => setUserPaused((paused) => !paused)} aria-label={label} title={label} aria-controls="hero-ambient-field">
           {userPaused ? <Play className="size-3.5" aria-hidden="true" /> : <Pause className="size-3.5" aria-hidden="true" />}
-        </button>
+        </Button>
       )}
     </>
   );
