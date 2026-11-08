@@ -12,7 +12,6 @@ import { getHomeHeroCopy } from "@/lib/home-hero-copy";
 import { homeStructuredData } from "@/lib/home-structured-data";
 import { useQuote } from "@/components/QuoteRequest";
 import { LoadOnApproach } from "@/components/home/LoadOnApproach";
-import { MedicalDisclaimer } from "@/components/MedicalDisclaimer";
 import * as ServerSections from "@/components/home/HomeBelowFold";
 import ServerCaseGallery from "@/components/home/HeroCaseGallery";
 import ServerBeforeAfter from "@/components/home/HomeBeforeAfterGallery";
