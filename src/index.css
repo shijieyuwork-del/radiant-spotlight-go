@@ -346,6 +346,15 @@
   }
 
   /* The component anchors this background inside the first homepage section. */
+  .home-gallery-reserve { height: 29rem; }
+  .home-comparison-reserve { height: 36rem; }
+  .home-section-reserve { height: 44rem; }
+  .home-stories-reserve { height: 34rem; }
+  @media (min-width: 1024px) {
+    .home-gallery-reserve { height: 27rem; }
+    .home-section-reserve { height: 42rem; }
+  }
+
   .hero-ambient {
     --hero-surface: var(--background);
     position: fixed;
