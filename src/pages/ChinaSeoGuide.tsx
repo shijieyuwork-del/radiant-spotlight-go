@@ -152,7 +152,7 @@ const ChinaSeoGuide = ({ kind }: { kind: GuideKind }) => {
                 <div className="mt-8 grid gap-x-8 gap-y-0 md:grid-cols-2">
                   {MEDICAL_TOURISM_GUIDES.map((guide, index) => (
                     <Link key={guide.slug} to={medicalTourismGuidePath(guide.slug)} className="group flex min-h-28 items-start gap-4 border-t border-border py-5 first:border-t-0 md:[&:nth-child(2)]:border-t-0">
-                      <span className="font-display text-xl text-primary/65">0{index + 1}</span>
+                      <span className="font-display text-xl text-primary/65">{String(index + 1).padStart(2, "0")}</span>
                       <span className="min-w-0 flex-1">
                         <span className="block font-display text-xl font-medium leading-tight group-hover:text-brand">{guide.title.replace(/:.*$/, "")}</span>
                         <span className="mt-2 line-clamp-2 block text-sm leading-6 text-muted-foreground">{guide.description}</span>
@@ -187,7 +187,7 @@ const ChinaSeoGuide = ({ kind }: { kind: GuideKind }) => {
                 <div className="mt-8 divide-y divide-border border-y border-border">
                   {cosmeticTourismGuides.map((guide, index) => (
                     <Link key={guide.slug} to={medicalTourismGuidePath(guide.slug)} className="group grid gap-3 py-5 sm:grid-cols-[3rem_minmax(0,1fr)_auto] sm:items-start">
-                      <span className="font-display text-xl text-primary/65">0{index + 1}</span>
+                      <span className="font-display text-xl text-primary/65">{String(index + 1).padStart(2, "0")}</span>
                       <span>
                         <span className="block font-display text-xl font-medium leading-tight group-hover:text-brand">{guide.title}</span>
                         <span className="mt-2 line-clamp-2 block text-sm leading-6 text-muted-foreground">{guide.description}</span>
@@ -215,7 +215,7 @@ const ChinaSeoGuide = ({ kind }: { kind: GuideKind }) => {
               </section>
             )}
             <div id="planning-details" className="mt-12 scroll-mt-32 space-y-10">
-              {copy.sections.map((section, index) => <article key={section.title} className="grid gap-4 border-t border-border pt-8 md:grid-cols-[7rem_1fr]"><span className="font-display text-3xl text-primary/60">0{index + 1}</span><div><h2 className="font-display text-2xl font-medium md:text-3xl">{section.title}</h2><p className="mt-3 max-w-3xl leading-7 text-muted-foreground">{section.body}</p></div></article>)}
+              {copy.sections.map((section, index) => <article key={section.title} className="grid gap-4 border-t border-border pt-8 md:grid-cols-[7rem_1fr]"><span className="font-display text-3xl text-primary/60">{String(index + 1).padStart(2, "0")}</span><div><h2 className="font-display text-2xl font-medium md:text-3xl">{section.title}</h2><p className="mt-3 max-w-3xl leading-7 text-muted-foreground">{section.body}</p></div></article>)}
             </div>
             {kind === "plastic-surgery" && (
               <section id="destinations" className="mt-16 scroll-mt-32">

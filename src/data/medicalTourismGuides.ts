@@ -1,3 +1,4 @@
+import { AESTHETIC_TREND_GUIDES } from "./aestheticTrendGuides";
 export type GuideSource = {
   title: string;
   publisher: string;
@@ -998,6 +999,7 @@ export const MEDICAL_TOURISM_GUIDES: MedicalTourismGuide[] = [
       { label: "Compare procedures", href: "/treatments" },
     ],
   },
+  ...AESTHETIC_TREND_GUIDES,
 ];
 
 export const findMedicalTourismGuide = (slug?: string) =>
