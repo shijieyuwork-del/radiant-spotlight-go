@@ -1,5 +1,5 @@
 import { getClinicPath, type DirectoryClinic } from "@/data/clinicDirectory";
-import { SITE_URL } from "@/lib/seo-config";
+import { SITE_NAME, SITE_URL } from "@/lib/seo-config";
 
 const DIRECTORY_LOCATIONS: Record<string, string> = {
   shanghai: "Shanghai",
@@ -11,6 +11,7 @@ const DIRECTORY_LOCATIONS: Record<string, string> = {
 
 export type ClinicPageMetadata = {
   title: string;
+  absoluteTitle?: boolean;
   description: string;
   path: string;
   structuredData: Record<string, unknown>;
@@ -37,8 +38,18 @@ export function clinicPageMeta(clinic: DirectoryClinic): ClinicPageMetadata {
   const location = [...new Set([area, destination, "China"].filter(Boolean))].join(", ");
   const path = getClinicPath(clinic);
   const url = `${SITE_URL}${path}`;
-  const title = `${clinic.nameEn} | ${destination ? `${destination}, ` : ""}China`;
-  const description = `${clinic.nameEn}${clinic.nameZh && clinic.nameZh !== clinic.nameEn ? ` (${clinic.nameZh})` : ""} — ${location}. A listing in the Sino Aesthetics clinic and hospital directory.`;
+  // Search results cut titles at roughly 60 characters. Long hospital names
+  // drop the brand suffix first, then the country, so the name and city stay visible.
+  const TITLE_LIMIT = 65;
+  const withCountry = `${clinic.nameEn} | ${destination ? `${destination}, ` : ""}China`;
+  const withCity = destination ? `${clinic.nameEn} | ${destination}` : clinic.nameEn;
+  const fitsWithBrand = `${withCountry} | ${SITE_NAME}`.length <= TITLE_LIMIT;
+  const title = fitsWithBrand ? withCountry : withCountry.length <= TITLE_LIMIT ? withCountry : withCity;
+  const absoluteTitle = !fitsWithBrand;
+  const nameWithZh = `${clinic.nameEn}${clinic.nameZh && clinic.nameZh !== clinic.nameEn ? ` (${clinic.nameZh})` : ""}`;
+  const fullDescription = `${nameWithZh} — ${location}. A listing in the Sino Aesthetics clinic and hospital directory.`;
+  // Keep snippets under about 160 characters; long hospital names drop the trailing sentence.
+  const description = fullDescription.length <= 160 ? fullDescription : `${nameWithZh} — ${location}. Clinic directory listing.`;
   const isMedicalTourismZone = /医疗旅游先行区/.test(clinic.nameZh) || /medical tourism pilot zone/i.test(clinic.nameEn);
   const address = {
     "@type": "PostalAddress",
@@ -50,6 +61,7 @@ export function clinicPageMeta(clinic: DirectoryClinic): ClinicPageMetadata {
 
   return {
     title,
+    absoluteTitle,
     description,
     path,
     structuredData: {
