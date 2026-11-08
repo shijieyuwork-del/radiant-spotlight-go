@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import type { ClinicRecord } from "@/data/clinicDirectory";
-import { supabase } from "@/integrations/supabase/client";
+import { getBrowserClient } from "@/lib/browser-client";
 import { signedUrls } from "@/lib/storage-urls";
 import { useRealtimeRefresh } from "@/hooks/use-realtime-refresh";
 import { clinicGalleryPaths, resolveClinicGallery } from "@/lib/clinic-gallery";
@@ -12,6 +12,7 @@ const text = (value: unknown): string => (typeof value === "string" ? value.trim
 
 /** Published, admin-managed hospital records with signed photo URLs. */
 export async function loadClinicRecords(): Promise<ClinicRecord[]> {
+  const supabase = await getBrowserClient();
   const { data, error } = await supabase
     .from("clinics")
     .select("*")

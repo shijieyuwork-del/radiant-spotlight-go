@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { getBrowserClient } from "@/lib/browser-client";
 import { signedUrls } from "@/lib/storage-urls";
 import { localizedField, type Lang } from "@/lib/i18n-content";
 import { useRealtimeRefresh } from "@/hooks/use-realtime-refresh";
@@ -36,6 +36,7 @@ export const usePublishedBeforeAfter = (lang: Lang, doctorId?: string) => {
   const [loading, setLoading] = useState(true);
 
   const load = useCallback(async () => {
+    const supabase = await getBrowserClient();
     let query = supabase
       .from("before_after_cases")
       .select("*")

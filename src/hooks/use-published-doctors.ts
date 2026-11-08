@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { getBrowserClient } from "@/lib/browser-client";
 import { signedUrls } from "@/lib/storage-urls";
 import { localizeDoctorRow } from "@/lib/i18n-content";
 import type { AsiaLang } from "@/lib/asia-i18n";
@@ -23,6 +23,7 @@ export function usePublishedDoctors(lang: AsiaLang) {
     queryKey,
     staleTime: 60_000,
     queryFn: async ({ signal }) => {
+      const supabase = await getBrowserClient();
       const { data, error } = await supabase.from("doctors")
         .select("id,name,title,city,specialties,bio,photo_path,created_at,i18n")
         .eq("status", "published")
