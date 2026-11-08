@@ -16,6 +16,7 @@ import AsiaIndex from "./pages/AsiaIndex";
 import WhyChina from "./pages/WhyChina";
 import Doctors from "./pages/Doctors";
 import Cases from "./pages/Cases";
+import BeforeAfterGallery from "./pages/BeforeAfterGallery";
 import Contact from "./pages/Contact";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
@@ -51,6 +52,7 @@ export function render(url: string) {
           <Route path="/why-china" element={<WhyChina />} />
           <Route path="/doctors" element={<Doctors />} />
           <Route path="/cases" element={<Cases />} />
+          <Route path="/before-after" element={<BeforeAfterGallery />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
