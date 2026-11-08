@@ -96,7 +96,8 @@ function createBreadcrumbSchema(p, pageTitle, siteUrl) {
 function renderMeta({ title, absoluteTitle = false, description, path: p, image, type = "website", schema, robots = "index, follow, max-image-preview:large" }, cfg) {
   const { SITE_URL, SITE_NAME, OG_IMAGE, TWITTER_HANDLE } = cfg;
   const url = `${SITE_URL}${p}`;
-  const full = absoluteTitle || title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
+  const branded = `${title} | ${SITE_NAME}`;
+  const full = absoluteTitle || title.includes(SITE_NAME)
   const img = image && !image.startsWith("data:") && !image.startsWith("/src/") ? image : OG_IMAGE;
 
   const tags = [
