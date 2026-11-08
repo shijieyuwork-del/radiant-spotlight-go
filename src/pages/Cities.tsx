@@ -8,6 +8,7 @@ import { CitySearchBar, useCityFilter } from "@/components/CitySearch";
 import { Highlight } from "@/components/HighlightText";
 import { useAsia } from "@/lib/asia-i18n";
 import { asiaCopy } from "@/lib/asia-copy";
+import { responsiveImageProps } from "@/lib/responsive-images";
 
 const Cities = () => {
   const { lang } = useAsia();
@@ -114,6 +115,7 @@ const Cities = () => {
                 <div className="relative h-44 overflow-hidden">
                   <img
                     src={city.img}
+                    {...responsiveImageProps(city.img)}
                     alt={city.en}
                     loading="lazy"
                     className="size-full object-cover group-hover:scale-105 transition-transform duration-500"

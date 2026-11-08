@@ -13,7 +13,7 @@ import type { QuoteContext } from "@/components/QuoteRequest";
 import { useAsia } from "@/lib/asia-i18n";
 import { trackEvent } from "@/lib/analytics";
 import { getConsultationPickerCopy, withConsultationSubject } from "@/lib/consultation-picker-copy";
-import { supabase } from "@/integrations/supabase/client";
+import { getBrowserClient } from "@/lib/browser-client";
 
 type Intent = NonNullable<QuoteContext["intent"]>;
 type ContactMethod = "email" | "whatsapp";
@@ -84,6 +84,7 @@ export const ConsultationDialog = ({ isOpen, onOpenChange, ctx, onCloseAutoFocus
   /** The handoff stays the primary path; saving the lead and notifying admin runs alongside it. */
   const saveRequest = async (message: string) => {
     try {
+      const supabase = await getBrowserClient();
       const trimmedEmail = email.trim();
       const trimmedPhone = phone.trim();
       const { data, error } = await supabase.from("quote_requests").insert({

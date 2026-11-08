@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { getBrowserClient } from "@/lib/browser-client";
 import { signedUrls } from "@/lib/storage-urls";
 import { localizeVideoRow } from "@/lib/i18n-content";
 import { useRealtimeRefresh } from "@/hooks/use-realtime-refresh";
@@ -39,6 +39,7 @@ export const usePublishedVideosState = (lang: AsiaLang, placement: "diary" | "be
   const load = useCallback(() => {
     void (async () => {
       try {
+        const supabase = await getBrowserClient();
         let query = supabase
           .from("videos")
           .select("id,title,caption,city,procedure,storage_path,cover_path,created_at,doctor_id,i18n")

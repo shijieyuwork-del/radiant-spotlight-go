@@ -2,12 +2,13 @@ import { useCallback, useMemo } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { applyClinicRecords, mergeClinicDirectory, type PublishedClinicDoctor } from "@/data/clinicDirectory";
 import { useClinicRecords } from "@/hooks/use-clinic-records";
-import { supabase } from "@/integrations/supabase/client";
+import { getBrowserClient } from "@/lib/browser-client";
 import { useRealtimeRefresh } from "@/hooks/use-realtime-refresh";
 
 const queryKey = ["clinic-directory-published-doctors"];
 
 async function loadPublishedDoctors(): Promise<PublishedClinicDoctor[]> {
+  const supabase = await getBrowserClient();
   const { data, error } = await supabase
     .from("doctors")
     .select("id,name,title,hospital,city,i18n")

@@ -6,6 +6,7 @@ import { useAsia } from "@/lib/asia-i18n";
 import { asiaCopy } from "@/lib/asia-copy";
 import { HospitalPhotoCredit } from "@/components/HospitalPhotoCredit";
 import { cn } from "@/lib/utils";
+import { responsiveImageProps } from "@/lib/responsive-images";
 
 export function HospitalDirectoryPhoto({ photo, name, href, priority = false, className, children, reserveCreditSpace = false }: {
   photo?: RealHospitalPhoto; name: string; href?: string; priority?: boolean; className?: string;
@@ -21,6 +22,7 @@ export function HospitalDirectoryPhoto({ photo, name, href, priority = false, cl
         {availablePhoto ? (
           <img
             src={availablePhoto.src}
+            {...responsiveImageProps(availablePhoto.src, priority ? "(max-width: 767px) calc(100vw - 32px), 600px" : undefined)}
             alt={name}
             loading={priority ? "eager" : "lazy"}
             decoding="async"

@@ -1,4 +1,4 @@
-import { supabase } from "@/integrations/supabase/client";
+import { getBrowserClient } from "@/lib/browser-client";
 import type { AsiaLang } from "@/lib/asia-i18n";
 
 export type Lang = AsiaLang;
@@ -18,6 +18,7 @@ export const translateFields = async (
   );
   if (Object.keys(zh).length === 0) return {};
   try {
+    const supabase = await getBrowserClient();
     const { data, error } = await supabase.functions.invoke("translate-content", {
       body: { fields: zh, source: "zh", revise: options.revise === true },
     });

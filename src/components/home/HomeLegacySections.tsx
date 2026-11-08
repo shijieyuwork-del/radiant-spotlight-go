@@ -1,0 +1,877 @@
+import { useEffect, useRef, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
+import {
+  Sparkles, ArrowRight, MapPin, ShieldCheck,
+  Stethoscope, Building2,
+  Flame, Wallet, Users, Plane,
+  Eye,
+  Scale, HeartPulse, MessageCircle, Video, Map, Mail,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import Footer from "@/components/Footer";
+import AsiaNavbar from "@/components/AsiaNavbar";
+import HomeBeforeAfterGallery from "@/components/home/HomeBeforeAfterGallery";
+import CaseCategoryNavigation from "@/components/CaseCategoryNavigation";
+import HeroVideoGallery from "@/components/HeroVideoGallery";
+import HeroAmbientBackground from "@/components/HeroAmbientBackground";
+import { usePublishedVideos } from "@/hooks/use-published-videos";
+import PageMeta from "@/components/PageMeta";
+import { TIKTOK_CASES } from "@/data/tiktokCases";
+import { getCoordinationPolicy } from "@/data/coordination-policy";
+import { getClinicPath, STATIC_CLINICS } from "@/data/clinicDirectory";
+
+import { useAsia, type AsiaLang } from "@/lib/asia-i18n";
+import { translatedUiText } from "@/lib/locale-text";
+import { getHomeHeroCopy } from "@/lib/home-hero-copy";
+import QuoteCtaButton from "@/components/QuoteCtaButton";
+import { ORGANIZATION_SCHEMA } from "@/lib/seo-config";
+import { homeStructuredData } from "@/lib/home-structured-data";
+import { useQuote } from "@/components/QuoteRequest";
+import { MedicalDisclaimer } from "@/components/MedicalDisclaimer";
+import journeyConsultation from "@/assets/journey-premium-natural-consultation-v5.webp";
+import journeyArrival from "@/assets/journey-premium-natural-arrival-v5.webp";
+import journeyGroundSupport from "@/assets/journey-premium-natural-concierge-v5.webp";
+import journeyTreatment from "@/assets/journey-premium-clinic-v6.webp";
+import journeyRecovery from "@/assets/journey-premium-natural-recovery-v5.webp";
+import journeyFollowUp from "@/assets/journey-premium-natural-followup-v5.webp";
+import procedureRhinoplasty from "@/assets/procedures/rhinoplasty.jpg";
+import procedureEyes from "@/assets/procedures/double-eyelid-natural-v4.webp";
+import procedureFacelift from "@/assets/procedures/facelift.jpg";
+import procedureBody from "@/assets/procedures/body-contouring-natural-v2.webp";
+import procedureBreast from "@/assets/procedures/breast-augmentation.jpg";
+import procedureHair from "@/assets/procedures/fue-hair-transplant.jpg";
+import procedureJaw from "@/assets/procedures/jaw-contouring.jpg";
+import procedureDental from "@/assets/procedures/dental-implants.jpg";
+import procedureSkin from "@/assets/procedures/laser-skin-resurfacing.jpg";
+import procedureLips from "@/assets/procedures/lip-lift.jpg";
+import procedureWeightLoss from "@/assets/procedures/body-lift.jpg";
+import procedureMen from "@/assets/procedures/male-breast-reduction.jpg";
+import chineseDoctorTeam from "@/assets/chinese-doctor-team-candid-v1.webp";
+import shanghaiHuameiClinic from "@/assets/clinics/shanghai-huamei.jpg";
+import beijingBadachuClinic from "@/assets/clinics/beijing-badachu.jpg";
+import guangzhouHuameiClinic from "@/assets/clinics/guangzhou-huamei.jpg";
+import shanghaiNinthClinic from "@/assets/clinics/shanghai-ninth.jpg";
+import shanghaiWeilinClinic from "@/assets/clinics/shanghai-weilin.jpg";
+import beijingYestarClinic from "@/assets/clinics/beijing-yestar.jpg";
+import guangzhouNanfangClinic from "@/assets/clinics/guangzhou-nanfang.jpg";
+import hangzhouZju2Clinic from "@/assets/clinics/hangzhou-zju2.jpg";
+import hangzhouPlasticClinic from "@/assets/clinics/hangzhou-plastic.jpg";
+import hainanGeneralClinic from "@/assets/clinics/hainan-general.jpg";
+import PatientStoriesSection from "@/components/PatientStoriesSection";
+import { usePublishedDoctors } from "@/hooks/use-published-doctors";
+import { selectHomepageDoctors } from "@/data/homepage-doctors";
+import { ManualRailControls } from "@/components/ManualRailControls";
+import { HomeSection } from "@/components/home/HomeSection";
+import { SectionActionLink, SectionHeader } from "@/components/home/SectionHeader";
+import DoctorFlipCard, { type DoctorFlipCardData } from "@/components/home/DoctorFlipCard";
+import DoctorMarquee from "@/components/home/DoctorMarquee";
+import "@/components/home/cinematic-hero.css";
+
+type ProcedureIconProps = { className?: string; strokeWidth?: number };
+
+const NoseLineIcon = ({ className, strokeWidth = 1.5 }: ProcedureIconProps) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+    <path d="M14 3c-2.2 2.6-2.8 6.1-3.4 8.8-.3 1.4-1.8 2.4-2.6 3.5-.8 1.1 0 2.5 1.4 2.5h3.4" />
+    <path d="M12.8 17.8c1.2 0 2.1.5 2.8 1.4M9.8 21c1.7.5 3.7.3 5.2-.7" />
+  </svg>
+);
+
+const BodyContourLineIcon = ({ className, strokeWidth = 1.5 }: ProcedureIconProps) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+    <path d="M8 3c.8 3.2.3 5.4-1.3 7.5C5.3 12.3 5.4 16.8 8 21" />
+    <path d="M16 3c-.8 3.2-.3 5.4 1.3 7.5 1.4 1.8 1.3 6.3-1.3 10.5" />
+    <path d="M7 11.5c2.9 1.6 7.1 1.6 10 0M8 21c2.5-1.3 5.5-1.3 8 0" />
+  </svg>
+);
+
+const HairLineIcon = ({ className, strokeWidth = 1.5 }: ProcedureIconProps) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+    <path d="M5 11a7 7 0 0 1 14 0v3c0 4.2-3.1 7-7 7s-7-2.8-7-7v-3Z" />
+    <path d="M5.5 10.2c2.2-.5 3.7-1.8 4.5-4 .7 1.8 2.1 3 4.2 3.5.2-1.4.8-2.5 1.8-3.4.6 1.5 1.7 2.7 3 3.5" />
+    <path d="M9.5 16.5c1.6.8 3.4.8 5 0" />
+  </svg>
+);
+
+const ToothLineIcon = ({ className, strokeWidth = 1.5 }: ProcedureIconProps) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+    <path d="M7.2 3.5C4.7 4.4 3.5 7 4.1 9.8c.5 2.3 1.8 3.5 2.2 6.7.3 2.4 1 4.5 2.4 4.5 1.8 0 1.6-5.3 3.3-5.3s1.5 5.3 3.3 5.3c1.4 0 2.1-2.1 2.4-4.5.4-3.2 1.7-4.4 2.2-6.7.6-2.8-.6-5.4-3.1-6.3-1.7-.6-3.1.3-4.8.3s-3.1-.9-4.8-.3Z" />
+    <path d="M9 5.8c1.8.7 4.2.7 6 0" />
+  </svg>
+);
+
+const LipsLineIcon = ({ className, strokeWidth = 1.5 }: ProcedureIconProps) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+    <path d="M3 12c2.8-1.4 4.8-4.1 7.1-3.2L12 10l1.9-1.2c2.3-.9 4.3 1.8 7.1 3.2-2.7 1.2-4.7 4.1-9 4.1S5.7 13.2 3 12Z" />
+    <path d="M3 12c3 .3 5.9.1 9-.1 3.1.2 6 .4 9 .1" />
+  </svg>
+);
+
+const JawContourLineIcon = ({ className, strokeWidth = 1.5 }: ProcedureIconProps) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+    <path d="M8 3.5c-1.8 1.8-2.7 4.2-2.7 7 0 5.5 3 9.1 6.7 10.5 3.7-1.4 6.7-5 6.7-10.5 0-2.8-.9-5.2-2.7-7" />
+    <path d="M5.5 12.5c2.2.2 3.7 1 4.7 2.4.7.9 1.1 1.4 1.8 1.4s1.1-.5 1.8-1.4c1-1.4 2.5-2.2 4.7-2.4" />
+    <path d="M9.5 18.4c1.6.7 3.4.7 5 0" />
+  </svg>
+);
+
+const BreastLineIcon = ({ className, strokeWidth = 1.5 }: ProcedureIconProps) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+    <path d="M8.2 3.5c.2 2.5-.8 4.1-2.1 5.7C4.8 10.8 4 13.2 4 16v4.5M15.8 3.5c-.2 2.5.8 4.1 2.1 5.7 1.3 1.6 2.1 4 2.1 6.8v4.5" />
+    <path d="M6.2 13.1c1.4-1.5 4.3-1.3 5.8.9 1.5-2.2 4.4-2.4 5.8-.9M6 17.2c1.9.8 4 .6 6-.8 2 1.4 4.1 1.6 6 .8" />
+    <path d="M12 7.7v8.7M8.3 6.3h3M9.8 4.8v3" />
+  </svg>
+);
+
+const MaleChestLineIcon = ({ className, strokeWidth = 1.5 }: ProcedureIconProps) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+    <path d="M8 3.5 5.2 5.2C3.8 6 3 7.5 3 9.1V20M16 3.5l2.8 1.7C20.2 6 21 7.5 21 9.1V20" />
+    <path d="M8 3.5c.7 1.2 2.1 1.9 4 1.9s3.3-.7 4-1.9M12 5.4V20" />
+    <path d="M5.2 11.5c1.8-1.5 4.7-1.2 6.8.7 2.1-1.9 5-2.2 6.8-.7M7 15.2c1.7.7 3.3.6 5-.3 1.7.9 3.3 1 5 .3" />
+  </svg>
+);
+
+const PrivateCareHero = () => {
+  const { lang, fmt } = useAsia();
+  const uploaded = usePublishedVideos(lang);
+  const diaryItems = [...uploaded, ...TIKTOK_CASES];
+  const copy = lang === "zh"
+    ? {
+        badge: "中国私人医美协调服务",
+        title: "依据真实信息选择。",
+        emphasis: "带着清晰计划出发。",
+        subtitle: "比较患者恢复日记与公开专家资料，并获得从首次咨询、赴华行程到回国随访的低调协调支持。",
+        procedure: "感兴趣的项目",
+        procedureValue: "浏览全部项目",
+        city: "目的地",
+        cityValue: "比较城市选择",
+        clinic: "诊所目录",
+        clinicValue: "查看全部诊所",
+        diaries: "真实患者恢复日记",
+        diariesTitle: "选择之前，",
+        diariesEmphasis: "先看看恢复过程。",
+        benefitCta: "了解我们的服务方式",
+        servicesEyebrow: "四项核心支持",
+        servicesTitle: "从沟通到回国后，",
+        servicesEmphasis: "实用支持持续衔接。",
+      }
+    : lang === "ru"
+      ? {
+          badge: "Персональная координация лечения в Китае",
+          title: "Выбирайте на основе фактов.",
+          emphasis: "Путешествуйте с ясным планом.",
+          subtitle: "Сравните дневники восстановления и опубликованные профили экспертов, а мы деликатно поддержим вас от первой консультации до наблюдения после возвращения.",
+          procedure: "Процедура",
+          procedureValue: "Все процедуры",
+          city: "Направление",
+          cityValue: "Сравнить города",
+          clinic: "Каталог клиник",
+          clinicValue: "Все клиники",
+          diaries: "Истории восстановления",
+          diariesTitle: "Посмотрите восстановление",
+          diariesEmphasis: "до выбора.",
+          benefitCta: "Как устроена поддержка",
+          servicesEyebrow: "Четыре вида поддержки",
+          servicesTitle: "Практическая помощь",
+          servicesEmphasis: "до, во время и после поездки.",
+        }
+      : lang === "es"
+        ? {
+            badge: "Coordinación privada de atención en China",
+            title: "Elige con información real.",
+            emphasis: "Viaja con un plan claro.",
+            subtitle: "Compara diarios de recuperación y perfiles publicados, con apoyo discreto desde la primera consulta hasta el seguimiento tras tu regreso.",
+            procedure: "Procedimiento",
+            procedureValue: "Explorar todas las opciones",
+            city: "Destino",
+            cityValue: "Comparar ciudades",
+            clinic: "Directorio de clínicas",
+            clinicValue: "Ver todas las clínicas",
+            diaries: "Diarios de recuperación de pacientes",
+            diariesTitle: "Mira los diarios de pacientes",
+            diariesEmphasis: "antes de elegir.",
+            benefitCta: "Cómo funciona el apoyo",
+            servicesEyebrow: "Cuatro esenciales",
+            servicesTitle: "Apoyo práctico,",
+            servicesEmphasis: "antes, durante y después de tu viaje.",
+          }
+        : {
+          badge: "Private care coordination in China",
+          title: "Your cosmetic care journey,",
+          emphasis: "all in one place.",
+          subtitle: "Compare cosmetic surgeons in China, book online consultations, and coordinate travel, translation and aftercare.",
+          procedure: "Procedure",
+          procedureValue: "Explore all options",
+          city: "Destination",
+          cityValue: "Compare cities",
+          clinic: "Clinic directory",
+          clinicValue: "View all clinics",
+          diaries: "Patient recovery diaries",
+          diariesTitle: "See patient diaries",
+          diariesEmphasis: "",
+          benefitCta: "See how support works",
+          servicesEyebrow: "Four essentials",
+          servicesTitle: "Practical support,",
+          servicesEmphasis: "before, during and after your trip.",
+        };
+
+  const selectors = [
+    { icon: Stethoscope, label: copy.procedure, value: copy.procedureValue, to: "/treatments" },
+    { icon: Building2, label: copy.clinic, value: copy.clinicValue, to: "/clinics" },
+    { icon: MapPin, label: copy.city, value: copy.cityValue, to: "/cities" },
+  ];
+  const assurances = [
+    {
+      icon: ShieldCheck,
+      value: lang === "zh" ? "公开资料" : lang === "ru" ? "Открытые профили" : lang === "es" ? "Perfiles publicados" : "Published profiles",
+      label: lang === "zh" ? "选择前先比较专家信息" : lang === "ru" ? "Сравните данные до выбора" : lang === "es" ? "Compara antes de elegir" : "Compare before you choose",
+    },
+    {
+      icon: Wallet,
+      value: lang === "zh" ? "直接付款" : lang === "ru" ? "Прямая оплата" : lang === "es" ? "Pago directo" : "Pay clinics directly",
+      label: lang === "zh" ? "医疗费用直接支付给机构" : lang === "ru" ? "Медицинские расходы — клинике" : lang === "es" ? "Los gastos médicos van a la clínica" : "Medical fees go to the provider",
+    },
+    {
+      icon: Users,
+      value: lang === "zh" ? "多语言协调" : lang === "ru" ? "На вашем языке" : lang === "es" ? "Apoyo multilingüe" : "Multilingual support",
+      label: lang === "zh" ? "跨语言沟通更从容" : lang === "ru" ? "Понятная коммуникация" : lang === "es" ? "Comunicación más clara" : "Clearer communication across borders",
+    },
+    {
+      icon: Plane,
+      value: lang === "zh" ? "全程衔接" : lang === "ru" ? "От начала до конца" : lang === "es" ? "De principio a fin" : "End-to-end support",
+      label: lang === "zh" ? "从首次沟通到回国随访" : lang === "ru" ? "От первого звонка до наблюдения" : lang === "es" ? "De la primera llamada al seguimiento" : "From first call to follow-up",
+    },
+  ];
+  const services = lang === "zh"
+    ? [
+        { icon: Video, title: "Online consultation", description: "出发前在线沟通目标、问题与下一步安排。" },
+        { icon: MapPin, title: "Airport pickup & drop-off", description: "协调机场与住宿或就诊地点之间的接送。" },
+        { icon: Users, title: "English in-clinic translation", description: "在约定的就诊过程中提供英文沟通协助。" },
+        { icon: ShieldCheck, title: "Aftercare support", description: "恢复期间协助沟通，并按专家建议协调远程随访。" },
+      ]
+    : lang === "ru"
+      ? [
+          { icon: Video, title: "Онлайн-консультация", description: "Обсудите цели, вопросы и следующие шаги до поездки." },
+          { icon: MapPin, title: "Трансфер из аэропорта", description: "Координация трансфера до места проживания или клиники." },
+          { icon: Users, title: "Перевод в клинике", description: "Помощь в общении на английском во время согласованных визитов." },
+          { icon: ShieldCheck, title: "Поддержка после лечения", description: "Помощь с общением и удалённым наблюдением по рекомендации эксперта." },
+        ]
+      : lang === "es"
+        ? [
+            { icon: Video, title: "Online consultation", description: "Habla sobre tus objetivos, preguntas y próximos pasos antes de viajar." },
+            { icon: MapPin, title: "Airport pickup & drop-off", description: "Traslados coordinados entre el aeropuerto, el alojamiento y la clínica." },
+            { icon: Users, title: "English in-clinic translation", description: "Apoyo de comunicación en inglés durante las visitas incluidas a la clínica." },
+            { icon: ShieldCheck, title: "Aftercare support", description: "Coordinación de la recuperación y seguimiento remoto cuando tu experto lo recomiende." },
+          ]
+        : [
+          { icon: Video, title: "Online consultation", description: "Discuss your goals, questions and next steps before you travel." },
+          { icon: MapPin, title: "Airport pickup & drop-off", description: "Coordinated transfers between the airport, accommodation and clinic." },
+          { icon: Users, title: "English in-clinic translation", description: "English communication support during included clinic visits." },
+          { icon: ShieldCheck, title: "Aftercare support", description: "Recovery coordination and remote follow-up when your doctor recommends it." },
+        ];
+
+  return (
+    <section className="relative overflow-hidden pb-10 pt-4 sm:pb-14 sm:pt-6 md:pb-16">
+      <div className="container">
+        <div className="relative isolate">
+          <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-foreground shadow-[0_32px_90px_rgba(17,54,45,0.2)] md:rounded-[2.75rem]">
+            <div className="grid lg:grid-cols-[0.88fr_1.12fr]">
+              <div className="flex flex-col justify-center px-6 py-12 text-white sm:px-10 sm:py-14 lg:px-14 lg:py-14 xl:px-16">
+                <span className="inline-flex w-fit max-w-full items-center gap-2 rounded-full border border-white/20 bg-white/[0.08] px-4 py-2 text-xs font-semibold text-white/90 backdrop-blur-sm sm:text-sm">
+                  <ShieldCheck className="size-4 text-[hsl(155,62%,68%)]" /> {copy.badge}
+                </span>
+                <h1 className="mt-6 max-w-3xl font-display text-[2.8rem] font-medium leading-[0.96] tracking-tight text-white sm:text-6xl lg:text-[4rem] xl:text-[4.5rem]">
+                  {copy.title}<br />
+                  <em className="not-italic text-[hsl(155,62%,68%)]">{copy.emphasis}</em>
+                </h1>
+                <p className="mt-5 max-w-xl text-[15px] leading-7 text-white/72 sm:text-base sm:leading-7">{copy.subtitle}</p>
+                <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                  <QuoteCtaButton variant="primary" className="min-h-[3.25rem] w-full px-7 sm:w-auto" quoteCtx={{ source: "private_care_hero" }} data-testid="home-hero-cta" />
+                  <Button asChild variant="outline" className="min-h-[3.25rem] w-full rounded-full border-white/30 bg-white/[0.06] px-7 text-sm font-semibold text-white hover:bg-white/[0.12] hover:text-white sm:w-auto">
+                    <Link to="/cases">{copy.diaries}<ArrowRight className="ml-1 size-4" /></Link>
+                  </Button>
+                </div>
+              </div>
+
+              <div className="relative min-h-[420px] overflow-hidden border-t border-white/10 lg:min-h-full lg:border-l lg:border-t-0">
+                <img src={journeyConsultation} alt="" className="absolute inset-0 size-full object-cover object-center" />
+                <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-transparent to-transparent lg:bg-[linear-gradient(90deg,rgba(16,44,36,.25),transparent_38%,transparent)]" />
+                <div className="absolute inset-x-5 bottom-5 rounded-[1.4rem] border border-white/25 bg-foreground/55 p-5 text-white shadow-soft backdrop-blur-xl sm:inset-x-7 sm:bottom-7 sm:p-6">
+                  <span className="text-label font-bold uppercase tracking-[0.18em] text-[hsl(155,62%,72%)]">
+                    {lang === "zh" ? "专属协调" : lang === "ru" ? "Персональная поддержка" : lang === "es" ? "Coordinación privada" : "Private coordination"}
+                  </span>
+                  <p className="mt-2 max-w-lg font-display text-2xl font-medium leading-tight text-white sm:text-3xl">
+                    {lang === "zh" ? "一个联系人，衔接咨询、行程与随访。" : lang === "ru" ? "Один координатор связывает консультацию, поездку и наблюдение." : lang === "es" ? "Un solo contacto para conectar la consulta, el viaje y el seguimiento." : "One point of contact, from consultation to travel and follow-up."}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid border-t border-white/10 bg-white/[0.045] p-2 sm:grid-cols-3">
+              {selectors.map((item) => (
+                <Link key={item.label} to={item.to} className="group flex min-h-[4.5rem] items-center gap-3 rounded-[1.25rem] px-4 text-white transition-colors duration-150 hover:bg-white/[0.07] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:border-r sm:border-white/10 sm:last:border-r-0">
+                  <span className="grid size-10 shrink-0 place-items-center rounded-full bg-white/[0.08] text-[hsl(155,62%,68%)] ring-1 ring-inset ring-white/10"><item.icon className="size-4" /></span>
+                  <span className="min-w-0">
+                    <span className="block text-label font-bold uppercase tracking-[0.14em] text-white/50">{item.label}</span>
+                    <strong className="mt-0.5 block text-sm font-semibold text-white/90">{item.value}</strong>
+                  </span>
+                  <ArrowRight className="ml-auto size-4 text-[hsl(155,62%,68%)] transition-transform duration-150 group-hover:translate-x-0.5" />
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          <div className="relative z-20 mx-2 mt-4 grid grid-cols-2 overflow-hidden rounded-[1.75rem] border border-border/70 bg-card shadow-[0_18px_55px_rgba(17,54,45,.1)] sm:mx-6 md:mx-auto md:max-w-6xl md:grid-cols-4 md:rounded-[2rem]">
+            {assurances.map((item, index) => (
+              <div
+                key={item.label}
+                className={`flex min-h-32 flex-col items-start justify-center px-5 py-6 text-left sm:px-6 md:min-h-36 ${index % 2 === 0 ? "border-r border-border/70" : ""} ${index < 2 ? "border-b border-border/70" : ""} ${index < 3 ? "md:border-r md:border-border/70" : "md:border-r-0"} md:border-b-0`}
+              >
+                <span className="grid size-9 place-items-center rounded-full bg-primary/10 text-primary"><item.icon className="size-4" strokeWidth={1.8} /></span>
+                <strong className="mt-3 font-display text-lg font-semibold leading-tight tracking-tight text-foreground sm:text-xl">{item.value}</strong>
+                <span className="mt-1 max-w-[13rem] text-xs font-medium leading-snug text-muted-foreground">{item.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <section className="mx-auto mt-16 max-w-7xl sm:mt-20 md:mt-24" aria-labelledby="home-support-title">
+          <div className="mb-7 flex flex-col justify-between gap-4 sm:flex-row sm:items-end md:mb-9">
+            <div>
+              <span className="pill mb-3 bg-accent text-accent-foreground"><ShieldCheck className="size-3.5" />{copy.servicesEyebrow}</span>
+              <h2 id="home-support-title" className="max-w-3xl font-display text-3xl font-medium leading-[1.03] tracking-tight sm:text-4xl md:text-5xl">
+                {copy.servicesTitle} <em className="not-italic text-brand">{copy.servicesEmphasis}</em>
+              </h2>
+            </div>
+            <Link to="/travel-packages" className="inline-flex min-h-11 shrink-0 items-center gap-2 self-start rounded-full border border-primary/20 bg-card px-5 text-sm font-semibold text-foreground transition hover:border-primary/40 hover:text-brand sm:self-auto">
+              {copy.benefitCta}<ArrowRight className="size-4" />
+            </Link>
+          </div>
+          <div className="grid overflow-hidden rounded-[1.75rem] border border-border/70 bg-card shadow-[0_22px_60px_rgba(17,54,45,.09)] sm:grid-cols-2 lg:grid-cols-4 lg:rounded-[2rem]">
+            {services.map((service, index) => (
+              <article key={service.title} className={`group relative min-h-56 p-6 transition-colors hover:bg-primary/[0.035] sm:p-7 ${index % 2 === 0 ? "border-r border-border/70" : ""} ${index < 2 ? "border-b border-border/70" : ""} ${index < 3 ? "lg:border-r lg:border-border/70" : "lg:border-r-0"} lg:border-b-0`}>
+                <span className="absolute right-5 top-5 font-mono text-label font-semibold tracking-[0.16em] text-primary/55">0{index + 1}</span>
+                <span className="grid size-12 place-items-center rounded-2xl bg-primary/[0.09] text-primary ring-1 ring-inset ring-primary/10">
+                  <service.icon className="size-5" strokeWidth={1.7} />
+                </span>
+                <h3 className="mt-6 max-w-[14rem] font-display text-[1.35rem] font-semibold leading-tight tracking-tight text-foreground">{service.title}</h3>
+                <p className="mt-3 text-sm leading-6 text-muted-foreground">{service.description}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <div className="mx-auto mt-16 max-w-7xl sm:mt-20 md:mt-24">
+          <div className="mb-7 md:mb-9">
+            <span className="pill mb-3 bg-accent text-accent-foreground"><Eye className="size-3.5" />{copy.diaries}</span>
+            <h2 className="max-w-4xl font-display text-3xl font-medium leading-[1.03] tracking-tight sm:text-4xl md:text-5xl">
+              {copy.diariesTitle}{copy.diariesEmphasis && <> <em className="not-italic text-brand">{copy.diariesEmphasis}</em></>}
+            </h2>
+          </div>
+          <HeroVideoGallery items={diaryItems.slice(0, 10)} lang={lang} fmtPrice={fmt} size="large" />
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const TravelBar = () => {
+  const { lang } = useAsia();
+  const [activeStep, setActiveStep] = useState(0);
+  const railRef = useRef<HTMLDivElement>(null);
+  const pausedRef = useRef(false);
+  const journeyCopy = lang === "zh"
+    ? { eyebrow: "服务流程", title: "六步开启你的", emphasis: "中国医疗之旅", step: "步骤" }
+    : lang === "ru"
+      ? { eyebrow: "Как это работает", title: "6 шагов к", emphasis: "лечению в Китае", step: "Шаг" }
+      : lang === "es"
+        ? { eyebrow: "Cómo funciona", title: "6 pasos hacia tu", emphasis: "atención en China", step: "Paso" }
+        : { eyebrow: "How it works", title: "6 steps to your", emphasis: "care in China", step: "Step" };
+  const localizedSteps = [
+    {
+      icon: Video,
+      image: journeyConsultation,
+      en: ["Start a consultation", "Connect with us by message or video call. We’ll walk you through every detail, answer your questions and help you plan your next step. We’ll also help book your in-person consultation and surgery."],
+      zh: ["开始咨询", "通过文字或视频与我们线上沟通。我们为你讲解每个细节、解答疑问，陪你规划下一步，并协助预约面诊和手术。"],
+      ru: ["Начать консультацию", "Расскажите о целях и вопросах, чтобы мы помогли подобрать специалистов"],
+      es: ["Solicita una consulta", "Cuéntanos tus objetivos y preguntas para ayudarte a identificar especialistas adecuados"],
+    },
+    {
+      icon: Plane,
+      image: journeyArrival,
+      en: ["Your China journey is taking shape", "From appointments to arrival, we help you put the details in place. Get ready with your flights, visa and travel documents, knowing what comes next."],
+      zh: ["你的中国之旅，即将启程", "从预约到抵达，我们陪你理清每个细节。准备好航班、签证与旅行文件，让接下来的行程心中有数。"],
+      ru: ["Организуйте поездку и визу", "Подтвердите запись, перелёт, документы и детали прибытия"],
+      es: ["Organiza tu viaje y visa", "Confirma citas, vuelos, documentos de viaje y detalles de llegada"],
+    },
+    {
+      icon: MapPin,
+      image: journeyGroundSupport,
+      en: ["A warm welcome, from the moment you land", "A new country, a friendly face waiting for you. Our team meets you at the airport and takes you to your hotel or straight to the clinic. For eligible confirmed journeys, your first two nights in a standard room at a selected three-star hotel are covered by Sino Aesthetics. We arrange the booking and help you check in; additional nights and room upgrades are paid separately."],
+      zh: ["落地的第一刻，就有人迎接你", "初到中国，迎接你的是我们熟悉行程的接机团队。与我们会合后，前往酒店休息，或直接前往诊所。对于符合条件并已确认的行程，Sino Aesthetics 承担指定三星级酒店标准客房的前两晚住宿，并协助预订和办理入住；额外住宿及房型升级费用需另行支付。"],
+      ru: ["Прибудьте в Китай и встретьтесь с нашей командой", "Наша команда встретит вас в аэропорту и отвезёт в отель или прямо в клинику. Для подходящих подтверждённых поездок Sino Aesthetics оплачивает первые две ночи в стандартном номере выбранного трёхзвёздочного отеля, организует бронирование и помогает при заселении. Дополнительные ночи и повышение категории номера оплачиваются отдельно."],
+      es: ["Llega a China y reúnete con nuestro equipo", "Nuestro equipo te recibirá en el aeropuerto y te llevará al hotel o directamente a la clínica. Para viajes elegibles y confirmados, Sino Aesthetics cubre las dos primeras noches en una habitación estándar de un hotel de tres estrellas seleccionado, organiza la reserva y te ayuda con el registro. Las noches adicionales y las mejoras de habitación se pagan por separado."],
+    },
+    {
+      icon: HeartPulse,
+      image: journeyTreatment,
+      en: ["Your transformation, with us by your side", "On surgery day, we accompany you to the clinic, help you communicate and stay close when you need us. If your doctor doesn’t feel like the right fit, let us know. We can accompany you to meet another doctor or visit another clinic."],
+      zh: ["你的变美时刻，我们陪你", "手术当天，我们陪同你前往诊所，协助沟通，在你需要时陪伴左右。如果你觉得医生不合适，请告诉我们，我们可以陪同你面诊其他医生或前往其他诊所。"],
+      ru: ["Ваше преображение — мы рядом", "В день операции мы сопровождаем вас в клинику, помогаем с общением и остаёмся рядом, когда нужны вам"],
+      es: ["Tu transformación, con nosotros a tu lado", "El día de la cirugía te acompañamos a la clínica, te ayudamos a comunicarte y estamos cerca cuando nos necesitas"],
+    },
+    {
+      icon: Map,
+      image: journeyRecovery,
+      en: ["A little exploring, at your pace", "If your doctor clears you for outings, we can help plan a gentle itinerary and connect you with travel services, or keep it as relaxed as a stroll in the beautiful park."],
+      zh: ["按你的节奏，感受中国", "如果医生确认你的恢复情况适合外出，我们可以协助规划轻松的行程、对接旅行服务，或只是安排去公园走走。"],
+      ru: ["Восстанавливайтесь и путешествуйте, когда будете готовы", "Следуйте рекомендациям эксперта и путешествуйте только после разрешения"],
+      es: ["Recupérate y explora cuando estés listo/a", "Sigue las indicaciones de tu experto, con viajes opcionales una vez que tengas autorización"],
+    },
+    {
+      icon: MessageCircle,
+      image: journeyFollowUp,
+      en: ["Back home, still by your side", "Your journey with us doesn’t end at the airport. We help you stay connected with your clinic for recommended follow-ups, with translation support along the way."],
+      zh: ["回到家，陪伴仍在", "旅程结束，关怀继续。我们协助你与诊所保持联系，安排建议的远程复诊，并提供翻译支持。"],
+      ru: ["Оставайтесь на связи после возвращения", "Мы поможем организовать онлайн-наблюдение и перевод по рекомендации эксперта"],
+      es: ["Mantente en contacto después de regresar", "Coordinamos el seguimiento remoto y la traducción cuando tu experto lo recomiende"],
+    },
+  ];
+  const steps = localizedSteps.map((item) => {
+    const [t, d] = item[lang === "zh" ? "zh" : lang === "ru" ? "ru" : lang === "es" ? "es" : "en"];
+    return { icon: item.icon, image: item.image, t, d };
+  });
+
+  const showStep = (next: number) => {
+    const normalized = (next + steps.length) % steps.length;
+    setActiveStep(normalized);
+    const rail = railRef.current;
+    const card = rail?.children[normalized] as HTMLElement | undefined;
+    if (!rail || !card) return;
+    const left = card.offsetLeft - rail.offsetLeft - Math.max(0, (rail.clientWidth - card.clientWidth) / 2);
+    rail.scrollTo({ left, behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const timer = window.setInterval(() => {
+      if (!pausedRef.current && !document.hidden) {
+        setActiveStep((current) => {
+          const next = (current + 1) % steps.length;
+          const rail = railRef.current;
+          const card = rail?.children[next] as HTMLElement | undefined;
+          if (rail && card) {
+            const left = card.offsetLeft - rail.offsetLeft - Math.max(0, (rail.clientWidth - card.clientWidth) / 2);
+            rail.scrollTo({ left, behavior: "smooth" });
+          }
+          return next;
+        });
+      }
+    }, 4800);
+    return () => window.clearInterval(timer);
+  }, [steps.length]);
+
+  return (
+    <section className="container py-7 md:py-10" aria-labelledby="home-journey-title">
+      <div className="mb-6 flex flex-col items-start justify-between gap-4 px-1 sm:flex-row sm:items-end md:mb-8">
+        <div>
+          <span className="pill mb-3 bg-accent text-accent-foreground">
+            <Plane className="size-3.5" /> {journeyCopy.eyebrow}
+          </span>
+          <h2 id="home-journey-title" className="font-display text-3xl font-medium leading-tight tracking-tight sm:text-4xl md:text-5xl">
+            {journeyCopy.title} <em className="not-italic text-brand">{journeyCopy.emphasis}</em>
+          </h2>
+        </div>
+      </div>
+      <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-r from-[hsl(158,58%,90%)] via-[hsl(145,48%,91%)] to-[hsl(50,80%,91%)] py-5 shadow-pop md:py-7">
+        <div className="pointer-events-none absolute left-[8%] right-[8%] top-[7.65rem] hidden h-px bg-primary/30 md:block" aria-hidden="true" />
+        <div
+          ref={railRef}
+          onMouseEnter={() => { pausedRef.current = true; }}
+          onMouseLeave={() => { pausedRef.current = false; }}
+          onPointerDown={() => { pausedRef.current = true; }}
+          onPointerUp={() => { pausedRef.current = false; }}
+          onFocusCapture={() => { pausedRef.current = true; }}
+          onBlurCapture={() => { pausedRef.current = false; }}
+          className="flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-4 pb-3 scrollbar-hide md:gap-5 md:px-6"
+        >
+          {steps.map((x, index) => (
+            <article
+              key={x.t}
+              onClick={() => showStep(index)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  showStep(index);
+                }
+              }}
+              role="button"
+              tabIndex={0}
+              aria-label={`${journeyCopy.step} ${index + 1}: ${x.t}`}
+              aria-current={activeStep === index ? "step" : undefined}
+              className={`group relative min-w-[82vw] cursor-pointer snap-center overflow-hidden rounded-[1.6rem] border bg-card shadow-soft transition-all duration-500 sm:min-w-[55vw] md:min-w-[calc((100%_-_2.5rem)/3)] ${activeStep === index ? "border-primary/60 shadow-pop md:-translate-y-1" : "border-white/70 opacity-80 hover:opacity-100"}`}
+            >
+              <div className="relative h-40 overflow-hidden md:h-44">
+                <img
+                  src={x.image}
+                  alt=""
+                  loading={index < 3 ? "eager" : "lazy"}
+                  decoding="async"
+                  className="h-full w-full object-cover saturate-[0.88] transition-transform duration-700 group-hover:scale-[1.025]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-foreground/45 via-transparent to-white/5" />
+                <span className="absolute right-4 top-3 font-display text-5xl font-semibold text-white/70" aria-hidden="true">0{index + 1}</span>
+                <div className="absolute bottom-4 left-4 grid size-11 place-items-center rounded-2xl bg-primary text-primary-foreground shadow-pop">
+                  <x.icon className="size-5" />
+                </div>
+              </div>
+              <div className="min-h-[9.25rem] p-5">
+                <span className="text-label font-bold uppercase tracking-[0.17em] text-brand">{journeyCopy.step} {index + 1}</span>
+                <h3 className="mt-1 font-display text-xl font-semibold leading-tight text-foreground">{x.t}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{x.d}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+        <div className="mt-1 flex items-center justify-center gap-3 px-5">
+          <div className="flex items-center" aria-label={`Step ${activeStep + 1} of ${steps.length}`}>
+            {steps.map((step, index) => (
+              <button
+                key={step.t}
+                type="button"
+                onClick={() => showStep(index)}
+                className="grid size-12 place-items-center rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                aria-label={`Show step ${index + 1}`}
+                aria-current={activeStep === index ? "step" : undefined}
+              >
+                <span className={`h-2 rounded-full transition-all ${activeStep === index ? "w-8 bg-primary" : "w-2 bg-card/80"}`} />
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const TreatmentsSectionLegacy = () => {
+  const { t, lang } = useAsia();
+  const procedureClouds = [
+    { en: "Nose", zh: "鼻部整形", icon: NoseLineIcon, items: [["Rhinoplasty", "鼻综合"], ["Revision Rhinoplasty", "鼻修复"], ["Septorhinoplasty", "功能性鼻整形"], ["Alar Base Reduction", "鼻翼缩小"], ["Nasal Tip Surgery", "鼻尖塑形"]] },
+    { en: "Facial Rejuvenation", zh: "面部年轻化", icon: Sparkles, items: [["Facelift", "面部拉皮"], ["Neck Lift", "颈部提升"], ["Deep-Plane Facelift", "深层平面拉皮"], ["Mini Facelift", "小切口拉皮"], ["Brow Lift", "眉提升"], ["Facial Fat Grafting", "面部脂肪填充"]] },
+    { en: "Eyes", zh: "眼部整形", icon: Eye, items: [["Double Eyelid Surgery", "双眼皮"], ["Upper Blepharoplasty", "上睑成形"], ["Lower Blepharoplasty", "下睑成形"], ["Ptosis Correction", "上睑下垂矫正"], ["Epicanthoplasty", "内眼角成形"]] },
+    { en: "Face & Contour", zh: "面部轮廓", icon: JawContourLineIcon, items: [["Jaw Contouring", "下颌角整形"], ["Chin Augmentation", "下巴塑形"], ["Zygoma Reduction", "颧骨降低"], ["Genioplasty", "颏成形"], ["Otoplasty", "耳廓整形"]] },
+    { en: "Breast", zh: "胸部整形", icon: BreastLineIcon, items: [["Breast Augmentation", "隆胸"], ["Breast Lift", "乳房提升"], ["Breast Reduction", "乳房缩小"], ["Implant Revision", "假体修复"], ["Implant Removal", "假体取出"]] },
+    { en: "Body Contouring", zh: "身体塑形", icon: BodyContourLineIcon, items: [["Liposuction", "吸脂"], ["Tummy Tuck", "腹壁成形"], ["Mommy Makeover", "产后综合塑形"], ["Body Lift", "环形身体提升"], ["Fat Transfer", "自体脂肪移植"], ["Arm Lift", "上臂提升"]] },
+    { en: "Hair Restoration", zh: "植发", icon: HairLineIcon, items: [["FUE Hair Transplant", "FUE 植发"], ["Hairline Restoration", "发际线种植"], ["Crown Restoration", "头顶加密"], ["Eyebrow Transplant", "眉毛种植"], ["Beard Transplant", "胡须种植"]] },
+    { en: "Cosmetic Dentistry", zh: "牙齿美容", icon: ToothLineIcon, items: [["Dental Implants", "种植牙"], ["Porcelain Veneers", "瓷贴面"], ["Teeth Whitening", "牙齿美白"], ["Clear Aligners", "隐形矫正"], ["All-Ceramic Crowns", "全瓷牙冠"]] },
+    { en: "Skin & Non-Surgical", zh: "皮肤与非手术", icon: Sparkles, items: [["Laser Skin Resurfacing", "激光皮肤重塑"], ["Pigmentation Treatment", "色斑治疗"], ["RF Microneedling", "射频微针"], ["Ultrasound Skin Tightening", "超声紧肤"], ["Botulinum Toxin", "肉毒素"], ["Dermal Fillers", "皮肤填充剂"]] },
+    { en: "Lips & Smile", zh: "唇部与微笑", icon: LipsLineIcon, items: [["Lip Lift", "唇提升"], ["Lip Reduction", "厚唇改薄"], ["Lip Contouring", "唇形塑造"], ["Gummy Smile Correction", "露龈笑改善"], ["Lip Fillers", "唇部填充"]] },
+    { en: "Post-Weight-Loss", zh: "减重后塑形", icon: Scale, items: [["Lower Body Lift", "下半身提升"], ["Arm Lift", "上臂提升"], ["Thigh Lift", "大腿提升"], ["Back Lift", "背部提升"], ["Skin Removal", "多余皮肤切除"]] },
+    { en: "Men's Procedures", zh: "男性医美", icon: MaleChestLineIcon, items: [["Male Breast Reduction", "男性乳房缩小"], ["Male Liposuction", "男性吸脂"], ["Jawline Contouring", "下颌线塑形"], ["Hair Transplant", "男性植发"], ["Eyelid Surgery", "男性眼部整形"]] },
+  ];
+  const itemStyles = [
+    "text-[1.65rem] text-brand md:text-[1.85rem]",
+    "text-xl text-foreground md:text-[1.35rem]",
+    "text-base text-foreground/72",
+    "text-base text-muted-foreground",
+    "text-sm text-brand",
+    "text-sm text-muted-foreground",
+  ];
+  const treatmentCloudRailRef = useRef<HTMLDivElement>(null);
+  const treatmentCloudPausedRef = useRef(false);
+  const treatmentCloudIndexRef = useRef(0);
+  const [activeTreatmentCloud, setActiveTreatmentCloud] = useState(0);
+  const showTreatmentCloud = (index: number) => {
+    const rail = treatmentCloudRailRef.current;
+    const card = rail?.children[index] as HTMLElement | undefined;
+    if (!rail || !card) return;
+    const left = card.offsetLeft - rail.offsetLeft - Math.max(0, (rail.clientWidth - card.clientWidth) / 2);
+    rail.scrollTo({ left, behavior: "smooth" });
+    treatmentCloudIndexRef.current = index;
+    setActiveTreatmentCloud(index);
+  };
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let resetTimer = 0;
+    const timer = window.setInterval(() => {
+      const rail = treatmentCloudRailRef.current;
+      if (!rail || treatmentCloudPausedRef.current || document.hidden) return;
+      const nextIndex = treatmentCloudIndexRef.current + 1;
+      const card = rail.children[nextIndex] as HTMLElement | undefined;
+      if (!card) return;
+      const left = card.offsetLeft - rail.offsetLeft - Math.max(0, (rail.clientWidth - card.clientWidth) / 2);
+      rail.scrollTo({ left, behavior: "smooth" });
+      treatmentCloudIndexRef.current = nextIndex;
+      setActiveTreatmentCloud(nextIndex % procedureClouds.length);
+      if (nextIndex === procedureClouds.length) {
+        resetTimer = window.setTimeout(() => {
+          const firstCard = rail.children[0] as HTMLElement | undefined;
+          if (!firstCard) return;
+          rail.scrollTo({ left: firstCard.offsetLeft - rail.offsetLeft, behavior: "auto" });
+          treatmentCloudIndexRef.current = 0;
+          setActiveTreatmentCloud(0);
+        }, 750);
+      }
+    }, 4800);
+    return () => {
+      window.clearInterval(timer);
+      window.clearTimeout(resetTimer);
+    };
+  }, [procedureClouds.length]);
+  return (
+    <section id="projects" className="container py-10 md:py-16">
+      <div className="mb-5 flex flex-wrap items-end justify-between gap-4 md:mb-8">
+        <div>
+          <span className="pill bg-accent text-accent-foreground mb-3"><Flame className="size-3.5" /> {t("tx.kicker")}</span>
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight">
+            {t("tx.title1")} <em className="text-brand not-italic">{t("tx.titleEm")}</em>
+          </h2>
+        </div>
+      </div>
+      <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-r from-[hsl(158,58%,90%)] via-[hsl(145,48%,92%)] to-[hsl(50,78%,91%)] shadow-pop md:rounded-[2.5rem]">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/90 to-transparent" aria-hidden="true" />
+        <div
+          ref={treatmentCloudRailRef}
+          onMouseEnter={() => { treatmentCloudPausedRef.current = true; }}
+          onMouseLeave={() => { treatmentCloudPausedRef.current = false; }}
+          onTouchStart={() => { treatmentCloudPausedRef.current = true; }}
+          onTouchEnd={() => { treatmentCloudPausedRef.current = false; }}
+          onFocusCapture={() => { treatmentCloudPausedRef.current = true; }}
+          onBlurCapture={() => { treatmentCloudPausedRef.current = false; }}
+          className="relative flex touch-pan-x snap-x snap-mandatory items-stretch overflow-x-auto overscroll-x-contain scroll-smooth px-5 pb-2 pt-5 scrollbar-hide sm:px-7 md:px-9 md:pb-4 md:pt-7"
+        >
+          {[...procedureClouds, ...procedureClouds].map((cloud, repeatedIndex) => {
+          const cloudIndex = repeatedIndex % procedureClouds.length;
+          const duplicate = repeatedIndex >= procedureClouds.length;
+          const CloudIcon = cloud.icon;
+          return (
+          <article key={`${cloud.en}-${duplicate ? "loop" : "primary"}`} aria-hidden={duplicate || undefined} className="group relative flex min-h-[285px] w-[78vw] min-w-[78vw] shrink-0 snap-center flex-col justify-center border-r border-primary/12 px-6 py-5 transition-colors duration-200 hover:bg-white/20 focus-within:bg-white/25 sm:w-[48vw] sm:min-w-[48vw] md:min-h-[300px] md:w-[calc(100%/3)] md:min-w-[calc(100%/3)] xl:w-1/4 xl:min-w-[25%]">
+            <span className="absolute right-5 top-2 font-display text-6xl font-medium leading-none text-foreground/[0.045] transition-colors duration-200 group-hover:text-primary/[0.09]">{String(cloudIndex + 1).padStart(2, "0")}</span>
+            <div className="mb-3 flex justify-center" aria-hidden="true">
+              <span className="flex size-12 items-center justify-center text-primary transition-transform duration-200 ease-out group-hover:-translate-y-0.5">
+                <CloudIcon strokeWidth={1.3} className="size-10" />
+              </span>
+            </div>
+            <div className="relative flex items-center justify-center gap-2 text-center">
+              <h3 className="text-label font-bold uppercase tracking-[0.18em] text-brand">{lang === "zh" ? cloud.zh : cloud.en}</h3>
+            </div>
+            <div className="relative mt-4 flex flex-wrap content-center items-baseline justify-center gap-x-3.5 gap-y-2 text-center">
+              {cloud.items.map(([en, zh], itemIndex) => (
+                <Link
+                  key={en}
+                  to={`/treatments/${en.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")}`}
+                  tabIndex={duplicate ? -1 : undefined}
+                  className={`rounded-sm px-0.5 font-display font-semibold leading-[0.98] tracking-[-0.035em] transition duration-150 hover:text-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 ${itemStyles[itemIndex % itemStyles.length]}`}
+                >
+                  {lang === "zh" ? zh : en}
+                </Link>
+              ))}
+            </div>
+          </article>
+          );})}
+        </div>
+        <div className="relative flex flex-col items-center justify-between gap-3 border-t border-white/55 bg-white/22 px-5 py-3.5 backdrop-blur-sm sm:flex-row sm:px-7 md:px-9">
+          <div className="flex items-center gap-4">
+            <span className="hidden text-label font-bold uppercase tracking-[0.16em] text-muted-foreground lg:inline">
+              {lang === "zh" ? "探索全部 12 类项目" : lang === "ru" ? "12 направлений" : lang === "es" ? "Explora las 12 especialidades" : "Explore all 12 specialties"}
+            </span>
+            <div className="flex items-center gap-1.5" aria-label={lang === "zh" ? "选择项目分类" : "Choose a specialty"}>
+              {procedureClouds.map((cloud, index) => (
+                <button
+                  key={cloud.en}
+                  type="button"
+                  aria-label={lang === "zh" ? cloud.zh : cloud.en}
+                  aria-pressed={activeTreatmentCloud === index}
+                  onClick={() => showTreatmentCloud(index)}
+                  className={`h-1.5 rounded-full transition-[width,background-color] duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 ${activeTreatmentCloud === index ? "w-7 bg-primary" : "w-1.5 bg-primary/25 hover:bg-primary/50"}`}
+                />
+              ))}
+            </div>
+          </div>
+          <div className="flex w-full items-center justify-between gap-4 sm:w-auto sm:justify-end">
+            <p className="text-sm text-muted-foreground">
+              {lang === "zh" ? "还不确定适合哪一项？" : lang === "ru" ? "Не знаете, с чего начать?" : lang === "es" ? "¿No sabes por dónde empezar?" : "Not sure where to begin?"}
+            </p>
+            <QuoteCtaButton quoteCtx={{ source: "procedure_specialties" }} className="min-h-10 px-5 text-xs hover:-translate-y-0.5" />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const HowItWorks = () => {
+  const { lang } = useAsia();
+  const { open } = useQuote();
+  const copy = lang === "zh"
+    ? {
+        eyebrow: "免费线上咨询",
+        title: "准备好开始了吗？",
+        emphasis: "今天迈出第一步",
+        text: "告诉我们你关注的项目、预算和希望前往的城市。我们会帮你梳理需求，并协助你找到合适的中国专家。",
+      }
+    : lang === "ru"
+      ? {
+          eyebrow: "Бесплатная онлайн-консультация",
+          title: "Готовы начать?",
+          emphasis: "Сделайте первый шаг сегодня",
+          text: "Расскажите о процедуре, бюджете и желаемом городе. Мы поможем уточнить ваши потребности и подобрать подходящего эксперта в Китае.",
+        }
+      : lang === "es"
+      ? {
+          eyebrow: "Consulta gratuita en línea",
+          title: "¿Listo/a para comenzar?",
+          emphasis: "Da el primer paso hoy",
+          text: "Cuéntanos el procedimiento, presupuesto y ciudad que tienes en mente. Te ayudaremos a aclarar tus necesidades y a conectarte con un experto adecuado en China.",
+        }
+      : {
+          eyebrow: "Free online consultation",
+          title: "Ready to get started?",
+          emphasis: "Take the first step today",
+          text: "Tell us the procedure, budget and city you have in mind. We’ll help clarify your needs and connect you with a suitable expert in China.",
+        };
+
+  return (
+    <section id="consultation" className="container py-12 md:py-16" aria-labelledby="consultation-title">
+      <div className="overflow-hidden rounded-[2rem] border border-primary/15 bg-card text-foreground shadow-[0_24px_65px_rgba(22,63,52,0.11),0_3px_10px_rgba(22,63,52,0.05)]">
+        <div className="grid md:grid-cols-[minmax(0,1.35fr)_minmax(20rem,0.65fr)]">
+          <div className="px-5 py-8 sm:px-8 md:px-10 md:py-11 lg:px-12">
+            <span className="mb-4 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-brand">
+              <MessageCircle className="size-3.5" /> {copy.eyebrow}
+            </span>
+            <h2 id="consultation-title" className="max-w-3xl font-display text-4xl font-medium leading-[1.02] tracking-tight sm:text-5xl md:text-[3.5rem]">
+              {copy.title}<br className="hidden sm:block" />{" "}<em className="text-brand not-italic">{copy.emphasis}</em>
+            </h2>
+            <p className="mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">{copy.text}</p>
+          </div>
+
+          <div className="m-4 rounded-[1.5rem] border border-primary/25 bg-[hsl(156_48%_89%)] p-5 shadow-[0_16px_38px_rgba(22,63,52,0.12),0_2px_6px_rgba(22,63,52,0.06)] sm:m-5 sm:p-6 md:flex md:flex-col md:justify-center lg:m-6 lg:p-7">
+            <p className="text-label font-bold uppercase tracking-[0.14em] text-brand">
+              {lang === "zh" ? "选择联系方式" : lang === "ru" ? "Выберите способ связи" : lang === "es" ? "Elige cómo conectar" : "Choose how to connect"}
+            </p>
+            <h3 className="mt-2 font-display text-2xl font-medium leading-tight">
+              {lang === "zh" ? "邮件或 WhatsApp，由你决定。" : lang === "ru" ? "Email или WhatsApp — на ваш выбор." : lang === "es" ? "Correo o WhatsApp, tú decides." : "Email or WhatsApp—your choice."}
+            </h3>
+            <div className="mt-5 grid grid-cols-2 gap-2">
+              <span className="flex min-h-12 items-center gap-2 rounded-xl border border-border/80 bg-card px-3 text-xs font-semibold shadow-[0_4px_12px_rgba(22,63,52,0.05)]"><Mail className="size-4 text-primary" />Email</span>
+              <span className="flex min-h-12 items-center gap-2 rounded-xl border border-border/80 bg-card px-3 text-xs font-semibold shadow-[0_4px_12px_rgba(22,63,52,0.05)]"><MessageCircle className="size-4 text-primary" />WhatsApp</span>
+            </div>
+            <Button size="lg" onClick={() => open()} className="cta-primary mt-3 min-h-[52px] w-full rounded-xl px-7 text-sm shadow-[0_12px_24px_rgba(13,54,44,0.18)] transition-all hover:-translate-y-0.5 hover:shadow-[0_16px_30px_rgba(13,54,44,0.22)]">
+              {lang === "zh" ? "开始免费咨询" : lang === "ru" ? "Начать консультацию" : lang === "es" ? "Iniciar una consulta" : "Start a consultation"}<ArrowRight className="ml-2 size-4" />
+            </Button>
+            <p className="mt-3 text-center text-label text-muted-foreground">
+              {lang === "zh" ? "免费 · 无义务 · 由协调团队回复" : lang === "ru" ? "Бесплатно · без обязательств" : lang === "es" ? "Gratis · Sin compromiso · Respuesta del equipo coordinador" : "Free · No obligation · Coordinator reply"}
+            </p>
+          </div>
+        </div>
+        <div className="border-t border-border/70 px-5 py-4 sm:px-8 md:px-10 lg:px-12">
+          <MedicalDisclaimer variant="inline" className="text-muted-foreground/90" />
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const HomeFaq = () => {
+  const { lang } = useAsia();
+  const policy = getCoordinationPolicy(lang);
+  const zh = lang === "zh";
+  const ru = lang === "ru";
+  const es = lang === "es";
+  const c = (en: string, cn: string, Russian: string, Spanish: string) => zh ? cn : ru ? Russian : es ? Spanish : en;
+  const questions = [
+    {
+      q: c("Do I need to pay Sino Aesthetics?", "我需要向 Sino Aesthetics 支付费用吗？", "Нужно ли платить Sino Aesthetics?", "¿Necesito pagarle a Sino Aesthetics?"),
+      a: `${policy.medical} ${policy.depositPurpose} ${policy.refund}`,
+    },
+    {
+      q: c("What is the $200 deposit for?", "200 美元押金是做什么用的？", "Для чего нужен депозит $200?", "¿Para qué es el depósito de $200?"),
+      a: `${policy.depositPurpose} ${policy.collection} ${policy.refund} ${policy.cancellation}`,
+    },
+    {
+      q: c("Who receives my medical payment?", "手术和治疗费用支付给谁？", "Кому оплачиваются медицинские услуги?", "¿Quién recibe mi pago médico?"),
+      a: c("All surgery, examination, anesthesia and other medical fees are charged directly by the clinic or hospital. Sino Aesthetics does not collect your medical payment.", "全部手术、检查、麻醉及其他医疗费用均由诊所或医院直接收取。Sino Aesthetics 不代收医疗费用。", "Операция, обследования, анестезия и другие медицинские услуги оплачиваются напрямую клинике или больнице. Sino Aesthetics не принимает медицинские платежи.", "Todos los honorarios de cirugía, exámenes, anestesia y otros servicios médicos son cobrados directamente por la clínica u hospital. Sino Aesthetics no cobra tu pago médico."),
+    },
+    {
+      q: c("Can my consultation be conducted in English?", "线上咨询可以使用英语吗？", "Можно ли провести консультацию на английском?", "¿Puede realizarse mi consulta en inglés?"),
+      a: c("Yes. We arrange confirmed English-language support for the appointment, either with an English-speaking expert or a bilingual coordinator, depending on availability.", "可以。我们会根据已确认的预约安排英语沟通支持；具体形式可能是英语专家或双语协调员陪同。", "Да. Для подтверждённой записи мы организуем поддержку на английском: англоговорящего эксперта или двуязычного координатора, в зависимости от доступности.", "Sí. Organizamos apoyo confirmado en inglés para la cita, ya sea con un experto de habla inglesa o un coordinador bilingüe, según disponibilidad."),
+    },
+    {
+      q: c("How is my medical information handled?", "我的医疗资料如何使用？", "Как используются мои медицинские данные?", "¿Cómo se maneja mi información médica?"),
+      a: c("Information is used for the consultation and coordination you authorize, and only necessary details are shared with relevant service providers. Do not send sensitive records through public comments or social media.", "资料仅用于你授权的咨询和行程协调，并只向相关服务方提供必要信息。请勿通过公开评论或社交媒体发送敏感病历。", "Данные используются только для разрешённой вами консультации и координации; партнёрам передаётся лишь необходимая информация. Не отправляйте конфиденциальные документы в открытых комментариях или соцсетях.", "La información se usa para la consulta y coordinación que autorizas, y solo se comparten los datos necesarios con los proveedores de servicios pertinentes. No envíes registros sensibles por comentarios públicos ni redes sociales."),
+    },
+  ];
+
+  return (
+    <section className="container py-12 md:py-16" aria-labelledby="home-faq-title">
+      <div className="relative overflow-hidden rounded-[2.25rem] border border-primary/20 bg-card p-5 shadow-pop sm:p-7 md:p-10 lg:p-12">
+        <div className="pointer-events-none absolute -right-24 -top-28 size-72 rounded-full bg-[hsl(var(--primary)/.12)] blur-3xl" aria-hidden="true" />
+        <div className="pointer-events-none absolute -bottom-32 left-1/3 size-64 rounded-full bg-[hsl(48_86%_82%/.2)] blur-3xl" aria-hidden="true" />
+
+        <div className="relative max-w-4xl">
+          <span className="pill mb-4 border border-primary/15 bg-primary/10 text-foreground"><Wallet className="size-3.5 text-primary" /> {c("Payment, made simple", "付款方式，一眼看懂", "Оплата — всё просто", "Pagos, de forma sencilla")}</span>
+          <h2 id="home-faq-title" className="font-display text-3xl font-medium leading-[1.04] tracking-tight sm:text-4xl md:text-5xl">
+            {c("Simple, transparent payments. ", "付款简单透明，", "Простая и прозрачная оплата. ", "Pagos simples y transparentes. ")}<em className="not-italic text-brand">{c("Know exactly where your money goes.", "每一笔都清楚去向。", "Вы точно знаете, куда идут ваши деньги.", "Sabrás exactamente adónde va tu dinero.")}</em>
+          </h2>
+        </div>
+
+        <div className="relative mt-8 grid gap-4 lg:grid-cols-2 lg:gap-5">
+          <div className="pointer-events-none absolute left-1/2 top-1/2 z-10 hidden size-10 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border-4 border-card bg-foreground text-background shadow-soft lg:grid" aria-hidden="true">
+            <ArrowRight className="size-4" strokeWidth={2} />
+          </div>
+
+          <article className="group relative overflow-hidden rounded-[1.75rem] border border-primary/20 bg-[hsl(var(--primary)/.075)] p-5 shadow-soft transition-[transform,box-shadow,border-color] duration-150 hover:-translate-y-0.5 hover:border-primary/35 hover:shadow-pop sm:p-7">
+            <span className="absolute right-5 top-4 font-display text-5xl font-medium text-primary/10" aria-hidden="true">01</span>
+            <div className="relative flex items-start gap-4">
+              <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-primary text-primary-foreground shadow-[0_8px_22px_hsl(var(--primary)/.22)]"><Building2 className="size-5" strokeWidth={2} /></span>
+              <div className="min-w-0 pt-0.5">
+                <p className="text-xs font-bold uppercase tracking-[0.14em] text-brand">{c("Medical treatment", "手术与医疗费用", "Медицинские услуги", "Tratamiento médico")}</p>
+                <h3 className="mt-1 font-display text-xl font-medium leading-tight text-foreground sm:text-2xl">{c("Pay the clinic directly", "直接支付给诊所或医院", "Оплачивайте напрямую клинике", "Paga directamente a la clínica")}</h3>
+              </div>
+            </div>
+            <p className="relative mt-5 max-w-xl text-[15px] leading-7 text-foreground/70 sm:text-base">{c("Your clinic or hospital collects all surgery, examination and anesthesia fees. Sino Aesthetics does not collect your medical payment.", "手术、检查和麻醉等医疗费用均由诊所或医院直接收取，Sino Aesthetics 不代收。", "Операция, обследования и анестезия оплачиваются напрямую клинике или больнице. Sino Aesthetics не принимает медицинские платежи.", "Tu clínica u hospital cobra todos los honorarios de cirugía, exámenes y anestesia. Sino Aesthetics no cobra tu pago médico.")}</p>
+          </article>
+
+          <article className="group relative overflow-hidden rounded-[1.75rem] border border-[hsl(43_70%_72%/.65)] bg-[hsl(48_82%_94%)] p-5 shadow-soft transition-[transform,box-shadow,border-color] duration-150 hover:-translate-y-0.5 hover:border-[hsl(43_70%_62%/.8)] hover:shadow-pop sm:p-7">
+            <span className="absolute right-5 top-4 font-display text-5xl font-medium text-[hsl(33_78%_38%/.09)]" aria-hidden="true">02</span>
+            <div className="relative flex items-start gap-4">
+              <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-[hsl(42_88%_86%)] text-[hsl(33_78%_33%)] shadow-[0_8px_22px_hsl(42_70%_55%/.16)]"><Wallet className="size-5" strokeWidth={2} /></span>
+              <div className="min-w-0 pt-0.5">
+                <p className="text-xs font-bold uppercase tracking-[0.14em] text-[hsl(33_72%_35%)]">{policy.collectionTitle}</p>
+                <h3 className="mt-1 font-display text-xl font-medium leading-tight text-foreground sm:text-2xl">{c("$200 coordination deposit", "支付 $200 协调押金", "Координационный депозит $200", "Depósito de coordinación de $200")}</h3>
+              </div>
+            </div>
+            <p className="relative mt-5 max-w-xl text-[15px] leading-7 text-foreground/70 sm:text-base">{policy.depositPurpose} {policy.collection} {policy.refund} {policy.cancellation}</p>
+          </article>
+        </div>
+
+        <div className="relative mt-5 grid gap-6 rounded-[1.75rem] border border-border/80 bg-background/65 p-5 sm:p-7 lg:grid-cols-[0.52fr_1.48fr] lg:items-start lg:gap-8">
+          <div className="lg:py-1">
+            <p className="text-xs font-bold uppercase tracking-[0.14em] text-brand">{c("Need more detail?", "还想了解更多？", "Нужны подробности?", "¿Necesitas más detalles?")}</p>
+            <h3 className="mt-2 font-display text-2xl font-medium leading-tight sm:text-3xl">{c("Common questions", "常见问题", "Частые вопросы", "Preguntas frecuentes")}</h3>
+            <Link to="/travel-packages" className="group/link mt-5 inline-flex min-h-11 items-center gap-2 rounded-full border border-primary/20 bg-card px-4 text-sm font-semibold text-foreground shadow-soft transition-[color,border-color,transform] duration-150 hover:-translate-y-0.5 hover:border-primary/40 hover:text-brand">
+              {c("Explore travel support", "查看行程支持", "Подробнее о поддержке в поездке", "Explorar el apoyo de viaje")}<ArrowRight className="size-4 text-primary transition-transform duration-150 group-hover/link:translate-x-1" />
+            </Link>
+          </div>
+
+          <Accordion type="single" collapsible className="overflow-hidden rounded-2xl border border-border/80 bg-card px-4 shadow-soft sm:px-5">
+            {questions.slice(2).map((item, index) => (
+              <AccordionItem key={item.q} value={`faq-${index + 2}`} className="border-border/65 last:border-0">
+                <AccordionTrigger className="group gap-4 rounded-xl px-1 py-4 text-left text-sm font-semibold transition-colors duration-150 hover:bg-primary/[0.045] hover:no-underline sm:text-base">
+                  <span className="flex items-start gap-3"><span className="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-primary/10 font-mono text-label text-primary">0{index + 1}</span><span className="pt-0.5">{item.q}</span></span>
+                </AccordionTrigger>
+                <AccordionContent className="pl-10 pr-3 text-sm leading-relaxed text-muted-foreground sm:pl-11 sm:text-[15px]">
+                  {item.a}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+
+export { PrivateCareHero, TravelBar, TreatmentsSectionLegacy, HowItWorks, HomeFaq };

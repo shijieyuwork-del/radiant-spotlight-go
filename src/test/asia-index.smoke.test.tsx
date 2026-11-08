@@ -36,6 +36,7 @@ describe("AsiaIndex 冒烟 — 源码级：JSX 引用都有 import", () => {
 
     // import 进来的标识符
     const imported = new Set<string>();
+    for (const m of src.matchAll(/import\s+\*\s+as\s+([A-Za-z0-9_]+)/g)) imported.add(m[1]);
     for (const m of src.matchAll(/import\s+(?:type\s+)?(?:\{([^}]*)\}|([A-Za-z0-9_]+))[^"']*from/g)) {
       if (m[2]) imported.add(m[2]);
       if (m[1]) {

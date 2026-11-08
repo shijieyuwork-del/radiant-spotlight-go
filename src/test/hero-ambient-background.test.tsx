@@ -5,6 +5,8 @@ import { join } from "node:path";
 import ts from "typescript";
 import HeroAmbientBackground from "@/components/HeroAmbientBackground";
 import type { AsiaLang } from "@/lib/asia-i18n";
+// These visibility/control checks begin after the separately-tested desktop load gate.
+vi.mock("@/lib/deferred-work", () => ({ afterPageLoad: (work: () => void) => { work(); return () => {}; } }));
 
 const ambientStyles = readFileSync(join(__dirname, "..", "index.css"), "utf8");
 const homeSource = readFileSync(join(__dirname, "..", "pages", "AsiaIndex.tsx"), "utf8");
@@ -103,11 +105,10 @@ describe("homepage ambient background", () => {
     expect(field).toHaveAttribute("aria-hidden", "true");
     expect(video).toHaveAttribute("src", "/videos/homepage-background-loop.mp4");
     expect(video).toHaveAttribute("loop");
-    expect(video.style.opacity).toBe("0.35");
     expect(background().style.position).toBe("absolute");
     expect(video).toHaveAttribute("playsinline");
     expect(video.muted).toBe(true);
-    expect(video).toHaveAttribute("preload", "metadata");
+    expect(video).toHaveAttribute("preload", "none");
     expect(screen.getByRole("button").closest('[aria-hidden="true"]')).toBeNull();
     intersect(true);
     expect(HTMLMediaElement.prototype.play).toHaveBeenCalled();

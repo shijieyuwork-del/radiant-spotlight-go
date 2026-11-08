@@ -33,7 +33,7 @@ const CANONICAL = {
 
 /** 渲染该按钮的页面/组件（必须走 QuoteCtaButton，不得内联文案） */
 const BUTTON_CONSUMERS = [
-  "pages/AsiaIndex.tsx",
+  "components/home/HomeBelowFold.tsx",
   "pages/Doctors.tsx",
   "components/DoctorProfile.tsx",
 ];
@@ -135,7 +135,7 @@ describe("quote CTA — 统一组件 QuoteCtaButton", () => {
 /* ---------------- 3. 首页 How-it-works 步骤标题 ---------------- */
 describe("quote CTA i18n — 首页 How-it-works 步骤", () => {
   it("第一步标题四语同步（en 为 consultation 时 zh/ru 不得仍是“报价”旧文案）", () => {
-    const asia = read("pages/AsiaIndex.tsx");
+    const asia = read("components/home/HomeLegacySections.tsx");
     const m = asia.match(
       /en:\s*\["Start a consultation"[\s\S]{0,400}?zh:\s*\["([^"]+)"[\s\S]{0,400}?ru:\s*\["([^"]+)"/,
     );

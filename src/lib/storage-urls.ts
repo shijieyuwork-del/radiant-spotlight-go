@@ -1,4 +1,4 @@
-import { supabase } from "@/integrations/supabase/client";
+import { getBrowserClient } from "@/lib/browser-client";
 
 /**
  * All storage file access goes through the request-file-access edge function,
@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 export const signedUrls = async (bucket: string, paths: (string | null | undefined)[]): Promise<string[]> => {
   const valid = [...new Set(paths.filter((p): p is string => Boolean(p)))];
   if (valid.length === 0) return paths.map(() => "");
+  const supabase = await getBrowserClient();
   const urls: Record<string, string> = {};
   // The audited access endpoint accepts at most 50 paths per request.
   for (let offset = 0; offset < valid.length; offset += 50) {

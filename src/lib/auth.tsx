@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import type { Session, User } from "@supabase/supabase-js";
-import { supabase } from "@/integrations/supabase/client";
+import { getBrowserClient } from "@/lib/browser-client";
+import { afterPageLoad } from "@/lib/deferred-work";
 
 type AuthCtx = {
   user: User | null;
@@ -16,19 +17,31 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // 1. Set up listener FIRST
-    const { data: sub } = supabase.auth.onAuthStateChange((_event, s) => {
-      setSession(s);
+    let disposed = false;
+    let unsubscribe: (() => void) | undefined;
+    const cancel = afterPageLoad(() => {
+      void getBrowserClient().then(async (supabase) => {
+        if (disposed) return;
+        let revision = 0;
+        // Subscribe before reading the session; a later auth event wins.
+        const { data: sub } = supabase.auth.onAuthStateChange((_event, next) => {
+          revision += 1;
+          if (!disposed) { setSession(next); setLoading(false); }
+        });
+        unsubscribe = () => sub.subscription.unsubscribe();
+        const baseline = revision;
+        const { data } = await supabase.auth.getSession();
+        if (!disposed) {
+          if (revision === baseline) setSession(data.session);
+          setLoading(false);
+        }
+      }).catch(() => { if (!disposed) setLoading(false); });
     });
-    // 2. Then load existing session
-    supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session);
-      setLoading(false);
-    });
-    return () => sub.subscription.unsubscribe();
+    return () => { disposed = true; cancel(); unsubscribe?.(); };
   }, []);
 
   const signOut = async () => {
+    const supabase = await getBrowserClient();
     await supabase.auth.signOut();
   };
 
