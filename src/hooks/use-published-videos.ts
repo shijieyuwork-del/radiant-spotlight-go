@@ -32,34 +32,46 @@ export const toTikTokItem = (row: Row, url: string, cover: string): TikTokItem =
 };
 
 /** 已发布视频（后台上传），按当前语言本地化，后台变更后自动刷新。 */
-export const usePublishedVideos = (lang: AsiaLang, placement: "diary" | "before-after" | "all" = "diary"): TikTokItem[] => {
+export const usePublishedVideosState = (lang: AsiaLang, placement: "diary" | "before-after" | "all" = "diary") => {
   const [items, setItems] = useState<TikTokItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const load = useCallback(() => {
     void (async () => {
-      let query = supabase
-        .from("videos")
-        .select("id,title,caption,city,procedure,storage_path,cover_path,created_at,doctor_id,i18n")
-        .eq("status", "published")
-        .order("created_at", { ascending: false });
-      if (placement !== "all") query = query.eq("placement", placement);
-      const { data } = await query;
-      const rows = (data ?? []) as Row[];
-      if (rows.length === 0) return setItems([]);
-      const [urls, covers] = await Promise.all([
-        signedUrls("short-videos", rows.map((r) => r.storage_path)),
-        signedUrls("video-covers", rows.map((r) => r.cover_path)),
-      ]);
-      setItems(
-        rows.map((r, i) =>
-          toTikTokItem(localizeVideoRow(r as unknown as Record<string, unknown>, lang) as unknown as Row, urls[i], covers[i])
-        )
-      );
+      try {
+        let query = supabase
+          .from("videos")
+          .select("id,title,caption,city,procedure,storage_path,cover_path,created_at,doctor_id,i18n")
+          .eq("status", "published")
+          .order("created_at", { ascending: false });
+        if (placement !== "all") query = query.eq("placement", placement);
+        const { data } = await query;
+        const rows = (data ?? []) as Row[];
+        if (rows.length === 0) {
+          setItems([]);
+          return;
+        }
+        const [urls, covers] = await Promise.all([
+          signedUrls("short-videos", rows.map((r) => r.storage_path)),
+          signedUrls("video-covers", rows.map((r) => r.cover_path)),
+        ]);
+        setItems(
+          rows.map((r, i) =>
+            toTikTokItem(localizeVideoRow(r as unknown as Record<string, unknown>, lang) as unknown as Row, urls[i], covers[i])
+          )
+        );
+      } finally {
+        setIsLoading(false);
+      }
     })();
   }, [lang, placement]);
 
   useEffect(() => { load(); }, [load]);
   useRealtimeRefresh(["videos"], load);
 
-  return items;
+  return { items, isLoading };
 };
+
+/** Published videos for callers that only need the resolved list. */
+export const usePublishedVideos = (lang: AsiaLang, placement: "diary" | "before-after" | "all" = "diary"): TikTokItem[] =>
+  usePublishedVideosState(lang, placement).items;

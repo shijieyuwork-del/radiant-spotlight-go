@@ -8,7 +8,7 @@ import { Pagination, SortChips } from "@/components/ListControls";
 import CasesFilterDisclosure from "@/components/CasesFilterDisclosure";
 import CaseCategoryNavigation, { caseCategoryLabel, matchesCaseCategory } from "@/components/CaseCategoryNavigation";
 import { PATIENT_DIARY_CASES, mergePatientDiaryCases } from "@/data/patientDiaryCases";
-import { usePublishedVideos } from "@/hooks/use-published-videos";
+import { usePublishedVideosState } from "@/hooks/use-published-videos";
 import { DOCTORS } from "@/data/doctors";
 import { CITIES } from "@/data/cities";
 import { useAsia } from "@/lib/asia-i18n";
@@ -38,7 +38,7 @@ const Cases = () => {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
   // Include all published videos, including legacy Before & After placements.
-  const uploaded = usePublishedVideos(lang, "all");
+  const { items: uploaded, isLoading: videosLoading } = usePublishedVideosState(lang, "all");
   const ALL_CASES = useMemo(() => mergePatientDiaryCases(uploaded, PATIENT_DIARY_CASES), [uploaded]);
 
   // Use the case's own China destination; fall back to expert data for legacy entries.
@@ -181,7 +181,24 @@ const Cases = () => {
       <div className="min-h-screen bg-background">
         <AsiaNavbar />
 
-      <section className="container py-6 md:py-12">
+      <section className="container relative py-6 md:py-12">
+        {videosLoading && (
+          <div className="absolute inset-0 z-40 bg-background px-4 py-6 md:py-12" role="status" aria-live="polite" aria-label={c("Loading patient video journeys", "正在加载患者视频案例", "Загружаем видеоистории пациентов", "Cargando historias en vídeo de pacientes", "กำลังโหลดวิดีโอเรื่องราวของผู้รับบริการ", "Memuatkan kisah video pesakit")}>
+            <div className="mx-auto max-w-6xl animate-pulse">
+              <div className="mx-auto h-7 w-36 rounded-full bg-muted" />
+              <div className="mx-auto mt-4 h-11 w-full max-w-md rounded-2xl bg-muted" />
+              <div className="mx-auto mt-3 h-5 w-full max-w-xl rounded-full bg-muted/80" />
+              <div className="mt-8 flex gap-3 overflow-hidden">
+                {[0, 1, 2, 3, 4].map((item) => <div key={item} className="h-14 min-w-40 flex-1 rounded-2xl bg-muted" />)}
+              </div>
+              <div className="mx-auto mt-5 h-12 max-w-3xl rounded-full bg-muted" />
+              <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                {[0, 1, 2].map((item) => <div key={item} className="aspect-[9/14] rounded-[1.75rem] bg-muted" />)}
+              </div>
+            </div>
+            <span className="sr-only">{c("Loading patient video journeys…", "正在加载完整患者视频案例…", "Загружаем видеоистории пациентов…", "Cargando historias en vídeo de pacientes…", "กำลังโหลดวิดีโอเรื่องราวของผู้รับบริการ…", "Memuatkan kisah video pesakit…")}</span>
+          </div>
+        )}
         <div className="mx-auto mb-5 max-w-2xl text-center md:mb-7">
           <span className="pill bg-accent text-accent-foreground mb-3"><Heart className="size-3.5" /> {t("cases.kicker")}</span>
           <h1 className="font-display text-3xl font-medium leading-tight tracking-tight sm:text-4xl md:text-5xl">
