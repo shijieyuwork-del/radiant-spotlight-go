@@ -3,13 +3,19 @@ import { getHomeHeroCopy } from "@/lib/home-hero-copy";
 import { homeStructuredData } from "@/lib/home-structured-data";
 
 describe("homepage scope and audience", () => {
-  it("states the audience: international visitors, women and men", () => {
-    expect(getHomeHeroCopy("en").audience).toMatch(/international visitors.*women and men/i);
+  it("states the audience: international visitors", () => {
+    expect(getHomeHeroCopy("en").audience).toMatch(/international visitors/i);
+  });
+
+  it("uses the approved case-comparison headline and consultation copy", () => {
+    const c = getHomeHeroCopy("en");
+    expect(c.title).toBe("Compare hundreds of cases.\nFind the right expert for you.");
+    expect(c.subtitle).toBe("Explore case photos and recovery videos from specialists across China. We’ll help you compare your options and arrange your consultation.");
   });
 
   it("offers the three entry points", () => {
     const c = getHomeHeroCopy("en");
-    expect([c.explore, c.how, c.ask]).toEqual(["Explore Providers", "How It Works", "Ask a Question"]);
+    expect([c.explore, c.how, c.ask]).toEqual(["Explore Experts", "How It Works", "Start a Consultation"]);
   });
 
   it("says the platform is not a clinic, does not diagnose or guarantee results", () => {

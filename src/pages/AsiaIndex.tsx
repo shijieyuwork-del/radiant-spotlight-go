@@ -177,12 +177,12 @@ const Hero = () => {
               {hero.badge}
             </span>
             <p className="mt-4 text-xs font-semibold uppercase tracking-[0.14em] text-primary">{hero.audience}</p>
-            <h1 className="cinematic-hero__title !max-w-[24ch] !text-[clamp(1.75rem,4.3vw,4rem)] !leading-[1.18] !tracking-[-0.025em]">{lang === "zh" ? <><span className="block">让赴华医美</span><span className="block">少一些陌生与不确定</span></> : hero.title}</h1>
+            <h1 className={`cinematic-hero__title whitespace-pre-line ${lang === "en" ? "!max-w-[30ch]" : "!max-w-[24ch]"} !text-[clamp(1.75rem,4.3vw,4rem)] !leading-[1.18] !tracking-[-0.025em]`}>{lang === "zh" ? <><span className="block">让赴华医美</span><span className="block">少一些陌生与不确定</span></> : hero.title}</h1>
             <p className="cinematic-hero__subtitle !max-w-[38rem] !leading-[1.85]">{hero.subtitle}</p>
 
-            <div className="cinematic-hero__actions mx-auto flex max-w-3xl flex-col justify-center gap-3 sm:flex-row">
+            <div className="cinematic-hero__actions relative z-10 mx-auto flex max-w-3xl flex-col justify-center gap-3 sm:flex-row">
               <Button asChild size="lg" className="h-auto min-h-[3.25rem] w-full rounded-full px-6 py-3 text-[15px] font-semibold sm:w-auto">
-                <Link to="/clinics" data-testid="home-hero-explore">{hero.explore}<ArrowRight className="ml-1.5 size-4 shrink-0" /></Link>
+                <Link to={lang === "en" ? "/doctors" : "/clinics"} data-testid="home-hero-explore">{hero.explore}<ArrowRight className="ml-1.5 size-4 shrink-0" /></Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="cinematic-hero__secondary h-auto min-h-[3.25rem] w-full whitespace-normal rounded-full px-6 py-3 text-[15px] font-semibold sm:w-auto">
                 <Link to="/travel-packages#support">{hero.how}</Link>
@@ -192,7 +192,7 @@ const Hero = () => {
                 size="lg"
                 variant="outline"
                 data-testid="home-hero-cta"
-                onClick={() => openQuote({ source: "home_hero", intent: "question" })}
+                onClick={() => openQuote({ source: "home_hero", intent: lang === "en" ? undefined : "question" })}
                 className="cinematic-hero__secondary h-auto min-h-[3.25rem] w-full whitespace-normal rounded-full px-6 py-3 text-[15px] font-semibold sm:w-auto"
               >
                 <MessageCircle className="mr-1.5 size-4 shrink-0" />{hero.ask}
