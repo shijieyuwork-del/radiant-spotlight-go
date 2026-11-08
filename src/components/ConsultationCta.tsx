@@ -28,11 +28,8 @@ const ConsultationCta = ({ className, source = "page_footer_cta" }: Consultation
       aria-labelledby={`${source}-title`}
     >
       <div className="relative overflow-hidden rounded-[2rem] bg-foreground px-6 py-10 text-background shadow-pop sm:px-9 md:rounded-[3rem] md:px-12 md:py-16 lg:px-16">
-        {/* Decorative city loop shared with the homepage hero; hidden for reduced motion. */}
-        <img src="/videos/homepage-background-poster.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async" className="absolute inset-0 size-full object-cover opacity-40" />
-        <video className="absolute inset-0 size-full object-cover opacity-50 motion-reduce:hidden" src="/videos/homepage-background-loop.mp4" autoPlay muted loop playsInline preload="none" aria-hidden="true" tabIndex={-1} />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,hsl(var(--foreground)/0.94)_0%,hsl(var(--foreground)/0.7)_60%,hsl(var(--foreground)/0.45)_100%)]" aria-hidden="true" />
         <div className="absolute -right-24 -top-24 size-72 rounded-full bg-primary/25 blur-3xl" aria-hidden="true" />
+        <div className="absolute -bottom-32 left-1/3 size-80 rounded-full bg-amber-200/10 blur-3xl" aria-hidden="true" />
         <div className="relative grid items-center gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-14">
           <div className="max-w-4xl">
             <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary sm:text-sm">
