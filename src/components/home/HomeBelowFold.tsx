@@ -428,76 +428,45 @@ export const TreatmentsSection = () => {
       href: "/treatments/male-breast-reduction",
     },
   ];
-  const whyReasons = [
+  const steps = [
     {
-      key: "experts",
-      image: procedureRhinoplasty,
-      eyebrow: c("300+ specialists across China", "覆盖中国的 300+ 位专家", "Более 300 специалистов по всему Китаю", "Más de 300 especialistas en China"),
-      title: c("We find your expert.", "我们帮你找对专家。", "Мы найдём вашего специалиста.", "Encontramos a tu especialista."),
-      detail: c(
-        "Tell us your goal. We shortlist the specialists who fit and make the introduction.",
-        "说出你的目标，我们筛出合适的专家，并安排面诊。",
-        "Опишите свою цель. Мы подберём подходящих специалистов и организуем знакомство.",
-        "Cuéntanos tu objetivo. Seleccionamos a los especialistas que encajan y hacemos la presentación.",
-      ),
+      title: c("Tell us what you want", "告诉我们你的需求", "Расскажите, чего вы хотите", "Cuéntanos lo que quieres"),
+      detail: c("Share your goals and a few photos, in your own language.", "用你熟悉的语言，分享你的目标和几张照片。", "Поделитесь целями и несколькими фото на своём языке.", "Comparte tus objetivos y algunas fotos, en tu propio idioma."),
     },
     {
-      key: "network",
-      image: "/generated/clinic-network-asia-v2.webp",
-      eyebrow: c("From online consultation to admission", "从线上问诊到入院", "От онлайн-консультации до госпитализации", "De la consulta en línea al ingreso"),
-      title: c("Every step, already coordinated", "每一步，都有人提前协调", "Каждый шаг уже скоординирован", "Cada paso, ya coordinado"),
-      detail: c(
-        "Online consultation, airport pickup, hospital admission and in-clinic interpretation, with a clear next step throughout.",
-        "线上问诊、接送机、入院和院内翻译，全程清楚下一步该做什么。",
-        "Онлайн-консультация, трансфер из аэропорта, госпитализация и перевод в клинике — с понятным следующим шагом на всём пути.",
-        "Consulta en línea, recogida en el aeropuerto, ingreso e interpretación en la clínica, siempre con un siguiente paso claro.",
-      ),
+      title: c("Get matched and quoted", "匹配方案并获取报价", "Подбор и предварительная смета", "Recibe opciones y presupuesto"),
+      detail: c("We suggest licensed hospitals and specialists that fit your goals and budget.", "我们推荐符合你目标和预算的正规医院与专家。", "Мы предложим лицензированные клиники и специалистов под ваши цели и бюджет.", "Te sugerimos hospitales y especialistas con licencia que encajan con tus objetivos y presupuesto."),
     },
     {
-      key: "service",
-      image: journeyGroundSupport,
-      eyebrow: c("One team through follow-up", "一支团队跟进到底", "Одна команда до завершения наблюдения", "Un equipo hasta el seguimiento"),
-      title: c("Never guess what comes next", "每一步，都不必再猜", "Всегда знайте, что будет дальше", "Nunca tendrás que adivinar qué sigue"),
-      detail: c(
-        "A dedicated team supports your journey in China and keeps follow-up communication moving after your appointment.",
-        "专属团队支持你的赴华行程，并在就诊后继续协调后续沟通。",
-        "Выделенная команда сопровождает вашу поездку в Китай и помогает поддерживать связь после приёма.",
-        "Un equipo dedicado te acompaña durante tu viaje a China y mantiene la comunicación de seguimiento tras la cita.",
-      ),
+      title: c("Meet the specialist online", "线上与专家面谈", "Онлайн-встреча со специалистом", "Conoce al especialista en línea"),
+      detail: c("Ask everything by video, then receive your written quote.", "通过视频问清所有问题，再收到书面报价。", "Задайте все вопросы по видео и получите письменную смету.", "Pregunta todo por video y recibe tu presupuesto por escrito."),
+    },
+    {
+      title: c("Fly in, we take it from there", "飞来中国，其余交给我们", "Прилетайте — дальше мы всё возьмём на себя", "Vuela y nosotros nos encargamos"),
+      detail: c("Airport pickup, hotel, interpreter, treatment day and follow up.", "接机、酒店、翻译、治疗当天陪同及后续跟进。", "Встреча в аэропорту, отель, переводчик, день процедуры и наблюдение.", "Recogida en el aeropuerto, hotel, intérprete, día del tratamiento y seguimiento."),
     },
   ];
   return (
     <HomeSection id="projects" tone="white" ariaLabelledBy="why-celadonchina-title">
-      <SectionHeader
-        icon={ShieldCheck}
-        eyebrow={c("Why choose us", "为什么选择我们", "Почему выбирают нас", "Por qué elegirnos")}
-        titleId="why-celadonchina-title"
-        title={<>{c("Make your aesthetic journey in China", "让赴华变美", "Сделайте эстетическое путешествие в Китай", "Haz que tu viaje estético a China sea")} <em className="not-italic text-brand">{c("simpler than you imagined.", "比想象中更简单。", "проще, чем вы думали.", "más sencillo de lo que imaginabas.")}</em></>}
-        subtitle={c(
-          "From online consultation and airport pickup to hospital admission, interpretation and follow-up, every step is coordinated. Access a China-wide network of 300+ specialists and meet the one who fits you.",
-          "从线上问诊、接送机，到入院、翻译和后续跟进，每一步都有人协调，不必再靠猜。连接覆盖中国的 300+ 医美专家网络，帮你找到最适合你的那一位。",
-          "От онлайн-консультации и встречи в аэропорту до госпитализации, перевода и последующего наблюдения — каждый шаг скоординирован. Получите доступ к сети из более чем 300 специалистов по всему Китаю и найдите своего специалиста.",
-          "Desde la consulta en línea y la recogida en el aeropuerto hasta el ingreso, la interpretación y el seguimiento, cada paso está coordinado. Accede a una red de más de 300 especialistas en China y conoce al que mejor encaja contigo.",
-        )}
-      />
-
-      <div className="grid gap-4 md:grid-cols-3 md:gap-6" aria-label={c("Three reasons to choose Sino Aesthetics", "选择 Sino Aesthetics 的三个理由", "Три причины выбрать Sino Aesthetics", "Tres razones para elegir Sino Aesthetics")}>
-        {whyReasons.map((reason, index) => (
-          <article key={reason.key} className="home-proof-card group relative min-h-[340px] overflow-hidden rounded-3xl bg-foreground shadow-soft md:min-h-[420px]">
-            <img src={reason.image} {...responsiveImageProps(reason.image)} alt="" loading="lazy" decoding="async" className="absolute inset-0 z-0 size-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.025]" />
-            <div className="absolute inset-0 z-[1] bg-gradient-to-t from-foreground/95 via-foreground/45 to-transparent" />
-            <div className="relative z-10 flex min-h-[340px] flex-col justify-between p-6 text-background sm:p-7 md:min-h-[420px]">
-              <span className="inline-flex size-10 items-center justify-center rounded-full border border-background/30 bg-foreground/20 text-sm font-semibold backdrop-blur">0{index + 1}</span>
-              <div>
-                <p className="mb-2 text-label font-semibold uppercase tracking-[0.16em] text-background/65">{reason.eyebrow}</p>
-                <h3 className="max-w-sm font-display text-2xl font-medium leading-[1.08] sm:text-[1.65rem]">{reason.title}</h3>
-                {/* Three reserved lines so the eyebrow and title sit at the same height in all three cards. */}
-                <p className="mt-3 min-h-[4.5rem] max-w-md text-sm leading-relaxed text-background/78">{reason.detail}</p>
-              </div>
-            </div>
-          </article>
-        ))}
+      <div className="mb-8 flex flex-col gap-4 md:mb-10 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p className="mb-3 text-label font-semibold uppercase tracking-[0.16em] text-brand">{c("How it works", "服务流程", "Как это работает", "Cómo funciona")}</p>
+          <h2 id="why-celadonchina-title" className="font-display text-3xl font-medium leading-tight text-foreground sm:text-4xl">{c("It starts with a two minute form.", "从一份两分钟的表单开始。", "Всё начинается с двухминутной формы.", "Todo empieza con un formulario de dos minutos.")}</h2>
+        </div>
+        <p className="max-w-xs text-sm leading-relaxed text-muted-foreground">{c("You only pay for treatment once you have met the specialist and accepted the written quote.", "只有在与专家面谈并接受书面报价后，你才需要支付治疗费用。", "Вы платите за лечение только после встречи со специалистом и согласия с письменной сметой.", "Solo pagas el tratamiento después de conocer al especialista y aceptar el presupuesto por escrito.")}</p>
       </div>
+      <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {steps.map((step, index) => {
+          const last = index === steps.length - 1;
+          return (
+            <li key={index} className={`rounded-2xl border p-6 ${last ? "border-transparent bg-brand text-primary-foreground" : "border-border bg-card text-foreground"}`}>
+              <span className={`block font-display text-4xl font-light ${last ? "" : "text-brand"}`}>{String(index + 1).padStart(2, "0")}</span>
+              <h3 className="mt-5 text-base font-semibold leading-snug">{step.title}</h3>
+              <p className={`mt-3 text-sm leading-relaxed ${last ? "opacity-90" : "text-muted-foreground"}`}>{step.detail}</p>
+            </li>
+          );
+        })}
+      </ol>
     </HomeSection>
   );
 };
