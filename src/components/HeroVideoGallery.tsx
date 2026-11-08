@@ -169,7 +169,7 @@ const HeroVideoGallery = ({ items, lang, size = "default", layout = "rail" }: He
               const offset = index - (visibleItems.length - 1) / 2;
               return (
                 <div key={item.id} className="hero-arc__slot" style={{ "--arc-offset": offset, "--arc-distance": Math.abs(offset), "--arc-index": index } as CSSProperties}>
-                  <GalleryCard item={item} lang={lang} onPlay={openPlayer} size="default" priority={index < 3} cinematic />
+                  <GalleryCard item={item} lang={lang} onPlay={openPlayer} size="default" priority={index === 0} cinematic />
                 </div>
               );
             })}
@@ -181,7 +181,7 @@ const HeroVideoGallery = ({ items, lang, size = "default", layout = "rail" }: He
       ) : size === "large" ? (
         <>
           <div className="overflow-hidden rounded-[1.5rem] border border-primary/15 bg-foreground p-2 text-white shadow-pop md:hidden">
-            <video ref={mobileExplainer.attachRef} key={`mobile-${activeExplainer.id}`} src={activeExplainer.src} poster={activeExplainer.poster} controls playsInline preload="metadata" className="aspect-video w-full rounded-[1.1rem] bg-black object-cover" />
+            <video ref={mobileExplainer.attachRef} key={`mobile-${activeExplainer.id}`} src={activeExplainer.src} poster={activeExplainer.poster} controls playsInline preload="none" className="aspect-video w-full rounded-[1.1rem] bg-black object-cover" />
             <div className="p-4">
               <button type="button" onClick={mobileExplainer.toggle} className="mb-3 inline-flex min-h-11 items-center gap-2 rounded-full bg-white px-4 text-sm font-semibold text-foreground">{mobileExplainer.playing ? <Pause className="size-4" /> : <Play className="size-4" />}{mobileExplainer.playing ? controlCopy.pause : controlCopy.play}</button>
               {mobileExplainer.playbackFailed && <p role="status" className="mb-3 text-sm text-white">{controlCopy.failed}</p>}
@@ -202,7 +202,7 @@ const HeroVideoGallery = ({ items, lang, size = "default", layout = "rail" }: He
             <div className="relative h-[560px] overflow-hidden rounded-[1.45rem] bg-foreground lg:h-[610px]">
               {activeExplainer && (
                 <>
-                  <video ref={explainer.attachRef} key={activeExplainer.id} src={activeExplainer.src} poster={activeExplainer.poster} muted playsInline preload="metadata" className="absolute inset-0 size-full object-cover opacity-75" />
+                  <video ref={explainer.attachRef} key={activeExplainer.id} src={activeExplainer.src} poster={activeExplainer.poster} muted playsInline preload="none" className="absolute inset-0 size-full object-cover opacity-75" />
                   <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(5,28,23,.88)_0%,rgba(5,28,23,.52)_42%,rgba(5,28,23,.16)_72%,rgba(5,28,23,.42)_100%)]" />
                   <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[44%] bg-gradient-to-t from-black/95 via-black/60 to-transparent" />
 
