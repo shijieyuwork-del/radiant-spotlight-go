@@ -38,16 +38,18 @@ describe("homepage media loading policy", () => {
   it("mounts a deferred section only within the 300px approach boundary", () => {
     let notify: IntersectionObserverCallback | undefined;
     const observe = vi.fn();
-    vi.stubGlobal("IntersectionObserver", class {
+    const original = globalThis.IntersectionObserver;
+    globalThis.IntersectionObserver = class {
       constructor(callback: IntersectionObserverCallback, options: IntersectionObserverInit) { notify = callback; expect(options.rootMargin).toBe("300px"); }
       observe = observe;
       disconnect() {}
-    });
+    } as unknown as typeof IntersectionObserver;
     const mount = vi.fn();
     function Content() { mount(); return null; }
     render(<LoadOnApproach server={null} fallback={null}><Content /></LoadOnApproach>);
     expect(mount).not.toHaveBeenCalled();
     act(() => notify?.([{ isIntersecting: true } as IntersectionObserverEntry], {} as IntersectionObserver));
     expect(mount).toHaveBeenCalled();
+    globalThis.IntersectionObserver = original;
   });
 });
