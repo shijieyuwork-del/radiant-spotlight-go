@@ -489,7 +489,6 @@ export type Database = {
       }
       videos: {
         Row: {
-          placement: string
           caption: string | null
           city: string | null
           cover_path: string | null
@@ -497,13 +496,13 @@ export type Database = {
           doctor_id: string | null
           i18n: Json
           id: string
+          placement: string
           procedure: string | null
           status: string
           storage_path: string
           title: string
         }
         Insert: {
-          placement?: string
           caption?: string | null
           city?: string | null
           cover_path?: string | null
@@ -511,13 +510,13 @@ export type Database = {
           doctor_id?: string | null
           i18n?: Json
           id?: string
+          placement?: string
           procedure?: string | null
           status?: string
           storage_path: string
           title: string
         }
         Update: {
-          placement?: string
           caption?: string | null
           city?: string | null
           cover_path?: string | null
@@ -525,6 +524,7 @@ export type Database = {
           doctor_id?: string | null
           i18n?: Json
           id?: string
+          placement?: string
           procedure?: string | null
           status?: string
           storage_path?: string
