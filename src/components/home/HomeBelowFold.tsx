@@ -459,8 +459,8 @@ export const TreatmentsSection = () => {
         {steps.map((step, index) => {
           const last = index === steps.length - 1;
           return (
-            <li key={index} className={`rounded-2xl border p-6 ${last ? "border-transparent bg-brand text-primary-foreground" : "border-border bg-card text-foreground"}`}>
-              <span className={`block font-display text-4xl font-light ${last ? "" : "text-brand"}`}>{String(index + 1).padStart(2, "0")}</span>
+            <li key={index} className={`rounded-2xl border p-6 ${last ? "border-transparent bg-brand text-background" : "border-border bg-card text-foreground"}`}>
+              <span className={`block font-display text-4xl font-light ${last ? "opacity-80" : "text-brand"}`}>{String(index + 1).padStart(2, "0")}</span>
               <h3 className="mt-5 text-base font-semibold leading-snug">{step.title}</h3>
               <p className={`mt-3 text-sm leading-relaxed ${last ? "opacity-90" : "text-muted-foreground"}`}>{step.detail}</p>
             </li>
