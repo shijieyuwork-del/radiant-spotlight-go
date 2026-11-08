@@ -161,7 +161,6 @@ const Hero = () => {
   const { t, lang, fmt } = useAsia();
   const hero = getHomeHeroCopy(lang);
   const { open: openQuote } = useQuote();
-  const policy = getCoordinationPolicy(lang);
   // 后台上传并发布的视频排在演示日记前面
   const uploaded = usePublishedVideos(lang);
   const diaryItems = [...uploaded, ...TIKTOK_CASES];
@@ -180,10 +179,6 @@ const Hero = () => {
             <p className="mt-4 text-xs font-semibold uppercase tracking-[0.14em] text-primary">{hero.audience}</p>
             <h1 className="cinematic-hero__title !max-w-[24ch] !text-[clamp(1.75rem,4.3vw,4rem)] !leading-[1.18] !tracking-[-0.025em]">{lang === "zh" ? <><span className="block">让赴华医美</span><span className="block">少一些陌生与不确定</span></> : hero.title}</h1>
             <p className="cinematic-hero__subtitle !max-w-[38rem] !leading-[1.85]">{hero.subtitle}</p>
-            <div className="mx-auto mb-2 mt-7 max-w-2xl rounded-2xl border border-primary/15 bg-background/90 px-5 py-5 shadow-sm backdrop-blur-sm sm:px-8" data-testid="home-payment-transparency">
-              <p className="text-base font-semibold text-foreground sm:text-lg">{hero.paymentHeadline}</p>
-              <p className="mx-auto mt-2 max-w-xl text-sm leading-7 text-muted-foreground">{policy.initialText} {hero.paymentDetail}</p>
-            </div>
 
             <div className="cinematic-hero__actions mx-auto flex max-w-3xl flex-col justify-center gap-3 sm:flex-row">
               <Button asChild size="lg" className="h-auto min-h-[3.25rem] w-full rounded-full px-6 py-3 text-[15px] font-semibold sm:w-auto">
