@@ -97,7 +97,7 @@ function renderMeta({ title, absoluteTitle = false, description, path: p, image,
   const { SITE_URL, SITE_NAME, OG_IMAGE, TWITTER_HANDLE } = cfg;
   const url = `${SITE_URL}${p}`;
   const branded = `${title} | ${SITE_NAME}`;
-  const full = absoluteTitle || title.includes(SITE_NAME)
+  const full = absoluteTitle || title.includes(SITE_NAME) || branded.length > 65 ? title : branded;
   const img = image && !image.startsWith("data:") && !image.startsWith("/src/") ? image : OG_IMAGE;
 
   const tags = [
