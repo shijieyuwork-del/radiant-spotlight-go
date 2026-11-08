@@ -22,6 +22,14 @@ export type BeforeAfterRow = {
   doctorName?: string;
 };
 
+/** Cases removed from every public surface while remaining recoverable in the CMS. */
+export const HIDDEN_BEFORE_AFTER_CASE_IDS = new Set([
+  "ef30ef01-8645-40a7-a030-eca9ba9ce109", // Facial Firming Comparison · Bo Li · 03
+  "22a618c3-69bc-46ca-8574-de1d57c55592", // Facial Tightening Before and After · Bo Li · 01
+]);
+
+export const isBeforeAfterCaseVisible = (id: string) => !HIDDEN_BEFORE_AFTER_CASE_IDS.has(id);
+
 /** 已发布的术前术后对比案例（带签名图片链接、专家姓名，内容变更实时刷新）。 */
 export const usePublishedBeforeAfter = (lang: Lang, doctorId?: string) => {
   const [items, setItems] = useState<BeforeAfterRow[]>([]);
@@ -35,7 +43,7 @@ export const usePublishedBeforeAfter = (lang: Lang, doctorId?: string) => {
       .order("created_at", { ascending: false });
     if (doctorId) query = query.eq("doctor_id", doctorId);
     const { data } = await query;
-    const rows = (data ?? []) as BeforeAfterRow[];
+    const rows = ((data ?? []) as BeforeAfterRow[]).filter((row) => isBeforeAfterCaseVisible(row.id));
 
     const doctorIds = [...new Set(rows.map((r) => r.doctor_id).filter((v): v is string => Boolean(v)))];
     const names = new Map<string, string>();
