@@ -163,6 +163,12 @@ function buildRoutes(d) {
         "Explore cosmetic care journey previews by procedure and city in China, with recovery-stage information where available.",
     },
     {
+      path: "/before-after",
+      title: "Before & After Photo Results in China",
+      description:
+        "Review published before-and-after photo sets from listed specialists in China, with procedure and provider context where available.",
+    },
+    {
       path: "/travel-packages",
       title: "China Medical Travel Support",
       description: "Plan cosmetic care in China with clear payment terms, airport pickup, in-clinic translation, accommodation guidance and coordinated follow-up.",
@@ -416,7 +422,28 @@ async function main() {
       MARKER,
       `<!--SEO-->\n${renderMeta(r, cfg)}\n    <!--/SEO-->`
     );
-    const isSsgRoute = r.path === "/medical-tourism-china" ||
+    const staticContentRoutes = new Set([
+      "/",
+      "/cases",
+      "/before-after",
+      "/doctors",
+      "/clinics",
+      "/travel-packages",
+      "/why-china",
+      "/privacy",
+      "/about",
+      "/contact",
+      "/terms",
+      "/legal-notice",
+      "/provider-verification",
+      "/medical-review-policy",
+      "/editorial-policy",
+      "/lp/rhinoplasty-china",
+      "/lp/blepharoplasty-china",
+      "/lp/facelift-china",
+    ]);
+    const isSsgRoute = staticContentRoutes.has(r.path) ||
+      r.path === "/medical-tourism-china" ||
       r.path.startsWith("/medical-tourism-china/") ||
       r.path === "/china-vs-korea-cosmetic-surgery" ||
       r.path === "/cosmetic-surgery-tourism-china" ||
@@ -424,8 +451,6 @@ async function main() {
       r.path === "/choose-plastic-surgeon-china" ||
       r.path === "/cosmetic-surgery-recovery-china" ||
       r.path === "/plastic-surgery-china" ||
-      r.path === "/about" ||
-      r.path === "/travel-packages" ||
       r.path === "/treatments" || r.path.startsWith("/treatments/") ||
       r.path === "/cities" || r.path.startsWith("/cities/") ||
       r.path === "/clinics" || r.path.startsWith("/clinics/");
