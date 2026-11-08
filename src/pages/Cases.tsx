@@ -6,6 +6,7 @@ import PageMeta from "@/components/PageMeta";
 import TikTokWall, { type TikTokItem } from "@/components/TikTokWall";
 import { Pagination, SortChips } from "@/components/ListControls";
 import CasesFilterDisclosure from "@/components/CasesFilterDisclosure";
+import CasesFilterSidebar from "@/components/CasesFilterSidebar";
 import CaseCategoryNavigation, { caseCategoryLabel, matchesCaseCategory } from "@/components/CaseCategoryNavigation";
 import { PATIENT_DIARY_CASES, mergePatientDiaryCases } from "@/data/patientDiaryCases";
 import { usePublishedVideosState } from "@/hooks/use-published-videos";
@@ -209,9 +210,24 @@ const Cases = () => {
           </p>
         </div>
 
-        <CaseCategoryNavigation items={ALL_CASES} value={activeTreatment} onSelect={setActiveTreatment} />
+        <div className="lg:grid lg:grid-cols-[280px_minmax(0,1fr)] lg:items-start lg:gap-8">
+        <div className="hidden lg:block">
+          <CasesFilterSidebar
+            title={c("Filter cases", "筛选案例", "Фильтр историй", "Filtrar casos", "กรองเรื่องราว", "Tapis kisah")}
+            clearLabel={c("Clear all", "清除全部", "Сбросить всё", "Borrar todo", "ล้างทั้งหมด", "Kosongkan")}
+            onClear={resetFilters}
+            groups={[
+              { id: "sort", title: c("Sort", "排序", "Сортировка", "Ordenar", "เรียงลำดับ", "Susun"), allLabel: "", value: sort, options: sortOptions, onChange: setSort, variant: "chips", includeAll: false },
+              { id: "treatment", title: c("Procedure type", "项目类型", "Тип процедуры", "Tipo de procedimiento", "ประเภทหัตถการ", "Jenis prosedur"), allLabel: c("All procedures", "全部项目", "Все процедуры", "Todos los procedimientos", "ทุกหัตถการ", "Semua prosedur"), value: activeTreatment, options: treatments, onChange: setActiveTreatment },
+              { id: "stage", title: c("Recovery stage", "恢复阶段", "Этап восстановления", "Etapa de recuperación", "ระยะการฟื้นตัว", "Peringkat pemulihan"), allLabel: c("All recovery stages", "全部恢复阶段", "Все этапы восстановления", "Todas las etapas de recuperación", "ทุกระยะการฟื้นตัว", "Semua peringkat pemulihan"), value: activeStage, options: stageOptions, onChange: setActiveStage },
+              { id: "city", title: c("City", "城市", "Город", "Ciudad", "เมือง", "Bandar"), allLabel: c("All cities", "全部城市", "Все города", "Todas las ciudades", "ทุกเมือง", "Semua bandar"), value: activeCity, options: cityOptions, onChange: setActiveCity, variant: "chips" },
+            ]}
+          />
+        </div>
+        <div className="min-w-0">
+        <div className="lg:hidden"><CaseCategoryNavigation items={ALL_CASES} value={activeTreatment} onSelect={setActiveTreatment} /></div>
 
-        <div className="mx-auto mb-3 flex max-w-3xl rounded-2xl border border-border/70 bg-card shadow-soft sm:rounded-full">
+        <div className="mx-auto mb-3 flex max-w-3xl rounded-2xl lg:max-w-none border border-border/70 bg-card shadow-soft sm:rounded-full">
           <div className="flex min-h-12 min-w-0 flex-1 items-center gap-3 px-4 py-3">
             <Search className="size-4 text-muted-foreground shrink-0" />
             <input
@@ -226,6 +242,7 @@ const Cases = () => {
           </div>
         </div>
 
+        <div className="lg:hidden">
         <CasesFilterDisclosure
           expanded={filtersOpen}
           onExpandedChange={setFiltersOpen}
@@ -248,6 +265,7 @@ const Cases = () => {
           />
           </div>
         </CasesFilterDisclosure>
+        </div>
         <div className="mb-3">
           {sort === "distance" && (
             <p className="mt-2 flex flex-wrap items-center justify-center gap-1 text-center text-label text-muted-foreground">
@@ -290,6 +308,8 @@ const Cases = () => {
             <Pagination page={safePage} totalPages={totalPages} onChange={setPage} />
           </div>
         )}
+        </div>
+        </div>
 
         <aside className="mt-10 overflow-hidden rounded-[2rem] border border-primary/15 bg-gradient-to-r from-[hsl(158,58%,90%)] via-[hsl(145,48%,91%)] to-[hsl(50,80%,91%)] px-5 py-7 shadow-soft sm:mt-14 sm:px-8 sm:py-9 md:flex md:items-center md:justify-between md:gap-8">
           <div className="max-w-2xl">
