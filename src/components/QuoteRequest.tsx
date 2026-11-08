@@ -1,8 +1,8 @@
-import { createContext, lazy, Suspense, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import { ArrowRight, MessageCircle } from "lucide-react";
 import { useAsia } from "@/lib/asia-i18n";
 import { trackEvent } from "@/lib/analytics";
-const ConsultationDialog = lazy(() => import("@/components/ConsultationDialog").then((module) => ({ default: module.ConsultationDialog })));
+import { ConsultationDialog } from "@/components/ConsultationDialog";
 import { getConsultationPickerCopy } from "@/lib/consultation-picker-copy";
 
 export interface QuoteContext {
@@ -41,7 +41,7 @@ export const QuoteProvider = ({ children }: { children: ReactNode }) => {
   return (
     <QuoteCtx.Provider value={{ open, close }}>
       {children}
-      {isOpen && <Suspense fallback={null}><ConsultationDialog key={session} isOpen={isOpen} onOpenChange={setIsOpen} ctx={ctx} onCloseAutoFocus={restoreFocus} /></Suspense>}
+      <ConsultationDialog key={session} isOpen={isOpen} onOpenChange={setIsOpen} ctx={ctx} onCloseAutoFocus={restoreFocus} />
     </QuoteCtx.Provider>
   );
 };

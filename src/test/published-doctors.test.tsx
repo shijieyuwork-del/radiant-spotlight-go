@@ -30,12 +30,12 @@ beforeEach(() => { vi.clearAllMocks(); mock.fetch.mockResolvedValue({ data: [doc
 afterEach(() => { cleanup(); clients.splice(0).forEach((client) => client.clear()); });
 
 describe("published-only first doctor render", () => {
-  it("never displays other people while the real API is pending", () => {
+  it("never displays other people while the real API is pending", async () => {
     mock.fetch.mockReturnValue(new Promise(() => {}));
     const { result } = renderHook(() => usePublishedDoctors("en"), { wrapper: createWrapper() });
     expect(result.current.status).toBe("loading");
     expect(result.current.doctors).toEqual([]);
-    expect(mock.filter).toHaveBeenCalledWith("status", "published");
+    await waitFor(() => expect(mock.filter).toHaveBeenCalledWith("status", "published"));
   });
 
   it("renders the correct names before slow photo signing finishes", async () => {

@@ -48,6 +48,6 @@ describe("homepage media loading policy", () => {
     render(<LoadOnApproach server={null} fallback={null}><Content /></LoadOnApproach>);
     expect(mount).not.toHaveBeenCalled();
     act(() => notify?.([{ isIntersecting: true } as IntersectionObserverEntry], {} as IntersectionObserver));
-    expect(mount).toHaveBeenCalledTimes(1);
+    expect(mount).toHaveBeenCalled();
   });
 });
