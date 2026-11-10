@@ -1,3 +1,4 @@
+import { whatsappUrl } from "@/lib/consultation-handoff";
 import { useNavigate } from "react-router-dom";
 import { MapPin, ArrowRight, Stethoscope, Wallet, MessageCircle, Building2, Video } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
@@ -93,7 +94,7 @@ const Cities = () => {
               )}
             </p>
             <a
-              href="https://wa.me/14708613825"
+              href={whatsappUrl()}
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90"
@@ -225,7 +226,7 @@ const Cities = () => {
           </div>
           <div className="flex md:justify-end">
             <a
-              href={`https://wa.me/14708613825?text=${encodeURIComponent(
+              href={whatsappUrl(
                 lang === "zh"
                   ? "你好 Sino Aesthetics，我想咨询一个目前城市列表中没有的城市。"
                   : lang === "ru"
@@ -233,7 +234,7 @@ const Cities = () => {
                     : lang === "es"
                       ? "Hola Sino Aesthetics, me gustaría preguntar por una ciudad que no está en la lista actual."
                       : "Hi Sino Aesthetics, I’d like to ask about a city that is not currently listed."
-              )}`}
+              )}
               target="_blank"
               rel="noreferrer"
               className="cta-primary inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full px-7 py-3 text-sm font-semibold transition md:w-auto"

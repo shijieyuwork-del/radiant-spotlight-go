@@ -15,7 +15,7 @@ vi.mock("@/components/Footer", () => ({ default: () => null }));
 vi.mock("@/components/PageMeta", () => ({ default: () => null }));
 vi.mock("@/components/MedicalDisclaimer", () => ({ MedicalDisclaimer: () => null }));
 vi.mock("@/components/QuoteRequest", () => ({ useQuote: () => ({ open: vi.fn() }) }));
-vi.mock("@/components/QuoteCtaButton", () => ({ default: () => null, QUOTE_WHATSAPP_URL: "https://wa.me/14708613825" }));
+vi.mock("@/components/QuoteCtaButton", () => ({ default: () => null, QUOTE_WHATSAPP_URL: "https://wa.me/8618267830823" }));
 vi.mock("@/lib/asia-i18n", () => ({ useAsia: () => ({ lang: "en", t: (key: string) => key }) }));
 vi.mock("@/data/medicalTourismGuides", () => ({
   findMedicalTourismGuide: () => ({

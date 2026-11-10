@@ -1,3 +1,4 @@
+import { whatsappUrl } from "@/lib/consultation-handoff";
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { ArrowLeft, ArrowRight, ClipboardList, MessageCircle, Sparkles } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
@@ -133,7 +134,7 @@ export const ConsultationDialog = ({ isOpen, onOpenChange, ctx, onCloseAutoFocus
     const emailSubject = `${intent === "question" ? copy.questionTitle : copy.carePlanTitle}${subject ? ` — ${subject}` : ""}`;
     const url = contactMethod === "email"
       ? `mailto:contact@sinoaesthetics.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(message)}`
-      : `https://wa.me/14708613825?text=${encodeURIComponent(message)}`;
+      : whatsappUrl(message);
     setDraft({ message, url, method: contactMethod });
     void saveRequest(message);
     setOpenError(false);

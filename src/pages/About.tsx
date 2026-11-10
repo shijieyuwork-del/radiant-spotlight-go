@@ -1,3 +1,4 @@
+import { CONSULTATION_EMAIL, CONSULTATION_PHONE, whatsappUrl } from "@/lib/consultation-handoff";
 import { ArrowRight, Building2, HeartHandshake, Plane, Languages, Hotel, Headphones, Wallet } from "lucide-react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
@@ -118,7 +119,7 @@ const About = () => {
               ["What it is", "An information and non-clinical coordination platform for international patients. Our service area is China only."],
               ["What it covers", "Cosmetic surgery in China, provider research, consultation preparation, travel logistics, translation and follow-up coordination."],
               ["Who delivers care", "Independent treating clinicians and licensed medical facilities—not Sino Aesthetics."],
-              ["How to contact us", "Email contact@sinoaesthetics.com or use WhatsApp at +1 470 861 3825."],
+              ["How to contact us", `Email ${CONSULTATION_EMAIL} or use WhatsApp at ${CONSULTATION_PHONE}.`],
             ].map(([term, detail]) => (
               <div key={term} className="rounded-2xl border border-border bg-muted/35 p-4">
                 <dt className="font-semibold text-foreground">{term}</dt>
@@ -169,7 +170,7 @@ const About = () => {
         </TrustSection>
 
         <TrustSection title="Contact and accountability">
-          <p>Questions about a profile, a policy, or a correction can be sent to <a className="font-semibold text-foreground underline decoration-primary/50 underline-offset-4" href="mailto:contact@sinoaesthetics.com">contact@sinoaesthetics.com</a>. For travel coordination, you can also contact us on WhatsApp at <a className="font-semibold text-foreground underline decoration-primary/50 underline-offset-4" href="https://wa.me/14708613825">+1 470 861 3825</a>.</p>
+          <p>Questions about a profile, a policy, or a correction can be sent to <a className="font-semibold text-foreground underline decoration-primary/50 underline-offset-4" href={`mailto:${CONSULTATION_EMAIL}`}>{CONSULTATION_EMAIL}</a>. For travel coordination, you can also contact us on WhatsApp at <a className="font-semibold text-foreground underline decoration-primary/50 underline-offset-4" href={whatsappUrl()}>{CONSULTATION_PHONE}</a>.</p>
         </TrustSection>
       </TrustPageLayout>
     </>

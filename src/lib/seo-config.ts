@@ -1,3 +1,4 @@
+import { CONSULTATION_EMAIL, CONSULTATION_PHONE_E164 } from "@/lib/consultation-handoff";
 /**
  * 中央 SEO 配置
  * 域名改过后，只需改这一处
@@ -32,8 +33,8 @@ export const ORGANIZATION_ENTITY = {
     "@type": "ImageObject",
     url: `${SITE_URL}/ca-favicon.svg`,
   },
-  email: "contact@sinoaesthetics.com",
-  telephone: "+1-470-861-3825",
+  email: CONSULTATION_EMAIL,
+  telephone: CONSULTATION_PHONE_E164,
   address: {
     "@type": "PostalAddress",
     streetAddress: "Room 18, 2/F, TusPark, 118 Wai Yip Street",
@@ -56,8 +57,8 @@ export const ORGANIZATION_ENTITY = {
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "Customer Service",
-    telephone: "+1-470-861-3825",
-    email: "contact@sinoaesthetics.com",
+    telephone: CONSULTATION_PHONE_E164,
+    email: CONSULTATION_EMAIL,
     availableLanguage: ["English", "Chinese", "Russian", "Spanish"],
   },
 };

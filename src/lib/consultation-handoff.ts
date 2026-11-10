@@ -4,7 +4,13 @@ import type { QuoteContext } from "@/components/QuoteRequest";
 
 export type ContactMethod = "email" | "whatsapp";
 export const CONSULTATION_EMAIL = "contact@sinoaesthetics.com";
-export const CONSULTATION_PHONE = "+1 470 861 3825";
+export const CONSULTATION_PHONE = "+86 182 6783 0823";
+export const CONSULTATION_PHONE_E164 = CONSULTATION_PHONE.replace(/\s/g, "");
+
+export const whatsappUrl = (message?: string) => {
+  const url = `https://wa.me/${CONSULTATION_PHONE_E164.slice(1)}`;
+  return message ? `${url}?text=${encodeURIComponent(message)}` : url;
+};
 
 /** The existing coordinator message format; never stored or sent to analytics. */
 export const consultationMessage = (ctx: QuoteContext) => [
@@ -19,7 +25,7 @@ export const consultationHandoffUrl = (method: ContactMethod, ctx: QuoteContext)
   const message = encodeURIComponent(consultationMessage(ctx));
   return method === "email"
     ? `mailto:${CONSULTATION_EMAIL}?subject=${encodeURIComponent(`Consultation request${ctx.procedure ? ` — ${ctx.procedure}` : ""}`)}&body=${message}`
-    : `https://wa.me/14708613825?text=${message}`;
+    : whatsappUrl(consultationMessage(ctx));
 };
 
 type HandoffCopy = {

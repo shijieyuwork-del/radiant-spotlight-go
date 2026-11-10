@@ -1,12 +1,13 @@
+import { CONSULTATION_EMAIL, CONSULTATION_PHONE, CONSULTATION_PHONE_E164, whatsappUrl } from "@/lib/consultation-handoff";
 import { Building2, Mail, MapPin, Phone } from "lucide-react";
 
 export const COMPANY = {
   brandName: "Sino Aesthetics",
   legalName: "SinoAesthetics Limited",
   legalNameZh: "青慈有限公司",
-  email: "contact@sinoaesthetics.com",
-  telephone: "+1 470 861 3825",
-  telephoneHref: "+14708613825",
+  email: CONSULTATION_EMAIL,
+  telephone: CONSULTATION_PHONE,
+  telephoneHref: CONSULTATION_PHONE_E164,
   address: "Room 18, 2/F, TusPark, 118 Wai Yip Street, Kwun Tong, Kowloon, Hong Kong",
 } as const;
 
@@ -35,7 +36,7 @@ const CompanyDetails = ({ showContacts = false }: { showContacts?: boolean }) =>
         </div>
         <div className="grid gap-1 sm:grid-cols-[10rem_minmax(0,1fr)] sm:gap-4">
           <dt className="font-semibold text-foreground">Telephone / WhatsApp</dt>
-          <dd><a className="inline-flex items-center gap-2 text-muted-foreground underline decoration-primary/50 underline-offset-4 hover:text-foreground" href={`https://wa.me/${COMPANY.telephoneHref.replace("+", "")}`}><Phone className="size-4 text-primary" aria-hidden="true" />{COMPANY.telephone}</a></dd>
+          <dd><a className="inline-flex items-center gap-2 text-muted-foreground underline decoration-primary/50 underline-offset-4 hover:text-foreground" href={whatsappUrl()}><Phone className="size-4 text-primary" aria-hidden="true" />{COMPANY.telephone}</a></dd>
         </div>
       </>}
     </dl>

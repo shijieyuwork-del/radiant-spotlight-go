@@ -76,7 +76,7 @@ describe("two consultation paths", () => {
     fireEvent.change(dialog.getByLabelText("WhatsApp number"), { target: { value: "+44 7700 900123" } });
     submit();
     const url = new URL(vi.mocked(window.open).mock.calls[0][0] as string);
-    expect(url.origin + url.pathname).toBe("https://wa.me/14708613825");
+    expect(url.origin + url.pathname).toBe("https://wa.me/8618267830823");
     const message = url.searchParams.get("text")!;
     for (const text of ["Expert: Dr Lin", "Clinic or hospital: Listed Clinic", "Procedure: Rhinoplasty", "City in China: Shanghai", "WhatsApp number: +44 7700 900123"]) expect(message).toContain(text);
     expect(dialog.getByRole("link", { name: "Open WhatsApp message" })).toHaveAttribute("href", url.href);

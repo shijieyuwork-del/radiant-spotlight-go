@@ -1,3 +1,4 @@
+import { CONSULTATION_PHONE, whatsappUrl } from "@/lib/consultation-handoff";
 import { Link, useLocation } from "react-router-dom";
 import { DollarSign, Languages, Menu, ChevronRight, ChevronDown, MessageCircle, ArrowRight, User, LogOut, Phone, Mail, CalendarDays, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -97,9 +98,9 @@ const AsiaNavbar = ({ floating = false }: { floating?: boolean }) => {
         <div className="nav-contact-strip hidden h-11 bg-[hsl(var(--brand-emerald))] text-foreground xl:block">
           <div className="container flex h-full items-center justify-between gap-8 text-sm font-medium">
             <div className="flex items-center gap-6">
-              <a href="https://wa.me/14708613825" target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center gap-2 text-foreground/90 transition hover:text-foreground">
+              <a href={whatsappUrl()} target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center gap-2 text-foreground/90 transition hover:text-foreground">
                 <Phone className="size-4" aria-hidden="true" />
-                <span>+1 470 861 3825</span>
+                <span>{CONSULTATION_PHONE}</span>
               </a>
               <span className="h-5 w-px bg-foreground/20" aria-hidden="true" />
               <a href="mailto:contact@sinoaesthetics.com" className="inline-flex min-h-11 items-center gap-2 text-foreground/90 transition hover:text-foreground">

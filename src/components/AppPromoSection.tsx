@@ -1,6 +1,7 @@
+import { whatsappUrl } from "@/lib/consultation-handoff";
 import { ArrowRight, MapPin, MessageCircle, Play, Search, Smartphone, Star } from "lucide-react";
 
-const WAITLIST_URL = "https://wa.me/14708613825?text=Hi%2C%20please%20add%20me%20to%20the%20Sino Aesthetics%20app%20launch%20list.";
+const WAITLIST_URL = whatsappUrl("Hi, please add me to the Sino Aesthetics app launch list.");
 
 const AppPromoSection = () => (
   <section className="container py-12 md:py-16">

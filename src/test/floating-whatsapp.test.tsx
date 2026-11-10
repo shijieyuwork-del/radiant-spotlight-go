@@ -1,9 +1,9 @@
 /**
  * 浮动 WhatsApp 入口回归测试。
  *
- * 用户要求：站点已有 +1 470 861 3825，需要浮动 WhatsApp 按钮，并在移动端固定显示。
+ * 用户要求：站点已有 +86 182 6783 0823，需要浮动 WhatsApp 按钮，并在移动端固定显示。
  * 这里锁住三件事：
- *   1. 号码来自 consultationHandoffUrl（wa.me/14708613825），不得内联第二个号码；
+ *   1. 号码来自 consultationHandoffUrl（wa.me/8618267830823），不得内联第二个号码；
  *   2. 入口是固定在视口右下角的常驻控件（移动端不靠滚动才出现、也不隐藏）；
  *   3. 隐私提示展开时让位，内容管理页不显示。
  */
@@ -28,10 +28,10 @@ const bubble = () => screen.getByTestId("floating-whatsapp");
 afterEach(cleanup);
 
 describe("floating WhatsApp bubble", () => {
-  it("links to the site's existing coordinator number (+1 470 861 3825)", () => {
+  it("links to the site's existing coordinator number (+86 182 6783 0823)", () => {
     at("/");
     const link = bubble();
-    expect(link.getAttribute("href")).toContain("wa.me/14708613825");
+    expect(link.getAttribute("href")).toContain("wa.me/8618267830823");
     expect(link.getAttribute("href")).toBe(consultationHandoffUrl("whatsapp", {}));
     expect(link.getAttribute("target")).toBe("_blank");
     expect(link.getAttribute("rel")).toContain("noopener");

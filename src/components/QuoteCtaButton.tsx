@@ -1,3 +1,4 @@
+import { whatsappUrl } from "@/lib/consultation-handoff";
 import { ArrowRight, MessageCircle } from "lucide-react";
 import { useAsia } from "@/lib/asia-i18n";
 import { useQuote, type QuoteContext } from "@/components/QuoteRequest";
@@ -17,7 +18,7 @@ import { trackEvent } from "@/lib/analytics";
 
 /** 默认跳转：WhatsApp 起始对话（全站唯一来源） */
 export const QUOTE_WHATSAPP_URL =
-  "https://wa.me/14708613825?text=Hi%20Sino Aesthetics%2C%20I%20would%20like%20to%20start%20a%20free%20planning%20conversation%20about%20care%20in%20China.";
+  whatsappUrl("Hi Sino Aesthetics, I would like to start a free planning conversation about care in China.");
 
 const VARIANTS = {
   /** 深绿药丸（默认，与首页 Hero 截图一致） */

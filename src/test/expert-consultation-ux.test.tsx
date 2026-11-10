@@ -195,7 +195,7 @@ describe("published profile consultation", () => {
     fireEvent.change(dialog.getByLabelText("Your question"), { target: { value: "Which clinic does this expert work at?" } });
     fireEvent.click(dialog.getByRole("button", { name: "Continue on WhatsApp" }));
     const handoff = new URL(vi.mocked(window.open).mock.calls[0][0] as string);
-    expect(handoff.origin + handoff.pathname).toBe("https://wa.me/14708613825");
+    expect(handoff.origin + handoff.pathname).toBe("https://wa.me/8618267830823");
     expect(handoff.searchParams.get("text")).toContain("Expert: Published Expert");
     expect(handoff.searchParams.get("text")).toContain("City in China: Shanghai");
     await waitFor(() => expect(mocks.from).toHaveBeenCalledWith("quote_requests"));

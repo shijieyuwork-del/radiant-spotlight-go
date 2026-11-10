@@ -8,7 +8,7 @@ import { consultationHandoffUrl } from "@/lib/consultation-handoff";
 /**
  * Floating WhatsApp bubble.
  *
- * - 号码唯一来源：lib/consultation-handoff.ts 的 consultationHandoffUrl（+1 470 861 3825），
+ * - 号码唯一来源：lib/consultation-handoff.ts 的 consultationHandoffUrl，
  *   与咨询弹窗、页脚使用同一协调员号码，不得在此内联号码。
  * - 移动端常驻显示（不受滚动位置限制），桌面端同样保持可见。
  * - 隐私提示（ConsentBanner）展开时暂时让位，提示关闭后自动回到右下角。

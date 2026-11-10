@@ -1,3 +1,4 @@
+import { whatsappUrl } from "@/lib/consultation-handoff";
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Search, X, MapPin, MessageCircle } from "lucide-react";
@@ -138,7 +139,7 @@ export const CityQuickResults = ({ results, query }: { results: City[]; query?: 
           )}
         </p>
         <a
-          href="https://wa.me/14708613825"
+          href={whatsappUrl()}
           target="_blank"
           rel="noreferrer"
           className="inline-flex min-h-12 items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90"

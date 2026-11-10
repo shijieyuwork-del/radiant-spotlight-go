@@ -1,3 +1,4 @@
+import { whatsappUrl } from "@/lib/consultation-handoff";
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
@@ -304,7 +305,7 @@ const CaseDetail = () => {
                   <Link to={`/doctors/profile/${linkedExpert.id}`} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-primary/30 px-4 text-sm font-semibold text-brand transition hover:bg-primary/10">
                     {lang === "zh" ? "查看这位专家" : lang === "ru" ? "Подробнее о эксперте" : lang === "es" ? "Ver este experto" : "Browse this expert"}<ArrowRight className="size-4" />
                   </Link>
-                  <a href={`https://wa.me/14708613825?text=${encodeURIComponent(`Hi Sino Aesthetics, I’d like to ask about ${linkedExpert.name} and this ${item.treatment.en} case: https://sinoaesthetics.com/cases/${item.id}`)}`} target="_blank" rel="noreferrer" className="cta-primary inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-4 text-sm font-bold transition">
+                  <a href={whatsappUrl(`Hi Sino Aesthetics, I’d like to ask about ${linkedExpert.name} and this ${item.treatment.en} case: https://sinoaesthetics.com/cases/${item.id}`)} target="_blank" rel="noreferrer" className="cta-primary inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-4 text-sm font-bold transition">
                     {lang === "zh" ? "咨询这位专家" : lang === "ru" ? "Спросить об этом эксперте" : lang === "es" ? "Preguntar sobre este experto" : "Ask about this expert"}<MessageCircle className="size-4" />
                   </a>
                 </div>
@@ -335,7 +336,7 @@ const CaseDetail = () => {
                 <Link to={`/doctors/demo/${caseDoctor.id}`} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-primary/30 px-4 text-sm font-semibold text-brand transition hover:bg-primary/10">
                   {lang === "zh" ? "查看这位专家" : lang === "ru" ? "Подробнее о эксперте" : lang === "es" ? "Ver este experto" : "Browse this expert"}<ArrowRight className="size-4" />
                 </Link>
-                <a href={`https://wa.me/14708613825?text=${encodeURIComponent(`Hi Sino Aesthetics, I’d like to ask about ${caseDoctor.name} and this ${item.treatment.en} case: https://sinoaesthetics.com/cases/${item.id}`)}`} target="_blank" rel="noreferrer" className="cta-primary inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-4 text-sm font-bold transition">
+                <a href={whatsappUrl(`Hi Sino Aesthetics, I’d like to ask about ${caseDoctor.name} and this ${item.treatment.en} case: https://sinoaesthetics.com/cases/${item.id}`)} target="_blank" rel="noreferrer" className="cta-primary inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-4 text-sm font-bold transition">
                   {lang === "zh" ? "咨询这位专家" : lang === "ru" ? "Спросить об этом эксперте" : lang === "es" ? "Preguntar sobre este experto" : "Ask about this expert"}<MessageCircle className="size-4" />
                 </a>
               </div>
@@ -382,7 +383,7 @@ const CaseDetail = () => {
                       : "Send us this case and tell us your goals. We can help you compare experts and understand estimated pricing and recovery planning."}
               </p>
               <a
-                href={`https://wa.me/14708613825?text=${encodeURIComponent(`Hi Sino Aesthetics, I’m interested in this ${item.treatment.en} case: https://sinoaesthetics.com/cases/${item.id}`)}`}
+                href={whatsappUrl(`Hi Sino Aesthetics, I’m interested in this ${item.treatment.en} case: https://sinoaesthetics.com/cases/${item.id}`)}
                 target="_blank"
                 rel="noreferrer"
                 className="cta-primary mt-5 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl px-6 py-3 text-sm font-bold transition sm:w-auto sm:rounded-full"
