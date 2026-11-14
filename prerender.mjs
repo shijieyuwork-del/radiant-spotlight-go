@@ -321,12 +321,12 @@ function buildRoutes(d) {
       `Learn what to discuss when considering ${procedure.en} in China, including planning, provider checks, risks and next steps.`;
     routes.push({
       path: `/treatments/${procedure.slug}`,
-      title: `${procedure.en} in China | Procedure Overview`,
+      title: `${procedure.en} in China: Cost, Recovery & Consultation`,
       description,
       schema: {
         "@context": "https://schema.org",
         "@type": "MedicalWebPage",
-        name: `${procedure.en} in China | Procedure Overview`,
+        name: `${procedure.en} in China: Cost, Recovery & Consultation`,
         description,
         about: {
           "@type": "MedicalProcedure",
