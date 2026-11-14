@@ -77,6 +77,7 @@ const TreatmentDetail = () => {
           title="Procedure Not Found"
           description="The procedure guide you're looking for doesn't exist."
           path={`/treatments/${slug}`}
+          robots="noindex, follow"
         />
         <div className="min-h-screen bg-background">
           <AsiaNavbar />
@@ -409,7 +410,7 @@ const CatalogProcedureDetail = ({
   const schema = {
     "@context": "https://schema.org",
     "@type": "MedicalWebPage",
-    name: `${procedure.en} in China | Procedure Overview`,
+    name: `${procedure.en} in China: Cost, Recovery & Consultation`,
     description: brief?.overview[0] ?? treatment?.summaryEn ?? `Learn what to discuss when considering ${procedure.en} in China, including planning, provider checks, risks and next steps.`,
     about: { "@type": "MedicalProcedure", name: procedure.en },
     audience: { "@type": "Patient" },
@@ -420,7 +421,7 @@ const CatalogProcedureDetail = ({
   return (
     <>
       <PageMeta
-        title={`${procedure.en} in China | Procedure Overview`}
+        title={`${procedure.en} in China: Cost, Recovery & Consultation`}
         description={brief?.overview[0] ?? treatment?.summaryEn ?? `Learn what to discuss when considering ${procedure.en} in China, including planning, provider checks, risks and next steps.`}
         path={path}
         structuredData={schema}
@@ -434,7 +435,7 @@ const CatalogProcedureDetail = ({
 
           <section className="rounded-[2rem] border border-border/60 bg-card p-6 shadow-soft md:p-9">
             <span className="pill mb-3 bg-accent text-accent-foreground"><Stethoscope className="size-3.5" /> {zh ? procedure.categoryZh : procedure.categoryEn}</span>
-            <h1 className="font-display text-4xl font-medium tracking-tight md:text-5xl">{name}</h1>
+            <h1 className="font-display text-4xl font-medium tracking-tight md:text-5xl">{name}{zh ? "：中国项目指南" : " in China"}</h1>
             <p className="mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground">{description}</p>
           </section>
 
@@ -536,6 +537,15 @@ const CatalogProcedureDetail = ({
             </ExpandablePanel>
           </section>
 
+          <section className="mt-10 rounded-2xl border border-border/60 p-6">
+            <h2 className="font-display text-2xl">{zh ? "赴华面诊前，先确认这些信息" : "Before your consultation in China"}</h2>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{zh ? "确认接诊医生与机构、取得列明包含和不包含项目的书面报价，并明确翻译、行程及回国后随访由谁协调。个人术式、恢复时间与是否适合出行，应由接诊医生评估。" : "Confirm the treating clinician and facility, request an itemized written quote, and clarify language support, travel arrangements and follow-up after returning home. Your treating clinician assesses the procedure, recovery and fitness to travel."}</p>
+            <ul className="mt-4 flex flex-wrap gap-x-6 gap-y-3 text-sm text-brand">
+              <li><Link to="/provider-verification" className="underline underline-offset-4">{zh ? "医生与机构信息核查" : "Check clinician and facility information"}</Link></li>
+              <li><Link to="/travel-packages#support" className="underline underline-offset-4">{zh ? "费用、翻译与行程安排" : "Costs, interpretation and travel support"}</Link></li>
+              <li><Link to="/cosmetic-surgery-recovery-china" className="underline underline-offset-4">{zh ? "恢复与回国后衔接" : "Recovery and follow-up planning"}</Link></li>
+            </ul>
+          </section>
           <ProcedureVideoRow procedure={`${procedure.en} ${procedure.categoryEn}`} lang={lang} fmt={fmt} />
 
           <section className="mt-8 rounded-3xl bg-muted/45 p-6 md:p-8">
@@ -634,7 +644,7 @@ const ProcedureVideoRow = ({ procedure, lang, fmt }: { procedure: string; lang: 
           <p className="mt-1 text-sm text-muted-foreground">{c("Explore related procedure categories; these cases do not necessarily show the exact technique on this page.", "同类项目案例仅供了解，不代表采用了本页所有具体术式。", "Листайте, чтобы увидеть больше историй пациентов.", "Desliza para ver más historias de pacientes y actualizaciones de recuperación.")}</p>
         </div>
         <Button asChild variant="outline" className="w-fit rounded-full">
-          <Link to="/cases">{c("View all cases", "查看全部案例", "Все случаи", "Ver todos los casos")}<ArrowRight className="ml-2 size-4" /></Link>
+          <Link to="/before-after">{c("View all cases", "查看全部案例", "Все случаи", "Ver todos los casos")}<ArrowRight className="ml-2 size-4" /></Link>
         </Button>
       </div>
       <TikTokWall items={items} lang={lang} fmtPrice={fmt} variant="wall" caseHrefBase="/before-after?video=" />
