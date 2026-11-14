@@ -442,8 +442,8 @@ const CatalogProcedureDetail = ({
           <div className="mt-4 flex flex-col gap-2 rounded-2xl border border-primary/15 bg-primary/[0.045] px-4 py-3 text-xs leading-relaxed text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
             <p><span className="font-semibold text-foreground">{zh ? "资料经过编辑核对，尚未经临床医生逐篇审核。" : "Editorially researched, not medically reviewed."}</span> {zh ? "更新于 2026 年 11 月 1 日。" : "Updated November 1, 2026."}</p>
             <div className="flex flex-wrap gap-x-4 gap-y-1 font-semibold text-brand">
-              <Link to="/medical-review-policy" className="hover:underline">Medical review policy</Link>
-              <Link to="/editorial-policy" className="hover:underline">Editorial policy</Link>
+              <Link to="/medical-review-policy" className="hover:underline">{c("Medical review policy", "医疗内容审核政策", "Политика медицинского рецензирования", "Política de revisión médica")}</Link>
+              <Link to="/editorial-policy" className="hover:underline">{c("Editorial policy", "编辑政策", "Редакционная политика", "Política editorial")}</Link>
             </div>
           </div>
 
@@ -641,7 +641,7 @@ const ProcedureVideoRow = ({ procedure, lang, fmt }: { procedure: string; lang: 
           <h2 className="mt-3 font-display text-2xl font-medium tracking-tight md:text-3xl">
             {c("Watch related recovery diaries", "观看相关恢复短视频", "Смотрите дневники восстановления", "Ver diarios de recuperación relacionados")}
           </h2>
-          <p className="mt-1 text-sm text-muted-foreground">{c("Explore related procedure categories; these cases do not necessarily show the exact technique on this page.", "同类项目案例仅供了解，不代表采用了本页所有具体术式。", "Листайте, чтобы увидеть больше историй пациентов.", "Desliza para ver más historias de pacientes y actualizaciones de recuperación.")}</p>
+          <p className="mt-1 text-sm text-muted-foreground">{c("Explore related procedure categories; these cases do not necessarily show the exact technique on this page.", "同类项目案例仅供了解，不代表采用了本页所有具体术式。", "Случаи относятся к похожим категориям процедур и не обязательно показывают конкретную методику, описанную на этой странице.", "Los casos corresponden a categorías relacionadas y no muestran necesariamente la técnica específica descrita en esta página.")}</p>
         </div>
         <Button asChild variant="outline" className="w-fit rounded-full">
           <Link to="/before-after">{c("View all cases", "查看全部案例", "Все случаи", "Ver todos los casos")}<ArrowRight className="ml-2 size-4" /></Link>
