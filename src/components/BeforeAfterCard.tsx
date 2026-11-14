@@ -26,7 +26,25 @@ const BeforeAfterCard = ({
   single = false,
   layout = "portrait",
 }: BeforeAfterCardProps) => {
-  const { t } = useAsia();
+  const { t, lang } = useAsia();
+  const labels: Record<string, [string, string, string, string, string, string]> = {
+    en: ["Before", "After", "Case photo", "Image blurred", "Image visible", "Enlarged comparison photo"],
+    zh: ["术前", "术后", "案例照片", "图片已模糊", "图片已显示", "放大的术前术后对比照片"],
+    ru: ["До", "После", "Фото случая", "Изображение размыто", "Изображение видно", "Увеличенное фото до и после"],
+    es: ["Antes", "Después", "Foto del caso", "Imagen difuminada", "Imagen visible", "Foto comparativa ampliada"],
+    th: ["ก่อน", "หลัง", "ภาพกรณีตัวอย่าง", "ภาพถูกเบลอ", "แสดงภาพแล้ว", "ภาพเปรียบเทียบแบบขยาย"],
+    ms: ["Sebelum", "Selepas", "Foto kes", "Imej dikaburkan", "Imej dipaparkan", "Foto perbandingan diperbesar"],
+    vi: ["Trước", "Sau", "Ảnh trường hợp", "Ảnh đã làm mờ", "Ảnh đang hiển thị", "Ảnh so sánh phóng to"],
+    ko: ["시술 전", "시술 후", "사례 사진", "사진 흐림 처리됨", "사진 표시됨", "확대된 전후 비교 사진"],
+    ja: ["施術前", "施術後", "症例写真", "ぼかし表示", "写真を表示中", "拡大した施術前後の比較写真"],
+    ar: ["قبل", "بعد", "صورة الحالة", "الصورة مموهة", "الصورة ظاهرة", "صورة مقارنة مكبرة"],
+    "pt-BR": ["Antes", "Depois", "Foto do caso", "Imagem desfocada", "Imagem visível", "Foto comparativa ampliada"],
+    id: ["Sebelum", "Sesudah", "Foto kasus", "Gambar diburamkan", "Gambar ditampilkan", "Foto perbandingan diperbesar"],
+    fr: ["Avant", "Après", "Photo du cas", "Image floutée", "Image visible", "Photo comparative agrandie"],
+    de: ["Vorher", "Nachher", "Fallfoto", "Bild unscharf", "Bild sichtbar", "Vergrößertes Vergleichsfoto"],
+  };
+  const [beforeLabel, afterLabel, caseLabel, blurredLabel, visibleLabel, enlargedLabel] = labels[lang] ?? labels.en;
+  const comparisonLabel = beforeLabel + " · " + afterLabel;
   const [pos, setPos] = useState(50);
   const [blur, setBlur] = useState(defaultBlur);
   const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -44,17 +62,17 @@ const BeforeAfterCard = ({
       {/* Swipe reveal area */}
       {single ? (
         <div className={`relative cursor-zoom-in select-none ${layout === "wide" ? "aspect-[16/10]" : "aspect-[4/5]"}`} onClick={() => setLightboxOpen(true)}>
-          <img src={before} alt={`${procedure} before and after`} className={`absolute inset-0 size-full object-cover ${blur ? "blur-[14px] scale-110" : ""}`} />
-          <span className="absolute top-3 left-3 pill bg-background/90 backdrop-blur shadow-soft text-foreground">Before · After</span>
+          <img src={before} alt={`${procedure} — ${comparisonLabel}`} className={`absolute inset-0 size-full object-cover ${blur ? "blur-[14px] scale-110" : ""}`} />
+          <span className="absolute top-3 left-3 pill bg-background/90 backdrop-blur shadow-soft text-foreground">{comparisonLabel}</span>
           <span className="absolute bottom-3 left-3 pill bg-primary text-primary-foreground shadow-pop">
-            <ShieldCheck className="size-3.5" /> Verified Patient
+            <ShieldCheck className="size-3.5" /> {caseLabel}
           </span>
           <button
             onClick={(e) => { e.stopPropagation(); setBlur((b) => !b); }}
             className="absolute bottom-3 right-3 pill bg-background/90 backdrop-blur text-foreground hover:bg-background transition-colors"
             aria-pressed={blur}
           >
-            {blur ? <><EyeOff className="size-3.5" /> Privacy on</> : <><Eye className="size-3.5" /> Privacy off</>}
+            {blur ? <><EyeOff className="size-3.5" /> {blurredLabel}</> : <><Eye className="size-3.5" /> {visibleLabel}</>}
           </button>
         </div>
       ) : (
@@ -66,22 +84,22 @@ const BeforeAfterCard = ({
         onTouchMove={(e) => move(e.touches[0].clientX)}
       >
         {/* After (full) */}
-        <img src={after} alt={`${procedure} after`} className={`absolute inset-0 size-full object-cover ${blur ? "blur-[14px] scale-110" : ""}`} />
+        <img src={after} alt={`${procedure} — ${afterLabel}`} className={`absolute inset-0 size-full object-cover ${blur ? "blur-[14px] scale-110" : ""}`} />
         {/* Before (clipped via clip-path so both images stay full-size) */}
         <img
           src={before}
-          alt={`${procedure} before`}
+          alt={`${procedure} — ${beforeLabel}`}
           className={`absolute inset-0 size-full object-cover ${blur ? "blur-[14px] scale-110" : ""}`}
           style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}
         />
 
         {/* Labels */}
-        <span className="absolute top-3 left-3 pill bg-background/90 backdrop-blur shadow-soft text-foreground">Before</span>
-        <span className="absolute top-3 right-3 pill bg-foreground/90 backdrop-blur text-background">After</span>
+        <span className="absolute top-3 left-3 pill bg-background/90 backdrop-blur shadow-soft text-foreground">{beforeLabel}</span>
+        <span className="absolute top-3 right-3 pill bg-foreground/90 backdrop-blur text-background">{afterLabel}</span>
 
         {/* Verified badge */}
         <span className="absolute bottom-3 left-3 pill bg-primary text-primary-foreground shadow-pop">
-          <ShieldCheck className="size-3.5" /> Verified Patient
+          <ShieldCheck className="size-3.5" /> {caseLabel}
         </span>
 
         {/* Privacy toggle */}
@@ -92,7 +110,7 @@ const BeforeAfterCard = ({
           className="absolute bottom-3 right-3 pill bg-background/90 backdrop-blur text-foreground hover:bg-background transition-colors"
           aria-pressed={blur}
         >
-          {blur ? <><EyeOff className="size-3.5" /> Privacy on</> : <><Eye className="size-3.5" /> Privacy off</>}
+          {blur ? <><EyeOff className="size-3.5" /> {blurredLabel}</> : <><Eye className="size-3.5" /> {visibleLabel}</>}
         </button>
 
         {/* Slider handle */}
@@ -119,11 +137,11 @@ const BeforeAfterCard = ({
       </div>
       <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>
         <DialogContent className="w-[calc(100vw-1.5rem)] max-w-5xl overflow-hidden border-white/15 bg-[#102f28] p-0 text-white sm:rounded-[2rem]">
-          <DialogTitle className="sr-only">{procedure} before and after photo</DialogTitle>
-          <DialogDescription className="sr-only">Enlarged verified patient before and after photo.</DialogDescription>
+          <DialogTitle className="sr-only">{procedure} — {comparisonLabel}</DialogTitle>
+          <DialogDescription className="sr-only">{enlargedLabel}</DialogDescription>
           <div className="relative h-[82vh] bg-black/20">
-            <img src={before} alt={`${procedure} before and after, enlarged`} className={`size-full object-contain ${blur ? "blur-[18px] scale-105" : ""}`} />
-            <span className="absolute left-4 top-4 pill bg-background/90 text-foreground shadow-soft">Before · After</span>
+            <img src={before} alt={`${procedure} — ${enlargedLabel}`} className={`size-full object-contain ${blur ? "blur-[18px] scale-105" : ""}`} />
+            <span className="absolute left-4 top-4 pill bg-background/90 text-foreground shadow-soft">{comparisonLabel}</span>
           </div>
         </DialogContent>
       </Dialog>
