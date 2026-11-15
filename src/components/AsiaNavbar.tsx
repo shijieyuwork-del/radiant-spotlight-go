@@ -83,6 +83,7 @@ const AsiaNavbar = ({ floating = false }: { floating?: boolean }) => {
     { to: "/doctors", label: t("nav.compliance") },
     { to: "/clinics", label: c("Clinics", "诊所", "Клиники", "Clínicas") },
     { to: "/travel-packages", label: asiaCopy(lang, { en: "Travel support", zh: "行程支持", ru: "Поддержка поездки", es: "Apoyo de viaje", th: "สนับสนุนการเดินทาง", ms: "Sokongan Perjalanan" }) },
+    { to: "/international-patients", label: lang === "vi" ? "Hướng dẫn quốc tế" : c("Visitor guides", "国际访客指南", "Иностранным посетителям", "Guías para visitantes") },
     { to: "/treatments", label: t("nav.projects") },
     { to: "/cities", label: t("nav.cities") },
     { to: "/why-china", label: c("Why China", "为什么选中国", "Почему Китай", "Por qué China") },
