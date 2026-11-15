@@ -11,7 +11,7 @@ import { getHomeHeroCopy } from "@/lib/home-hero-copy";
 const Footer = () => {
   const { lang } = useAsia();
   const scope = getHomeHeroCopy(lang);
-  const zh: Record<string, string> = {"Explore":"探索","Patient Diaries":"患者日记","Experts in China":"中国医生与专家","Clinics & Hospitals":"医院与诊所","Procedure Academy":"项目指南","China Destinations":"中国城市","Plan Your Trip":"行程规划","Medical Tourism China":"赴华就医指南","Travel Support":"行程支持","Why China":"为什么选择中国","Shanghai":"上海","Popular Guides":"热门指南","Plastic Surgery China":"中国整形指南","Cosmetic Surgery Tourism":"整形医疗旅行","Rhinoplasty":"鼻整形","Eyelid Surgery":"眼部整形","Trust & Policies":"平台与政策","About Us":"关于我们","Contact":"联系我们","Provider Verification":"机构与医生信息核查","Medical Review Policy":"医疗内容审核政策","Editorial Policy":"编辑政策","Privacy notice":"隐私声明","Terms":"服务条款","Legal notice":"法律声明","Privacy choices":"隐私设置"};
+  const zh: Record<string, string> = {"International Visitor Guides":"国际访客指南","Explore":"探索","Patient Diaries":"患者日记","Experts in China":"中国医生与专家","Clinics & Hospitals":"医院与诊所","Procedure Academy":"项目指南","China Destinations":"中国城市","Plan Your Trip":"行程规划","Medical Tourism China":"赴华就医指南","Travel Support":"行程支持","Why China":"为什么选择中国","Shanghai":"上海","Popular Guides":"热门指南","Plastic Surgery China":"中国整形指南","Cosmetic Surgery Tourism":"整形医疗旅行","Rhinoplasty":"鼻整形","Eyelid Surgery":"眼部整形","Trust & Policies":"平台与政策","About Us":"关于我们","Contact":"联系我们","Provider Verification":"机构与医生信息核查","Medical Review Policy":"医疗内容审核政策","Editorial Policy":"编辑政策","Privacy notice":"隐私声明","Terms":"服务条款","Legal notice":"法律声明","Privacy choices":"隐私设置"};
   const label = (text: string) => lang === "zh" ? zh[text] ?? text : text;
   return (
     <>
@@ -31,7 +31,7 @@ const Footer = () => {
         </div>
         {[
           { title: "Explore", items: [{ label: "Patient Diaries", to: "/cases" }, { label: "Experts in China", to: "/doctors" }, { label: "Clinics & Hospitals", to: "/clinics" }, { label: "Procedure Academy", to: "/treatments" }, { label: "China Destinations", to: "/cities" }] },
-          { title: "Plan Your Trip", items: [{ label: "Medical Tourism China", to: "/medical-tourism-china" }, { label: "Travel Support", to: "/travel-packages" }, { label: "Why China", to: "/why-china" }, { label: "Shanghai", to: "/cities/shanghai" }] },
+          { title: "Plan Your Trip", items: [{ label: "International Visitor Guides", to: "/international-patients" }, { label: "Medical Tourism China", to: "/medical-tourism-china" }, { label: "Travel Support", to: "/travel-packages" }, { label: "Why China", to: "/why-china" }, { label: "Shanghai", to: "/cities/shanghai" }] },
           { title: "Popular Guides", items: [{ label: "Plastic Surgery China", to: "/plastic-surgery-china" }, { label: "Cosmetic Surgery Tourism", to: "/cosmetic-surgery-tourism-china" }, { label: "Rhinoplasty", to: "/treatments/rhinoplasty" }, { label: "Eyelid Surgery", to: "/treatments/blepharoplasty" }] },
           { title: "Trust & Policies", items: [{ label: "About Us", to: "/about" }, { label: "Contact", to: "/contact" }, { label: "Provider Verification", to: "/provider-verification" }, { label: "Medical Review Policy", to: "/medical-review-policy" }, { label: "Editorial Policy", to: "/editorial-policy" }] },
         ].map((c) => (
