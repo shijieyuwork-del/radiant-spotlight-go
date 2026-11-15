@@ -8,6 +8,7 @@ export const PROCEDURE_CATEGORIES = [
   },
   {
     en: "Eyes", zh: "眼部整形", items: [
+      ["Blepharoplasty", "眼睑成形术"],
       ["Double Eyelid Surgery", "双眼皮"], ["Upper Blepharoplasty", "上睑成形"],
       ["Lower Blepharoplasty", "下睑成形"], ["Ptosis Correction", "上睑下垂矫正"],
       ["Epicanthoplasty", "内眼角成形"], ["Under-Eye Fat Repositioning", "眶隔脂肪重置"],
