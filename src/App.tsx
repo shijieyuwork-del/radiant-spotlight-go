@@ -1,10 +1,11 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { lazy, Suspense, type ReactNode } from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { I18nProvider } from "@/lib/i18n";
+import { internationalLanguage, INTERNATIONAL_GUIDES, INTERNATIONAL_HUB, VIETNAM_GUIDE } from "@/data/internationalPatients";
 import { AsiaI18nProvider } from "@/lib/asia-i18n";
 import { QuoteProvider } from "@/components/QuoteRequest";
 import FloatingLiveChat from "@/components/FloatingLiveChat";
@@ -17,6 +18,7 @@ import ConsentBanner from "@/components/ConsentBanner";
 
 const queryClient = new QueryClient();
 
+const InternationalPatients = lazy(() => import("./pages/InternationalPatients.tsx"));
 const Cases = lazy(() => import("./pages/Cases.tsx"));
 const SavedCases = lazy(() => import("./pages/SavedCases.tsx"));
 const CaseDetail = lazy(() => import("./pages/CaseDetail.tsx"));
@@ -54,10 +56,10 @@ const MedicalTourismArticle = lazy(() => import("./pages/MedicalTourismArticle.t
 
 const RouteFallback = () => <div className="min-h-[55vh] bg-background" aria-live="polite" aria-label="Loading page" />;
 
-export const AppProviders = ({ children }: { children: ReactNode }) => (
+export const AppProviders = ({ children, language }: { children: ReactNode; language?: "en" | "vi" }) => (
   <QueryClientProvider client={queryClient}>
     <I18nProvider>
-          <AsiaI18nProvider>
+          <AsiaI18nProvider languageOverride={language}>
             <AuthProvider>
               <SavedCasesSync />
               <QuoteProvider>
@@ -80,6 +82,9 @@ export const AppProviders = ({ children }: { children: ReactNode }) => (
 export const AppRoutes = () => (
   <Suspense fallback={<RouteFallback />}>
                   <Routes>
+                    <Route path={INTERNATIONAL_HUB} element={<InternationalPatients />} />
+                    {INTERNATIONAL_GUIDES.map(g => <Route key={g.path} path={g.path} element={<InternationalPatients />} />)}
+                    <Route path="/vi" element={<Navigate to={VIETNAM_GUIDE} replace />} />
                     <Route path="/" element={<AsiaIndex />} />
                     <Route path="/cases" element={<Cases />} />
                     <Route path="/saved" element={<SavedCases />} />
@@ -131,12 +136,11 @@ export const AppRoutes = () => (
   </Suspense>
 );
 
-const App = () => (
-  <BrowserRouter>
-    <AppProviders>
-      <AppRoutes />
-    </AppProviders>
-  </BrowserRouter>
-);
+const AppContent = () => {
+  const { pathname } = useLocation();
+  return <AppProviders language={internationalLanguage(pathname)}><AppRoutes /></AppProviders>;
+};
+
+const App = () => <BrowserRouter><AppContent /></BrowserRouter>;
 
 export default App;
