@@ -4,6 +4,7 @@ import BrandLogo from "@/components/BrandLogo";
 import PageMeta from "@/components/PageMeta";
 import { Button } from "@/components/ui/button";
 import { whatsappUrl, consultationHandoffUrl } from "@/lib/consultation-handoff";
+import { useAsia } from "@/lib/asia-i18n";
 import { SITE_URL } from "@/lib/seo-config";
 import { GUIDE_UPDATED, INTERNATIONAL_GUIDES, INTERNATIONAL_HUB, VIETNAM_GUIDE, internationalMeta } from "@/data/internationalPatients";
 
@@ -22,6 +23,8 @@ const costRows = [
 
 export default function InternationalPatients() {
   const { pathname } = useLocation();
+  const { setLang } = useAsia();
+  const openEnglishResource = () => { if (vi) setLang("en"); };
   const guide = INTERNATIONAL_GUIDES.find(g => g.path === pathname.replace(/\/$/, ""));
   const vi = guide?.language === "vi";
   const copy = (en: string, vn: string) => vi ? vn : en;
@@ -108,7 +111,7 @@ export default function InternationalPatients() {
           <section id="procedures" aria-labelledby="procedures-title">
             <h2 id="procedures-title" className="font-display text-3xl">{copy("Explore procedure guides", "Tìm hiểu các nhóm thủ thuật")}</h2>
             <p className="mt-3 text-sm leading-7 text-muted-foreground">{copy("These are general categories, not a personal treatment recommendation. Discuss alternatives, limitations and risks with the treating clinician.", "Đây là các nhóm thủ thuật chung, không phải khuyến nghị điều trị cá nhân. Thảo luận lựa chọn thay thế, giới hạn và rủi ro với bác sĩ. Các liên kết dưới đây mở tài liệu tiếng Anh; không có nghĩa đã có bản dịch đầy đủ.")}</p>
-            <div className="mt-5 grid gap-3 sm:grid-cols-2">{procedures.map(p => <Link key={p.path} to={p.path} className="flex items-center justify-between rounded-2xl border border-border p-4 hover:bg-accent">{vi ? `${p.vi} (tiếng Anh)` : p.en}<ArrowRight className="size-4 shrink-0" aria-hidden="true" /></Link>)}</div>
+            <div className="mt-5 grid gap-3 sm:grid-cols-2">{procedures.map(p => <Link key={p.path} to={p.path} onClick={openEnglishResource} className="flex items-center justify-between rounded-2xl border border-border p-4 hover:bg-accent">{vi ? `${p.vi} (tiếng Anh)` : p.en}<ArrowRight className="size-4 shrink-0" aria-hidden="true" /></Link>)}</div>
           </section>
 
           {guide && <section aria-labelledby="sources-title"><h2 id="sources-title" className="font-display text-2xl">{copy("Sources and editorial notes", "Nguồn tham khảo và biên tập")}</h2>
@@ -122,9 +125,9 @@ export default function InternationalPatients() {
             <ul className="mt-4 space-y-4 text-sm leading-6">{(vi ? ["Thông tin bác sĩ và cơ sở", "Báo giá và điều kiện thanh toán", "Lịch tái khám và thông tin liên hệ", "Tóm tắt điều trị và đơn thuốc"] : ["Provider identities and location", "Quote and payment terms", "Review plan and contact details", "Treatment summary and prescriptions"]).map(s => <li key={s} className="flex gap-2"><Check className="mt-1 size-4 shrink-0 text-primary" aria-hidden="true" />{s}</li>)}</ul>
           </div>
           <nav className="mt-6 space-y-3 text-sm" aria-label={copy("Related planning resources", "Tài liệu liên quan")}>
-            <Link className="block underline underline-offset-4" to="/provider-verification">{copy("Provider verification standards", "Tiêu chuẩn kiểm tra thông tin (tiếng Anh)")}</Link>
-            <Link className="block underline underline-offset-4" to="/cosmetic-surgery-recovery-china">{copy("Recovery and follow-up planning", "Lập kế hoạch hồi phục (tiếng Anh)")}</Link>
-            <Link className="block underline underline-offset-4" to="/travel-packages">{copy("Coordination and travel support", "Điều phối và hỗ trợ đi lại (tiếng Anh)")}</Link>
+            <Link className="block underline underline-offset-4" to="/provider-verification" onClick={openEnglishResource}>{copy("Provider verification standards", "Tiêu chuẩn kiểm tra thông tin (tiếng Anh)")}</Link>
+            <Link className="block underline underline-offset-4" to="/cosmetic-surgery-recovery-china" onClick={openEnglishResource}>{copy("Recovery and follow-up planning", "Lập kế hoạch hồi phục (tiếng Anh)")}</Link>
+            <Link className="block underline underline-offset-4" to="/travel-packages" onClick={openEnglishResource}>{copy("Coordination and travel support", "Điều phối và hỗ trợ đi lại (tiếng Anh)")}</Link>
           </nav>
         </aside>
       </div>
@@ -140,10 +143,10 @@ export default function InternationalPatients() {
     <footer className="container max-w-6xl pb-28 pt-8 text-sm text-muted-foreground">
       <p>{scope}</p><nav className="mt-5 flex flex-wrap gap-x-5 gap-y-3" aria-label={copy("Policies and guides", "Chính sách và hướng dẫn")}>
         <Link to={INTERNATIONAL_HUB}>{copy("All visitor guides", "Hướng dẫn quốc tế (tiếng Anh)")}</Link>
-        <Link to="/editorial-policy">{copy("Editorial policy", "Chính sách biên tập (tiếng Anh)")}</Link>
-        <Link to="/medical-review-policy">{copy("Medical review policy", "Chính sách thẩm định y khoa (tiếng Anh)")}</Link>
-        <Link to="/privacy">{copy("Privacy notice", "Thông báo quyền riêng tư (tiếng Anh)")}</Link>
-        <Link to="/terms">{copy("Terms", "Điều khoản (tiếng Anh)")}</Link>
+        <Link to="/editorial-policy" onClick={openEnglishResource}>{copy("Editorial policy", "Chính sách biên tập (tiếng Anh)")}</Link>
+        <Link to="/medical-review-policy" onClick={openEnglishResource}>{copy("Medical review policy", "Chính sách thẩm định y khoa (tiếng Anh)")}</Link>
+        <Link to="/privacy" onClick={openEnglishResource}>{copy("Privacy notice", "Thông báo quyền riêng tư (tiếng Anh)")}</Link>
+        <Link to="/terms" onClick={openEnglishResource}>{copy("Terms", "Điều khoản (tiếng Anh)")}</Link>
       </nav><p className="mt-6">© {new Date().getFullYear()} Sino Aesthetics</p>
     </footer>
   </div>;
