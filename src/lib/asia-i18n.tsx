@@ -549,14 +549,22 @@ const STORE = "glowy.asia.v1";
 export const AsiaI18nProvider = ({ children, languageOverride }: { children: ReactNode; languageOverride?: "en" | "vi" }) => {
   const initial = useMemo(() => {
     if (typeof window === "undefined") return null;
-    try { return JSON.parse(localStorage.getItem(STORE) || "null"); } catch { return null; }
+    try {
+      const saved: unknown = JSON.parse(localStorage.getItem(STORE) || "null");
+      if (!saved || typeof saved !== "object" || Array.isArray(saved)) return null;
+      const value = saved as { lang?: unknown; currency?: unknown };
+      return {
+        lang: typeof value.lang === "string" && Object.prototype.hasOwnProperty.call(asiaLangLabel, value.lang) ? value.lang as AsiaLang : "en" as AsiaLang,
+        currency: value.currency === "CNY" ? "CNY" as const : "USD" as const,
+      };
+    } catch { return null; }
   }, []);
   const [selectedLang, setLang] = useState<AsiaLang>(initial?.lang ?? "en");
   const lang = languageOverride ?? selectedLang;
   const [currency, setCurrency] = useState<AsiaCurrency>(initial?.currency ?? "USD");
 
   useEffect(() => {
-    localStorage.setItem(STORE, JSON.stringify({ lang: selectedLang, currency }));
+    try { localStorage.setItem(STORE, JSON.stringify({ lang: selectedLang, currency })); } catch { /* Browsing remains usable when storage is unavailable. */ }
     document.documentElement.lang = lang === "zh" ? "zh-CN" : lang;
     document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
   }, [lang, selectedLang, currency]);
