@@ -546,19 +546,20 @@ export const useAsia = () => {
 };
 
 const STORE = "glowy.asia.v1";
-export const AsiaI18nProvider = ({ children }: { children: ReactNode }) => {
+export const AsiaI18nProvider = ({ children, languageOverride }: { children: ReactNode; languageOverride?: "en" | "vi" }) => {
   const initial = useMemo(() => {
     if (typeof window === "undefined") return null;
     try { return JSON.parse(localStorage.getItem(STORE) || "null"); } catch { return null; }
   }, []);
-  const [lang, setLang] = useState<AsiaLang>(initial?.lang ?? "en");
+  const [selectedLang, setLang] = useState<AsiaLang>(initial?.lang ?? "en");
+  const lang = languageOverride ?? selectedLang;
   const [currency, setCurrency] = useState<AsiaCurrency>(initial?.currency ?? "USD");
 
   useEffect(() => {
-    localStorage.setItem(STORE, JSON.stringify({ lang, currency }));
+    localStorage.setItem(STORE, JSON.stringify({ lang: selectedLang, currency }));
     document.documentElement.lang = lang === "zh" ? "zh-CN" : lang;
     document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
-  }, [lang, currency]);
+  }, [lang, selectedLang, currency]);
 
   const t: AsiaI18nState["t"] = (k) => {
     const english = dict.en[k] ?? (k as string);
