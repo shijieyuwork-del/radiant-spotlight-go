@@ -1,4 +1,5 @@
 import { ArrowUpDown, ChevronLeft, ChevronRight } from "lucide-react";
+import { useAsia } from "@/lib/asia-i18n";
 
 export type SortOption = { key: string; label: string };
 
@@ -47,6 +48,16 @@ export const Pagination = ({
   totalPages: number;
   onChange: (page: number) => void;
 }) => {
+  const { lang } = useAsia();
+  const labels = {
+    en: ["Pagination", "Previous page", "Next page"], zh: ["分页", "上一页", "下一页"],
+    vi: ["Phân trang", "Trang trước", "Trang tiếp"], ru: ["Страницы", "Предыдущая страница", "Следующая страница"],
+    es: ["Paginación", "Página anterior", "Página siguiente"], th: ["การแบ่งหน้า", "หน้าก่อนหน้า", "หน้าถัดไป"],
+    ms: ["Halaman", "Halaman sebelumnya", "Halaman seterusnya"], ko: ["페이지", "이전 페이지", "다음 페이지"],
+    ja: ["ページ切替", "前のページ", "次のページ"], ar: ["الصفحات", "الصفحة السابقة", "الصفحة التالية"],
+    "pt-BR": ["Paginação", "Página anterior", "Próxima página"], id: ["Halaman", "Halaman sebelumnya", "Halaman berikutnya"],
+    fr: ["Pagination", "Page précédente", "Page suivante"], de: ["Seitennavigation", "Vorherige Seite", "Nächste Seite"],
+  }[lang];
   if (totalPages <= 1) return null;
 
   // 页码窗口：总数 ≤7 全显，否则保留首尾并围绕当前页
@@ -64,11 +75,11 @@ export const Pagination = ({
     return out;
   })();
 
-  const btn = "grid size-10 place-items-center rounded-full border border-border bg-card text-sm font-semibold transition hover:border-primary/50 hover:bg-primary/10 disabled:opacity-40 disabled:hover:border-border disabled:hover:text-foreground";
+  const btn = "grid size-9 sm:size-10 shrink-0 place-items-center rounded-full border border-border bg-card text-sm font-semibold transition hover:border-primary/50 hover:bg-primary/10 disabled:opacity-40 disabled:hover:border-border disabled:hover:text-foreground";
 
   return (
-    <nav className="mt-8 flex items-center justify-center gap-1.5" aria-label="Pagination">
-      <button type="button" className={btn} disabled={page <= 1} onClick={() => onChange(page - 1)} aria-label="Previous page">
+    <nav className="mt-8 flex items-center justify-center gap-1 sm:gap-1.5" aria-label={labels[0]}>
+      <button type="button" className={btn} disabled={page <= 1} onClick={() => onChange(page - 1)} aria-label={labels[1]}>
         <ChevronLeft className="size-4" />
       </button>
       {pages.map((p, i) =>
@@ -80,13 +91,13 @@ export const Pagination = ({
             type="button"
             onClick={() => onChange(p)}
             aria-current={p === page ? "page" : undefined}
-            className={p === page ? "grid size-10 place-items-center rounded-full bg-primary text-sm font-bold text-primary-foreground shadow-soft" : btn}
+            className={p === page ? "grid size-9 sm:size-10 shrink-0 place-items-center rounded-full bg-primary text-sm font-bold text-primary-foreground shadow-soft" : btn}
           >
             {p}
           </button>
         ),
       )}
-      <button type="button" className={btn} disabled={page >= totalPages} onClick={() => onChange(page + 1)} aria-label="Next page">
+      <button type="button" className={btn} disabled={page >= totalPages} onClick={() => onChange(page + 1)} aria-label={labels[2]}>
         <ChevronRight className="size-4" />
       </button>
     </nav>
