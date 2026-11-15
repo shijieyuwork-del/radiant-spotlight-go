@@ -10,6 +10,9 @@ interface PageMetaProps {
   type?: "website" | "article";
   structuredData?: Record<string, unknown> | Record<string, unknown>[];
   robots?: string;
+  language?: string;
+  alternates?: { language: string; path: string }[];
+  includeBreadcrumb?: boolean;
 }
 
 const JSONLD_ID = "page-meta-jsonld";
@@ -97,11 +100,13 @@ export const PageMeta = ({
   type = "website",
   structuredData,
   robots = "index, follow, max-image-preview:large",
+  language, alternates = [], includeBreadcrumb = true,
 }: PageMetaProps) => {
   const url = `${SITE_URL}${path}`;
   const branded = `${title} | ${SITE_NAME}`;
   const fullTitle = absoluteTitle || title.includes(SITE_NAME) || branded.length > 65 ? title : branded;
-  const breadcrumb = createBreadcrumbSchema(path, fullTitle);
+  const breadcrumb = includeBreadcrumb ? createBreadcrumbSchema(path, fullTitle) : null;
+  const alternateKey = JSON.stringify(alternates);
   const schemas = [
     ...(Array.isArray(structuredData) ? structuredData : structuredData ? [structuredData] : []),
     ...(breadcrumb ? [breadcrumb] : []),
@@ -116,6 +121,15 @@ export const PageMeta = ({
     setMeta("name", "description", description);
     setMeta("name", "robots", robots);
     setLink("canonical", url);
+    document.head.querySelectorAll("link[data-page-alternate], link[hreflang]").forEach(el => el.remove());
+    const alternateNodes = JSON.parse(alternateKey).map((alternate: { language: string; path: string }) => {
+      const link = document.createElement("link");
+      link.rel = "alternate"; link.hreflang = alternate.language;
+      link.href = `${SITE_URL}${alternate.path}`; link.dataset.pageAlternate = "true";
+      document.head.appendChild(link);
+      return link;
+    });
+    setMeta("property", "og:locale", language === "vi" ? "vi_VN" : "en_US");
 
     // Open Graph 必须用 property，用 name 的话 Facebook/LinkedIn 会忽略
     setMeta("property", "og:title", fullTitle);
@@ -141,7 +155,8 @@ export const PageMeta = ({
       script.textContent = ld;
       document.head.appendChild(script);
     }
-  }, [fullTitle, description, url, imageAbs, type, ld, robots]);
+    return () => alternateNodes.forEach((link: HTMLLinkElement) => link.remove());
+  }, [fullTitle, description, url, imageAbs, type, ld, robots, language, alternateKey]);
 
   return null;
 };
