@@ -635,6 +635,7 @@ const ProcedureVideoRow = ({ procedure, lang, fmt }: { procedure: string; lang: 
   const items = getRelatedCases(procedure, uploaded);
   return (
     <section className="mt-10 border-t border-border/60 pt-9">
+      <p className="mb-6 rounded-2xl bg-muted/40 p-4 text-sm leading-7">{lang === "zh" ? "从海外赴华？先查看费用、病历与回国后衔接的准备事项。" : lang === "vi" ? "Đến Trung Quốc từ nước ngoài? Hãy xem hướng dẫn về báo giá, hồ sơ và theo dõi khi về nước." : "Travelling from overseas? Plan your written quote, records and follow-up before booking."} <Link className="text-primary underline underline-offset-4" to={lang === "vi" ? "/vi/du-lich-tham-my-trung-quoc" : "/international-patients"}>{lang === "zh" ? "国际访客指南" : lang === "vi" ? "Hướng dẫn cho khách Việt Nam" : "International visitor guides"}</Link></p>
       <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <span className="pill bg-accent text-accent-foreground">{c("Real case videos", "真实案例", "Видео реальных случаев", "Videos de casos reales")}</span>
