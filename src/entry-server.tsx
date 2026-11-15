@@ -1,6 +1,8 @@
 import { renderToString } from "react-dom/server";
 import { StaticRouter } from "react-router-dom/server";
 import { Route, Routes } from "react-router-dom";
+import InternationalPatients from "./pages/InternationalPatients";
+import { internationalLanguage, INTERNATIONAL_GUIDES, INTERNATIONAL_HUB } from "./data/internationalPatients";
 import { AppProviders } from "./App";
 import ChinaSeoGuide from "./pages/ChinaSeoGuide";
 import Treatments from "./pages/Treatments";
@@ -30,8 +32,10 @@ import TreatmentLandingPage from "./pages/TreatmentLandingPage";
 export function render(url: string) {
   return renderToString(
     <StaticRouter location={url}>
-      <AppProviders>
+      <AppProviders language={internationalLanguage(url)}>
         <Routes>
+          <Route path={INTERNATIONAL_HUB} element={<InternationalPatients />} />
+          {INTERNATIONAL_GUIDES.map(g => <Route key={g.path} path={g.path} element={<InternationalPatients />} />)}
           <Route path="/medical-tourism-china" element={<ChinaSeoGuide kind="medical-tourism" />} />
           <Route path="/medical-tourism-china/:slug" element={<MedicalTourismArticle />} />
           <Route path="/china-vs-korea-cosmetic-surgery" element={<MedicalTourismArticle guideSlug="china-vs-korea-cosmetic-surgery" />} />
