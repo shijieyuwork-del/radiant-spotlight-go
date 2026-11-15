@@ -74,7 +74,17 @@ export const I18nProvider = ({ children }: { children: ReactNode }) => {
   const detected = useMemo(detectRegion, []);
   const stored = useMemo(() => {
     if (typeof window === "undefined") return null;
-    try { return JSON.parse(localStorage.getItem(STORE_KEY) || "null"); } catch { return null; }
+    try {
+      const saved: unknown = JSON.parse(localStorage.getItem(STORE_KEY) || "null");
+      if (!saved || typeof saved !== "object" || Array.isArray(saved)) return null;
+      const value = saved as Record<string, unknown>;
+      return {
+        region: typeof value.region === "string" && Object.prototype.hasOwnProperty.call(regionDefaults, value.region) ? value.region as RegionCode : detected,
+        currency: typeof value.currency === "string" && Object.prototype.hasOwnProperty.call(currencies, value.currency) ? value.currency as CurrencyCode : regionDefaults[detected].currency,
+        language: typeof value.language === "string" && Object.prototype.hasOwnProperty.call(languages, value.language) ? value.language as LanguageCode : regionDefaults[detected].language,
+        privacyMode: typeof value.privacyMode === "boolean" ? value.privacyMode : detected === "AE",
+      };
+    } catch { return null; }
   }, []);
 
   const [region, setRegion] = useState<RegionCode>(stored?.region ?? detected);
@@ -85,9 +95,8 @@ export const I18nProvider = ({ children }: { children: ReactNode }) => {
   );
 
   useEffect(() => {
-    localStorage.setItem(STORE_KEY, JSON.stringify({ region, currency, language, privacyMode }));
-    document.documentElement.lang = language;
-    document.documentElement.dir = languages[language].dir;
+    try { localStorage.setItem(STORE_KEY, JSON.stringify({ region, currency, language, privacyMode })); } catch { /* Storage is optional. */ }
+    // AsiaI18nProvider owns the active document language and direction.
   }, [region, currency, language, privacyMode]);
 
   const convert = (usd: number) => Math.round(usd * currencies[currency].rate);
