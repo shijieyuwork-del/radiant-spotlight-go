@@ -27,6 +27,7 @@ async function loadAppData() {
   await build({
     stdin: {
       contents: `
+        export { INTERNATIONAL_GUIDES, INTERNATIONAL_HUB, VIETNAM_GUIDE, internationalMeta } from "@/data/internationalPatients";
         export { CITIES, countryOf } from "@/data/cities";
         export { DOCTORS } from "@/data/doctors";
         export { TIKTOK_CASES } from "@/data/tiktokCases";
@@ -93,7 +94,7 @@ function createBreadcrumbSchema(p, pageTitle, siteUrl) {
   return { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement };
 }
 
-function renderMeta({ title, absoluteTitle = false, description, path: p, image, type = "website", schema, robots = "index, follow, max-image-preview:large" }, cfg) {
+function renderMeta({ title, absoluteTitle = false, description, path: p, image, type = "website", schema, language = "en", alternates = [], includeBreadcrumb = true, robots = "index, follow, max-image-preview:large" }, cfg) {
   const { SITE_URL, SITE_NAME, OG_IMAGE, TWITTER_HANDLE } = cfg;
   const url = `${SITE_URL}${p}`;
   const branded = `${title} | ${SITE_NAME}`;
@@ -112,14 +113,15 @@ function renderMeta({ title, absoluteTitle = false, description, path: p, image,
     `<meta property="og:title" content="${esc(full)}" />`,
     `<meta property="og:description" content="${esc(description)}" />`,
     `<meta property="og:image" content="${esc(img)}" />`,
-    `<meta property="og:locale" content="en_US" />`,
+    `<meta property="og:locale" content="${language === "vi" ? "vi_VN" : "en_US"}" />`,
     `<meta name="twitter:card" content="summary_large_image" />`,
     `<meta name="twitter:title" content="${esc(full)}" />`,
     `<meta name="twitter:description" content="${esc(description)}" />`,
     `<meta name="twitter:image" content="${esc(img)}" />`,
   ];
   if (TWITTER_HANDLE) tags.push(`<meta name="twitter:site" content="${esc(TWITTER_HANDLE)}" />`);
-  const breadcrumb = createBreadcrumbSchema(p, title, SITE_URL);
+  for (const alternate of alternates) tags.push(`<link rel="alternate" hreflang="${esc(alternate.language)}" href="${esc(`${SITE_URL}${alternate.path}`)}" data-page-alternate="true" />`);
+  const breadcrumb = includeBreadcrumb ? createBreadcrumbSchema(p, title, SITE_URL) : null;
   const schemas = [...(Array.isArray(schema) ? schema : schema ? [schema] : []), ...(breadcrumb ? [breadcrumb] : [])];
   if (schemas.length) {
     // </script> 会提前闭合标签，必须转义
@@ -401,6 +403,9 @@ function buildRoutes(d) {
     });
   }
 
+  for (const guide of [undefined, ...d.INTERNATIONAL_GUIDES]) {
+    routes.push({ ...d.internationalMeta(guide, d.SITE_URL), type: guide ? "article" : "website", includeBreadcrumb: false });
+  }
   return routes;
 }
 
@@ -423,6 +428,7 @@ async function main() {
       MARKER,
       `<!--SEO-->\n${renderMeta(r, cfg)}\n    <!--/SEO-->`
     );
+    if (r.language) html = html.replace(/<html\b[^>]*>/i, `<html lang="${esc(r.language)}" dir="ltr">`);
     const staticContentRoutes = new Set([
       "/",
       "/cases",
@@ -443,7 +449,7 @@ async function main() {
       "/lp/blepharoplasty-china",
       "/lp/facelift-china",
     ]);
-    const isSsgRoute = staticContentRoutes.has(r.path) ||
+    const isSsgRoute = r.path === d.INTERNATIONAL_HUB || d.INTERNATIONAL_GUIDES.some(g => g.path === r.path) || staticContentRoutes.has(r.path) ||
       r.path === "/medical-tourism-china" ||
       r.path.startsWith("/medical-tourism-china/") ||
       r.path === "/china-vs-korea-cosmetic-surgery" ||
