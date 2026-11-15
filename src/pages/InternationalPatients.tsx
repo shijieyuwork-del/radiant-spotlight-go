@@ -9,7 +9,7 @@ import { GUIDE_UPDATED, INTERNATIONAL_GUIDES, INTERNATIONAL_HUB, VIETNAM_GUIDE, 
 
 const procedures = [
   { en: "Rhinoplasty", vi: "Nâng mũi", path: "/treatments/rhinoplasty" },
-  { en: "Eyelid surgery", vi: "Phẫu thuật mí mắt", path: "/treatments/blepharoplasty" },
+  { en: "Upper eyelid surgery", vi: "Phẫu thuật mí mắt trên", path: "/treatments/upper-blepharoplasty" },
   { en: "Facelift", vi: "Căng da mặt", path: "/treatments/facelift" },
   { en: "Hair transplant", vi: "Cấy tóc", path: "/treatments/fue-hair-transplant" },
 ];
