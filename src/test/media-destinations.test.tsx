@@ -52,15 +52,13 @@ describe("photo and video destinations", () => {
     expect(screen.getByText("Video detail")).toBeVisible();
   });
 
-  it("combines both video collections, requests 24-video pages and loads more", () => {
+  it("combines both video collections, loads the full list for client-side filtering", () => {
     show("/cases");
-    expect(state.videoHook).toHaveBeenCalledWith("en", "all", { paginate: true });
+    expect(state.videoHook).toHaveBeenCalledWith("en", "all", { limit: 1000 });
     expect(screen.getByRole("link", { name: "existing-diary" })).toHaveAttribute("href", "/cases/existing-diary");
     expect(screen.getByRole("link", { name: "uploaded-gallery" })).toBeVisible();
     expect(screen.getByRole("link", { name: "gallery-0" })).toHaveAttribute("href", "/cases/gallery-0");
     expect(screen.getByRole("link", { name: "gallery-9" })).toBeVisible();
-    fireEvent.click(screen.getByRole("button", { name: "Load more" }));
-    expect(state.loadMore).toHaveBeenCalledOnce();
     fireEvent.change(screen.getByRole("searchbox"), { target: { value: "gallery-9" } });
     expect(screen.getByRole("link", { name: "gallery-9" })).toBeVisible();
     expect(screen.queryByRole("link", { name: "existing-diary" })).not.toBeInTheDocument();

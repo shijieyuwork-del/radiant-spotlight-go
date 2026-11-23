@@ -8,6 +8,13 @@
       "when": 1795416755767,
       "tag": "0000_unique_medora_video_paths",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1795444982911,
+      "tag": "0001_videos_list_indexes",
+      "breakpoints": true
     }
   ]
 }

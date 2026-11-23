@@ -1,5 +1,5 @@
 import { whatsappUrl } from "@/lib/consultation-handoff";
-import { useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ArrowRight, Heart, MessageCircle, Navigation, Search } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
@@ -21,6 +21,8 @@ import { cityCoordsOf, haversineKm, useUserLocation } from "@/lib/geo";
 import { useDirectoryReturnPosition, useDirectoryState } from "@/hooks/use-directory-state";
 
 /** "56k" -> 56000；"1.2k" -> 1200；空串 -> 0 */
+const CASES_PAGE_SIZE = 24;
+
 const parseLikes = (s: string) => {
   const m = String(s ?? "").trim().toLowerCase().match(/^([\d.]+)k?$/);
   if (!m) return 0;
@@ -39,7 +41,8 @@ const Cases = () => {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
   // Include all published videos, including legacy Before & After placements.
-  const { items: uploaded, isLoading: videosLoading, isLoadingMore, hasMore, loadMore, error: videosError } = usePublishedVideosState(lang, "all", { paginate: true });
+  // Filtering/sorting needs the full list; only the rendered cards are paged (CASES_PAGE_SIZE).
+  const { items: uploaded, isLoading: videosLoading, error: videosError } = usePublishedVideosState(lang, "all", { limit: 1000 });
   const ALL_CASES = useMemo(() => mergePatientDiaryCases(uploaded, PATIENT_DIARY_CASES), [uploaded]);
 
   // Use the case's own China destination; fall back to expert data for legacy entries.
@@ -131,6 +134,21 @@ const Cases = () => {
     return arr;
   }, [items, sort, coords, caseCity]);
 
+  const [visibleCount, setVisibleCount] = useState(CASES_PAGE_SIZE);
+  const filterKey = `${q}|${activeTreatment}|${activeCity}|${activeStage}|${sort}`;
+  useEffect(() => { setVisibleCount(CASES_PAGE_SIZE); }, [filterKey]);
+  const visibleItems = useMemo(() => sortedItems.slice(0, visibleCount), [sortedItems, visibleCount]);
+  const hasMore = visibleCount < sortedItems.length;
+  const loadMore = useCallback(() => setVisibleCount((n) => n + CASES_PAGE_SIZE), []);
+  const sentinelRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = sentinelRef.current;
+    if (!el || !hasMore || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(([entry]) => { if (entry.isIntersecting) loadMore(); }, { rootMargin: "600px" });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [hasMore, loadMore, visibleCount]);
+
   const { rootRef: resultsRef, remember: rememberReturnPosition } = useDirectoryReturnPosition(true, sortedItems.map((item) => item.id).join("|"));
 
   const hasFilters = Boolean(activeTreatment || activeCity || activeStage || q || sort !== "recommended");
@@ -176,23 +194,6 @@ const Cases = () => {
         <AsiaNavbar />
 
       <section className="container relative py-6 md:py-12">
-        {videosLoading && (
-          <div className="absolute inset-0 z-40 bg-background px-4 py-6 md:py-12" role="status" aria-live="polite" aria-label={c("Loading patient video journeys", "正在加载患者视频案例", "Загружаем видеоистории пациентов", "Cargando historias en vídeo de pacientes", "กำลังโหลดวิดีโอเรื่องราวของผู้รับบริการ", "Memuatkan kisah video pesakit")}>
-            <div className="mx-auto max-w-6xl animate-pulse">
-              <div className="mx-auto h-7 w-36 rounded-full bg-muted" />
-              <div className="mx-auto mt-4 h-11 w-full max-w-md rounded-2xl bg-muted" />
-              <div className="mx-auto mt-3 h-5 w-full max-w-xl rounded-full bg-muted/80" />
-              <div className="mt-8 flex gap-3 overflow-hidden">
-                {[0, 1, 2, 3, 4].map((item) => <div key={item} className="h-14 min-w-40 flex-1 rounded-2xl bg-muted" />)}
-              </div>
-              <div className="mx-auto mt-5 h-12 max-w-3xl rounded-full bg-muted" />
-              <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                {[0, 1, 2].map((item) => <div key={item} className="aspect-[9/14] rounded-[1.75rem] bg-muted" />)}
-              </div>
-            </div>
-            <span className="sr-only">{c("Loading patient video journeys…", "正在加载完整患者视频案例…", "Загружаем видеоистории пациентов…", "Cargando historias en vídeo de pacientes…", "กำลังโหลดวิดีโอเรื่องราวของผู้รับบริการ…", "Memuatkan kisah video pesakit…")}</span>
-          </div>
-        )}
         <div className="mx-auto mb-5 max-w-2xl text-center md:mb-7">
           <span className="pill bg-accent text-accent-foreground mb-3"><Heart className="size-3.5" /> {t("cases.kicker")}</span>
           <h1 className="font-display text-3xl font-medium leading-tight tracking-tight sm:text-4xl md:text-5xl">
@@ -290,18 +291,22 @@ const Cases = () => {
           )}
         </div>
 
-        {items.length === 0 ? (
+        {items.length === 0 && videosLoading ? (
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 animate-pulse" role="status" aria-live="polite" aria-label={c("Loading patient video journeys", "正在加载患者视频案例", "Загружаем видеоистории пациентов", "Cargando historias en vídeo de pacientes", "กำลังโหลดวิดีโอเรื่องราวของผู้รับบริการ", "Memuatkan kisah video pesakit")}>
+            {[0, 1, 2].map((item) => <div key={item} className="aspect-[9/16] rounded-3xl bg-muted" />)}
+          </div>
+        ) : items.length === 0 ? (
           <p className="text-center text-muted-foreground py-12 text-sm">
             {c("No matching cases — try a different filter.", "没有匹配的案例，换个筛选试试。", "Подходящих историй не найдено — измените фильтры.", "No hay casos que coincidan; prueba con otro filtro.")}
           </p>
         ) : (
           <div ref={resultsRef}>
             <div className="sr-only md:not-sr-only md:mb-5 md:flex md:items-end md:justify-between md:gap-4"><div><span className="pill bg-accent text-accent-foreground">{c("Latest recovery updates", "最新更新", "Последние обновления", "Últimas actualizaciones")}</span><h2 className="mt-3 font-display text-[1.75rem] font-medium leading-tight md:text-3xl">{c("Choose a journey to continue", "选择一个历程继续观看", "Выберите историю и продолжайте просмотр", "Elige una historia para continuar")}</h2></div><span className="hidden items-center gap-1 text-sm font-semibold text-brand md:inline-flex">{c("Open a card for the full timeline", "点击卡片查看完整时间线", "Откройте карточку, чтобы увидеть весь путь", "Abre una tarjeta para ver la cronología completa")}<ArrowRight className="size-4" /></span></div>
-            <TikTokWall items={sortedItems} lang={lang} fmtPrice={fmt} variant="cases" highlight={q} onBeforeNavigate={rememberReturnPosition} />
+            <TikTokWall items={visibleItems} lang={lang} fmtPrice={fmt} variant="cases" highlight={q} onBeforeNavigate={rememberReturnPosition} />
           </div>
         )}
         {videosError && <p role="alert" className="mt-4 text-center text-sm text-destructive">{videosError}</p>}
-        {hasMore && <div className="mt-6 flex justify-center"><Button variant="outline" disabled={isLoadingMore} onClick={loadMore}>{isLoadingMore ? c("Loading…", "加载中…", "Загрузка…", "Cargando…") : c("Load more", "加载更多", "Загрузить ещё", "Cargar más")}</Button></div>}
+        {hasMore && <div ref={sentinelRef} className="mt-6 flex justify-center"><Button variant="outline" onClick={loadMore}>{c("Load more", "加载更多", "Загрузить ещё", "Cargar más")}</Button></div>}
         </div>
         </div>
 

@@ -71,6 +71,14 @@ export const TikTokCard = ({
   const wrapRef = useRef<HTMLDivElement>(null);
   const [muted, setMuted] = useState(true);
   const [near, setNear] = useState(eager);
+  const [pendingPlay, setPendingPlay] = useState(false);
+  const videoMounted = near || pendingPlay;
+  // A play press before the card was near mounts the video first, then starts it.
+  useEffect(() => {
+    if (!pendingPlay) return;
+    setPendingPlay(false);
+    void play();
+  }, [pendingPlay, play]);
   const caseUrl = item.caseHref ?? `${caseHrefBase}${item.id}`;
   const { saved, toggleSaved, saveLabel } = useSavedCase(item.id);
   const controls = videoControlsCopy[lang];
@@ -139,15 +147,24 @@ export const TikTokCard = ({
       data-case-id={item.id}
       className="group relative aspect-[9/16] cursor-pointer overflow-hidden rounded-3xl bg-card shadow-pop [backface-visibility:hidden] [transform:translateZ(0)]"
     >
-      <video
+      <img
+        src={item.poster || DEFAULT_VIDEO_POSTER}
+        alt=""
+        width={540}
+        height={960}
+        loading={eager ? "eager" : "lazy"}
+        decoding="async"
+        className="absolute inset-0 size-full object-cover"
+      />
+      {videoMounted && <video
         ref={attachRef}
         src={item.src}
         poster={item.poster || DEFAULT_VIDEO_POSTER}
         muted={muted}
         playsInline
-        preload={near ? "metadata" : "none"}
+        preload="metadata"
         className="absolute inset-0 size-full object-cover [backface-visibility:hidden] [transform:translateZ(0)]"
-      />
+      />}
       <Link to={caseUrl} tabIndex={playbackEnabled ? 0 : -1} aria-label={`Open case: ${diaryText(item.caption, lang)}`} className="absolute inset-0 rounded-3xl focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-inset focus-visible:ring-primary" onClick={(event) => {
         if (beforeNavigate && !beforeNavigate()) { event.preventDefault(); return; }
         if (!event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) onBeforeNavigate?.(item.id);
@@ -185,7 +202,7 @@ export const TikTokCard = ({
         <button
           type="button"
           disabled={!playbackEnabled}
-          onClick={(e) => { e.stopPropagation(); if (!beforeNavigate || beforeNavigate()) toggle(); }}
+          onClick={(e) => { e.stopPropagation(); if (!beforeNavigate || beforeNavigate()) { if (videoMounted) toggle(); else { setNear(true); setPendingPlay(true); } } }}
           className="absolute left-1/2 top-1/2 grid size-14 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white/90 text-foreground shadow-pop focus-visible:outline focus-visible:outline-4 focus-visible:outline-primary disabled:pointer-events-none"
           aria-label={`${playing ? controls.pause : controls.play}: ${diaryText(item.treatment, lang)}`}
         >
