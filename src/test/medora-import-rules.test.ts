@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { caseCreatedAt, caseLabels, caseStoragePath, decodeCover, isAdminEmail, linkedDoctorName, MAX_COVER_BYTES, uniqueDoctor, validateVideoSize, VIDEO_PREFIX } from "../../supabase/functions/import-medora-cases/rules";
+import { caseCoverPath, caseCreatedAt, caseLabels, caseStoragePath, decodeCover, isAdminEmail, linkedDoctorName, MAX_COVER_BYTES, uniqueDoctor, validateVideoSize, VIDEO_PREFIX } from "../../supabase/functions/import-medora-cases/rules";
 
 const id = "1ea9684e238096a0fef8d8c564719b26";
 describe("Medora import rules", () => {
@@ -8,13 +8,56 @@ describe("Medora import rules", () => {
     expect(isAdminEmail("visitor@example.com")).toBe(false);
     expect(isAdminEmail(undefined)).toBe(false);
   });
-  it("accepts only 32-hex IDs and the owned video prefix with mp4 or mov extensions", () => {
+  it("preserves flat storage paths for hex IDs and the owned source restriction", () => {
     expect(caseStoragePath(id, `${VIDEO_PREFIX}a/video.mp4`)).toBe(`medora/${id}.mp4`);
     expect(caseStoragePath(id, `${VIDEO_PREFIX}a/video.mov`)).toBe(`medora/${id}.mov`);
     expect(caseStoragePath("bad", `${VIDEO_PREFIX}video.mp4`)).toBeNull();
     expect(caseStoragePath(id, "https://example.com/video.mp4")).toBeNull();
     expect(caseStoragePath(id, `${VIDEO_PREFIX}../video.mp4`)).toBeNull();
     expect(caseStoragePath(id, `${VIDEO_PREFIX}video.webm`)).toBeNull();
+  });
+  it("deduplicates a repeated hex ID regardless of project or expert slugs", () => {
+    expect(caseStoragePath(id, `${VIDEO_PREFIX}nose-surgery/one/${id}/video.mp4`)).toBe(`medora/${id}.mp4`);
+    expect(caseStoragePath(id, `${VIDEO_PREFIX}eye-surgery/two/${id}/video.mp4`)).toBe(`medora/${id}.mp4`);
+  });
+  it.each(["final-result", "0602-11", "10", "Result_1"])("accepts nonhex ID %s using URL project and expert slugs", (caseId) => {
+    expect(caseStoragePath(caseId, `${VIDEO_PREFIX}facial-contouring/unknown-doctor/${caseId}/video.mp4`)).toBe(`medora/facial-contouring/unknown-doctor/${caseId}.mp4`);
+    expect(caseStoragePath(caseId, `${VIDEO_PREFIX}nose-surgery/another/${caseId}/video.mov`)).toBe(`medora/nose-surgery/another/${caseId}.mov`);
+  });
+  it("keeps matching nonhex IDs in different source folders distinct", () => {
+    expect(caseStoragePath("10", `${VIDEO_PREFIX}nose-surgery/one/10/video.mp4`)).toBe("medora/nose-surgery/one/10.mp4");
+    expect(caseStoragePath("10", `${VIDEO_PREFIX}nose-surgery/two/10/video.mp4`)).toBe("medora/nose-surgery/two/10.mp4");
+  });
+  it("enforces the 64-character ID limit and requires an alphanumeric first character", () => {
+    const longest = "A".repeat(64);
+    expect(caseStoragePath(longest, `${VIDEO_PREFIX}project/expert/${longest}/video.mp4`)).toBe(`medora/project/expert/${longest}.mp4`);
+    for (const invalid of ["", "-result", "_result", "a".repeat(65), "a.b", "../10"]) {
+      expect(caseStoragePath(invalid, `${VIDEO_PREFIX}project/expert/${invalid}/video.mp4`)).toBeNull();
+    }
+  });
+  it("requires lowercase project and expert slugs, at most 64 characters each", () => {
+    const longest = "a".repeat(64);
+    expect(caseStoragePath("10", `${VIDEO_PREFIX}${longest}/${longest}/10/video.mp4`)).toBe(`medora/${longest}/${longest}/10.mp4`);
+    for (const slug of ["Project", "doctor_name", "a".repeat(65), ""]) {
+      expect(caseStoragePath("10", `${VIDEO_PREFIX}${slug}/expert/10/video.mp4`)).toBeNull();
+      expect(caseStoragePath("10", `${VIDEO_PREFIX}project/${slug}/10/video.mp4`)).toBeNull();
+    }
+  });
+  it("rejects nonhex URL ID mismatches and untrusted or malformed source paths", () => {
+    expect(caseStoragePath("10", `${VIDEO_PREFIX}project/expert/11/video.mp4`)).toBeNull();
+    expect(caseStoragePath("10", "https://example.com/video_cases_v2/project/expert/10/video.mp4")).toBeNull();
+    expect(caseStoragePath("10", `${VIDEO_PREFIX}project/expert/10/other.mp4`)).toBeNull();
+    expect(caseStoragePath("10", `${VIDEO_PREFIX}project/expert/%31%30/video.mp4`)).toBeNull();
+  });
+  it("places covers alongside both accepted video path shapes", () => {
+    expect(caseCoverPath(`medora/${id}.mp4`)).toBe(`medora/${id}.webp`);
+    expect(caseCoverPath("medora/facial-contouring/unknown-doctor/final-result.mp4")).toBe("medora/facial-contouring/unknown-doctor/final-result.webp");
+    expect(caseCoverPath("medora/eye-surgery/expert/0602-11.mov")).toBe("medora/eye-surgery/expert/0602-11.webp");
+  });
+  it("rejects covers outside Medora or paths with traversal or invalid slugs", () => {
+    for (const path of ["other/project/expert/10.mp4", "medora/../expert/10.mp4", "medora/Project/expert/10.mp4", "medora/10.mp4", "medora/project/expert/10.webm"]) {
+      expect(caseCoverPath(path)).toBeNull();
+    }
   });
   it.each([
     ["nose-surgery", "Rhinoplasty", "鼻整形"],

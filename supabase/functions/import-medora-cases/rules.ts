@@ -15,11 +15,22 @@ const LABELS: Record<string, [string, string]> = {
 }
 
 export function caseStoragePath(id: unknown, videoUrl: unknown): string | null {
-  if (typeof id !== 'string' || !/^[a-f0-9]{32}$/i.test(id) || typeof videoUrl !== 'string' || !videoUrl.startsWith(VIDEO_PREFIX)) return null
+  if (typeof id !== 'string' || typeof videoUrl !== 'string' || !videoUrl.startsWith(VIDEO_PREFIX)) return null
   const url = new URL(videoUrl)
   if (!url.href.startsWith(VIDEO_PREFIX)) return null
   const ext = url.pathname.match(/\.(mp4|mov)$/i)?.[1]?.toLowerCase()
-  return ext ? `medora/${id}.${ext}` : null
+  if (!ext) return null
+  if (/^[a-f0-9]{32}$/i.test(id)) return `medora/${id}.${ext}`
+  if (!/^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$/.test(id)) return null
+  const source = url.pathname.match(/^\/video_cases_v2\/([a-z0-9-]{1,64})\/([a-z0-9-]{1,64})\/([A-Za-z0-9][A-Za-z0-9_-]{0,63})\/video\.(mp4|mov)$/)
+  if (!source || source[3] !== id) return null
+  return `medora/${source[1]}/${source[2]}/${id}.${ext}`
+}
+
+export function caseCoverPath(storagePath: string): string | null {
+  const flat = /^medora\/[a-f0-9]{32}\.(mp4|mov)$/i.test(storagePath)
+  const nested = /^medora\/[a-z0-9-]{1,64}\/[a-z0-9-]{1,64}\/[A-Za-z0-9][A-Za-z0-9_-]{0,63}\.(mp4|mov)$/.test(storagePath)
+  return flat || nested ? storagePath.replace(/\.(mp4|mov)$/i, '.webp') : null
 }
 
 export function caseLabels(project: string) {

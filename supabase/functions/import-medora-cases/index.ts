@@ -1,7 +1,7 @@
 import { corsHeaders } from 'npm:@supabase/supabase-js@2/cors'
 import { createClient } from 'npm:@supabase/supabase-js@2'
 import { z } from 'npm:zod@3'
-import { caseCreatedAt, caseLabels, caseStoragePath, decodeCover, isAdminEmail, linkedDoctorName, MAX_VIDEO_BYTES, uniqueDoctor, validateVideoSize } from './rules.ts'
+import { caseCoverPath, caseCreatedAt, caseLabels, caseStoragePath, decodeCover, isAdminEmail, linkedDoctorName, MAX_VIDEO_BYTES, uniqueDoctor, validateVideoSize } from './rules.ts'
 
 const BodySchema = z.discriminatedUnion('action', [
   z.object({ action: z.literal('status') }),
@@ -56,9 +56,8 @@ Deno.serve(async (req) => {
       try { image = decodeCover(body.imageBase64) } catch (error) { return json({ error: message(error) }, 400) }
       const { data: row, error } = await service.from('videos').select('storage_path').eq('id', body.videoId).single()
       if (error || !row?.storage_path?.startsWith('medora/')) return json({ error: 'Not a Medora video' }, 403)
-      const caseId = row.storage_path.match(/^medora\/([a-f0-9]{32})\.(mp4|mov)$/i)?.[1]
-      if (!caseId) return json({ error: 'Invalid Medora path' }, 400)
-      const coverPath = `medora/${caseId}.webp`
+      const coverPath = caseCoverPath(row.storage_path)
+      if (!coverPath) return json({ error: 'Invalid Medora path' }, 400)
       const { error: uploadError } = await service.storage.from('video-covers').upload(coverPath, image, { contentType: 'image/webp', upsert: true })
       if (uploadError) throw uploadError
       const { error: updateError } = await service.from('videos').update({ cover_path: coverPath }).eq('id', body.videoId)
