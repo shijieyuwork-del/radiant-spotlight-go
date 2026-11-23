@@ -38,7 +38,8 @@ async function loadAppData() {
         export { MEDICAL_TOURISM_GUIDES, medicalTourismGuidePath } from "@/data/medicalTourismGuides";
         export { STATIC_CLINICS } from "@/data/clinicDirectory";
         export { mergeClinicDirectory, applyClinicRecords } from "@/data/clinicDirectory";
-        export { casePageMeta, expertPageMeta, casePath, expertPath, caseMediaUrl, resolveCase } from "@/lib/case-seo";
+        export { buildTreatmentCities, treatmentCityMeta, matchesProcedure, matchesCity, procedureExperts, newestRowTimestamp } from "@/lib/treatment-city-seo";
+        export { casePageMeta, expertPageMeta, casePath, expertPath, caseMediaUrl, resolveCase, caseFacts } from "@/lib/case-seo";
         export { CLINIC_DIRECTORY_META, clinicPageMeta } from "@/lib/clinic-seo";
         export { SITE_URL, SITE_NAME, OG_IMAGE, TWITTER_HANDLE, ORGANIZATION_SCHEMA, ORGANIZATION_ENTITY, WEBSITE_ENTITY, HOME_TITLE, SITE_DESCRIPTION } from "@/lib/seo-config";
         export { homeStructuredData } from "@/lib/home-structured-data";
@@ -368,7 +369,7 @@ function buildRoutes(d, publicData) {
     routes.push({
       ...metadata,
       schema: metadata.structuredData,
-      lastmod: publicData.clinicRows.find((row) => row.id === clinic.recordId)?.updated_at,
+      lastmod: d.newestRowTimestamp([...publicData.clinicRows.filter((row) => row.id === clinic.recordId), ...publicData.doctors.filter((doc) => clinic.doctorIds.includes(doc.id)), ...publicData.videos.filter((v) => clinic.doctorIds.includes(v.doctor_id))]),
     });
   }
 
@@ -416,11 +417,15 @@ function buildRoutes(d, publicData) {
   }
   for (const doc of publicData.doctors) {
     const meta = d.expertPageMeta(doc, publicData.clinics.find((clinic) => clinic.doctorIds.includes(doc.id)));
-    routes.push({ ...meta, schema: meta.structuredData, lastmod: doc.updated_at || doc.created_at });
+    routes.push({ ...meta, schema: meta.structuredData, lastmod: d.newestRowTimestamp([doc, ...publicData.videos.filter((v) => v.doctor_id === doc.id)]) });
   }
   for (const video of publicData.videos) {
     const meta = d.casePageMeta(video, publicData.doctors.find((doc) => doc.id === video.doctor_id));
-    routes.push({ ...meta, schema: meta.structuredData, includeInSitemap: Boolean(video.cover_path), lastmod: video.updated_at || video.created_at });
+    routes.push({ ...meta, schema: meta.structuredData, includeInSitemap: Boolean(video.cover_path), lastmod: d.newestRowTimestamp([video, ...publicData.doctors.filter((doc) => doc.id === video.doctor_id)]) });
+  }
+  for (const page of publicData.treatmentCities) {
+    const meta = d.treatmentCityMeta(page);
+    routes.push({ ...meta, schema: meta.structuredData, lastmod: page.lastmod });
   }
   return routes;
 }
@@ -484,7 +489,7 @@ async function main() {
       const scoped = scopePublicCaseData(r.path, publicData, d);
       const body = render(r.path, scoped);
       html = html.replace('<div id="root"></div>', `<div id="root">${body}</div>`);
-      if (scoped.videos.length || scoped.doctors.length || scoped.clinics.length) {
+      if (scoped.videos.length || scoped.doctors.length || scoped.clinics.length || scoped.treatmentCities?.length) {
         const snapshot = JSON.stringify(scoped).replace(/</g, "\\u003c");
         html = html.replace("</body>", `<script type="application/json" id="public-case-data">${snapshot}</script>\n</body>`);
       }
@@ -508,11 +513,11 @@ async function main() {
 
   const sitemapUrls = routes
     .filter((route) => route.includeInSitemap !== false)
-    .map((route) => `  <url>\n    <loc>${esc(`${cfg.SITE_URL}${route.path}`)}</loc>${route.lastmod ? `\n    <lastmod>${esc(new Date(route.lastmod).toISOString())}</lastmod>` : ""}\n  </url>`)
+    .map((route) => `  <url>\n    <loc>${esc(`${cfg.SITE_URL}${route.path}`)}</loc>${route.lastmod ? `\n    <lastmod>${esc(new Date(route.lastmod).toISOString())}</lastmod>` : ""}${(route.alternates ?? []).map((alternate) => `\n    <xhtml:link rel="alternate" hreflang="${esc(alternate.language)}" href="${esc(`${cfg.SITE_URL}${alternate.path}`)}" />`).join("")}\n  </url>`)
     .join("\n");
   await writeFile(
     path.join(DIST, "sitemap.xml"),
-    `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapUrls}\n</urlset>\n`,
+    `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${sitemapUrls}\n</urlset>\n`,
     "utf8",
   );
   await writeFile(path.join(DIST, "sitemap-videos.xml"), generateVideoSitemap(publicData.videos, publicData.doctors, d), "utf8");
@@ -520,7 +525,7 @@ async function main() {
   await writeFile(path.join(DIST, "llms.txt"), llms.replace(/Current published library: approximately \d+ video cases/, `Current published library: approximately ${publicData.videos.length} video cases`), "utf8");
 
   await Promise.all([rm(TMP, { force: true }), rm(SSR_DIR, { recursive: true, force: true })]);
-  console.log(`prerender: generated ${routes.length} pages, including ${publicData.videos.length} published cases and ${publicData.doctors.length} expert profiles with static body text`);
+  console.log(`prerender: generated ${routes.length} pages, including ${publicData.treatmentCities.length} qualifying treatment-city pages, ${publicData.videos.length} published cases and ${publicData.doctors.length} expert profiles with static body text`);
 }
 
 main().catch((e) => {

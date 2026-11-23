@@ -1,9 +1,14 @@
 import { describe, expect, it, vi } from "vitest";
+import { readFileSync } from "node:fs";
 import { handleCaseMedia, mediaTarget } from "../../supabase/functions/case-media/rules";
 const id = "abcdef12-1234-4567-8901-123456789012";
 const published = { status: "published", storage_path: "medora/project/expert/final-result.mp4", cover_path: "medora/project/expert/final-result.webp" };
 const request = (kind = "video", method = "GET") => new Request(`https://example.com/functions/v1/case-media/${id}/${kind}`, { method });
 describe("public case media published-only access", () => {
+  it("explicitly permits requests without an Authorization header in function configuration", () => {
+    const config = readFileSync("supabase/config.toml", "utf8");
+    expect(config).toMatch(/\[functions\.case-media\]\s+verify_jwt\s*=\s*false/);
+  });
   it.each(["draft", "hidden", "archived", "unpublished"])("never signs a %s case", async (status) => {
     const sign = vi.fn();
     const response = await handleCaseMedia(request(), { lookup: async () => ({ ...published, status }), sign });

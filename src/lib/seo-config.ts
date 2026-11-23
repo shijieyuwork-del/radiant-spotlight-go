@@ -12,6 +12,7 @@ export const SITE_DESCRIPTION =
   "Compare licensed hospitals and specialists in China, prepare for your consultation, and plan translation and travel support. Coordination only — not a clinic.";
 export const HOME_TITLE = "Sino Aesthetics | Cosmetic Surgery in China, Planned Clearly";
 export const SITE_AUTHOR = "Sino Aesthetics";
+export const SITE_LANGUAGES = ["en", "zh", "ru", "es", "th", "ms", "vi", "ko", "ja", "ar", "pt-BR", "id", "fr", "de"];
 
 // OG 分享卡片：public/og-image.jpg（1200×630），发布后可被社交平台抓取
 export const OG_IMAGE = `${SITE_URL}/og-image.jpg`;
@@ -27,7 +28,7 @@ export const ORGANIZATION_ENTITY = {
   name: SITE_NAME,
   legalName: "SinoAesthetics Limited",
   alternateName: ["Sino Aesthetics", "Sino Aesthetics Medical Travel", "青慈有限公司"],
-  description: SITE_DESCRIPTION,
+  description: "Medical travel coordination service for international visitors to China; not a clinic or medical provider.",
   url: SITE_URL,
   logo: {
     "@type": "ImageObject",
@@ -56,10 +57,10 @@ export const ORGANIZATION_ENTITY = {
   publishingPrinciples: `${SITE_URL}/editorial-policy`,
   contactPoint: {
     "@type": "ContactPoint",
-    contactType: "Customer Service",
+    contactType: "customer service",
     telephone: CONSULTATION_PHONE_E164,
     email: CONSULTATION_EMAIL,
-    availableLanguage: ["English", "Chinese", "Russian", "Spanish"],
+    availableLanguage: SITE_LANGUAGES,
   },
 };
 
@@ -72,7 +73,7 @@ export const WEBSITE_ENTITY = {
   description: SITE_DESCRIPTION,
   publisher: { "@id": `${SITE_URL}/#organization` },
   about: { "@id": `${SITE_URL}/#organization` },
-  inLanguage: ["en", "zh", "ru", "es"],
+  inLanguage: SITE_LANGUAGES,
 };
 
 // JSON-LD entity graph shared by the homepage and key trust pages.

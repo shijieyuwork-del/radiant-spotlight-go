@@ -1,3 +1,4 @@
+import TreatmentRecordLinks from "@/components/cases/TreatmentRecordLinks";
 import { GALLERY_CASES } from "@/data/galleryCases";
 import { usePublishedVideos } from "@/hooks/use-published-videos";
 import { caseProcedureType } from "@/components/CaseCategoryNavigation";
@@ -546,6 +547,7 @@ const CatalogProcedureDetail = ({
               <li><Link to="/cosmetic-surgery-recovery-china" className="underline underline-offset-4">{zh ? "恢复与回国后衔接" : "Recovery and follow-up planning"}</Link></li>
             </ul>
           </section>
+          <TreatmentRecordLinks procedureSlug={procedureSlug(procedure.en)} />
           <ProcedureVideoRow procedure={`${procedure.en} ${procedure.categoryEn}`} lang={lang} fmt={fmt} />
 
           <section className="mt-8 rounded-3xl bg-muted/45 p-6 md:p-8">

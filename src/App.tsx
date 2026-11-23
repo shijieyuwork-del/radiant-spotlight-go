@@ -34,6 +34,7 @@ const Clinics = lazy(() => import("./pages/Clinics.tsx"));
 const ClinicDetail = lazy(() => import("./pages/ClinicDetail.tsx"));
 const Packages = lazy(() => import("./pages/Packages.tsx"));
 const Treatments = lazy(() => import("./pages/Treatments.tsx"));
+const TreatmentCityPage = lazy(() => import("./pages/TreatmentCityPage.tsx"));
 const TreatmentDetail = lazy(() => import("./pages/TreatmentDetail.tsx"));
 const Auth = lazy(() => import("./pages/Auth.tsx"));
 const VideoAdmin = lazy(() => import("./pages/VideoAdmin.tsx"));
@@ -101,6 +102,7 @@ export const AppRoutes = () => (
                     <Route path="/clinics/:slug" element={<ClinicDetail />} />
                     <Route path="/treatments" element={<Treatments />} />
                     <Route path="/treatments/:slug" element={<TreatmentDetail />} />
+          <Route path="/treatments/:procedureSlug/:citySlug" element={<TreatmentCityPage />} />
                     <Route path="/travel-packages" element={<Packages />} />
                     <Route path="/packages" element={<Navigate to="/travel-packages" replace />} />
                     <Route path="/why-china" element={<WhyChina />} />

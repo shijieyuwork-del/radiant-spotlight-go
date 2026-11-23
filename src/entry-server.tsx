@@ -8,6 +8,7 @@ import { AppProviders } from "./App";
 import ChinaSeoGuide from "./pages/ChinaSeoGuide";
 import Treatments from "./pages/Treatments";
 import TreatmentDetail from "./pages/TreatmentDetail";
+import TreatmentCityPage from "./pages/TreatmentCityPage";
 import Cities from "./pages/Cities";
 import CityDetail from "./pages/CityDetail";
 import Clinics from "./pages/Clinics";
@@ -51,6 +52,7 @@ export function render(url: string, data: PublicCaseData | null = null) {
           <Route path="/plastic-surgery-china" element={<ChinaSeoGuide kind="plastic-surgery" />} />
           <Route path="/treatments" element={<Treatments />} />
           <Route path="/treatments/:slug" element={<TreatmentDetail />} />
+          <Route path="/treatments/:procedureSlug/:citySlug" element={<TreatmentCityPage />} />
           <Route path="/cities" element={<Cities />} />
           <Route path="/cities/:slug" element={<CityDetail />} />
           <Route path="/clinics" element={<Clinics />} />

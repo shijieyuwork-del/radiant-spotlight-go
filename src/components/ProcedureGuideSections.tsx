@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { treatmentFaqs } from '@/lib/treatment-faqs';
 import { GUIDE_REFERENCES, PROCEDURE_BRIEFS } from '@/data/procedureGuides';
 import { PROCEDURE_CATALOG, procedureSlug } from '@/data/procedureCatalog';
 import type { Treatment } from '@/data/treatments';
@@ -28,12 +29,7 @@ export default function ProcedureGuideSections({ name, category, zh, treatment }
     [text('3. Prepare and give consent', '3. 完成准备与知情同意'), text('Follow individualized testing and preparation instructions. Disclose medicines, supplements, allergies and nicotine use; do not stop prescribed medication yourself.', '按个人情况完成检查与准备。告知药物、补充剂、过敏及尼古丁使用情况，不要自行停用处方药。')],
     [text('4. Plan follow-up before travel', '4. 提前安排复诊与行程'), text('Get written aftercare instructions, an emergency contact and a review schedule. Ask when work, exercise and flying are appropriate for your procedure and health.', '取得书面护理说明、紧急联系方式与复诊安排。根据具体项目和健康情况，确认何时适合工作、运动与乘机。')],
   ];
-  const faqs = [
-    [text('How is the technique chosen?', '如何选择具体方式？'), guide.consideration[zh ? 1 : 0]],
-    [text('Will the result match a case photo?', '效果会和案例照片一样吗？'), text('Case photos can help explain an approach, but anatomy, tissue quality and healing differ. Ask to see consented examples with similar starting features and comparable lighting; a result cannot be promised.', '案例照片可帮助理解方案，但结构、组织条件与愈合存在差异。可查看起点相近、光线可比且已获授权的案例，不能据此承诺相同效果。')],
-    [text('How long should I allow for recovery?', '需要预留多久恢复？'), text('Early return to routine activity is different from complete healing. Ask for separate guidance on visible swelling, wound care, work, exercise, travel and the timing of result assessment.', '恢复日常活动不等于完全愈合。应分别确认可见肿胀、伤口护理、工作、运动、出行及结果评估的时间。')],
-    [text('What should a written quote include?', '书面报价应包含什么？'), text('Confirm the treatment scope, clinician and facility fees, materials, tests, anesthesia if needed, follow-ups and how additional treatment or complications are charged. Medical fees are paid directly to the hospital; any coordination or travel fees should be listed separately.', '确认治疗范围、医生及机构费用、材料、检查、必要的麻醉、复诊，以及额外治疗和并发症处理如何计费。医疗费用直接支付给医院，协调或行程费用应单独列明。')],
-  ];
+  const faqs = treatmentFaqs(procedureSlug(name), zh);
   return <section data-testid="procedure-expanded-guide" className="mt-8 space-y-6">
     <nav aria-label={text('Procedure guide sections', '项目指南章节')} className="flex flex-wrap gap-2">
       {['overview','candidacy','process','questions','references'].map((id,i) => <a key={id} href={`#guide-${id}`} className="rounded-full border px-4 py-2 text-sm hover:bg-secondary">{(zh ? ['项目概况','适用与限制','准备与流程','常见问题','资料来源'] : ['Overview','Suitability','Planning & process','FAQs','Sources'])[i]}</a>)}

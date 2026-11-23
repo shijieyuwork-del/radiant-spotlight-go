@@ -2,7 +2,9 @@ import { createContext, useContext, type ReactNode } from "react";
 import type { CaseExpert, PublishedCase } from "@/lib/case-seo";
 import type { DirectoryClinic } from "@/data/clinicDirectory";
 
-export type PublicCaseData = { videos: PublishedCase[]; doctors: CaseExpert[]; clinics: DirectoryClinic[] };
+import type { TreatmentCity } from "@/lib/treatment-city-seo";
+
+export type PublicCaseData = { videos: PublishedCase[]; doctors: CaseExpert[]; clinics: DirectoryClinic[]; treatmentCities?: TreatmentCity[]; scopePath?: string };
 const PublicCaseContext = createContext<PublicCaseData | null>(null);
 export function readPublicCaseData(): PublicCaseData | null {
   if (typeof document === "undefined") return null;

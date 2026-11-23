@@ -1,3 +1,4 @@
+import TreatmentRecordLinks from "@/components/cases/TreatmentRecordLinks";
 import { Link, useParams, Navigate } from "react-router-dom";
 import {
   ArrowLeft, ArrowRight, MapPin, Plane, Hotel, Languages, FileCheck2,
@@ -286,6 +287,8 @@ const CityDetail = () => {
           </div>
         </section>
       )}
+
+      <div className="container pb-10"><TreatmentRecordLinks citySlug={city.slug} /></div>
 
       {/* Travel essentials */}
       <section className="container py-10">

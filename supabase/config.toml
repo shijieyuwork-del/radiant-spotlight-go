@@ -1,5 +1,8 @@
 project_id = "vczghaemqtmsxvgtvbah"
 
+[functions.case-media]
+verify_jwt = false
+
 [functions.import-medora-cases]
 verify_jwt = true
 
