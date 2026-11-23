@@ -1,3 +1,4 @@
+import LazyVideo from "@/components/media/LazyVideo";
 import TreatmentRecordLinks from "@/components/cases/TreatmentRecordLinks";
 import { Link, useParams, Navigate } from "react-router-dom";
 import {
@@ -272,7 +273,7 @@ const CityDetail = () => {
                 className="group rounded-2xl overflow-hidden shadow-soft hover:shadow-pop transition-all hover:-translate-y-1 bg-card"
               >
                 <div className="aspect-[3/4] relative bg-muted">
-                  <video src={c.src} muted loop playsInline className="absolute inset-0 size-full object-cover" />
+                  <LazyVideo previewLoop src={c.src} poster={c.poster} alt={lang === "zh" ? c.treatment.zh : c.treatment.en} className="absolute inset-0 size-full" />
                   <div className="absolute inset-x-0 bottom-0 p-2.5 bg-gradient-to-t from-black/80 to-transparent">
                     <p className="text-label text-background font-semibold leading-tight">
                       {lang === "zh" ? c.treatment.zh : c.treatment.en}

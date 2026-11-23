@@ -232,7 +232,7 @@ const HeroVideoGallery = ({ items, lang, size = "default", layout = "rail" }: He
                 <div className="flex min-w-0 flex-1 justify-center gap-3 overflow-x-auto scrollbar-hide" aria-label={`${activeExplainerIndex + 1} / ${explainers.length}`}>
                   {explainers.map((item, index) => (
                     <button key={item.id} type="button" onClick={() => setActiveExplainerIndex(index)} className={`group relative aspect-[16/10] w-[14rem] min-w-[14rem] overflow-hidden rounded-xl border-2 text-left shadow-soft transition duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white ${activeExplainerIndex === index ? "-translate-y-1 border-primary shadow-pop" : "border-white/20 opacity-75 hover:opacity-100"}`} aria-label={`${t.show} ${index + 1}`} aria-current={activeExplainerIndex === index ? "true" : undefined}>
-                      <video src={item.src} poster={item.poster} muted playsInline preload="none" className="absolute inset-0 size-full object-cover" />
+                      <img src={item.poster} alt="" loading="lazy" decoding="async" width={448} height={280} className="absolute inset-0 size-full object-cover" />
                       <span className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/5 to-transparent" />
                       <span className="absolute inset-x-3 bottom-2.5 truncate font-display text-sm font-semibold text-white">{item.title}</span>
                     </button>
