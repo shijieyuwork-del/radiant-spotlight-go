@@ -50,40 +50,40 @@ export const usePublishedVideosState = (lang: AsiaLang, placement: "diary" | "be
     busy.current = true;
     if (append) setIsLoadingMore(true);
     setError(null);
-      try {
-        const supabase = await getBrowserClient();
-        const start = append ? rowsRef.current.length : 0;
-        const size = append ? limit : Math.max(limit, paginate ? rowsRef.current.length : limit);
-        let query = supabase
-          .from("videos")
-          .select("id,title,caption,city,procedure,storage_path,cover_path,created_at,doctor_id,i18n", { count: "exact" })
-          .eq("status", "published")
-          .order("created_at", { ascending: false }).order("id", { ascending: false });
-        if (placement !== "all") query = query.eq("placement", placement);
-        const { data, count, error: queryError } = await query.range(start, start + size - 1);
-        if (queryError) throw queryError;
-        if (request !== generation.current) return;
-        const rows = (data ?? []) as Row[];
-        const [urls, covers] = await Promise.all([
-          signedUrls("short-videos", rows.map((r) => r.storage_path)),
-          signedUrls("video-covers", rows.map((r) => r.cover_path)),
-        ]);
-        if (request !== generation.current) return;
-        const next = rows.map((r, i) =>
-            toTikTokItem(localizeVideoRow(r as unknown as Record<string, unknown>, lang) as unknown as Row, urls[i], covers[i])
-          );
-        rowsRef.current = append ? [...rowsRef.current, ...rows].filter((r, i, all) => all.findIndex((other) => other.id === r.id) === i) : rows;
-        setItems((prev) => append ? [...prev, ...next].filter((item, i, all) => all.findIndex((other) => other.id === item.id) === i) : next);
-        setHasMore(paginate && (count != null ? start + rows.length < count : rows.length === size));
-      } catch (e) {
-        if (request === generation.current) setError(e instanceof Error ? e.message : "Could not load videos");
-      } finally {
-        if (request === generation.current) {
-          busy.current = false;
-          setIsLoading(false);
-          setIsLoadingMore(false);
-        }
+    try {
+      const supabase = await getBrowserClient();
+      const start = append ? rowsRef.current.length : 0;
+      const size = append ? limit : Math.max(limit, paginate ? rowsRef.current.length : limit);
+      let query = supabase
+        .from("videos")
+        .select("id,title,caption,city,procedure,storage_path,cover_path,created_at,doctor_id,i18n", { count: "exact" })
+        .eq("status", "published")
+        .order("created_at", { ascending: false }).order("id", { ascending: false });
+      if (placement !== "all") query = query.eq("placement", placement);
+      const { data, count, error: queryError } = await query.range(start, start + size - 1);
+      if (queryError) throw queryError;
+      if (request !== generation.current) return;
+      const rows = (data ?? []) as Row[];
+      const [urls, covers] = await Promise.all([
+        signedUrls("short-videos", rows.map((r) => r.storage_path)),
+        signedUrls("video-covers", rows.map((r) => r.cover_path)),
+      ]);
+      if (request !== generation.current) return;
+      const next = rows.map((r, i) =>
+        toTikTokItem(localizeVideoRow(r as unknown as Record<string, unknown>, lang) as unknown as Row, urls[i], covers[i])
+      );
+      rowsRef.current = append ? [...rowsRef.current, ...rows].filter((r, i, all) => all.findIndex((other) => other.id === r.id) === i) : rows;
+      setItems((prev) => append ? [...prev, ...next].filter((item, i, all) => all.findIndex((other) => other.id === item.id) === i) : next);
+      setHasMore(paginate && (count != null ? start + rows.length < count : rows.length === size));
+    } catch (e) {
+      if (request === generation.current) setError(e instanceof Error ? e.message : "Could not load videos");
+    } finally {
+      if (request === generation.current) {
+        busy.current = false;
+        setIsLoading(false);
+        setIsLoadingMore(false);
       }
+    }
   }, [lang, placement, limit, paginate]);
   const load = useCallback(() => { void fetchPage(); }, [fetchPage]);
   const loadMore = useCallback(() => { if (paginate && hasMore) void fetchPage(true); }, [fetchPage, paginate, hasMore]);

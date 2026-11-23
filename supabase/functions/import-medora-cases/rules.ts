@@ -34,6 +34,12 @@ export const caseCreatedAt = (index: number) => new Date(Date.parse('2026-09-01T
 export const isAdminEmail = (email: string | undefined) => email?.toLowerCase() === ADMIN_EMAIL
 export const linkedDoctorName = (name: string) => name.replace(/院长$/, '')
 
+export function validateVideoSize(size: number) {
+  if (!Number.isFinite(size) || size < 0 || size > MAX_VIDEO_BYTES) throw new Error('Video exceeds 60 MB')
+}
+
+export const uniqueDoctor = <T>(doctors: T[] | null) => doctors?.length === 1 ? doctors[0] : null
+
 export function decodeCover(base64: string): Uint8Array {
   const raw = base64.replace(/^data:image\/webp;base64,/, '')
   if (raw.length > Math.ceil(MAX_COVER_BYTES / 3) * 4) throw new Error('Cover exceeds 300 KB')

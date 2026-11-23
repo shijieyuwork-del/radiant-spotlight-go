@@ -1,7 +1,7 @@
 import { corsHeaders } from 'npm:@supabase/supabase-js@2/cors'
 import { createClient } from 'npm:@supabase/supabase-js@2'
 import { z } from 'npm:zod@3'
-import { caseCreatedAt, caseLabels, caseStoragePath, decodeCover, isAdminEmail, linkedDoctorName, MAX_VIDEO_BYTES } from './rules.ts'
+import { caseCreatedAt, caseLabels, caseStoragePath, decodeCover, isAdminEmail, linkedDoctorName, MAX_VIDEO_BYTES, uniqueDoctor, validateVideoSize } from './rules.ts'
 
 const BodySchema = z.discriminatedUnion('action', [
   z.object({ action: z.literal('status') }),
@@ -14,7 +14,7 @@ const json = (body: unknown, status = 200) => new Response(JSON.stringify(body),
 const message = (error: unknown) => error instanceof Error ? error.message : String(error)
 
 async function downloadVideo(url: string, declaredSize: number) {
-  if (declaredSize > MAX_VIDEO_BYTES) throw new Error('Video exceeds 60 MB')
+  validateVideoSize(declaredSize)
   const response = await fetch(url, { redirect: 'error', signal: AbortSignal.timeout(90000) })
   if (!response.ok || !response.body) throw new Error(`Video download failed (${response.status})`)
   if (Number(response.headers.get('content-length')) > MAX_VIDEO_BYTES) {
@@ -29,7 +29,7 @@ async function downloadVideo(url: string, declaredSize: number) {
       const { done, value } = await reader.read()
       if (done) break
       size += value.length
-      if (size > MAX_VIDEO_BYTES) throw new Error('Video exceeds 60 MB')
+      validateVideoSize(size)
       chunks.push(value)
     }
   } finally {
@@ -107,7 +107,7 @@ Deno.serve(async (req) => {
         }
         const { data: doctors, error: doctorError } = await service.from('doctors').select('id,city').eq('status', 'published').eq('name', linkedDoctorName(item.doctorName)).limit(2)
         if (doctorError) throw doctorError
-        const doctor = doctors?.length === 1 ? doctors[0] : null
+        const doctor = uniqueDoctor(doctors)
         const labels = caseLabels(item.project)
         const { data: inserted, error: insertError } = await service.from('videos').insert({
           ...labels.en, status: 'published', placement: 'before-after', storage_path: storagePath,

@@ -12,7 +12,10 @@ type Failure = { key: string; offset: number; caseId: string; error: string; vid
 async function invoke<T>(body: Record<string, unknown>): Promise<T> {
   const client = await getBrowserClient();
   const { data, error } = await client.functions.invoke("import-medora-cases", { body });
-  if (error || data?.error) throw new Error(data?.error || error?.message || "Import failed");
+  if (error || data?.error) {
+    const detail = error?.context instanceof Response ? await error.context.json().catch(() => null) : null;
+    throw new Error(typeof detail?.error === "string" ? detail.error : data?.error || error?.message || "Import failed");
+  }
   return data as T;
 }
 

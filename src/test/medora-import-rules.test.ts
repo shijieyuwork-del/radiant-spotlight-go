@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { caseCreatedAt, caseLabels, caseStoragePath, decodeCover, isAdminEmail, linkedDoctorName, MAX_COVER_BYTES, MAX_VIDEO_BYTES, VIDEO_PREFIX } from "../../supabase/functions/import-medora-cases/rules";
+import { caseCreatedAt, caseLabels, caseStoragePath, decodeCover, isAdminEmail, linkedDoctorName, MAX_COVER_BYTES, uniqueDoctor, validateVideoSize, VIDEO_PREFIX } from "../../supabase/functions/import-medora-cases/rules";
 
 const id = "1ea9684e238096a0fef8d8c564719b26";
 describe("Medora import rules", () => {
@@ -40,8 +40,17 @@ describe("Medora import rules", () => {
     expect(linkedDoctorName("张三院长")).toBe("张三");
     expect(linkedDoctorName("院长张三")).toBe("院长张三");
   });
-  it("enforces 60 MB video and 300 KB cover ceilings", () => {
-    expect(MAX_VIDEO_BYTES).toBe(60 * 1024 * 1024);
+  it("refuses videos above 60 MB, including a misleading streamed size", () => {
+    expect(() => validateVideoSize(60 * 1024 * 1024)).not.toThrow();
+    expect(() => validateVideoSize(60 * 1024 * 1024 + 1)).toThrow("60 MB");
+  });
+  it("links an expert only when exactly one published exact-name match exists", () => {
+    const expert = { id: "expert", city: "Shanghai" };
+    expect(uniqueDoctor([expert])).toBe(expert);
+    expect(uniqueDoctor([])).toBeNull();
+    expect(uniqueDoctor([expert, { id: "another", city: "Beijing" }])).toBeNull();
+  });
+  it("enforces the 300 KB WebP cover ceiling", () => {
     expect(MAX_COVER_BYTES).toBe(300 * 1024);
     expect(() => decodeCover(btoa("not a webp"))).toThrow();
     expect(() => decodeCover("A".repeat(409604))).toThrow("300 KB");
