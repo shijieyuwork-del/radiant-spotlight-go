@@ -1,0 +1,38 @@
+/* Sino Aesthetics platform homepage */
+.ph-wall {
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 12%, #000 88%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0, #000 12%, #000 88%, transparent 100%);
+}
+.ph-wall-col {
+  animation: ph-up var(--ph-speed, 50s) linear infinite;
+}
+.ph-wall:hover .ph-wall-col {
+  animation-play-state: paused;
+}
+@keyframes ph-up {
+  from { transform: translateY(0); }
+  to { transform: translateY(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ph-wall-col { animation: none; }
+  .ph-hero-video { display: none; }
+}
+.ph-rail { scrollbar-width: thin; }
+.ph-tabs { scrollbar-width: none; }
+.ph-tabs::-webkit-scrollbar { display: none; }
+.ph-root h1, .ph-root h2, .ph-root h3 { text-wrap: balance; }
+.ph-root p { text-wrap: pretty; }
+.ph-root { font-optical-sizing: auto; }
+
+/* Platform hero card: the shared ambient video is anchored inside the card
+   (transform makes the card the containing block for its fixed layers). */
+.ph-hero { transform: translateZ(0); background: #173B30; color: #fff; }
+.ph-hero .hero-ambient__field { background: #173B30; }
+.ph-hero .hero-ambient__video { object-fit: cover; object-position: center; }
+.ph-hero .hero-ambient__video[style] { opacity: 0.55 !important; }
+.ph-hero .hero-ambient__video[style*="opacity: 0;"] { opacity: 0 !important; }
+.ph-hero .hero-ambient__veil {
+  background: linear-gradient(90deg, rgba(23,59,48,0.94) 0%, rgba(23,59,48,0.72) 48%, rgba(23,59,48,0.35) 100%);
+}
+.ph-hero .hero-ambient__toggle { left: auto; right: 1rem; bottom: 1rem; }
+.home-water-page.ph-page { background: #F7F8FA; }

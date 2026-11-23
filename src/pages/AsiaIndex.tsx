@@ -10,6 +10,8 @@ import PageMeta from "@/components/PageMeta";
 import { useAsia } from "@/lib/asia-i18n";
 import { getHomeHeroCopy } from "@/lib/home-hero-copy";
 import { homeStructuredData } from "@/lib/home-structured-data";
+import { getHomeVariant, useHomeVariantView } from "@/lib/home-ab";
+import HomeV2 from "@/pages/HomeV2";
 import { useQuote } from "@/components/QuoteRequest";
 import { LoadOnApproach } from "@/components/home/LoadOnApproach";
 import * as ServerSections from "@/components/home/HomeBelowFold";
@@ -105,8 +107,9 @@ const Hero = () => {
 };
 
 // ============== Page ==============
-const AsiaIndex = () => {
+const HomeA = () => {
   const { lang } = useAsia();
+  useHomeVariantView("a");
   return (
     <>
       <PageMeta
@@ -132,5 +135,8 @@ const AsiaIndex = () => {
     </>
   );
 };
+
+/** Homepage A/B test: each visitor sees version A (this page) or B (HomeV2). See src/lib/home-ab.ts. */
+const AsiaIndex = () => (getHomeVariant() === "b" ? <HomeV2 /> : <HomeA />);
 
 export default AsiaIndex;

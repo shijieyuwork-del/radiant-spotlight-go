@@ -12,6 +12,25 @@
     <meta name="theme-color" content="#55be98" />
     <meta name="application-name" content="Sino Aesthetics" />
     <meta name="apple-mobile-web-app-title" content="Sino Aesthetics" />
+    <!-- Homepage A/B test: assign each visitor to version a or b once (see src/lib/home-ab.ts). Version b hides the prerendered page until it renders. -->
+    <script>
+      (function () {
+        if (location.pathname !== "/" || navigator.webdriver) return;
+        var key = "sa_home_ab", v = null, q = null;
+        try { q = new URLSearchParams(location.search).get("ab"); } catch (e) {}
+        if (q === "a" || q === "b") { v = q; }
+        else { try { v = localStorage.getItem(key); } catch (e) {} }
+        if (v !== "a" && v !== "b") v = Math.random() < 0.5 ? "a" : "b";
+        try { localStorage.setItem(key, v); } catch (e) {}
+        var root = document.documentElement;
+        root.setAttribute("data-home-ab", v);
+        if (v === "b") {
+          root.classList.add("home-ab-pending");
+          setTimeout(function () { root.classList.remove("home-ab-pending"); }, 4000);
+        }
+      })();
+    </script>
+    <style>html.home-ab-pending #root { opacity: 0; }</style>
     <link rel="preload" as="image" href="/videos/v2-poster.webp" fetchpriority="high" />
 
     <!--
