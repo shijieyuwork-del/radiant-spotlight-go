@@ -53,7 +53,9 @@ beforeEach(() => {
     const query = {
       select: () => query,
       eq: () => query,
+      in: () => query,
       order: () => query,
+      range: () => query,
       abortSignal: () => mocks.list(table),
       then: (resolve: (value: unknown) => unknown, reject?: (reason: unknown) => unknown) => mocks.list(table).then(resolve, reject),
       insert: () => ({ select: () => ({ maybeSingle: () => Promise.resolve({ data: { id: "11111111-1111-4111-8111-111111111111" }, error: null }) }) }),
@@ -174,7 +176,7 @@ describe("published profile consultation", () => {
   it("preserves supplied details in disclosures and carries the selected expert and city", async () => {
     renderPage(<Routes><Route path="/doctors/profile/:id" element={<ManagedDoctorDetail />} /></Routes>, "/doctors/profile/published-expert");
     await screen.findByRole("heading", { name: "Published Expert" });
-    expect(screen.queryByText("Listed Clinic")).not.toBeInTheDocument();
+    expect(screen.getByText("Listed Clinic")).toBeInTheDocument();
     expect(screen.getByText("Specialty A")).toBeVisible();
     const moreSpecialties = screen.getByText("View all specialties (4)").closest("details")!;
     expect(moreSpecialties).not.toHaveAttribute("open");

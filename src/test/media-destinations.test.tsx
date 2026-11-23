@@ -35,13 +35,13 @@ beforeEach(() => { state.videoHook.mockClear(); sessionStorage.clear(); });
 afterEach(cleanup);
 
 describe("photo and video destinations", () => {
-  it("keeps Before & After image-only and excludes video procedures from filters", () => {
+  it("keeps photo filters separate while loading published video cases in pages", () => {
     const { container } = show("/before-after");
     expect(screen.getAllByRole("img")).toHaveLength(2);
     expect(container.querySelector("video")).toBeNull();
     expect(screen.queryByTestId("before-after-videos")).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Injectables" })).not.toBeInTheDocument();
-    expect(state.videoHook).not.toHaveBeenCalled();
+    expect(state.videoHook).toHaveBeenCalledWith("en", "before-after", { paginate: true });
     fireEvent.change(screen.getByRole("textbox"), { target: { value: "Photo result" } });
     expect(screen.getAllByRole("img")).toHaveLength(2);
   });

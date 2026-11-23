@@ -20,6 +20,7 @@ import { useClinicDirectory } from "@/hooks/use-clinic-directory";
 import { useAsia } from "@/lib/asia-i18n";
 import { asiaCopy } from "@/lib/asia-copy";
 import { clinicPageMeta } from "@/lib/clinic-seo";
+import LinkedCaseLinks from "@/components/cases/LinkedCaseLinks";
 
 export default function ClinicDetail() {
   const { slug = "" } = useParams();
@@ -110,6 +111,7 @@ export default function ClinicDetail() {
               <p className="mt-3 text-sm leading-6 text-muted-foreground">{c("A directory listing is not an endorsement or confirmation of a partnership. Confirm current licensing, departments, services and appointment availability directly with the institution.", "目录收录不代表推荐或合作关系确认。请直接向机构核实当前执照、科室、服务及可预约时间。", "Запись в каталоге не означает рекомендацию или подтверждение партнёрства. Уточняйте лицензии, отделения, услуги и доступность приёма непосредственно в учреждении.", "La inclusión no implica recomendación ni confirmación de colaboración. Confirma las licencias, departamentos, servicios y disponibilidad directamente con el centro.")}</p>
             </section>
             <ClinicExperts doctors={experts} isLoading={isLoading} isError={isError} retry={() => void refetch()} />
+            {clinic.doctorIds.length > 0 && <section><h2 className="font-display text-2xl">{c("Published cases", "已发布案例", "Опубликованные случаи", "Casos publicados")}</h2><LinkedCaseLinks doctorIds={clinic.doctorIds} /></section>}
           </div>
 
           <aside className="min-w-0 rounded-2xl border border-primary/20 bg-primary/5 p-6 lg:sticky lg:top-36" aria-labelledby="clinic-location-title">

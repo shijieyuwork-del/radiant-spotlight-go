@@ -12,6 +12,8 @@ import { useAsia } from "@/lib/asia-i18n";
 import { asiaCopy } from "@/lib/asia-copy";
 import { getPlanningMarketingCopy } from "@/lib/planning-marketing-copy";
 import { usePublishedBeforeAfter } from "@/hooks/use-before-after";
+import { usePublishedVideosState } from "@/hooks/use-published-videos";
+import TikTokWall from "@/components/TikTokWall";
 
 const BeforeAfterGallery = () => {
   const { lang } = useAsia();
@@ -20,6 +22,7 @@ const BeforeAfterGallery = () => {
   const marketing = getPlanningMarketingCopy(lang);
   const c = (en: string, zh: string, ru: string, es?: string) => asiaCopy(lang, { en, zh, ru, es });
   const { items, loading } = usePublishedBeforeAfter(lang);
+  const videos = usePublishedVideosState(lang, "before-after", { paginate: true });
   const [q, setQ] = useState("");
   const [procedure, setProcedure] = useState<string | null>(null);
 
@@ -136,6 +139,7 @@ const BeforeAfterGallery = () => {
           </div>
 
           <div className="mt-12">
+            {videos.items.length > 0 && <section className="mb-10"><h2 className="mb-6 font-display text-2xl">{c("Video cases", "视频案例", "Видеослучаи", "Casos en vídeo")}</h2><TikTokWall items={videos.items} lang={lang} fmtPrice={(value) => `¥${value}`} variant="wall" />{videos.hasMore && <Button className="mt-6" variant="outline" disabled={videos.isLoadingMore} onClick={videos.loadMore}>{c("Load more", "加载更多", "Загрузить ещё", "Cargar más")}</Button>}</section>}
             <MedicalDisclaimer />
           </div>
         </main>

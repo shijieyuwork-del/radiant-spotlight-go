@@ -17,6 +17,7 @@ export type TikTokItem = {
   id: string;                 // for case detail route
   src: string;                // mp4 url
   poster?: string;
+  caseHref?: string;
   /** Published translations are optional; keep English visible when unavailable. */
   user: DiaryText;
   caption: DiaryText;
@@ -70,7 +71,7 @@ export const TikTokCard = ({
   const wrapRef = useRef<HTMLDivElement>(null);
   const [muted, setMuted] = useState(true);
   const [near, setNear] = useState(eager);
-  const caseUrl = `${caseHrefBase}${item.id}`;
+  const caseUrl = item.caseHref ?? `${caseHrefBase}${item.id}`;
   const { saved, toggleSaved, saveLabel } = useSavedCase(item.id);
   const controls = videoControlsCopy[lang];
   const recoveryStage = (() => {
@@ -147,7 +148,7 @@ export const TikTokCard = ({
         preload={near ? "metadata" : "none"}
         className="absolute inset-0 size-full object-cover [backface-visibility:hidden] [transform:translateZ(0)]"
       />
-      <Link to={caseUrl} tabIndex={playbackEnabled ? 0 : -1} aria-label={diaryText(item.caption, lang)} className="absolute inset-0 rounded-3xl focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-inset focus-visible:ring-primary" onClick={(event) => {
+      <Link to={caseUrl} tabIndex={playbackEnabled ? 0 : -1} aria-label={`Open case: ${diaryText(item.caption, lang)}`} className="absolute inset-0 rounded-3xl focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-inset focus-visible:ring-primary" onClick={(event) => {
         if (beforeNavigate && !beforeNavigate()) { event.preventDefault(); return; }
         if (!event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) onBeforeNavigate?.(item.id);
       }} />
@@ -222,7 +223,7 @@ export const TikTokCard = ({
       {/* bottom info */}
       <div className="pointer-events-none absolute left-3 right-16 bottom-3 text-white">
         <p className="text-xs font-semibold opacity-95"><Highlight text={diaryText(item.user, lang)} query={highlight} className={MARK_CLASS} /></p>
-        <p className="text-[12px] mt-1 leading-snug line-clamp-2"><Highlight text={diaryText(item.caption, lang)} query={highlight} className={MARK_CLASS} /></p>
+        <p className="text-[12px] mt-1 leading-snug line-clamp-2"><Link to={caseUrl} className="pointer-events-auto hover:underline" onClick={() => onBeforeNavigate?.(item.id)}><Highlight text={diaryText(item.caption, lang)} query={highlight} className={MARK_CLASS} /></Link></p>
         {item.city && (
           <p className="mt-1 flex items-center gap-1 text-label font-medium text-white/90">
             <MapPin className="size-3" /> <Highlight text={diaryText(item.city, lang)} query={highlight} className={MARK_CLASS} />

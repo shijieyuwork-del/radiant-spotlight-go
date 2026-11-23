@@ -5,11 +5,14 @@ import { localizeVideoRow } from "@/lib/i18n-content";
 import { useRealtimeRefresh } from "@/hooks/use-realtime-refresh";
 import type { TikTokItem } from "@/components/TikTokWall";
 import type { AsiaLang } from "@/lib/asia-i18n";
+import { casePath, caseMediaUrl } from "@/lib/case-seo";
+import { usePublicCaseData } from "@/lib/public-case-data";
 
 type Row = {
   id: string; title: string; caption: string | null; city: string | null;
   procedure: string | null; storage_path: string; cover_path: string | null;
   created_at: string; doctor_id: string | null; i18n: unknown;
+  doctors?: { name: string; i18n: unknown; status: string } | null;
 };
 
 /** 把后台上传并发布的视频转成前台视频卡片数据。 */
@@ -17,6 +20,7 @@ export const toTikTokItem = (row: Row, url: string, cover: string): TikTokItem =
   const both = (value: string) => ({ en: value, zh: value });
   return {
     id: row.id,
+    caseHref: casePath(row, row.doctors?.status === "published" ? row.doctors : undefined),
     src: url,
     poster: cover || undefined,
     user: both(""),
@@ -35,8 +39,9 @@ export const toTikTokItem = (row: Row, url: string, cover: string): TikTokItem =
 export const usePublishedVideosState = (lang: AsiaLang, placement: "diary" | "before-after" | "all" = "diary", options: { limit?: number; paginate?: boolean } = {}) => {
   const limit = Math.max(1, Math.floor(options.limit ?? 24));
   const paginate = options.paginate ?? false;
-  const [items, setItems] = useState<TikTokItem[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const initial = usePublicCaseData();
+  const [items, setItems] = useState<TikTokItem[]>(() => (initial?.videos ?? []).filter((r) => placement === "all" || r.placement === placement).slice(0, limit).map((r) => toTikTokItem(r, caseMediaUrl(r.id, "video"), r.cover_path ? caseMediaUrl(r.id, "thumb") : "")));
+  const [isLoading, setIsLoading] = useState(!initial);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [hasMore, setHasMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -56,7 +61,7 @@ export const usePublishedVideosState = (lang: AsiaLang, placement: "diary" | "be
       const size = append ? limit : Math.max(limit, paginate ? rowsRef.current.length : limit);
       let query = supabase
         .from("videos")
-        .select("id,title,caption,city,procedure,storage_path,cover_path,created_at,doctor_id,i18n", { count: "exact" })
+        .select("id,title,caption,city,procedure,storage_path,cover_path,created_at,doctor_id,i18n,doctors(name,i18n,status)", { count: "exact" })
         .eq("status", "published")
         .order("created_at", { ascending: false }).order("id", { ascending: false });
       if (placement !== "all") query = query.eq("placement", placement);
@@ -69,9 +74,10 @@ export const usePublishedVideosState = (lang: AsiaLang, placement: "diary" | "be
         signedUrls("video-covers", rows.map((r) => r.cover_path)),
       ]);
       if (request !== generation.current) return;
-      const next = rows.map((r, i) =>
-        toTikTokItem(localizeVideoRow(r as unknown as Record<string, unknown>, lang) as unknown as Row, urls[i], covers[i])
-      );
+      const next = rows.map((r, i) => ({
+        ...toTikTokItem(localizeVideoRow(r as unknown as Record<string, unknown>, lang) as unknown as Row, urls[i], covers[i]),
+        caseHref: casePath(r, r.doctors?.status === "published" ? r.doctors : undefined),
+      }));
       rowsRef.current = append ? [...rowsRef.current, ...rows].filter((r, i, all) => all.findIndex((other) => other.id === r.id) === i) : rows;
       setItems((prev) => append ? [...prev, ...next].filter((item, i, all) => all.findIndex((other) => other.id === item.id) === i) : next);
       setHasMore(paginate && (count != null ? start + rows.length < count : rows.length === size));

@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { lazy, Suspense, type ReactNode } from "react";
+import { lazy, Suspense, useMemo, type ReactNode } from "react";
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
@@ -15,13 +15,14 @@ import { SavedCasesSync } from "@/lib/saved-cases";
 import AsiaIndex from "./pages/AsiaIndex.tsx";
 import AnalyticsRouteTracker from "@/components/AnalyticsRouteTracker";
 import ConsentBanner from "@/components/ConsentBanner";
+import { PublicCaseProvider, readPublicCaseData } from "@/lib/public-case-data";
 
 const queryClient = new QueryClient();
 
 const InternationalPatients = lazy(() => import("./pages/InternationalPatients.tsx"));
 const Cases = lazy(() => import("./pages/Cases.tsx"));
 const SavedCases = lazy(() => import("./pages/SavedCases.tsx"));
-const CaseDetail = lazy(() => import("./pages/CaseDetail.tsx"));
+const CaseDetail = lazy(() => import("./pages/CaseRoute.tsx"));
 const Doctors = lazy(() => import("./pages/Doctors.tsx"));
 const DoctorDetail = lazy(() => import("./pages/DoctorDetail.tsx"));
 const ManagedDoctorDetail = lazy(() => import("./pages/ManagedDoctorDetail.tsx"));
@@ -56,8 +57,8 @@ const MedicalTourismArticle = lazy(() => import("./pages/MedicalTourismArticle.t
 
 const RouteFallback = () => <div className="min-h-[55vh] bg-background" aria-live="polite" aria-label="Loading page" />;
 
-export const AppProviders = ({ children, language }: { children: ReactNode; language?: "en" | "vi" }) => (
-  <QueryClientProvider client={queryClient}>
+export const AppProviders = ({ children, language, client = queryClient }: { children: ReactNode; language?: "en" | "vi"; client?: QueryClient }) => (
+  <QueryClientProvider client={client}>
     <I18nProvider>
           <AsiaI18nProvider languageOverride={language}>
             <AuthProvider>
@@ -138,7 +139,8 @@ export const AppRoutes = () => (
 
 const AppContent = () => {
   const { pathname } = useLocation();
-  return <AppProviders language={internationalLanguage(pathname)}><AppRoutes /></AppProviders>;
+  const initial = useMemo(readPublicCaseData, []);
+  return <PublicCaseProvider data={initial}><AppProviders language={internationalLanguage(pathname)}><AppRoutes /></AppProviders></PublicCaseProvider>;
 };
 
 const App = () => <BrowserRouter><AppContent /></BrowserRouter>;

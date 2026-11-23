@@ -14,7 +14,7 @@ import {
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
-import { supabase } from "@/integrations/supabase/client";
+import { getBrowserClient } from "@/lib/browser-client";
 import { localizeDoctorRow, localizeVideoRow } from "@/lib/i18n-content";
 import { signedUrl, signedUrls } from "@/lib/storage-urls";
 import { formatCityTime, getCityTimezone } from "@/lib/timezones";
@@ -24,6 +24,11 @@ import { useAsia } from "@/lib/asia-i18n";
 import BeforeAfterCard from "@/components/BeforeAfterCard";
 import { usePublishedBeforeAfter } from "@/hooks/use-before-after";
 import { getDirectoryDoctorPortraitRetouch } from "@/data/directory-doctor-portrait-retouches";
+import { usePublicCaseData } from "@/lib/public-case-data";
+import { casePath, expertName, expertPageMeta, type CaseExpert } from "@/lib/case-seo";
+import { MedicalDisclaimer } from "@/components/MedicalDisclaimer";
+import LinkedCaseLinks from "@/components/cases/LinkedCaseLinks";
+import { useClinicDirectory } from "@/hooks/use-clinic-directory";
 
 type Doctor = {
   id: string;
@@ -35,6 +40,8 @@ type Doctor = {
   credentials: string | null;
   languages: string | null;
   photo_path: string | null;
+  hospital: string;
+  i18n: unknown;
 };
 type Video = {
   id: string;
@@ -44,15 +51,21 @@ type Video = {
   cover_path: string | null;
   url?: string;
   coverUrl?: string;
+  procedure?: string | null;
+  city?: string | null;
+  i18n?: unknown;
 };
 const ManagedDoctorDetail = () => {
   const { lang } = useAsia();
   const { id = "" } = useParams();
+  const initial = usePublicCaseData();
+  const { clinics } = useClinicDirectory();
+  const seeded = initial?.doctors.find((d) => d.id === id);
   const { items: beforeAfter } = usePublishedBeforeAfter(lang, id);
-  const [doctor, setDoctor] = useState<Doctor | null>(null);
-  const [videos, setVideos] = useState<Video[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [photo, setPhoto] = useState("");
+  const [doctor, setDoctor] = useState<Doctor | null>(() => seeded ? localizeDoctorRow(seeded as unknown as Record<string, unknown>, lang) as unknown as Doctor : null);
+  const [videos, setVideos] = useState<Video[]>(() => initial?.videos.filter((v) => v.doctor_id === id).slice(0, 24) ?? []);
+  const [loading, setLoading] = useState(!seeded);
+  const [photo, setPhoto] = useState(seeded?.photo ?? "");
   useEffect(() => {
     let cancelled = false;
     setLoading(true);
@@ -61,10 +74,11 @@ const ManagedDoctorDetail = () => {
     setPhoto("");
     void (async () => {
       try {
+        const supabase = await getBrowserClient();
         const { data, error } = await supabase
           .from("doctors")
           .select(
-            "id,name,title,city,specialties,bio,credentials,languages,photo_path,i18n",
+            "id,name,title,hospital,city,specialties,bio,credentials,languages,photo_path,i18n,created_at,status",
           )
           .eq("id", id)
           .eq("status", "published")
@@ -74,15 +88,16 @@ const ManagedDoctorDetail = () => {
           data as Record<string, unknown>,
           lang,
         ) as unknown as Doctor;
+        nextDoctor.name = expertName(nextDoctor, lang);
         const nextPhoto = getDirectoryDoctorPortraitRetouch(nextDoctor)?.photo
           || await signedUrl("doctor-photos", (data as Doctor).photo_path);
         if (cancelled) return;
         const r = await supabase
           .from("videos")
-          .select("id,title,caption,storage_path,cover_path,i18n")
+          .select("id,title,caption,procedure,city,storage_path,cover_path,i18n")
           .eq("doctor_id", id)
           .eq("status", "published")
-          .order("created_at", { ascending: false });
+          .order("created_at", { ascending: false }).range(0, 23);
         if (cancelled) return;
         const rows = (r.data ?? []) as Video[];
         const [urls, coverUrls] = await Promise.all([
@@ -131,6 +146,7 @@ const ManagedDoctorDetail = () => {
   if (!doctor)
     return (
       <>
+        <PageMeta title="Expert profile not found" description="The requested profile could not be found." path={`/doctors/profile/${id}`} robots="noindex, follow" />
         <AsiaNavbar />
         <main className="container py-24 text-center">
           {c(
@@ -152,6 +168,8 @@ const ManagedDoctorDetail = () => {
       </>
     );
   const tz = getCityTimezone(doctor.city);
+  const clinic = clinics.find((c) => c.doctorIds.includes(id));
+  const seo = expertPageMeta({ ...seeded, ...doctor, id, status: "published", created_at: seeded?.created_at ?? "", i18n: doctor.i18n ?? {}, photo } as CaseExpert, clinic);
   const doctorSchema = {
     "@context": "https://schema.org",
     "@type": "Physician",
@@ -178,11 +196,8 @@ const ManagedDoctorDetail = () => {
   return (
     <>
       <PageMeta
-        title={`${doctor.name} | ${doctor.title}`}
-        description={`${doctor.name}, ${doctor.title} in ${doctor.city}.`}
-        path={`/doctors/profile/${doctor.id}`}
-        image={photo || undefined}
-        structuredData={doctorSchema}
+        {...seo}
+        structuredData={{ ...doctorSchema, ...seo.structuredData }}
       />
       <div className="min-h-screen bg-background">
         <AsiaNavbar />
@@ -213,6 +228,7 @@ const ManagedDoctorDetail = () => {
                 <p className="mt-2 flex items-center gap-1.5 text-sm text-foreground">
                   <MapPin className="size-4 shrink-0" />{doctor.city}
                 </p>
+                {doctor.hospital && <p className="mt-2 text-sm">{clinic ? <Link className="text-brand underline" to={`/clinics/${clinic.slug}`}>{doctor.hospital}</Link> : doctor.hospital}</p>}
               </div>
             </div>
 
@@ -305,7 +321,7 @@ const ManagedDoctorDetail = () => {
                         coverUrl={v.coverUrl}
                         className="w-full aspect-[9/16] object-cover rounded-2xl bg-black"
                       />
-                      <h3 className="font-semibold mt-2">{v.title}</h3>
+                      <h3 className="font-semibold mt-2"><Link className="hover:underline" to={casePath({ id: v.id, procedure: v.procedure ?? null, city: v.city ?? null, i18n: v.i18n ?? {} }, doctor)}>{v.title}</Link></h3>
                       <p className="text-xs text-muted-foreground">
                         {v.caption}
                       </p>
@@ -354,6 +370,8 @@ const ManagedDoctorDetail = () => {
               </div>
             )}
           </section>
+          <section className="mt-8"><h2 className="font-display text-2xl">{c("Published case library", "已发布案例库", "Библиотека случаев", "Biblioteca de casos")}</h2><LinkedCaseLinks doctorIds={[id]} /></section>
+          <div className="mt-10"><MedicalDisclaimer /></div>
         </main>
         <Footer />
       </div>

@@ -16,6 +16,8 @@ import { build } from "esbuild";
 import { readFile, writeFile, mkdir, rm } from "fs/promises";
 import path from "path";
 import { fileURLToPath, pathToFileURL } from "url";
+import { loadEnv } from "vite";
+import { loadPublicCaseSnapshot, scopePublicCaseData, generateVideoSitemap } from "./scripts/public-case-snapshot.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DIST = path.join(__dirname, "dist");
@@ -35,6 +37,8 @@ async function loadAppData() {
         export { PROCEDURE_CATALOG } from "@/data/procedureCatalog";
         export { MEDICAL_TOURISM_GUIDES, medicalTourismGuidePath } from "@/data/medicalTourismGuides";
         export { STATIC_CLINICS } from "@/data/clinicDirectory";
+        export { mergeClinicDirectory, applyClinicRecords } from "@/data/clinicDirectory";
+        export { casePageMeta, expertPageMeta, casePath, expertPath, caseMediaUrl, resolveCase } from "@/lib/case-seo";
         export { CLINIC_DIRECTORY_META, clinicPageMeta } from "@/lib/clinic-seo";
         export { SITE_URL, SITE_NAME, OG_IMAGE, TWITTER_HANDLE, ORGANIZATION_SCHEMA, ORGANIZATION_ENTITY, WEBSITE_ENTITY, HOME_TITLE, SITE_DESCRIPTION } from "@/lib/seo-config";
         export { homeStructuredData } from "@/lib/home-structured-data";
@@ -53,7 +57,10 @@ async function loadAppData() {
       ".mp4": "empty", ".css": "empty",
     },
     // seo-config 读 import.meta.env，Node 下没有，喂一个等价值进去
-    define: { "import.meta.env.VITE_SITE_URL": JSON.stringify(process.env.VITE_SITE_URL || "https://sinoaesthetics.com") },
+    define: {
+      "import.meta.env.VITE_SITE_URL": JSON.stringify(process.env.VITE_SITE_URL || "https://sinoaesthetics.com"),
+      "import.meta.env.VITE_SUPABASE_URL": JSON.stringify(process.env.VITE_SUPABASE_URL || loadEnv("production", __dirname, "VITE_").VITE_SUPABASE_URL),
+    },
     logLevel: "silent",
   });
   return import(pathToFileURL(TMP).href + "?t=" + Date.now());
@@ -134,7 +141,7 @@ function renderMeta({ title, absoluteTitle = false, description, path: p, image,
 }
 
 /** 枚举全部路由及其 meta。与各页面 PageMeta 调用一一对应。 */
-function buildRoutes(d) {
+function buildRoutes(d, publicData) {
   const routes = [
     {
       path: "/",
@@ -356,11 +363,12 @@ function buildRoutes(d) {
     });
   }
 
-  for (const clinic of d.STATIC_CLINICS) {
+  for (const clinic of publicData.clinics) {
     const metadata = d.clinicPageMeta(clinic);
     routes.push({
       ...metadata,
       schema: metadata.structuredData,
+      lastmod: publicData.clinicRows.find((row) => row.id === clinic.recordId)?.updated_at,
     });
   }
 
@@ -406,11 +414,20 @@ function buildRoutes(d) {
   for (const guide of [undefined, ...d.INTERNATIONAL_GUIDES]) {
     routes.push({ ...d.internationalMeta(guide, d.SITE_URL), type: guide ? "article" : "website", includeBreadcrumb: false });
   }
+  for (const doc of publicData.doctors) {
+    const meta = d.expertPageMeta(doc, publicData.clinics.find((clinic) => clinic.doctorIds.includes(doc.id)));
+    routes.push({ ...meta, schema: meta.structuredData, lastmod: doc.updated_at || doc.created_at });
+  }
+  for (const video of publicData.videos) {
+    const meta = d.casePageMeta(video, publicData.doctors.find((doc) => doc.id === video.doctor_id));
+    routes.push({ ...meta, schema: meta.structuredData, includeInSitemap: Boolean(video.cover_path), lastmod: video.updated_at || video.created_at });
+  }
   return routes;
 }
 
 async function main() {
   const d = await loadAppData();
+  const publicData = await loadPublicCaseSnapshot(d);
   const { render } = await import(pathToFileURL(path.join(SSR_DIR, "entry-server.js")).href + "?t=" + Date.now());
   const template = await readFile(path.join(DIST, "index.html"), "utf8");
 
@@ -420,7 +437,7 @@ async function main() {
     process.exit(1);
   }
 
-  const routes = buildRoutes(d);
+  const routes = buildRoutes(d, publicData);
   const cfg = d;
 
   for (const r of routes) {
@@ -460,10 +477,17 @@ async function main() {
       r.path === "/plastic-surgery-china" ||
       r.path === "/treatments" || r.path.startsWith("/treatments/") ||
       r.path === "/cities" || r.path.startsWith("/cities/") ||
-      r.path === "/clinics" || r.path.startsWith("/clinics/");
+      r.path === "/clinics" || r.path.startsWith("/clinics/") ||
+      r.path.startsWith("/doctors/profile/") ||
+      (r.path.startsWith("/cases/") && r.lastmod);
     if (isSsgRoute) {
-      const body = render(r.path);
+      const scoped = scopePublicCaseData(r.path, publicData, d);
+      const body = render(r.path, scoped);
       html = html.replace('<div id="root"></div>', `<div id="root">${body}</div>`);
+      if (scoped.videos.length || scoped.doctors.length || scoped.clinics.length) {
+        const snapshot = JSON.stringify(scoped).replace(/</g, "\\u003c");
+        html = html.replace("</body>", `<script type="application/json" id="public-case-data">${snapshot}</script>\n</body>`);
+      }
     }
     if (r.path === "/") {
       await writeFile(path.join(DIST, "index.html"), html, "utf8");
@@ -484,16 +508,19 @@ async function main() {
 
   const sitemapUrls = routes
     .filter((route) => route.includeInSitemap !== false)
-    .map((route) => `  <url>\n    <loc>${esc(`${cfg.SITE_URL}${route.path}`)}</loc>\n  </url>`)
+    .map((route) => `  <url>\n    <loc>${esc(`${cfg.SITE_URL}${route.path}`)}</loc>${route.lastmod ? `\n    <lastmod>${esc(new Date(route.lastmod).toISOString())}</lastmod>` : ""}\n  </url>`)
     .join("\n");
   await writeFile(
     path.join(DIST, "sitemap.xml"),
     `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapUrls}\n</urlset>\n`,
     "utf8",
   );
+  await writeFile(path.join(DIST, "sitemap-videos.xml"), generateVideoSitemap(publicData.videos, publicData.doctors, d), "utf8");
+  const llms = await readFile(path.join(DIST, "llms.txt"), "utf8");
+  await writeFile(path.join(DIST, "llms.txt"), llms.replace(/Current published library: approximately \d+ video cases/, `Current published library: approximately ${publicData.videos.length} video cases`), "utf8");
 
   await Promise.all([rm(TMP, { force: true }), rm(SSR_DIR, { recursive: true, force: true })]);
-  console.log(`prerender: 已生成 ${routes.length} 个页面，核心指南、治疗页、城市页及医院目录/详情页包含静态正文`);
+  console.log(`prerender: generated ${routes.length} pages, including ${publicData.videos.length} published cases and ${publicData.doctors.length} expert profiles with static body text`);
 }
 
 main().catch((e) => {

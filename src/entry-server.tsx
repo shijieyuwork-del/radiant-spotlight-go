@@ -1,4 +1,5 @@
 import { renderToString } from "react-dom/server";
+import { QueryClient } from "@tanstack/react-query";
 import { StaticRouter } from "react-router-dom/server";
 import { Route, Routes } from "react-router-dom";
 import InternationalPatients from "./pages/InternationalPatients";
@@ -27,12 +28,16 @@ import ProviderVerification from "./pages/ProviderVerification";
 import MedicalReviewPolicy from "./pages/MedicalReviewPolicy";
 import EditorialPolicy from "./pages/EditorialPolicy";
 import TreatmentLandingPage from "./pages/TreatmentLandingPage";
+import PublishedCasePage from "./pages/PublishedCasePage";
+import ManagedDoctorDetail from "./pages/ManagedDoctorDetail";
+import { PublicCaseProvider, type PublicCaseData } from "./lib/public-case-data";
 
 /** Build-time renderer for the indexable SEO core. */
-export function render(url: string) {
+export function render(url: string, data: PublicCaseData | null = null) {
   return renderToString(
     <StaticRouter location={url}>
-      <AppProviders language={internationalLanguage(url)}>
+      <PublicCaseProvider data={data}>
+      <AppProviders language={internationalLanguage(url)} client={new QueryClient()}>
         <Routes>
           <Route path={INTERNATIONAL_HUB} element={<InternationalPatients />} />
           {INTERNATIONAL_GUIDES.map(g => <Route key={g.path} path={g.path} element={<InternationalPatients />} />)}
@@ -55,7 +60,9 @@ export function render(url: string) {
           <Route path="/" element={<AsiaIndex />} />
           <Route path="/why-china" element={<WhyChina />} />
           <Route path="/doctors" element={<Doctors />} />
+          <Route path="/doctors/profile/:id" element={<ManagedDoctorDetail />} />
           <Route path="/cases" element={<Cases />} />
+          <Route path="/cases/:id" element={<PublishedCasePage />} />
           <Route path="/before-after" element={<BeforeAfterGallery />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/privacy" element={<Privacy />} />
@@ -69,6 +76,7 @@ export function render(url: string) {
           <Route path="/lp/facelift-china" element={<TreatmentLandingPage kind="facelift" />} />
         </Routes>
       </AppProviders>
+      </PublicCaseProvider>
     </StaticRouter>,
   );
 }

@@ -1,5 +1,9 @@
 ## Tasks
 
+- [x] Add canonical published case pages, stable published-only media redirects, and case/expert structured data without touching the running importer.
+- [x] Feed public database records into existing prerendering, generate case/expert and video sitemaps, and update internal links and llms.txt.
+- [x] Run focused SEO/media tests, verify public case flows and static HTML, and inspect automatic build results. Stable media endpoint live verification awaits deployment; no manual deployment or publication performed.
+
 - [x] Add and verify the admin-only Medora importer, resumable batches and browser-generated covers.
 - [x] Limit public video previews to 24 and add 24-at-a-time listing pagination; run tests and check the automatic build.
 

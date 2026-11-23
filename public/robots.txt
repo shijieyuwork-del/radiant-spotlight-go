@@ -29,6 +29,7 @@ Disallow: /upload
 
 # Sitemap for search engines
 Sitemap: https://sinoaesthetics.com/sitemap.xml
+Sitemap: https://sinoaesthetics.com/sitemap-videos.xml
 
 # Crawl delay (optional, prevents overwhelming the server)
 Crawl-delay: 1

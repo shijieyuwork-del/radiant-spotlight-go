@@ -5,6 +5,7 @@ import { signedUrls } from "@/lib/storage-urls";
 import { localizeDoctorRow } from "@/lib/i18n-content";
 import type { AsiaLang } from "@/lib/asia-i18n";
 import { useRealtimeRefresh } from "@/hooks/use-realtime-refresh";
+import { usePublicCaseData } from "@/lib/public-case-data";
 
 export type PublishedDoctor = {
   id: string; name: string; title: string; city: string; specialties: string[];
@@ -18,9 +19,13 @@ const chinaCities = ["shanghai", "beijing", "guangzhou", "hangzhou", "hainan", "
 
 /** Never substitute sample people for a pending, empty, or failed live response. */
 export function usePublishedDoctors(lang: AsiaLang) {
+  const initial = usePublicCaseData();
   const queryClient = useQueryClient();
-  const doctors = useQuery({
+  const doctors = useQuery<PublishedDoctor[]>({
     queryKey,
+    initialData: initial?.doctors,
+    initialDataUpdatedAt: 0,
+    enabled: typeof window !== "undefined",
     staleTime: 60_000,
     queryFn: async ({ signal }) => {
       const supabase = await getBrowserClient();

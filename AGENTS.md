@@ -2,6 +2,10 @@
 
 ## Rules
 
+- Published case and expert SEO shares metadata helpers and public-record snapshots with the existing static renderer; build-time reads fail closed so incomplete database fetches cannot silently drop indexed routes.
+- Static case payloads contain only public records scoped to each route; runtime lookups and media redirects recheck publication, and eight-character ID collisions fail closed rather than resolving to an arbitrary case.
+- Sitemap lastmod uses authoritative row timestamps only, never the build date, because rebuilding is not a significant page content update.
+
 - Medora imports validate the fixed source allowlist and admin identity server-side; public video queries default to bounded pages so partner media cannot create unbounded downloads or signing work.
 
 - User-facing contact details (WhatsApp number, email) come from `src/lib/consultation-handoff.ts`; never inline a second `wa.me/<number>` or `mailto:` literal, because the coordinator contact changes in one place.
