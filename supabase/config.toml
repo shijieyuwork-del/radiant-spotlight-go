@@ -1,5 +1,8 @@
 project_id = "vczghaemqtmsxvgtvbah"
 
+[functions.import-medora-cases]
+verify_jwt = true
+
 [functions]
   [functions.auth-email-hook]
     verify_jwt = false

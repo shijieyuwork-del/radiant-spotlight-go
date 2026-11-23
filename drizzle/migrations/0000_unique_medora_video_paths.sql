@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX IF NOT EXISTS videos_medora_storage_path_unique ON public.videos (storage_path) WHERE storage_path LIKE 'medora/%';

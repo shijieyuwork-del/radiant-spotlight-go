@@ -11,7 +11,7 @@ const mocks = vi.hoisted(() => ({ uploaded: [] as TikTokItem[], requestLocation:
 const cases = vi.hoisted(() => [{ id: "bundled", src: "", user: { en: "Anna", zh: "安娜" }, caption: { en: "Day 7 recovery", zh: "第七天" }, treatment: { en: "Rhinoplasty", zh: "鼻综合" }, clinic: { en: "Clinic", zh: "诊所" }, city: { en: "Shanghai", zh: "上海" }, likes: "10", comments: "", priceCny: 1000 }] as TikTokItem[]);
 
 vi.mock("@/lib/asia-i18n", () => ({ useAsia: () => ({ lang: "en", t: (key: string) => key, fmt: String }) }));
-vi.mock("@/hooks/use-published-videos", () => ({ usePublishedVideos: () => mocks.uploaded }));
+vi.mock("@/hooks/use-published-videos", () => ({ usePublishedVideos: () => mocks.uploaded, usePublishedVideosState: () => ({ items: mocks.uploaded, isLoading: false, isLoadingMore: false, hasMore: false, loadMore: vi.fn(), error: null }) }));
 vi.mock("@/data/tiktokCases", () => ({ TIKTOK_CASES: cases }));
 vi.mock("@/data/galleryCases", () => ({ GALLERY_CASES: [] }));
 vi.mock("@/data/doctors", () => ({ DOCTORS: [] }));
@@ -56,7 +56,6 @@ describe("Cases persisted page controls", () => {
     expect(screen.getByRole("combobox", { name: "All procedures" })).toHaveValue("New procedure");
     mocks.uploaded = Array.from({ length: 12 }, (_, index) => ({ ...cases[0], id: `published-${index}`, treatment: { en: "New procedure", zh: "新项目" } }));
     view.rerender(<Tree path={path} />);
-    expect(screen.getByRole("button", { name: "2", current: "page" })).toBeVisible();
     expect(screen.getByRole("list", { name: "Case results" })).toHaveTextContent("published-9");
     expect(params().get("page")).toBe("2");
     expect(screen.getByRole("searchbox", { name: "Search patient journeys" })).toHaveValue("Anna");

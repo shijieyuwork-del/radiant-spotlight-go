@@ -16,7 +16,7 @@ const mocks = vi.hoisted(() => ({
 }));
 
 vi.mock("@/lib/asia-i18n", () => ({ useAsia: () => ({ lang: mocks.lang, t: () => "Patient diaries", fmt: (value: number) => String(value) }) }));
-vi.mock("@/hooks/use-published-videos", () => ({ usePublishedVideos: () => mocks.uploaded }));
+vi.mock("@/hooks/use-published-videos", () => ({ usePublishedVideos: () => mocks.uploaded, usePublishedVideosState: () => ({ items: mocks.uploaded, isLoading: false, isLoadingMore: false, hasMore: false, loadMore: vi.fn(), error: null }) }));
 vi.mock("@/data/tiktokCases", () => ({ TIKTOK_CASES: mocks.cases }));
 vi.mock("@/data/galleryCases", () => ({ GALLERY_CASES: [] }));
 vi.mock("@/data/doctors", () => ({ DOCTORS: [] }));

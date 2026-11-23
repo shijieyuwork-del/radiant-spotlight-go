@@ -5,7 +5,8 @@ import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
 import TikTokWall, { type TikTokItem } from "@/components/TikTokWall";
-import { Pagination, SortChips } from "@/components/ListControls";
+import { SortChips } from "@/components/ListControls";
+import { Button } from "@/components/ui/button";
 import CasesFilterDisclosure from "@/components/CasesFilterDisclosure";
 import CasesFilterSidebar from "@/components/CasesFilterSidebar";
 import CaseCategoryNavigation, { caseCategoryLabel, matchesCaseCategory } from "@/components/CaseCategoryNavigation";
@@ -19,8 +20,6 @@ import { translatedUiText } from "@/lib/locale-text";
 import { cityCoordsOf, haversineKm, useUserLocation } from "@/lib/geo";
 import { useDirectoryReturnPosition, useDirectoryState } from "@/hooks/use-directory-state";
 
-const PAGE_SIZE = 9;
-
 /** "56k" -> 56000；"1.2k" -> 1200；空串 -> 0 */
 const parseLikes = (s: string) => {
   const m = String(s ?? "").trim().toLowerCase().match(/^([\d.]+)k?$/);
@@ -32,7 +31,7 @@ const parseLikes = (s: string) => {
 const Cases = () => {
   const { t, lang, fmt } = useAsia();
   const c = (en: string, zh: string, ru: string, es?: string, th?: string, ms?: string) => asiaCopy(lang, { en, zh, ru, es, th, ms });
-  const { q, treatment: activeTreatment, city: activeCity, stage: activeStage, sort, page, setFilter, setPage, reset } = useDirectoryState("cases");
+  const { q, treatment: activeTreatment, city: activeCity, stage: activeStage, sort, setFilter, reset } = useDirectoryState("cases");
   const setQ = (value: string) => setFilter("q", value);
   const setActiveTreatment = (value: string) => setFilter("treatment", value);
   const setActiveCity = (value: string) => setFilter("city", value);
@@ -40,7 +39,7 @@ const Cases = () => {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
   // Include all published videos, including legacy Before & After placements.
-  const { items: uploaded, isLoading: videosLoading } = usePublishedVideosState(lang, "all");
+  const { items: uploaded, isLoading: videosLoading, isLoadingMore, hasMore, loadMore, error: videosError } = usePublishedVideosState(lang, "all", { paginate: true });
   const ALL_CASES = useMemo(() => mergePatientDiaryCases(uploaded, PATIENT_DIARY_CASES), [uploaded]);
 
   // Use the case's own China destination; fall back to expert data for legacy entries.
@@ -132,14 +131,7 @@ const Cases = () => {
     return arr;
   }, [items, sort, coords, caseCity]);
 
-  // —— 分页 ——
-  const totalPages = Math.max(1, Math.ceil(sortedItems.length / PAGE_SIZE));
-  const safePage = Math.min(page, totalPages);
-  const pagedItems = useMemo(
-    () => sortedItems.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE),
-    [sortedItems, safePage],
-  );
-  const { rootRef: resultsRef, remember: rememberReturnPosition } = useDirectoryReturnPosition(true, pagedItems.map((item) => item.id).join("|"));
+  const { rootRef: resultsRef, remember: rememberReturnPosition } = useDirectoryReturnPosition(true, sortedItems.map((item) => item.id).join("|"));
 
   const hasFilters = Boolean(activeTreatment || activeCity || activeStage || q || sort !== "recommended");
   const secondaryFilterCount = Number(Boolean(activeCity)) + Number(Boolean(activeStage)) + Number(sort !== "recommended");
@@ -305,10 +297,11 @@ const Cases = () => {
         ) : (
           <div ref={resultsRef}>
             <div className="sr-only md:not-sr-only md:mb-5 md:flex md:items-end md:justify-between md:gap-4"><div><span className="pill bg-accent text-accent-foreground">{c("Latest recovery updates", "最新更新", "Последние обновления", "Últimas actualizaciones")}</span><h2 className="mt-3 font-display text-[1.75rem] font-medium leading-tight md:text-3xl">{c("Choose a journey to continue", "选择一个历程继续观看", "Выберите историю и продолжайте просмотр", "Elige una historia para continuar")}</h2></div><span className="hidden items-center gap-1 text-sm font-semibold text-brand md:inline-flex">{c("Open a card for the full timeline", "点击卡片查看完整时间线", "Откройте карточку, чтобы увидеть весь путь", "Abre una tarjeta para ver la cronología completa")}<ArrowRight className="size-4" /></span></div>
-            <TikTokWall items={pagedItems} lang={lang} fmtPrice={fmt} variant="cases" highlight={q} onBeforeNavigate={rememberReturnPosition} />
-            <Pagination page={safePage} totalPages={totalPages} onChange={setPage} />
+            <TikTokWall items={sortedItems} lang={lang} fmtPrice={fmt} variant="cases" highlight={q} onBeforeNavigate={rememberReturnPosition} />
           </div>
         )}
+        {videosError && <p role="alert" className="mt-4 text-center text-sm text-destructive">{videosError}</p>}
+        {hasMore && <div className="mt-6 flex justify-center"><Button variant="outline" disabled={isLoadingMore} onClick={loadMore}>{isLoadingMore ? c("Loading…", "加载中…", "Загрузка…", "Cargando…") : c("Load more", "加载更多", "Загрузить ещё", "Cargar más")}</Button></div>}
         </div>
         </div>
 

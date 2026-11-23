@@ -22,6 +22,7 @@ import { useRealtimeRefresh } from "@/hooks/use-realtime-refresh";
 import BeforeAfterAdmin from "@/components/BeforeAfterAdmin";
 import ClinicAdmin from "@/components/ClinicAdmin";
 import QuoteRequestsAdmin from "@/components/QuoteRequestsAdmin";
+import MedoraImportCard from "@/components/MedoraImportCard";
 import DoctorAdmin from "./DoctorAdmin";
 import VideoAdmin from "./VideoAdmin";
 
@@ -216,6 +217,8 @@ export default function ContentAdmin() {
           <h1 className="font-display text-3xl">内容管理中心</h1>
           <p className="text-sm text-muted-foreground mt-1">在这里查看、编辑、上下架或删除所有专家与视频。</p>
         </div>
+
+        {user.email?.toLowerCase() === "shijieyuwork@gmail.com" && <MedoraImportCard />}
 
         <div className="flex flex-wrap gap-3">
           <div className="relative flex-1 min-w-56">

@@ -3,7 +3,7 @@ import { cleanup, renderHook, waitFor } from '@testing-library/react';
 import { usePublishedVideos } from '@/hooks/use-published-videos';
 const db = vi.hoisted(() => {
   const query: any = { then: (resolve: any) => Promise.resolve({ data: [] }).then(resolve) };
-  query.select = vi.fn(() => query); query.eq = vi.fn(() => query); query.order = vi.fn(() => query);
+  query.select = vi.fn(() => query); query.eq = vi.fn(() => query); query.order = vi.fn(() => query); query.range = vi.fn(() => query);
   return { query, from: vi.fn(() => query) };
 });
 vi.mock('@/integrations/supabase/client', () => ({ supabase: { from: db.from } }));
