@@ -22,13 +22,13 @@ const BeforeAfterGallery = () => {
   const marketing = getPlanningMarketingCopy(lang);
   const c = (en: string, zh: string, ru: string, es?: string) => asiaCopy(lang, { en, zh, ru, es });
   const { items, loading } = usePublishedBeforeAfter(lang);
-  const videos = usePublishedVideosState(lang, "before-after", { paginate: true });
+  const videos = { items: [] as never[], hasMore: false, isLoadingMore: false, loadMore: () => {} };
   const [q, setQ] = useState("");
   const [procedure, setProcedure] = useState<string | null>(null);
 
   const procedures = useMemo(
     () => [...new Set(items.map((i) => i.procedure).filter((p): p is string => Boolean(p)))],
-    [items]
+    [items],
   );
 
   const filtered = useMemo(
@@ -39,7 +39,7 @@ const BeforeAfterGallery = () => {
         const hay = [i.title, i.caption, i.procedure, i.city, i.doctorName].filter(Boolean).join(" ").toLowerCase();
         return hay.includes(q.trim().toLowerCase());
       }),
-    [items, q, procedure]
+    [items, q, procedure],
   );
 
   // Keep previously shared video links working after moving videos to Patient Diaries.
@@ -52,7 +52,7 @@ const BeforeAfterGallery = () => {
           "Before & after photo results | Sino Aesthetics",
           "术前术后对比图集 | Sino Aesthetics",
           "Фото до и после | Sino Aesthetics",
-          "Fotos antes y después | Sino Aesthetics"
+          "Fotos antes y después | Sino Aesthetics",
         )}
         description={marketing.photoDescription}
         path="/before-after"
@@ -85,11 +85,21 @@ const BeforeAfterGallery = () => {
             <Input
               value={q}
               onChange={(e) => setQ(e.target.value)}
-              placeholder={c("Search procedure, city or expert", "搜索项目、城市或专家", "Поиск процедуры, города или эксперта", "Buscar procedimiento, ciudad o experto")}
+              placeholder={c(
+                "Search procedure, city or expert",
+                "搜索项目、城市或专家",
+                "Поиск процедуры, города или эксперта",
+                "Buscar procedimiento, ciudad o experto",
+              )}
               className="w-full max-w-xs rounded-full"
             />
             <div className="flex flex-wrap justify-center gap-2">
-              <Button variant={procedure ? "outline" : "default"} size="sm" className="rounded-full" onClick={() => setProcedure(null)}>
+              <Button
+                variant={procedure ? "outline" : "default"}
+                size="sm"
+                className="rounded-full"
+                onClick={() => setProcedure(null)}
+              >
                 {c("All", "全部", "Все", "Todos")}
               </Button>
               {procedures.map((p) => (
@@ -110,7 +120,12 @@ const BeforeAfterGallery = () => {
 
           {!loading && filtered.length === 0 && (
             <p className="text-muted-foreground mt-10">
-              {c("No photo sets published yet.", "暂时还没有发布的对比图。", "Пока нет опубликованных фотографий.", "Aún no hay fotos publicadas.")}
+              {c(
+                "No photo sets published yet.",
+                "暂时还没有发布的对比图。",
+                "Пока нет опубликованных фотографий.",
+                "Aún no hay fotos publicadas.",
+              )}
             </p>
           )}
 
@@ -122,7 +137,17 @@ const BeforeAfterGallery = () => {
                   before={item.beforeUrl ?? ""}
                   after={item.afterUrl ?? ""}
                   doctor={item.doctorName || item.title}
-                  city={[item.city, item.months_after ? c(`${item.months_after} months after`, `术后 ${item.months_after} 个月`, `${item.months_after} мес. после`, `${item.months_after} meses después`) : null]
+                  city={[
+                    item.city,
+                    item.months_after
+                      ? c(
+                          `${item.months_after} months after`,
+                          `术后 ${item.months_after} 个月`,
+                          `${item.months_after} мес. после`,
+                          `${item.months_after} meses después`,
+                        )
+                      : null,
+                  ]
                     .filter(Boolean)
                     .join(" · ")}
                   procedure={item.procedure || item.title}
@@ -139,7 +164,19 @@ const BeforeAfterGallery = () => {
           </div>
 
           <div className="mt-12">
-            {videos.items.length > 0 && <section className="mb-10"><h2 className="mb-6 font-display text-2xl">{c("Video cases", "视频案例", "Видеослучаи", "Casos en vídeo")}</h2><TikTokWall items={videos.items} lang={lang} fmtPrice={(value) => `¥${value}`} variant="wall" />{videos.hasMore && <Button className="mt-6" variant="outline" disabled={videos.isLoadingMore} onClick={videos.loadMore}>{c("Load more", "加载更多", "Загрузить ещё", "Cargar más")}</Button>}</section>}
+            {false && (
+              <section className="mb-10">
+                <h2 className="mb-6 font-display text-2xl">
+                  {c("Video cases", "视频案例", "Видеослучаи", "Casos en vídeo")}
+                </h2>
+                <TikTokWall items={videos.items} lang={lang} fmtPrice={(value) => `¥${value}`} variant="wall" />
+                {videos.hasMore && (
+                  <Button className="mt-6" variant="outline" disabled={videos.isLoadingMore} onClick={videos.loadMore}>
+                    {c("Load more", "加载更多", "Загрузить ещё", "Cargar más")}
+                  </Button>
+                )}
+              </section>
+            )}
             <MedicalDisclaimer />
           </div>
         </main>
