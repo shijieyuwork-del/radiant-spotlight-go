@@ -9,7 +9,11 @@ import { SortChips } from "@/components/ListControls";
 import { Button } from "@/components/ui/button";
 import CasesFilterDisclosure from "@/components/CasesFilterDisclosure";
 import CasesFilterSidebar from "@/components/CasesFilterSidebar";
-import CaseCategoryNavigation, { caseCategoryLabel, matchesCaseCategory } from "@/components/CaseCategoryNavigation";
+import CaseCategoryNavigation, {
+  caseCategoryLabel,
+  caseProcedureType,
+  matchesCaseCategory,
+} from "@/components/CaseCategoryNavigation";
 import { PATIENT_DIARY_CASES, mergePatientDiaryCases } from "@/data/patientDiaryCases";
 import { usePublishedVideosState } from "@/hooks/use-published-videos";
 import { DOCTORS } from "@/data/doctors";
@@ -24,7 +28,10 @@ import { useDirectoryReturnPosition, useDirectoryState } from "@/hooks/use-direc
 const CASES_PAGE_SIZE = 24;
 
 const parseLikes = (s: string) => {
-  const m = String(s ?? "").trim().toLowerCase().match(/^([\d.]+)k?$/);
+  const m = String(s ?? "")
+    .trim()
+    .toLowerCase()
+    .match(/^([\d.]+)k?$/);
   if (!m) return 0;
   const n = parseFloat(m[1]);
   return s.toLowerCase().includes("k") ? Math.round(n * 1000) : Math.round(n);
@@ -32,8 +39,17 @@ const parseLikes = (s: string) => {
 
 const Cases = () => {
   const { t, lang, fmt } = useAsia();
-  const c = (en: string, zh: string, ru: string, es?: string, th?: string, ms?: string) => asiaCopy(lang, { en, zh, ru, es, th, ms });
-  const { q, treatment: activeTreatment, city: activeCity, stage: activeStage, sort, setFilter, reset } = useDirectoryState("cases");
+  const c = (en: string, zh: string, ru: string, es?: string, th?: string, ms?: string) =>
+    asiaCopy(lang, { en, zh, ru, es, th, ms });
+  const {
+    q,
+    treatment: activeTreatment,
+    city: activeCity,
+    stage: activeStage,
+    sort,
+    setFilter,
+    reset,
+  } = useDirectoryState("cases");
   const setQ = (value: string) => setFilter("q", value);
   const setActiveTreatment = (value: string) => setFilter("treatment", value);
   const setActiveCity = (value: string) => setFilter("city", value);
@@ -42,7 +58,11 @@ const Cases = () => {
   const searchRef = useRef<HTMLInputElement>(null);
   // Include all published videos, including legacy Before & After placements.
   // Filtering/sorting needs the full list; only the rendered cards are paged (CASES_PAGE_SIZE).
-  const { items: uploaded, isLoading: videosLoading, error: videosError } = usePublishedVideosState(lang, "all", { loadAll: true });
+  const {
+    items: uploaded,
+    isLoading: videosLoading,
+    error: videosError,
+  } = usePublishedVideosState(lang, "all", { loadAll: true });
   const ALL_CASES = useMemo(() => mergePatientDiaryCases(uploaded, PATIENT_DIARY_CASES), [uploaded]);
 
   // Use the case's own China destination; fall back to expert data for legacy entries.
@@ -54,16 +74,34 @@ const Cases = () => {
     DOCTORS.forEach((d) =>
       d.caseIds.forEach((id) => {
         if (!map.has(id)) map.set(id, { en: d.cityEn, zh: d.cityZh });
-      })
+      }),
     );
     return map;
   }, [ALL_CASES]);
 
   const treatments = useMemo(() => {
     const set = new Map<string, string>();
-    ALL_CASES.forEach((item) => set.set(item.treatment.en, lang === "zh" ? item.treatment.zh : translatedUiText(lang, item.treatment.en)));
+    [
+      "nose",
+      "eyes",
+      "contour",
+      "hair",
+      "breast",
+      "body",
+      "injectables",
+      "laser",
+      "tightening",
+      "aging",
+      "veneers",
+      "whitening",
+      "smile",
+    ].forEach((type) => {
+      if (ALL_CASES.some((item) => caseProcedureType(item) === type))
+        set.set(`type:${type}`, caseCategoryLabel(`type:${type}`, lang) ?? type);
+    });
     // Keep a linked selection readable before its published records arrive.
-    if (activeTreatment && !set.has(activeTreatment)) set.set(activeTreatment, caseCategoryLabel(activeTreatment, lang) ?? translatedUiText(lang, activeTreatment));
+    if (activeTreatment && !set.has(activeTreatment))
+      set.set(activeTreatment, caseCategoryLabel(activeTreatment, lang) ?? translatedUiText(lang, activeTreatment));
     return Array.from(set, ([key, label]) => ({ key, label }));
   }, [ALL_CASES, lang, activeTreatment]);
 
@@ -105,7 +143,8 @@ const Cases = () => {
       if (activeStage && stageFor(c.caption.en) !== activeStage) return false;
       if (!q.trim()) return true;
       const city = caseCity.get(c.id);
-      const hay = `${c.user.en} ${c.user.zh} ${c.caption.en} ${c.caption.zh} ${c.treatment.en} ${c.treatment.zh} ${city?.en || ""} ${city?.zh || ""} ${stageFor(c.caption.en)}`.toLowerCase();
+      const hay =
+        `${c.user.en} ${c.user.zh} ${c.caption.en} ${c.caption.zh} ${c.treatment.en} ${c.treatment.zh} ${city?.en || ""} ${city?.zh || ""} ${stageFor(c.caption.en)}`.toLowerCase();
       return hay.includes(q.toLowerCase());
     });
   }, [ALL_CASES, q, activeTreatment, activeCity, activeStage, caseCity]);
@@ -136,7 +175,9 @@ const Cases = () => {
 
   const [visibleCount, setVisibleCount] = useState(CASES_PAGE_SIZE);
   const filterKey = `${q}|${activeTreatment}|${activeCity}|${activeStage}|${sort}`;
-  useEffect(() => { setVisibleCount(CASES_PAGE_SIZE); }, [filterKey]);
+  useEffect(() => {
+    setVisibleCount(CASES_PAGE_SIZE);
+  }, [filterKey]);
   const visibleItems = useMemo(() => sortedItems.slice(0, visibleCount), [sortedItems, visibleCount]);
   const hasMore = visibleCount < sortedItems.length;
   const loadMore = useCallback(() => setVisibleCount((n) => n + CASES_PAGE_SIZE), []);
@@ -144,18 +185,30 @@ const Cases = () => {
   useEffect(() => {
     const el = sentinelRef.current;
     if (!el || !hasMore || typeof IntersectionObserver === "undefined") return;
-    const io = new IntersectionObserver(([entry]) => { if (entry.isIntersecting) loadMore(); }, { rootMargin: "600px" });
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) loadMore();
+      },
+      { rootMargin: "600px" },
+    );
     io.observe(el);
     return () => io.disconnect();
   }, [hasMore, loadMore, visibleCount]);
 
-  const { rootRef: resultsRef, remember: rememberReturnPosition } = useDirectoryReturnPosition(true, sortedItems.map((item) => item.id).join("|"));
+  const { rootRef: resultsRef, remember: rememberReturnPosition } = useDirectoryReturnPosition(
+    true,
+    sortedItems.map((item) => item.id).join("|"),
+  );
 
   const hasFilters = Boolean(activeTreatment || activeCity || activeStage || q || sort !== "recommended");
-  const secondaryFilterCount = Number(Boolean(activeCity)) + Number(Boolean(activeStage)) + Number(sort !== "recommended");
+  const secondaryFilterCount =
+    Number(Boolean(activeCity)) + Number(Boolean(activeStage)) + Number(sort !== "recommended");
   const sortOptions = [
     { key: "recommended", label: c("Recommended", "推荐", "Рекомендуемые", "Recomendados", "แนะนำ", "Disyorkan") },
-    { key: "hot", label: c("Most liked", "热度最高", "Популярные", "Más gustados", "ถูกใจมากที่สุด", "Paling disukai") },
+    {
+      key: "hot",
+      label: c("Most liked", "热度最高", "Популярные", "Más gustados", "ถูกใจมากที่สุด", "Paling disukai"),
+    },
     { key: "latest", label: c("Latest", "最新更新", "Новые", "Más recientes", "ล่าสุด", "Terkini") },
     { key: "distance", label: c("Nearest", "距离最近", "Ближайшие", "Más cercanos", "ใกล้ที่สุด", "Terdekat") },
   ];
@@ -163,9 +216,25 @@ const Cases = () => {
     { key: "Consultation", label: c("Consultation", "面诊", "Консультация", "Consulta", "การปรึกษา", "Konsultasi") },
     { key: "Week 1", label: c("Week 1", "术后第 1 周", "1-я неделя", "Semana 1", "สัปดาห์ที่ 1", "Minggu 1") },
     { key: "Month 1", label: c("Month 1", "术后第 1 月", "1-й месяц", "Mes 1", "เดือนที่ 1", "Bulan 1") },
-    { key: "Month 3+", label: c("Month 3+", "术后 3 个月以上", "3+ месяца", "3+ meses", "เดือนที่ 3 ขึ้นไป", "Bulan 3+") },
-    { key: "Final result", label: c("Final result", "最终效果", "Итоговый результат", "Resultado final", "ผลลัพธ์สุดท้าย", "Hasil akhir") },
-    { key: "Recovery update", label: c("Recovery update", "恢复更新", "Ход восстановления", "Actualización de recuperación", "ความคืบหน้าการฟื้นตัว", "Perkembangan pemulihan") },
+    {
+      key: "Month 3+",
+      label: c("Month 3+", "术后 3 个月以上", "3+ месяца", "3+ meses", "เดือนที่ 3 ขึ้นไป", "Bulan 3+"),
+    },
+    {
+      key: "Final result",
+      label: c("Final result", "最终效果", "Итоговый результат", "Resultado final", "ผลลัพธ์สุดท้าย", "Hasil akhir"),
+    },
+    {
+      key: "Recovery update",
+      label: c(
+        "Recovery update",
+        "恢复更新",
+        "Ход восстановления",
+        "Actualización de recuperación",
+        "ความคืบหน้าการฟื้นตัว",
+        "Perkembangan pemulihan",
+      ),
+    },
   ];
   const resetFilters = () => {
     reset();
@@ -183,174 +252,436 @@ const Cases = () => {
   return (
     <>
       <PageMeta
-        title={activeCity ? `${cityLabel} Cosmetic Surgery — Patient Journey Previews` : "Patient Recovery Journey Previews"}
-        description={activeCity
-          ? `Explore cosmetic care journey previews from ${cityLabel}, including procedure and recovery-stage information where available.`
-          : "Explore cosmetic care journey previews by procedure and city in China, with recovery-stage information where available."}
+        title={
+          activeCity ? `${cityLabel} Cosmetic Surgery — Patient Journey Previews` : "Patient Recovery Journey Previews"
+        }
+        description={
+          activeCity
+            ? `Explore cosmetic care journey previews from ${cityLabel}, including procedure and recovery-stage information where available.`
+            : "Explore cosmetic care journey previews by procedure and city in China, with recovery-stage information where available."
+        }
         path={activeCity ? `/cases?city=${encodeURIComponent(activeCity)}` : "/cases"}
         image={activeCityMeta?.img}
       />
       <div className="min-h-screen bg-background">
         <AsiaNavbar />
 
-      <section className="container relative py-6 md:py-12">
-        <div className="mx-auto mb-5 max-w-2xl text-center md:mb-7">
-          <span className="pill bg-accent text-accent-foreground mb-3"><Heart className="size-3.5" /> {t("cases.kicker")}</span>
-          <h1 className="font-display text-3xl font-medium leading-tight tracking-tight sm:text-4xl md:text-5xl">
-            {c("Patient journeys", "患者恢复历程", "Истории пациентов", "Historias de pacientes", "เรื่องราวของผู้รับบริการ", "Kisah pesakit")}
-          </h1>
-          <p className="mx-auto mt-2 max-w-xl text-sm leading-relaxed text-muted-foreground">
-            {c("Real recovery journeys, ", "真实恢复历程，", "Реальные истории восстановления: ", "Historias reales de recuperación, ")}<em className="not-italic text-brand">{c("from consultation to final results.", "从面诊到最终效果", "от консультации до результата.", "desde la consulta hasta el resultado final.")}</em>
-          </p>
-        </div>
-
-        <div className="lg:grid lg:grid-cols-[280px_minmax(0,1fr)] lg:items-start lg:gap-8">
-        <div className="hidden lg:block">
-          <CasesFilterSidebar
-            title={c("Filter cases", "筛选案例", "Фильтр историй", "Filtrar casos", "กรองเรื่องราว", "Tapis kisah")}
-            clearLabel={c("Clear all", "清除全部", "Сбросить всё", "Borrar todo", "ล้างทั้งหมด", "Kosongkan")}
-            onClear={resetFilters}
-            groups={[
-              { id: "sort", title: c("Sort", "排序", "Сортировка", "Ordenar", "เรียงลำดับ", "Susun"), allLabel: "", value: sort, options: sortOptions, onChange: setSort, variant: "chips", includeAll: false },
-              { id: "treatment", title: c("Procedure type", "项目类型", "Тип процедуры", "Tipo de procedimiento", "ประเภทหัตถการ", "Jenis prosedur"), allLabel: c("All procedures", "全部项目", "Все процедуры", "Todos los procedimientos", "ทุกหัตถการ", "Semua prosedur"), value: activeTreatment, options: treatments, onChange: setActiveTreatment },
-              { id: "stage", title: c("Recovery stage", "恢复阶段", "Этап восстановления", "Etapa de recuperación", "ระยะการฟื้นตัว", "Peringkat pemulihan"), allLabel: c("All recovery stages", "全部恢复阶段", "Все этапы восстановления", "Todas las etapas de recuperación", "ทุกระยะการฟื้นตัว", "Semua peringkat pemulihan"), value: activeStage, options: stageOptions, onChange: setActiveStage },
-              { id: "city", title: c("City", "城市", "Город", "Ciudad", "เมือง", "Bandar"), allLabel: c("All cities", "全部城市", "Все города", "Todas las ciudades", "ทุกเมือง", "Semua bandar"), value: activeCity, options: cityOptions, onChange: setActiveCity, variant: "chips" },
-            ]}
-          />
-        </div>
-        <div className="min-w-0">
-        <div className="lg:hidden"><CaseCategoryNavigation items={ALL_CASES} value={activeTreatment} onSelect={setActiveTreatment} /></div>
-
-        <div className="mx-auto mb-3 flex max-w-3xl rounded-2xl lg:max-w-none border border-border/70 bg-card shadow-soft sm:rounded-full">
-          <div className="flex min-h-12 min-w-0 flex-1 items-center gap-3 px-4 py-3">
-            <Search className="size-4 text-muted-foreground shrink-0" />
-            <input
-              ref={searchRef}
-              type="search"
-              aria-label={c("Search patient journeys", "搜索患者历程", "Поиск историй пациентов", "Buscar historias de pacientes", "ค้นหาเรื่องราวของผู้รับบริการ", "Cari kisah pesakit")}
-              value={q}
-              onChange={(e) => setQ(e.target.value)}
-              className="min-w-0 w-full bg-transparent text-base font-medium text-foreground outline-none sm:text-sm"
-              placeholder={c("Search procedures, recovery stages or cities…", "搜索项目、恢复阶段或城市…", "Поиск по процедуре, этапу или городу…", "Buscar procedimientos, etapas de recuperación o ciudades…")}
-            />
+        <section className="container relative py-6 md:py-12">
+          <div className="mx-auto mb-5 max-w-2xl text-center md:mb-7">
+            <span className="pill bg-accent text-accent-foreground mb-3">
+              <Heart className="size-3.5" /> {t("cases.kicker")}
+            </span>
+            <h1 className="font-display text-3xl font-medium leading-tight tracking-tight sm:text-4xl md:text-5xl">
+              {c(
+                "Patient journeys",
+                "患者恢复历程",
+                "Истории пациентов",
+                "Historias de pacientes",
+                "เรื่องราวของผู้รับบริการ",
+                "Kisah pesakit",
+              )}
+            </h1>
+            <p className="mx-auto mt-2 max-w-xl text-sm leading-relaxed text-muted-foreground">
+              {c(
+                "Real recovery journeys, ",
+                "真实恢复历程，",
+                "Реальные истории восстановления: ",
+                "Historias reales de recuperación, ",
+              )}
+              <em className="not-italic text-brand">
+                {c(
+                  "from consultation to final results.",
+                  "从面诊到最终效果",
+                  "от консультации до результата.",
+                  "desde la consulta hasta el resultado final.",
+                )}
+              </em>
+            </p>
           </div>
-        </div>
 
-        <div className="lg:hidden">
-        <CasesFilterDisclosure
-          expanded={filtersOpen}
-          onExpandedChange={setFiltersOpen}
-          selectedCount={secondaryFilterCount}
-          primary={<FilterSelect value={activeTreatment} onChange={setActiveTreatment} label={c("All procedures", "全部项目", "Все процедуры", "Todos los procedimientos", "ทุกหัตถการ", "Semua prosedur")} options={treatments} />}
-        >
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-            <FilterSelect value={activeStage} onChange={setActiveStage} label={c("All recovery stages", "全部恢复阶段", "Все этапы восстановления", "Todas las etapas de recuperación", "ทุกระยะการฟื้นตัว", "Semua peringkat pemulihan")} options={stageOptions} />
-            <FilterSelect value={activeCity} onChange={setActiveCity} label={c("All cities", "全部城市", "Все города", "Todas las ciudades", "ทุกเมือง", "Semua bandar")} options={cityOptions} />
-            <div className="md:hidden">
-              <FilterSelect value={sort} onChange={setSort} label={c("Sort", "排序", "Сортировка", "Ordenar", "เรียงลำดับ", "Susun")} options={sortOptions} includeEmpty={false} />
+          <div className="lg:grid lg:grid-cols-[280px_minmax(0,1fr)] lg:items-start lg:gap-8">
+            <div className="hidden lg:block">
+              <CasesFilterSidebar
+                title={c("Filter cases", "筛选案例", "Фильтр историй", "Filtrar casos", "กรองเรื่องราว", "Tapis kisah")}
+                clearLabel={c("Clear all", "清除全部", "Сбросить всё", "Borrar todo", "ล้างทั้งหมด", "Kosongkan")}
+                onClear={resetFilters}
+                groups={[
+                  {
+                    id: "sort",
+                    title: c("Sort", "排序", "Сортировка", "Ordenar", "เรียงลำดับ", "Susun"),
+                    allLabel: "",
+                    value: sort,
+                    options: sortOptions,
+                    onChange: setSort,
+                    variant: "chips",
+                    includeAll: false,
+                  },
+                  {
+                    id: "treatment",
+                    title: c(
+                      "Procedure type",
+                      "项目类型",
+                      "Тип процедуры",
+                      "Tipo de procedimiento",
+                      "ประเภทหัตถการ",
+                      "Jenis prosedur",
+                    ),
+                    allLabel: c(
+                      "All procedures",
+                      "全部项目",
+                      "Все процедуры",
+                      "Todos los procedimientos",
+                      "ทุกหัตถการ",
+                      "Semua prosedur",
+                    ),
+                    value: activeTreatment,
+                    options: treatments,
+                    onChange: setActiveTreatment,
+                  },
+                  // { id: "stage", title: c("Recovery stage", "恢复阶段", "Этап восстановления", "Etapa de recuperación", "ระยะการฟื้นตัว", "Peringkat pemulihan"), allLabel: c("All recovery stages", "全部恢复阶段", "Все этапы восстановления", "Todas las etapas de recuperación", "ทุกระยะการฟื้นตัว", "Semua peringkat pemulihan"), value: activeStage, options: stageOptions, onChange: setActiveStage },
+                  // { id: "city", title: c("City", "城市", "Город", "Ciudad", "เมือง", "Bandar"), allLabel: c("All cities", "全部城市", "Все города", "Todas las ciudades", "ทุกเมือง", "Semua bandar"), value: activeCity, options: cityOptions, onChange: setActiveCity, variant: "chips" },
+                ]}
+              />
+            </div>
+            <div className="min-w-0">
+              <div className="lg:hidden">
+                <CaseCategoryNavigation items={ALL_CASES} value={activeTreatment} onSelect={setActiveTreatment} />
+              </div>
+
+              <div className="mx-auto mb-3 flex max-w-3xl rounded-2xl lg:max-w-none border border-border/70 bg-card shadow-soft sm:rounded-full">
+                <div className="flex min-h-12 min-w-0 flex-1 items-center gap-3 px-4 py-3">
+                  <Search className="size-4 text-muted-foreground shrink-0" />
+                  <input
+                    ref={searchRef}
+                    type="search"
+                    aria-label={c(
+                      "Search patient journeys",
+                      "搜索患者历程",
+                      "Поиск историй пациентов",
+                      "Buscar historias de pacientes",
+                      "ค้นหาเรื่องราวของผู้รับบริการ",
+                      "Cari kisah pesakit",
+                    )}
+                    value={q}
+                    onChange={(e) => setQ(e.target.value)}
+                    className="min-w-0 w-full bg-transparent text-base font-medium text-foreground outline-none sm:text-sm"
+                    placeholder={c(
+                      "Search procedures, recovery stages or cities…",
+                      "搜索项目、恢复阶段或城市…",
+                      "Поиск по процедуре, этапу или городу…",
+                      "Buscar procedimientos, etapas de recuperación o ciudades…",
+                    )}
+                  />
+                </div>
+              </div>
+
+              <div className="lg:hidden">
+                <CasesFilterDisclosure
+                  expanded={filtersOpen}
+                  onExpandedChange={setFiltersOpen}
+                  selectedCount={secondaryFilterCount}
+                  primary={
+                    <FilterSelect
+                      value={activeTreatment}
+                      onChange={setActiveTreatment}
+                      label={c(
+                        "All procedures",
+                        "全部项目",
+                        "Все процедуры",
+                        "Todos los procedimientos",
+                        "ทุกหัตถการ",
+                        "Semua prosedur",
+                      )}
+                      options={treatments}
+                    />
+                  }
+                >
+                  <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                    {false && (
+                      <FilterSelect
+                        value={activeStage}
+                        onChange={setActiveStage}
+                        label={c(
+                          "All recovery stages",
+                          "全部恢复阶段",
+                          "Все этапы восстановления",
+                          "Todas las etapas de recuperación",
+                          "ทุกระยะการฟื้นตัว",
+                          "Semua peringkat pemulihan",
+                        )}
+                        options={stageOptions}
+                      />
+                    )}
+                    {false && (
+                      <FilterSelect
+                        value={activeCity}
+                        onChange={setActiveCity}
+                        label={c(
+                          "All cities",
+                          "全部城市",
+                          "Все города",
+                          "Todas las ciudades",
+                          "ทุกเมือง",
+                          "Semua bandar",
+                        )}
+                        options={cityOptions}
+                      />
+                    )}
+                    <div className="md:hidden">
+                      <FilterSelect
+                        value={sort}
+                        onChange={setSort}
+                        label={c("Sort", "排序", "Сортировка", "Ordenar", "เรียงลำดับ", "Susun")}
+                        options={sortOptions}
+                        includeEmpty={false}
+                      />
+                    </div>
+                  </div>
+                  <div className="mt-4 hidden md:block">
+                    <SortChips
+                      label={c("Sort", "排序", "Сортировка", "Ordenar")}
+                      value={sort}
+                      onChange={setSort}
+                      options={sortOptions}
+                    />
+                  </div>
+                </CasesFilterDisclosure>
+              </div>
+              <div className="mb-3">
+                {sort === "distance" && (
+                  <p className="mt-2 flex flex-wrap items-center justify-center gap-1 text-center text-label text-muted-foreground">
+                    <Navigation className="size-3" />
+                    {locStatus === "locating"
+                      ? c("Locating…", "正在获取定位…", "Определяем местоположение…", "Localizando…")
+                      : locStatus === "denied"
+                        ? c(
+                            "Location unavailable — showing default order.",
+                            "无法获取定位，已按默认顺序展示。",
+                            "Геолокация недоступна — показан обычный порядок.",
+                            "Ubicación no disponible: se muestra el orden predeterminado.",
+                          )
+                        : locStatus === "idle"
+                          ? c(
+                              "Location is off — showing default order.",
+                              "尚未启用定位，当前显示默认顺序。",
+                              "Геолокация выключена — показан обычный порядок.",
+                              "Ubicación desactivada: se muestra el orden predeterminado.",
+                              "ยังไม่ได้เปิดตำแหน่ง — แสดงลำดับเริ่มต้น",
+                              "Lokasi dimatikan — memaparkan susunan lalai.",
+                            )
+                          : c(
+                              "Sorted by distance from you.",
+                              "已按与你的距离排序。",
+                              "Отсортировано по расстоянию от вас.",
+                              "Ordenado por distancia desde tu ubicación.",
+                            )}
+                    {(locStatus === "idle" || locStatus === "denied") && (
+                      <button
+                        type="button"
+                        onClick={requestLocation}
+                        className="min-h-11 rounded-sm px-2 font-semibold text-foreground underline underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring"
+                      >
+                        {c(
+                          "Use my location",
+                          "使用我的位置",
+                          "Использовать моё местоположение",
+                          "Usar mi ubicación",
+                          "ใช้ตำแหน่งของฉัน",
+                          "Gunakan lokasi saya",
+                        )}
+                      </button>
+                    )}
+                  </p>
+                )}
+              </div>
+
+              <div className="mb-5 flex min-h-8 flex-wrap items-center justify-center gap-3 text-xs text-muted-foreground md:mb-8">
+                <span role="status" aria-live="polite">
+                  {c(
+                    `${sortedItems.length} case${sortedItems.length === 1 ? "" : "s"}`,
+                    `共 ${sortedItems.length} 个案例`,
+                    `${sortedItems.length} историй`,
+                    `${sortedItems.length} caso${sortedItems.length === 1 ? "" : "s"}`,
+                    `${sortedItems.length} เรื่องราว`,
+                    `${sortedItems.length} kisah`,
+                  )}
+                </span>
+                {hasFilters && (
+                  <button
+                    type="button"
+                    onClick={resetFilters}
+                    className="inline-flex min-h-11 items-center gap-1 rounded-lg px-2 font-semibold text-brand underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  >
+                    {c(
+                      "Reset filters",
+                      "重置筛选",
+                      "Сбросить фильтры",
+                      "Restablecer filtros",
+                      "รีเซ็ตตัวกรอง",
+                      "Tetapkan semula penapis",
+                    )}
+                  </button>
+                )}
+              </div>
+
+              {items.length === 0 && videosLoading ? (
+                <div
+                  className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 animate-pulse"
+                  role="status"
+                  aria-live="polite"
+                  aria-label={c(
+                    "Loading patient video journeys",
+                    "正在加载患者视频案例",
+                    "Загружаем видеоистории пациентов",
+                    "Cargando historias en vídeo de pacientes",
+                    "กำลังโหลดวิดีโอเรื่องราวของผู้รับบริการ",
+                    "Memuatkan kisah video pesakit",
+                  )}
+                >
+                  {[0, 1, 2].map((item) => (
+                    <div key={item} className="aspect-[9/16] rounded-3xl bg-muted" />
+                  ))}
+                </div>
+              ) : items.length === 0 ? (
+                <p className="text-center text-muted-foreground py-12 text-sm">
+                  {c(
+                    "No matching cases — try a different filter.",
+                    "没有匹配的案例，换个筛选试试。",
+                    "Подходящих историй не найдено — измените фильтры.",
+                    "No hay casos que coincidan; prueba con otro filtro.",
+                  )}
+                </p>
+              ) : (
+                <div ref={resultsRef}>
+                  <div className="sr-only md:not-sr-only md:mb-5 md:flex md:items-end md:justify-between md:gap-4">
+                    <div>
+                      <span className="pill bg-accent text-accent-foreground">
+                        {c("Latest recovery updates", "最新更新", "Последние обновления", "Últimas actualizaciones")}
+                      </span>
+                      <h2 className="mt-3 font-display text-[1.75rem] font-medium leading-tight md:text-3xl">
+                        {c(
+                          "Choose a journey to continue",
+                          "选择一个历程继续观看",
+                          "Выберите историю и продолжайте просмотр",
+                          "Elige una historia para continuar",
+                        )}
+                      </h2>
+                    </div>
+                    <span className="hidden items-center gap-1 text-sm font-semibold text-brand md:inline-flex">
+                      {c(
+                        "Open a card for the full timeline",
+                        "点击卡片查看完整时间线",
+                        "Откройте карточку, чтобы увидеть весь путь",
+                        "Abre una tarjeta para ver la cronología completa",
+                      )}
+                      <ArrowRight className="size-4" />
+                    </span>
+                  </div>
+                  <TikTokWall
+                    items={visibleItems}
+                    lang={lang}
+                    fmtPrice={fmt}
+                    variant="cases"
+                    highlight={q}
+                    onBeforeNavigate={rememberReturnPosition}
+                  />
+                </div>
+              )}
+              {videosError && (
+                <p role="alert" className="mt-4 text-center text-sm text-destructive">
+                  {videosError}
+                </p>
+              )}
+              {hasMore && (
+                <div ref={sentinelRef} className="mt-6 flex justify-center">
+                  <Button variant="outline" onClick={loadMore}>
+                    {c("Load more", "加载更多", "Загрузить ещё", "Cargar más")}
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
-          <div className="mt-4 hidden md:block">
-          <SortChips
-            label={c("Sort", "排序", "Сортировка", "Ordenar")}
-            value={sort}
-            onChange={setSort}
-            options={sortOptions}
-          />
-          </div>
-        </CasesFilterDisclosure>
-        </div>
-        <div className="mb-3">
-          {sort === "distance" && (
-            <p className="mt-2 flex flex-wrap items-center justify-center gap-1 text-center text-label text-muted-foreground">
-              <Navigation className="size-3" />
-              {locStatus === "locating"
-                ? c("Locating…", "正在获取定位…", "Определяем местоположение…", "Localizando…")
-                : locStatus === "denied"
-                  ? c("Location unavailable — showing default order.", "无法获取定位，已按默认顺序展示。", "Геолокация недоступна — показан обычный порядок.", "Ubicación no disponible: se muestra el orden predeterminado.")
-                  : locStatus === "idle"
-                    ? c("Location is off — showing default order.", "尚未启用定位，当前显示默认顺序。", "Геолокация выключена — показан обычный порядок.", "Ubicación desactivada: se muestra el orden predeterminado.", "ยังไม่ได้เปิดตำแหน่ง — แสดงลำดับเริ่มต้น", "Lokasi dimatikan — memaparkan susunan lalai.")
-                    : c("Sorted by distance from you.", "已按与你的距离排序。", "Отсортировано по расстоянию от вас.", "Ordenado por distancia desde tu ubicación.")}
-              {(locStatus === "idle" || locStatus === "denied") && <button type="button" onClick={requestLocation} className="min-h-11 rounded-sm px-2 font-semibold text-foreground underline underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring">{c("Use my location", "使用我的位置", "Использовать моё местоположение", "Usar mi ubicación", "ใช้ตำแหน่งของฉัน", "Gunakan lokasi saya")}</button>}
-            </p>
-          )}
-        </div>
 
-        <div className="mb-5 flex min-h-8 flex-wrap items-center justify-center gap-3 text-xs text-muted-foreground md:mb-8">
-          <span role="status" aria-live="polite">
-            {c(`${sortedItems.length} case${sortedItems.length === 1 ? "" : "s"}`, `共 ${sortedItems.length} 个案例`, `${sortedItems.length} историй`, `${sortedItems.length} caso${sortedItems.length === 1 ? "" : "s"}`, `${sortedItems.length} เรื่องราว`, `${sortedItems.length} kisah`)}
-          </span>
-          {hasFilters && (
-            <button
-              type="button"
-              onClick={resetFilters}
-              className="inline-flex min-h-11 items-center gap-1 rounded-lg px-2 font-semibold text-brand underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          <aside className="mt-10 overflow-hidden rounded-[2rem] border border-primary/15 bg-gradient-to-r from-[hsl(158,58%,90%)] via-[hsl(145,48%,91%)] to-[hsl(50,80%,91%)] px-5 py-7 shadow-soft sm:mt-14 sm:px-8 sm:py-9 md:flex md:items-center md:justify-between md:gap-8">
+            <div className="max-w-2xl">
+              <span className="pill bg-card/80 text-accent-foreground shadow-soft">
+                <MessageCircle className="size-3.5 text-primary" />
+                {lang === "zh"
+                  ? "免费匹配建议"
+                  : lang === "ru"
+                    ? "Бесплатная помощь с выбором"
+                    : lang === "es"
+                      ? "Orientación gratuita de emparejamiento"
+                      : "Free matching guidance"}
+              </span>
+              <h2 className="mt-4 font-display text-[1.9rem] font-medium leading-[1.05] tracking-tight sm:text-4xl">
+                {lang === "zh"
+                  ? "不确定哪位专家更适合你？"
+                  : lang === "ru"
+                    ? "Не уверены, какой эксперт вам подходит?"
+                    : lang === "es"
+                      ? "¿No sabes qué experto es el más adecuado para ti?"
+                      : "Not sure which expert is right for you?"}
+              </h2>
+              <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+                {lang === "zh"
+                  ? "告诉我们你在考虑的项目、预算和城市，我们会帮助你缩小选择范围。"
+                  : lang === "ru"
+                    ? "Расскажите нам о желаемой процедуре, бюджете и городе — мы поможем сузить выбор."
+                    : lang === "es"
+                      ? "Cuéntanos qué procedimiento consideras, tu presupuesto y la ciudad preferida, y te ayudaremos a reducir las opciones adecuadas."
+                      : "Tell us what you’re considering, your budget and preferred city, and we’ll help you narrow down suitable options."}
+              </p>
+            </div>
+            <a
+              href={whatsappUrl("Hi Sino Aesthetics, I would like help choosing a doctor.")}
+              target="_blank"
+              rel="noreferrer"
+              className="cta-primary mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl px-6 py-3 text-sm font-bold transition md:mt-0 md:w-auto md:min-w-44 md:rounded-full"
             >
-              {c("Reset filters", "重置筛选", "Сбросить фильтры", "Restablecer filtros", "รีเซ็ตตัวกรอง", "Tetapkan semula penapis")}
-            </button>
-          )}
-        </div>
-
-        {items.length === 0 && videosLoading ? (
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 animate-pulse" role="status" aria-live="polite" aria-label={c("Loading patient video journeys", "正在加载患者视频案例", "Загружаем видеоистории пациентов", "Cargando historias en vídeo de pacientes", "กำลังโหลดวิดีโอเรื่องราวของผู้รับบริการ", "Memuatkan kisah video pesakit")}>
-            {[0, 1, 2].map((item) => <div key={item} className="aspect-[9/16] rounded-3xl bg-muted" />)}
-          </div>
-        ) : items.length === 0 ? (
-          <p className="text-center text-muted-foreground py-12 text-sm">
-            {c("No matching cases — try a different filter.", "没有匹配的案例，换个筛选试试。", "Подходящих историй не найдено — измените фильтры.", "No hay casos que coincidan; prueba con otro filtro.")}
-          </p>
-        ) : (
-          <div ref={resultsRef}>
-            <div className="sr-only md:not-sr-only md:mb-5 md:flex md:items-end md:justify-between md:gap-4"><div><span className="pill bg-accent text-accent-foreground">{c("Latest recovery updates", "最新更新", "Последние обновления", "Últimas actualizaciones")}</span><h2 className="mt-3 font-display text-[1.75rem] font-medium leading-tight md:text-3xl">{c("Choose a journey to continue", "选择一个历程继续观看", "Выберите историю и продолжайте просмотр", "Elige una historia para continuar")}</h2></div><span className="hidden items-center gap-1 text-sm font-semibold text-brand md:inline-flex">{c("Open a card for the full timeline", "点击卡片查看完整时间线", "Откройте карточку, чтобы увидеть весь путь", "Abre una tarjeta para ver la cronología completa")}<ArrowRight className="size-4" /></span></div>
-            <TikTokWall items={visibleItems} lang={lang} fmtPrice={fmt} variant="cases" highlight={q} onBeforeNavigate={rememberReturnPosition} />
-          </div>
-        )}
-        {videosError && <p role="alert" className="mt-4 text-center text-sm text-destructive">{videosError}</p>}
-        {hasMore && <div ref={sentinelRef} className="mt-6 flex justify-center"><Button variant="outline" onClick={loadMore}>{c("Load more", "加载更多", "Загрузить ещё", "Cargar más")}</Button></div>}
-        </div>
-        </div>
-
-        <aside className="mt-10 overflow-hidden rounded-[2rem] border border-primary/15 bg-gradient-to-r from-[hsl(158,58%,90%)] via-[hsl(145,48%,91%)] to-[hsl(50,80%,91%)] px-5 py-7 shadow-soft sm:mt-14 sm:px-8 sm:py-9 md:flex md:items-center md:justify-between md:gap-8">
-          <div className="max-w-2xl">
-            <span className="pill bg-card/80 text-accent-foreground shadow-soft">
-              <MessageCircle className="size-3.5 text-primary" />
-              {lang === "zh" ? "免费匹配建议" : lang === "ru" ? "Бесплатная помощь с выбором" : lang === "es" ? "Orientación gratuita de emparejamiento" : "Free matching guidance"}
-            </span>
-            <h2 className="mt-4 font-display text-[1.9rem] font-medium leading-[1.05] tracking-tight sm:text-4xl">
-              {lang === "zh" ? "不确定哪位专家更适合你？" : lang === "ru" ? "Не уверены, какой эксперт вам подходит?" : lang === "es" ? "¿No sabes qué experto es el más adecuado para ti?" : "Not sure which expert is right for you?"}
-            </h2>
-            <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
               {lang === "zh"
-                ? "告诉我们你在考虑的项目、预算和城市，我们会帮助你缩小选择范围。"
+                ? "获取免费匹配建议"
                 : lang === "ru"
-                  ? "Расскажите нам о желаемой процедуре, бюджете и городе — мы поможем сузить выбор."
+                  ? "Получить бесплатную помощь"
                   : lang === "es"
-                    ? "Cuéntanos qué procedimiento consideras, tu presupuesto y la ciudad preferida, y te ayudaremos a reducir las opciones adecuadas."
-                    : "Tell us what you’re considering, your budget and preferred city, and we’ll help you narrow down suitable options."}
-            </p>
-          </div>
-          <a
-            href={whatsappUrl("Hi Sino Aesthetics, I would like help choosing a doctor.")}
-            target="_blank"
-            rel="noreferrer"
-            className="cta-primary mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl px-6 py-3 text-sm font-bold transition md:mt-0 md:w-auto md:min-w-44 md:rounded-full"
-          >
-            {lang === "zh" ? "获取免费匹配建议" : lang === "ru" ? "Получить бесплатную помощь" : lang === "es" ? "Obtener orientación gratuita" : "Get free matching guidance"}
-            <ArrowRight className="size-4" />
-          </a>
-        </aside>
-      </section>
+                    ? "Obtener orientación gratuita"
+                    : "Get free matching guidance"}
+              <ArrowRight className="size-4" />
+            </a>
+          </aside>
+        </section>
 
-      <Footer />
+        <Footer />
       </div>
     </>
   );
 };
 
-const FilterSelect = ({ value, onChange, label, options, includeEmpty = true }: { value: string; onChange: (value: string) => void; label: string; options: { key: string; label: string }[]; includeEmpty?: boolean }) => (
-  <select aria-label={label} value={value} onChange={(event) => onChange(event.target.value)} className="min-h-12 min-w-0 w-full rounded-xl border border-border/70 bg-card px-3 text-base font-semibold text-foreground shadow-soft outline-none transition focus:border-primary/50 focus:ring-4 focus:ring-primary/10 sm:rounded-full sm:px-4 sm:text-sm">
+const FilterSelect = ({
+  value,
+  onChange,
+  label,
+  options,
+  includeEmpty = true,
+}: {
+  value: string;
+  onChange: (value: string) => void;
+  label: string;
+  options: { key: string; label: string }[];
+  includeEmpty?: boolean;
+}) => (
+  <select
+    aria-label={label}
+    value={value}
+    onChange={(event) => onChange(event.target.value)}
+    className="min-h-12 min-w-0 w-full rounded-xl border border-border/70 bg-card px-3 text-base font-semibold text-foreground shadow-soft outline-none transition focus:border-primary/50 focus:ring-4 focus:ring-primary/10 sm:rounded-full sm:px-4 sm:text-sm"
+  >
     {includeEmpty && <option value="">{label}</option>}
-    {options.map((option) => <option key={option.key} value={option.key}>{option.label}</option>)}
+    {options.map((option) => (
+      <option key={option.key} value={option.key}>
+        {option.label}
+      </option>
+    ))}
   </select>
 );
 
