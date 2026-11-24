@@ -633,7 +633,7 @@ const ProcedureVideoRow = ({ procedure, lang, fmt }: { procedure: string; lang: 
   const ru = lang === "ru";
   const es = lang === "es";
   const c = (en: string, cn: string, russian: string, spanish?: string) => zh ? cn : ru ? russian : es ? (spanish ?? en) : en;
-  const uploaded = [...GALLERY_CASES, ...usePublishedVideos(lang, "all")];
+  const uploaded = [...GALLERY_CASES, ...usePublishedVideos(lang, "all", { loadAll: true })];
   const items = getRelatedCases(procedure, uploaded);
   return (
     <section className="mt-10 border-t border-border/60 pt-9">

@@ -1,5 +1,7 @@
 ## Tasks
 
+- [ ] Verify and fix full published-case coverage for directory filters and related treatment videos without deploying.
+
 - [x] Download published covers into build output with same-origin URLs and missing-cover fallback; preserve SEO structure and video playback.
 - [x] Restrict poster preload to homepage and split unnecessary first-paint JavaScript.
 - [x] Verify cover totals, focused tests, real-record static rendering and desktop/mobile browser flows without deploying.

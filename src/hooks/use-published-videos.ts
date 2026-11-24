@@ -66,9 +66,10 @@ const signRows = async (rows: Row[]) => {
  * Prerendered items render immediately and stay visible while a background refresh runs.
  * Public pages do not subscribe to realtime changes, so bulk imports never reload visitors' media.
  */
-export const usePublishedVideosState = (lang: AsiaLang, placement: "diary" | "before-after" | "all" = "diary", options: { limit?: number; paginate?: boolean } = {}) => {
+export const usePublishedVideosState = (lang: AsiaLang, placement: "diary" | "before-after" | "all" = "diary", options: { limit?: number; paginate?: boolean; loadAll?: boolean } = {}) => {
   const limit = Math.max(1, Math.floor(options.limit ?? 24));
-  const paginate = options.paginate ?? false;
+  const loadAll = options.loadAll ?? false;
+  const paginate = !loadAll && (options.paginate ?? false);
   const initial = usePublicCaseData();
   const [items, setItems] = useState<TikTokItem[]>(() => (initial?.videos ?? []).filter((r) => placement === "all" || r.placement === placement).slice(0, limit).map((r) => toTikTokItem(r, caseMediaUrl(r.id, "video"), caseCoverUrl(r))));
   const [isLoading, setIsLoading] = useState(items.length === 0);
@@ -87,21 +88,32 @@ export const usePublishedVideosState = (lang: AsiaLang, placement: "diary" | "be
     setError(null);
     try {
       const supabase = await getBrowserClient();
-      const start = append ? rowsRef.current.length : 0;
-      const size = append ? limit : Math.max(limit, paginate ? rowsRef.current.length : limit);
-      let query = supabase
-        .from("videos")
-        .select(VIDEO_LIST_COLUMNS, { count: "exact" })
-        .eq("status", "published")
-        .order("created_at", { ascending: false }).order("id", { ascending: false });
-      if (placement !== "all") query = query.eq("placement", placement);
-      const { data, count, error: queryError } = await query.range(start, start + size - 1);
-      if (queryError) throw queryError;
+      let start = append ? rowsRef.current.length : 0;
+      const size = loadAll ? 500 : append ? limit : Math.max(limit, paginate ? rowsRef.current.length : limit);
+      const rows: Row[] = [];
+      let count: number | null = null;
+      // Directory/category matching needs the complete metadata catalog, not just a preview.
+      // Fetch bounded pages to avoid the Data API's row cap; media stays lazy and unsigned.
+      do {
+        let query = supabase
+          .from("videos")
+          .select(VIDEO_LIST_COLUMNS, { count: "exact" })
+          .eq("status", "published")
+          .order("created_at", { ascending: false }).order("id", { ascending: false });
+        if (placement !== "all") query = query.eq("placement", placement);
+        const { data, count: total, error: queryError } = await query.range(start, start + size - 1);
+        if (queryError) throw queryError;
+        if (request !== generation.current) return;
+        const page = (data ?? []) as Row[];
+        rows.push(...page);
+        count = total;
+        if (!loadAll || page.length < size || (count != null && rows.length >= count)) break;
+        start += page.length;
+      } while (loadAll);
       if (request !== generation.current) return;
-      const rows = (data ?? []) as Row[];
       const firstCover = rows.find((r) => r.cover_path);
       const hasStaticCovers = rows.some((r) => caseCoverUrl(r).startsWith("/case-covers/"));
-      const mediaOk = hasStaticCovers || await probeCaseMedia(firstCover ? caseMediaUrl(firstCover.id, "thumb") : undefined);
+      const mediaOk = loadAll || hasStaticCovers || await probeCaseMedia(firstCover ? caseMediaUrl(firstCover.id, "thumb") : undefined);
       const signed = mediaOk ? null : await signRows(rows);
       if (request !== generation.current) return;
       const next = rows.map((r) => ({
@@ -124,7 +136,7 @@ export const usePublishedVideosState = (lang: AsiaLang, placement: "diary" | "be
         setIsLoadingMore(false);
       }
     }
-  }, [lang, placement, limit, paginate]);
+  }, [lang, placement, limit, paginate, loadAll]);
   const load = useCallback(() => { void fetchPage(); }, [fetchPage]);
   const loadMore = useCallback(() => { if (paginate && hasMore) void fetchPage(true); }, [fetchPage, paginate, hasMore]);
 
@@ -140,5 +152,5 @@ export const usePublishedVideosState = (lang: AsiaLang, placement: "diary" | "be
 };
 
 /** Published videos for callers that only need the resolved list. */
-export const usePublishedVideos = (lang: AsiaLang, placement: "diary" | "before-after" | "all" = "diary", options: { limit?: number; paginate?: boolean } = {}): TikTokItem[] =>
+export const usePublishedVideos = (lang: AsiaLang, placement: "diary" | "before-after" | "all" = "diary", options: { limit?: number; paginate?: boolean; loadAll?: boolean } = {}): TikTokItem[] =>
   usePublishedVideosState(lang, placement, options).items;

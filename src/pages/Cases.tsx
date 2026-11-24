@@ -42,7 +42,7 @@ const Cases = () => {
   const searchRef = useRef<HTMLInputElement>(null);
   // Include all published videos, including legacy Before & After placements.
   // Filtering/sorting needs the full list; only the rendered cards are paged (CASES_PAGE_SIZE).
-  const { items: uploaded, isLoading: videosLoading, error: videosError } = usePublishedVideosState(lang, "all", { limit: 1000 });
+  const { items: uploaded, isLoading: videosLoading, error: videosError } = usePublishedVideosState(lang, "all", { loadAll: true });
   const ALL_CASES = useMemo(() => mergePatientDiaryCases(uploaded, PATIENT_DIARY_CASES), [uploaded]);
 
   // Use the case's own China destination; fall back to expert data for legacy entries.

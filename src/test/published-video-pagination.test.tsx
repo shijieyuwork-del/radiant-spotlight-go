@@ -51,6 +51,18 @@ describe("published-video pagination", () => {
     expect(result.current.items[0].src).toMatch(/case-media\/video-0\/video$/);
     expect(result.current.hasMore).toBe(false);
   });
+  it("loads the full matching catalog beyond 24 and the 1000-row API cap without signing media", async () => {
+    const template = db.rows[0];
+    db.rows = Array.from({ length: 1025 }, (_, i) => ({ ...template, id: `video-${i}`, procedure: i === 1024 ? "Hair transplant" : "Facelift" }));
+    db.mediaOk = false;
+    const { result } = renderHook(() => usePublishedVideosState("en", "all", { loadAll: true }));
+    await waitFor(() => expect(result.current.items).toHaveLength(1025));
+    expect(db.range.mock.calls).toEqual([[0, 499], [500, 999], [1000, 1499]]);
+    expect(result.current.items.find((item) => item.treatment.en === "Hair transplant")?.id).toBe("video-1024");
+    expect(result.current.items[1024].src).toMatch(/case-media\/video-1024\/video$/);
+    expect(db.signed).not.toHaveBeenCalled();
+    expect(result.current.hasMore).toBe(false);
+  });
   it("falls back to signing only the shown rows when case-media fails", async () => {
     db.mediaOk = false;
     const { result } = renderHook(() => usePublishedVideosState("en", "all"));

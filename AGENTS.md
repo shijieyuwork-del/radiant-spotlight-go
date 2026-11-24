@@ -7,6 +7,7 @@
 - Sitemap lastmod uses authoritative row timestamps only, never the build date, because rebuilding is not a significant page content update.
 
 - Medora imports validate the fixed source allowlist and admin identity server-side; public video queries default to bounded pages so partner media cannot create unbounded downloads or signing work.
+- Directory filters and treatment matching opt into the complete published metadata catalog via bounded Data API pages without upfront media signing; preview callers retain their default limit so older matches remain discoverable without mounting every card.
 
 - User-facing contact details (WhatsApp number, email) come from `src/lib/consultation-handoff.ts`; never inline a second `wa.me/<number>` or `mailto:` literal, because the coordinator contact changes in one place.
 - Floating contact controls share one bottom-right rail: the WhatsApp bubble is pinned (visible on mobile without a scroll gate) and the consultation shortcut stacks above it via `.float-rail-above-wa` in `src/index.css`; new floating UI must not reuse that corner or unpin the bubble on mobile.
