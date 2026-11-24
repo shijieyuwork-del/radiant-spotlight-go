@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { imagetools } from "vite-imagetools";
+import { bundleReport } from "./scripts/bundle-report";
 
 // https://vitejs.dev/config/
 export default defineConfig(() => ({
@@ -12,7 +13,7 @@ export default defineConfig(() => ({
       overlay: false,
     },
   },
-  plugins: [react(), imagetools()],
+  plugins: [react(), imagetools(), bundleReport()],
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "./src"),

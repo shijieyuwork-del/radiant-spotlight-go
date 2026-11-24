@@ -1,5 +1,10 @@
 ## Tasks
 
+- [x] Download published covers into build output with same-origin URLs and missing-cover fallback; preserve SEO structure and video playback.
+- [x] Restrict poster preload to homepage and split unnecessary first-paint JavaScript.
+- [x] Verify cover totals, focused tests, real-record static rendering and desktop/mobile browser flows without deploying.
+- [ ] Read optimized entry bundle and ranked module sizes from automatic production artifacts: sandbox exposes compiler results but not production bundle output; build now emits bundle-report.json for measurement.
+
 - [x] Add published-data treatment-city pages and links from treatment/city guides, preserving importer files.
 - [x] Update organization contact schema, audit real language URLs and authoritative sitemap timestamps.
 - [x] Verify qualification counts, static HTML, relevant tests and automatic build without publishing.

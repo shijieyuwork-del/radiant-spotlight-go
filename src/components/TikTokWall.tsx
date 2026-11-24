@@ -94,7 +94,7 @@ export const TikTokCard = ({
     return `${unit[0].toUpperCase()}${unit.slice(1)} ${value}`;
   })();
 
-  // Start fetching the video slightly before it scrolls into view
+  // Mount the player near the viewport; media bytes wait for a play action.
   useEffect(() => {
     const el = wrapRef.current;
     if (!el || near) return;
@@ -162,7 +162,7 @@ export const TikTokCard = ({
         poster={item.poster || DEFAULT_VIDEO_POSTER}
         muted={muted}
         playsInline
-        preload="metadata"
+        preload="none"
         className="absolute inset-0 size-full object-cover [backface-visibility:hidden] [transform:translateZ(0)]"
       />}
       <Link to={caseUrl} tabIndex={playbackEnabled ? 0 : -1} aria-label={`Open case: ${diaryText(item.caption, lang)}`} className="absolute inset-0 rounded-3xl focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-inset focus-visible:ring-primary" onClick={(event) => {

@@ -17,6 +17,7 @@ type CoverVideoProps = {
   coverUrl: string | null | undefined;
   className?: string;
   controls?: boolean;
+  preload?: "none" | "metadata";
   /** 是否在界面上显示兜底原因徽标（管理后台等内部页面使用） */
   showReason?: boolean;
 };
@@ -26,7 +27,7 @@ type CoverVideoProps = {
  * cover_path 不存在或封面加载失败时自动切换为默认海报，
  * 并可通过 showReason 在界面上提示具体原因。
  */
-const CoverVideo = ({ src, coverPath, coverUrl, className, controls = true, showReason = false }: CoverVideoProps) => {
+const CoverVideo = ({ src, coverPath, coverUrl, className, controls = true, preload = "metadata", showReason = false }: CoverVideoProps) => {
   const { attachRef } = useQuietVideo(src);
   const [poster, setPoster] = useState<string>(coverUrl || DEFAULT_VIDEO_POSTER);
   const [reason, setReason] = useState<CoverFallbackReason>(() => coverFallbackReason(coverPath, false));
@@ -57,7 +58,7 @@ const CoverVideo = ({ src, coverPath, coverUrl, className, controls = true, show
 
   return (
     <div className="relative">
-      <video ref={attachRef} src={src} poster={poster} controls={controls} playsInline preload="metadata" className={className} />
+      <video ref={attachRef} src={src} poster={poster} controls={controls} playsInline preload={preload} className={className} />
       {showReason && reason && (
         <span
           className="absolute left-2 top-2 inline-flex items-center gap-1 rounded-full bg-amber-500/90 px-2 py-0.5 text-[10px] font-semibold text-white shadow-soft"

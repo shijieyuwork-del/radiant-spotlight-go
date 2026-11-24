@@ -39,7 +39,7 @@ async function loadAppData() {
         export { STATIC_CLINICS } from "@/data/clinicDirectory";
         export { mergeClinicDirectory, applyClinicRecords } from "@/data/clinicDirectory";
         export { buildTreatmentCities, treatmentCityMeta, matchesProcedure, matchesCity, procedureExperts, newestRowTimestamp } from "@/lib/treatment-city-seo";
-        export { casePageMeta, expertPageMeta, casePath, expertPath, caseMediaUrl, resolveCase, caseFacts } from "@/lib/case-seo";
+        export { casePageMeta, expertPageMeta, casePath, expertPath, caseMediaUrl, caseCoverUrl, resolveCase, caseFacts } from "@/lib/case-seo";
         export { CLINIC_DIRECTORY_META, clinicPageMeta } from "@/lib/clinic-seo";
         export { SITE_URL, SITE_NAME, OG_IMAGE, TWITTER_HANDLE, ORGANIZATION_SCHEMA, ORGANIZATION_ENTITY, WEBSITE_ENTITY, HOME_TITLE, SITE_DESCRIPTION } from "@/lib/seo-config";
         export { homeStructuredData } from "@/lib/home-structured-data";
@@ -450,6 +450,9 @@ async function main() {
       MARKER,
       `<!--SEO-->\n${renderMeta(r, cfg)}\n    <!--/SEO-->`
     );
+    html = html.replace("<!--HOME_POSTER_PRELOAD-->", r.path === "/" ? '<link rel="preload" as="image" href="/videos/v2-poster.webp" fetchpriority="high" />' : "");
+    const coverManifest = JSON.stringify(publicData.coverManifest).replace(/</g, "\\u003c");
+    html = html.replace("</body>", `<script type="application/json" id="case-cover-data">${coverManifest}</script>\n</body>`);
     if (r.language) html = html.replace(/<html\b[^>]*>/i, `<html lang="${esc(r.language)}" dir="ltr">`);
     const staticContentRoutes = new Set([
       "/",

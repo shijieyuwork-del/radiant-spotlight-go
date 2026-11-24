@@ -11,13 +11,10 @@ import { useAsia } from "@/lib/asia-i18n";
 import { getHomeHeroCopy } from "@/lib/home-hero-copy";
 import { homeStructuredData } from "@/lib/home-structured-data";
 import { getHomeVariant, useHomeVariantView } from "@/lib/home-ab";
-import HomeV2 from "@/pages/HomeV2";
+const HomeV2 = lazy(() => import("@/pages/HomeV2"));
 import { useQuote } from "@/components/QuoteRequest";
 import { LoadOnApproach } from "@/components/home/LoadOnApproach";
-import * as ServerSections from "@/components/home/HomeBelowFold";
-import ServerCaseGallery from "@/components/home/HeroCaseGallery";
-import ServerBeforeAfter from "@/components/home/HomeBeforeAfterGallery";
-import ServerStories from "@/components/PatientStoriesSection";
+import { serverHomeSections as ServerSections } from "@/components/home/server-home-sections";
 import "@/components/home/cinematic-hero.css";
 
 const HeroCaseGallery = lazy(() => import("@/components/home/HeroCaseGallery"));
@@ -69,7 +66,7 @@ const Hero = () => {
 
 
             <div className="cinematic-hero__gallery">
-              <LoadOnApproach server={import.meta.env.SSR ? <ServerCaseGallery /> : null} fallback={<div className="home-gallery-reserve" aria-hidden="true" />}><HeroCaseGallery /></LoadOnApproach>
+              <LoadOnApproach server={import.meta.env.SSR ? <ServerSections.CaseGallery /> : null} fallback={<div className="home-gallery-reserve" aria-hidden="true" />}><HeroCaseGallery /></LoadOnApproach>
             </div>
 
             <div
@@ -101,7 +98,7 @@ const Hero = () => {
 
         </div>
       </div>
-      <LoadOnApproach server={import.meta.env.SSR ? <ServerBeforeAfter /> : null} fallback={<div className="home-comparison-reserve" aria-hidden="true" />}><HomeBeforeAfterGallery /></LoadOnApproach>
+      <LoadOnApproach server={import.meta.env.SSR ? <ServerSections.BeforeAfter /> : null} fallback={<div className="home-comparison-reserve" aria-hidden="true" />}><HomeBeforeAfterGallery /></LoadOnApproach>
     </section>
   );
 };
@@ -128,7 +125,7 @@ const HomeA = () => {
           <LoadOnApproach server={import.meta.env.SSR ? <ServerSections.PricingPreviewSection /> : null} fallback={<div className="home-section-reserve" aria-hidden="true" />}><PricingPreviewSection /></LoadOnApproach>
           <LoadOnApproach server={import.meta.env.SSR ? <ServerSections.DoctorsSection /> : null} fallback={<div className="home-section-reserve" aria-hidden="true" />}><DoctorsSection /></LoadOnApproach>
           <LoadOnApproach server={import.meta.env.SSR ? <ServerSections.ClinicsSection /> : null} fallback={<div className="home-section-reserve" aria-hidden="true" />}><ClinicsSection /></LoadOnApproach>
-          <LoadOnApproach server={import.meta.env.SSR ? <ServerStories ambient /> : null} fallback={<div className="home-stories-reserve" aria-hidden="true" />}><PatientStoriesSection ambient /></LoadOnApproach>
+          <LoadOnApproach server={import.meta.env.SSR ? <ServerSections.Stories ambient /> : null} fallback={<div className="home-stories-reserve" aria-hidden="true" />}><PatientStoriesSection ambient /></LoadOnApproach>
         </main>
         <Footer />
       </div>

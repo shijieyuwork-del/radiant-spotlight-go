@@ -1,3 +1,56 @@
+import { mkdir, writeFile } from "node:fs/promises";
+import path from "node:path";
+import { createHash } from "node:crypto";
+
+/** Mirror only published covers, using the existing audited published-file signing endpoint. */
+export async function downloadPublishedCaseCovers(videos, { directory, base, headers, fetchImpl = fetch }) {
+  await mkdir(directory, { recursive: true });
+  const eligible = videos.filter((v) => v.status === "published" && v.cover_path && /^[a-f0-9-]{36}$/i.test(v.id));
+  const manifest = {};
+  let bytes = 0;
+  for (let offset = 0; offset < eligible.length; offset += 50) {
+    const batch = eligible.slice(offset, offset + 50);
+    let urls = {};
+    try {
+      const response = await fetchImpl(`${base}/functions/v1/request-file-access`, {
+        method: "POST", headers: { ...headers, "Content-Type": "application/json" },
+        body: JSON.stringify({ bucket: "video-covers", paths: [...new Set(batch.map((v) => v.cover_path))] }),
+        signal: AbortSignal.timeout(30000),
+      });
+      if (response.ok) urls = (await response.json()).urls ?? {};
+    } catch { /* Missing covers retain their published-only case-media fallback. */ }
+    let cursor = 0;
+    await Promise.all(Array.from({ length: Math.min(8, batch.length) }, async () => {
+      while (cursor < batch.length) {
+        const row = batch[cursor++];
+        const url = urls[row.cover_path];
+        if (!url) continue;
+        try {
+          // Signing service URLs must remain on the configured storage origin.
+          if (new URL(url).origin !== new URL(base).origin) continue;
+          const response = await fetchImpl(url, { signal: AbortSignal.timeout(30000), redirect: "error" });
+          if (!response.ok || Number(response.headers.get("content-length")) > 10 * 1024 * 1024) continue;
+          const image = Buffer.from(await response.arrayBuffer());
+          if (image.length > 10 * 1024 * 1024 || image.toString("ascii", 0, 4) !== "RIFF" || image.toString("ascii", 8, 12) !== "WEBP") continue;
+          const version = createHash("sha256").update(image).digest("hex").slice(0, 16);
+          const coverUrl = `/case-covers/${row.id}.webp?v=${version}`;
+          await writeFile(path.join(directory, `${row.id}.webp`), image);
+          row.cover_url = coverUrl;
+          manifest[row.id] = { path: row.cover_path, url: coverUrl };
+          bytes += image.length;
+        } catch { /* Per-cover failures do not remove cases or their SEO records. */ }
+      }
+    }));
+  }
+  const report = { downloaded: Object.keys(manifest).length, missing: eligible.length - Object.keys(manifest).length, bytes };
+  await Promise.all([
+    writeFile(path.join(directory, "report.json"), JSON.stringify(report)),
+    writeFile(path.join(directory, "manifest.json"), JSON.stringify(manifest)),
+  ]);
+  console.log(`case-covers: ${report.downloaded} static WebP covers, ${bytes} bytes (${(bytes / 1048576).toFixed(2)} MiB); ${report.missing} case-media fallbacks`);
+  return { manifest, ...report };
+}
+
 /** Public RLS-filtered reads only. A failed fetch aborts publication, never emits a partial sitemap. */
 export async function loadPublicCaseSnapshot(d) {
   const { loadEnv } = await import("vite");
@@ -46,7 +99,8 @@ export async function loadPublicCaseSnapshot(d) {
     prefixes.add(prefix);
   }
   const treatmentCities = d.buildTreatmentCities({ videos, doctors });
-  return { videos, doctors, clinics, clinicRows, treatmentCities };
+  const covers = await downloadPublishedCaseCovers(videos, { directory: path.resolve("dist/case-covers"), base, headers });
+  return { videos, doctors, clinics, clinicRows, treatmentCities, coverManifest: covers.manifest };
 }
 
 /** Serialize only records relevant to the current page, not the entire video library in every page. */
@@ -92,7 +146,7 @@ export function generateVideoSitemap(videos, doctors, d) {
   const entries = videos.filter((v) => v.status === "published" && v.cover_path).map((v) => {
     const meta = d.casePageMeta(v, byId.get(v.doctor_id));
     const lastmod = d.newestRowTimestamp([v, ...(byId.has(v.doctor_id) ? [byId.get(v.doctor_id)] : [])]);
-    return `  <url><loc>${xml(d.SITE_URL + meta.path)}</loc>${lastmod ? `<lastmod>${xml(lastmod)}</lastmod>` : ""}<video:video><video:thumbnail_loc>${xml(d.caseMediaUrl(v.id, "thumb"))}</video:thumbnail_loc><video:title>${xml(meta.title)}</video:title><video:description>${xml(meta.description)}</video:description><video:content_loc>${xml(d.caseMediaUrl(v.id, "video"))}</video:content_loc><video:publication_date>${xml(v.created_at)}</video:publication_date></video:video></url>`;
+    return `  <url><loc>${xml(d.SITE_URL + meta.path)}</loc>${lastmod ? `<lastmod>${xml(lastmod)}</lastmod>` : ""}<video:video><video:thumbnail_loc>${xml(d.caseCoverUrl(v, true))}</video:thumbnail_loc><video:title>${xml(meta.title)}</video:title><video:description>${xml(meta.description)}</video:description><video:content_loc>${xml(d.caseMediaUrl(v.id, "video"))}</video:content_loc><video:publication_date>${xml(v.created_at)}</video:publication_date></video:video></url>`;
   });
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">\n${entries.join("\n")}\n</urlset>\n`;
 }

@@ -13,13 +13,13 @@ const Open = ({ context }: { context?: QuoteContext }) => {
   const { open } = useQuote();
   return <button onClick={() => open(context)}>Open planning</button>;
 };
-const openDialog = (context?: QuoteContext, lang: AsiaLang = "en") => {
+const openDialog = async (context?: QuoteContext, lang: AsiaLang = "en") => {
   localStorage.setItem("glowy.asia.v1", JSON.stringify({ lang, currency: "USD" }));
   render(<AsiaI18nProvider><QuoteProvider><Open context={context} /></QuoteProvider></AsiaI18nProvider>);
   const opener = screen.getByRole("button", { name: "Open planning" });
   opener.focus();
   fireEvent.click(opener);
-  return within(screen.getByRole("dialog"));
+  return within(await screen.findByRole("dialog"));
 };
 const submit = () => fireEvent.submit(screen.getByRole("dialog").querySelector("form")!);
 const emailBody = () => new URL(location.href).searchParams.get("body")!;
@@ -37,9 +37,9 @@ afterEach(() => {
   Object.defineProperty(window, "location", { configurable: true, value: originalLocation });
 });
 
-describe("two consultation paths", () => {
+describe("two consultation paths", async () => {
   it("lets question visitors give only an email and question, validates them, and accurately describes the handoff", async () => {
-    const dialog = openDialog({ intent: "question" });
+    const dialog = await openDialog({ intent: "question" });
     expect(dialog.getAllByRole("textbox")).toHaveLength(2);
     expect(dialog.queryByRole("combobox")).not.toBeInTheDocument();
     expect(dialog.queryByLabelText(/name|country|procedure/i)).not.toBeInTheDocument();
@@ -63,9 +63,9 @@ describe("two consultation paths", () => {
     expect(JSON.stringify(mocks.track.mock.calls)).not.toContain("Is initial planning free?");
   });
 
-  it("requires only the chosen WhatsApp contact and preserves context and a recoverable message when a popup handle is unavailable", () => {
+  it("requires only the chosen WhatsApp contact and preserves context and a recoverable message when a popup handle is unavailable", async () => {
     vi.mocked(window.open).mockReturnValue(null);
-    const dialog = openDialog({ intent: "question", doctorName: "Dr Lin", hospitalName: "Listed Clinic", procedure: "Rhinoplasty", city: "Shanghai" });
+    const dialog = await openDialog({ intent: "question", doctorName: "Dr Lin", hospitalName: "Listed Clinic", procedure: "Rhinoplasty", city: "Shanghai" });
     fireEvent.click(dialog.getByRole("radio", { name: "WhatsApp" }));
     expect(dialog.queryByLabelText("Email address")).not.toBeInTheDocument();
     fireEvent.change(dialog.getByLabelText("WhatsApp number"), { target: { value: "1234" } });
@@ -84,8 +84,8 @@ describe("two consultation paths", () => {
     expect(mocks.from).not.toHaveBeenCalled();
   });
 
-  it("prepares a care plan with the supplied provider and selected planning details", () => {
-    const dialog = openDialog({ intent: "care_plan", doctorName: "Dr Lin", hospitalName: "Listed Clinic", procedure: "Rhinoplasty", city: "Beijing" });
+  it("prepares a care plan with the supplied provider and selected planning details", async () => {
+    const dialog = await openDialog({ intent: "care_plan", doctorName: "Dr Lin", hospitalName: "Listed Clinic", procedure: "Rhinoplasty", city: "Beijing" });
     expect(dialog.getByLabelText("Procedure")).toHaveValue("Rhinoplasty");
     expect(dialog.getByLabelText("City in China")).toHaveValue("Beijing");
     fireEvent.change(dialog.getByLabelText("Email address"), { target: { value: "planner@example.com" } });
@@ -98,8 +98,8 @@ describe("two consultation paths", () => {
     expect(mocks.from).not.toHaveBeenCalled();
   });
 
-  it("accepts uncertainty for every care-plan detail and limits locations to current China service areas", () => {
-    const dialog = openDialog({ intent: "care_plan", city: "Seoul" });
+  it("accepts uncertainty for every care-plan detail and limits locations to current China service areas", async () => {
+    const dialog = await openDialog({ intent: "care_plan", city: "Seoul" });
     expect(dialog.getByLabelText("City in China")).toHaveValue("");
     expect(dialog.queryByRole("option", { name: "Seoul" })).not.toBeInTheDocument();
     fireEvent.change(dialog.getByLabelText("Email address"), { target: { value: "planner@example.com" } });
@@ -112,7 +112,7 @@ describe("two consultation paths", () => {
   });
 
   it("preserves edits between paths, excludes unrelated answers, and clears private drafts for a new opening", async () => {
-    const dialog = openDialog();
+    const dialog = await openDialog();
     fireEvent.click(dialog.getByRole("button", { name: /Ask a question/ }));
     fireEvent.change(dialog.getByLabelText("Email address"), { target: { value: "visitor@example.com" } });
     fireEvent.change(dialog.getByLabelText("Your question"), { target: { value: "Only for the question path" } });
@@ -133,9 +133,9 @@ describe("two consultation paths", () => {
     expect(screen.getByLabelText("Your question")).toHaveValue("");
   });
 
-  it("keeps an editable draft and a manual handoff link if the app cannot open", () => {
+  it("keeps an editable draft and a manual handoff link if the app cannot open", async () => {
     vi.mocked(window.open).mockImplementation(() => { throw new Error("Blocked"); });
-    const dialog = openDialog({ intent: "question" });
+    const dialog = await openDialog({ intent: "question" });
     fireEvent.click(dialog.getByRole("radio", { name: "WhatsApp" }));
     fireEvent.change(dialog.getByLabelText("WhatsApp number"), { target: { value: "+44 7700 900123" } });
     fireEvent.change(dialog.getByLabelText("Your question"), { target: { value: "Please explain the next step." } });
@@ -148,9 +148,9 @@ describe("two consultation paths", () => {
     expect(dialog.queryByRole("alert")).not.toBeInTheDocument();
   });
 
-  it.each(["en", "zh", "ru", "es", "th", "ms"] as AsiaLang[])("localizes both paths, validation and the prepared message in %s", (lang) => {
+  it.each(["en", "zh", "ru", "es", "th", "ms"] as AsiaLang[])("localizes both paths, validation and the prepared message in %s", async (lang) => {
     const copy = consultationPickerCopy[lang];
-    const dialog = openDialog(undefined, lang);
+    const dialog = await openDialog(undefined, lang);
     fireEvent.click(dialog.getByRole("button", { name: new RegExp(copy.questionTitle) }));
     expect(dialog.getByRole("heading", { name: copy.questionTitle })).toBeInTheDocument();
     submit();

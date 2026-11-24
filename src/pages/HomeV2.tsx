@@ -9,9 +9,7 @@ import { getHomeHeroCopy } from "@/lib/home-hero-copy";
 import { homeStructuredData } from "@/lib/home-structured-data";
 import { useHomeVariantView } from "@/lib/home-ab";
 import { LoadOnApproach } from "@/components/home/LoadOnApproach";
-import * as ServerSections from "@/components/home/HomeBelowFold";
-import ServerCaseGallery from "@/components/home/HeroCaseGallery";
-import ServerBeforeAfter from "@/components/home/HomeBeforeAfterGallery";
+import { serverHomeSections as ServerSections } from "@/components/home/server-home-sections";
 import {
   PlatformHeroContent,
   PlatformStats,
@@ -59,14 +57,14 @@ const PatientVideos = () => {
         link="/cases"
         linkText={zh ? "查看全部视频" : translatedUiText(lang, "See all videos")}
       />
-      <LoadOnApproach server={import.meta.env.SSR ? <ServerCaseGallery /> : null} fallback={<div className="home-gallery-reserve" aria-hidden="true" />}><HeroCaseGallery /></LoadOnApproach>
+      <LoadOnApproach server={import.meta.env.SSR ? <ServerSections.CaseGallery /> : null} fallback={<div className="home-gallery-reserve" aria-hidden="true" />}><HeroCaseGallery /></LoadOnApproach>
     </section>
   );
 };
 
 const RealResults = () => (
   <div className="pt-8">
-    <LoadOnApproach server={import.meta.env.SSR ? <ServerBeforeAfter /> : null} fallback={<div className="home-comparison-reserve" aria-hidden="true" />}><HomeBeforeAfterGallery /></LoadOnApproach>
+    <LoadOnApproach server={import.meta.env.SSR ? <ServerSections.BeforeAfter /> : null} fallback={<div className="home-comparison-reserve" aria-hidden="true" />}><HomeBeforeAfterGallery /></LoadOnApproach>
   </div>
 );
 

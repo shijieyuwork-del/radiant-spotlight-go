@@ -16,7 +16,7 @@ export type PublishedCase = {
   id: string; title: string; caption: string | null; procedure: string | null;
   city: string | null; doctor_id: string | null; storage_path: string;
   cover_path: string | null; created_at: string; updated_at?: string;
-  status: string; i18n: unknown; placement?: string; duration?: number;
+  status: string; i18n: unknown; placement?: string; duration?: number; cover_url?: string;
   doctors?: Pick<CaseExpert, "name" | "i18n" | "status"> | null;
 };
 export const asciiSlug = (value: string) => value.normalize("NFKD").replace(/\p{M}/gu, "")
@@ -51,6 +51,21 @@ export function resolveCase(slug: string, rows: PublishedCase[]) {
 export const expertPath = (id: string) => `/doctors/profile/${id}`;
 export const caseMediaUrl = (id: string, kind: "video" | "thumb") =>
   `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/case-media/${encodeURIComponent(id)}/${kind}`;
+let coverManifestText = "";
+let coverManifest: Record<string, { path: string; url: string }> = {};
+export function caseCoverUrl(row: Pick<PublishedCase, "id" | "cover_path" | "cover_url">, absolute = false) {
+  if (!row.cover_path) return "";
+  if (typeof document !== "undefined") {
+    const text = document.getElementById("case-cover-data")?.textContent ?? "";
+    if (text !== coverManifestText) {
+      coverManifestText = text;
+      try { coverManifest = JSON.parse(text || "{}"); } catch { coverManifest = {}; }
+    }
+  }
+  const entry = typeof document !== "undefined" ? coverManifest[row.id] : undefined;
+  const url = row.cover_url || (entry?.path === row.cover_path ? entry.url : "") || caseMediaUrl(row.id, "thumb");
+  return absolute ? new URL(url, SITE_URL).href : url;
+}
 export function casePageMeta(row: PublishedCase, expert?: CaseExpert | null, lang: AsiaLang = "en") {
   const { procedure, city } = caseFacts(row, lang);
   const name = expert ? expertName(expert, lang) : "";
@@ -63,7 +78,7 @@ export function casePageMeta(row: PublishedCase, expert?: CaseExpert | null, lan
   const indexable = row.status === "published" && Boolean(row.cover_path);
   const video: Record<string, unknown> = {
     "@context": "https://schema.org", "@type": "VideoObject", name: title, description,
-    thumbnailUrl: caseMediaUrl(row.id, "thumb"), contentUrl: caseMediaUrl(row.id, "video"),
+    thumbnailUrl: caseCoverUrl(row, true), contentUrl: caseMediaUrl(row.id, "video"),
     uploadDate: new Date(row.created_at).toISOString(), embedUrl: canonical,
     ...(row.duration && row.duration > 0 ? { duration: `PT${row.duration}S` } : {}),
     ...(expert ? { about: { "@type": "Physician", name: expertName(expert), url: `${SITE_URL}${expertPath(expert.id)}` } } : {}),
@@ -71,7 +86,7 @@ export function casePageMeta(row: PublishedCase, expert?: CaseExpert | null, lan
   const breadcrumb = { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [
     ["Home", "/"], ["Cases", "/cases"], [caseFacts(row).procedure, `/cases?treatment=${encodeURIComponent(caseFacts(row).procedure)}`], [title, path],
   ].map(([name, item], index) => ({ "@type": "ListItem", position: index + 1, name, item: `${SITE_URL}${item}` })) };
-  return { title, absoluteTitle: true, description, path, image: indexable ? caseMediaUrl(row.id, "thumb") : undefined,
+  return { title, absoluteTitle: true, description, path, image: indexable ? caseCoverUrl(row, true) : undefined,
     robots: indexable ? "index, follow, max-image-preview:large" : "noindex, follow", includeBreadcrumb: false,
     structuredData: indexable ? [video, breadcrumb] : [breadcrumb] };
 }

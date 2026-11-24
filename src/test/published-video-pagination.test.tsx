@@ -25,6 +25,22 @@ beforeEach(() => {
 afterEach(cleanup);
 
 describe("published-video pagination", () => {
+  it("does not probe or sign media when static covers are available", async () => {
+    const script = document.createElement("script");
+    script.id = "case-cover-data";
+    script.type = "application/json";
+    script.textContent = JSON.stringify(Object.fromEntries(db.rows.map((r) => [r.id, { path: r.cover_path, url: `/case-covers/${r.id}.webp` }])));
+    document.body.appendChild(script);
+    db.mediaOk = false;
+    try {
+      const { result } = renderHook(() => usePublishedVideosState("en", "all"));
+      await waitFor(() => expect(result.current.isLoading).toBe(false));
+      expect(result.current.items).toHaveLength(24);
+      expect(result.current.items[0].poster).toBe("/case-covers/video-0.webp");
+      expect(result.current.items[0].src).toMatch(/case-media\/video-0\/video$/);
+      expect(db.signed).not.toHaveBeenCalled();
+    } finally { script.remove(); }
+  });
   it("defaults previews to 24 rows using stable case-media URLs without signing", async () => {
     const { result } = renderHook(() => usePublishedVideosState("en", "all"));
     await waitFor(() => expect(result.current.isLoading).toBe(false));

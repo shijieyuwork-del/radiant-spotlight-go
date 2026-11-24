@@ -16,7 +16,7 @@ import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
 import { getBrowserClient } from "@/lib/browser-client";
 import { localizeDoctorRow, localizeVideoRow } from "@/lib/i18n-content";
-import { signedUrl, signedUrls } from "@/lib/storage-urls";
+import { signedUrl } from "@/lib/storage-urls";
 import { formatCityTime, getCityTimezone } from "@/lib/timezones";
 import QuoteCtaButton from "@/components/QuoteCtaButton";
 import CoverVideo from "@/components/CoverVideo";
@@ -25,7 +25,7 @@ import BeforeAfterCard from "@/components/BeforeAfterCard";
 import { usePublishedBeforeAfter } from "@/hooks/use-before-after";
 import { getDirectoryDoctorPortraitRetouch } from "@/data/directory-doctor-portrait-retouches";
 import { usePublicCaseData } from "@/lib/public-case-data";
-import { casePath, expertName, expertPageMeta, type CaseExpert } from "@/lib/case-seo";
+import { casePath, caseMediaUrl, caseCoverUrl, expertName, expertPageMeta, type CaseExpert } from "@/lib/case-seo";
 import { MedicalDisclaimer } from "@/components/MedicalDisclaimer";
 import LinkedCaseLinks from "@/components/cases/LinkedCaseLinks";
 import { useClinicDirectory } from "@/hooks/use-clinic-directory";
@@ -49,6 +49,7 @@ type Video = {
   caption: string | null;
   storage_path: string;
   cover_path: string | null;
+  cover_url?: string;
   url?: string;
   coverUrl?: string;
   procedure?: string | null;
@@ -100,24 +101,14 @@ const ManagedDoctorDetail = () => {
           .order("created_at", { ascending: false }).range(0, 23);
         if (cancelled) return;
         const rows = (r.data ?? []) as Video[];
-        const [urls, coverUrls] = await Promise.all([
-          signedUrls(
-            "short-videos",
-            rows.map((v) => v.storage_path),
-          ),
-          signedUrls(
-            "video-covers",
-            rows.map((v) => v.cover_path),
-          ),
-        ]);
         if (cancelled) return;
         setDoctor(nextDoctor);
         setPhoto(nextPhoto);
         setVideos(
           rows.map(
-            (v, i) =>
+            (v) =>
               localizeVideoRow(
-                { ...v, url: urls[i], coverUrl: coverUrls[i] } as Record<
+                { ...v, url: caseMediaUrl(v.id, "video"), coverUrl: caseCoverUrl(v) } as Record<
                   string,
                   unknown
                 >,
@@ -312,13 +303,14 @@ const ManagedDoctorDetail = () => {
             ) : (
               <div className="flex gap-4 overflow-x-auto mt-6 pb-3">
                 {videos.map((v) => {
-                  const src = v.url ?? "";
+                  const src = v.url ?? caseMediaUrl(v.id, "video");
                   return (
                     <article key={v.id} className="w-48 shrink-0">
                       <CoverVideo
                         src={src}
+                        preload="none"
                         coverPath={v.cover_path}
-                        coverUrl={v.coverUrl}
+                        coverUrl={v.coverUrl ?? caseCoverUrl(v)}
                         className="w-full aspect-[9/16] object-cover rounded-2xl bg-black"
                       />
                       <h3 className="font-semibold mt-2"><Link className="hover:underline" to={casePath({ id: v.id, procedure: v.procedure ?? null, city: v.city ?? null, i18n: v.i18n ?? {} }, doctor)}>{v.title}</Link></h3>

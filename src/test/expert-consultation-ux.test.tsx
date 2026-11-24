@@ -133,7 +133,7 @@ describe("published profile consultation", () => {
     const opener = screen.getByRole("button", { name: "Open contact" });
     opener.focus();
     fireEvent.click(opener);
-    fireEvent.click(screen.getByRole("button", { name: "Close" }));
+    fireEvent.click(await screen.findByRole("button", { name: "Close" }));
     await waitFor(() => expect(opener).toHaveFocus());
   });
 
@@ -167,7 +167,7 @@ describe("published profile consultation", () => {
     expect(screen.getByRole("heading", { name: "Current Expert" })).toBeInTheDocument();
     expect(screen.queryByRole("heading", { name: "Older Expert" })).not.toBeInTheDocument();
     fireEvent.click(screen.getByTestId("expert-profile-consultation"));
-    const dialog = within(screen.getByRole("dialog"));
+    const dialog = within(await screen.findByRole("dialog"));
     expect(dialog.getByRole("heading", { name: "Ask about Current Expert" })).toBeInTheDocument();
     expect(dialog.getByText("Beijing")).toBeInTheDocument();
     expect(dialog.queryByText("Shanghai")).not.toBeInTheDocument();
@@ -188,7 +188,7 @@ describe("published profile consultation", () => {
     expect(within(about).getByText("Supplied credentials")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "View cases (0)" })).toHaveAttribute("href", "#expert-cases");
     fireEvent.click(screen.getByTestId("expert-profile-consultation"));
-    const dialog = within(screen.getByRole("dialog"));
+    const dialog = within(await screen.findByRole("dialog"));
     expect(dialog.getByRole("heading", { name: "Ask about Published Expert" })).toBeInTheDocument();
     expect(dialog.getByText("Shanghai")).toBeInTheDocument();
     fireEvent.click(dialog.getByRole("button", { name: /Ask a question/ }));
@@ -206,11 +206,11 @@ describe("published profile consultation", () => {
 });
 
 describe("consultation contact picker", () => {
-  it.each(["en", "zh", "ru", "es", "th", "ms"] as AsiaLang[])("localizes the visible picker and close control in %s", (lang) => {
+  it.each(["en", "zh", "ru", "es", "th", "ms"] as AsiaLang[])("localizes the visible picker and close control in %s", async (lang) => {
     localStorage.setItem("glowy.asia.v1", JSON.stringify({ lang, currency: "USD" }));
     renderPage(<OpenContact />);
     fireEvent.click(screen.getByRole("button", { name: "Open contact" }));
-    const dialog = within(screen.getByRole("dialog"));
+    const dialog = within(await screen.findByRole("dialog"));
     const copy = consultationPickerCopy[lang];
     expect(dialog.getByRole("heading", { name: copy.headline })).toBeInTheDocument();
     for (const text of [copy.intro, copy.questionTitle, copy.questionDescription, copy.carePlanTitle, copy.carePlanDescription]) {
@@ -229,7 +229,7 @@ describe("consultation contact picker", () => {
     Object.defineProperty(window, "location", { configurable: true, value: location });
     renderPage(<OpenContact context={{ doctorName: "林医生", hospitalName: "已列出的医院", city: "上海", procedure: "鼻整形" }} />);
     fireEvent.click(screen.getByRole("button", { name: "Open contact" }));
-    const dialog = within(screen.getByRole("dialog"));
+    const dialog = within(await screen.findByRole("dialog"));
     expect(dialog.getByRole("heading", { name: "咨询林医生" })).toBeInTheDocument();
     for (const text of ["专家:", "诊所或医院:", "项目:", "中国意向城市:", "上海", "鼻整形", "已列出的医院"]) expect(dialog.getByText(text)).toBeInTheDocument();
     fireEvent.click(dialog.getByRole("button", { name: /问一个问题/ }));
@@ -254,7 +254,7 @@ describe("consultation contact picker", () => {
     Object.defineProperty(window, "location", { configurable: true, value: location });
     renderPage(<OpenContact context={{ doctorName: "Published Expert", city: "Shanghai" }} />);
     fireEvent.click(screen.getByRole("button", { name: "Open contact" }));
-    fireEvent.click(screen.getByRole("button", { name: /Ask a question/ }));
+    fireEvent.click(await screen.findByRole("button", { name: /Ask a question/ }));
     fireEvent.click(screen.getByRole("radio", { name: "WhatsApp" }));
     fireEvent.change(screen.getByLabelText("WhatsApp number"), { target: { value: "+44 7700 900123" } });
     fireEvent.change(screen.getByLabelText("Your question"), { target: { value: "How do I arrange a consultation?" } });

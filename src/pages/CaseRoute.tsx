@@ -1,9 +1,12 @@
+import { lazy } from "react";
 import { useParams } from "react-router-dom";
-import { PATIENT_DIARY_CASES } from "@/data/patientDiaryCases";
-import CaseDetail from "@/pages/CaseDetail";
 import PublishedCasePage from "@/pages/PublishedCasePage";
+import { caseIdPrefix } from "@/lib/case-seo";
+
+const LegacyCaseRoute = lazy(() => import("@/pages/LegacyCaseRoute"));
 
 export default function CaseRoute() {
   const { id } = useParams();
-  return PATIENT_DIARY_CASES.some((row) => row.id === id) ? <CaseDetail /> : <PublishedCasePage />;
+  const publishedId = id && (/^[a-f0-9-]{36}$/i.test(id) || caseIdPrefix(id));
+  return publishedId ? <PublishedCasePage /> : <LegacyCaseRoute />;
 }

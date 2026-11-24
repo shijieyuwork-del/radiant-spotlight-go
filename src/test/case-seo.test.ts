@@ -1,9 +1,27 @@
 import { describe, expect, it } from "vitest";
-import { asciiSlug, caseIdPrefix, casePageMeta, casePath, expertName, resolveCase, type PublishedCase, type CaseExpert } from "@/lib/case-seo";
+import { asciiSlug, caseIdPrefix, casePageMeta, casePath, caseCoverUrl, expertName, resolveCase, type PublishedCase, type CaseExpert } from "@/lib/case-seo";
 
 const row: PublishedCase = { id: "abcdef12-1234-4567-8901-123456789012", title: "Published case", procedure: "鼻综合", city: "上海", caption: null, doctor_id: "expert", storage_path: "medora/abc.mp4", cover_path: "medora/abc.webp", created_at: "2026-11-23T00:00:00Z", status: "published", i18n: { en: { procedure: "Rhinoplasty", city: "Shanghai" } } };
 const expert: CaseExpert = { id: "expert", name: "廖柏臣", title: "Expert", hospital: "Listed clinic", city: "上海", specialties: [], bio: "", credentials: null, languages: null, photo_path: null, created_at: row.created_at, status: "published", i18n: { en: { name: "Liao Bochen" } } };
 describe("canonical published case identities", () => {
+  it("uses build-mirrored covers in metadata while keeping playback on case-media", () => {
+    const cover_url = `/case-covers/${row.id}.webp?v=1234567890abcdef`;
+    const meta = casePageMeta({ ...row, cover_url }, expert);
+    expect(caseCoverUrl({ ...row, cover_url })).toBe(cover_url);
+    expect(meta.image).toBe(`https://sinoaesthetics.com${cover_url}`);
+    expect(meta.structuredData[0]).toMatchObject({ thumbnailUrl: meta.image, contentUrl: expect.stringContaining(`/case-media/${row.id}/video`) });
+  });
+  it("does not reuse a mirrored cover after the source path changes", () => {
+    const script = document.createElement("script");
+    script.id = "case-cover-data";
+    script.type = "application/json";
+    script.textContent = JSON.stringify({ [row.id]: { path: row.cover_path, url: `/case-covers/${row.id}.webp` } });
+    document.body.appendChild(script);
+    try {
+      expect(caseCoverUrl(row)).toBe(`/case-covers/${row.id}.webp`);
+      expect(caseCoverUrl({ ...row, cover_path: "changed.webp" })).toContain(`/case-media/${row.id}/thumb`);
+    } finally { script.remove(); }
+  });
   it("builds the specified procedure-city-pinyin-eight-character URL", () => {
     expect(casePath(row, expert)).toBe("/cases/rhinoplasty-shanghai-liao-bochen-abcdef12");
   });

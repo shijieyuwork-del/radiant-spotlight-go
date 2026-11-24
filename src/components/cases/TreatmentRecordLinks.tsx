@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import LazyVideo from "@/components/media/LazyVideo";
 import { CITIES } from "@/data/cities";
 import { PROCEDURE_CATALOG } from "@/data/procedureCatalog";
-import { caseFacts, caseMediaUrl, casePath, expertName, expertPath } from "@/lib/case-seo";
+import { caseFacts, caseMediaUrl, caseCoverUrl, casePath, expertName, expertPath } from "@/lib/case-seo";
 import { useAsia } from "@/lib/asia-i18n";
 import { localizedField } from "@/lib/i18n-content";
 import { useTreatmentRecords } from "@/hooks/use-treatment-records";
@@ -21,7 +21,7 @@ export function ProcedureRecords({ data, slug, citySlug, limit = 6 }: { data: Tr
     {videos.length > 0 && <section className="mt-10 border-t border-border pt-8"><h2 className="font-display text-2xl">{zh ? "真实案例视频" : "Real case videos"}</h2><ul className="mt-5 grid grid-cols-2 gap-4 lg:grid-cols-3">{videos.map((v) => {
       const doc = data.doctors.find((d) => d.id === v.doctor_id);
       const facts = caseFacts(v, lang);
-      return <li key={v.id} className="overflow-hidden rounded-lg border border-border bg-card"><LazyVideo controls src={caseMediaUrl(v.id, "video")} poster={caseMediaUrl(v.id, "thumb")} alt={`${facts.procedure} · ${facts.city}`} className="aspect-[9/16] max-h-[28rem] w-full bg-muted" /><Link to={casePath(v, doc)} className="block p-4 text-sm font-medium underline underline-offset-4">{facts.procedure} · {facts.city}{doc ? ` · ${expertName(doc, lang)}` : ""}</Link></li>;
+      return <li key={v.id} className="overflow-hidden rounded-lg border border-border bg-card"><LazyVideo controls src={caseMediaUrl(v.id, "video")} poster={caseCoverUrl(v)} alt={`${facts.procedure} · ${facts.city}`} className="aspect-[9/16] max-h-[28rem] w-full bg-muted" /><Link to={casePath(v, doc)} className="block p-4 text-sm font-medium underline underline-offset-4">{facts.procedure} · {facts.city}{doc ? ` · ${expertName(doc, lang)}` : ""}</Link></li>;
     })}</ul>{citySlug && allVideos.length > shown && <button type="button" onClick={() => setShown((n) => n + 12)} className="mt-6 rounded-full border border-border px-5 py-2 text-sm font-medium hover:border-primary">{zh ? "加载更多" : "Load more"}</button>}</section>}
   </>;
 }

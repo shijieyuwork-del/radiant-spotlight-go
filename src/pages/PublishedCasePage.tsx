@@ -10,18 +10,16 @@ import { Button } from "@/components/ui/button";
 import { useAsia } from "@/lib/asia-i18n";
 import { getBrowserClient } from "@/lib/browser-client";
 import { consultationHandoffUrl } from "@/lib/consultation-handoff";
-import { caseFacts, caseIdPrefix, caseMediaUrl, casePageMeta, casePath, expertName, expertPath, resolveCase, type PublishedCase, type CaseExpert } from "@/lib/case-seo";
+import { caseFacts, caseIdPrefix, caseMediaUrl, caseCoverUrl, casePageMeta, casePath, expertName, expertPath, resolveCase, type PublishedCase, type CaseExpert } from "@/lib/case-seo";
 import { usePublicCaseData } from "@/lib/public-case-data";
 import { useClinicDirectory } from "@/hooks/use-clinic-directory";
 import NotFound from "@/pages/NotFound";
-import { signedUrl } from "@/lib/storage-urls";
 
 export default function PublishedCasePage() {
   const { id: slug = "" } = useParams();
   const { lang } = useAsia();
   const initial = usePublicCaseData();
   const { clinics } = useClinicDirectory();
-  const [media, setMedia] = useState<{ id: string; video: string; thumb: string } | null>(null);
   const [state, setState] = useState<{ slug: string; row?: PublishedCase; expert?: CaseExpert; related: PublishedCase[]; loading: boolean }>(() => {
     const row = resolveCase(slug, initial?.videos ?? []);
     return { slug, row, expert: initial?.doctors.find((d) => d.id === row?.doctor_id), related: initial?.videos ?? [], loading: !row };
@@ -48,9 +46,7 @@ export default function PublishedCasePage() {
           row.doctor_id ? neighbors.eq("doctor_id", row.doctor_id).limit(6) : Promise.resolve({ data: [] }),
           client.from("videos").select("*,doctors(name,i18n,status)").eq("status", "published").neq("id", row.id).eq("procedure", row.procedure ?? "").eq("city", row.city ?? "").order("created_at", { ascending: false }).order("id").limit(6),
         ]);
-        const [video, thumb] = await Promise.all([signedUrl("short-videos", row.storage_path), signedUrl("video-covers", row.cover_path)]);
         if (active) {
-          setMedia({ id: row.id, video, thumb });
           setState({ slug, row, expert: expert as CaseExpert | undefined, related: [...(byExpert.data ?? []), ...(byFacts.data ?? [])] as PublishedCase[], loading: false });
         }
       } catch { if (active && !seeded) setState({ slug, related: [], loading: false }); }
@@ -80,7 +76,7 @@ export default function PublishedCasePage() {
       <Link to="/cases" className="inline-flex items-center gap-2 text-sm text-muted-foreground"><ArrowLeft className="size-4" />{c("All cases", "全部案例")}</Link>
       <h1 className="mt-6 break-words font-display text-3xl leading-tight sm:text-4xl">{meta.title}</h1>
       <div className="mt-8 grid items-start gap-8 lg:grid-cols-2">
-        <video controls playsInline preload="none" src={media?.id === row.id && media.video ? media.video : caseMediaUrl(row.id, "video")} poster={row.cover_path ? media?.id === row.id && media.thumb ? media.thumb : caseMediaUrl(row.id, "thumb") : undefined} className="aspect-[9/16] max-h-[75vh] w-full rounded-lg bg-muted object-contain" />
+        <video controls playsInline preload="none" src={caseMediaUrl(row.id, "video")} poster={caseCoverUrl(row) || undefined} className="aspect-[9/16] max-h-[75vh] w-full rounded-lg bg-muted object-contain" />
         <section className="min-w-0">
           <dl className="space-y-4 border-y border-border py-6 text-sm">
             <div><dt className="text-muted-foreground">{c("Procedure", "项目")}</dt><dd className="mt-1">{facts.procedure}</dd></div>

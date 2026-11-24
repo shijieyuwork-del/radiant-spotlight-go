@@ -27,6 +27,7 @@ import type { TikTokItem } from "@/components/TikTokWall";
 import { useQuietVideo } from "@/hooks/use-quiet-video";
 import { videoControlsCopy } from "@/lib/video-controls-copy";
 import { CaseShareButton } from "@/components/CaseShareButton";
+import { caseMediaUrl, caseCoverUrl } from "@/lib/case-seo";
 
 type LinkedExpert = {
   id: string; name: string; title: string; city: string;
@@ -53,11 +54,7 @@ const CaseDetail = () => {
         .maybeSingle();
       if (!data || !active) return;
       const row = localizeVideoRow(data as unknown as Record<string, unknown>, lang) as unknown as Parameters<typeof toTikTokItem>[0];
-      const [url, cover] = await Promise.all([
-        signedUrl("short-videos", row.storage_path),
-        signedUrl("video-covers", row.cover_path),
-      ]);
-      if (active) setUploadedItem(toTikTokItem(row, url, cover));
+      if (active) setUploadedItem(toTikTokItem(row, caseMediaUrl(row.id, "video"), caseCoverUrl(row)));
       // 后台视频关联了专家时，读取真实专家资料（而不是按项目猜测的示例专家）
       if (data.doctor_id) {
         const { data: doc } = await supabase

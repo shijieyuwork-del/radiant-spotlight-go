@@ -4,13 +4,13 @@ import { signedUrls } from "@/lib/storage-urls";
 import { localizeVideoRow } from "@/lib/i18n-content";
 import type { TikTokItem } from "@/components/TikTokWall";
 import type { AsiaLang } from "@/lib/asia-i18n";
-import { casePath, caseMediaUrl } from "@/lib/case-seo";
+import { casePath, caseMediaUrl, caseCoverUrl } from "@/lib/case-seo";
 import { usePublicCaseData } from "@/lib/public-case-data";
 
 type Row = {
   id: string; title: string; caption: string | null; city: string | null;
   procedure: string | null; storage_path: string; cover_path: string | null;
-  created_at: string; doctor_id: string | null; i18n: unknown;
+  created_at: string; doctor_id: string | null; i18n: unknown; cover_url?: string;
   doctors?: { name: string; i18n: unknown; status: string } | null;
 };
 
@@ -70,7 +70,7 @@ export const usePublishedVideosState = (lang: AsiaLang, placement: "diary" | "be
   const limit = Math.max(1, Math.floor(options.limit ?? 24));
   const paginate = options.paginate ?? false;
   const initial = usePublicCaseData();
-  const [items, setItems] = useState<TikTokItem[]>(() => (initial?.videos ?? []).filter((r) => placement === "all" || r.placement === placement).slice(0, limit).map((r) => toTikTokItem(r, caseMediaUrl(r.id, "video"), r.cover_path ? caseMediaUrl(r.id, "thumb") : "")));
+  const [items, setItems] = useState<TikTokItem[]>(() => (initial?.videos ?? []).filter((r) => placement === "all" || r.placement === placement).slice(0, limit).map((r) => toTikTokItem(r, caseMediaUrl(r.id, "video"), caseCoverUrl(r))));
   const [isLoading, setIsLoading] = useState(items.length === 0);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [hasMore, setHasMore] = useState(false);
@@ -100,14 +100,15 @@ export const usePublishedVideosState = (lang: AsiaLang, placement: "diary" | "be
       if (request !== generation.current) return;
       const rows = (data ?? []) as Row[];
       const firstCover = rows.find((r) => r.cover_path);
-      const mediaOk = await probeCaseMedia(firstCover ? caseMediaUrl(firstCover.id, "thumb") : undefined);
+      const hasStaticCovers = rows.some((r) => caseCoverUrl(r).startsWith("/case-covers/"));
+      const mediaOk = hasStaticCovers || await probeCaseMedia(firstCover ? caseMediaUrl(firstCover.id, "thumb") : undefined);
       const signed = mediaOk ? null : await signRows(rows);
       if (request !== generation.current) return;
       const next = rows.map((r) => ({
         ...toTikTokItem(
           localizeVideoRow(r as unknown as Record<string, unknown>, lang) as unknown as Row,
           signed?.get(r.id)?.src ?? caseMediaUrl(r.id, "video"),
-          signed ? signed.get(r.id)?.poster ?? "" : r.cover_path ? caseMediaUrl(r.id, "thumb") : "",
+          signed ? signed.get(r.id)?.poster ?? "" : caseCoverUrl(r),
         ),
         caseHref: casePath(r, r.doctors?.status === "published" ? r.doctors : undefined),
       }));

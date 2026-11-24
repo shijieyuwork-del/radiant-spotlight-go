@@ -33,6 +33,14 @@ import PublishedCasePage from "./pages/PublishedCasePage";
 import ManagedDoctorDetail from "./pages/ManagedDoctorDetail";
 import { PublicCaseProvider, type PublicCaseData } from "./lib/public-case-data";
 
+import { registerServerHomeSections } from "./components/home/server-home-sections";
+import { TreatmentsSection, PricingPreviewSection, DoctorsSection, ClinicsSection } from "./components/home/HomeBelowFold";
+import CaseGallery from "./components/home/HeroCaseGallery";
+import BeforeAfter from "./components/home/HomeBeforeAfterGallery";
+import Stories from "./components/PatientStoriesSection";
+
+registerServerHomeSections({ TreatmentsSection, PricingPreviewSection, DoctorsSection, ClinicsSection, CaseGallery, BeforeAfter, Stories });
+
 /** Build-time renderer for the indexable SEO core. */
 export function render(url: string, data: PublicCaseData | null = null) {
   return renderToString(
