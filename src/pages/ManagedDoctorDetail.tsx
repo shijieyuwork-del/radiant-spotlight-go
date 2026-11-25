@@ -69,6 +69,7 @@ const ManagedDoctorDetail = () => {
   const [videos, setVideos] = useState<Video[]>(
     () => initial?.videos.filter((v) => v.doctor_id === id).slice(0, 24) ?? [],
   );
+  const [videoTotal, setVideoTotal] = useState(() => initial?.videos.filter((v) => v.doctor_id === id).length ?? 0);
   const [loading, setLoading] = useState(!seeded);
   const [photo, setPhoto] = useState(seeded?.photo ?? "");
   useEffect(() => {
@@ -95,7 +96,7 @@ const ManagedDoctorDetail = () => {
         if (cancelled) return;
         const r = await supabase
           .from("videos")
-          .select("id,title,caption,procedure,city,storage_path,cover_path,i18n")
+          .select("id,title,caption,procedure,city,storage_path,cover_path,i18n", { count: "exact" })
           .eq("doctor_id", id)
           .eq("status", "published")
           .order("created_at", { ascending: false })
@@ -105,6 +106,7 @@ const ManagedDoctorDetail = () => {
         if (cancelled) return;
         setDoctor(nextDoctor);
         setPhoto(nextPhoto);
+        setVideoTotal(r.count ?? rows.length);
         setVideos(
           rows.map(
             (v) =>
@@ -157,6 +159,7 @@ const ManagedDoctorDetail = () => {
       </>
     );
   const tz = getCityTimezone(doctor.city);
+  const caseTotal = Math.max(videoTotal, videos.length);
   const clinic = clinics.find((c) => c.doctorIds.includes(id));
   const seo = expertPageMeta(
     {
@@ -281,10 +284,10 @@ const ManagedDoctorDetail = () => {
                 className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-foreground/25 px-5 text-sm font-semibold text-foreground hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
               >
                 {c(
-                  `View cases (${videos.length + beforeAfter.length})`,
-                  `查看案例（${videos.length + beforeAfter.length}）`,
-                  `Смотреть случаи (${videos.length + beforeAfter.length})`,
-                  `Ver casos (${videos.length + beforeAfter.length})`,
+                  `View cases (${caseTotal + beforeAfter.length})`,
+                  `查看案例（${caseTotal + beforeAfter.length}）`,
+                  `Смотреть случаи (${caseTotal + beforeAfter.length})`,
+                  `Ver casos (${caseTotal + beforeAfter.length})`,
                 )}
                 <ArrowRight className="size-4" />
               </a>
@@ -348,10 +351,10 @@ const ManagedDoctorDetail = () => {
           <section id="expert-cases" className="mt-10 scroll-mt-24 xl:scroll-mt-40">
             <h2 className="font-display text-3xl">
               {c(
-                `Patient diaries (${videos.length})`,
-                `患者日记（${videos.length}）`,
-                `Дневники пациентов (${videos.length})`,
-                `Diarios de pacientes (${videos.length})`,
+                `Patient diaries (${caseTotal})`,
+                `患者日记（${caseTotal}）`,
+                `Дневники пациентов (${caseTotal})`,
+                `Diarios de pacientes (${caseTotal})`,
               )}
             </h2>
             {videos.length === 0 ? (
