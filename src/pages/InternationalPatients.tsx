@@ -5,7 +5,7 @@ import PageMeta from "@/components/PageMeta";
 import { Button } from "@/components/ui/button";
 import { whatsappUrl, consultationHandoffUrl } from "@/lib/consultation-handoff";
 import { useAsia } from "@/lib/asia-i18n";
-import { SITE_URL } from "@/lib/seo-config";
+import { SITE_URL, guideImageUrl } from "@/lib/seo-config";
 import {
   GUIDE_UPDATED,
   INTERNATIONAL_GUIDES,
@@ -71,7 +71,7 @@ export default function InternationalPatients() {
         title={meta.title}
         description={meta.description}
         path={meta.path}
-        image={`/images/guides/${guideImage}-social.webp`}
+        image={guideImageUrl(guideImage, "social")}
         type={guide ? "article" : "website"}
         language={meta.language}
         alternates={meta.alternates}
@@ -139,7 +139,7 @@ export default function InternationalPatients() {
         <div className="container grid max-w-6xl gap-10 py-10 md:py-16 lg:grid-cols-[minmax(0,1fr)_17rem] lg:gap-14">
           <div className="min-w-0 space-y-12">
             <img
-              src={`/images/guides/${guideImage}.webp`}
+              src={guideImageUrl(guideImage)}
               alt={meta.title}
               width={1600}
               height={900}
