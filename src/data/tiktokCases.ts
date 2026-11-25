@@ -14,7 +14,9 @@ const DIARY_PREVIEWS: TikTokItem[] = [
     treatment: { en: "Partner hospital consultation diary", zh: "合作医院面诊日常" },
     city: { en: "Beijing", zh: "北京" },
     clinic: { en: "ID Hospital Seoul · Kim Min-soo", zh: "首尔 ID 整形医院 · 金珉秀院长" },
-    likes: "56k", comments: "1.2k", priceCny: 22800,
+    likes: "56k",
+    comments: "1.2k",
+    priceCny: 22800,
   },
   {
     id: "facelift-chengdu",
@@ -26,7 +28,9 @@ const DIARY_PREVIEWS: TikTokItem[] = [
     treatment: { en: "Facial facelift", zh: "面部精致拉皮" },
     city: { en: "Shanghai", zh: "上海" },
     clinic: { en: "BK Plastic Surgery Seoul · Park Soo-young", zh: "首尔 BK 整形医院 · 朴秀荣院长" },
-    likes: "18k", comments: "624", priceCny: 88000,
+    likes: "18k",
+    comments: "624",
+    priceCny: 88000,
   },
   {
     id: "necklift-shanghai",
@@ -34,11 +38,16 @@ const DIARY_PREVIEWS: TikTokItem[] = [
     src: "/videos/necklift-case-20261102.mp4",
     poster: "/videos/necklift-case-20261102-poster.jpg",
     user: { en: "User-supplied video", zh: "用户提供视频" },
-    caption: { en: "Consultation, treatment and recovery footage supplied by the user.", zh: "用户提供的面诊、治疗与恢复记录。" },
+    caption: {
+      en: "Consultation, treatment and recovery footage supplied by the user.",
+      zh: "用户提供的面诊、治疗与恢复记录。",
+    },
     treatment: { en: "Neck Lift", zh: "颈部提升" },
     city: { en: "Shanghai", zh: "上海" },
     clinic: { en: "Shanghai Huamei Hospital · Li Wenzhi", zh: "上海华美医院 · 李文志主任" },
-    likes: "14k", comments: "402", priceCny: 68000,
+    likes: "14k",
+    comments: "402",
+    priceCny: 68000,
   },
   {
     id: "blepharoplasty-shanghai",
@@ -50,7 +59,9 @@ const DIARY_PREVIEWS: TikTokItem[] = [
     treatment: { en: "Rhinoplasty", zh: "鼻综合" },
     city: { en: "Shanghai", zh: "上海" },
     clinic: { en: "Takasu Clinic Tokyo · Tanaka Yuki", zh: "东京高须诊所 · 田中由纪院长" },
-    likes: "24k", comments: "812", priceCny: 12800,
+    likes: "24k",
+    comments: "812",
+    priceCny: 12800,
   },
   {
     id: "fat-grafting-90d",
@@ -58,11 +69,16 @@ const DIARY_PREVIEWS: TikTokItem[] = [
     src: "/videos/v6.mp4",
     poster: "/videos/v6-poster.webp",
     user: { en: "@Donutgirl", zh: "@甜甜圈" },
-    caption: { en: "Facial fat grafting · 90-day vlog with nurse follow-up", zh: "全面部脂肪填充 90天 vlog，含护士回访" },
+    caption: {
+      en: "Facial fat grafting · 90-day vlog with nurse follow-up",
+      zh: "全面部脂肪填充 90天 vlog，含护士回访",
+    },
     treatment: { en: "Facial Fat Grafting", zh: "面部脂肪填充" },
     city: { en: "Guangzhou", zh: "广州" },
     clinic: { en: "BK Plastic Surgery Seoul · Park Soo-young", zh: "首尔 BK 整形医院 · 朴秀荣院长" },
-    likes: "9.8k", comments: "412", priceCny: 26800,
+    likes: "9.8k",
+    comments: "412",
+    priceCny: 26800,
   },
   {
     id: "liposuction-guangzhou",
@@ -74,7 +90,9 @@ const DIARY_PREVIEWS: TikTokItem[] = [
     treatment: { en: "Injectable lift", zh: "注射提升" },
     city: { en: "Guangzhou", zh: "广州" },
     clinic: { en: "Bumrungrad International Hospital Bangkok · Somchai Viriya", zh: "曼谷康民国际医院 · 宋猜主任" },
-    likes: "11k", comments: "388", priceCny: 32000,
+    likes: "11k",
+    comments: "388",
+    priceCny: 32000,
   },
   {
     id: "tummy-tuck-shenzhen",
@@ -86,7 +104,9 @@ const DIARY_PREVIEWS: TikTokItem[] = [
     treatment: { en: "Tummy Tuck", zh: "腹壁整形" },
     city: { en: "Hainan", zh: "海南" },
     clinic: { en: "Bumrungrad International Hospital Bangkok · Somchai Viriya", zh: "曼谷康民国际医院 · 宋猜主任" },
-    likes: "21k", comments: "734", priceCny: 78000,
+    likes: "21k",
+    comments: "734",
+    priceCny: 78000,
   },
   {
     id: "bbl-shanghai",
@@ -95,10 +115,15 @@ const DIARY_PREVIEWS: TikTokItem[] = [
     poster: "/videos/v6-poster.webp",
     user: { en: "@Mia.K", zh: "@Mia.K" },
     caption: { en: "BBL — Brazilian Butt Lift · 10-week shape update", zh: "巴西提臀（BBL） · 10周身形对比" },
-    clinic: { en: "Mount Elizabeth Orchard Hospital Singapore · Lim Wei Jie", zh: "新加坡伊丽莎白乌节医院 · 林伟杰专家" },
+    clinic: {
+      en: "Mount Elizabeth Orchard Hospital Singapore · Lim Wei Jie",
+      zh: "新加坡伊丽莎白乌节医院 · 林伟杰专家",
+    },
     treatment: { en: "BBL", zh: "巴西提臀" },
     city: { en: "Shanghai", zh: "上海" },
-    likes: "42k", comments: "1.1k", priceCny: 96000,
+    likes: "42k",
+    comments: "1.1k",
+    priceCny: 96000,
   },
   {
     id: "breast-aug-guangzhou",
@@ -110,7 +135,9 @@ const DIARY_PREVIEWS: TikTokItem[] = [
     treatment: { en: "Breast Augmentation", zh: "隆胸" },
     city: { en: "Guangzhou", zh: "广州" },
     clinic: { en: "Bumrungrad International Hospital Bangkok · Somchai Viriya", zh: "曼谷康民国际医院 · 宋猜主任" },
-    likes: "33k", comments: "918", priceCny: 88000,
+    likes: "33k",
+    comments: "918",
+    priceCny: 88000,
   },
   {
     id: "breast-lift-singapore",
@@ -121,8 +148,13 @@ const DIARY_PREVIEWS: TikTokItem[] = [
     caption: { en: "Breast lift (mastopexy) · 6-week scar update", zh: "提胸（Mastopexy） · 6周疤痕恢复" },
     treatment: { en: "Breast Lift", zh: "提胸" },
     city: { en: "Hainan", zh: "海南" },
-    clinic: { en: "Mount Elizabeth Orchard Hospital Singapore · Lim Wei Jie", zh: "新加坡伊丽莎白乌节医院 · 林伟杰专家" },
-    likes: "15k", comments: "486", priceCny: 72000,
+    clinic: {
+      en: "Mount Elizabeth Orchard Hospital Singapore · Lim Wei Jie",
+      zh: "新加坡伊丽莎白乌节医院 · 林伟杰专家",
+    },
+    likes: "15k",
+    comments: "486",
+    priceCny: 72000,
   },
   {
     id: "body-contouring-bangkok",
@@ -130,11 +162,16 @@ const DIARY_PREVIEWS: TikTokItem[] = [
     src: "/videos/v3.mp4",
     poster: "/videos/v3-poster.webp",
     user: { en: "@FitJia", zh: "@FitJia" },
-    caption: { en: "Full body contouring — 360° lipo + arm lift, 14-week", zh: "全身体形雕塑 · 360°吸脂 + 上臂提升 14周" },
+    caption: {
+      en: "Full body contouring — 360° lipo + arm lift, 14-week",
+      zh: "全身体形雕塑 · 360°吸脂 + 上臂提升 14周",
+    },
     treatment: { en: "Body Contouring", zh: "全身体形雕塑" },
     city: { en: "Hangzhou", zh: "杭州" },
     clinic: { en: "Bumrungrad International Hospital Bangkok · Somchai Viriya", zh: "曼谷康民国际医院 · 宋猜主任" },
-    likes: "19k", comments: "612", priceCny: 128000,
+    likes: "19k",
+    comments: "612",
+    priceCny: 128000,
   },
 ];
 
@@ -148,22 +185,42 @@ export const TIKTOK_CASES: TikTokItem[] = [
     src: "/videos/hairline-vietnam-case.mp4",
     poster: "/videos/hairline-vietnam-case-poster.jpg",
     user: { en: "毛馕宝宝Koni ｜KIBITION", zh: "毛馕宝宝Koni ｜KIBITION" },
-    caption: { en: "A Vietnamese visitor’s hairline consultation and recovery diary. Independent third-party video; individual experiences and results vary.", zh: "越南访客的发际线面诊与恢复记录。独立第三方视频，个体经历和效果各有不同。" },
+    caption: {
+      en: "A Vietnamese visitor’s hairline consultation and recovery diary. Independent third-party video; individual experiences and results vary.",
+      zh: "越南访客的发际线面诊与恢复记录。独立第三方视频，个体经历和效果各有不同。",
+    },
     treatment: { en: "Hairline consultation & recovery", zh: "发际线面诊与恢复" },
     city: { en: "Shanghai", zh: "上海" },
-    clinic: { en: "Third-party source: RedNote · 毛馕宝宝Koni ｜KIBITION", zh: "第三方来源：小红书 · 毛馕宝宝Koni ｜KIBITION" },
-    likes: "", comments: "", priceCny: 0,
+    clinic: {
+      en: "Third-party source: RedNote · 毛馕宝宝Koni ｜KIBITION",
+      zh: "第三方来源：小红书 · 毛馕宝宝Koni ｜KIBITION",
+    },
+    likes: "",
+    comments: "",
+    priceCny: 0,
   },
   // Keep the user's facelift and liposuction videos within the seven homepage slots.
-  ...DIARY_PREVIEWS.map((item) => ({
-  ...item,
-  clinic: { en: "Provider details pending review", zh: "机构资料待审核" },
-  likes: "",
-  comments: "",
-  priceCny: 0,
-})).sort((a, b) => {
-  const priority = ["facelift-chengdu", "liposuction-guangzhou"];
-  const rank = (id: string) => priority.includes(id) ? priority.indexOf(id) : priority.length;
-  return rank(a.id) - rank(b.id);
-}),
+  ...DIARY_PREVIEWS.filter(
+    (item) =>
+      ![
+        "fat-grafting-90d",
+        "tummy-tuck-shenzhen",
+        "bbl-shanghai",
+        "breast-aug-guangzhou",
+        "breast-lift-singapore",
+        "body-contouring-bangkok",
+      ].includes(item.id),
+  )
+    .map((item) => ({
+      ...item,
+      clinic: { en: "Provider details pending review", zh: "机构资料待审核" },
+      likes: "",
+      comments: "",
+      priceCny: 0,
+    }))
+    .sort((a, b) => {
+      const priority = ["facelift-chengdu", "liposuction-guangzhou"];
+      const rank = (id: string) => (priority.includes(id) ? priority.indexOf(id) : priority.length);
+      return rank(a.id) - rank(b.id);
+    }),
 ];
