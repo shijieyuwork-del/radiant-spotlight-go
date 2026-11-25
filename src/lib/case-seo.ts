@@ -175,7 +175,7 @@ export function expertPageMeta(
       .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[0]?.[0] ?? "";
   const focusTitle = focus.replace(/\b[a-z]/g, (letter) => letter.toUpperCase());
   return {
-    title: focus ? `${name}: ${focusTitle} Expert in ${city} | Cases & Profile` : `${name} | Expert in ${city}`,
+    title: focus ? `${name}: ${focusTitle} Expert in ${city}` : `${name} | Expert in ${city}`,
     description: focus
       ? `${name} at ${hospital}, ${city}. Watch published ${focus.toLowerCase()} case videos, review listed specialties and credentials, and ask about a consultation.`
       : `${name} at ${hospital}, ${city}. Explore listed specialties and published case videos.`,
