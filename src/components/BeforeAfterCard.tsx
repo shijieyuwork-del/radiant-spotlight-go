@@ -61,10 +61,7 @@ const BeforeAfterCard = ({
     <div className="rounded-[2rem] overflow-hidden glow-card bg-card">
       {/* Swipe reveal area */}
       {single ? (
-        <div
-          className={`relative cursor-zoom-in select-none ${layout === "wide" ? "aspect-[16/10]" : "aspect-[4/5]"}`}
-          onClick={() => setLightboxOpen(true)}
-        >
+        <div className="relative cursor-zoom-in select-none aspect-[3/4]" onClick={() => setLightboxOpen(true)}>
           <img
             src={before}
             alt={`${procedure} — ${comparisonLabel}`}
