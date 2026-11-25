@@ -2,32 +2,22 @@ import { useEffect } from "react";
 import { trackEvent } from "@/lib/analytics";
 
 /**
- * Homepage A/B test. A = the current homepage, B = the platform homepage.
- * Each visitor is assigned once at random (50/50) and keeps that version.
- * The inline script in index.html assigns on first load of "/"; this module
- * repeats the same rule for visitors who reach "/" by in-app navigation.
- * Force a version for checking with ?ab=a or ?ab=b.
+ * The platform homepage (HomeV2, "b") is the homepage for every visitor and is
+ * the version the build prerenders. The earlier homepage ("a") stays reachable
+ * with ?ab=a for comparison, and unit tests keep rendering it.
  */
 export type HomeVariant = "a" | "b";
-const KEY = "sa_home_ab";
-let cached: HomeVariant | null = null;
-
-const isVariant = (v: unknown): v is HomeVariant => v === "a" || v === "b";
 
 export const getHomeVariant = (): HomeVariant => {
-  if (typeof window === "undefined" || import.meta.env.MODE === "test") return "a";
-  if (cached) return cached;
-  if (navigator.webdriver) return (cached = "a");
-  let v: string | null = document.documentElement.getAttribute("data-home-ab");
-  if (!isVariant(v)) {
-    try { v = window.localStorage.getItem(KEY); } catch { v = null; }
-    if (!isVariant(v)) {
-      v = Math.random() < 0.5 ? "a" : "b";
-      try { window.localStorage.setItem(KEY, v); } catch { /* storage unavailable: assignment lasts this visit */ }
+  if (import.meta.env.MODE === "test") return "a";
+  if (typeof window !== "undefined") {
+    try {
+      if (new URLSearchParams(window.location.search).get("ab") === "a") return "a";
+    } catch {
+      /* an unreadable query string falls through to the homepage */
     }
   }
-  cached = v as HomeVariant;
-  return cached;
+  return "b";
 };
 
 /** Shows the page again once the B homepage has rendered (index.html hides it to avoid a flash of A). */
