@@ -9,8 +9,8 @@ export const SITE_URL = import.meta.env.VITE_SITE_URL || "https://sinoaesthetics
 
 export const SITE_NAME = "Sino Aesthetics";
 export const SITE_DESCRIPTION =
-  "Compare licensed hospitals and specialists in China, prepare for your consultation, and plan translation and travel support. Coordination only — not a clinic.";
-export const HOME_TITLE = "Sino Aesthetics | Cosmetic Surgery in China, Planned Clearly";
+  "Compare 100+ plastic surgeons in China. Watch real case videos, see reference prices and get a written quote before you fly. Coordination only — not a clinic.";
+export const HOME_TITLE = "Plastic Surgery in China: Surgeons, Prices & Cases | Sino Aesthetics";
 export const SITE_AUTHOR = "Sino Aesthetics";
 export const SITE_LANGUAGES = ["en", "zh", "ru", "es", "th", "ms", "vi", "ko", "ja", "ar", "pt-BR", "id", "fr", "de"];
 
