@@ -169,6 +169,7 @@ const ManagedDoctorDetail = () => {
       photo,
     } as CaseExpert,
     clinic,
+    videos.map((video) => ({ procedure: video.procedure ?? null, city: video.city ?? null, i18n: video.i18n ?? {} })),
   );
   const doctorSchema = {
     "@context": "https://schema.org",
