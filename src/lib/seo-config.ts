@@ -28,7 +28,8 @@ export const ORGANIZATION_ENTITY = {
   name: SITE_NAME,
   legalName: "SinoAesthetics Limited",
   alternateName: ["Sino Aesthetics", "Sino Aesthetics Medical Travel", "青慈有限公司"],
-  description: "Medical travel coordination service for international visitors to China; not a clinic or medical provider.",
+  description:
+    "Medical travel coordination service for international visitors to China; not a clinic or medical provider.",
   url: SITE_URL,
   logo: {
     "@type": "ImageObject",
@@ -83,4 +84,42 @@ export const ORGANIZATION_SCHEMA = {
 };
 
 // 医疗信息补充说明（医疗类 SEO 需要这个）
-export const MEDICAL_DISCLAIMER = "All medical procedures carry risks. Results vary by individual. Consult qualified surgeons for personalized advice.";
+export const MEDICAL_DISCLAIMER =
+  "All medical procedures carry risks. Results vary by individual. Consult qualified surgeons for personalized advice.";
+
+// Real stock photos (Unsplash, free license) for guide pages, keyed by guide slug.
+const GUIDE_PHOTOS: Record<string, string> = {
+  "medical-tourism-china": "1545893835-abaa50cbe628",
+  costs: "1611125832047-1d7ad1e8e48f",
+  safety: "1631248055158-edec7a3c072b",
+  visa: "1586441133374-ed1cb4007a47",
+  "best-cities": "1750743743644-2cb5bc5f20f6",
+  hospitals: "1764885517847-79d62138cc58",
+  recovery: "1775795052382-c4b6c8ae8e87",
+  checklist: "1779364815233-84ec09c6d6d5",
+  "shoulder-filler-injections-china": "1701826510629-051bb954fb8f",
+  "shoulder-filler-risks-china": "1758691462848-ba1e929da259",
+  "bubble-face-china": "1785581778868-79100f7fe56c",
+  "chinese-plastic-surgery": "1506158669146-619067262a00",
+  "cosmetic-surgery-tourism-china": "1539612793508-4539a972242b",
+  "cosmetic-surgery-china-for-international-patients": "1585974738771-84483dd9f89f",
+  "choose-plastic-surgeon-china": "1774853094610-89be6f1a7690",
+  "cosmetic-surgery-recovery-china": "1639109743189-91a3ec8b0437",
+  "china-vs-korea-cosmetic-surgery": "1651836170615-7f4c7573e697",
+  "plastic-surgery-china": "1746021375258-79fa1464ca1f",
+  "why-china": "1726703062028-e43d2eec8080",
+  "international-patients": "1503365194569-df4e1d04cec1",
+  australia: "1719158950290-a1fef850a84a",
+  "united-states": "1767216548885-417221c5f1d0",
+  canada: "1641243428710-a5eafdc53c5e",
+  vietnam: "1541354254661-adb801adb23e",
+  "vi-du-lich-tham-my-trung-quoc": "1521019795854-14e15f600980",
+};
+
+/** Guide image URL: real stock photo when mapped, otherwise the generated image in /images/guides. */
+export const guideImageUrl = (slug: string, variant: "hero" | "social" | "thumb" = "hero") => {
+  const id = GUIDE_PHOTOS[slug];
+  const [w, h] = variant === "social" ? [1200, 630] : variant === "thumb" ? [320, 180] : [1600, 900];
+  if (!id) return `/images/guides/${slug}${variant === "social" ? "-social" : ""}.webp`;
+  return `https://images.unsplash.com/photo-${id}?w=${w}&h=${h}&fit=crop&auto=format&q=70`;
+};
