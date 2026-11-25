@@ -598,7 +598,7 @@ export const PlatformGuides = () => {
         {guides.map((g, i) => (
           <Link key={g.slug} to={medicalTourismGuidePath(g.slug)} className={cn(card, "flex flex-col overflow-hidden")}>
             <img
-              src={guideImageUrl(g.slug)}
+              src={guideImageUrl(g.slug, "card")}
               alt={g.title}
               width={1600}
               height={900}
