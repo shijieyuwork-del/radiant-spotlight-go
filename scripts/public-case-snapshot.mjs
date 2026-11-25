@@ -91,6 +91,8 @@ export async function loadPublicCaseSnapshot(d) {
   const clinics = d.applyClinicRecords(d.mergeClinicDirectory(doctors), records);
   const byId = new Map(doctors.map((row) => [row.id, row]));
   videos.forEach((row) => { const doc = byId.get(row.doctor_id); row.doctors = doc ? { name: doc.name, i18n: doc.i18n, status: doc.status } : null; });
+  // Published case totals let city pages rank experts without shipping the whole video library.
+  doctors.forEach((row) => { row.case_count = videos.filter((v) => v.doctor_id === row.id).length; });
   videos.sort((a, b) => b.created_at.localeCompare(a.created_at) || b.id.localeCompare(a.id));
   const prefixes = new Set();
   for (const row of videos) {
@@ -116,7 +118,11 @@ export function scopePublicCaseData(path, data, d) {
       doctors = [...new Map([...related, ...data.doctors.filter((doc) => videos.some((v) => v.doctor_id === doc.id))].map((doc) => [doc.id, doc])).values()];
     } else {
       videos = [];
-      doctors = [];
+      // City pages list the experts with the most published cases; their profiles hold the rest.
+      doctors = data.doctors
+        .filter((doc) => d.matchesCity(doc.city || "", procedureOrCity))
+        .sort((a, b) => (b.case_count || 0) - (a.case_count || 0) || a.id.localeCompare(b.id))
+        .slice(0, 6);
     }
   } else if (path.startsWith("/cases/")) {
     const row = d.resolveCase(path.split("/").pop(), data.videos);
