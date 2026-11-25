@@ -16,26 +16,46 @@ const Privacy = () => (
     <div className="min-h-screen bg-background">
       <AsiaNavbar />
       <main className="container max-w-4xl py-10 md:py-16">
-        <Link to="/" className="inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-foreground">
+        <Link
+          to="/"
+          className="inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-foreground"
+        >
           <ArrowLeft className="size-4" /> Back to home
         </Link>
         <div className="mt-7 rounded-[2rem] border border-primary/20 bg-gradient-hero p-6 shadow-soft md:p-10">
-          <span className="pill bg-card/85"><ShieldCheck className="size-3.5 text-primary" /> Privacy notice</span>
+          <span className="pill bg-card/85">
+            <ShieldCheck className="size-3.5 text-primary" /> Privacy notice
+          </span>
           <h1 className="mt-4 max-w-2xl font-display text-4xl font-medium md:text-6xl">Clear choices. Limited data.</h1>
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
-            We use only the information needed to run the site, respond to you, and understand how visitors use public pages. Where required, analytics remains off until you allow it.
+            We use only the information needed to run the site, respond to you, and understand how visitors use public
+            pages. Where required, analytics remains off until you allow it.
           </p>
-          <p className="mt-4 text-sm text-muted-foreground">Last updated: September 7, 2026</p>
+          <p className="mt-4 text-sm text-muted-foreground">Last updated: November 26, 2026</p>
         </div>
 
         <div className="mt-10 grid gap-6 md:grid-cols-3">
           {[
-            { icon: Cookie, title: "Essential storage", text: "Keeps language, privacy choices, and sign-in functions working. It cannot be switched off through the analytics control." },
-            { icon: BarChart3, title: "Privacy-aware analytics", text: "In regions that require prior consent, analytics loads only after you allow it. Elsewhere it may load by default, and you can opt out at any time. We group sensitive page paths and do not send form answers or contact details to Google." },
-            { icon: LockKeyhole, title: "Your enquiries", text: "Information you enter in the quote flow is used to prepare the Email or WhatsApp message you choose and coordinate your request. It is not added to analytics events." },
+            {
+              icon: Cookie,
+              title: "Essential storage",
+              text: "Keeps language, privacy choices, and sign-in functions working. It cannot be switched off through the analytics control.",
+            },
+            {
+              icon: BarChart3,
+              title: "Privacy-aware analytics",
+              text: "In regions that require prior consent, analytics loads only after you allow it. Elsewhere it may load by default, and you can opt out at any time. We group sensitive page paths and do not send form answers or contact details to Google.",
+            },
+            {
+              icon: LockKeyhole,
+              title: "Your enquiries",
+              text: "Information you enter in the consultation form is sent to our coordination team so we can reply to you, and is used to prepare the Email or WhatsApp message you choose. It is not added to analytics events.",
+            },
           ].map(({ icon: Icon, title, text }) => (
             <section key={title} className="rounded-3xl border border-border bg-card p-5 shadow-soft">
-              <span className="grid size-11 place-items-center rounded-2xl bg-primary/12 text-primary"><Icon className="size-5" /></span>
+              <span className="grid size-11 place-items-center rounded-2xl bg-primary/12 text-primary">
+                <Icon className="size-5" />
+              </span>
               <h2 className="mt-4 font-display text-xl font-semibold">{title}</h2>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{text}</p>
             </section>
@@ -46,22 +66,33 @@ const Privacy = () => (
           <section>
             <h2 className="font-display text-2xl font-semibold">What optional analytics measures</h2>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              Depending on your region and privacy choice, Google Analytics may receive a grouped page category, device and browser information, approximate location, and actions such as opening the quote flow or choosing Email or WhatsApp. Treatment names, provider names, case identifiers, search queries, form fields, email addresses, phone numbers, and notes are excluded from our analytics event parameters.
+              Depending on your region and privacy choice, Google Analytics may receive a grouped page category, device
+              and browser information, approximate location, and actions such as opening the quote flow or choosing
+              Email or WhatsApp. Treatment names, provider names, case identifiers, search queries, form fields, email
+              addresses, phone numbers, and notes are excluded from our analytics event parameters.
             </p>
           </section>
           <section>
             <h2 className="font-display text-2xl font-semibold">Advertising safeguards</h2>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              Advertising storage, advertising user data, and personalized advertising signals are disabled in our consent configuration. We do not use enquiry details for Google remarketing audiences or enhanced conversions.
+              Advertising storage, advertising user data, and personalized advertising signals are disabled in our
+              consent configuration. We do not use enquiry details for Google remarketing audiences or enhanced
+              conversions.
             </p>
           </section>
           <section>
             <h2 className="font-display text-2xl font-semibold">Your choices</h2>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              In the EEA, United Kingdom and Switzerland, analytics is off until you allow it. In other regions it may be on by default. You can change your choice at any time, and refusing analytics does not block access to the site or the consultation flow.
+              In the EEA, United Kingdom and Switzerland, analytics is off until you allow it. In other regions it may
+              be on by default. You can change your choice at any time, and refusing analytics does not block access to
+              the site or the consultation flow.
             </p>
             {analyticsConfigured() ? (
-              <button type="button" onClick={openPrivacyChoices} className="mt-4 inline-flex min-h-11 items-center justify-center rounded-full border border-foreground px-5 text-sm font-semibold hover:bg-foreground hover:text-background">
+              <button
+                type="button"
+                onClick={openPrivacyChoices}
+                className="mt-4 inline-flex min-h-11 items-center justify-center rounded-full border border-foreground px-5 text-sm font-semibold hover:bg-foreground hover:text-background"
+              >
                 Change privacy choices
               </button>
             ) : (
@@ -71,13 +102,26 @@ const Privacy = () => (
           <section>
             <h2 className="font-display text-2xl font-semibold">Contact</h2>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              Questions about privacy or a request concerning information you shared with us? Email
-              {" "}<a className="font-semibold text-foreground underline decoration-primary/50 underline-offset-4" href="mailto:contact@sinoaesthetics.com">contact@sinoaesthetics.com</a>.
+              Questions about privacy or a request concerning information you shared with us? Email{" "}
+              <a
+                className="font-semibold text-foreground underline decoration-primary/50 underline-offset-4"
+                href="mailto:contact@sinoaesthetics.com"
+              >
+                contact@sinoaesthetics.com
+              </a>
+              .
             </p>
-            <a href="mailto:contact@sinoaesthetics.com" className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-foreground"><Mail className="size-4 text-primary" /> Email Sino Aesthetics</a>
+            <a
+              href="mailto:contact@sinoaesthetics.com"
+              className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-foreground"
+            >
+              <Mail className="size-4 text-primary" /> Email Sino Aesthetics
+            </a>
           </section>
         </div>
-        <div className="mt-6"><CompanyDetails showContacts /></div>
+        <div className="mt-6">
+          <CompanyDetails showContacts />
+        </div>
       </main>
       <Footer />
     </div>
