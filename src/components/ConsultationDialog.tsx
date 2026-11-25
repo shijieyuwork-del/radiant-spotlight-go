@@ -213,13 +213,20 @@ export const ConsultationDialog = ({
         setOpenError(true);
       }
     }
+    let timedOut = false;
+    // A stalled connection must not leave the visitor on a spinner: offer their own email app after 8 seconds.
+    const giveUp = window.setTimeout(() => {
+      timedOut = true;
+      setSaved((current) => (current === "pending" ? "no" : current));
+    }, 8000);
     void saving.then((ok) => {
+      window.clearTimeout(giveUp);
       setSaved(ok ? "yes" : "no");
       if (ok) {
         trackEvent("generate_lead", { source: ctx.source || "site_cta", option: intent || "question" });
         return;
       }
-      if (method !== "email") return;
+      if (method !== "email" || timedOut) return;
       // The request could not be saved, so fall back to the visitor’s own email app.
       try {
         window.location.href = url;
