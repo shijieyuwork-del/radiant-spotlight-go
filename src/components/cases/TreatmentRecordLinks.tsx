@@ -7,6 +7,7 @@ import { caseFacts, caseMediaUrl, caseCoverUrl, casePath, expertName, expertPath
 import { useAsia } from "@/lib/asia-i18n";
 import { localizedField } from "@/lib/i18n-content";
 import { useTreatmentRecords } from "@/hooks/use-treatment-records";
+import { getDirectoryDoctorPortraitRetouch } from "@/data/directory-doctor-portrait-retouches";
 import {
   matchesProcedure,
   procedureCases,
@@ -50,9 +51,9 @@ export function ProcedureRecords({
                     to={expertPath(doc.id)}
                     className="flex h-full items-start gap-4 rounded-lg border border-border bg-card p-5 hover:border-primary"
                   >
-                    {doc.photo && (
+                    {(getDirectoryDoctorPortraitRetouch(doc)?.photo || doc.photo) && (
                       <img
-                        src={doc.photo}
+                        src={getDirectoryDoctorPortraitRetouch(doc)?.photo || doc.photo}
                         alt=""
                         loading="lazy"
                         decoding="async"
