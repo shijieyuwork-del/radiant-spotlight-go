@@ -342,7 +342,7 @@ export const PlatformPriceAndHospitals = () => {
     `≈ ${ref.currency}${(Math.round(cny / ref.cnyPerUnit / 10) * 10).toLocaleString("en-US")}`;
   return (
     <section className="container flex flex-wrap items-stretch gap-4 pt-16">
-      <div className={cn(card, "min-w-0 flex-[1.3_1_560px] p-7")}>
+      <div className={cn(card, "min-w-0 flex-[1.3_1_560px] p-5 sm:p-7")}>
         <div className="mb-4 flex items-end justify-between gap-3">
           <div className="flex flex-col gap-1.5">
             <span className="text-xs font-semibold uppercase tracking-[0.08em] text-brand">
@@ -379,7 +379,7 @@ export const PlatformPriceAndHospitals = () => {
           ))}
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[480px] border-collapse text-sm">
+          <table className="w-full border-collapse text-sm sm:min-w-[480px]">
             <thead>
               <tr>
                 <th
@@ -390,13 +390,13 @@ export const PlatformPriceAndHospitals = () => {
                 </th>
                 <th
                   scope="col"
-                  className="border-b border-[#E5E6EB] py-2.5 text-right text-xs font-semibold text-[#6B7785]"
+                  className="border-b border-[#E5E6EB] py-2.5 pl-3 text-right text-xs font-semibold text-[#6B7785]"
                 >
                   {tx(lang, "China, from", "中国起价")}
                 </th>
                 <th
                   scope="col"
-                  className="border-b border-[#E5E6EB] py-2.5 text-right text-xs font-semibold text-[#6B7785]"
+                  className="border-b border-[#E5E6EB] py-2.5 pl-3 text-right text-xs font-semibold text-[#6B7785]"
                 >
                   {tx(lang, `${ref.label} typical*`, `${ref.label}参考价*`)}
                 </th>
@@ -414,10 +414,11 @@ export const PlatformPriceAndHospitals = () => {
                       p.en
                     )}
                   </th>
-                  <td className="border-b border-[#F2F3F5] py-3.5 text-right font-semibold text-brand tabular-nums">
-                    {fmt(p.cny)} <span className="font-normal text-[#6B7785]">¥{p.cny.toLocaleString("en-US")}</span>
+                  <td className="whitespace-nowrap border-b border-[#F2F3F5] py-3.5 pl-3 text-right font-semibold text-brand tabular-nums">
+                    {fmt(p.cny)}{" "}
+                    <span className="font-normal text-[#6B7785] max-sm:hidden">¥{p.cny.toLocaleString("en-US")}</span>
                   </td>
-                  <td className="border-b border-[#F2F3F5] py-3.5 text-right text-[#6A7C75] tabular-nums">
+                  <td className="whitespace-nowrap border-b border-[#F2F3F5] py-3.5 pl-3 text-right text-[#6A7C75] tabular-nums">
                     {ref.refs[i]}
                   </td>
                 </tr>
