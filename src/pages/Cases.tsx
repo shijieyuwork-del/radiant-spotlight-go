@@ -59,7 +59,7 @@ const Cases = () => {
     isLoading: videosLoading,
     error: videosError,
   } = usePublishedVideosState(lang, "all", { loadAll: true });
-  const ALL_CASES = useMemo(() => mergePatientDiaryCases(uploaded, PATIENT_DIARY_CASES), [uploaded]);
+  const ALL_CASES = useMemo(() => mergePatientDiaryCases(uploaded, []), [uploaded]);
 
   // Use the case's own China destination; fall back to expert data for legacy entries.
   const caseCity = useMemo(() => {
