@@ -1,5 +1,7 @@
 import { whatsappUrl } from "@/lib/consultation-handoff";
 import { useMemo } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getBrowserClient } from "@/lib/browser-client";
 import { Link } from "react-router-dom";
 import { Search, Filter, Stethoscope, ArrowRight, MapPin, MessageCircle, Navigation } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
@@ -65,6 +67,29 @@ const Experts = () => {
   const setQ = (value: string) => setFilter("q", value);
   const setCity = (value: string) => setFilter("city", value);
   const { doctors: directoryDoctors, status: directoryStatus, refresh: loadManagedDoctors } = usePublishedDoctors(lang);
+  // Published case videos per expert: real counts, used for ordering and the card line.
+  const { data: caseCounts } = useQuery({
+    queryKey: ["doctor-case-counts"],
+    enabled: typeof window !== "undefined",
+    staleTime: 5 * 60_000,
+    queryFn: async ({ signal }) => {
+      const client = await getBrowserClient();
+      const counts: Record<string, number> = {};
+      for (let offset = 0; ; offset += 1000) {
+        const { data, error } = await client
+          .from("videos")
+          .select("doctor_id")
+          .eq("status", "published")
+          .not("doctor_id", "is", null)
+          .order("id")
+          .range(offset, offset + 999)
+          .abortSignal(signal);
+        if (error) throw error;
+        for (const row of data ?? []) if (row.doctor_id) counts[row.doctor_id] = (counts[row.doctor_id] ?? 0) + 1;
+        if ((data ?? []).length < 1000) return counts;
+      }
+    },
+  });
   const cities = useMemo(() => {
     const set = new Map<string, string>();
     directoryDoctors.forEach((doctor) => {
@@ -110,12 +135,15 @@ const Experts = () => {
   const sortedDoctors = useMemo(() => {
     const arr = [...visibleDirectoryDoctors];
     if (sort === "recommended") {
-      // Keep the two requested featured experts first; preserve the existing
-      // order of every other profile.
-      arr.sort((a, b) => featuredDoctorRank(a) - featuredDoctorRank(b));
+      // Keep the two requested featured experts first; every other profile is in
+      // order of published case videos, most first.
+      arr.sort(
+        (a, b) =>
+          featuredDoctorRank(a) - featuredDoctorRank(b) || (caseCounts?.[b.id] ?? 0) - (caseCounts?.[a.id] ?? 0),
+      );
     } else if (sort === "hot") {
       // 已发布的真实专家排在示例资料前
-      arr.sort((a, b) => Number(!b.demo) - Number(!a.demo));
+      arr.sort((a, b) => (caseCounts?.[b.id] ?? 0) - (caseCounts?.[a.id] ?? 0));
     } else if (sort === "latest") {
       arr.sort((a, b) => (b.created_at ?? "").localeCompare(a.created_at ?? ""));
     } else if (sort === "distance" && coords) {
@@ -126,7 +154,7 @@ const Experts = () => {
       arr.sort((a, b) => dist(a) - dist(b));
     }
     return arr;
-  }, [visibleDirectoryDoctors, sort, coords]);
+  }, [visibleDirectoryDoctors, sort, coords, caseCounts]);
 
   // —— 分页 ——
   const totalPages = Math.max(1, Math.ceil(sortedDoctors.length / PAGE_SIZE));
@@ -238,7 +266,12 @@ const Experts = () => {
           <div ref={resultsRef} className="mb-10" data-testid="doctor-directory-results">
             {directoryStatus === "ready" && visibleDirectoryDoctors.length > 0 && (
               <h2 className="mb-4 font-display text-2xl">
-                {c("Published doctors", "已发布专家", "Опубликованные эксперты", "Expertos publicados")}
+                {c(
+                  `${visibleDirectoryDoctors.length} surgeon profiles`,
+                  `${visibleDirectoryDoctors.length} 位专家`,
+                  `Профили экспертов: ${visibleDirectoryDoctors.length}`,
+                  `${visibleDirectoryDoctors.length} perfiles de expertos`,
+                )}
               </h2>
             )}
             {directoryStatus === "ready" && visibleDirectoryDoctors.length > 0 && (
@@ -417,6 +450,16 @@ const Experts = () => {
                             <MapPin className="mr-1 inline size-3" />
                             <Highlight text={d.city} query={q} />
                           </p>
+                          {(caseCounts?.[d.id] ?? 0) > 0 && (
+                            <p className="mt-2 text-xs font-semibold text-brand">
+                              {c(
+                                `${caseCounts?.[d.id]} published case videos`,
+                                `${caseCounts?.[d.id]} 个已发布案例视频`,
+                                `Видео случаев: ${caseCounts?.[d.id]}`,
+                                `${caseCounts?.[d.id]} videos de casos publicados`,
+                              )}
+                            </p>
+                          )}
                           {d.demo && (
                             <span className="mt-2 inline-flex rounded-full bg-accent px-2.5 py-1 text-label font-semibold text-accent-foreground">
                               {c("Sample profile", "示例资料", "Демо-профиль", "Perfil de muestra")}
