@@ -21,8 +21,12 @@ import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
 import { countryOf, findCity } from "@/data/cities";
 import { getClinicPath, STATIC_CLINICS } from "@/data/clinicDirectory";
-import { DOCTORS } from "@/data/doctors";
-import { DEMO_CHINA_DOCTORS } from "@/data/demoChinaDoctors";
+import { useTreatmentRecords } from "@/hooks/use-treatment-records";
+import { matchesCity } from "@/lib/treatment-city-seo";
+import { expertName, expertPath, type CaseExpert } from "@/lib/case-seo";
+import { localizedField } from "@/lib/i18n-content";
+import { getDirectoryDoctorPortraitRetouch } from "@/data/directory-doctor-portrait-retouches";
+import QuoteCtaButton from "@/components/QuoteCtaButton";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
 import { useAsia } from "@/lib/asia-i18n";
 
@@ -30,13 +34,26 @@ const CityDetail = () => {
   const { slug = "" } = useParams();
   const city = findCity(slug);
   const { lang, fmt } = useAsia();
+  const { data: records } = useTreatmentRecords();
   const c = (en: string, zh: string, ru: string, es?: string) =>
     lang === "zh" ? zh : lang === "ru" ? ru : lang === "es" ? (es ?? en) : en;
 
   if (!city) return <Navigate to="/cities" replace />;
 
-  const cityDoctors = DOCTORS.filter((d) => d.cityEn.toLowerCase() === city.en.toLowerCase() || d.cityZh === city.zh);
-  const cityDemoDoctors = DEMO_CHINA_DOCTORS.filter((doctor) => doctor.city.toLowerCase() === city.en.toLowerCase());
+  // Real published profiles only, ranked by their number of published case videos.
+  const caseCount = (doc: CaseExpert) =>
+    (records?.videos ?? []).filter((video) => video.doctor_id === doc.id).length ||
+    (doc as CaseExpert & { case_count?: number }).case_count ||
+    0;
+  const cityExperts = (records?.doctors ?? [])
+    .filter(
+      (doc) =>
+        doc.status === "published" &&
+        (matchesCity(doc.city || "", city.slug) ||
+          matchesCity(localizedField(doc.i18n, "city", "en", doc.city) || "", city.slug)),
+    )
+    .sort((a, b) => caseCount(b) - caseCount(a) || a.id.localeCompare(b.id))
+    .slice(0, 6);
   const cityCases = TIKTOK_CASES.filter((item) => item.city?.en.toLowerCase() === city.en.toLowerCase());
   const travel = lang === "zh" ? city.travelZh : city.travelEn;
 
@@ -238,7 +255,7 @@ const CityDetail = () => {
             </Link>
           </div>
 
-          {cityDoctors.length === 0 && cityDemoDoctors.length === 0 ? (
+          {cityExperts.length === 0 ? (
             <p className="text-sm text-muted-foreground">
               {c(
                 "No Sino Aesthetics-listed surgeons yet for this city — request a match below.",
@@ -247,98 +264,54 @@ const CityDetail = () => {
                 "Aún no hay expertos listados por Sino Aesthetics en esta ciudad — solicita una recomendación abajo.",
               )}
             </p>
-          ) : cityDoctors.length === 0 ? (
-            <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-              {cityDemoDoctors.map((doctor) => (
-                <Link
-                  key={doctor.id}
-                  to={`/doctors/demo/${doctor.id}`}
-                  className="group overflow-hidden rounded-3xl border border-border/70 bg-card shadow-soft transition hover:-translate-y-1 hover:border-primary/30 hover:shadow-pop"
-                >
-                  <div className="aspect-[4/3] overflow-hidden bg-muted">
-                    <img
-                      src={doctor.photo}
-                      alt={doctor.name}
-                      className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </div>
-                  <div className="p-5">
-                    <div className="flex items-start justify-between gap-3">
-                      <div>
-                        <h3 className="font-display text-xl font-semibold">{doctor.name}</h3>
-                        <p className="mt-1 text-xs text-muted-foreground">{doctor.title}</p>
-                      </div>
-                      <span className="rounded-full bg-accent px-2.5 py-1 text-label font-semibold text-accent-foreground">
-                        {c("Sample", "示例", "Пример", "Ejemplo")}
-                      </span>
-                    </div>
-                    <p className="mt-3 flex items-center gap-1.5 text-xs text-muted-foreground">
-                      <MapPin className="size-3.5 text-primary" />
-                      {doctor.city}
-                    </p>
-                    <div className="mt-4 flex flex-wrap gap-1.5">
-                      {doctor.specialties.slice(0, 3).map((specialty) => (
-                        <span key={specialty} className="rounded-full bg-secondary px-2.5 py-1 text-label font-medium">
-                          {specialty}
-                        </span>
-                      ))}
-                    </div>
-                    <span className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-brand">
-                      {c(
-                        "View expert and related cases",
-                        "查看专家与相关案例",
-                        "Профиль и связанные случаи",
-                        "Ver perfil y casos relacionados",
-                      )}
-                      <ArrowRight className="size-4" />
-                    </span>
-                  </div>
-                </Link>
-              ))}
-            </div>
           ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {cityDoctors.map((d) => (
-                <Link
-                  key={d.id}
-                  to={`/doctors/${d.id}`}
-                  className="group rounded-3xl bg-card shadow-soft hover:shadow-pop transition-all hover:-translate-y-1 overflow-hidden"
-                >
-                  <div className="aspect-[4/3] overflow-hidden bg-muted">
-                    <img
-                      src={d.img}
-                      alt={d.en}
-                      className="size-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  </div>
-                  <div className="p-5 space-y-2">
-                    <p className="font-display text-lg font-semibold leading-tight">{lang === "zh" ? d.zh : d.en}</p>
-                    <p className="text-xs text-muted-foreground">{lang === "zh" ? d.titleZh : d.titleEn}</p>
-                    <div className="flex items-center gap-3 text-xs text-foreground/70 pt-1">
-                      <span className="flex items-center gap-1">
-                        <Star className="size-3 text-primary fill-primary" />
-                        {d.rating} · {d.reviews}
-                      </span>
-                      <span>
-                        {d.years}
-                        {lang === "zh" ? "年" : "y"}
-                      </span>
-                      <span>{d.surgeries}</span>
-                    </div>
-                    <div className="flex flex-wrap gap-1 pt-2">
-                      {(lang === "zh" ? d.specZh : d.specEn).slice(0, 3).map((s) => (
-                        <span
-                          key={s}
-                          className="text-label px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground"
-                        >
-                          {s}
+            <ul className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+              {cityExperts.map((doc) => {
+                const published = caseCount(doc);
+                const photo = getDirectoryDoctorPortraitRetouch(doc)?.photo || doc.photo;
+                return (
+                  <li key={doc.id}>
+                    <Link
+                      to={expertPath(doc.id)}
+                      className="group flex h-full items-start gap-4 rounded-3xl border border-border/70 bg-card p-5 shadow-soft transition hover:-translate-y-1 hover:border-primary/30 hover:shadow-pop"
+                    >
+                      {photo ? (
+                        <img
+                          src={photo}
+                          alt=""
+                          loading="lazy"
+                          decoding="async"
+                          className="size-20 shrink-0 rounded-2xl object-cover"
+                        />
+                      ) : (
+                        <span className="grid size-20 shrink-0 place-items-center rounded-2xl bg-muted">
+                          <Stethoscope className="size-6" />
                         </span>
-                      ))}
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
+                      )}
+                      <div className="min-w-0">
+                        <h3 className="font-display text-xl font-semibold leading-tight">{expertName(doc, lang)}</h3>
+                        <p className="mt-1 text-xs text-muted-foreground">
+                          {localizedField(doc.i18n, "title", lang, doc.title)}
+                        </p>
+                        <p className="mt-2 text-sm text-muted-foreground">
+                          {localizedField(doc.i18n, "hospital", lang, doc.hospital)}
+                        </p>
+                        {published > 0 && (
+                          <p className="mt-2 text-sm font-semibold text-brand">
+                            {c(
+                              `${published} published case video${published === 1 ? "" : "s"}`,
+                              `${published} 个已发布案例视频`,
+                              `Опубликованных видео: ${published}`,
+                              `${published} vídeos de casos publicados`,
+                            )}
+                          </p>
+                        )}
+                      </div>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
           )}
         </section>
 
@@ -445,12 +418,16 @@ const CityDetail = () => {
                 )}
               </p>
             </div>
+            <QuoteCtaButton
+              variant="primary"
+              quoteCtx={{ city: city.en, source: "city_footer" }}
+              className="shrink-0"
+            />
             <Link
               to={`/doctors?city=${encodeURIComponent(city.en)}`}
-              className="inline-flex items-center gap-2 rounded-full bg-background text-foreground px-6 py-3 text-sm font-semibold hover:opacity-90 transition shrink-0"
+              className="inline-flex shrink-0 items-center gap-2 rounded-full border border-background/40 px-6 py-3 text-sm font-semibold text-background transition hover:bg-background/10"
             >
-              {c("Get matched", "立即匹配主刀", "Подобрать эксперта", "Encontrar experto")}{" "}
-              <ArrowRight className="size-4" />
+              {c("Browse surgeons", "查看专家", "Смотреть экспертов", "Ver expertos")} <ArrowRight className="size-4" />
             </Link>
           </div>
         </section>
