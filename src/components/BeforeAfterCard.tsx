@@ -22,7 +22,7 @@ const BeforeAfterCard = ({
   doctor,
   city,
   procedure,
-  defaultBlur = true,
+  defaultBlur = false,
   single = false,
   layout = "portrait",
 }: BeforeAfterCardProps) => {
@@ -61,65 +61,107 @@ const BeforeAfterCard = ({
     <div className="rounded-[2rem] overflow-hidden glow-card bg-card">
       {/* Swipe reveal area */}
       {single ? (
-        <div className={`relative cursor-zoom-in select-none ${layout === "wide" ? "aspect-[16/10]" : "aspect-[4/5]"}`} onClick={() => setLightboxOpen(true)}>
-          <img src={before} alt={`${procedure} — ${comparisonLabel}`} className={`absolute inset-0 size-full object-cover ${blur ? "blur-[14px] scale-110" : ""}`} />
-          <span className="absolute top-3 left-3 pill bg-background/90 backdrop-blur shadow-soft text-foreground">{comparisonLabel}</span>
+        <div
+          className={`relative cursor-zoom-in select-none ${layout === "wide" ? "aspect-[16/10]" : "aspect-[4/5]"}`}
+          onClick={() => setLightboxOpen(true)}
+        >
+          <img
+            src={before}
+            alt={`${procedure} — ${comparisonLabel}`}
+            className={`absolute inset-0 size-full object-cover ${blur ? "blur-[14px] scale-110" : ""}`}
+          />
+          <span className="absolute top-3 left-3 pill bg-background/90 backdrop-blur shadow-soft text-foreground">
+            {comparisonLabel}
+          </span>
           <span className="absolute bottom-3 left-3 pill bg-primary text-primary-foreground shadow-pop">
             <ShieldCheck className="size-3.5" /> {caseLabel}
           </span>
           <button
-            onClick={(e) => { e.stopPropagation(); setBlur((b) => !b); }}
+            onClick={(e) => {
+              e.stopPropagation();
+              setBlur((b) => !b);
+            }}
             className="absolute bottom-3 right-3 pill bg-background/90 backdrop-blur text-foreground hover:bg-background transition-colors"
             aria-pressed={blur}
           >
-            {blur ? <><EyeOff className="size-3.5" /> {blurredLabel}</> : <><Eye className="size-3.5" /> {visibleLabel}</>}
+            {blur ? (
+              <>
+                <EyeOff className="size-3.5" /> {blurredLabel}
+              </>
+            ) : (
+              <>
+                <Eye className="size-3.5" /> {visibleLabel}
+              </>
+            )}
           </button>
         </div>
       ) : (
-      <div
-        ref={ref}
-        className={`relative select-none cursor-ew-resize touch-none ${layout === "wide" ? "aspect-[16/10]" : "aspect-[4/5]"}`}
-        onMouseMove={(e) => e.buttons === 1 && move(e.clientX)}
-        onMouseDown={(e) => move(e.clientX)}
-        onTouchMove={(e) => move(e.touches[0].clientX)}
-      >
-        {/* After (full) */}
-        <img src={after} alt={`${procedure} — ${afterLabel}`} className={`absolute inset-0 size-full object-cover ${blur ? "blur-[14px] scale-110" : ""}`} />
-        {/* Before (clipped via clip-path so both images stay full-size) */}
-        <img
-          src={before}
-          alt={`${procedure} — ${beforeLabel}`}
-          className={`absolute inset-0 size-full object-cover ${blur ? "blur-[14px] scale-110" : ""}`}
-          style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}
-        />
-
-        {/* Labels */}
-        <span className="absolute top-3 left-3 pill bg-background/90 backdrop-blur shadow-soft text-foreground">{beforeLabel}</span>
-        <span className="absolute top-3 right-3 pill bg-foreground/90 backdrop-blur text-background">{afterLabel}</span>
-
-        {/* Verified badge */}
-        <span className="absolute bottom-3 left-3 pill bg-primary text-primary-foreground shadow-pop">
-          <ShieldCheck className="size-3.5" /> {caseLabel}
-        </span>
-
-        {/* Privacy toggle */}
-        <button
-          onClick={(e) => { e.stopPropagation(); setBlur((b) => !b); }}
-          onMouseDown={(e) => e.stopPropagation()}
-          onTouchStart={(e) => e.stopPropagation()}
-          className="absolute bottom-3 right-3 pill bg-background/90 backdrop-blur text-foreground hover:bg-background transition-colors"
-          aria-pressed={blur}
+        <div
+          ref={ref}
+          className={`relative select-none cursor-ew-resize touch-none ${layout === "wide" ? "aspect-[16/10]" : "aspect-[4/5]"}`}
+          onMouseMove={(e) => e.buttons === 1 && move(e.clientX)}
+          onMouseDown={(e) => move(e.clientX)}
+          onTouchMove={(e) => move(e.touches[0].clientX)}
         >
-          {blur ? <><EyeOff className="size-3.5" /> {blurredLabel}</> : <><Eye className="size-3.5" /> {visibleLabel}</>}
-        </button>
+          {/* After (full) */}
+          <img
+            src={after}
+            alt={`${procedure} — ${afterLabel}`}
+            className={`absolute inset-0 size-full object-cover ${blur ? "blur-[14px] scale-110" : ""}`}
+          />
+          {/* Before (clipped via clip-path so both images stay full-size) */}
+          <img
+            src={before}
+            alt={`${procedure} — ${beforeLabel}`}
+            className={`absolute inset-0 size-full object-cover ${blur ? "blur-[14px] scale-110" : ""}`}
+            style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}
+          />
 
-        {/* Slider handle */}
-        <div className="absolute top-0 bottom-0 w-0.5 bg-background shadow-pop pointer-events-none" style={{ left: `${pos}%` }}>
-          <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 size-10 rounded-full bg-background shadow-pop grid place-items-center">
-            <span className="font-display text-xs font-semibold">↔</span>
+          {/* Labels */}
+          <span className="absolute top-3 left-3 pill bg-background/90 backdrop-blur shadow-soft text-foreground">
+            {beforeLabel}
+          </span>
+          <span className="absolute top-3 right-3 pill bg-foreground/90 backdrop-blur text-background">
+            {afterLabel}
+          </span>
+
+          {/* Verified badge */}
+          <span className="absolute bottom-3 left-3 pill bg-primary text-primary-foreground shadow-pop">
+            <ShieldCheck className="size-3.5" /> {caseLabel}
+          </span>
+
+          {/* Privacy toggle */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setBlur((b) => !b);
+            }}
+            onMouseDown={(e) => e.stopPropagation()}
+            onTouchStart={(e) => e.stopPropagation()}
+            className="absolute bottom-3 right-3 pill bg-background/90 backdrop-blur text-foreground hover:bg-background transition-colors"
+            aria-pressed={blur}
+          >
+            {blur ? (
+              <>
+                <EyeOff className="size-3.5" /> {blurredLabel}
+              </>
+            ) : (
+              <>
+                <Eye className="size-3.5" /> {visibleLabel}
+              </>
+            )}
+          </button>
+
+          {/* Slider handle */}
+          <div
+            className="absolute top-0 bottom-0 w-0.5 bg-background shadow-pop pointer-events-none"
+            style={{ left: `${pos}%` }}
+          >
+            <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 size-10 rounded-full bg-background shadow-pop grid place-items-center">
+              <span className="font-display text-xs font-semibold">↔</span>
+            </div>
           </div>
         </div>
-      </div>
       )}
 
       {/* Meta */}
@@ -137,11 +179,19 @@ const BeforeAfterCard = ({
       </div>
       <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>
         <DialogContent className="w-[calc(100vw-1.5rem)] max-w-5xl overflow-hidden border-white/15 bg-[#102f28] p-0 text-white sm:rounded-[2rem]">
-          <DialogTitle className="sr-only">{procedure} — {comparisonLabel}</DialogTitle>
+          <DialogTitle className="sr-only">
+            {procedure} — {comparisonLabel}
+          </DialogTitle>
           <DialogDescription className="sr-only">{enlargedLabel}</DialogDescription>
           <div className="relative h-[82vh] bg-black/20">
-            <img src={before} alt={`${procedure} — ${enlargedLabel}`} className={`size-full object-contain ${blur ? "blur-[18px] scale-105" : ""}`} />
-            <span className="absolute left-4 top-4 pill bg-background/90 text-foreground shadow-soft">{comparisonLabel}</span>
+            <img
+              src={before}
+              alt={`${procedure} — ${enlargedLabel}`}
+              className={`size-full object-contain ${blur ? "blur-[18px] scale-105" : ""}`}
+            />
+            <span className="absolute left-4 top-4 pill bg-background/90 text-foreground shadow-soft">
+              {comparisonLabel}
+            </span>
           </div>
         </DialogContent>
       </Dialog>
