@@ -117,9 +117,16 @@ const GUIDE_PHOTOS: Record<string, string> = {
 };
 
 /** Guide image URL: real stock photo when mapped, otherwise the generated image in /images/guides. */
-export const guideImageUrl = (slug: string, variant: "hero" | "social" | "thumb" = "hero") => {
+export const guideImageUrl = (slug: string, variant: "hero" | "social" | "card" | "thumb" = "hero") => {
   const id = GUIDE_PHOTOS[slug];
-  const [w, h] = variant === "social" ? [1200, 630] : variant === "thumb" ? [320, 180] : [1600, 900];
+  const [w, h] =
+    variant === "social"
+      ? [1200, 630]
+      : variant === "thumb"
+        ? [320, 180]
+        : variant === "card"
+          ? [800, 450]
+          : [1600, 900];
   if (!id) return `/images/guides/${slug}${variant === "social" ? "-social" : ""}.webp`;
   return `https://images.unsplash.com/photo-${id}?w=${w}&h=${h}&fit=crop&auto=format&q=70`;
 };
