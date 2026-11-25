@@ -416,7 +416,7 @@ function buildRoutes(d, publicData) {
     routes.push({ ...d.internationalMeta(guide, d.SITE_URL), type: guide ? "article" : "website", includeBreadcrumb: false });
   }
   for (const doc of publicData.doctors) {
-    const meta = d.expertPageMeta(doc, publicData.clinics.find((clinic) => clinic.doctorIds.includes(doc.id)));
+    const meta = d.expertPageMeta(doc, publicData.clinics.find((clinic) => clinic.doctorIds.includes(doc.id)), publicData.videos.filter((video) => video.doctor_id === doc.id));
     routes.push({ ...meta, schema: meta.structuredData, lastmod: d.newestRowTimestamp([doc, ...publicData.videos.filter((v) => v.doctor_id === doc.id)]) });
   }
   for (const video of publicData.videos) {
