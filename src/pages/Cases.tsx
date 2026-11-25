@@ -9,11 +9,7 @@ import { SortChips } from "@/components/ListControls";
 import { Button } from "@/components/ui/button";
 import CasesFilterDisclosure from "@/components/CasesFilterDisclosure";
 import CasesFilterSidebar from "@/components/CasesFilterSidebar";
-import CaseCategoryNavigation, {
-  caseCategoryLabel,
-  caseProcedureType,
-  matchesCaseCategory,
-} from "@/components/CaseCategoryNavigation";
+import { caseCategoryLabel, caseProcedureType, matchesCaseCategory } from "@/components/CaseCategoryNavigation";
 import { PATIENT_DIARY_CASES, mergePatientDiaryCases } from "@/data/patientDiaryCases";
 import { usePublishedVideosState } from "@/hooks/use-published-videos";
 import { DOCTORS } from "@/data/doctors";
@@ -158,6 +154,24 @@ const Cases = () => {
 
   const sortedItems = useMemo(() => {
     const arr = [...items];
+    if (sort === "recommended" && !activeTreatment && !q.trim()) {
+      // Lead with a mix of procedures instead of a long run of the most recently added one.
+      const groups = new Map<string, TikTokItem[]>();
+      arr.forEach((item) => {
+        const type = caseProcedureType(item) ?? "other";
+        const group = groups.get(type);
+        if (group) group.push(item);
+        else groups.set(type, [item]);
+      });
+      const queues = [...groups.values()].sort((a, b) => b.length - a.length);
+      const mixed: TikTokItem[] = [];
+      for (let round = 0; mixed.length < arr.length; round++) {
+        queues.forEach((queue) => {
+          if (queue[round]) mixed.push(queue[round]);
+        });
+      }
+      return mixed;
+    }
     if (sort === "hot") {
       arr.sort((a, b) => parseLikes(b.likes) - parseLikes(a.likes));
     } else if (sort === "latest") {
@@ -171,7 +185,7 @@ const Cases = () => {
       arr.sort((a, b) => dist(a) - dist(b));
     }
     return arr;
-  }, [items, sort, coords, caseCity]);
+  }, [items, sort, coords, caseCity, activeTreatment, q]);
 
   const [visibleCount, setVisibleCount] = useState(CASES_PAGE_SIZE);
   const filterKey = `${q}|${activeTreatment}|${activeCity}|${activeStage}|${sort}`;
@@ -275,7 +289,7 @@ const Cases = () => {
             </span>
             <h1 className="font-display text-3xl font-medium leading-tight tracking-tight sm:text-4xl md:text-5xl">
               {c(
-                "Patient journeys",
+                "Plastic surgery case videos from China",
                 "患者恢复历程",
                 "Истории пациентов",
                 "Historias de pacientes",
@@ -349,7 +363,34 @@ const Cases = () => {
             </div>
             <div className="min-w-0">
               <div className="lg:hidden">
-                <CaseCategoryNavigation items={ALL_CASES} value={activeTreatment} onSelect={setActiveTreatment} />
+                <div
+                  role="group"
+                  aria-label={c(
+                    "Procedure type",
+                    "项目类型",
+                    "Тип процедуры",
+                    "Tipo de procedimiento",
+                    "ประเภทหัตถการ",
+                    "Jenis prosedur",
+                  )}
+                  className="mb-3 flex gap-2 overflow-x-auto pb-1"
+                  data-testid="case-category-chips"
+                >
+                  {[
+                    { key: "", label: `${c("All", "全部", "Все", "Todos", "ทั้งหมด", "Semua")} (${ALL_CASES.length})` },
+                    ...treatments,
+                  ].map((option) => (
+                    <button
+                      key={option.key || "all"}
+                      type="button"
+                      aria-pressed={activeTreatment === option.key}
+                      onClick={() => setActiveTreatment(option.key)}
+                      className={`inline-flex min-h-11 shrink-0 items-center whitespace-nowrap rounded-full border px-4 text-sm font-semibold transition ${activeTreatment === option.key ? "border-foreground bg-foreground text-background" : "border-border/70 bg-card text-foreground"}`}
+                    >
+                      {option.label}
+                    </button>
+                  ))}
+                </div>
               </div>
 
               <div className="mx-auto mb-3 flex max-w-3xl rounded-2xl lg:max-w-none border border-border/70 bg-card shadow-soft sm:rounded-full">
