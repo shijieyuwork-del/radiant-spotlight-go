@@ -918,10 +918,10 @@ const CatalogProcedureDetail = ({
               </h2>
               <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground">
                 {c(
-                  `Reference starting price in China for ${priceRow.en.toLowerCase()}: about ¥${priceRow.cny.toLocaleString("en-US")} (roughly $${roundPrice(priceRow.cny / CITY_PRICE_REFS[0].cnyPerUnit)}). The table sets it beside typical published prices in other cities.`,
+                  `Reference starting price in China for ${priceRow.en.toLowerCase().replace("fue", "FUE")}: about ¥${priceRow.cny.toLocaleString("en-US")} (roughly $${roundPrice(priceRow.cny / CITY_PRICE_REFS[0].cnyPerUnit)}). The table sets it beside typical published prices in other cities.`,
                   `${priceRow.zh}在中国的参考起步价约为 ¥${priceRow.cny.toLocaleString("en-US")}（约 $${roundPrice(priceRow.cny / CITY_PRICE_REFS[0].cnyPerUnit)}）。下表将其与其他城市常见的公开价格并列。`,
-                  `Ориентировочная начальная цена в Китае (${priceRow.en.toLowerCase()}): около ¥${priceRow.cny.toLocaleString("en-US")} (примерно $${roundPrice(priceRow.cny / CITY_PRICE_REFS[0].cnyPerUnit)}). В таблице она показана рядом с типичными опубликованными ценами в других городах.`,
-                  `Precio inicial de referencia en China (${priceRow.en.toLowerCase()}): unos ¥${priceRow.cny.toLocaleString("en-US")} (aprox. $${roundPrice(priceRow.cny / CITY_PRICE_REFS[0].cnyPerUnit)}). La tabla lo compara con precios publicados habituales en otras ciudades.`,
+                  `Ориентировочная начальная цена в Китае (${priceRow.en.toLowerCase().replace("fue", "FUE")}): около ¥${priceRow.cny.toLocaleString("en-US")} (примерно $${roundPrice(priceRow.cny / CITY_PRICE_REFS[0].cnyPerUnit)}). В таблице она показана рядом с типичными опубликованными ценами в других городах.`,
+                  `Precio inicial de referencia en China (${priceRow.en.toLowerCase().replace("fue", "FUE")}): unos ¥${priceRow.cny.toLocaleString("en-US")} (aprox. $${roundPrice(priceRow.cny / CITY_PRICE_REFS[0].cnyPerUnit)}). La tabla lo compara con precios publicados habituales en otras ciudades.`,
                 )}
               </p>
               <div className="mt-5 overflow-x-auto">
