@@ -96,8 +96,8 @@ const Cases = () => {
       "whitening",
       "smile",
     ].forEach((type) => {
-      if (ALL_CASES.some((item) => caseProcedureType(item) === type))
-        set.set(`type:${type}`, caseCategoryLabel(`type:${type}`, lang) ?? type);
+      const n = ALL_CASES.filter((item) => caseProcedureType(item) === type).length;
+      if (n) set.set(`type:${type}`, `${caseCategoryLabel(`type:${type}`, lang) ?? type} (${n})`);
     });
     // Keep a linked selection readable before its published records arrive.
     if (activeTreatment && !set.has(activeTreatment))
