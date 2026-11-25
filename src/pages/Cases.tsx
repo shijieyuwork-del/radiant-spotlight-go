@@ -326,20 +326,22 @@ const Cases = () => {
                       "ประเภทหัตถการ",
                       "Jenis prosedur",
                     ),
-                    allLabel: c(
-                      "All procedures",
-                      "全部项目",
-                      "Все процедуры",
-                      "Todos los procedimientos",
-                      "ทุกหัตถการ",
-                      "Semua prosedur",
+                    allLabel: ((label: string) => `${label} (${ALL_CASES.length})`)(
+                      c(
+                        "All procedures",
+                        "全部项目",
+                        "Все процедуры",
+                        "Todos los procedimientos",
+                        "ทุกหัตถการ",
+                        "Semua prosedur",
+                      ),
                     ),
                     value: activeTreatment,
                     options: treatments,
                     onChange: setActiveTreatment,
                   },
-                  // { id: "stage", title: c("Recovery stage", "恢复阶段", "Этап восстановления", "Etapa de recuperación", "ระยะการฟื้นตัว", "Peringkat pemulihan"), allLabel: c("All recovery stages", "全部恢复阶段", "Все этапы восстановления", "Todas las etapas de recuperación", "ทุกระยะการฟื้นตัว", "Semua peringkat pemulihan"), value: activeStage, options: stageOptions, onChange: setActiveStage },
-                  // { id: "city", title: c("City", "城市", "Город", "Ciudad", "เมือง", "Bandar"), allLabel: c("All cities", "全部城市", "Все города", "Todas las ciudades", "ทุกเมือง", "Semua bandar"), value: activeCity, options: cityOptions, onChange: setActiveCity, variant: "chips" },
+                  // { id: "stage", title: c("Recovery stage", "恢复阶段", "Этап восстановления", "Etapa de recuperación", "ระยะการฟื้นตัว", "Peringkat pemulihan"), allLabel: ((label: string) => `${label} (${ALL_CASES.length})`)(c("All recovery stages", "全部恢复阶段", "Все этапы восстановления", "Todas las etapas de recuperación", "ทุกระยะการฟื้นตัว", "Semua peringkat pemulihan"), value: activeStage, options: stageOptions, onChange: setActiveStage },
+                  // { id: "city", title: c("City", "城市", "Город", "Ciudad", "เมือง", "Bandar"), allLabel: ((label: string) => `${label} (${ALL_CASES.length})`)(c("All cities", "全部城市", "Все города", "Todas las ciudades", "ทุกเมือง", "Semua bandar"), value: activeCity, options: cityOptions, onChange: setActiveCity, variant: "chips" },
                 ]}
               />
             </div>
