@@ -49,7 +49,7 @@ const BeforeAfterGallery = () => {
     <>
       <PageMeta
         title={c(
-          "Before & after photo results | Sino Aesthetics",
+          "Plastic Surgery Before & After Photos from China",
           "术前术后对比图集 | Sino Aesthetics",
           "Фото до и после | Sino Aesthetics",
           "Fotos antes y después | Sino Aesthetics",
