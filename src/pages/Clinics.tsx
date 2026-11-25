@@ -31,26 +31,29 @@ const Clinics = () => {
     const term = normalize(query);
     const combined = CITIES.flatMap((city) => {
       if (cityFilter !== "all" && city.slug !== cityFilter) return [];
-      return clinics.filter((hospital) => {
-        if (hospital.citySlug !== city.slug) return false;
-        if (!term) return true;
-        const searchable = [
-          hospital.nameEn,
-          hospital.nameZh,
-          hospital.areaEn,
-          hospital.areaZh,
-          ...hospital.aliases,
-          city.en,
-          city.zh,
-        ].join(" ").toLocaleLowerCase();
-        return searchable.includes(term);
-      }).map((hospital) => ({ city, hospital }));
+      return clinics
+        .filter((hospital) => {
+          if (hospital.citySlug !== city.slug) return false;
+          if (!term) return true;
+          const searchable = [
+            hospital.nameEn,
+            hospital.nameZh,
+            hospital.areaEn,
+            hospital.areaZh,
+            ...hospital.aliases,
+            city.en,
+            city.zh,
+          ]
+            .join(" ")
+            .toLocaleLowerCase();
+          return searchable.includes(term);
+        })
+        .map((hospital) => ({ city, hospital }));
     });
     const score = ({ hospital }: (typeof combined)[number]) =>
       hospital.origin === "published" ? 2 : Number(Boolean(clinicPhoto(hospital)));
     // Private clinics form one section before public hospitals, across all cities.
-    return combined.sort((a, b) =>
-      Number(a.hospital.isPublic) - Number(b.hospital.isPublic) || score(b) - score(a));
+    return combined.sort((a, b) => Number(a.hospital.isPublic) - Number(b.hospital.isPublic) || score(b) - score(a));
   }, [cityFilter, clinics, query]);
 
   const visibleCount = filteredFacilities.length;
@@ -65,7 +68,14 @@ const Clinics = () => {
   const sections = useMemo(() => {
     const labels = {
       private: c("Private clinics", "私立机构", "Частные клиники", "Clínicas privadas", "คลินิกเอกชน", "Klinik swasta"),
-      public: c("Public hospitals", "公立医院", "Государственные больницы", "Hospitales públicos", "โรงพยาบาลรัฐ", "Hospital kerajaan"),
+      public: c(
+        "Public hospitals",
+        "公立医院",
+        "Государственные больницы",
+        "Hospitales públicos",
+        "โรงพยาบาลรัฐ",
+        "Hospital kerajaan",
+      ),
     };
     const groups: { isPublic: boolean; label: string; total: number; items: typeof displayedFacilities }[] = [];
     for (const entry of displayedFacilities) {
@@ -101,7 +111,11 @@ const Clinics = () => {
     link?.scrollIntoView({ block: "nearest", behavior: "instant" });
   }, [shownCount]);
   const selectedCity = CITIES.find((city) => city.slug === cityFilter);
-  const locationName = selectedCity ? (lang === "zh" ? selectedCity.zh : selectedCity.en) : c("China", "中国", "Китае", "China", "จีน", "China");
+  const locationName = selectedCity
+    ? lang === "zh"
+      ? selectedCity.zh
+      : selectedCity.en
+    : c("China", "中国", "Китае", "China", "จีน", "China");
   const updateFilter = (key: "q" | "city", value: string) => {
     revealFocusIndex.current = null;
     const next = new URLSearchParams(searchParams);
@@ -135,18 +149,45 @@ const Clinics = () => {
               <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
                 <label className="relative block min-w-0 flex-1">
                   <span className="sr-only">
-                    {c("Search clinics, cities or districts", "搜索诊所、城市或地区", "Поиск клиник, городов или районов", "Buscar clínicas, ciudades o distritos", "ค้นหาคลินิก เมือง หรือเขต", "Cari klinik, bandar atau daerah")}
+                    {c(
+                      "Search clinics, cities or districts",
+                      "搜索诊所、城市或地区",
+                      "Поиск клиник, городов или районов",
+                      "Buscar clínicas, ciudades o distritos",
+                      "ค้นหาคลินิก เมือง หรือเขต",
+                      "Cari klinik, bandar atau daerah",
+                    )}
                   </span>
-                  <Search className="pointer-events-none absolute start-4 top-1/2 size-4 -translate-y-1/2 text-foreground" aria-hidden="true" />
+                  <Search
+                    className="pointer-events-none absolute start-4 top-1/2 size-4 -translate-y-1/2 text-foreground"
+                    aria-hidden="true"
+                  />
                   <input
                     type="search"
                     value={query}
                     onChange={(event) => updateFilter("q", event.target.value)}
-                    placeholder={c("Search a clinic, city or district…", "搜索诊所、城市或地区…", "Клиника, город или район…", "Clínica, ciudad o distrito…", "คลินิก เมือง หรือเขต…", "Klinik, bandar atau daerah…")}
+                    placeholder={c(
+                      "Search a clinic, city or district…",
+                      "搜索诊所、城市或地区…",
+                      "Клиника, город или район…",
+                      "Clínica, ciudad o distrito…",
+                      "คลินิก เมือง หรือเขต…",
+                      "Klinik, bandar atau daerah…",
+                    )}
                     className="min-h-12 w-full rounded-full border border-border bg-card py-3 ps-11 pe-4 text-base outline-none transition-colors focus:border-foreground focus:ring-2 focus:ring-foreground/20 sm:text-sm motion-reduce:transition-none"
                   />
                 </label>
-                <div className="flex gap-2 overflow-x-auto pb-1 lg:pb-0" aria-label={c("Filter by city", "按城市筛选", "Фильтр по городу", "Filtrar por ciudad", "กรองตามเมือง", "Tapis mengikut bandar")}>
+                <div
+                  className="flex gap-2 overflow-x-auto pb-1 lg:pb-0"
+                  aria-label={c(
+                    "Filter by city",
+                    "按城市筛选",
+                    "Фильтр по городу",
+                    "Filtrar por ciudad",
+                    "กรองตามเมือง",
+                    "Tapis mengikut bandar",
+                  )}
+                >
                   <Button
                     type="button"
                     size="sm"
@@ -177,11 +218,21 @@ const Clinics = () => {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <p className="text-xs font-semibold text-foreground">
-                  {c("All listed facilities", "全部收录机构", "Все учреждения", "Todos los centros", "สถานพยาบาลทั้งหมดในรายการ", "Semua pusat perubatan tersenarai")}
-                </p>
-                <h1 id="clinic-directory-title" className="mt-2 font-display text-3xl font-medium tracking-tight sm:text-4xl">
                   {c(
-                    `${visibleCount} ${visibleCount === 1 ? "facility" : "facilities"} in ${locationName}`,
+                    "All listed facilities",
+                    "全部收录机构",
+                    "Все учреждения",
+                    "Todos los centros",
+                    "สถานพยาบาลทั้งหมดในรายการ",
+                    "Semua pusat perubatan tersenarai",
+                  )}
+                </p>
+                <h1
+                  id="clinic-directory-title"
+                  className="mt-2 font-display text-3xl font-medium tracking-tight sm:text-4xl"
+                >
+                  {c(
+                    `${visibleCount} plastic surgery ${visibleCount === 1 ? "hospital or clinic" : "hospitals and clinics"} in ${locationName}`,
                     `${visibleCount} 家医院及诊所，位于${locationName}`,
                     `${visibleCount} учреждений в ${locationName}`,
                     `${visibleCount} centros en ${locationName}`,
@@ -193,40 +244,103 @@ const Clinics = () => {
               {(query || cityFilter !== "all") && (
                 <Button type="button" variant="ghost" className="w-fit rounded-full" onClick={clearFilters}>
                   <X className="me-2 size-4" aria-hidden="true" />
-                  {c("Clear filters", "清除筛选", "Сбросить фильтры", "Borrar filtros", "ล้างตัวกรอง", "Kosongkan penapis")}
+                  {c(
+                    "Clear filters",
+                    "清除筛选",
+                    "Сбросить фильтры",
+                    "Borrar filtros",
+                    "ล้างตัวกรอง",
+                    "Kosongkan penapis",
+                  )}
                 </Button>
               )}
             </div>
 
             {isError && (
               <p role="status" className="mt-5 text-sm text-foreground">
-                {c("Showing the directory. Additional published profiles could not be loaded.", "目录已显示，后台关联的专家资料暂时无法加载。", "Каталог доступен. Дополнительные профили не загрузились.", "El directorio está disponible. No se pudieron cargar los perfiles adicionales.", "แสดงรายชื่อสถานพยาบาลแล้ว แต่ไม่สามารถโหลดโปรไฟล์ที่เผยแพร่เพิ่มเติมได้", "Direktori dipaparkan. Profil tambahan yang diterbitkan tidak dapat dimuatkan.")}
-                {" "}<button type="button" onClick={() => void refetch()} className="rounded-sm underline underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">
+                {c(
+                  "Showing the directory. Additional published profiles could not be loaded.",
+                  "目录已显示，后台关联的专家资料暂时无法加载。",
+                  "Каталог доступен. Дополнительные профили не загрузились.",
+                  "El directorio está disponible. No se pudieron cargar los perfiles adicionales.",
+                  "แสดงรายชื่อสถานพยาบาลแล้ว แต่ไม่สามารถโหลดโปรไฟล์ที่เผยแพร่เพิ่มเติมได้",
+                  "Direktori dipaparkan. Profil tambahan yang diterbitkan tidak dapat dimuatkan.",
+                )}{" "}
+                <button
+                  type="button"
+                  onClick={() => void refetch()}
+                  className="rounded-sm underline underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary"
+                >
                   {c("Try again", "重试", "Повторить", "Reintentar", "ลองอีกครั้ง", "Cuba lagi")}
                 </button>
               </p>
             )}
             {isLoading && (
               <p role="status" className="mt-5 text-sm text-foreground">
-                {c("Checking for additional published profiles…", "正在查看更多已发布的专家资料…", "Проверяем дополнительные опубликованные профили…", "Buscando perfiles publicados adicionales…", "กำลังตรวจสอบโปรไฟล์ที่เผยแพร่เพิ่มเติม…", "Menyemak profil tambahan yang diterbitkan…")}
+                {c(
+                  "Checking for additional published profiles…",
+                  "正在查看更多已发布的专家资料…",
+                  "Проверяем дополнительные опубликованные профили…",
+                  "Buscando perfiles publicados adicionales…",
+                  "กำลังตรวจสอบโปรไฟล์ที่เผยแพร่เพิ่มเติม…",
+                  "Menyemak profil tambahan yang diterbitkan…",
+                )}
               </p>
             )}
 
             {filteredFacilities.length === 0 ? (
-              <div role="status" className="mt-8 rounded-3xl border border-dashed border-border bg-card/60 px-6 py-14 text-center">
+              <div
+                role="status"
+                className="mt-8 rounded-3xl border border-dashed border-border bg-card/60 px-6 py-14 text-center"
+              >
                 <Building2 className="mx-auto size-9 text-primary" />
                 <h3 className="mt-4 font-display text-2xl">
-                  {c("No matching facility", "没有找到匹配的机构", "Учреждения не найдены", "No se encontraron centros", "ไม่พบสถานพยาบาลที่ตรงกัน", "Tiada pusat perubatan yang sepadan")}
+                  {c(
+                    "No matching facility",
+                    "没有找到匹配的机构",
+                    "Учреждения не найдены",
+                    "No se encontraron centros",
+                    "ไม่พบสถานพยาบาลที่ตรงกัน",
+                    "Tiada pusat perubatan yang sepadan",
+                  )}
                 </h3>
                 <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-foreground">
-                  {c("Try another clinic name, city or district.", "请尝试其他诊所名称、城市或地区。", "Попробуйте другое название, город или район.", "Prueba con otro nombre, ciudad o distrito.", "ลองชื่อคลินิก เมือง หรือเขตอื่น", "Cuba nama klinik, bandar atau daerah lain.")}
+                  {c(
+                    "Try another clinic name, city or district.",
+                    "请尝试其他诊所名称、城市或地区。",
+                    "Попробуйте другое название, город или район.",
+                    "Prueba con otro nombre, ciudad o distrito.",
+                    "ลองชื่อคลินิก เมือง หรือเขตอื่น",
+                    "Cuba nama klinik, bandar atau daerah lain.",
+                  )}
                 </p>
                 <Button type="button" className="mt-5 rounded-full text-foreground" onClick={clearFilters}>
-                  {c("Show all clinics", "显示全部诊所", "Показать все клиники", "Ver todas las clínicas", "แสดงคลินิกทั้งหมด", "Lihat semua klinik")}
+                  {c(
+                    "Show all clinics",
+                    "显示全部诊所",
+                    "Показать все клиники",
+                    "Ver todas las clínicas",
+                    "แสดงคลินิกทั้งหมด",
+                    "Lihat semua klinik",
+                  )}
                 </Button>
               </div>
             ) : (
-              <div ref={listRef} id="clinic-directory-results" role="list" aria-describedby="clinic-directory-count" className="mt-8 space-y-12" aria-label={c("All hospitals and clinics", "全部医院及诊所", "Все больницы и клиники", "Todos los hospitales y clínicas", "โรงพยาบาลและคลินิกทั้งหมด", "Semua hospital dan klinik")}>
+              <div
+                ref={listRef}
+                id="clinic-directory-results"
+                role="list"
+                aria-describedby="clinic-directory-count"
+                className="mt-8 space-y-12"
+                aria-label={c(
+                  "All hospitals and clinics",
+                  "全部医院及诊所",
+                  "Все больницы и клиники",
+                  "Todos los hospitales y clínicas",
+                  "โรงพยาบาลและคลินิกทั้งหมด",
+                  "Semua hospital dan klinik",
+                )}
+              >
                 {sections.map((section) => (
                   <section key={section.isPublic ? "public" : "private"} aria-label={section.label}>
                     <h2 className="flex items-baseline gap-3 border-b border-border/60 pb-3 font-display text-2xl font-medium tracking-tight">
@@ -243,10 +357,30 @@ const Clinics = () => {
               </div>
             )}
             <div className="mt-8 flex flex-col items-center gap-4">
-              <p id="clinic-directory-count" role="status" aria-atomic="true" className="text-center text-sm tabular-nums text-foreground">{countLabel}</p>
+              <p
+                id="clinic-directory-count"
+                role="status"
+                aria-atomic="true"
+                className="text-center text-sm tabular-nums text-foreground"
+              >
+                {countLabel}
+              </p>
               {nextBatchCount > 0 && (
-                <Button type="button" variant="outline" className="h-auto min-h-12 max-w-full whitespace-normal rounded-full px-6 py-3 text-foreground" aria-controls="clinic-directory-results" onClick={showMore}>
-                  {c(`Show ${nextBatchCount} more facilities`, `再显示 ${nextBatchCount} 家机构`, `Показать ещё ${nextBatchCount} учреждений`, `Mostrar ${nextBatchCount} centros más`, `แสดงสถานพยาบาลอีก ${nextBatchCount} แห่ง`, `Lihat ${nextBatchCount} lagi pusat perubatan`)}
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="h-auto min-h-12 max-w-full whitespace-normal rounded-full px-6 py-3 text-foreground"
+                  aria-controls="clinic-directory-results"
+                  onClick={showMore}
+                >
+                  {c(
+                    `Show ${nextBatchCount} more facilities`,
+                    `再显示 ${nextBatchCount} 家机构`,
+                    `Показать ещё ${nextBatchCount} учреждений`,
+                    `Mostrar ${nextBatchCount} centros más`,
+                    `แสดงสถานพยาบาลอีก ${nextBatchCount} แห่ง`,
+                    `Lihat ${nextBatchCount} lagi pusat perubatan`,
+                  )}
                 </Button>
               )}
             </div>
