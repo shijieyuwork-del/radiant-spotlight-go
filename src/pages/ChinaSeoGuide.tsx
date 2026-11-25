@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
 import { Button } from "@/components/ui/button";
 import { useQuote } from "@/components/QuoteRequest";
-import { SITE_URL } from "@/lib/seo-config";
+import { SITE_URL, guideImageUrl } from "@/lib/seo-config";
 import { MEDICAL_TOURISM_GUIDES, medicalTourismGuidePath } from "@/data/medicalTourismGuides";
 import { useAsia } from "@/lib/asia-i18n";
 
@@ -179,7 +179,7 @@ const ChinaSeoGuide = ({ kind }: { kind: GuideKind }) => {
     author: { "@type": "Organization", name: "Sino Aesthetics Editorial Team", url: `${SITE_URL}/editorial-policy` },
     publisher: { "@id": `${SITE_URL}/#organization` },
     audience: { "@type": "Patient" },
-    image: `${SITE_URL}/images/guides${copy.path}.webp`,
+    image: guideImageUrl(copy.path.slice(1)),
   };
 
   return (
@@ -188,7 +188,7 @@ const ChinaSeoGuide = ({ kind }: { kind: GuideKind }) => {
         title={copy.title}
         description={copy.description}
         path={copy.path}
-        image={`/images/guides${copy.path}-social.webp`}
+        image={guideImageUrl(copy.path.slice(1), "social")}
         type="article"
         structuredData={[articleSchema, faqSchema]}
       />
@@ -253,7 +253,7 @@ const ChinaSeoGuide = ({ kind }: { kind: GuideKind }) => {
         <section className="container py-12 md:py-20">
           <div className="mx-auto max-w-5xl">
             <img
-              src={`/images/guides${copy.path}.webp`}
+              src={guideImageUrl(copy.path.slice(1))}
               alt={copy.heading}
               width={1600}
               height={900}
@@ -299,7 +299,7 @@ const ChinaSeoGuide = ({ kind }: { kind: GuideKind }) => {
                       className="group flex min-h-28 items-start gap-4 border-t border-border py-5 first:border-t-0 md:[&:nth-child(2)]:border-t-0"
                     >
                       <img
-                        src={`/images/guides/${guide.slug}.webp`}
+                        src={guideImageUrl(guide.slug, "thumb")}
                         alt=""
                         width={160}
                         height={90}
@@ -370,7 +370,7 @@ const ChinaSeoGuide = ({ kind }: { kind: GuideKind }) => {
                       className="group grid gap-3 py-5 sm:grid-cols-[7rem_minmax(0,1fr)_auto] sm:items-start"
                     >
                       <img
-                        src={`/images/guides/${guide.slug}.webp`}
+                        src={guideImageUrl(guide.slug, "thumb")}
                         alt=""
                         width={160}
                         height={90}
