@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { Link, Navigate, useSearchParams } from "react-router-dom";
-import { Images, Loader2 } from "lucide-react";
+import { Images, Loader2, MessageCircle } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
@@ -14,12 +14,15 @@ import { getPlanningMarketingCopy } from "@/lib/planning-marketing-copy";
 import { usePublishedBeforeAfter } from "@/hooks/use-before-after";
 import { usePublishedVideosState } from "@/hooks/use-published-videos";
 import TikTokWall from "@/components/TikTokWall";
+import QuoteCtaButton from "@/components/QuoteCtaButton";
+import { useQuote } from "@/components/QuoteRequest";
 
 const BeforeAfterGallery = () => {
   const { lang } = useAsia();
   const [searchParams] = useSearchParams();
   const selectedVideo = searchParams.get("video");
   const marketing = getPlanningMarketingCopy(lang);
+  const { open: openQuote } = useQuote();
   const c = (en: string, zh: string, ru: string, es?: string) => asiaCopy(lang, { en, zh, ru, es });
   const { items, loading } = usePublishedBeforeAfter(lang);
   const videos = { items: [] as never[], hasMore: false, isLoadingMore: false, loadMore: () => {} };
@@ -66,7 +69,12 @@ const BeforeAfterGallery = () => {
               {c("Photo results", "图片对比", "Фотографии", "Fotos")}
             </span>
             <h1 className="font-display text-4xl mt-4">
-              {c("Before & after photo sets", "术前术后对比图集", "Фото до и после", "Fotos de antes y después")}
+              {c(
+                "Plastic surgery before & after photos",
+                "术前术后对比图集",
+                "Фото до и после",
+                "Fotos de antes y después",
+              )}
             </h1>
             <p className="text-muted-foreground mt-3">{marketing.photoDescription}</p>
             <p className="text-muted-foreground mt-3">
@@ -154,6 +162,27 @@ const BeforeAfterGallery = () => {
                   layout="wide"
                 />
                 {item.caption && <p className="text-sm text-muted-foreground px-1">{item.caption}</p>}
+                <button
+                  type="button"
+                  onClick={() =>
+                    openQuote({
+                      doctorName: item.doctorName || undefined,
+                      procedure: item.procedure || undefined,
+                      city: item.city || undefined,
+                      intent: "question",
+                      source: "before_after_card",
+                    })
+                  }
+                  className="mr-3 inline-flex min-h-11 items-center gap-1.5 rounded-full bg-foreground px-4 text-sm font-semibold text-background hover:bg-foreground/90"
+                >
+                  <MessageCircle className="size-4 shrink-0" />
+                  {c(
+                    "Ask about this result",
+                    "咨询这个案例",
+                    "Спросить об этом результате",
+                    "Preguntar por este resultado",
+                  )}
+                </button>
                 {item.doctor_id && (
                   <Link to={`/doctors/profile/${item.doctor_id}`} className="text-sm text-brand px-1">
                     {c("View expert profile", "查看专家资料", "Профиль эксперта", "Ver perfil del experto")}
@@ -162,6 +191,28 @@ const BeforeAfterGallery = () => {
               </div>
             ))}
           </div>
+
+          <aside className="mt-12 flex flex-wrap items-center justify-between gap-4 rounded-3xl bg-[#173B30] px-6 py-6 text-white sm:px-8">
+            <div className="max-w-xl">
+              <h2 className="font-display text-2xl">
+                {c(
+                  "Found a look you like?",
+                  "看到喜欢的效果了吗？",
+                  "Нашли результат, который вам нравится?",
+                  "¿Has visto un resultado que te gusta?",
+                )}
+              </h2>
+              <p className="mt-2 text-sm text-white/80">
+                {c(
+                  "Tell us which photos are closest to what you have in mind. We suggest suitable experts and explain what a written quote includes. Results vary from person to person.",
+                  "告诉我们哪些照片最接近你的想法，我们会建议合适的专家，并说明书面报价包含的内容。效果因人而异。",
+                  "Расскажите, какие фото ближе всего к вашим пожеланиям. Мы предложим подходящих экспертов и объясним, что входит в письменное предложение. Результаты индивидуальны.",
+                  "Dinos qué fotos se acercan más a lo que tienes en mente. Te sugerimos expertos adecuados y explicamos qué incluye un presupuesto por escrito. Los resultados varían según la persona.",
+                )}
+              </p>
+            </div>
+            <QuoteCtaButton variant="primary" quoteCtx={{ source: "before_after_footer" }} />
+          </aside>
 
           <div className="mt-12">
             {false && (
