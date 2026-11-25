@@ -15,6 +15,7 @@ import PageMeta from "@/components/PageMeta";
 import { Button } from "@/components/ui/button";
 import { useQuote } from "@/components/QuoteRequest";
 import { useAsia } from "@/lib/asia-i18n";
+import { guideImageUrl } from "@/lib/seo-config";
 
 const SOURCES = {
   isaps:
@@ -41,7 +42,7 @@ const WhyChina = () => {
     "@type": "Article",
     headline: "Why China for Cosmetic Medical Travel",
     description: "A concise, source-led guide to cosmetic medical travel in China.",
-    image: "https://sinoaesthetics.com/images/guides/why-china.webp",
+    image: guideImageUrl("why-china"),
     citation: [SOURCES.isaps, SOURCES.cna, SOURCES.visa, SOURCES.patients],
   };
 
@@ -51,7 +52,7 @@ const WhyChina = () => {
         title="Why Choose China for Cosmetic Medical Travel"
         description="Evidence-based reasons to consider cosmetic medical travel in China, plus a practical safety checklist and original sources."
         path="/why-china"
-        image="/images/guides/why-china-social.webp"
+        image={guideImageUrl("why-china", "social")}
         type="article"
         structuredData={schema}
       />
@@ -102,8 +103,8 @@ const WhyChina = () => {
         <section className="container py-12 md:py-16">
           <div className="mx-auto max-w-5xl">
             <img
-              src="/images/guides/why-china.webp"
-              alt="Misty morning at West Lake in Hangzhou"
+              src={guideImageUrl("why-china")}
+              alt="Pagoda above lotus leaves at West Lake, Hangzhou"
               width={1600}
               height={900}
               decoding="async"
