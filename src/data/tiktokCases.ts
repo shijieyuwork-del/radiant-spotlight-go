@@ -177,7 +177,11 @@ const DIARY_PREVIEWS: TikTokItem[] = [
 
 // These assets are layout previews until the related patient, clinic and price
 // records have completed review. Do not present demo metadata as verified fact.
-export const TIKTOK_CASES: TikTokItem[] = [
+/** Static preview clips are retired: every listing uses published cases only. */
+export const TIKTOK_CASES: TikTokItem[] = [];
+
+/** Kept only so old preview links can redirect to the case library. */
+export const RETIRED_PREVIEW_CASES: TikTokItem[] = [
   {
     id: "hairline-vietnam-diary",
     // Original public source: https://www.xiaohongshu.com/explore/6a02fa5c000000003600211e
