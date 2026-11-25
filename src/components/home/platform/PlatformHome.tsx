@@ -397,8 +397,13 @@ export const PlatformPriceAndHospitals = () => {
               {CITY_PRICE_PROCEDURES.map((p, i) => (
                 <tr key={p.en}>
                   <th scope="row" className="border-b border-[#F2F3F5] py-3.5 text-left font-medium">
-                    {p.slug ? <Link to={`/treatments/${p.slug}`}>{p.en}</Link> : p.en}{" "}
-                    <span className="font-normal text-[#6B7785]">{p.zh}</span>
+                    {p.slug ? (
+                      <Link to={`/treatments/${p.slug}`}>{lang === "zh" ? p.zh : p.en}</Link>
+                    ) : lang === "zh" ? (
+                      p.zh
+                    ) : (
+                      p.en
+                    )}
                   </th>
                   <td className="border-b border-[#F2F3F5] py-3.5 text-right font-semibold text-brand tabular-nums">
                     {fmt(p.cny)} <span className="font-normal text-[#6B7785]">¥{p.cny.toLocaleString("en-US")}</span>
@@ -454,7 +459,6 @@ export const PlatformPriceAndHospitals = () => {
                 <Link to="/clinics" className="truncate text-sm font-medium">
                   {lang === "zh" ? h.zh : h.en}
                 </Link>
-                <span className="text-xs text-[#6B7785]">{lang === "zh" ? h.en : h.zh}</span>
               </span>
               <span className="shrink-0 text-xs text-[#6B7785]">{lang === "zh" ? h.areaZh : h.areaEn}</span>
             </li>
@@ -592,10 +596,19 @@ export const PlatformGuides = () => {
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {guides.map((g, i) => (
           <Link key={g.slug} to={medicalTourismGuidePath(g.slug)} className={cn(card, "flex flex-col overflow-hidden")}>
+            <img
+              src={`/images/guides/${g.slug}.webp`}
+              alt={g.title}
+              width={1600}
+              height={900}
+              loading="lazy"
+              decoding="async"
+              className="aspect-[16/9] w-full object-cover"
+            />
             <span
               className={cn(
-                "flex h-28 items-end px-5 pb-4 text-xs font-semibold uppercase tracking-[0.08em] text-brand",
-                tones[i],
+                "flex items-end px-5 pt-4 text-xs font-semibold uppercase tracking-[0.08em] text-brand",
+                "bg-white",
               )}
             >
               {g.kicker}
