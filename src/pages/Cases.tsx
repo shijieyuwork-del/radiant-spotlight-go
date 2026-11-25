@@ -253,12 +253,14 @@ const Cases = () => {
     <>
       <PageMeta
         title={
-          activeCity ? `${cityLabel} Cosmetic Surgery — Patient Journey Previews` : "Patient Recovery Journey Previews"
+          activeCity
+            ? `Plastic Surgery Case Videos from ${cityLabel}`
+            : "Plastic Surgery in China: Real Case Videos by Procedure"
         }
         description={
           activeCity
-            ? `Explore cosmetic care journey previews from ${cityLabel}, including procedure and recovery-stage information where available.`
-            : "Explore cosmetic care journey previews by procedure and city in China, with recovery-stage information where available."
+            ? `Watch real plastic surgery case videos from hospitals in ${cityLabel}, with procedure and expert information where available.`
+            : "Watch real plastic surgery case videos from hospitals in China. Filter by procedure: rhinoplasty, eyelid surgery, facial contouring, hair transplant and more."
         }
         path={activeCity ? `/cases?city=${encodeURIComponent(activeCity)}` : "/cases"}
         image={activeCityMeta?.img}
