@@ -1,6 +1,9 @@
 ## Tasks
 
-- [ ] Verify and fix full published-case coverage for directory filters and related treatment videos without deploying.
+- [x] Generate and preserve 25 missing guide images with 1600×900 and 1200×630 optimized WebP renditions in public/images/guides (50 files).
+- [ ] Finish guide image inventory/report, wire cards and article heroes plus static social metadata/schema, and verify desktop/mobile and prerendering; paused because workspace credits ran out. Preserve existing city/landing-page images; no importer/admin changes, no deploy.
+
+- [x] Verify and fix full published-case coverage for directory filters and related treatment videos without deploying.
 
 - [x] Download published covers into build output with same-origin URLs and missing-cover fallback; preserve SEO structure and video playback.
 - [x] Restrict poster preload to homepage and split unnecessary first-paint JavaScript.
