@@ -284,7 +284,7 @@ export const PlatformCategoryBrowser = () => {
             </span>
             <Link
               to="/treatments"
-              className="inline-flex min-h-11 items-center gap-1.5 text-sm font-semibold text-brand"
+              className="inline-flex min-h-11 shrink-0 items-center gap-1.5 whitespace-nowrap text-sm font-semibold text-brand"
             >
               {tx(lang, "View category", "查看分类")}
               <ArrowRight className="size-4" />
@@ -352,7 +352,10 @@ export const PlatformPriceAndHospitals = () => {
               {tx(lang, `China vs ${ref.label}, starting prices`, `中国对比${ref.label}起步价`)}
             </h2>
           </div>
-          <Link to="/treatments" className="inline-flex min-h-11 items-center gap-1.5 text-sm font-semibold text-brand">
+          <Link
+            to="/treatments"
+            className="inline-flex min-h-11 shrink-0 items-center gap-1.5 whitespace-nowrap text-sm font-semibold text-brand"
+          >
             {tx(lang, "All prices", "全部价格")}
             <ArrowRight className="size-4" />
           </Link>
@@ -379,7 +382,7 @@ export const PlatformPriceAndHospitals = () => {
           ))}
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full border-collapse text-sm sm:min-w-[480px]">
+          <table className="w-full border-collapse text-[13px] sm:min-w-[480px] sm:text-sm">
             <thead>
               <tr>
                 <th
@@ -398,7 +401,8 @@ export const PlatformPriceAndHospitals = () => {
                   scope="col"
                   className="border-b border-[#E5E6EB] py-2.5 pl-3 text-right text-xs font-semibold text-[#6B7785]"
                 >
-                  {tx(lang, `${ref.label} typical*`, `${ref.label}参考价*`)}
+                  <span className="sm:hidden">{ref.label}*</span>
+                  <span className="max-sm:hidden">{tx(lang, `${ref.label} typical*`, `${ref.label}参考价*`)}</span>
                 </th>
               </tr>
             </thead>
@@ -414,11 +418,11 @@ export const PlatformPriceAndHospitals = () => {
                       p.en
                     )}
                   </th>
-                  <td className="whitespace-nowrap border-b border-[#F2F3F5] py-3.5 pl-3 text-right font-semibold text-brand tabular-nums">
+                  <td className="whitespace-nowrap border-b border-[#F2F3F5] py-3.5 pl-2 text-right sm:pl-3 font-semibold text-brand tabular-nums">
                     {fmt(p.cny)}{" "}
                     <span className="font-normal text-[#6B7785] max-sm:hidden">¥{p.cny.toLocaleString("en-US")}</span>
                   </td>
-                  <td className="whitespace-nowrap border-b border-[#F2F3F5] py-3.5 pl-3 text-right text-[#6A7C75] tabular-nums">
+                  <td className="whitespace-nowrap border-b border-[#F2F3F5] py-3.5 pl-2 text-right sm:pl-3 text-[#6A7C75] tabular-nums">
                     {ref.refs[i]}
                   </td>
                 </tr>
@@ -441,7 +445,10 @@ export const PlatformPriceAndHospitals = () => {
               {tx(lang, "60+ partner hospitals, 5 cities", "60+ 家合作医院，5 座城市")}
             </h2>
           </div>
-          <Link to="/clinics" className="inline-flex min-h-11 items-center gap-1.5 text-sm font-semibold text-brand">
+          <Link
+            to="/clinics"
+            className="inline-flex min-h-11 shrink-0 items-center gap-1.5 whitespace-nowrap text-sm font-semibold text-brand"
+          >
             {tx(lang, "Browse all", "查看全部")}
             <ArrowRight className="size-4" />
           </Link>
