@@ -13,6 +13,7 @@ import { CITY_PRICE_PROCEDURES, CITY_PRICE_REFS } from "@/data/cityPriceRefs";
 import { DEFAULT_VIDEO_POSTER } from "@/lib/cover-fallback";
 import { cn } from "@/lib/utils";
 import { consultationHandoffUrl } from "@/lib/consultation-handoff";
+import { guideImageUrl } from "@/lib/seo-config";
 import "./platform-home.css";
 
 const whatsappUrl = () => consultationHandoffUrl("whatsapp", { source: "homeB_whatsapp" });
@@ -597,7 +598,7 @@ export const PlatformGuides = () => {
         {guides.map((g, i) => (
           <Link key={g.slug} to={medicalTourismGuidePath(g.slug)} className={cn(card, "flex flex-col overflow-hidden")}>
             <img
-              src={`/images/guides/${g.slug}.webp`}
+              src={guideImageUrl(g.slug)}
               alt={g.title}
               width={1600}
               height={900}
