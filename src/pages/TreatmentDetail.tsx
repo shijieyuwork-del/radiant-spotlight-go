@@ -706,7 +706,10 @@ const CatalogProcedureDetail = ({
   const education = catalogEducation[procedure.categoryEn];
   const path = `/treatments/${procedureSlug(procedure.en)}`;
   // Reference prices exist for a few procedures only; the comparison is shown just for those.
-  const priceIndex = CITY_PRICE_PROCEDURES.findIndex((item) => item.slug === procedureSlug(procedure.en));
+  // The double eyelid page uses the eyelid row of the price references.
+  const priceSlug =
+    procedureSlug(procedure.en) === "double-eyelid-surgery" ? "blepharoplasty" : procedureSlug(procedure.en);
+  const priceIndex = CITY_PRICE_PROCEDURES.findIndex((item) => item.slug === priceSlug);
   const priceRow = priceIndex >= 0 ? CITY_PRICE_PROCEDURES[priceIndex] : null;
   const roundPrice = (value: number) => (Math.round(value / 10) * 10).toLocaleString("en-US");
   const brief = PROCEDURE_BRIEFS[procedureSlug(procedure.en)];
