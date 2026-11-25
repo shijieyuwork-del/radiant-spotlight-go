@@ -101,8 +101,13 @@ const CityDetail = () => {
                 <MapPin className="size-3.5" />
                 {c("City guide", "城市指南", "Гид по городу", "Guía de la ciudad")}
               </span>
-              <h1 className="font-display text-5xl md:text-6xl font-medium tracking-tight leading-[0.95]">
-                {lang === "zh" ? city.zh : city.en}
+              <h1 className="font-display text-4xl md:text-6xl font-medium tracking-tight leading-[1]">
+                {c(
+                  `Plastic surgery in ${city.en}`,
+                  `${city.zh}整形`,
+                  `Пластическая хирургия: ${city.en}`,
+                  `Cirugía plástica en ${city.en}`,
+                )}
                 <span className="block text-brand text-2xl md:text-3xl mt-2 font-normal italic">
                   {lang === "zh" ? city.taglineZh : city.taglineEn}
                 </span>
@@ -110,6 +115,21 @@ const CityDetail = () => {
               <p className="text-foreground/80 leading-relaxed max-w-2xl">
                 {lang === "zh" ? city.introZh : city.introEn}
               </p>
+              <div className="flex flex-wrap items-center gap-3 pt-1">
+                <QuoteCtaButton quoteCtx={{ city: city.en, source: "city_hero" }} />
+                <a
+                  href="#city-surgeons"
+                  className="inline-flex min-h-12 items-center gap-2 rounded-full border border-foreground/25 px-5 text-sm font-semibold text-foreground transition hover:bg-muted"
+                >
+                  {c(
+                    `See surgeons in ${city.en}`,
+                    `查看${city.zh}专家`,
+                    `Эксперты в городе ${city.en}`,
+                    `Ver expertos en ${city.en}`,
+                  )}
+                  <ArrowRight className="size-4" />
+                </a>
+              </div>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl pt-2">
                 <HeroStat
@@ -231,7 +251,7 @@ const CityDetail = () => {
         )}
 
         {/* Surgeons in this city */}
-        <section className="container py-10">
+        <section id="city-surgeons" className="container scroll-mt-28 py-10">
           <div className="flex items-end justify-between mb-6 gap-4">
             <div>
               <span className="pill bg-accent text-accent-foreground mb-2">
