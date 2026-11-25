@@ -6,7 +6,7 @@ import PageMeta from "@/components/PageMeta";
 import { Button } from "@/components/ui/button";
 import { useQuote } from "@/components/QuoteRequest";
 import { findMedicalTourismGuide, medicalTourismGuidePath } from "@/data/medicalTourismGuides";
-import { SITE_URL } from "@/lib/seo-config";
+import { SITE_URL, guideImageUrl } from "@/lib/seo-config";
 
 const MedicalTourismArticle = ({ guideSlug }: { guideSlug?: string }) => {
   const params = useParams<{ slug: string }>();
@@ -40,7 +40,7 @@ const MedicalTourismArticle = ({ guideSlug }: { guideSlug?: string }) => {
     author: { "@type": "Organization", name: "Sino Aesthetics Editorial Team", url: `${SITE_URL}/editorial-policy` },
     publisher: { "@id": `${SITE_URL}/#organization` },
     audience: { "@type": "Patient" },
-    image: `${SITE_URL}/images/guides/${guide.slug}.webp`,
+    image: guideImageUrl(guide.slug),
     citation: guide.sources.map((source) => source.url),
   };
 
@@ -50,7 +50,7 @@ const MedicalTourismArticle = ({ guideSlug }: { guideSlug?: string }) => {
         title={guide.title}
         description={guide.description}
         path={path}
-        image={`/images/guides/${guide.slug}-social.webp`}
+        image={guideImageUrl(guide.slug, "social")}
         type="article"
         structuredData={[articleSchema, faqSchema]}
       />
@@ -94,7 +94,7 @@ const MedicalTourismArticle = ({ guideSlug }: { guideSlug?: string }) => {
         <div className="container grid grid-cols-[minmax(0,1fr)] gap-12 py-12 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-start lg:py-20">
           <article className="reading-copy mx-auto w-full min-w-0 max-w-4xl lg:mx-0">
             <img
-              src={`/images/guides/${guide.slug}.webp`}
+              src={guideImageUrl(guide.slug)}
               alt={guide.title}
               width={1600}
               height={900}
