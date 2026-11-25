@@ -1,9 +1,7 @@
 import { whatsappUrl } from "@/lib/consultation-handoff";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
-import {
-  Search, Filter, Stethoscope, ArrowRight, MapPin, MessageCircle, Navigation,
-} from "lucide-react";
+import { Search, Filter, Stethoscope, ArrowRight, MapPin, MessageCircle, Navigation } from "lucide-react";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
@@ -137,7 +135,10 @@ const Experts = () => {
     () => sortedDoctors.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE),
     [sortedDoctors, safePage],
   );
-  const { rootRef: resultsRef, remember: rememberReturnPosition } = useDirectoryReturnPosition(directoryStatus === "ready", pagedDoctors.map((doctor) => doctor.id).join("|"));
+  const { rootRef: resultsRef, remember: rememberReturnPosition } = useDirectoryReturnPosition(
+    directoryStatus === "ready",
+    pagedDoctors.map((doctor) => doctor.id).join("|"),
+  );
 
   // —— 按城市动态生成 SEO meta（?city=Seoul 分享时标题/摘要/图都对应该城市）——
   const activeCityMeta = useMemo(
@@ -146,96 +147,175 @@ const Experts = () => {
   );
   const cityLabel = activeCityMeta ? (lang === "zh" ? activeCityMeta.zh : activeCityMeta.en) : city;
 
-
-
   return (
     <>
       <PageMeta
-        title={city !== "all" ? `${cityLabel} Cosmetic Experts — Published Profiles` : "Cosmetic Expert Profiles in China"}
-        description={city !== "all"
-          ? `Explore published cosmetic expert profiles in ${cityLabel}, compare listed specialties and credentials, and ask about English-language coordination.`
-          : "Explore published cosmetic expert profiles in China, compare listed specialties and credentials, and ask about English-language coordination."}
+        title={
+          city !== "all"
+            ? `Plastic Surgeons in ${cityLabel}: Profiles & Case Videos`
+            : "Plastic Surgeons in China: Profiles & Case Videos"
+        }
+        description={
+          city !== "all"
+            ? `Compare plastic surgeons and cosmetic experts in ${cityLabel} by specialty, credentials, hospital and published case videos, and ask about English-language coordination.`
+            : "Compare plastic surgeons and cosmetic experts in China by specialty, credentials, hospital and published case videos, and ask about English-language coordination."
+        }
         path={city !== "all" ? `/doctors?city=${encodeURIComponent(city)}` : "/doctors"}
         image={activeCityMeta?.img}
       />
       <div className="min-h-screen bg-background">
         <AsiaNavbar />
 
-      <section className="container py-9 md:py-16">
-        <div className="text-center max-w-2xl mx-auto mb-8">
-          <span className="pill bg-accent text-accent-foreground mb-3">
-            <Stethoscope className="size-3.5" /> {t("doctors.kicker")}
-          </span>
-          <h1 className="font-display text-[2.15rem] font-medium leading-[1.04] tracking-tight sm:text-4xl md:text-5xl">
-            {t("doctors.title1")} <em className="text-brand not-italic">{t("doctors.titleEm")}</em>
-          </h1>
-        </div>
-
-        <div className="bg-card rounded-3xl p-2 shadow-pop flex flex-col sm:flex-row gap-2 max-w-2xl mx-auto mb-6">
-          <div className="flex-1 px-5 py-3 flex items-center gap-3">
-            <Search className="size-4 text-muted-foreground shrink-0" />
-            <input
-              type="search"
-              aria-label={c("Search expert profiles", "搜索专家资料", "Поиск профилей экспертов", "Buscar perfiles de expertos", "ค้นหาโปรไฟล์ผู้เชี่ยวชาญ", "Cari profil pakar")}
-              value={q}
-              onChange={(e) => setQ(e.target.value)}
-              className="w-full bg-transparent text-base font-medium outline-none sm:text-sm"
-              placeholder={c("Search by name or specialty…", "搜索专家或擅长项目…", "Поиск по имени или специализации…", "Buscar por nombre o especialidad…")}
-            />
+        <section className="container py-9 md:py-16">
+          <div className="text-center max-w-2xl mx-auto mb-8">
+            <span className="pill bg-accent text-accent-foreground mb-3">
+              <Stethoscope className="size-3.5" /> {t("doctors.kicker")}
+            </span>
+            <h1 className="font-display text-[2.15rem] font-medium leading-[1.04] tracking-tight sm:text-4xl md:text-5xl">
+              {t("doctors.title1")} <em className="text-brand not-italic">{t("doctors.titleEm")}</em>
+            </h1>
           </div>
-        </div>
 
-        {/* City filter */}
-        {cities.length > 0 && <div className="mb-10">
-          <p className="text-label uppercase tracking-wider text-muted-foreground font-semibold text-center mb-2">
-            {c("City", "城市", "Город", "Ciudad")}
-          </p>
-          <div className="flex items-center gap-2 flex-wrap justify-center">
-            <span className="text-xs text-muted-foreground inline-flex items-center gap-1 mr-1"><Filter className="size-3" /></span>
-            <Button variant={city === "all" ? "default" : "outline"} size="sm" className="rounded-full" onClick={() => setCity("all")}>
-              {t("cases.tabAll")}
-            </Button>
-            {cities.map((c) => (
-              <Button key={c.key} variant={activeCityKey === c.key ? "default" : "outline"} size="sm" className="rounded-full" onClick={() => setCity(c.key)}>
-                {c.label}
-              </Button>
-            ))}
-          </div>
-        </div>}
-
-        <div ref={resultsRef} className="mb-10" data-testid="doctor-directory-results">
-            {directoryStatus === "ready" && visibleDirectoryDoctors.length > 0 && <h2 className="mb-4 font-display text-2xl">{c("Published doctors", "已发布专家", "Опубликованные эксперты", "Expertos publicados")}</h2>}
-            {directoryStatus === "ready" && visibleDirectoryDoctors.length > 0 && <div className="mb-5">
-              <SortChips
-                label={c("Sort", "排序", "Сортировка", "Ordenar")}
-                value={sort}
-                onChange={setSort}
-                options={[
-                  { key: "recommended", label: c("Recommended", "推荐", "Рекомендуемые", "Recomendado") },
-                  { key: "hot", label: c("Most popular", "热度最高", "Популярные", "Más popular") },
-                  { key: "latest", label: c("Newest", "最新入驻", "Новые", "Más reciente") },
-                  { key: "distance", label: c("Nearest", "距离最近", "Ближайшие", "Más cercano") },
-                ]}
+          <div className="bg-card rounded-3xl p-2 shadow-pop flex flex-col sm:flex-row gap-2 max-w-2xl mx-auto mb-6">
+            <div className="flex-1 px-5 py-3 flex items-center gap-3">
+              <Search className="size-4 text-muted-foreground shrink-0" />
+              <input
+                type="search"
+                aria-label={c(
+                  "Search expert profiles",
+                  "搜索专家资料",
+                  "Поиск профилей экспертов",
+                  "Buscar perfiles de expertos",
+                  "ค้นหาโปรไฟล์ผู้เชี่ยวชาญ",
+                  "Cari profil pakar",
+                )}
+                value={q}
+                onChange={(e) => setQ(e.target.value)}
+                className="w-full bg-transparent text-base font-medium outline-none sm:text-sm"
+                placeholder={c(
+                  "Search by name or specialty…",
+                  "搜索专家或擅长项目…",
+                  "Поиск по имени или специализации…",
+                  "Buscar por nombre o especialidad…",
+                )}
               />
-              {sort === "distance" && (
-                <p className="mt-2 flex flex-wrap items-center justify-center gap-1 text-center text-label text-muted-foreground">
-                  <Navigation className="size-3" />
-                  {locStatus === "locating"
-                    ? c("Locating…", "正在获取定位…", "Определяем местоположение…", "Localizando…")
-                    : locStatus === "denied"
-                      ? c("Location unavailable — showing default order.", "无法获取定位，已按默认顺序展示。", "Геолокация недоступна — показан обычный порядок.", "Ubicación no disponible — mostrando el orden predeterminado.")
-                      : locStatus === "idle"
-                        ? c("Location is off — showing default order.", "尚未启用定位，当前显示默认顺序。", "Геолокация выключена — показан обычный порядок.", "Ubicación desactivada: se muestra el orden predeterminado.", "ยังไม่ได้เปิดตำแหน่ง — แสดงลำดับเริ่มต้น", "Lokasi dimatikan — memaparkan susunan lalai.")
-                        : c("Sorted by distance from you.", "已按与你的距离排序。", "Отсортировано по расстоянию от вас.", "Ordenado por distancia desde tu ubicación.")}
-                  {(locStatus === "idle" || locStatus === "denied") && <button type="button" onClick={requestLocation} className="min-h-11 rounded-sm px-2 font-semibold text-foreground underline underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring">{c("Use my location", "使用我的位置", "Использовать моё местоположение", "Usar mi ubicación", "ใช้ตำแหน่งของฉัน", "Gunakan lokasi saya")}</button>}
-                </p>
-              )}
-            </div>}
+            </div>
+          </div>
+
+          {/* City filter */}
+          {cities.length > 0 && (
+            <div className="mb-10">
+              <p className="text-label uppercase tracking-wider text-muted-foreground font-semibold text-center mb-2">
+                {c("City", "城市", "Город", "Ciudad")}
+              </p>
+              <div className="flex items-center gap-2 flex-wrap justify-center">
+                <span className="text-xs text-muted-foreground inline-flex items-center gap-1 mr-1">
+                  <Filter className="size-3" />
+                </span>
+                <Button
+                  variant={city === "all" ? "default" : "outline"}
+                  size="sm"
+                  className="rounded-full"
+                  onClick={() => setCity("all")}
+                >
+                  {t("cases.tabAll")}
+                </Button>
+                {cities.map((c) => (
+                  <Button
+                    key={c.key}
+                    variant={activeCityKey === c.key ? "default" : "outline"}
+                    size="sm"
+                    className="rounded-full"
+                    onClick={() => setCity(c.key)}
+                  >
+                    {c.label}
+                  </Button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div ref={resultsRef} className="mb-10" data-testid="doctor-directory-results">
+            {directoryStatus === "ready" && visibleDirectoryDoctors.length > 0 && (
+              <h2 className="mb-4 font-display text-2xl">
+                {c("Published doctors", "已发布专家", "Опубликованные эксперты", "Expertos publicados")}
+              </h2>
+            )}
+            {directoryStatus === "ready" && visibleDirectoryDoctors.length > 0 && (
+              <div className="mb-5">
+                <SortChips
+                  label={c("Sort", "排序", "Сортировка", "Ordenar")}
+                  value={sort}
+                  onChange={setSort}
+                  options={[
+                    { key: "recommended", label: c("Recommended", "推荐", "Рекомендуемые", "Recomendado") },
+                    { key: "hot", label: c("Most popular", "热度最高", "Популярные", "Más popular") },
+                    { key: "latest", label: c("Newest", "最新入驻", "Новые", "Más reciente") },
+                    { key: "distance", label: c("Nearest", "距离最近", "Ближайшие", "Más cercano") },
+                  ]}
+                />
+                {sort === "distance" && (
+                  <p className="mt-2 flex flex-wrap items-center justify-center gap-1 text-center text-label text-muted-foreground">
+                    <Navigation className="size-3" />
+                    {locStatus === "locating"
+                      ? c("Locating…", "正在获取定位…", "Определяем местоположение…", "Localizando…")
+                      : locStatus === "denied"
+                        ? c(
+                            "Location unavailable — showing default order.",
+                            "无法获取定位，已按默认顺序展示。",
+                            "Геолокация недоступна — показан обычный порядок.",
+                            "Ubicación no disponible — mostrando el orden predeterminado.",
+                          )
+                        : locStatus === "idle"
+                          ? c(
+                              "Location is off — showing default order.",
+                              "尚未启用定位，当前显示默认顺序。",
+                              "Геолокация выключена — показан обычный порядок.",
+                              "Ubicación desactivada: se muestra el orden predeterminado.",
+                              "ยังไม่ได้เปิดตำแหน่ง — แสดงลำดับเริ่มต้น",
+                              "Lokasi dimatikan — memaparkan susunan lalai.",
+                            )
+                          : c(
+                              "Sorted by distance from you.",
+                              "已按与你的距离排序。",
+                              "Отсортировано по расстоянию от вас.",
+                              "Ordenado por distancia desde tu ubicación.",
+                            )}
+                    {(locStatus === "idle" || locStatus === "denied") && (
+                      <button
+                        type="button"
+                        onClick={requestLocation}
+                        className="min-h-11 rounded-sm px-2 font-semibold text-foreground underline underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring"
+                      >
+                        {c(
+                          "Use my location",
+                          "使用我的位置",
+                          "Использовать моё местоположение",
+                          "Usar mi ubicación",
+                          "ใช้ตำแหน่งของฉัน",
+                          "Gunakan lokasi saya",
+                        )}
+                      </button>
+                    )}
+                  </p>
+                )}
+              </div>
+            )}
             {directoryStatus === "loading" ? (
               <div role="status" className="grid gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3" aria-busy="true">
-                <span className="sr-only">{c("Loading expert profiles…", "正在加载专家资料…", "Загрузка профилей экспертов…", "Cargando perfiles de expertos…")}</span>
+                <span className="sr-only">
+                  {c(
+                    "Loading expert profiles…",
+                    "正在加载专家资料…",
+                    "Загрузка профилей экспертов…",
+                    "Cargando perfiles de expertos…",
+                  )}
+                </span>
                 {[0, 1, 2].map((i) => (
-                  <div key={i} className="min-h-[20rem] animate-pulse rounded-3xl bg-card p-6 shadow-pop md:min-h-[25rem]">
+                  <div
+                    key={i}
+                    className="min-h-[20rem] animate-pulse rounded-3xl bg-card p-6 shadow-pop md:min-h-[25rem]"
+                  >
                     <div className="flex gap-4">
                       <div className="size-24 shrink-0 rounded-full bg-muted" />
                       <div className="flex-1 space-y-2 pt-2">
@@ -251,85 +331,186 @@ const Experts = () => {
                 ))}
               </div>
             ) : directoryStatus === "error" ? (
-              <div role="alert" className="rounded-3xl border border-border bg-card px-6 py-8 text-center text-foreground">
-                <h2 className="font-display text-2xl">{c("Expert profiles are unavailable", "暂时无法加载专家资料", "Профили экспертов недоступны", "Los perfiles de expertos no están disponibles")}</h2>
-                <p className="mt-2 text-sm">{c("We couldn't load the directory. Please try again.", "专家列表加载失败，请重试。", "Не удалось загрузить список. Попробуйте ещё раз.", "No pudimos cargar el directorio. Inténtalo de nuevo.")}</p>
-                <Button className="mt-4" onClick={() => void loadManagedDoctors()}>{c("Try again", "重试", "Попробовать снова", "Reintentar")}</Button>
+              <div
+                role="alert"
+                className="rounded-3xl border border-border bg-card px-6 py-8 text-center text-foreground"
+              >
+                <h2 className="font-display text-2xl">
+                  {c(
+                    "Expert profiles are unavailable",
+                    "暂时无法加载专家资料",
+                    "Профили экспертов недоступны",
+                    "Los perfiles de expertos no están disponibles",
+                  )}
+                </h2>
+                <p className="mt-2 text-sm">
+                  {c(
+                    "We couldn't load the directory. Please try again.",
+                    "专家列表加载失败，请重试。",
+                    "Не удалось загрузить список. Попробуйте ещё раз.",
+                    "No pudimos cargar el directorio. Inténtalo de nuevo.",
+                  )}
+                </p>
+                <Button className="mt-4" onClick={() => void loadManagedDoctors()}>
+                  {c("Try again", "重试", "Попробовать снова", "Reintentar")}
+                </Button>
               </div>
             ) : visibleDirectoryDoctors.length === 0 ? (
-              <div role="status" className="rounded-3xl border border-dashed border-border bg-card/60 px-6 py-8 text-center text-foreground">
-                <h2 className="font-display text-2xl">{c("No matching expert profiles", "没有匹配的专家资料", "Подходящие профили не найдены", "No hay perfiles que coincidan")}</h2>
-                <p className="mt-2 text-sm">{c("Try a different name, specialty or city.", "试试其他姓名、擅长项目或城市。", "Попробуйте другое имя, специализацию или город.", "Prueba otro nombre, especialidad o ciudad.")}</p>
-                <Button variant="outline" className="mt-4" onClick={reset}>{c("Clear filters", "清除筛选", "Сбросить фильтры", "Borrar filtros")}</Button>
+              <div
+                role="status"
+                className="rounded-3xl border border-dashed border-border bg-card/60 px-6 py-8 text-center text-foreground"
+              >
+                <h2 className="font-display text-2xl">
+                  {c(
+                    "No matching expert profiles",
+                    "没有匹配的专家资料",
+                    "Подходящие профили не найдены",
+                    "No hay perfiles que coincidan",
+                  )}
+                </h2>
+                <p className="mt-2 text-sm">
+                  {c(
+                    "Try a different name, specialty or city.",
+                    "试试其他姓名、擅长项目或城市。",
+                    "Попробуйте другое имя, специализацию или город.",
+                    "Prueba otro nombre, especialidad o ciudad.",
+                  )}
+                </p>
+                <Button variant="outline" className="mt-4" onClick={reset}>
+                  {c("Clear filters", "清除筛选", "Сбросить фильтры", "Borrar filtros")}
+                </Button>
               </div>
             ) : (
-            <div className="grid gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
-              {pagedDoctors.map((d) => {
-                const portraitRetouch = getDirectoryDoctorPortraitRetouch(d);
-                const photo = portraitRetouch?.photo || d.photo;
-                return (
-                  <article key={d.id} className="flex min-h-0 flex-col rounded-3xl bg-card p-5 shadow-pop transition hover:shadow-glow md:min-h-[25rem] md:p-6">
-                    <div className="flex gap-4">
-                      {photo
-                        ? <span className={`block size-28 shrink-0 overflow-hidden rounded-full border-2 border-primary/15 md:size-24 ${portraitRetouch ? "bg-[#e7e7e7]" : "bg-card"}`}><img src={photo} alt={d.name} className={`size-full object-cover object-center ${/\/(?:fu-013|fu-016)\.webp$/.test(d.photo_path ?? "") ? "translate-x-[30%]" : /\/(?:fu-018|fu-008|guimeishi-013)\.webp$/.test(d.photo_path ?? "") ? "translate-x-[12%]" : ""}`} /></span>
-                        : <div className="grid size-28 shrink-0 place-items-center rounded-full bg-muted md:size-24"><Stethoscope /></div>}
-                      <div className="min-w-0">
-                        <h3 className="font-display text-xl font-semibold leading-tight"><Highlight text={d.name} query={q} /></h3>
-                        <p className="mt-1 text-xs text-muted-foreground"><Highlight text={d.title} query={q} /></p>
-                        <p className="mt-2 text-xs text-muted-foreground"><MapPin className="mr-1 inline size-3" /><Highlight text={d.city} query={q} /></p>
-                        {d.demo && <span className="mt-2 inline-flex rounded-full bg-accent px-2.5 py-1 text-label font-semibold text-accent-foreground">{c("Sample profile", "示例资料", "Демо-профиль", "Perfil de muestra")}</span>}
+              <div className="grid gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
+                {pagedDoctors.map((d) => {
+                  const portraitRetouch = getDirectoryDoctorPortraitRetouch(d);
+                  const photo = portraitRetouch?.photo || d.photo;
+                  return (
+                    <article
+                      key={d.id}
+                      className="flex min-h-0 flex-col rounded-3xl bg-card p-5 shadow-pop transition hover:shadow-glow md:min-h-[25rem] md:p-6"
+                    >
+                      <div className="flex gap-4">
+                        {photo ? (
+                          <span
+                            className={`block size-28 shrink-0 overflow-hidden rounded-full border-2 border-primary/15 md:size-24 ${portraitRetouch ? "bg-[#e7e7e7]" : "bg-card"}`}
+                          >
+                            <img
+                              src={photo}
+                              alt={d.name}
+                              className={`size-full object-cover object-center ${/\/(?:fu-013|fu-016)\.webp$/.test(d.photo_path ?? "") ? "translate-x-[30%]" : /\/(?:fu-018|fu-008|guimeishi-013)\.webp$/.test(d.photo_path ?? "") ? "translate-x-[12%]" : ""}`}
+                            />
+                          </span>
+                        ) : (
+                          <div className="grid size-28 shrink-0 place-items-center rounded-full bg-muted md:size-24">
+                            <Stethoscope />
+                          </div>
+                        )}
+                        <div className="min-w-0">
+                          <h3 className="font-display text-xl font-semibold leading-tight">
+                            <Highlight text={d.name} query={q} />
+                          </h3>
+                          <p className="mt-1 text-xs text-muted-foreground">
+                            <Highlight text={d.title} query={q} />
+                          </p>
+                          <p className="mt-2 text-xs text-muted-foreground">
+                            <MapPin className="mr-1 inline size-3" />
+                            <Highlight text={d.city} query={q} />
+                          </p>
+                          {d.demo && (
+                            <span className="mt-2 inline-flex rounded-full bg-accent px-2.5 py-1 text-label font-semibold text-accent-foreground">
+                              {c("Sample profile", "示例资料", "Демо-профиль", "Perfil de muestra")}
+                            </span>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                    {d.bio && <p className="mt-4 line-clamp-2 text-sm leading-relaxed text-muted-foreground"><Highlight text={d.bio} query={q} /></p>}
-                    <div className="mt-4 flex flex-wrap gap-1.5">{compactSpecialtyLabels(d.specialties).map((label) => <span key={label} className="rounded-full bg-accent px-2.5 py-1 text-label"><Highlight text={label} query={q} /></span>)}</div>
-                    <div className="mt-auto grid gap-2 pt-6 min-[430px]:grid-cols-[0.9fr_1.1fr]">
-                      <Link data-directory-item={d.id} onClick={() => rememberReturnPosition(d.id)} to={d.demo ? `/doctors/demo/${d.id}` : `/doctors/profile/${d.id}`} className="flex min-h-12 items-center justify-center rounded-xl border border-primary/30 px-3 py-3 text-center text-xs font-semibold text-brand hover:bg-primary/10">
-                        {c("Expert & cases", "专家与案例", "Эксперт и истории пациентов", "Experto y casos")}
-                      </Link>
-                      <QuoteCtaButton quoteCtx={{ doctorName: d.name, city: d.city }} className="min-h-12 rounded-xl px-3 py-3 text-center text-[13px] leading-tight" data-testid="doctor-card-cta" />
-                    </div>
-                  </article>
-                );
-              })}
-            </div>
+                      {d.bio && (
+                        <p className="mt-4 line-clamp-2 text-sm leading-relaxed text-muted-foreground">
+                          <Highlight text={d.bio} query={q} />
+                        </p>
+                      )}
+                      <div className="mt-4 flex flex-wrap gap-1.5">
+                        {compactSpecialtyLabels(d.specialties).map((label) => (
+                          <span key={label} className="rounded-full bg-accent px-2.5 py-1 text-label">
+                            <Highlight text={label} query={q} />
+                          </span>
+                        ))}
+                      </div>
+                      <div className="mt-auto grid gap-2 pt-6 min-[430px]:grid-cols-[0.9fr_1.1fr]">
+                        <Link
+                          data-directory-item={d.id}
+                          onClick={() => rememberReturnPosition(d.id)}
+                          to={d.demo ? `/doctors/demo/${d.id}` : `/doctors/profile/${d.id}`}
+                          className="flex min-h-12 items-center justify-center rounded-xl border border-primary/30 px-3 py-3 text-center text-xs font-semibold text-brand hover:bg-primary/10"
+                        >
+                          {c("Expert & cases", "专家与案例", "Эксперт и истории пациентов", "Experto y casos")}
+                        </Link>
+                        <QuoteCtaButton
+                          quoteCtx={{ doctorName: d.name, city: d.city }}
+                          className="min-h-12 rounded-xl px-3 py-3 text-center text-[13px] leading-tight"
+                          data-testid="doctor-card-cta"
+                        />
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
             )}
             {directoryStatus === "ready" && visibleDirectoryDoctors.length > 0 && (
               <Pagination page={safePage} totalPages={totalPages} onChange={setPage} />
             )}
-        </div>
-
-        <aside className="mt-10 overflow-hidden rounded-[2rem] border border-primary/15 bg-gradient-to-r from-[hsl(158,58%,90%)] via-[hsl(145,48%,91%)] to-[hsl(50,80%,91%)] px-5 py-7 shadow-soft sm:mt-14 sm:px-8 sm:py-9 md:flex md:items-center md:justify-between md:gap-8">
-          <div className="max-w-2xl">
-            <span className="pill bg-card/80 text-accent-foreground shadow-soft">
-              <MessageCircle className="size-3.5 text-primary" />
-              {lang === "zh" ? "免费匹配建议" : lang === "ru" ? "Бесплатная помощь с выбором" : lang === "es" ? "Orientación gratuita para elegir" : "Free matching guidance"}
-            </span>
-            <h2 className="mt-4 font-display text-[1.9rem] font-medium leading-[1.05] tracking-tight sm:text-4xl">
-              {lang === "zh" ? "不确定哪位专家更适合你？" : lang === "ru" ? "Не уверены, какой эксперт вам подходит?" : lang === "es" ? "¿No sabes qué experto es el adecuado para ti?" : "Not sure which expert is right for you?"}
-            </h2>
-            <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-              {lang === "zh"
-                ? "告诉我们你在考虑的项目、预算和城市，我们会帮助你缩小选择范围。"
-                : lang === "ru"
-                  ? "Расскажите нам о желаемой процедуре, бюджете и городе — мы поможем сузить выбор."
-                  : lang === "es"
-                    ? "Cuéntanos qué procedimiento, presupuesto y ciudad tienes en mente, y te ayudaremos a reducir las opciones."
-                    : "Tell us what you’re considering, your budget and preferred city, and we’ll help you narrow down suitable options."}
-            </p>
           </div>
-          <a
-            href={whatsappUrl("Hi Sino Aesthetics, I would like help choosing a doctor.")}
-            target="_blank"
-            rel="noreferrer"
-            className="cta-primary mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl px-6 py-3 text-sm font-bold transition md:mt-0 md:w-auto md:min-w-44 md:rounded-full"
-          >
-            {lang === "zh" ? "获取免费匹配建议" : lang === "ru" ? "Получить бесплатную помощь" : lang === "es" ? "Obtener orientación gratuita" : "Get free matching guidance"}
-            <ArrowRight className="size-4" />
-          </a>
-        </aside>
-      </section>
 
-      <Footer />
+          <aside className="mt-10 overflow-hidden rounded-[2rem] border border-primary/15 bg-gradient-to-r from-[hsl(158,58%,90%)] via-[hsl(145,48%,91%)] to-[hsl(50,80%,91%)] px-5 py-7 shadow-soft sm:mt-14 sm:px-8 sm:py-9 md:flex md:items-center md:justify-between md:gap-8">
+            <div className="max-w-2xl">
+              <span className="pill bg-card/80 text-accent-foreground shadow-soft">
+                <MessageCircle className="size-3.5 text-primary" />
+                {lang === "zh"
+                  ? "免费匹配建议"
+                  : lang === "ru"
+                    ? "Бесплатная помощь с выбором"
+                    : lang === "es"
+                      ? "Orientación gratuita para elegir"
+                      : "Free matching guidance"}
+              </span>
+              <h2 className="mt-4 font-display text-[1.9rem] font-medium leading-[1.05] tracking-tight sm:text-4xl">
+                {lang === "zh"
+                  ? "不确定哪位专家更适合你？"
+                  : lang === "ru"
+                    ? "Не уверены, какой эксперт вам подходит?"
+                    : lang === "es"
+                      ? "¿No sabes qué experto es el adecuado para ti?"
+                      : "Not sure which expert is right for you?"}
+              </h2>
+              <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+                {lang === "zh"
+                  ? "告诉我们你在考虑的项目、预算和城市，我们会帮助你缩小选择范围。"
+                  : lang === "ru"
+                    ? "Расскажите нам о желаемой процедуре, бюджете и городе — мы поможем сузить выбор."
+                    : lang === "es"
+                      ? "Cuéntanos qué procedimiento, presupuesto y ciudad tienes en mente, y te ayudaremos a reducir las opciones."
+                      : "Tell us what you’re considering, your budget and preferred city, and we’ll help you narrow down suitable options."}
+              </p>
+            </div>
+            <a
+              href={whatsappUrl("Hi Sino Aesthetics, I would like help choosing a doctor.")}
+              target="_blank"
+              rel="noreferrer"
+              className="cta-primary mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl px-6 py-3 text-sm font-bold transition md:mt-0 md:w-auto md:min-w-44 md:rounded-full"
+            >
+              {lang === "zh"
+                ? "获取免费匹配建议"
+                : lang === "ru"
+                  ? "Получить бесплатную помощь"
+                  : lang === "es"
+                    ? "Obtener orientación gratuita"
+                    : "Get free matching guidance"}
+              <ArrowRight className="size-4" />
+            </a>
+          </aside>
+        </section>
+
+        <Footer />
       </div>
     </>
   );
