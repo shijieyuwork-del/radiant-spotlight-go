@@ -163,21 +163,21 @@ function buildRoutes(d, publicData) {
     },
     {
       path: "/doctors",
-      title: "Cosmetic Expert Profiles in China",
+      title: "Plastic Surgeons in China: Profiles & Case Videos",
       description:
-        "Explore published cosmetic expert profiles in China, compare listed specialties and credentials, and ask about English-language coordination.",
+        "Compare plastic surgeons and cosmetic experts in China by specialty, credentials, hospital and published case videos, and ask about English-language coordination.",
     },
     {
       path: "/cases",
-      title: "Patient Recovery Journey Previews",
+      title: "Plastic Surgery in China: Real Case Videos by Procedure",
       description:
-        "Explore cosmetic care journey previews by procedure and city in China, with recovery-stage information where available.",
+        "Watch real plastic surgery case videos from hospitals in China. Filter by procedure: rhinoplasty, eyelid surgery, facial contouring, hair transplant and more.",
     },
     {
       path: "/before-after",
-      title: "Before & After Photo Results in China",
+      title: "Plastic Surgery Before & After Photos from China",
       description:
-        "Review published before-and-after photo sets from listed specialists in China, with procedure and provider context where available.",
+        "See plastic surgery before and after photos from specialists in China, including rhinoplasty and double eyelid surgery, with procedure and provider context for each set.",
     },
     {
       path: "/travel-packages",
@@ -352,8 +352,8 @@ function buildRoutes(d, publicData) {
   for (const c of d.CITIES) {
     routes.push({
       path: `/cities/${c.slug}`,
-      title: `${c.en} | Medical Aesthetics, Cosmetic Surgeons & Prices`,
-      description: `Plan cosmetic medical travel in ${c.en}. Explore local logistics, commonly requested procedures and published expert profiles.`,
+      title: `Plastic Surgery in ${c.en}: Hospitals, Surgeons & Travel Guide`,
+      description: `Plastic surgery in ${c.en}, China: listed hospitals and experts, commonly requested procedures, pricing guidance and practical travel logistics.`,
       schema: {
         "@context": "https://schema.org",
         "@type": "City",
