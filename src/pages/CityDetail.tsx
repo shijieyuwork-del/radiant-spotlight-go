@@ -54,7 +54,8 @@ const CityDetail = () => {
     )
     .sort((a, b) => caseCount(b) - caseCount(a) || a.id.localeCompare(b.id))
     .slice(0, 6);
-  const cityCases = TIKTOK_CASES.filter((item) => item.city?.en.toLowerCase() === city.en.toLowerCase());
+  // Static preview clips are no longer listed; real published cases appear below.
+  const cityCases: typeof TIKTOK_CASES = [];
   const travel = lang === "zh" ? city.travelZh : city.travelEn;
 
   const cityTitle = lang === "zh" ? city.zh : city.en;
