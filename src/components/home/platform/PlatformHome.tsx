@@ -6,8 +6,9 @@ import { translatedUiText } from "@/lib/locale-text";
 import { useQuote } from "@/components/QuoteRequest";
 import { usePublishedVideos } from "@/hooks/use-published-videos";
 import { TIKTOK_CASES } from "@/data/tiktokCases";
-import { PROCEDURE_CATEGORIES } from "@/data/procedureCatalog";
+import { PROCEDURE_CATEGORIES, procedureSlug } from "@/data/procedureCatalog";
 import { ADDITIONAL_CLINICS } from "@/data/additionalClinics";
+import { STATIC_CLINICS, getClinicPath } from "@/data/clinicDirectory";
 import { MEDICAL_TOURISM_GUIDES, medicalTourismGuidePath } from "@/data/medicalTourismGuides";
 import { CITY_PRICE_PROCEDURES, CITY_PRICE_REFS } from "@/data/cityPriceRefs";
 import { DEFAULT_VIDEO_POSTER } from "@/lib/cover-fallback";
@@ -292,7 +293,10 @@ export const PlatformCategoryBrowser = () => {
           <ul className="grid grid-cols-1 border-t border-[#F2F3F5] sm:grid-cols-2">
             {cat.items.map(([en, zh]) => (
               <li key={en} className="border-b border-[#F2F3F5]">
-                <Link to="/treatments" className="flex min-h-11 items-center justify-between gap-3 py-3.5 pr-3">
+                <Link
+                  to={`/treatments/${procedureSlug(en)}`}
+                  className="flex min-h-11 items-center justify-between gap-3 py-3.5 pr-3"
+                >
                   <span className="flex min-w-0 flex-col">
                     <span className="text-sm font-medium">{lang === "zh" ? zh : en}</span>
                   </span>
@@ -317,6 +321,10 @@ export const PlatformCategoryBrowser = () => {
 };
 
 // ===================== Price board + hospitals =====================
+/** Each listed hospital links to its own page. */
+const CLINIC_PATHS = new Map(
+  STATIC_CLINICS.map((clinic) => [`${clinic.citySlug}:${clinic.nameZh}`, getClinicPath(clinic)]),
+);
 const CITY_TABS = [
   ["shanghai", "Shanghai", "上海"],
   ["beijing", "Beijing", "北京"],
@@ -457,7 +465,10 @@ export const PlatformPriceAndHospitals = () => {
           {hospitals.map((h) => (
             <li key={h.zh} className="flex justify-between gap-3 border-b border-[#F2F3F5] py-3">
               <span className="flex min-w-0 flex-col">
-                <Link to="/clinics" className="truncate text-sm font-medium">
+                <Link
+                  to={CLINIC_PATHS.get(`${hospCity}:${h.zh}`) ?? "/clinics"}
+                  className="truncate text-sm font-medium"
+                >
                   {lang === "zh" ? h.zh : h.en}
                 </Link>
               </span>
