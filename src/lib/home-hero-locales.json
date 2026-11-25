@@ -8,8 +8,8 @@
     "ask": "Start a Consultation",
     "scopeTitle": "What we are — and are not",
     "scope": "Sino Aesthetics is an information and travel coordination service, not a clinic. We do not diagnose, give medical advice or guarantee results. Licensed hospitals and clinicians are responsible for assessment, treatment, informed consent and clinical follow-up.",
-    "metaTitle": "Sino Aesthetics | Cosmetic Surgery in China, Planned Clearly",
-    "metaDescription": "Compare hospital and specialist information in China, prepare for your consultation, and plan interpretation and travel support. Coordination only — not a clinic.",
+    "metaTitle": "Plastic Surgery in China: Surgeons, Prices & Cases | Sino Aesthetics",
+    "metaDescription": "Compare 100+ plastic surgeons in China. Watch real case videos, see reference prices and get a written quote before you fly. Coordination only — not a clinic.",
     "badge": "Cosmetic care in China, made clearer",
     "services": [
       "Consultation coordination",
@@ -33,12 +33,7 @@
     "metaTitle": "国际访客赴华医美协调 | Sino Aesthetics",
     "metaDescription": "比较中国医院与专家的公开资料，准备面诊，安排口译与行程。仅提供协调服务，不是诊所。",
     "badge": "更清晰地了解中国医美",
-    "services": [
-      "面诊预约协调",
-      "机场接送",
-      "院内口译",
-      "后续协调支持"
-    ],
+    "services": ["面诊预约协调", "机场接送", "院内口译", "后续协调支持"],
     "servicesLabel": "协调服务",
     "paymentHeadline": "无隐形收费，医疗费用直接支付给医院。",
     "paymentDetail": "付款前确认费用明细。200 美元协调押金单独列明，按书面约定处理。"
@@ -99,12 +94,7 @@
     "metaTitle": "บริการประสานงานด้านความงามทางการแพทย์ในจีน | Sino Aesthetics",
     "metaDescription": "เปรียบเทียบข้อมูลสถานพยาบาลและผู้เชี่ยวชาญในจีน เตรียมการปรึกษา ล่าม และการเดินทาง บริการประสานงาน ไม่ใช่สถานพยาบาล",
     "badge": "เข้าใจบริการความงามทางการแพทย์ในจีนได้ชัดเจนขึ้น",
-    "services": [
-      "ประสานงานการปรึกษา",
-      "รับส่งสนามบิน",
-      "ล่ามระหว่างเข้ารับบริการ",
-      "ประสานงานติดตามผล"
-    ],
+    "services": ["ประสานงานการปรึกษา", "รับส่งสนามบิน", "ล่ามระหว่างเข้ารับบริการ", "ประสานงานติดตามผล"],
     "servicesLabel": "บริการประสานงาน",
     "paymentHeadline": "ไม่มีค่าธรรมเนียมแอบแฝง ชำระค่ารักษาพยาบาลให้โรงพยาบาลโดยตรง",
     "paymentDetail": "ยืนยันใบเสนอราคาแบบแยกรายการก่อนชำระเงิน เงินมัดจำประสานงาน 200 ดอลลาร์สหรัฐแสดงแยกต่างหากและเป็นไปตามเงื่อนไขที่ตกลงเป็นลายลักษณ์อักษร"
@@ -143,12 +133,7 @@
     "metaTitle": "Chăm sóc thẩm mỹ tại Trung Quốc cho khách quốc tế | Sino Aesthetics",
     "metaDescription": "So sánh thông tin bệnh viện và chuyên gia tại Trung Quốc; chuẩn bị tư vấn, phiên dịch và chuyến đi. Dịch vụ điều phối, không phải phòng khám.",
     "badge": "Hiểu rõ hơn về chăm sóc thẩm mỹ tại Trung Quốc",
-    "services": [
-      "Điều phối tư vấn",
-      "Đưa đón sân bay",
-      "Phiên dịch tại cơ sở y tế",
-      "Điều phối theo dõi sau điều trị"
-    ],
+    "services": ["Điều phối tư vấn", "Đưa đón sân bay", "Phiên dịch tại cơ sở y tế", "Điều phối theo dõi sau điều trị"],
     "servicesLabel": "Dịch vụ điều phối",
     "paymentHeadline": "Không có phí ẩn. Thanh toán chi phí y tế trực tiếp cho bệnh viện.",
     "paymentDetail": "Xác nhận báo giá chi tiết trước khi thanh toán. Khoản đặt cọc điều phối 200 USD được ghi riêng và áp dụng theo điều khoản bằng văn bản."
@@ -165,12 +150,7 @@
     "metaTitle": "해외 방문객을 위한 중국 미용 의료 안내 | Sino Aesthetics",
     "metaDescription": "중국의 의료기관과 의료진 정보를 비교하고 상담, 통역 및 여행을 준비하세요. 진료가 아닌 정보와 일정 조정 서비스입니다.",
     "badge": "중국 미용 의료를 더 명확하게",
-    "services": [
-      "상담 일정 조정",
-      "공항 왕복 픽업",
-      "의료기관 방문 시 통역",
-      "후속 일정 조정"
-    ],
+    "services": ["상담 일정 조정", "공항 왕복 픽업", "의료기관 방문 시 통역", "후속 일정 조정"],
     "servicesLabel": "일정 조정 서비스",
     "paymentHeadline": "숨겨진 수수료가 없습니다. 의료비는 병원에 직접 결제합니다.",
     "paymentDetail": "결제 전에 항목별 견적을 확인하세요. 별도의 조정 보증금 200달러는 서면 약관에 따라 처리됩니다."
@@ -187,12 +167,7 @@
     "metaTitle": "海外からの訪問者のための中国美容医療案内 | Sino Aesthetics",
     "metaDescription": "中国の医療機関と医療従事者の情報を比較し、診察、通訳、渡航を準備できます。医療機関ではなく調整サービスです。",
     "badge": "中国の美容医療を、もっとわかりやすく",
-    "services": [
-      "診察予約の調整",
-      "空港への往復送迎",
-      "医療機関での通訳",
-      "診療後の連絡調整"
-    ],
+    "services": ["診察予約の調整", "空港への往復送迎", "医療機関での通訳", "診療後の連絡調整"],
     "servicesLabel": "調整サポート",
     "paymentHeadline": "隠れた手数料はありません。医療費は病院へ直接お支払いください。",
     "paymentDetail": "お支払い前に明細付きの見積もりをご確認ください。別途明記する200米ドルの調整デポジットは、書面の条件に従って取り扱います。"
@@ -209,12 +184,7 @@
     "metaTitle": "الرعاية التجميلية في الصين للزوار الدوليين | Sino Aesthetics",
     "metaDescription": "قارن معلومات المستشفيات والمتخصصين في الصين واستعد للاستشارة وخطّط للترجمة والسفر. خدمة تنسيق وليست عيادة.",
     "badge": "الرعاية التجميلية في الصين بوضوح أكبر",
-    "services": [
-      "تنسيق الاستشارات",
-      "النقل من المطار وإليه",
-      "الترجمة الشفوية خلال الزيارات الطبية",
-      "تنسيق المتابعة"
-    ],
+    "services": ["تنسيق الاستشارات", "النقل من المطار وإليه", "الترجمة الشفوية خلال الزيارات الطبية", "تنسيق المتابعة"],
     "servicesLabel": "خدمات التنسيق",
     "paymentHeadline": "لا رسوم خفية. ادفع التكاليف الطبية مباشرة إلى المستشفى.",
     "paymentDetail": "أكد عرض سعر مفصلًا قبل الدفع. تُدرج وديعة التنسيق البالغة 200 دولار أمريكي بشكل منفصل وتخضع للشروط المكتوبة."
