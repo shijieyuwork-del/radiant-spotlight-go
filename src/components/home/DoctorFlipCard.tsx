@@ -98,8 +98,13 @@ export function DoctorFlipCard({
                 alt={doctor.name}
                 loading="lazy"
                 decoding="async"
-                className={cn("h-full max-w-none shrink-0 object-contain object-top transition-transform duration-500 ease-out", portraitRetouch ? "w-full" : "w-auto")}
-                style={{ transform: `translateX(${portraitRetouch ? 0 : HOMEPAGE_DOCTOR_PORTRAIT_OFFSETS[doctor.id] ?? 0}%)` }}
+                className={cn(
+                  "h-full max-w-none shrink-0 object-contain object-top transition-transform duration-500 ease-out",
+                  portraitRetouch ? "w-full" : "w-auto",
+                )}
+                style={{
+                  transform: `translateX(${portraitRetouch ? 0 : (HOMEPAGE_DOCTOR_PORTRAIT_OFFSETS[doctor.id] ?? 0)}%)`,
+                }}
               />
             ) : (
               <div className="grid size-full place-items-center text-primary">
@@ -124,23 +129,35 @@ export function DoctorFlipCard({
 
           <div className="relative z-[1] mt-auto flex min-h-0 flex-col p-5 text-white">
             <h3 className="font-display text-[22px] font-semibold leading-tight text-white">{doctor.name}</h3>
-            <p className="mt-1.5 line-clamp-2 text-[0.68rem] font-semibold uppercase leading-relaxed tracking-[0.14em] text-white/75">{doctor.title}</p>
+            <p className="mt-1.5 line-clamp-2 text-[0.68rem] font-semibold uppercase leading-relaxed tracking-[0.14em] text-white/75">
+              {doctor.title}
+            </p>
             {doctor.specialties.length > 0 ? (
               <div className="mt-3 flex flex-wrap gap-1.5" aria-label="Areas of focus">
                 {doctor.specialties.slice(0, 2).map((specialty) => (
-                  <span key={specialty} className="rounded-full border border-white/25 bg-white/[0.12] px-2.5 py-1 text-[0.68rem] font-semibold leading-none text-white/90 backdrop-blur-sm">
+                  <span
+                    key={specialty}
+                    className="rounded-full border border-white/25 bg-white/[0.12] px-2.5 py-1 text-[0.68rem] font-semibold leading-none text-white/90 backdrop-blur-sm"
+                  >
                     {specialty}
                   </span>
                 ))}
               </div>
             ) : null}
-            {marketingLine ? <blockquote className="mt-3 line-clamp-3 text-[0.92rem] font-medium leading-snug text-white">“{marketingLine}”</blockquote> : null}
+            {marketingLine ? (
+              <p className="mt-3 line-clamp-3 text-[0.92rem] font-medium leading-snug text-white">{marketingLine}</p>
+            ) : null}
             <div className="mt-3 flex items-end justify-between gap-3 border-t border-white/20 pt-3">
               <div className="flex items-center gap-1.5 text-xs font-medium text-white/75">
                 <MapPin className="size-3.5 shrink-0 text-primary" aria-hidden="true" />
                 {doctor.city}
               </div>
-              <Link to={profileHref} aria-label={`${viewProfileLabel}: ${doctor.name}`} tabIndex={duplicate || isFlipped ? -1 : 0} className="inline-flex min-h-10 items-center gap-1.5 rounded-full border border-white/25 bg-white/10 px-3 text-xs font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
+              <Link
+                to={profileHref}
+                aria-label={`${viewProfileLabel}: ${doctor.name}`}
+                tabIndex={duplicate || isFlipped ? -1 : 0}
+                className="inline-flex min-h-10 items-center gap-1.5 rounded-full border border-white/25 bg-white/10 px-3 text-xs font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+              >
                 {viewProfileLabel}
                 <ArrowRight className="size-3.5 shrink-0" aria-hidden="true" />
               </Link>
@@ -162,13 +179,22 @@ export function DoctorFlipCard({
           </div>
 
           <div className="mt-4 min-h-0 grow space-y-3 overflow-y-auto pe-1">
-            <p className="text-label font-semibold uppercase leading-relaxed tracking-[0.12em] text-background/75">{doctor.title}</p>
-            {marketingLine ? <p className="text-[0.95rem] font-medium leading-[1.65] text-background/85">{marketingLine}</p> : null}
+            <p className="text-label font-semibold uppercase leading-relaxed tracking-[0.12em] text-background/75">
+              {doctor.title}
+            </p>
+            {marketingLine ? (
+              <p className="text-[0.95rem] font-medium leading-[1.65] text-background/85">{marketingLine}</p>
+            ) : null}
             <p className="text-base leading-relaxed text-background/85">{bio}</p>
           </div>
 
           <div className="mt-3 flex shrink-0 items-center justify-between gap-3 border-t border-background/20 pt-2 text-sm font-semibold">
-            <Link to={profileHref} aria-label={`${viewProfileLabel}: ${doctor.name}`} tabIndex={!duplicate && isFlipped ? 0 : -1} className="inline-flex min-h-11 min-w-0 items-center gap-2 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-background focus-visible:ring-offset-2 focus-visible:ring-offset-brand">
+            <Link
+              to={profileHref}
+              aria-label={`${viewProfileLabel}: ${doctor.name}`}
+              tabIndex={!duplicate && isFlipped ? 0 : -1}
+              className="inline-flex min-h-11 min-w-0 items-center gap-2 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-background focus-visible:ring-offset-2 focus-visible:ring-offset-brand"
+            >
               {viewProfileLabel}
               <ArrowRight className="size-4 shrink-0" aria-hidden="true" />
             </Link>
