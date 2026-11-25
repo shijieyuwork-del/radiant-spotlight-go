@@ -922,7 +922,7 @@ const CatalogProcedureDetail = ({
                 )}
               </p>
               <div className="mt-5 overflow-x-auto">
-                <table className="w-full min-w-[520px] border-collapse text-sm">
+                <table className="w-full border-collapse text-[13px] sm:min-w-[520px] sm:text-sm">
                   <thead>
                     <tr>
                       <th
@@ -936,7 +936,7 @@ const CatalogProcedureDetail = ({
                         className="border-b border-border py-2.5 text-right text-xs font-semibold text-muted-foreground"
                       >
                         {c(
-                          "Typical published price",
+                          "Published price",
                           "常见公开价格",
                           "Типичная опубликованная цена",
                           "Precio publicado habitual",
@@ -946,12 +946,7 @@ const CatalogProcedureDetail = ({
                         scope="col"
                         className="border-b border-border py-2.5 text-right text-xs font-semibold text-muted-foreground"
                       >
-                        {c(
-                          "China, from (converted)",
-                          "中国起步价（折算）",
-                          "Китай, от (в пересчёте)",
-                          "China, desde (convertido)",
-                        )}
+                        {c("China, from", "中国起步价（折算）", "Китай, от (в пересчёте)", "China, desde (convertido)")}
                       </th>
                     </tr>
                   </thead>
