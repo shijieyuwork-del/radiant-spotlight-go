@@ -4,6 +4,7 @@ import { useAsia } from "@/lib/asia-i18n";
 import { asiaCopy } from "@/lib/asia-copy";
 import { trackEvent } from "@/lib/analytics";
 import { consultationHandoffUrl } from "@/lib/consultation-handoff";
+import { PROCEDURE_CATALOG } from "@/data/procedureCatalog";
 
 /**
  * Floating WhatsApp bubble.
@@ -38,6 +39,10 @@ const FloatingWhatsApp = () => {
   // Content manager screens keep their own layout.
   if (pathname.startsWith("/admin") || consentOpen) return null;
 
+  // On a procedure page the prepared message names that procedure, so the coordinator has context.
+  const procedureSlug = pathname.match(/^\/treatments\/([^/]+)/)?.[1];
+  const procedure = procedureSlug ? PROCEDURE_CATALOG.find((item) => item.slug === procedureSlug)?.en : undefined;
+
   const label = asiaCopy(lang, {
     en: "Chat on WhatsApp",
     zh: "WhatsApp 在线咨询",
@@ -47,7 +52,7 @@ const FloatingWhatsApp = () => {
 
   return (
     <a
-      href={consultationHandoffUrl("whatsapp", {})}
+      href={consultationHandoffUrl("whatsapp", { procedure })}
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
