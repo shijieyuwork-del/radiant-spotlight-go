@@ -1,6 +1,6 @@
 import type { TikTokItem } from "@/components/TikTokWall";
-import { TIKTOK_CASES } from "./tiktokCases";
-import { GALLERY_CASES } from "./galleryCases";
+import { RETIRED_PREVIEW_CASES, TIKTOK_CASES } from "./tiktokCases";
+import { GALLERY_CASES, RETIRED_GALLERY_CASES } from "./galleryCases";
 
 /** One catalog for diary listings, video details and saved cases. First source wins. */
 export function mergePatientDiaryCases(...sources: TikTokItem[][]): TikTokItem[] {
@@ -13,3 +13,8 @@ export function mergePatientDiaryCases(...sources: TikTokItem[][]): TikTokItem[]
 }
 
 export const PATIENT_DIARY_CASES = mergePatientDiaryCases(TIKTOK_CASES, GALLERY_CASES);
+
+/** IDs of retired preview clips; their old links redirect to /cases. */
+export const RETIRED_PREVIEW_CASE_IDS = new Set(
+  mergePatientDiaryCases(RETIRED_PREVIEW_CASES, RETIRED_GALLERY_CASES).map((item) => item.id),
+);
