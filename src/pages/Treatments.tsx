@@ -26,7 +26,7 @@ import PageMeta from "@/components/PageMeta";
 import { useQuote } from "@/components/QuoteRequest";
 import TikTokWall from "@/components/TikTokWall";
 import { Button } from "@/components/ui/button";
-import { TIKTOK_CASES } from "@/data/tiktokCases";
+import { usePublishedVideos } from "@/hooks/use-published-videos";
 import { useAsia } from "@/lib/asia-i18n";
 import { asiaCopy } from "@/lib/asia-copy";
 import { PROCEDURE_CATEGORIES, procedureSlug } from "@/data/procedureCatalog";
@@ -479,6 +479,7 @@ const Treatments = () => {
   const { lang, fmt, t } = useAsia();
   const { open } = useQuote();
   const marketing = getPlanningMarketingCopy(lang);
+  const publishedDiaries = usePublishedVideos(lang, "all");
   const searchInput = useRef<HTMLInputElement>(null);
   const zh = lang === "zh";
   const ru = lang === "ru";
@@ -894,7 +895,7 @@ const Treatments = () => {
               </Link>
             </div>
             <div className="mt-7">
-              <TikTokWall items={TIKTOK_CASES.slice(0, 7)} lang={lang} fmtPrice={fmt} variant="preview" />
+              <TikTokWall items={publishedDiaries.slice(0, 7)} lang={lang} fmtPrice={fmt} variant="preview" />
             </div>
           </section>
         </section>
