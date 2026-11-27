@@ -92,6 +92,8 @@ export const PlatformHeroContent = () => {
     const rest = items.filter((item) => !used.has(item.id));
     return cols.map((col) => (col.length ? col : rest.splice(0, 8)));
   }, [uploaded]);
+  // Phones get the same patient videos as one swipeable row (the three-column wall needs a wide screen).
+  const rail = useMemo(() => [0, 1, 2, 3].flatMap((i) => tiles.flatMap((col) => (col[i] ? [col[i]] : []))), [tiles]);
   const popular = [
     { en: "Double eyelid", zh: "双眼皮", to: "/treatments/blepharoplasty" },
     { en: "Rhinoplasty", zh: "鼻综合", to: "/treatments/rhinoplasty" },
@@ -99,25 +101,25 @@ export const PlatformHeroContent = () => {
     { en: "Liposuction", zh: "吸脂", to: "/treatments/liposuction" },
   ];
   return (
-    <div className="relative flex flex-wrap items-center justify-between gap-10 px-6 py-12 md:px-14 md:py-16">
-      <div className="flex min-w-0 flex-[1_1_480px] flex-col gap-6">
-        <span className="inline-flex self-start items-center gap-2.5 rounded-full border border-white/25 bg-white/10 py-1.5 pl-1.5 pr-3.5 text-sm">
+    <div className="relative flex flex-wrap items-center justify-between gap-8 px-5 py-8 md:gap-10 md:px-14 md:py-16">
+      <div className="flex min-w-0 flex-[1_1_480px] flex-col gap-5 md:gap-6">
+        <span className="inline-flex self-start items-center gap-2.5 rounded-full border border-white/25 bg-white/10 py-1.5 pl-1.5 pr-3.5 text-[13px] leading-snug md:text-sm">
           <span className="rounded-full bg-primary px-2.5 py-0.5 text-xs font-semibold text-foreground">
             {tx(lang, "Offer", "优惠")}
           </span>
           {tx(lang, "Your first 2 hotel nights in China are on us*", "首两晚酒店由我们承担*")}
         </span>
-        <h1 className="max-w-[720px] text-[clamp(2.5rem,5vw,4rem)] font-semibold leading-[1.05] tracking-[-0.025em]">
+        <h1 className="max-w-[720px] text-[clamp(2rem,5vw,4rem)] font-semibold leading-[1.1] md:leading-[1.05] tracking-[-0.025em]">
           {tx(lang, "Compare 100+ plastic surgeons in China.", "对比 100+ 位中国整形专家，")}{" "}
           <span className="text-primary">{tx(lang, "Find the one who fits you.", "找到最适合你的那一位。")}</span>
         </h1>
-        <p className="max-w-[560px] text-lg leading-relaxed text-white/85">
+        <p className="max-w-[560px] text-base leading-relaxed text-white/85 md:text-lg">
           {tx(
             lang,
             "See each surgeon's hospital, focus and real prices side by side, meet them online before you fly, and let one coordinator handle the rest.",
             "并排比较每位专家的医院、擅长和真实价格，出发前先线上面诊，其余交给一位协调员。",
           )}{" "}
-          <Link to="/cases" className="font-semibold text-primary underline underline-offset-4">
+          <Link to="/cases" className="font-semibold text-primary underline underline-offset-4 max-md:hidden">
             {tx(lang, "Or watch real patients’ diaries before you decide.", "或者先看看真实患者的日记。")}
           </Link>
         </p>
@@ -126,19 +128,56 @@ export const PlatformHeroContent = () => {
             type="button"
             data-testid="home-hero-cta"
             onClick={() => openQuote({ source: "homeB_hero" })}
-            className="inline-flex min-h-12 items-center gap-2 rounded-full bg-primary px-7 text-base font-semibold text-foreground"
+            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-primary px-7 text-base font-semibold text-foreground max-sm:flex-1"
           >
             {tx(lang, "Get my quote", "获取报价")}
             <ArrowRight className="size-4" />
           </button>
           <Link
             to="/cases"
-            className="inline-flex min-h-12 items-center gap-2 rounded-full border border-white/50 px-6 text-base font-medium text-white"
+            className="inline-flex min-h-12 items-center justify-center gap-2 whitespace-nowrap rounded-full border border-white/50 px-6 text-base font-medium text-white max-sm:flex-1"
           >
             <Play className="size-4 fill-current" />
             {tx(lang, "Watch patient videos", "观看患者视频")}
           </Link>
         </div>
+        {rail.length > 0 && (
+          <div
+            aria-label={tx(lang, "Patient videos", "患者视频")}
+            className="ph-tabs -mx-5 flex snap-x gap-2.5 overflow-x-auto px-5 md:hidden"
+          >
+            {rail.map((item, i) => (
+              <Link
+                key={item.id + "-" + i}
+                to={"/cases/" + item.id}
+                className="relative block aspect-[9/16] w-[29vw] max-w-[132px] shrink-0 snap-start overflow-hidden rounded-xl bg-[#0E2A22]"
+              >
+                <img
+                  src={item.poster ?? DEFAULT_VIDEO_POSTER}
+                  alt=""
+                  loading={i < 3 ? "eager" : "lazy"}
+                  decoding="async"
+                  className="absolute inset-0 size-full object-cover"
+                />
+                <span className="absolute left-1.5 top-1.5 max-w-[90%] truncate rounded-full bg-white/90 px-2 py-0.5 text-[10px] font-semibold text-foreground">
+                  {item.treatment[lang === "zh" ? "zh" : "en"]}
+                </span>
+                <span
+                  aria-hidden="true"
+                  className="absolute bottom-1.5 right-1.5 grid size-6 place-items-center rounded-full bg-black/40"
+                >
+                  <Play className="size-2.5 fill-white text-white" />
+                </span>
+              </Link>
+            ))}
+            <Link
+              to="/cases"
+              className="grid aspect-[9/16] w-[29vw] max-w-[132px] shrink-0 snap-start place-items-center rounded-xl border border-white/25 bg-white/10 px-2 text-center text-xs font-semibold text-white"
+            >
+              {tx(lang, "See all videos", "查看全部视频")}
+            </Link>
+          </div>
+        )}
         <div className="flex flex-wrap items-center gap-2">
           <span className="mr-1 text-xs text-white/60">{tx(lang, "Popular:", "热门：")}</span>
           {popular.map((p) => (
@@ -218,9 +257,17 @@ export const PlatformStats = () => {
           <Link
             key={s.n + s.en}
             to={s.to}
-            className={cn("flex flex-col gap-1 px-6 py-5", i > 0 && "md:border-l md:border-[#F2F3F5]")}
+            className={cn(
+              "flex flex-col gap-1 border-[#F2F3F5] px-5 py-4 md:px-6 md:py-5",
+              i > 0 && "md:border-l",
+              i % 2 === 1 && "max-md:border-l",
+              i > 1 && "max-md:border-t",
+              i === stats.length - 1 &&
+                stats.length % 2 === 1 &&
+                "max-md:col-span-2 max-md:flex-row max-md:items-baseline max-md:gap-2.5",
+            )}
           >
-            <span className="text-[2.25rem] font-semibold leading-none tracking-[-0.015em] text-brand tabular-nums">
+            <span className="text-[1.875rem] font-semibold leading-none tracking-[-0.015em] text-brand tabular-nums md:text-[2.25rem]">
               {s.n}
             </span>
             <span className="text-sm text-muted-foreground">{tx(lang, s.en, s.zh)}</span>
@@ -254,11 +301,11 @@ export const PlatformCategoryBrowser = () => {
         link="/treatments"
         linkText={tx(lang, `All ${PROCEDURE_TOTAL} procedures`, `全部 ${PROCEDURE_TOTAL} 个项目`)}
       />
-      <div className={cn(card, "flex min-h-[420px] flex-wrap overflow-hidden")}>
+      <div className={cn(card, "flex flex-wrap overflow-hidden md:min-h-[420px]")}>
         <div
           role="tablist"
           aria-orientation="vertical"
-          className="flex flex-[0_0_248px] flex-col border-r border-[#E5E6EB] bg-[#F7F8FA] py-2 max-md:flex-[1_1_100%] max-md:flex-row max-md:overflow-x-auto max-md:border-b max-md:border-r-0"
+          className="ph-tabs flex flex-[0_0_248px] flex-col border-r border-[#E5E6EB] bg-[#F7F8FA] py-2 max-md:flex-[1_1_100%] max-md:flex-row max-md:overflow-x-auto max-md:border-b max-md:border-r-0"
         >
           {PROCEDURE_CATEGORIES.map((c, i) => (
             <button
@@ -279,7 +326,7 @@ export const PlatformCategoryBrowser = () => {
             </button>
           ))}
         </div>
-        <div role="tabpanel" className="flex min-w-0 flex-[1_1_520px] flex-col gap-4 p-6">
+        <div role="tabpanel" className="flex min-w-0 flex-[1_1_520px] flex-col gap-4 p-5 md:p-6">
           <div className="flex flex-wrap items-baseline justify-between gap-3">
             <span className="flex items-baseline gap-2.5">
               <strong className="text-[1.375rem] font-semibold">{lang === "zh" ? cat.zh : cat.en}</strong>
@@ -440,7 +487,7 @@ export const PlatformPriceAndHospitals = () => {
           {tx(lang, "Your price is confirmed in writing after consultation.", "最终价格在面诊后以书面确认。")}
         </p>
       </div>
-      <div className={cn(card, "flex min-w-0 flex-[1_1_400px] flex-col p-7")}>
+      <div className={cn(card, "flex min-w-0 flex-[1_1_400px] flex-col p-5 sm:p-7")}>
         <div className="mb-4 flex items-end justify-between gap-3">
           <div className="flex flex-col gap-1.5">
             <span className="text-xs font-semibold uppercase tracking-[0.08em] text-brand">
@@ -480,7 +527,7 @@ export const PlatformPriceAndHospitals = () => {
               <span className="flex min-w-0 flex-col">
                 <Link
                   to={CLINIC_PATHS.get(`${hospCity}:${h.zh}`) ?? "/clinics"}
-                  className="truncate text-sm font-medium"
+                  className="text-sm font-medium sm:truncate"
                 >
                   {lang === "zh" ? h.zh : h.en}
                 </Link>
@@ -503,7 +550,7 @@ export const PlatformCtaStrip = () => {
   const { open: openQuote } = useQuote();
   return (
     <section className="container pt-4">
-      <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl bg-[#173B30] px-7 py-5 text-white">
+      <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl bg-[#173B30] px-5 py-5 text-white sm:px-7">
         <span className="flex flex-col gap-0.5">
           <strong className="text-lg font-semibold">
             {tx(lang, "Seen a price you like?", "看到合适的价格了吗？")}
@@ -512,11 +559,11 @@ export const PlatformCtaStrip = () => {
             {tx(lang, "Get your exact quote from licensed hospitals in 2 minutes.", "2 分钟获取有资质医院的准确报价。")}
           </span>
         </span>
-        <span className="flex flex-wrap gap-2.5">
+        <span className="flex flex-wrap gap-2.5 max-sm:w-full">
           <button
             type="button"
             onClick={() => openQuote({ source: "homeB_price_strip" })}
-            className="inline-flex min-h-11 items-center rounded-full bg-primary px-6 font-semibold text-foreground"
+            className="inline-flex min-h-11 items-center justify-center rounded-full bg-primary px-6 font-semibold text-foreground max-sm:flex-1"
           >
             {tx(lang, "Get my quote", "获取报价")}
           </button>
@@ -524,7 +571,7 @@ export const PlatformCtaStrip = () => {
             href={whatsappUrl()}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex min-h-11 items-center rounded-full border border-white/40 px-5 font-medium"
+            className="inline-flex min-h-11 items-center justify-center rounded-full border border-white/40 px-5 font-medium max-sm:flex-1"
           >
             WhatsApp
           </a>
@@ -546,11 +593,16 @@ export const PlatformTrust = () => {
   ];
   return (
     <section aria-label={tx(lang, "What we take care of", "我们负责的事")} className="container pt-4">
-      <div className={cn(card, "flex flex-wrap")}>
+      <div className={cn(card, "grid grid-cols-2 md:flex md:flex-wrap")}>
         {items.map(([en, enSub, zh, zhSub], i) => (
           <div
             key={en}
-            className={cn("flex flex-[1_1_170px] items-start gap-3 px-6 py-5", i > 0 && "border-l border-[#F2F3F5]")}
+            className={cn(
+              "flex items-start gap-2.5 border-[#F2F3F5] px-4 py-4 md:flex-[1_1_170px] md:gap-3 md:px-6 md:py-5",
+              i > 0 && "md:border-l",
+              i % 2 === 1 && "max-md:border-l",
+              i > 1 && "max-md:border-t",
+            )}
           >
             <Check className="mt-0.5 size-[18px] shrink-0 text-brand" />
             <span className="flex flex-col">
@@ -565,6 +617,7 @@ export const PlatformTrust = () => {
 };
 
 export const PlatformSteps = () => {
+  const { open: openQuote } = useQuote();
   const { lang } = useAsia();
   const steps = [
     ["Tell us your goals", "Two minute form, any language", "告诉我们你的需求", "2 分钟表单，任何语言"],
@@ -580,10 +633,10 @@ export const PlatformSteps = () => {
         link="/travel-packages"
         linkText={tx(lang, "See the full journey", "查看完整流程")}
       />
-      <ol className={cn(card, "flex flex-wrap gap-6 p-8")}>
+      <ol className={cn(card, "flex flex-col gap-5 p-5 md:flex-row md:flex-wrap md:gap-6 md:p-8")}>
         {steps.map(([en, enSub, zh, zhSub], i) => (
-          <li key={en} className="flex flex-[1_1_220px] flex-col gap-3">
-            <span className="flex items-center gap-3">
+          <li key={en} className="flex gap-4 md:flex-[1_1_220px] md:flex-col md:gap-3">
+            <span className="flex shrink-0 items-center gap-3 max-md:flex-col max-md:gap-1.5">
               <span
                 className={cn(
                   "grid size-10 shrink-0 place-items-center rounded-full border-[1.5px] border-primary text-sm font-semibold tabular-nums",
@@ -592,13 +645,26 @@ export const PlatformSteps = () => {
               >
                 {i + 1}
               </span>
-              <span aria-hidden="true" className={cn("h-[1.5px] flex-1", i < 3 ? "bg-[#E5E6EB]" : "bg-transparent")} />
+              <span
+                aria-hidden="true"
+                className={cn("flex-1 max-md:w-[1.5px] md:h-[1.5px]", i < 3 ? "bg-[#E5E6EB]" : "bg-transparent")}
+              />
             </span>
-            <strong className="text-lg font-semibold">{tx(lang, en, zh)}</strong>
-            <span className="text-sm text-muted-foreground">{tx(lang, enSub, zhSub)}</span>
+            <span className="flex min-w-0 flex-col gap-1 pb-1 md:gap-3 md:pb-0">
+              <strong className="text-base font-semibold md:text-lg">{tx(lang, en, zh)}</strong>
+              <span className="text-sm text-muted-foreground">{tx(lang, enSub, zhSub)}</span>
+            </span>
           </li>
         ))}
       </ol>
+      <button
+        type="button"
+        onClick={() => openQuote({ source: "homeB_steps" })}
+        className="mt-4 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-6 text-base font-semibold text-white md:hidden"
+      >
+        {tx(lang, "Get my quote", "获取报价")}
+        <ArrowRight className="size-4" />
+      </button>
     </section>
   );
 };
@@ -618,9 +684,16 @@ export const PlatformGuides = () => {
         link="/medical-tourism-china"
         linkText={tx(lang, "All guides", "全部指南")}
       />
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="ph-tabs flex snap-x gap-3 overflow-x-auto max-sm:-mx-4 max-sm:px-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:overflow-visible lg:grid-cols-4">
         {guides.map((g, i) => (
-          <Link key={g.slug} to={medicalTourismGuidePath(g.slug)} className={cn(card, "flex flex-col overflow-hidden")}>
+          <Link
+            key={g.slug}
+            to={medicalTourismGuidePath(g.slug)}
+            className={cn(
+              card,
+              "flex flex-col overflow-hidden max-sm:w-[76vw] max-sm:max-w-[320px] max-sm:shrink-0 max-sm:snap-start",
+            )}
+          >
             <img
               src={guideImageUrl(g.slug, "card")}
               alt={g.title}
@@ -702,7 +775,7 @@ export const PlatformFaq = () => {
   return (
     <section id="faq" className="container pt-16">
       <SectionHead eyebrow="FAQ" title={tx(lang, "The questions everyone asks first", "大家最常问的问题")} />
-      <div className={cn(card, "grid grid-cols-1 gap-x-12 px-7 py-2 lg:grid-cols-2")}>
+      <div className={cn(card, "grid grid-cols-1 gap-x-12 px-5 py-2 sm:px-7 lg:grid-cols-2")}>
         {FAQ.map(([q, a, qz, az], i) => (
           <div key={q} className="border-b border-[#F2F3F5]">
             <button
