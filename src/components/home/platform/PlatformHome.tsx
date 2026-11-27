@@ -661,10 +661,16 @@ const FAQ = [
     "医院会在你订机票前书面确认价格和包含项目。机票和额外酒店另计。",
   ],
   [
+    "Can I choose any hospital or surgeon?",
+    "Yes. We work with most private plastic surgery hospitals in China. Tell us any hospital or surgeon you want to see and we will check availability and arrange an online consultation.",
+    "可以指定医院或医生吗？",
+    "可以。我们与中国大部分私立整形医院都有合作，告诉我们你想去的医院或想看的医生，我们会确认档期并安排线上面诊。",
+  ],
+  [
     "Do I pay you anything?",
-    "The first conversation is free. Before you depart we collect a $200 coordination deposit, returned to you on surgery day. Medical fees are paid directly to the hospital.",
+    "No. We do not charge you a service fee. If you use our airport pickup, we collect a $100 deposit before you travel and return it to you on surgery day. Medical fees are paid directly to the hospital, and the hospital pays us a small referral fee after a completed surgery.",
     "需要付费给你们吗？",
-    "首次沟通免费。出发前收取 200 美元协调押金，手术当天退还。医疗费用直接支付给医院。",
+    "不需要。我们不向你收取服务费。如使用接送机，出发前收取 100 美元押金，手术当天退还。医疗费用直接支付给医院，手术完成后由医院向我们支付少量转介费。",
   ],
   [
     "What if I do not like the surgeon?",
