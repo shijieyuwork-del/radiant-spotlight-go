@@ -22,14 +22,12 @@ import { getCoordinationPolicy } from "@/data/coordination-policy";
 import { useAsia } from "@/lib/asia-i18n";
 import { asiaCopy } from "@/lib/asia-copy";
 import QuoteCtaButton, { QUOTE_WHATSAPP_URL } from "@/components/QuoteCtaButton";
-import journeyConsultation from "@/assets/journey-premium-natural-consultation-v5.webp";
 import journeyGroundSupport from "@/assets/journey-premium-natural-concierge-v5.webp";
-import journeyFollowUp from "@/assets/journey-premium-natural-followup-v5.webp";
 
 const JOURNEY_STEPS = [
   {
     icon: Stethoscope,
-    image: journeyFollowUp,
+    image: "https://images.unsplash.com/photo-1790597037883-98cd19d3be11?w=1200&h=675&fit=crop&auto=format&q=70",
     eyebrow: ["Choose your surgeon", "确定医生", "Выбор хирурга", "Elige a tu cirujano"],
     title: [
       "Find the surgeon who fits you",
@@ -47,7 +45,7 @@ const JOURNEY_STEPS = [
   },
   {
     icon: Video,
-    image: journeyConsultation,
+    image: "https://images.unsplash.com/photo-1758691462743-f9fc9e430d39?w=1200&h=675&fit=crop&auto=format&q=70",
     eyebrow: ["Online consultation", "线上问诊", "Онлайн-консультация", "Consulta en línea"],
     title: [
       "Meet your surgeon online before you fly",
@@ -91,12 +89,6 @@ const JOURNEY_STEPS = [
         "符合条件并已确认的行程，前两晚酒店免费（指定三星级酒店标准间，额外住宿和升级另付）。",
         "Первые две ночи в отеле бесплатно для подходящих подтверждённых поездок (стандартный номер в выбранном трёхзвёздочном отеле; дополнительные ночи и улучшения оплачиваются отдельно).",
         "Las dos primeras noches de hotel gratis en viajes elegibles y confirmados (habitación estándar en un hotel de tres estrellas seleccionado; noches extra y mejoras aparte).",
-      ],
-      [
-        "On surgery day we go with you to the clinic and help you communicate.",
-        "手术当天陪同你前往诊所，协助沟通。",
-        "В день операции мы сопровождаем вас в клинику и помогаем с общением.",
-        "El día de la cirugía te acompañamos a la clínica y te ayudamos a comunicarte.",
       ],
       [
         "Optional: light sightseeing once your surgeon clears you.",
