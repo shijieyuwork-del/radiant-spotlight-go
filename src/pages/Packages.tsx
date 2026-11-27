@@ -5,17 +5,15 @@ import {
   CircleDollarSign,
   Files,
   Headphones,
-  HeartPulse,
   Hotel,
   Languages,
-  Map,
-  MapPin,
-  MessageCircle,
   Plane,
   Route,
   ShieldCheck,
+  Stethoscope,
   Video,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 import AsiaNavbar from "@/components/AsiaNavbar";
 import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
@@ -25,86 +23,87 @@ import { useAsia } from "@/lib/asia-i18n";
 import { asiaCopy } from "@/lib/asia-copy";
 import QuoteCtaButton, { QUOTE_WHATSAPP_URL } from "@/components/QuoteCtaButton";
 import journeyConsultation from "@/assets/journey-premium-natural-consultation-v5.webp";
-import journeyArrival from "@/assets/journey-premium-natural-arrival-v5.webp";
 import journeyGroundSupport from "@/assets/journey-premium-natural-concierge-v5.webp";
-import journeyTreatment from "@/assets/journey-premium-clinic-v6.webp";
-import journeyRecovery from "@/assets/journey-premium-natural-recovery-v5.webp";
 import journeyFollowUp from "@/assets/journey-premium-natural-followup-v5.webp";
-
-
-
 
 const JOURNEY_STEPS = [
   {
+    icon: Stethoscope,
+    image: journeyFollowUp,
+    eyebrow: ["Choose your surgeon", "确定医生", "Выбор хирурга", "Elige a tu cirujano"],
+    title: [
+      "Find the surgeon who fits you",
+      "找到适合你的医生",
+      "Найдите подходящего хирурга",
+      "Encuentra al cirujano adecuado",
+    ],
+    text: [
+      "Tell us the procedure you want. Compare surgeons by hospital and real case videos, or name any hospital or surgeon you already have in mind. We work with most private plastic surgery hospitals in China.",
+      "告诉我们你想做的项目。按医院和真实案例视频对比医生，或直接告诉我们你想去的医院、想看的医生。我们与中国大部分私立整形医院都有合作。",
+      "Расскажите, какая процедура вас интересует. Сравните хирургов по клинике и реальным видео случаев или назовите клинику или хирурга, которых вы уже выбрали. Мы сотрудничаем с большинством частных клиник пластической хирургии в Китае.",
+      "Dinos qué procedimiento quieres. Compara cirujanos por hospital y vídeos de casos reales, o dinos el hospital o cirujano que ya tienes en mente. Trabajamos con la mayoría de los hospitales privados de cirugía plástica de China.",
+    ],
+    points: [],
+  },
+  {
     icon: Video,
     image: journeyConsultation,
-    eyebrow: ["Getting started", "开始咨询", "Начало", "Primeros pasos"],
-    title: ["Start a consultation", "开始咨询", "Начать консультацию", "Solicita una consulta"],
-    text: [
-      "Connect with us by message or video call. We’ll walk you through every detail, answer your questions and help you plan your next step. We’ll also help book your in-person consultation and surgery.",
-      "通过文字或视频与我们线上沟通。我们为你讲解每个细节、解答疑问，陪你规划下一步，并协助预约面诊和手术。",
-      "Расскажите о целях и вопросах, чтобы мы помогли подобрать специалистов.",
-      "Cuéntanos tus objetivos y dudas para ayudarte a identificar a los expertos adecuados.",
+    eyebrow: ["Online consultation", "线上问诊", "Онлайн-консультация", "Consulta en línea"],
+    title: [
+      "Meet your surgeon online before you fly",
+      "出发前，先线上面诊",
+      "Познакомьтесь с хирургом онлайн до поездки",
+      "Conoce a tu cirujano en línea antes de viajar",
     ],
+    text: [
+      "Talk with your surgeon by video, with an interpreter on the call. Ask every question, get a written quote, and decide only when you feel ready. We then help book your surgery date.",
+      "通过视频与医生面诊，全程有翻译。问清所有问题，拿到书面报价，觉得准备好了再决定。确认后我们协助预约手术日期。",
+      "Поговорите с хирургом по видео с переводчиком. Задайте все вопросы, получите письменное предложение и решайте, когда будете готовы. Затем мы поможем забронировать дату операции.",
+      "Habla con tu cirujano por videollamada con intérprete. Haz todas tus preguntas, recibe un presupuesto por escrito y decide cuando te sientas listo. Después te ayudamos a reservar la fecha de la cirugía.",
+    ],
+    points: [],
   },
   {
     icon: Plane,
-    image: journeyArrival,
-    eyebrow: ["Travel planning", "行程规划", "Планирование поездки", "Planificación del viaje"],
-    title: ["Your China journey is taking shape", "准备好赴华行程", "Организуйте поездку и визу", "Organiza tu viaje y visado"],
-    text: [
-      "From appointments to arrival, we help you put the details in place. Get ready with your flights, visa and travel documents, knowing what comes next.",
-      "从预约到抵达，我们协助你确认就诊时间、航班、签证和旅行文件，让每一步都有明确安排。",
-      "Подтвердите запись, перелёт, документы и детали прибытия.",
-      "Confirma citas, vuelos, documentos de viaje y detalles de llegada.",
-    ],
-  },
-  {
-    icon: MapPin,
     image: journeyGroundSupport,
-    eyebrow: ["Arrival & airport pickup", "抵达与接机", "Прибытие и встреча в аэропорту", "Llegada y recogida en el aeropuerto"],
-    title: ["A warm welcome, from the moment you land", "落地后，有人接应", "Прибудьте в Китай и встретьтесь с нашей командой", "Llega a China y reúnete con nuestro equipo"],
-    text: [
-      "A new country, a friendly face waiting for you. Our team meets you at the airport and takes you to your hotel or straight to the clinic. For eligible confirmed journeys, your first two nights in a standard room at a selected three-star hotel are covered by Sino Aesthetics. We arrange the booking and help you check in; additional nights and room upgrades are paid separately.",
-      "初到中国，迎接你的是我们熟悉行程的接机团队。与我们会合后，前往酒店休息，或直接前往诊所。对于符合条件并已确认的行程，Sino Aesthetics 承担指定三星级酒店标准客房的前两晚住宿，并协助预订和办理入住；额外住宿及房型升级费用需另行支付。",
-      "Наша команда встретит вас в аэропорту и отвезёт в отель или прямо в клинику. Для подходящих подтверждённых поездок Sino Aesthetics оплачивает первые две ночи в стандартном номере выбранного трёхзвёздочного отеля, организует бронирование и помогает при заселении. Дополнительные ночи и повышение категории номера оплачиваются отдельно.",
-      "Nuestro equipo te recibirá en el aeropuerto y te llevará al hotel o directamente a la clínica. Para viajes elegibles y confirmados, Sino Aesthetics cubre las dos primeras noches en una habitación estándar de un hotel de tres estrellas seleccionado, organiza la reserva y te ayuda con el registro. Las noches adicionales y las mejoras de habitación se pagan por separado.",
+    eyebrow: ["Surgery in China", "来中国做手术", "Операция в Китае", "Cirugía en China"],
+    title: [
+      "Fly in, we handle the rest",
+      "来中国手术，其余交给我们",
+      "Прилетайте, остальное мы возьмём на себя",
+      "Vuela a China, nosotros nos encargamos del resto",
     ],
-  },
-  {
-    icon: HeartPulse,
-    image: journeyTreatment,
-    eyebrow: ["Treatment support", "治疗支持", "Поддержка лечения", "Apoyo durante el tratamiento"],
-    title: ["Your transformation, with us by your side", "手术当天，有人协助沟通", "Ваше преображение — мы рядом", "Tu transformación, con nosotros a tu lado"],
     text: [
-      "On surgery day, we accompany you to the clinic, help you communicate and stay close when you need us. If your doctor doesn’t feel like the right fit, let us know. We can accompany you to meet another doctor or visit another clinic.",
-      "手术当天，我们陪同你前往诊所，协助沟通，在你需要时陪伴左右。如果你觉得医生不合适，请告诉我们，我们可以陪同你面诊其他医生或前往其他诊所。",
-      "В день операции мы сопровождаем вас в клинику, помогаем с общением и остаёмся рядом, когда нужны вам.",
-      "El día de la cirugía te acompañamos a la clínica, te ayudamos a comunicarte y estamos cerca cuando nos necesitas.",
+      "Fly to China for your surgery. A coordinator looks after the details:",
+      "来中国做手术，协调员帮你安排好这些：",
+      "Прилетайте в Китай на операцию. Координатор возьмёт на себя детали:",
+      "Viaja a China para tu cirugía. Un coordinador se ocupa de los detalles:",
     ],
-  },
-  {
-    icon: Map,
-    image: journeyRecovery,
-    eyebrow: ["Recovery", "恢复期", "Восстановление", "Recuperación"],
-    title: ["A little exploring, at your pace", "恢复期间，按医嘱安排行程", "Восстанавливайтесь и путешествуйте, когда будете готовы", "Recupérate y explora cuando estés listo"],
-    text: [
-      "If your doctor clears you for outings, we can help plan a gentle itinerary and connect you with travel services, or keep it as relaxed as a stroll in the beautiful park.",
-      "如果医生确认你的恢复情况适合外出，我们可以协助规划轻松的行程、对接旅行服务，或只是安排去公园走走。",
-      "Следуйте рекомендациям эксперта и путешествуйте только после разрешения.",
-      "Sigue el consejo de tu experto, con viajes opcionales cuando recibas el visto bueno.",
-    ],
-  },
-  {
-    icon: MessageCircle,
-    image: journeyFollowUp,
-    eyebrow: ["Follow-up", "后续随访", "Наблюдение", "Seguimiento"],
-    title: ["Back home, still by your side", "回国后，仍可协助随访", "Оставайтесь на связи после возвращения", "Mantente en contacto tras tu regreso"],
-    text: [
-      "Your journey with us doesn’t end at the airport. We help you stay connected with your clinic for recommended follow-ups, with translation support along the way.",
-      "旅程结束，关怀继续。我们协助你与诊所保持联系，安排建议的远程复诊，并提供翻译支持。",
-      "Мы поможем организовать онлайн-наблюдение и перевод по рекомендации эксперта.",
-      "Coordinamos el seguimiento remoto y la traducción cuando tu experto lo recomiende.",
+    points: [
+      [
+        "Airport pickup and drop-off. We hold a $100 deposit before you travel and return it to you on surgery day.",
+        "接送机。出发前收取 100 美元押金，手术当天退还给你。",
+        "Встреча и проводы в аэропорту. До поездки мы берём депозит $100 и возвращаем его в день операции.",
+        "Recogida y traslado al aeropuerto. Antes del viaje cobramos un depósito de 100 USD que te devolvemos el día de la cirugía.",
+      ],
+      [
+        "Your first two hotel nights free for eligible confirmed journeys (standard room at a selected three-star hotel; extra nights and upgrades paid separately).",
+        "符合条件并已确认的行程，前两晚酒店免费（指定三星级酒店标准间，额外住宿和升级另付）。",
+        "Первые две ночи в отеле бесплатно для подходящих подтверждённых поездок (стандартный номер в выбранном трёхзвёздочном отеле; дополнительные ночи и улучшения оплачиваются отдельно).",
+        "Las dos primeras noches de hotel gratis en viajes elegibles y confirmados (habitación estándar en un hotel de tres estrellas seleccionado; noches extra y mejoras aparte).",
+      ],
+      [
+        "On surgery day we go with you to the clinic and help you communicate.",
+        "手术当天陪同你前往诊所，协助沟通。",
+        "В день операции мы сопровождаем вас в клинику и помогаем с общением.",
+        "El día de la cirugía te acompañamos a la clínica y te ayudamos a comunicarte.",
+      ],
+      [
+        "Optional: light sightseeing once your surgeon clears you.",
+        "可选：医生确认可以外出后，帮你安排轻松的旅行。",
+        "По желанию: лёгкие прогулки после разрешения хирурга.",
+        "Opcional: turismo tranquilo cuando tu cirujano lo autorice.",
+      ],
     ],
   },
 ] as const;
@@ -122,7 +121,12 @@ const SUPPORT_SERVICES = [
   },
   {
     icon: Languages,
-    title: ["In-clinic translation on us", "已包含院内翻译", "Перевод в клинике — за наш счёт", "Traducción en clínica incluida"],
+    title: [
+      "In-clinic translation on us",
+      "已包含院内翻译",
+      "Перевод в клинике — за наш счёт",
+      "Traducción en clínica incluida",
+    ],
     text: [
       "In-clinic translation is included during the visits listed in your support plan.",
       "在服务方案列明的就诊期间，提供院内翻译。",
@@ -132,7 +136,12 @@ const SUPPORT_SERVICES = [
   },
   {
     icon: Hotel,
-    title: ["Two hotel nights on us", "符合条件的行程包含两晚酒店", "Две ночи в отеле — за наш счёт", "Dos noches de hotel incluidas"],
+    title: [
+      "Two hotel nights on us",
+      "符合条件的行程包含两晚酒店",
+      "Две ночи в отеле — за наш счёт",
+      "Dos noches de hotel incluidas",
+    ],
     text: [
       "Two hotel nights are included for eligible journeys. Extra nights and upgrades are paid separately.",
       "符合条件的行程包含两晚酒店。额外晚数与房型升级需另行支付。",
@@ -142,7 +151,12 @@ const SUPPORT_SERVICES = [
   },
   {
     icon: Files,
-    title: ["Records prep on us", "已包含病历整理", "Подготовка документов — за наш счёт", "Organización de documentos incluida"],
+    title: [
+      "Records prep on us",
+      "已包含病历整理",
+      "Подготовка документов — за наш счёт",
+      "Organización de documentos incluida",
+    ],
     text: [
       "We organize the records you provide and help translate key details for your clinic.",
       "整理你提供的病历，协助翻译关键信息，方便与诊所沟通。",
@@ -180,33 +194,98 @@ const Packages = () => {
         <main>
           <section id="journey" className="container scroll-mt-24 py-10 md:py-20">
             <div className="mx-auto max-w-3xl text-center">
-              <span className="pill bg-accent text-accent-foreground"><Route className="size-3.5" />{c("A clear path from home to follow-up", "从家中咨询到术后随访", "Понятный путь от дома до наблюдения", "Un camino claro desde casa hasta el seguimiento")}</span>
+              <span className="pill bg-accent text-accent-foreground">
+                <Route className="size-3.5" />
+                {c(
+                  "A clear path from home to follow-up",
+                  "从家中咨询到术后随访",
+                  "Понятный путь от дома до наблюдения",
+                  "Un camino claro desde casa hasta el seguimiento",
+                )}
+              </span>
               <h1 className="mt-4 font-display text-[2.25rem] font-medium leading-[1.06] tracking-tight sm:text-5xl md:text-6xl">
-                {c("Six steps. ", "六个步骤，", "Шесть этапов. ", "Seis pasos. ")}<em className="not-italic text-brand">{c("No guessing what comes next.", "每一步都清楚。", "Вы всегда знаете, что дальше.", "Sin dudas sobre qué sigue.")}</em>
+                {c("Three steps. ", "三个步骤，", "Три этапа. ", "Tres pasos. ")}
+                <em className="not-italic text-brand">
+                  {c(
+                    "No guessing what comes next.",
+                    "每一步都清楚。",
+                    "Вы всегда знаете, что дальше.",
+                    "Sin dudas sobre qué sigue.",
+                  )}
+                </em>
               </h1>
-              <p className="mt-4 text-base leading-relaxed text-muted-foreground md:text-lg">{c("Each stage answers the question patients ask most: what happens next, who helps and what should I prepare?", "每个阶段都会回答患者最关心的问题：下一步是什么、谁来协助、需要准备什么？", "Каждый этап отвечает на главные вопросы: что дальше, кто поможет и что подготовить?", "Cada etapa responde a la pregunta que más hacen los pacientes: ¿qué sigue, quién ayuda y qué debo preparar?")}</p>
+              <p className="mt-4 text-base leading-relaxed text-muted-foreground md:text-lg">
+                {c(
+                  "Our service is free for patients. Partner hospitals pay us a small referral fee after a completed surgery.",
+                  "我们的服务对患者免费。手术完成后，由合作医院向我们支付少量转介费。",
+                  "Для пациентов наши услуги бесплатны. Клиники-партнёры платят нам небольшую комиссию после проведённой операции.",
+                  "Nuestro servicio es gratuito para los pacientes. Los hospitales asociados nos pagan una pequeña comisión por cada cirugía realizada.",
+                )}
+              </p>
             </div>
 
-            <div className="-mx-4 mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-5 scrollbar-hide sm:-mx-6 sm:px-6 md:mx-0 md:mt-10 md:grid md:grid-cols-2 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-3">
+            <div className="-mx-4 mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-5 scrollbar-hide sm:-mx-6 sm:px-6 md:mx-0 md:mt-10 md:grid md:grid-cols-1 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-3">
               {JOURNEY_STEPS.map((step, index) => {
                 const Icon = step.icon;
                 return (
-                  <article key={step.eyebrow[0]} className={`group min-w-[84vw] snap-center overflow-hidden rounded-[1.5rem] border bg-card shadow-soft transition hover:-translate-y-1 hover:shadow-pop sm:min-w-[68vw] md:min-w-0 md:rounded-[1.75rem] ${index === 0 ? "border-primary/45 ring-4 ring-primary/5" : "border-border/70"}`}>
+                  <article
+                    key={step.eyebrow[0]}
+                    className={`group min-w-[84vw] snap-center overflow-hidden rounded-[1.5rem] border bg-card shadow-soft transition hover:-translate-y-1 hover:shadow-pop sm:min-w-[68vw] md:min-w-0 md:rounded-[1.75rem] ${index === 0 ? "border-primary/45 ring-4 ring-primary/5" : "border-border/70"}`}
+                  >
                     <div className="relative aspect-[16/9] overflow-hidden bg-muted md:aspect-[16/8]">
-                      <img src={step.image} alt={pick(step.title)} loading={index === 0 ? "eager" : "lazy"} decoding="async" className="size-full object-cover transition duration-700 group-hover:scale-[1.035]" />
+                      <img
+                        src={step.image}
+                        alt={pick(step.title)}
+                        loading={index === 0 ? "eager" : "lazy"}
+                        decoding="async"
+                        className="size-full object-cover transition duration-700 group-hover:scale-[1.035]"
+                      />
                       <div className="absolute inset-0 bg-gradient-to-t from-foreground/35 via-transparent to-transparent" />
-                      <span className="absolute bottom-3 left-3 rounded-full bg-white/90 px-3 py-1 text-label font-bold uppercase tracking-[.14em] text-foreground shadow-soft backdrop-blur">{c(`Step ${index + 1}`, `第 ${index + 1} 步`, `Этап ${index + 1}`, `Paso ${index + 1}`)}</span>
+                      <span className="absolute bottom-3 left-3 rounded-full bg-white/90 px-3 py-1 text-label font-bold uppercase tracking-[.14em] text-foreground shadow-soft backdrop-blur">
+                        {c(`Step ${index + 1}`, `第 ${index + 1} 步`, `Этап ${index + 1}`, `Paso ${index + 1}`)}
+                      </span>
                     </div>
                     <div className="p-4 sm:p-5 md:p-6">
                       <div className="flex items-center gap-3">
-                        <span className="grid size-10 shrink-0 place-items-center rounded-2xl bg-primary/10 text-primary"><Icon className="size-4" /></span>
-                        <p className="text-label font-bold uppercase tracking-[.15em] text-brand">{pick(step.eyebrow)}</p>
+                        <span className="grid size-10 shrink-0 place-items-center rounded-2xl bg-primary/10 text-primary">
+                          <Icon className="size-4" />
+                        </span>
+                        <p className="text-label font-bold uppercase tracking-[.15em] text-brand">
+                          {pick(step.eyebrow)}
+                        </p>
                       </div>
-                      <h3 className="mt-3 font-display text-[1.35rem] font-semibold leading-tight tracking-tight sm:text-2xl md:mt-4">{pick(step.title)}</h3>
+                      <h3 className="mt-3 font-display text-[1.35rem] font-semibold leading-tight tracking-tight sm:text-2xl md:mt-4">
+                        {pick(step.title)}
+                      </h3>
                       <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{pick(step.text)}</p>
+                      {step.points.length > 0 && (
+                        <ul className="mt-4 space-y-2.5">
+                          {(step.points as readonly (readonly [string, string, string, string])[]).map((point) => (
+                            <li key={point[0]} className="flex gap-2 text-sm leading-relaxed text-foreground/80">
+                              <Check className="mt-0.5 size-4 shrink-0 text-primary" />
+                              <span>{pick(point)}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                       {index === 0 && (
-                        <a href={QUOTE_WHATSAPP_URL} target="_blank" rel="noreferrer" className="mt-5 inline-flex items-center gap-2 whitespace-nowrap text-sm font-semibold text-brand underline-offset-4 hover:underline">
-                          {t("hero.cta")}<ArrowRight className="size-4" />
+                        <Link
+                          to="/doctors"
+                          className="mt-5 inline-flex items-center gap-2 whitespace-nowrap text-sm font-semibold text-brand underline-offset-4 hover:underline"
+                        >
+                          {c("Compare surgeons", "对比医生", "Сравнить хирургов", "Comparar cirujanos")}
+                          <ArrowRight className="size-4" />
+                        </Link>
+                      )}
+                      {index === 1 && (
+                        <a
+                          href={QUOTE_WHATSAPP_URL}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="mt-5 inline-flex items-center gap-2 whitespace-nowrap text-sm font-semibold text-brand underline-offset-4 hover:underline"
+                        >
+                          {t("hero.cta")}
+                          <ArrowRight className="size-4" />
                         </a>
                       )}
                     </div>
@@ -220,10 +299,30 @@ const Packages = () => {
             <div>
               <div className="mb-7 md:mb-9">
                 <div>
-                  <span className="pill bg-primary/10 text-foreground"><ShieldCheck className="size-3.5 text-primary" />{policy.freeTitle}</span>
-                  <h2 className="mt-4 max-w-3xl font-display text-3xl font-medium leading-tight tracking-tight sm:text-4xl">{c("Your journey. Our support. On us.", "你的中国行程，由我们协助安排。", "Ваш путь. Наша поддержка.", "Tu viaje. Nuestro apoyo.")}</h2>
-                  <p className="mt-3 max-w-3xl text-sm leading-6 text-foreground/75">{c("Airport pickup on us. Two hotel nights on us. In-clinic translation on us. 24/7 coordinator support on us. All included for eligible journeys.", "符合条件且已确认的行程可包含机场接送、两晚酒店、院内翻译和全天协调支持；具体日期、次数与范围以书面服务方案为准。", "Трансфер из аэропорта за наш счёт. Две ночи в отеле за наш счёт. Перевод в клинике за наш счёт. Координационная поддержка 24/7 за наш счёт. Всё включено для подходящих поездок.", "Traslados incluidos. Dos noches de hotel incluidas. Traducción en clínica incluida. Apoyo de coordinación 24/7 incluido. Todo forma parte de los viajes elegibles.")}</p>
-                  <p className="mt-2 max-w-3xl text-sm leading-6 text-foreground/75"><span className="font-medium text-foreground">{policy.depositTitle}. </span>{policy.depositSummary}</p>
+                  <span className="pill bg-primary/10 text-foreground">
+                    <ShieldCheck className="size-3.5 text-primary" />
+                    {policy.freeTitle}
+                  </span>
+                  <h2 className="mt-4 max-w-3xl font-display text-3xl font-medium leading-tight tracking-tight sm:text-4xl">
+                    {c(
+                      "Your journey. Our support. On us.",
+                      "你的中国行程，由我们协助安排。",
+                      "Ваш путь. Наша поддержка.",
+                      "Tu viaje. Nuestro apoyo.",
+                    )}
+                  </h2>
+                  <p className="mt-3 max-w-3xl text-sm leading-6 text-foreground/75">
+                    {c(
+                      "Airport pickup on us. Two hotel nights on us. In-clinic translation on us. 24/7 coordinator support on us. All included for eligible journeys.",
+                      "符合条件且已确认的行程可包含机场接送、两晚酒店、院内翻译和全天协调支持；具体日期、次数与范围以书面服务方案为准。",
+                      "Трансфер из аэропорта за наш счёт. Две ночи в отеле за наш счёт. Перевод в клинике за наш счёт. Координационная поддержка 24/7 за наш счёт. Всё включено для подходящих поездок.",
+                      "Traslados incluidos. Dos noches de hotel incluidas. Traducción en clínica incluida. Apoyo de coordinación 24/7 incluido. Todo forma parte de los viajes elegibles.",
+                    )}
+                  </p>
+                  <p className="mt-2 max-w-3xl text-sm leading-6 text-foreground/75">
+                    <span className="font-medium text-foreground">{policy.depositTitle}. </span>
+                    {policy.depositSummary}
+                  </p>
                 </div>
               </div>
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-6 lg:gap-5">
@@ -231,15 +330,22 @@ const Packages = () => {
                   const Icon = service.icon;
                   const wide = index < 2 ? "lg:col-span-3" : "lg:col-span-2";
                   return (
-                    <article key={service.title[0]} className={`min-w-0 rounded-3xl border border-primary/20 bg-white p-5 shadow-[0_4px_20px_-12px_hsl(var(--primary)/0.12)] sm:p-6 ${wide}`}>
+                    <article
+                      key={service.title[0]}
+                      className={`min-w-0 rounded-3xl border border-primary/20 bg-white p-5 shadow-[0_4px_20px_-12px_hsl(var(--primary)/0.12)] sm:p-6 ${wide}`}
+                    >
                       <div className="flex items-center gap-3">
-                        <span className="grid size-10 shrink-0 place-items-center rounded-2xl bg-primary/10 text-primary"><Icon aria-hidden="true" className="size-4" /></span>
-                        <h3 className="font-display text-lg font-semibold leading-tight tracking-tight sm:text-xl">{pick(service.title)}</h3>
+                        <span className="grid size-10 shrink-0 place-items-center rounded-2xl bg-primary/10 text-primary">
+                          <Icon aria-hidden="true" className="size-4" />
+                        </span>
+                        <h3 className="font-display text-lg font-semibold leading-tight tracking-tight sm:text-xl">
+                          {pick(service.title)}
+                        </h3>
                       </div>
                       <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{pick(service.text)}</p>
                     </article>
                   );
-                 })}
+                })}
               </div>
             </div>
           </section>
@@ -247,35 +353,100 @@ const Packages = () => {
           <section className="container py-12 md:py-20">
             <div className="grid gap-8 lg:grid-cols-[.82fr_1.18fr] lg:gap-14">
               <div>
-                <span className="pill bg-accent text-accent-foreground"><CircleDollarSign className="size-3.5" />{c("Clarity before commitment", "确认前先讲清楚", "Ясность до обязательств", "Claridad antes de comprometerte")}</span>
-                <h2 className="mt-4 font-display text-4xl font-medium leading-tight tracking-tight md:text-5xl">{c("Know what is included and what is not.", "清楚知道哪些包含，哪些不包含。", "Знайте, что включено, а что нет.", "Sabe qué está incluido y qué no.")}</h2>
-                <p className="mt-4 text-base leading-relaxed text-muted-foreground">{c("We confirm the scope in writing before travel so you can make decisions with fewer surprises.", "出发前，我们会以书面形式确认服务范围，帮助你减少意外情况。", "До поездки мы письменно подтверждаем объём услуг, чтобы уменьшить неожиданности.", "Confirmamos el alcance por escrito antes de viajar para que puedas decidir con menos sorpresas.")}</p>
+                <span className="pill bg-accent text-accent-foreground">
+                  <CircleDollarSign className="size-3.5" />
+                  {c(
+                    "Clarity before commitment",
+                    "确认前先讲清楚",
+                    "Ясность до обязательств",
+                    "Claridad antes de comprometerte",
+                  )}
+                </span>
+                <h2 className="mt-4 font-display text-4xl font-medium leading-tight tracking-tight md:text-5xl">
+                  {c(
+                    "Know what is included and what is not.",
+                    "清楚知道哪些包含，哪些不包含。",
+                    "Знайте, что включено, а что нет.",
+                    "Sabe qué está incluido y qué no.",
+                  )}
+                </h2>
+                <p className="mt-4 text-base leading-relaxed text-muted-foreground">
+                  {c(
+                    "We confirm the scope in writing before travel so you can make decisions with fewer surprises.",
+                    "出发前，我们会以书面形式确认服务范围，帮助你减少意外情况。",
+                    "До поездки мы письменно подтверждаем объём услуг, чтобы уменьшить неожиданности.",
+                    "Confirmamos el alcance por escrito antes de viajar para que puedas decidir con menos sorpresas.",
+                  )}
+                </p>
               </div>
               <div className="grid gap-4 sm:grid-cols-2">
                 <article className="rounded-3xl border border-primary/20 bg-primary/[.06] p-6">
-                  <p className="text-xs font-bold uppercase tracking-[.15em] text-brand">{c("Coordination support", "协调支持", "Координационная поддержка", "Apoyo de coordinación")}</p>
+                  <p className="text-xs font-bold uppercase tracking-[.15em] text-brand">
+                    {c("Coordination support", "协调支持", "Координационная поддержка", "Apoyo de coordinación")}
+                  </p>
                   <ul className="mt-4 space-y-3 text-sm leading-relaxed text-foreground/75">
                     {[
-                      c("Airport pickup coordination", "机场接送协调", "Организация трансфера", "Coordinación de recogida en el aeropuerto"),
-                      c("In-clinic translation for included visits", "包含行程中的院内翻译", "Перевод во время включённых визитов", "Traducción en clínica durante las visitas incluidas"),
-                      c("Records organization and practical planning", "病历整理与实际行程规划", "Подготовка документов и планирование", "Organización de historial médico y planificación práctica"),
-                    ].map((item) => <li key={item} className="flex gap-2"><Check className="mt-0.5 size-4 shrink-0 text-primary" />{item}</li>)}
+                      c(
+                        "Airport pickup coordination",
+                        "机场接送协调",
+                        "Организация трансфера",
+                        "Coordinación de recogida en el aeropuerto",
+                      ),
+                      c(
+                        "In-clinic translation for included visits",
+                        "包含行程中的院内翻译",
+                        "Перевод во время включённых визитов",
+                        "Traducción en clínica durante las visitas incluidas",
+                      ),
+                      c(
+                        "Records organization and practical planning",
+                        "病历整理与实际行程规划",
+                        "Подготовка документов и планирование",
+                        "Organización de historial médico y planificación práctica",
+                      ),
+                    ].map((item) => (
+                      <li key={item} className="flex gap-2">
+                        <Check className="mt-0.5 size-4 shrink-0 text-primary" />
+                        {item}
+                      </li>
+                    ))}
                   </ul>
                 </article>
                 <article className="rounded-3xl border border-amber-200/80 bg-amber-50/70 p-6">
-                  <p className="text-xs font-bold uppercase tracking-[.15em] text-amber-800">{c("Paid separately", "需另行支付", "Оплачивается отдельно", "Se paga por separado")}</p>
+                  <p className="text-xs font-bold uppercase tracking-[.15em] text-amber-800">
+                    {c("Paid separately", "需另行支付", "Оплачивается отдельно", "Se paga por separado")}
+                  </p>
                   <ul className="mt-4 space-y-3 text-sm leading-relaxed text-foreground/75">
                     {[
-                      c("All clinic and hospital medical fees", "全部诊所和医院医疗费用", "Все медицинские услуги клиники", "Todos los honorarios médicos de clínicas y hospitales"),
-                      c("Hotel charges after the two included nights", "两晚免费酒店后的住宿费用", "Проживание после двух включённых ночей", "Gastos de hotel después de las dos noches incluidas"),
-                      c("Optional touring and personal expenses", "自愿旅行及个人费用", "Дополнительные поездки и личные расходы", "Excursiones opcionales y gastos personales"),
-                    ].map((item) => <li key={item} className="flex gap-2"><ChevronRight className="mt-0.5 size-4 shrink-0 text-amber-700" />{item}</li>)}
+                      c(
+                        "All clinic and hospital medical fees",
+                        "全部诊所和医院医疗费用",
+                        "Все медицинские услуги клиники",
+                        "Todos los honorarios médicos de clínicas y hospitales",
+                      ),
+                      c(
+                        "Hotel charges after the two included nights",
+                        "两晚免费酒店后的住宿费用",
+                        "Проживание после двух включённых ночей",
+                        "Gastos de hotel después de las dos noches incluidas",
+                      ),
+                      c(
+                        "Optional touring and personal expenses",
+                        "自愿旅行及个人费用",
+                        "Дополнительные поездки и личные расходы",
+                        "Excursiones opcionales y gastos personales",
+                      ),
+                    ].map((item) => (
+                      <li key={item} className="flex gap-2">
+                        <ChevronRight className="mt-0.5 size-4 shrink-0 text-amber-700" />
+                        {item}
+                      </li>
+                    ))}
                   </ul>
                 </article>
               </div>
             </div>
           </section>
-
         </main>
         <div className="container pb-10">
           <MedicalDisclaimer variant="banner" className="mx-auto max-w-5xl" />
