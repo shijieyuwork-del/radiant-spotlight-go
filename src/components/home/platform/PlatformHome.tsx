@@ -144,7 +144,7 @@ export const PlatformHeroContent = () => {
         {rail.length > 0 && (
           <div
             aria-label={tx(lang, "Patient videos", "患者视频")}
-            className="ph-tabs -mx-5 flex snap-x gap-2.5 overflow-x-auto px-5 md:hidden"
+            className="ph-tabs -mx-5 flex snap-x scroll-pl-5 gap-2.5 overflow-x-auto px-5 md:hidden"
           >
             {rail.map((item, i) => (
               <Link
@@ -252,19 +252,16 @@ export const PlatformStats = () => {
   ];
   return (
     <section aria-label={tx(lang, "At a glance", "平台概况")} className="container pt-4">
-      <div className={cn(card, "grid grid-cols-2 md:grid-cols-5")}>
+      <div
+        className={cn(card, "grid grid-cols-2 max-md:gap-px max-md:overflow-hidden max-md:bg-[#F2F3F5] md:grid-cols-5")}
+      >
         {stats.map((s, i) => (
           <Link
             key={s.n + s.en}
             to={s.to}
             className={cn(
-              "flex flex-col gap-1 border-[#F2F3F5] px-5 py-4 md:px-6 md:py-5",
-              i > 0 && "md:border-l",
-              i % 2 === 1 && "max-md:border-l",
-              i > 1 && "max-md:border-t",
-              i === stats.length - 1 &&
-                stats.length % 2 === 1 &&
-                "max-md:col-span-2 max-md:flex-row max-md:items-baseline max-md:gap-2.5",
+              "flex flex-col gap-1 px-5 py-4 max-md:bg-white md:px-6 md:py-5",
+              i > 0 && "md:border-l md:border-[#F2F3F5]",
             )}
           >
             <span className="text-[1.875rem] font-semibold leading-none tracking-[-0.015em] text-brand tabular-nums md:text-[2.25rem]">
@@ -474,7 +471,7 @@ export const PlatformPriceAndHospitals = () => {
                     {fmt(p.cny)}{" "}
                     <span className="font-normal text-[#6B7785] max-sm:hidden">¥{p.cny.toLocaleString("en-US")}</span>
                   </td>
-                  <td className="whitespace-nowrap border-b border-[#F2F3F5] py-3.5 pl-2 text-right sm:pl-3 text-[#6A7C75] tabular-nums">
+                  <td className="whitespace-nowrap border-b border-[#F2F3F5] py-3.5 pl-2 text-right sm:pl-3 text-[#6A7C75] tabular-nums max-sm:text-xs">
                     {ref.refs[i]}
                   </td>
                 </tr>
@@ -563,7 +560,7 @@ export const PlatformCtaStrip = () => {
           <button
             type="button"
             onClick={() => openQuote({ source: "homeB_price_strip" })}
-            className="inline-flex min-h-11 items-center justify-center rounded-full bg-primary px-6 font-semibold text-foreground max-sm:flex-1"
+            className="inline-flex min-h-11 items-center justify-center whitespace-nowrap rounded-full bg-primary px-6 font-semibold text-foreground max-sm:flex-1 max-sm:px-4"
           >
             {tx(lang, "Get my quote", "获取报价")}
           </button>
@@ -684,7 +681,7 @@ export const PlatformGuides = () => {
         link="/medical-tourism-china"
         linkText={tx(lang, "All guides", "全部指南")}
       />
-      <div className="ph-tabs flex snap-x gap-3 overflow-x-auto max-sm:-mx-4 max-sm:px-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:overflow-visible lg:grid-cols-4">
+      <div className="ph-tabs flex snap-x gap-3 overflow-x-auto max-sm:-mx-4 max-sm:scroll-pl-4 max-sm:px-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:overflow-visible lg:grid-cols-4">
         {guides.map((g, i) => (
           <Link
             key={g.slug}
