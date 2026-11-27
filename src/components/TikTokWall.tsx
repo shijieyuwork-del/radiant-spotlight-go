@@ -14,8 +14,8 @@ type DiaryText = { en: string; zh: string } & Partial<Record<Exclude<AsiaLang, "
 const diaryText = (text: DiaryText, lang: AsiaLang) => text[lang] || text.en;
 
 export type TikTokItem = {
-  id: string;                 // for case detail route
-  src: string;                // mp4 url
+  id: string; // for case detail route
+  src: string; // mp4 url
   poster?: string;
   caseHref?: string;
   /** Published translations are optional; keep English visible when unavailable. */
@@ -37,7 +37,7 @@ export type TikTokWallProps = {
   fmtPrice: (cny: number) => string;
   /** 'focus' = homepage focus carousel, 'preview' = compact carousel, 'wall' = immersive wall */
   variant?: "focus" | "preview" | "wall" | "cases";
-  caseHrefBase?: string;       // default "/cases/"
+  caseHrefBase?: string; // default "/cases/"
   /** 搜索关键词，命中片段在卡片文字里高亮 */
   highlight?: string;
   onBeforeNavigate?: (caseId: string) => void;
@@ -65,14 +65,40 @@ const labels: Record<AsiaLang, { play: string; verified: string }> = {
 const MARK_CLASS = "rounded bg-primary/70 px-0.5 text-primary-foreground";
 
 export const TikTokCard = ({
-  item, lang, fmtPrice, caseHrefBase = "/cases/", playbackEnabled = true, autoPlayFocused = false, focusPresentation = false, discovery = false, eager = false, beforeNavigate, onBeforeNavigate, highlight,
-}: { item: TikTokItem; lang: AsiaLang; fmtPrice: (n: number) => string; caseHrefBase?: string; playbackEnabled?: boolean; autoPlayFocused?: boolean; focusPresentation?: boolean; discovery?: boolean; eager?: boolean; beforeNavigate?: () => boolean; onBeforeNavigate?: (caseId: string) => void; highlight?: string }) => {
+  item,
+  lang,
+  fmtPrice,
+  caseHrefBase = "/cases/",
+  playbackEnabled = true,
+  autoPlayFocused = false,
+  focusPresentation = false,
+  discovery = false,
+  eager = false,
+  beforeNavigate,
+  onBeforeNavigate,
+  highlight,
+}: {
+  item: TikTokItem;
+  lang: AsiaLang;
+  fmtPrice: (n: number) => string;
+  caseHrefBase?: string;
+  playbackEnabled?: boolean;
+  autoPlayFocused?: boolean;
+  focusPresentation?: boolean;
+  discovery?: boolean;
+  eager?: boolean;
+  beforeNavigate?: () => boolean;
+  onBeforeNavigate?: (caseId: string) => void;
+  highlight?: string;
+}) => {
   const { attachRef, playing, playbackFailed, play, pause, toggle } = useQuietVideo(item.src, playbackEnabled);
   const wrapRef = useRef<HTMLDivElement>(null);
   const [muted, setMuted] = useState(true);
   const [near, setNear] = useState(eager);
   const [pendingPlay, setPendingPlay] = useState(false);
   const videoMounted = near || pendingPlay;
+  // Cases without an uploaded cover show a frame from the video itself instead of a blank placeholder.
+  const needsFrame = !item.poster;
   // A play press before the card was near mounts the video first, then starts it.
   useEffect(() => {
     if (!pendingPlay) return;
@@ -85,7 +111,14 @@ export const TikTokCard = ({
   const recoveryStage = (() => {
     const text = item.caption.en;
     const match = text.match(/(\d+)[- ]?(day|week|month)/i);
-    if (!match) return lang === "zh" ? "恢复日记" : lang === "ru" ? "Дневник восстановления" : lang === "es" ? "Diario de recuperación" : "Recovery diary";
+    if (!match)
+      return lang === "zh"
+        ? "恢复日记"
+        : lang === "ru"
+          ? "Дневник восстановления"
+          : lang === "es"
+            ? "Diario de recuperación"
+            : "Recovery diary";
     const value = match[1];
     const unit = match[2].toLowerCase();
     if (lang === "zh") return `${value}${unit === "day" ? "天" : unit === "week" ? "周" : "个月"}`;
@@ -105,7 +138,7 @@ export const TikTokCard = ({
           io.disconnect();
         }
       },
-      { rootMargin: "400px" }
+      { rootMargin: "400px" },
     );
     io.observe(el);
     return () => io.disconnect();
@@ -156,19 +189,30 @@ export const TikTokCard = ({
         decoding="async"
         className="absolute inset-0 size-full object-cover"
       />
-      {videoMounted && <video
-        ref={attachRef}
-        src={item.src}
-        poster={item.poster || DEFAULT_VIDEO_POSTER}
-        muted={muted}
-        playsInline
-        preload="none"
-        className="absolute inset-0 size-full object-cover [backface-visibility:hidden] [transform:translateZ(0)]"
-      />}
-      <Link to={caseUrl} tabIndex={playbackEnabled ? 0 : -1} aria-label={`Open case: ${diaryText(item.caption, lang)}`} className="absolute inset-0 rounded-3xl focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-inset focus-visible:ring-primary" onClick={(event) => {
-        if (beforeNavigate && !beforeNavigate()) { event.preventDefault(); return; }
-        if (!event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) onBeforeNavigate?.(item.id);
-      }} />
+      {videoMounted && (
+        <video
+          ref={attachRef}
+          src={needsFrame ? `${item.src}#t=0.5` : item.src}
+          poster={needsFrame ? undefined : item.poster || DEFAULT_VIDEO_POSTER}
+          muted={muted}
+          playsInline
+          preload={needsFrame ? "metadata" : "none"}
+          className="absolute inset-0 size-full object-cover [backface-visibility:hidden] [transform:translateZ(0)]"
+        />
+      )}
+      <Link
+        to={caseUrl}
+        tabIndex={playbackEnabled ? 0 : -1}
+        aria-label={`Open case: ${diaryText(item.caption, lang)}`}
+        className="absolute inset-0 rounded-3xl focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-inset focus-visible:ring-primary"
+        onClick={(event) => {
+          if (beforeNavigate && !beforeNavigate()) {
+            event.preventDefault();
+            return;
+          }
+          if (!event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) onBeforeNavigate?.(item.id);
+        }}
+      />
 
       {/* gradient overlays */}
       <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/55 to-transparent pointer-events-none" />
@@ -199,30 +243,60 @@ export const TikTokCard = ({
       )}
 
       {/* The pause control stays available while the visitor watches. */}
-        <button
-          type="button"
-          disabled={!playbackEnabled}
-          onClick={(e) => { e.stopPropagation(); if (!beforeNavigate || beforeNavigate()) { if (videoMounted) toggle(); else { setNear(true); setPendingPlay(true); } } }}
-          className="absolute left-1/2 top-1/2 grid size-14 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white/90 text-foreground shadow-pop focus-visible:outline focus-visible:outline-4 focus-visible:outline-primary disabled:pointer-events-none"
-          aria-label={`${playing ? controls.pause : controls.play}: ${diaryText(item.treatment, lang)}`}
+      <button
+        type="button"
+        disabled={!playbackEnabled}
+        onClick={(e) => {
+          e.stopPropagation();
+          if (!beforeNavigate || beforeNavigate()) {
+            if (videoMounted) toggle();
+            else {
+              setNear(true);
+              setPendingPlay(true);
+            }
+          }
+        }}
+        className="absolute left-1/2 top-1/2 grid size-14 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white/90 text-foreground shadow-pop focus-visible:outline focus-visible:outline-4 focus-visible:outline-primary disabled:pointer-events-none"
+        aria-label={`${playing ? controls.pause : controls.play}: ${diaryText(item.treatment, lang)}`}
+      >
+        {playing ? (
+          <Pause className="size-6 fill-current" aria-hidden="true" />
+        ) : (
+          <Play className="size-6 translate-x-0.5 fill-current" aria-hidden="true" />
+        )}
+      </button>
+      {playbackFailed && (
+        <p
+          role="status"
+          className="absolute inset-x-3 top-[59%] z-30 rounded-lg bg-card p-2 text-xs leading-relaxed text-foreground"
         >
-          {playing ? <Pause className="size-6 fill-current" aria-hidden="true" /> : <Play className="size-6 translate-x-0.5 fill-current" aria-hidden="true" />}
-        </button>
-      {playbackFailed && <p role="status" className="absolute inset-x-3 top-[59%] z-30 rounded-lg bg-card p-2 text-xs leading-relaxed text-foreground">{controls.failed}</p>}
+          {controls.failed}
+        </p>
+      )}
 
       {/* right action rail */}
       <div className={`absolute right-2 flex flex-col items-center gap-3 ${discovery ? "top-14" : "bottom-24"}`}>
         <button
           type="button"
           disabled={!playbackEnabled}
-          onClick={(e) => { e.stopPropagation(); toggleSaved(); }}
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleSaved();
+          }}
           className="grid size-12 place-items-center rounded-full bg-black/60 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
           aria-label={saveLabel}
           aria-pressed={saved}
         >
           <Heart className={`size-5 ${saved ? "fill-rose-500 text-rose-500" : ""}`} />
         </button>
-        {playbackEnabled && <CaseShareButton href={caseUrl} title={diaryText(item.caption, lang)} lang={lang} className="grid size-12 place-items-center rounded-full bg-black/60 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-white" />}
+        {playbackEnabled && (
+          <CaseShareButton
+            href={caseUrl}
+            title={diaryText(item.caption, lang)}
+            lang={lang}
+            className="grid size-12 place-items-center rounded-full bg-black/60 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
+          />
+        )}
 
         {!focusPresentation && (
           <button
@@ -239,11 +313,22 @@ export const TikTokCard = ({
 
       {/* bottom info */}
       <div className="pointer-events-none absolute left-3 right-16 bottom-3 text-white">
-        <p className="text-xs font-semibold opacity-95"><Highlight text={diaryText(item.user, lang)} query={highlight} className={MARK_CLASS} /></p>
-        <p className="text-[12px] mt-1 leading-snug line-clamp-2"><Link to={caseUrl} className="pointer-events-auto hover:underline" onClick={() => onBeforeNavigate?.(item.id)}><Highlight text={diaryText(item.caption, lang)} query={highlight} className={MARK_CLASS} /></Link></p>
+        <p className="text-xs font-semibold opacity-95">
+          <Highlight text={diaryText(item.user, lang)} query={highlight} className={MARK_CLASS} />
+        </p>
+        <p className="text-[12px] mt-1 leading-snug line-clamp-2">
+          <Link
+            to={caseUrl}
+            className="pointer-events-auto hover:underline"
+            onClick={() => onBeforeNavigate?.(item.id)}
+          >
+            <Highlight text={diaryText(item.caption, lang)} query={highlight} className={MARK_CLASS} />
+          </Link>
+        </p>
         {item.city && (
           <p className="mt-1 flex items-center gap-1 text-label font-medium text-white/90">
-            <MapPin className="size-3" /> <Highlight text={diaryText(item.city, lang)} query={highlight} className={MARK_CLASS} />
+            <MapPin className="size-3" />{" "}
+            <Highlight text={diaryText(item.city, lang)} query={highlight} className={MARK_CLASS} />
           </p>
         )}
         {item.priceCny > 0 && <p className="mt-2 text-sm font-semibold">{fmtPrice(item.priceCny)}</p>}
@@ -252,7 +337,15 @@ export const TikTokCard = ({
   );
 };
 
-const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase, highlight, onBeforeNavigate }: TikTokWallProps) => {
+const TikTokWall = ({
+  items,
+  lang,
+  fmtPrice,
+  variant = "preview",
+  caseHrefBase,
+  highlight,
+  onBeforeNavigate,
+}: TikTokWallProps) => {
   const [active, setActive] = useState(0);
   const [previewAnimation, setPreviewAnimation] = useState(false);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
@@ -260,7 +353,9 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase, 
   const swipeMoved = useRef(false);
   const suppressClick = useRef(false);
   const wheelLocked = useRef(false);
-  useEffect(() => { if (active >= items.length) setActive(0); }, [active, items.length]);
+  useEffect(() => {
+    if (active >= items.length) setActive(0);
+  }, [active, items.length]);
 
   if (variant === "focus") {
     const move = (direction: number) => {
@@ -284,15 +379,24 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase, 
         aria-label={lang === "zh" ? "患者视频聚焦轮播" : "Patient video focus carousel"}
         tabIndex={0}
         onKeyDown={(event) => {
-          if (event.key === "ArrowLeft") { event.preventDefault(); move(-1); }
-          if (event.key === "ArrowRight") { event.preventDefault(); move(1); }
+          if (event.key === "ArrowLeft") {
+            event.preventDefault();
+            move(-1);
+          }
+          if (event.key === "ArrowRight") {
+            event.preventDefault();
+            move(1);
+          }
         }}
         onWheel={(event) => {
-          if (Math.abs(event.deltaX) < 18 || Math.abs(event.deltaX) < Math.abs(event.deltaY) || wheelLocked.current) return;
+          if (Math.abs(event.deltaX) < 18 || Math.abs(event.deltaX) < Math.abs(event.deltaY) || wheelLocked.current)
+            return;
           event.preventDefault();
           wheelLocked.current = true;
           move(event.deltaX > 0 ? 1 : -1);
-          window.setTimeout(() => { wheelLocked.current = false; }, 450);
+          window.setTimeout(() => {
+            wheelLocked.current = false;
+          }, 450);
         }}
         onPointerDown={(event) => {
           if (event.button !== 0) return;
@@ -314,10 +418,15 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase, 
           if (Math.abs(dx) > 40) {
             suppressClick.current = true;
             move(dx < 0 ? 1 : -1);
-            window.setTimeout(() => { suppressClick.current = false; }, 450);
+            window.setTimeout(() => {
+              suppressClick.current = false;
+            }, 450);
           }
         }}
-        onPointerCancel={() => { dragStart.current = null; swipeMoved.current = false; }}
+        onPointerCancel={() => {
+          dragStart.current = null;
+          swipeMoved.current = false;
+        }}
       >
         <div className="relative mx-auto h-[500px] max-w-[90rem] sm:h-[590px] md:h-[650px]">
           {items.map((it, index) => {
@@ -325,8 +434,18 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase, 
             const depth = Math.abs(distance);
             const visible = depth <= 3;
             if (!visible) return null;
-            const positiveOffsets = ["0px", "clamp(12rem,23vw,18rem)", "clamp(20rem,37vw,29rem)", "clamp(26rem,48vw,36rem)"];
-            const negativeOffsets = ["0px", "clamp(-18rem,-23vw,-12rem)", "clamp(-29rem,-37vw,-20rem)", "clamp(-36rem,-48vw,-26rem)"];
+            const positiveOffsets = [
+              "0px",
+              "clamp(12rem,23vw,18rem)",
+              "clamp(20rem,37vw,29rem)",
+              "clamp(26rem,48vw,36rem)",
+            ];
+            const negativeOffsets = [
+              "0px",
+              "clamp(-18rem,-23vw,-12rem)",
+              "clamp(-29rem,-37vw,-20rem)",
+              "clamp(-36rem,-48vw,-26rem)",
+            ];
             const scales = [1, 0.72, 0.54, 0.4];
             const scale = scales[depth] ?? 0.4;
             const offset = distance < 0 ? negativeOffsets[depth] : positiveOffsets[depth];
@@ -344,12 +463,27 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase, 
                   transform: `translate3d(calc(-50% + ${offset}), -50%, 0) scale(${scale})`,
                 }}
               >
-                <TikTokCard item={it} lang={lang} fmtPrice={fmtPrice} caseHrefBase={caseHrefBase} playbackEnabled={distance === 0} autoPlayFocused={distance === 0} focusPresentation eager={index === 0} beforeNavigate={allowClick} onBeforeNavigate={onBeforeNavigate} highlight={highlight} />
+                <TikTokCard
+                  item={it}
+                  lang={lang}
+                  fmtPrice={fmtPrice}
+                  caseHrefBase={caseHrefBase}
+                  playbackEnabled={distance === 0}
+                  autoPlayFocused={distance === 0}
+                  focusPresentation
+                  eager={index === 0}
+                  beforeNavigate={allowClick}
+                  onBeforeNavigate={onBeforeNavigate}
+                  highlight={highlight}
+                />
                 {distance !== 0 && (
                   <button
                     type="button"
                     className="absolute inset-0 z-50 rounded-3xl"
-                    onClick={() => { if (!allowClick()) return; setActive(index); }}
+                    onClick={() => {
+                      if (!allowClick()) return;
+                      setActive(index);
+                    }}
                     aria-label={diaryText(it.caption, lang)}
                   />
                 )}
@@ -361,10 +495,15 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase, 
         <div className="relative z-20 mt-1 flex items-center justify-center">
           <div className="flex items-center gap-1.5" aria-hidden="true">
             {items.map((item, index) => (
-              <span key={item.id} className={`h-1.5 rounded-full ${index === active ? "w-6 bg-primary" : "w-1.5 bg-border"}`} />
+              <span
+                key={item.id}
+                className={`h-1.5 rounded-full ${index === active ? "w-6 bg-primary" : "w-1.5 bg-border"}`}
+              />
             ))}
           </div>
-          <span className="sr-only" aria-live="polite">{items.length ? active + 1 : 0} / {items.length}</span>
+          <span className="sr-only" aria-live="polite">
+            {items.length ? active + 1 : 0} / {items.length}
+          </span>
         </div>
       </div>
     );
@@ -406,7 +545,9 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase, 
           if (Math.abs(dx) > 40) {
             suppressClick.current = true;
             move(dx < 0 ? 1 : -1, true);
-            window.setTimeout(() => { suppressClick.current = false; }, 400);
+            window.setTimeout(() => {
+              suppressClick.current = false;
+            }, 400);
           }
         }}
       >
@@ -416,26 +557,82 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase, 
             const depth = Math.abs(distance);
             if (depth > 3) return null;
             const direction = distance < 0 ? "-" : "+";
-            const offset = distance === 0 ? "-50%" : `calc(-50% ${direction} clamp(${depth * 155}px, ${depth * 22}vw, ${depth * 340}px))`;
+            const offset =
+              distance === 0
+                ? "-50%"
+                : `calc(-50% ${direction} clamp(${depth * 155}px, ${depth * 22}vw, ${depth * 340}px))`;
             return (
               <div
                 key={it.id}
                 className={`absolute left-1/2 top-3 w-[74vw] max-w-[280px] transition-[transform,opacity] ${previewAnimation ? "duration-200" : "duration-0"} ease-out motion-reduce:transition-none [backface-visibility:hidden] sm:w-[270px] sm:max-w-[270px] md:w-[300px] md:max-w-[300px] lg:w-[320px] lg:max-w-[320px]`}
-                style={{ opacity: 1 - depth * 0.18, pointerEvents: "auto", zIndex: 10 - depth, transform: `translate3d(${offset}, 0, 0)` }}
+                style={{
+                  opacity: 1 - depth * 0.18,
+                  pointerEvents: "auto",
+                  zIndex: 10 - depth,
+                  transform: `translate3d(${offset}, 0, 0)`,
+                }}
               >
-                <TikTokCard item={it} lang={lang} fmtPrice={fmtPrice} caseHrefBase={caseHrefBase} playbackEnabled={distance === 0} eager={index === 0} beforeNavigate={allowClick} onBeforeNavigate={onBeforeNavigate} highlight={highlight} />
+                <TikTokCard
+                  item={it}
+                  lang={lang}
+                  fmtPrice={fmtPrice}
+                  caseHrefBase={caseHrefBase}
+                  playbackEnabled={distance === 0}
+                  eager={index === 0}
+                  beforeNavigate={allowClick}
+                  onBeforeNavigate={onBeforeNavigate}
+                  highlight={highlight}
+                />
                 {distance !== 0 && (
-                  <button type="button" className="absolute inset-0 z-50 rounded-3xl" onClick={(event) => { if (!allowClick()) return; setPreviewAnimation(event.detail > 0); setActive(index); }} aria-label={diaryText(it.caption, lang)} />
+                  <button
+                    type="button"
+                    className="absolute inset-0 z-50 rounded-3xl"
+                    onClick={(event) => {
+                      if (!allowClick()) return;
+                      setPreviewAnimation(event.detail > 0);
+                      setActive(index);
+                    }}
+                    aria-label={diaryText(it.caption, lang)}
+                  />
                 )}
               </div>
             );
           })}
         </div>
         <div className="relative z-20 mt-1 flex items-center justify-center gap-4">
-          <Button type="button" variant="outline" size="icon" className="size-12 rounded-full bg-card shadow-soft sm:size-11" onClick={(event) => move(-1, event.detail > 0)} disabled={items.length < 2} aria-label={videoControlsCopy[lang].previous}><ChevronLeft className="size-5" /></Button>
-          <div className="flex items-center gap-1.5" aria-hidden="true">{items.map((item, index) => <span key={item.id} className={`h-1.5 rounded-full ${index === active ? "w-6 bg-primary" : "w-1.5 bg-border"}`} />)}</div>
-          <span className="sr-only" aria-live="polite">{items.length ? active + 1 : 0} / {items.length}</span>
-          <Button type="button" variant="outline" size="icon" className="size-12 rounded-full bg-card shadow-soft sm:size-11" onClick={(event) => move(1, event.detail > 0)} disabled={items.length < 2} aria-label={videoControlsCopy[lang].next}><ChevronRight className="size-5" /></Button>
+          <Button
+            type="button"
+            variant="outline"
+            size="icon"
+            className="size-12 rounded-full bg-card shadow-soft sm:size-11"
+            onClick={(event) => move(-1, event.detail > 0)}
+            disabled={items.length < 2}
+            aria-label={videoControlsCopy[lang].previous}
+          >
+            <ChevronLeft className="size-5" />
+          </Button>
+          <div className="flex items-center gap-1.5" aria-hidden="true">
+            {items.map((item, index) => (
+              <span
+                key={item.id}
+                className={`h-1.5 rounded-full ${index === active ? "w-6 bg-primary" : "w-1.5 bg-border"}`}
+              />
+            ))}
+          </div>
+          <span className="sr-only" aria-live="polite">
+            {items.length ? active + 1 : 0} / {items.length}
+          </span>
+          <Button
+            type="button"
+            variant="outline"
+            size="icon"
+            className="size-12 rounded-full bg-card shadow-soft sm:size-11"
+            onClick={(event) => move(1, event.detail > 0)}
+            disabled={items.length < 2}
+            aria-label={videoControlsCopy[lang].next}
+          >
+            <ChevronRight className="size-5" />
+          </Button>
         </div>
       </div>
     );
@@ -445,8 +642,20 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase, 
     return (
       <div className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth overscroll-x-contain px-4 pb-4 scrollbar-hide sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3">
         {items.map((it, index) => (
-          <div key={it.id} className="w-[82vw] max-w-[22rem] shrink-0 snap-center sm:mx-auto sm:w-full sm:max-w-[25rem]">
-            <TikTokCard item={it} lang={lang} fmtPrice={fmtPrice} caseHrefBase={caseHrefBase} discovery eager={index < 3} onBeforeNavigate={onBeforeNavigate} highlight={highlight} />
+          <div
+            key={it.id}
+            className="w-[82vw] max-w-[22rem] shrink-0 snap-center sm:mx-auto sm:w-full sm:max-w-[25rem]"
+          >
+            <TikTokCard
+              item={it}
+              lang={lang}
+              fmtPrice={fmtPrice}
+              caseHrefBase={caseHrefBase}
+              discovery
+              eager={index < 3}
+              onBeforeNavigate={onBeforeNavigate}
+              highlight={highlight}
+            />
           </div>
         ))}
       </div>
@@ -457,7 +666,15 @@ const TikTokWall = ({ items, lang, fmtPrice, variant = "preview", caseHrefBase, 
     <div className="flex gap-4 overflow-x-auto scroll-smooth overscroll-x-contain snap-x snap-mandatory scrollbar-hide -mx-4 px-4 pb-3 sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
       {items.map((it, index) => (
         <div key={it.id} className="min-w-[78vw] sm:min-w-0 snap-center">
-          <TikTokCard item={it} lang={lang} fmtPrice={fmtPrice} caseHrefBase={caseHrefBase} eager={index < 4} onBeforeNavigate={onBeforeNavigate} highlight={highlight} />
+          <TikTokCard
+            item={it}
+            lang={lang}
+            fmtPrice={fmtPrice}
+            caseHrefBase={caseHrefBase}
+            eager={index < 4}
+            onBeforeNavigate={onBeforeNavigate}
+            highlight={highlight}
+          />
         </div>
       ))}
     </div>
