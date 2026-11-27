@@ -90,12 +90,6 @@ const JOURNEY_STEPS = [
         "Первые две ночи в отеле бесплатно для подходящих подтверждённых поездок (стандартный номер в выбранном трёхзвёздочном отеле; дополнительные ночи и улучшения оплачиваются отдельно).",
         "Las dos primeras noches de hotel gratis en viajes elegibles y confirmados (habitación estándar en un hotel de tres estrellas seleccionado; noches extra y mejoras aparte).",
       ],
-      [
-        "Optional: light sightseeing once your surgeon clears you.",
-        "可选：医生确认可以外出后，帮你安排轻松的旅行。",
-        "По желанию: лёгкие прогулки после разрешения хирурга.",
-        "Opcional: turismo tranquilo cuando tu cirujano lo autorice.",
-      ],
     ],
   },
 ] as const;
