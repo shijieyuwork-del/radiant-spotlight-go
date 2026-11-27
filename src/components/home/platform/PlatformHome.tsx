@@ -80,12 +80,17 @@ const card = "rounded-2xl border border-[#E5E6EB] bg-white";
 export const PlatformHeroContent = () => {
   const { lang } = useAsia();
   const { open: openQuote } = useQuote();
-  const uploaded = usePublishedVideos(lang, "all");
+  const uploaded = usePublishedVideos(lang, "all", { loadAll: true });
   const tiles = useMemo(() => {
-    const items = [...uploaded, ...TIKTOK_CASES].filter((item) => item.poster).slice(0, 24);
-    const cols: (typeof items)[] = [[], [], []];
-    items.forEach((item, i) => cols[i % 3].push(item));
-    return cols;
+    // One procedure family per column so the wall always shows eyes, nose and hair cases side by side.
+    const items = [...uploaded, ...TIKTOK_CASES].filter((item) => item.poster);
+    const groups = [/eyelid|blephar|double eye|\beye|眼|双眼皮/i, /rhino|nose|鼻/i, /hair|植发/i];
+    const cols: (typeof items)[] = groups.map((re) =>
+      items.filter((item) => re.test(`${item.treatment.en} ${item.treatment.zh}`)).slice(0, 8),
+    );
+    const used = new Set(cols.flat().map((item) => item.id));
+    const rest = items.filter((item) => !used.has(item.id));
+    return cols.map((col) => (col.length ? col : rest.splice(0, 8)));
   }, [uploaded]);
   const popular = [
     { en: "Double eyelid", zh: "双眼皮", to: "/treatments/blepharoplasty" },
