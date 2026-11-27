@@ -392,7 +392,11 @@ const AsiaNavbar = ({ floating = false }: { floating?: boolean }) => {
                     <Menu className="size-5" />
                   </Button>
                 </SheetTrigger>
-                <SheetContent side="right" className="w-[88vw] max-w-sm p-0">
+                <SheetContent
+                  side="right"
+                  className="w-[88vw] max-w-sm p-0"
+                  onOpenAutoFocus={(event) => event.preventDefault()}
+                >
                   <SheetHeader className="border-b p-5 pr-16 text-left">
                     <SheetTitle>
                       <BrandLogo />
@@ -419,7 +423,7 @@ const AsiaNavbar = ({ floating = false }: { floating?: boolean }) => {
                         onChange={(event) => setQuery(event.target.value)}
                         aria-label={c("Search", "搜索", "Поиск", "Buscar")}
                         placeholder={c(
-                          "Surgeon, hospital or procedure",
+                          "Surgeon or procedure",
                           "搜索专家、医院或项目",
                           "Эксперт, клиника или процедура",
                           "Cirujano, hospital o procedimiento",
