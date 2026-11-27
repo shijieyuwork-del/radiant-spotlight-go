@@ -26,7 +26,9 @@ import "@/components/home/cinematic-hero.css";
 
 const HeroCaseGallery = lazy(() => import("@/components/home/HeroCaseGallery"));
 const HomeBeforeAfterGallery = lazy(() => import("@/components/home/HomeBeforeAfterGallery"));
-const DoctorsSection = lazy(() => import("@/components/home/HomeBelowFold").then((m) => ({ default: m.DoctorsSection })));
+const DoctorsSection = lazy(() =>
+  import("@/components/home/HomeBelowFold").then((m) => ({ default: m.DoctorsSection })),
+);
 
 /** Homepage version B (A/B test). Rendered by AsiaIndex for visitors assigned to "b". */
 
@@ -57,14 +59,24 @@ const PatientVideos = () => {
         link="/cases"
         linkText={zh ? "查看全部视频" : translatedUiText(lang, "See all videos")}
       />
-      <LoadOnApproach server={import.meta.env.SSR ? <ServerSections.CaseGallery /> : null} fallback={<div className="home-gallery-reserve" aria-hidden="true" />}><HeroCaseGallery /></LoadOnApproach>
+      <LoadOnApproach
+        server={import.meta.env.SSR ? <ServerSections.CaseGallery /> : null}
+        fallback={<div className="home-gallery-reserve" aria-hidden="true" />}
+      >
+        <HeroCaseGallery />
+      </LoadOnApproach>
     </section>
   );
 };
 
 const RealResults = () => (
   <div className="pt-8">
-    <LoadOnApproach server={import.meta.env.SSR ? <ServerSections.BeforeAfter /> : null} fallback={<div className="home-comparison-reserve" aria-hidden="true" />}><HomeBeforeAfterGallery /></LoadOnApproach>
+    <LoadOnApproach
+      server={import.meta.env.SSR ? <ServerSections.BeforeAfter /> : null}
+      fallback={<div className="home-comparison-reserve" aria-hidden="true" />}
+    >
+      <HomeBeforeAfterGallery />
+    </LoadOnApproach>
   </div>
 );
 
@@ -87,10 +99,14 @@ const HomeV2 = () => {
           <Hero />
           <PlatformStats />
           <PlatformSteps />
-          <PatientVideos />
           <RealResults />
           <PlatformCategoryBrowser />
-          <LoadOnApproach server={import.meta.env.SSR ? <ServerSections.DoctorsSection /> : null} fallback={<div className="home-section-reserve" aria-hidden="true" />}><DoctorsSection /></LoadOnApproach>
+          <LoadOnApproach
+            server={import.meta.env.SSR ? <ServerSections.DoctorsSection /> : null}
+            fallback={<div className="home-section-reserve" aria-hidden="true" />}
+          >
+            <DoctorsSection />
+          </LoadOnApproach>
           <PlatformPriceAndHospitals />
           <PlatformCtaStrip />
           <PlatformTrust />
