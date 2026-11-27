@@ -24,6 +24,7 @@ import {
 } from "@/components/home/platform/PlatformHome";
 import "@/components/home/cinematic-hero.css";
 
+const PatientStoriesSection = lazy(() => import("@/components/PatientStoriesSection"));
 const HeroCaseGallery = lazy(() => import("@/components/home/HeroCaseGallery"));
 const HomeBeforeAfterGallery = lazy(() => import("@/components/home/HomeBeforeAfterGallery"));
 const DoctorsSection = lazy(() =>
@@ -100,6 +101,9 @@ const HomeV2 = () => {
           <PlatformStats />
           <PlatformSteps />
           <RealResults />
+          <LoadOnApproach server={null} fallback={<div className="home-section-reserve" aria-hidden="true" />}>
+            <PatientStoriesSection />
+          </LoadOnApproach>
           <PlatformCategoryBrowser />
           <LoadOnApproach
             server={import.meta.env.SSR ? <ServerSections.DoctorsSection /> : null}
