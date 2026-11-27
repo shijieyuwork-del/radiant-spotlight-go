@@ -138,6 +138,7 @@ const AsiaNavbar = ({ floating = false }: { floating?: boolean }) => {
   const isActive = (to: string) => (to === "/" ? pathname === "/" : pathname === to || pathname.startsWith(`${to}/`));
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
+  const [menuOpen, setMenuOpen] = useState(false);
   const submitSearch = (event: FormEvent) => {
     event.preventDefault();
     const q = query.trim();
@@ -150,6 +151,7 @@ const AsiaNavbar = ({ floating = false }: { floating?: boolean }) => {
     else if (/hospital|clinic|医院|诊所/i.test(q)) navigate(`/clinics?q=${encodeURIComponent(q)}`);
     else navigate(`/doctors?q=${encodeURIComponent(q)}`);
     setQuery("");
+    setMenuOpen(false);
   };
   const categoryLabels: Record<string, [string, string, string, string]> = {
     Nose: ["Nose", "鼻部", "Нос", "Nariz"],
@@ -194,10 +196,11 @@ const AsiaNavbar = ({ floating = false }: { floating?: boolean }) => {
     `relative inline-flex h-11 shrink-0 items-center whitespace-nowrap border-b-2 text-sm font-medium transition-colors ${active ? "border-primary text-brand" : "border-transparent text-[#4A645B] hover:text-brand"}`;
   const links = [
     { to: "/", label: c("Home", "首页", "Главная", "Inicio") },
-    { to: "/cases", label: t("nav.cases") },
+    { to: "/doctors", label: c("Surgeons", "专家", "Эксперты", "Cirujanos") },
+    { to: "/clinics", label: c("Hospitals", "医院", "Клиники", "Hospitales") },
+    { to: "/treatments", label: t("nav.projects") },
     { to: "/before-after", label: c("Before & after", "术前术后", "До и после", "Antes y después") },
-    { to: "/doctors", label: t("nav.compliance") },
-    { to: "/clinics", label: c("Clinics", "诊所", "Клиники", "Clínicas") },
+    { to: "/cases", label: t("nav.cases") },
     {
       to: "/travel-packages",
       label: asiaCopy(lang, {
@@ -216,7 +219,6 @@ const AsiaNavbar = ({ floating = false }: { floating?: boolean }) => {
           ? "Hướng dẫn quốc tế"
           : c("Visitor guides", "国际访客指南", "Иностранным посетителям", "Guías para visitantes"),
     },
-    { to: "/treatments", label: t("nav.projects") },
     { to: "/cities", label: t("nav.cities") },
     { to: "/why-china", label: c("Why China", "为什么选中国", "Почему Китай", "Por qué China") },
     { to: "/about", label: c("About", "关于我们", "О нас", "Acerca de") },
@@ -254,6 +256,7 @@ const AsiaNavbar = ({ floating = false }: { floating?: boolean }) => {
                     key={l.to}
                     to={l.to}
                     aria-current={isActive(l.to) ? "page" : undefined}
+                    onClick={() => setMenuOpen(false)}
                     className="whitespace-nowrap text-[#DCE9E3] transition-colors hover:text-white"
                   >
                     {l.label}
@@ -356,10 +359,17 @@ const AsiaNavbar = ({ floating = false }: { floating?: boolean }) => {
               <ArrowRight className="size-4 shrink-0" aria-hidden="true" />
             </button>
             <div className="ml-auto flex shrink-0 items-center gap-1.5 xl:hidden">
+              <button
+                type="button"
+                onClick={() => open({ source: "navbar_mobile" })}
+                className="cta-primary inline-flex min-h-10 items-center justify-center whitespace-nowrap rounded-full px-3.5 text-[13px] font-semibold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 max-[359px]:hidden sm:hidden"
+              >
+                {c("Get quote", "获取报价", "Расчёт", "Cotizar")}
+              </button>
               <Button
                 asChild
                 variant="ghost"
-                className="min-h-11 min-w-11 rounded-full px-3 text-sm font-medium xl:hidden"
+                className="hidden min-h-11 min-w-11 rounded-full px-3 text-sm font-medium sm:inline-flex xl:hidden"
               >
                 <Link
                   to="/saved"
@@ -371,7 +381,7 @@ const AsiaNavbar = ({ floating = false }: { floating?: boolean }) => {
                 </Link>
               </Button>
 
-              <Sheet>
+              <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
                 <SheetTrigger asChild>
                   <Button
                     variant="ghost"
@@ -397,6 +407,47 @@ const AsiaNavbar = ({ floating = false }: { floating?: boolean }) => {
                     </SheetDescription>
                   </SheetHeader>
                   <div className="flex h-[calc(100%-73px)] flex-col overflow-y-auto p-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
+                    <form
+                      role="search"
+                      onSubmit={submitSearch}
+                      className="mb-4 flex h-12 shrink-0 items-center gap-2 rounded-full border-[1.5px] border-primary bg-background pl-4 pr-1.5"
+                    >
+                      <Search className="size-[1.125rem] shrink-0 text-muted-foreground" aria-hidden="true" />
+                      <input
+                        type="search"
+                        value={query}
+                        onChange={(event) => setQuery(event.target.value)}
+                        aria-label={c("Search", "搜索", "Поиск", "Buscar")}
+                        placeholder={c(
+                          "Surgeon, hospital or procedure",
+                          "搜索专家、医院或项目",
+                          "Эксперт, клиника или процедура",
+                          "Cirujano, hospital o procedimiento",
+                        )}
+                        className="min-w-0 flex-1 border-0 bg-transparent text-base text-foreground outline-none placeholder:text-muted-foreground"
+                      />
+                      <button
+                        type="submit"
+                        className="h-9 shrink-0 rounded-full bg-primary px-4 text-sm font-semibold text-primary-foreground"
+                      >
+                        {c("Search", "搜索", "Найти", "Buscar")}
+                      </button>
+                    </form>
+                    <p className="mb-2 px-1 text-xs font-semibold uppercase tracking-[0.08em] text-muted-foreground">
+                      {c("Browse by area", "按部位浏览", "По зонам", "Por zona")}
+                    </p>
+                    <div className="mb-4 flex flex-wrap gap-2">
+                      {categoryTabs.map((tab) => (
+                        <Link
+                          key={tab.key}
+                          to={tab.to}
+                          onClick={() => setMenuOpen(false)}
+                          className="inline-flex min-h-10 items-center rounded-full border border-border bg-card px-3.5 text-sm font-medium"
+                        >
+                          {tab.label}
+                        </Link>
+                      ))}
+                    </div>
                     <div className="space-y-1">
                       <SheetClose asChild>
                         <Link
@@ -413,6 +464,7 @@ const AsiaNavbar = ({ floating = false }: { floating?: boolean }) => {
                           key={l.to}
                           to={l.to}
                           aria-current={isActive(l.to) ? "page" : undefined}
+                          onClick={() => setMenuOpen(false)}
                           className={`flex min-h-12 items-center justify-between rounded-2xl px-4 text-base font-semibold transition-colors ${
                             isActive(l.to) ? "bg-primary text-primary-foreground" : "hover:bg-muted"
                           }`}
@@ -456,7 +508,10 @@ const AsiaNavbar = ({ floating = false }: { floating?: boolean }) => {
                     </div>
                     <button
                       type="button"
-                      onClick={() => open({ source: "mobile_navigation" })}
+                      onClick={() => {
+                        setMenuOpen(false);
+                        open({ source: "mobile_navigation" });
+                      }}
                       className="cta-primary mt-3 flex min-h-12 items-center justify-center gap-2 rounded-2xl px-4 py-3 text-center text-sm font-semibold leading-snug text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                     >
                       <MessageCircle className="size-4 shrink-0" aria-hidden="true" />
