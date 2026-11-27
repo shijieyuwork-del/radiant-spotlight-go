@@ -1,6 +1,6 @@
 import { whatsappUrl } from "@/lib/consultation-handoff";
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
-import { ArrowLeft, ArrowRight, CheckCircle2, ClipboardList, MessageCircle, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowRight, CheckCircle2, Mail, MessageCircle, Sparkles } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -51,6 +51,8 @@ export const ConsultationDialog = ({
   const policy = getCoordinationPolicy(lang);
   const [intent, setIntent] = useState<Intent | null>(ctx.intent ?? null);
   const [contactMethod, setContactMethod] = useState<ContactMethod>("email");
+  /** Set when the visitor picked "Send us an email" on the first screen, so the form only asks for email. */
+  const [emailOnly, setEmailOnly] = useState(false);
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [question, setQuestion] = useState("");
@@ -98,7 +100,7 @@ export const ConsultationDialog = ({
       ? copy.questionIntro
       : intent === "care_plan"
         ? copy.carePlanIntro
-        : copy.intro;
+        : copy.channelIntro;
 
   useEffect(() => {
     if (!isOpen) return;
@@ -118,6 +120,20 @@ export const ConsultationDialog = ({
     setIntent(value);
     setErrors({});
     trackEvent("quote_option_selected", { source: ctx.source || "site_cta", option: value });
+  };
+  const chooseEmail = () => {
+    setIntent("question");
+    setContactMethod("email");
+    setEmailOnly(true);
+    setErrors({});
+    trackEvent("quote_option_selected", { source: ctx.source || "site_cta", option: "email" });
+  };
+  const liveChatMessage = [copy.questionMessage, ...contextRows.map(({ label, value }) => `${label}: ${value}`)].join(
+    "\n",
+  );
+  const startLiveChat = () => {
+    trackEvent("whatsapp_handoff", { source: ctx.source || "site_cta", option: "live_chat" });
+    onOpenChange(false);
   };
   const changeContact = (method: ContactMethod) => {
     setContactMethod(method);
@@ -327,36 +343,32 @@ export const ConsultationDialog = ({
           </>
         ) : !intent ? (
           <div className="space-y-3 p-5 sm:p-6">
-            {(
-              [
-                {
-                  intent: "question",
-                  title: copy.questionTitle,
-                  description: copy.questionDescription,
-                  icon: MessageCircle,
-                },
-                {
-                  intent: "care_plan",
-                  title: copy.carePlanTitle,
-                  description: copy.carePlanDescription,
-                  icon: ClipboardList,
-                },
-              ] as const
-            ).map((option) => (
-              <button
-                type="button"
-                key={option.intent}
-                onClick={() => chooseIntent(option.intent)}
-                className="flex w-full items-start gap-3 rounded-2xl border border-border bg-card p-4 text-left transition-colors hover:border-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              >
-                <option.icon className="mt-1 size-5 shrink-0" />
-                <span className="min-w-0 flex-1">
-                  <span className="block font-semibold">{option.title}</span>
-                  <span className="mt-1 block text-sm text-muted-foreground">{option.description}</span>
-                </span>
-                <ArrowRight className="mt-1 size-4 shrink-0" />
-              </button>
-            ))}
+            <button
+              type="button"
+              onClick={chooseEmail}
+              className="flex w-full items-start gap-3 rounded-2xl border border-border bg-card p-4 text-left transition-colors hover:border-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              <Mail className="mt-1 size-5 shrink-0" aria-hidden="true" />
+              <span className="min-w-0 flex-1">
+                <span className="block font-semibold">{copy.emailOptionTitle}</span>
+                <span className="mt-1 block text-sm text-muted-foreground">{copy.emailOptionDescription}</span>
+              </span>
+              <ArrowRight className="mt-1 size-4 shrink-0" aria-hidden="true" />
+            </button>
+            <a
+              href={whatsappUrl(liveChatMessage)}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={startLiveChat}
+              className="flex w-full items-start gap-3 rounded-2xl border border-border bg-card p-4 text-left transition-colors hover:border-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              <MessageCircle className="mt-1 size-5 shrink-0" aria-hidden="true" />
+              <span className="min-w-0 flex-1">
+                <span className="block font-semibold">{copy.whatsappOptionTitle}</span>
+                <span className="mt-1 block text-sm text-muted-foreground">{copy.whatsappOptionDescription}</span>
+              </span>
+              <ArrowRight className="mt-1 size-4 shrink-0" aria-hidden="true" />
+            </a>
           </div>
         ) : (
           <form ref={formRef} onSubmit={prepareMessage} noValidate className="space-y-4 p-5 sm:p-6">
@@ -364,6 +376,7 @@ export const ConsultationDialog = ({
               type="button"
               onClick={() => {
                 setIntent(null);
+                setEmailOnly(false);
                 setErrors({});
               }}
               className="inline-flex min-h-11 items-center gap-2 rounded-lg text-sm text-muted-foreground hover:text-foreground"
@@ -371,27 +384,29 @@ export const ConsultationDialog = ({
               <ArrowLeft className="size-4 shrink-0" />
               {copy.back}
             </button>
-            <fieldset className="space-y-2">
-              <legend className="mb-2 text-sm font-semibold">{copy.contactMethod}</legend>
-              <div className="grid grid-cols-2 gap-2">
-                {(["email", "whatsapp"] as const).map((method) => (
-                  <label
-                    key={method}
-                    className={`flex min-h-12 cursor-pointer items-center gap-2 rounded-xl border px-3 py-2 text-sm ${contactMethod === method ? "border-primary bg-primary/10" : "border-input"}`}
-                  >
-                    <input
-                      type="radio"
-                      name="consultation-contact-method"
-                      value={method}
-                      checked={contactMethod === method}
-                      onChange={() => changeContact(method)}
-                      className="size-4 shrink-0 accent-primary"
-                    />
-                    {method === "email" ? copy.email : copy.whatsapp}
-                  </label>
-                ))}
-              </div>
-            </fieldset>
+            {!emailOnly && (
+              <fieldset className="space-y-2">
+                <legend className="mb-2 text-sm font-semibold">{copy.contactMethod}</legend>
+                <div className="grid grid-cols-2 gap-2">
+                  {(["email", "whatsapp"] as const).map((method) => (
+                    <label
+                      key={method}
+                      className={`flex min-h-12 cursor-pointer items-center gap-2 rounded-xl border px-3 py-2 text-sm ${contactMethod === method ? "border-primary bg-primary/10" : "border-input"}`}
+                    >
+                      <input
+                        type="radio"
+                        name="consultation-contact-method"
+                        value={method}
+                        checked={contactMethod === method}
+                        onChange={() => changeContact(method)}
+                        className="size-4 shrink-0 accent-primary"
+                      />
+                      {method === "email" ? copy.email : copy.whatsapp}
+                    </label>
+                  ))}
+                </div>
+              </fieldset>
+            )}
             <Field
               id="consultation-contact"
               label={contactMethod === "email" ? copy.emailAddress : copy.phone}
